@@ -1,0 +1,31 @@
+application: exotics-engine
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: false
+libraries:
+- name: yaml
+  version: latest
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^dev
+- ^fabfile.py
+- ^README
+- ^tmp
+handlers:
+# STATIC
+- url: /css
+  static_dir: css
+- url: /js
+  static_dir: js
+# SITE
+- url: /.*
+  script: controllers.site.root.app

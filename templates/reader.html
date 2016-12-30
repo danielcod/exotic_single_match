@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Russkiwol Reader</title>
+    <link href="../css/lib/bootstrap-readable.min.css" rel="stylesheet">
+    <link href="../css/app/sticky-footer.css" rel="stylesheet">
+    <link href="../css/app/russkiwol.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- hidden stuff -->
+    <input type="hidden" name="article" value="{{ article }}" />
+    <input type="hidden" name="index" value="{{ index }}" />
+    <input type="hidden" name="chunks" value="{{ chunks }}" />
+    <!-- ui -->
+    <div class="container">
+      <div class="page-header">
+      </div>
+      <div class="row text-center">
+	<span class="glyphicon glyphicon-remove"></span>
+	<h4>{{ article }}</h4>
+	<h6 name="progress"></h6>
+	<span class="glyphicon glyphicon-star-empty"></span>
+      </div>
+      <div class="row text-center">
+	<h3 style="color:#444" name="chunk"></h3>
+      </div>
+      <div class="row text-center">
+	<h4 style="color:#888" name="translation"></h4>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container text-center">
+	<div class="row">
+	  <button name="prev" class="btn btn-default">
+	    <span class="glyphicon glyphicon-chevron-left"></span>
+	  </button>
+	  <button name="translate" class="btn btn-secondary">
+	    <span class="glyphicon glyphicon-book"></span>
+	  </button>
+	  <button name="tts" class="btn btn-primary">
+	    <span class="glyphicon glyphicon-play"></span>
+	  </button>
+	  <button name="next" class="btn btn-default">
+	    <span class="glyphicon glyphicon-chevron-right"></span>
+	  </button>
+	</div>
+      </div>
+    </footer>
+    <!-- javascript -->
+    <script src="../js/lib/jquery.min.js"></script>
+    <script src="../js/lib/bootstrap.min.js"></script>
+    <script src="../js/app/russkiwol.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+      RusskiReader.bind();
+      });
+    </script>
+  </body>
+</html>
+
