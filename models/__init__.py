@@ -59,26 +59,3 @@ def to_json(self, fields=[], extras=[]):
 
 db.Model.to_json=to_json # ** NB **
 
-class Article(db.Model):
-
-    name=db.StringProperty()
-    lang=db.StringProperty()
-    chunks=db.IntegerProperty()
-
-    @classmethod
-    def find_all(self):
-        query=Article.all()
-        return fetch_models_db(query)
-
-class Chunk(db.Model):
-
-    article=db.StringProperty()
-    text=db.TextProperty()
-    index=db.IntegerProperty()
-    
-    @classmethod
-    def find_all(self, articlename):
-        query=Chunk.all()
-        query.filter("article = ", articlename)
-        return fetch_models_db(query)
-    
