@@ -31,4 +31,4 @@ handlers:
   script: tasks.scrapers.bbc.fixtures.app
 # DEFAULT
 - url: /.*
-  script: controllers.site.root.app
+  script: controllers.demo.root.app

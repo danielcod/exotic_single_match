@@ -1,10 +1,9 @@
-from controllers.site import *
+from controllers.demo import *
 
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        tv={"message": "Hello World!"}
-        render_template(self, "templates/hello.html", tv)
+        render_template(self, "templates/demo/hello.html", {})
 
 Routing=[('/.*', IndexHandler)]
 
