@@ -29,8 +29,6 @@ handlers:
 # SCRAPERS
 - url: /tasks/scrapers/bbc/fixtures.*
   script: tasks.scrapers.bbc.fixtures.app
-- url: /tasks/scrapers/bbc/results.*
-  script: tasks.scrapers.bbc.results.app
 # DEFAULT
 - url: /.*
   script: controllers.site.root.app
