@@ -6,6 +6,8 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
+MaxProb, MinProb = 0.99, 0.01
+
 # curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -93,7 +95,10 @@ class IndexHandler(webapp2.RequestHandler):
         prob=sum([pp[teamname][i]
                   for i in index])
         logging.info("probability %.5f" % prob)
-        price=1/float(prob)
+        if prob < MinProb or prob > MaxProb:
+            price=None
+        else:
+            price=1/float(prob)
         # return
         return {"price": price}
 
