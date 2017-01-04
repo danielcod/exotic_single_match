@@ -26,6 +26,9 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
-# SITE
+# SCRAPERS
+- url: /tasks/scrapers/bbc/results.*
+  script: tasks.scrapers.bbc.results.app
+# DEFAULT
 - url: /.*
   script: controllers.site.root.app
