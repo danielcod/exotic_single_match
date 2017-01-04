@@ -2,8 +2,6 @@ from controllers.api.pricing import *
 
 # curl "http://localhost:8080/api/pricing/positions?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
-# curl "http://iosport-exotics-engine.appspot.com/api/pricing/positions?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
-
 class IndexHandler(webapp2.RequestHandler):
 
     """
@@ -26,10 +24,10 @@ class IndexHandler(webapp2.RequestHandler):
     
     @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
-                     'teams': '.+',
+                     'teams': '.*',
                      'payoff': '^(Winner)|(Top \\d+)|(Bottom \\d+)|(Bottom)$',
                      'use_results': '^(true)|(false)$',
-                     'expiry': '^\\d{4}\\-\\d{1,2}\\-\\d{1,2}$'})
+                     'expiry': '^(\\d{4}\\-\\d{1,2}\\-\\d{1,2})|(EOS)$'})
     @emit_json
     def get(self):
         # unpack request
@@ -38,14 +36,14 @@ class IndexHandler(webapp2.RequestHandler):
         teamnames=self.request.get("teams")
         payoff=self.request.get("payoff")
         useresults=eval(self.request.get("use_results").capitalize()) # because bool("false")==True :-/
-        expiry=datetime.datetime.strptime(self.request.get("expiry"), "%Y-%m-%d").date()
+        expiry=self.request.get("expiry")
         # teams
         allteams=yclite.get_teams(leaguename)
         allteamnames=[team["name"]
                       for team in allteams]
         if teamname not in allteamnames:
             raise RuntimeError("%s not found" % teamname)
-        if teamnames in ['', None, []]:
+        if teamnames==All:
             teamnames=allteamnames
         else:
             teamnames=teamnames.split(",")
@@ -71,6 +69,10 @@ class IndexHandler(webapp2.RequestHandler):
         today=datetime.date.today()
         allevents=sorted(Event.find_all(leaguename),
                          key=lambda x: x.date)
+        if expiry==EOS:
+            expiry=allevents[-1].date
+        else:
+            expiry=datetime.datetime.strptime(expiry, "%Y-%m-%d").date()
         events=[event for event in allevents
                 if event.date > today and event.date <= expiry]
         logging.info("%i events" % len(events))

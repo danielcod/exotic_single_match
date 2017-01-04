@@ -7,3 +7,5 @@ import quant.simulator as simulator
 Paths, Seed = 1000, 13
 
 MaxProb, MinProb = 0.99, 0.01
+
+All, EOS = "All", "EOS"
