@@ -6,7 +6,7 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
-# curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true"
+# curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -32,7 +32,8 @@ class IndexHandler(webapp2.RequestHandler):
                      'team': '.+',
                      'teams': '.+',
                      'payoff': '(Winner)|(Top \\d+)|(Bottom \\d+)|Bottom',
-                     'use_results': '(true)|(false)'})
+                     'use_results': '(true)|(false)',
+                     'expiry': '\\d{4}\\-\\d{1,2}\\-\\d{1,2}'})
     @emit_json
     def get(self):
         # unpack request
@@ -41,6 +42,7 @@ class IndexHandler(webapp2.RequestHandler):
         teamnames=self.request.get("teams")
         payoff=self.request.get("payoff")
         useresults=eval(self.request.get("use_results").capitalize()) # because bool("false")==True :-/
+        expiry=datetime.datetime.strptime(self.request.get("expiry"), "%Y-%m-%d").date()
         # teams
         allteams=yclite.get_teams(leaguename)
         allteamnames=[team["name"]
@@ -56,22 +58,42 @@ class IndexHandler(webapp2.RequestHandler):
                     raise RuntimeError("%s not found" % _teamname)
         teams=[team for team in allteams
                if team["name"] in teamnames]
+        logging.info("%i teams" % len(teams))
         # results
-        allresults=yclite.get_results(leaguename)
+        allresults=yclite.get_results(leaguename)        
         if useresults:
-            results=allresults
+            def filterfn(result):
+                matchteamnames=result["name"].split(" vs ")
+                return (matchteamnames[0] in teamnames or
+                        matchteamnames[1] in teamnames)
+            results=[result for result in allresults
+                     if filterfn(result)]
         else:
-            results=[]        
+            results=[]
+        logging.info("%i results" % len(results))
+        # events
+        today=datetime.date.today()
+        allevents=Event.find_all(leaguename)
+        events=[event for event in allevents
+                if event.date > today and event.date <= expiry]
+        logging.info("%i events" % len(events))
         # remfixtures
         allremfixtures=yclite.get_remaining_fixtures(leaguename)
-        remfixtures=allremfixtures # TEMP
-        # simulate
-        pp=simulator.simulate(teams, results, remfixtures, Paths, Seed)
-        # return
+        eventnames=[event.name
+                    for event in events]
+        remfixtures=[remfixture
+                     for remfixture in allremfixtures
+                     if remfixture["name"] in eventnames]
+        logging.info("%i rem fixtures" % len(remfixtures))
+        # pricing        
         index=self.get_payoff_index(payoff)
+        logging.info("index %s" % index)
+        pp=simulator.simulate(teams, results, remfixtures, Paths, Seed)
         prob=sum([pp[teamname][i]
                   for i in index])
-        return "%.2f" % (1/float(prob))
+        logging.info("probability %.5f" % prob)
+        price=1/float(prob)
+        return "%.2f" % price
 
 Routing=[('/api/hello', IndexHandler)]
 
