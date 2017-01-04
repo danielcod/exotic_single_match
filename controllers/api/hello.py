@@ -28,12 +28,12 @@ class IndexHandler(webapp2.RequestHandler):
         else:
             raise RuntimeError("Payoff not recognised")
     
-    @validate_query({'league': '\\D{3}\\.\\d',
+    @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
                      'teams': '.+',
-                     'payoff': '(Winner)|(Top \\d+)|(Bottom \\d+)|Bottom',
-                     'use_results': '(true)|(false)',
-                     'expiry': '\\d{4}\\-\\d{1,2}\\-\\d{1,2}'})
+                     'payoff': '^(Winner)|(Top \\d+)|(Bottom \\d+)|(Bottom)$',
+                     'use_results': '^(true)|(false)$',
+                     'expiry': '^\\d{4}\\-\\d{1,2}\\-\\d{1,2}$'})
     @emit_json
     def get(self):
         # unpack request
@@ -73,7 +73,8 @@ class IndexHandler(webapp2.RequestHandler):
         logging.info("%i results" % len(results))
         # events
         today=datetime.date.today()
-        allevents=Event.find_all(leaguename)
+        allevents=sorted(Event.find_all(leaguename),
+                         key=lambda x: x.date)
         events=[event for event in allevents
                 if event.date > today and event.date <= expiry]
         logging.info("%i events" % len(events))
@@ -93,7 +94,8 @@ class IndexHandler(webapp2.RequestHandler):
                   for i in index])
         logging.info("probability %.5f" % prob)
         price=1/float(prob)
-        return "%.2f" % price
+        # return
+        return {"price": price}
 
 Routing=[('/api/hello', IndexHandler)]
 
