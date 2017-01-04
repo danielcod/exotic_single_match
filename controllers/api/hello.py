@@ -13,20 +13,26 @@ class IndexHandler(webapp2.RequestHandler):
     @validate_query({'league': '\\D{3}\\.\\d',
                      'team': '.+'})
     @emit_json
-    def get(self):         
+    def get(self):
+        # unpack request
         leaguename=self.request.get("league")
         teamname=self.request.get("team")
-        teams=yclite.get_teams(leaguename)
-        results=yclite.get_results(leaguename)
-        """
-        - yclite fixtures don't contain dates
-        - more realistic option would involve loading events from db to see what games are upcoming; then filter subset of fixture by date range
-        - however using full set of fixtures will do for now
-        """        
-        remfixtures=yclite.get_remaining_fixtures(leaguename)
-        pp=simulator.simulate(teams, results, remfixtures, Paths, Seed)
-        if teamname not in pp:
+        # teams
+        allteams=yclite.get_teams(leaguename)
+        allteamnames=[team["name"]
+                      for team in allteams]
+        if teamname not in allteamnames:
             raise RuntimeError("Team not found")
+        teams=allteams # TEMP
+        # results
+        allresults=yclite.get_results(leaguename)
+        results=allresults # TEMP
+        # remfixtures
+        allremfixtures=yclite.get_remaining_fixtures(leaguename)
+        remfixtures=allremfixtures # TEMP
+        # simulate
+        pp=simulator.simulate(teams, results, remfixtures, Paths, Seed)
+        # return 
         return pp[teamname][0] # Winner
 
 Routing=[('/api/hello', IndexHandler)]
