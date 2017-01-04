@@ -6,7 +6,7 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
-# curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner"
+# curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -31,7 +31,8 @@ class IndexHandler(webapp2.RequestHandler):
     @validate_query({'league': '\\D{3}\\.\\d',
                      'team': '.+',
                      'teams': '.+',
-                     'payoff': '(Winner)|(Top \\d+)|(Bottom \\d+)|Bottom'})
+                     'payoff': '(Winner)|(Top \\d+)|(Bottom \\d+)|Bottom',
+                     'use_results': '(true)|(false)'})
     @emit_json
     def get(self):
         # unpack request
@@ -39,6 +40,7 @@ class IndexHandler(webapp2.RequestHandler):
         teamname=self.request.get("team")
         teamnames=self.request.get("teams")
         payoff=self.request.get("payoff")
+        useresults=eval(self.request.get("use_results").capitalize()) # because bool("false")==True :-/
         # teams
         allteams=yclite.get_teams(leaguename)
         allteamnames=[team["name"]
@@ -49,14 +51,17 @@ class IndexHandler(webapp2.RequestHandler):
             teamnames=allteamnames
         else:
             teamnames=teamnames.split(",")
-            for _teamname in teamnames:
+            for _teamname in teamnames: # NB _teamname
                 if _teamname not in allteamnames:
                     raise RuntimeError("%s not found" % _teamname)
         teams=[team for team in allteams
                if team["name"] in teamnames]
         # results
         allresults=yclite.get_results(leaguename)
-        results=allresults # TEMP
+        if useresults:
+            results=allresults
+        else:
+            results=[]        
         # remfixtures
         allremfixtures=yclite.get_remaining_fixtures(leaguename)
         remfixtures=allremfixtures # TEMP
