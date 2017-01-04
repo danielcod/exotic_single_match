@@ -1,16 +1,8 @@
-from controllers.api import *
+from controllers.api.pricing import *
 
-import apis.yc_lite_api as yclite
+# curl "http://localhost:8080/api/pricing/positions?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
-import quant.simulator as simulator
-
-Paths, Seed = 1000, 13
-
-MaxProb, MinProb = 0.99, 0.01
-
-# curl "http://localhost:8080/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
-
-# curl "http://iosport-exotics-engine.appspot.com/api/hello?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
+# curl "http://iosport-exotics-engine.appspot.com/api/pricing/positions?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -104,6 +96,6 @@ class IndexHandler(webapp2.RequestHandler):
         # return
         return {"price": price}
 
-Routing=[('/api/hello', IndexHandler)]
+Routing=[('/api/pricing/positions', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
