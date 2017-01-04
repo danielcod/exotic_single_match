@@ -102,8 +102,13 @@ if __name__=="__main__":
         print "%i teams" % len(teams)
         results=yclite.get_results(leaguename)
         print "%i results" % len(results)
+        """
+        - yclite fixtures don't contain dates
+        - more realistic option would involve loading events from db to see what games are upcoming; then filter subset of fixture by date range
+        - however using full set of fixtures will do for now
+        """        
         remfixtures=yclite.get_remaining_fixtures(leaguename)
-        print "%i rem fixtures" % len(results)
+        print "%i rem fixtures" % len(remfixtures)
         pp=simulate(teams, results, remfixtures, paths, seed)
         print pp
     except RuntimeError, error:
