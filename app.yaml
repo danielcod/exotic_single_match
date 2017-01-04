@@ -26,6 +26,9 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
+# API
+- url: /api/hello.*
+  script: controllers.api.hello.app
 # SCRAPERS
 - url: /tasks/scrapers/bbc/fixtures.*
   script: tasks.scrapers.bbc.fixtures.app
