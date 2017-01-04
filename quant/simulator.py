@@ -6,6 +6,11 @@ GDMultiplier=1e-4
 
 NoiseMultiplier=1e-8
 
+"""
+- needs heavily unit testing
+- note checks if teams exist (for minileagues, where teams are not guaranteed to be present) 
+"""
+
 def calc_league_table(teams, results):
     table=dict([(team["name"],
                  {"name": team["name"],
@@ -17,16 +22,22 @@ def calc_league_table(teams, results):
         hometeamname, awayteamname = result["name"].split(" vs ")
         goals=result["score"]
         if goals[0] > goals[1]:
-            table[hometeamname]["points"]+=3
+            if hometeamname in table:
+                table[hometeamname]["points"]+=3
         elif goals[0] < goals[1]:
-            table[awayteamname]["points"]+=3
+            if awayteamname in table:
+                table[awayteamname]["points"]+=3
         else:
-            table[hometeamname]["points"]+=1
-            table[awayteamname]["points"]+=1
-        table[hometeamname]["goal_diff"]+=goals[0]-goals[1]
-        table[awayteamname]["goal_diff"]+=goals[1]-goals[0]
-        table[hometeamname]["played"]+=1
-        table[awayteamname]["played"]+=1
+            if hometeamname in table:
+                table[hometeamname]["points"]+=1
+            if awayteamname in table:
+                table[awayteamname]["points"]+=1
+        if hometeamname in table:
+            table[hometeamname]["goal_diff"]+=goals[0]-goals[1]
+            table[hometeamname]["played"]+=1
+        if awayteamname in table:
+            table[awayteamname]["goal_diff"]+=goals[1]-goals[0]
+            table[awayteamname]["played"]+=1
     return table.values()
 
 def simulate_points(leaguetable, remfixtures, paths):
@@ -41,16 +52,22 @@ def simulate_points(leaguetable, remfixtures, paths):
             probs=fixture["probabilities"]
             q=random.random()
             if q < probs[0]: # home win
-                sp[hometeamname][i]["points"]+=3
-                sp[hometeamname][i]["goal_diff"]+=GDDelta
-                sp[awayteamname][i]["goal_diff"]-=GDDelta
+                if hometeamname in sp:
+                    sp[hometeamname][i]["points"]+=3
+                    sp[hometeamname][i]["goal_diff"]+=GDDelta
+                if awayteamname in sp:
+                    sp[awayteamname][i]["goal_diff"]-=GDDelta
             elif q < probs[0]+probs[1]: # draw
-                sp[hometeamname][i]["points"]+=1
-                sp[awayteamname][i]["points"]+=1
+                if hometeamname in sp:
+                    sp[hometeamname][i]["points"]+=1
+                if awayteamname in sp:
+                    sp[awayteamname][i]["points"]+=1
             else: # away win
-                sp[awayteamname][i]["points"]+=3
-                sp[awayteamname][i]["goal_diff"]+=GDDelta
-                sp[hometeamname][i]["goal_diff"]-=GDDelta
+                if awayteamname in sp:
+                    sp[awayteamname][i]["points"]+=3
+                    sp[awayteamname][i]["goal_diff"]+=GDDelta
+                if hometeamname in sp:
+                    sp[hometeamname][i]["goal_diff"]-=GDDelta
     return sp
 
 def calc_position_probabilities(simpoints, paths):

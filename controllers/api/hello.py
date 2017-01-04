@@ -43,7 +43,9 @@ class IndexHandler(webapp2.RequestHandler):
                       for team in allteams]
         if teamname not in allteamnames:
             raise RuntimeError("Team not found")
-        teams=allteams # TEMP
+        teamnames=allteamnames # TEMP
+        teams=[team for team in allteams
+               if team["name"] in teamnames]
         # results
         allresults=yclite.get_results(leaguename)
         results=allresults # TEMP
