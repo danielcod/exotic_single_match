@@ -19,6 +19,20 @@ class IndexHandler(webapp2.RequestHandler):
 
 class LeagueHandler(webapp2.RequestHandler):
 
+    def update_fixtures(self, leaguename, fixtures, matched):
+        timestamp=dst_adjust(datetime.datetime.utcnow())
+        for fixture in fixtures:
+            fixture["league"]=leaguename
+            fixture["name"]=matched[fixture["name"]]["value"]
+            fixture["source"]=BBC
+            fixture["key_name"]="%s/%s/%s" % (fixture["league"],
+                                             fixture["name"],
+                                             fixture["source"])
+            # fixture["status"]=Fixture
+            # fixture["settlement_prices"]=fixture.pop("prices")
+            fixture["timestamp"]=timestamp
+            # fixture["score"]=list(fixture["score"])
+
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task
     def post(self):
@@ -36,7 +50,9 @@ class LeagueHandler(webapp2.RequestHandler):
             logging.warning("Couldn't match %s" % ", ".join(resp["unmatched"]))
         fixtures=[fixture for fixture in fixtures
                 if fixture["name"] in resp["matched"]]
-        logging.info(fixtures) # TEMP
+        self.update_fixtures(leaguename, fixtures, resp["matched"])
+        [Event(**fixture).put() 
+         for fixture in fixtures]
         logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
 
 Routing=[('/tasks/scrapers/bbc/fixtures/league', LeagueHandler),
