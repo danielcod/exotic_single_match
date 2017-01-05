@@ -109,7 +109,6 @@ class SingleTeamsHandler(BaseHandler):
         # fetch data
         allteams=yclite.get_teams(leaguename)
         allresults=yclite.get_results(leaguename)
-        allremfixtures=yclite.get_remaining_fixtures(leaguename)
         allevents=[event.to_json()
                    for event in Event.find_all(leaguename)]                
         # unpacket request
@@ -119,16 +118,15 @@ class SingleTeamsHandler(BaseHandler):
         # filter data
         teams, results = allteams, allresults
         events=self.filter_events(allevents, expiry)
-        remfixtures=self.filter_remaining_fixtures(allremfixtures, events)
-        if remfixtures==[]:
-            raise RuntimeError("No remaining fixtures")
+        for event in events:
+            event["probabilities"]=event.pop("yc_probabilities")
         # pricing        
-        pp=simulator.simulate(teams, results, remfixtures, Paths, Seed)
+        pp=simulator.simulate(teams, results, events, Paths, Seed)
         probability=self.calc_probability(pp[teamname], payoff)
         price=self.calc_price(probability)
         return {"teams": teams,
                 "results": results,
-                "remaining_fixtures": remfixtures,
+                "events": events,
                 "probability": probability,
                 "price": price}
 
