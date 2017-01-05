@@ -1,6 +1,5 @@
 queue:
-# scrapers
-- name: bbc
-  rate: 0.2/s
+- name: default
+  rate: 1/s
   bucket_size: 1
 
