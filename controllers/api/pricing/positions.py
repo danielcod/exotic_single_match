@@ -16,10 +16,10 @@ class BaseHandler(webapp2.RequestHandler):
     - extend to include other labels for end of different months
     """
     
-    def parse_date(self, events, expirystr):
+    def parse_date(self, fixtures, expirystr):
         if expirystr==EOS:
-            return sorted([event["date"]
-                           for event in events])[-1]
+            return sorted([fixture["date"]
+                           for fixture in fixtures])[-1]
         elif re.search("^\\d{4}\\-\\d{1,2}\\-\\d{1,2}$", expirystr):
             return datetime.datetime.strptime(expirystr, "%Y-%m-%d").date()
         else:
@@ -66,20 +66,13 @@ class BaseHandler(webapp2.RequestHandler):
                 if filterfn(result)]
 
     """
-    - filter_events should filter only those events involving teams
+    - filter_fixtures should filter only those fixtures involving teams
     """
     
-    def filter_events(self, events, expirydate, startdate=Today):
-        return [event for event in events
-                if (event["date"] > startdate and
-                    event["date"] <= expirydate)]
-
-    def filter_remaining_fixtures(self, remfixtures, events):
-        eventnames=[event["name"]
-                    for event in events]
-        return [remfixture
-                for remfixture in remfixtures
-                if remfixture["name"] in eventnames]
+    def filter_fixtures(self, fixtures, expirydate, startdate=Today):
+        return [fixture for fixture in fixtures
+                if (fixture["date"] > startdate and
+                    fixture["date"] <= expirydate)]
 
     def calc_probability(self, pp, index):
         return sum([pp[i] for i in index])
@@ -109,24 +102,24 @@ class SingleTeamsHandler(BaseHandler):
         # fetch data
         allteams=yclite.get_teams(leaguename)
         allresults=yclite.get_results(leaguename)
-        allevents=[event.to_json()
-                   for event in Event.find_all(leaguename)]                
+        allfixtures=[fixture.to_json()
+                   for fixture in Event.find_all(leaguename)]                
         # unpacket request
         teamname=self.request.get("team")
         payoff=self.parse_payoff(self.request.get("payoff"))
-        expiry=self.parse_date(allevents, self.request.get("expiry"))
+        expiry=self.parse_date(allfixtures, self.request.get("expiry"))
         # filter data
         teams, results = allteams, allresults
-        events=self.filter_events(allevents, expiry)
-        for event in events:
-            event["probabilities"]=event.pop("yc_probabilities")
+        fixtures=self.filter_fixtures(allfixtures, expiry)
+        for fixture in fixtures:
+            fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
-        pp=simulator.simulate(teams, results, events, Paths, Seed)
+        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         probability=self.calc_probability(pp[teamname], payoff)
         price=self.calc_price(probability)
         return {"teams": teams,
                 "results": results,
-                "events": events,
+                "fixtures": fixtures,
                 "probability": probability,
                 "price": price}
 
@@ -150,8 +143,8 @@ class MiniLeaguesHandler(BaseHandler):
         leaguename=self.request.get("league")
         # fetch data
         allteams=yclite.get_teams(leaguename)
-        allevents=[event.to_json()
-                   for event in Event.find_all(leaguename)]                
+        allfixtures=[fixture.to_json()
+                   for fixture in Event.find_all(leaguename)]                
         # unpacket request
         teamname=self.request.get("team")
         teamnames=self.parse_list(self.request.get("teams"))
@@ -159,20 +152,20 @@ class MiniLeaguesHandler(BaseHandler):
             teamnames+=teamname
         self.validate_teamnames(allteams, teamnames)
         payoff=self.parse_payoff(self.request.get("payoff"))
-        expiry=self.parse_date(allevents, self.request.get("expiry"))
+        expiry=self.parse_date(allfixtures, self.request.get("expiry"))
         # filter data
         teams=self.filter_teams(allteams, teamnames)
         results=[] # NB
-        events=self.filter_events(allevents, expiry)
-        for event in events:
-            event["probabilities"]=event.pop("yc_probabilities")
+        fixtures=self.filter_fixtures(allfixtures, expiry)
+        for fixture in fixtures:
+            fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
-        pp=simulator.simulate(teams, results, events, Paths, Seed)
+        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         probability=self.calc_probability(pp[teamname], payoff)
         price=self.calc_price(probability)
         return {"teams": teams,
                 "results": results,
-                "events": events,
+                "fixtures": fixtures,
                 "probability": probability,
                 "price": price}
 
