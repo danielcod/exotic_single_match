@@ -56,6 +56,16 @@ class BaseHandler(webapp2.RequestHandler):
             return teams
         return [team for team in teams
                 if team["name"] in teamnames]
+
+    def filter_results(self, results, teams, expirydate, startdate=Today):
+        teamnames=[team["name"]
+                   for team in teams]
+        def filterfn(result):
+            matchteamnames=result["name"].split(" vs ")
+            return (matchteamnames[0] in teamnames or
+                    matchteamnames[1] in teamnames)
+        return [result for result in results
+                if filterfn(result)]
     
     def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
         teamnames=[team["name"]
@@ -74,13 +84,6 @@ class BaseHandler(webapp2.RequestHandler):
 
     def calc_price(self, prob, maxprob=MaxProb, minprob=MinProb):
         return 1/float(prob) if (prob > minprob and prob < maxprob) else None
-
-"""
-- single_teams assumes
-  - all teams in league
-  - results included from start of season
-- probably a separate product which prices assuming zero points 
-"""
 
 # curl "http://localhost:8080/api/pricing/positions/single_teams?league=ENG.1&team=Arsenal&payoff=Winner&expiry=2017-03-01"
     
@@ -117,11 +120,6 @@ class SingleTeamsHandler(BaseHandler):
                 "fixtures": fixtures,
                 "probability": probability,
                 "price": price}
-
-"""
-- mini_leagues assumes 
-  - results=[] ie starts from today
-"""
 
 # curl "http://localhost:8080/api/pricing/positions/mini_leagues?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&expiry=2017-03-01"
 
