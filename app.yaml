@@ -27,11 +27,13 @@ handlers:
 - url: /js
   static_dir: js
 # API
+- url: /api/leagues.*
+  script: controllers.api.leagues.app
 - url: /api/pricing/mini_leagues.*
   script: controllers.api.pricing.mini_leagues.app
 - url: /api/pricing/single_teams.*
   script: controllers.api.pricing.single_teams.app
-# SCRAPERS
+# TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
 - url: /tasks/yc_probabilities.*
