@@ -33,6 +33,8 @@ handlers:
   script: controllers.api.pricing.mini_leagues.app
 - url: /api/pricing/single_teams.*
   script: controllers.api.pricing.single_teams.app
+- url: /api/teams.*
+  script: controllers.api.teams.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
