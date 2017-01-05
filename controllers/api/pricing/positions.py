@@ -36,7 +36,15 @@ class IndexHandler(webapp2.RequestHandler):
             return [-1]
         else:
             raise RuntimeError("Payoff not recognised")
-            
+
+    def validate_teamnames(self, teams, teamnames):
+        allteamnames=[team["name"]
+                      for team in teams]
+        errors=[teamname for teamname in teamnames
+                if teamname not in allteamnames]
+        if errors!=[]:
+            raise RuntimeError("Invalid teams: %s" % ", ".join(errors))
+        
     def filter_teams(self, teams, teamnames):
         if All in teamnames:
             return teams
@@ -89,6 +97,7 @@ class IndexHandler(webapp2.RequestHandler):
         teamnames=self.parse_list(self.request.get("teams"))
         if teamname not in teamnames:
             teamnames+=teamname
+        self.validate_teamnames(allteams, teamnames)
         payoff=self.parse_payoff(self.request.get("payoff"))
         expiry=self.parse_date(allevents, self.request.get("expiry"))
         # filter data
