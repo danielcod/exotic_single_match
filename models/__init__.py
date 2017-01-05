@@ -66,7 +66,6 @@ class Event(db.Model):
     source=db.StringProperty()
     league=db.StringProperty()
     name=db.StringProperty() # "A vs B"
-    kickoff=db.DateTimeProperty()
     date=db.DateProperty()
     yc_probabilities=db.ListProperty(item_type=float)
   
@@ -88,5 +87,4 @@ class Event(db.Model):
         query.filter("league = ", leaguename)
         if cutoff:
             query.filter("kickoff > ", cutoff)
-        memkey="events/%s/%s" % (leaguename, cutoff)
-        return fetch_models_memcache(Event, memkey, query)
+        return fetch_models_db(query)
