@@ -8,7 +8,10 @@ import datetime, logging, webapp2, yaml
 
 from helpers.dst_helpers import dst_adjust
 
-DefaultQueue="default"
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/bbc.yaml").read())])
+
+QueueName="default"
 
 def task(fn):
     def wrapped_fn(self, *args, **kwargs):

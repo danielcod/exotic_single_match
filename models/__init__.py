@@ -68,11 +68,7 @@ class Event(db.Model):
     name=db.StringProperty() # "A vs B"
     kickoff=db.DateTimeProperty()
     date=db.DateProperty()
-    timestamp=db.DateTimeProperty()
-    status=db.StringProperty() # result, fixture etc
-    pre_event_prices=db.ListProperty(item_type=float)
-    settlement_prices=db.ListProperty(item_type=float)
-    score=db.ListProperty(item_type=int)
+    yc_probabilities=db.ListProperty(item_type=float)
   
     @classmethod
     def key_name(self, params):

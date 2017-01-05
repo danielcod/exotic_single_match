@@ -15,11 +15,6 @@ DefaultDateCutoff=datetime.date(2016, 7, 15)
 
 BBC="BBC"
 
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/bbc.yaml").read())])
-
-QueueName="default"
-
 def get_date_cutoff(leaguename):
     return DefaultDateCutoff
 
@@ -51,7 +46,6 @@ class LeagueHandler(webapp2.RequestHandler):
             fixture["key_name"]="%s/%s/%s" % (fixture["league"],
                                               fixture["name"],
                                               fixture["source"])
-            fixture["timestamp"]=timestamp
 
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task

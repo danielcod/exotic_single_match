@@ -1,9 +1,6 @@
 from tasks import *
 
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/bbc.yaml").read())])
-
-QueueName="default"
+import apis.yc_lite_api as yclite
 
 # curl "http://localhost:8080/tasks/yc_probabilities?leagues=ENG.1"
 
@@ -28,7 +25,17 @@ class LeagueHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")
-        logging.info(leaguename)
+        remfixtures=dict([(fixture["name"], fixture)
+                          for fixture in yclite.get_remaining_fixtures(leaguename)])
+        events=Event.find_all(leaguename)
+        count=0
+        for event in events:
+            if event.name not in remfixtures:
+                continue
+            event.yc_probabilities=remfixtures[event.name]["probabilities"]
+            event.put()
+            count+=1
+        logging.info("Updated %i %s fixtures" % (count, leaguename))
 
 Routing=[('/tasks/yc_probabilities/league', LeagueHandler),
          ('/tasks/yc_probabilities', IndexHandler)]
