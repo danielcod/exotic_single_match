@@ -30,8 +30,8 @@ handlers:
 - url: /api/pricing/positions.*
   script: controllers.api.pricing.positions.app
 # SCRAPERS
-- url: /tasks/scrapers/bbc/fixtures.*
-  script: tasks.scrapers.bbc.fixtures.app
+- url: /tasks/bbc_fixtures.*
+  script: tasks.bbc_fixtures.app
 # DEFAULT
 - url: /.*
   script: controllers.demo.root.app

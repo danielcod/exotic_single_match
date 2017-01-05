@@ -1,6 +1,29 @@
-from tasks.scrapers.bbc import *
+from tasks import *
 
-# curl "http://localhost:8080/tasks/scrapers/bbc/fixtures?leagues=ENG.1"
+import sport_data_client.services.event_matcher as event_matcher
+
+import sport_data_client.scrapers.bbc_football as bbc
+
+SDKwargs=yaml.load("""
+realm: prod
+username: admin
+password: Hufton123
+appengine: true
+""")
+
+DefaultDateCutoff=datetime.date(2016, 7, 15)
+
+BBC="BBC"
+
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/bbc.yaml").read())])
+
+QueueName="default"
+
+def get_date_cutoff(leaguename):
+    return DefaultDateCutoff
+
+# curl "http://localhost:8080/tasks/bbc_fixtures?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -11,7 +34,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/scrapers/bbc/fixtures/league",
+        [taskqueue.add(url="/tasks/bbc_fixtures/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -26,12 +49,9 @@ class LeagueHandler(webapp2.RequestHandler):
             fixture["name"]=matched[fixture["name"]]["value"]
             fixture["source"]=BBC
             fixture["key_name"]="%s/%s/%s" % (fixture["league"],
-                                             fixture["name"],
-                                             fixture["source"])
-            # fixture["status"]=Fixture
-            # fixture["settlement_prices"]=fixture.pop("prices")
+                                              fixture["name"],
+                                              fixture["source"])
             fixture["timestamp"]=timestamp
-            # fixture["score"]=list(fixture["score"])
 
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task
@@ -55,8 +75,8 @@ class LeagueHandler(webapp2.RequestHandler):
          for fixture in fixtures]
         logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
 
-Routing=[('/tasks/scrapers/bbc/fixtures/league', LeagueHandler),
-         ('/tasks/scrapers/bbc/fixtures', IndexHandler)]
+Routing=[('/tasks/bbc_fixtures/league', LeagueHandler),
+         ('/tasks/bbc_fixtures', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
