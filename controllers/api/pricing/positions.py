@@ -6,7 +6,7 @@ Today=datetime.date.today()
 
 # curl "http://localhost:8080/api/pricing/positions?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&use_results=true&expiry=2017-03-01"
 
-class IndexHandler(webapp2.RequestHandler):
+class BaseHandler(webapp2.RequestHandler):
 
     def parse_boolean(self, boolstr):
         return boolstr.lower() in ["true", "1"]
@@ -76,6 +76,8 @@ class IndexHandler(webapp2.RequestHandler):
 
     def calc_price(self, prob, maxprob=MaxProb, minprob=MinProb):
         return 1/float(prob) if (prob > minprob and prob < maxprob) else None
+
+class IndexHandler(BaseHandler):
     
     @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
