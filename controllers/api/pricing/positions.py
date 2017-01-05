@@ -57,21 +57,16 @@ class BaseHandler(webapp2.RequestHandler):
         return [team for team in teams
                 if team["name"] in teamnames]
     
-    def filter_results(self, results, teamnames):
+    def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
+        teamnames=[team["name"]
+                   for team in teams]
         def filterfn(result):
             matchteamnames=result["name"].split(" vs ")
             return (matchteamnames[0] in teamnames or
                     matchteamnames[1] in teamnames)
-        return [result for result in results
-                if filterfn(result)]
-
-    """
-    - filter_fixtures should filter only those fixtures involving teams
-    """
-    
-    def filter_fixtures(self, fixtures, expirydate, startdate=Today):
         return [fixture for fixture in fixtures
-                if (fixture["date"] > startdate and
+                if (filterfn(fixture) and
+                    fixture["date"] > startdate and
                     fixture["date"] <= expirydate)]
 
     def calc_probability(self, pp, index):
@@ -110,7 +105,7 @@ class SingleTeamsHandler(BaseHandler):
         expiry=self.parse_date(allfixtures, self.request.get("expiry"))
         # filter data
         teams, results = allteams, allresults
-        fixtures=self.filter_fixtures(allfixtures, expiry)
+        fixtures=self.filter_fixtures(allfixtures, teams, expiry)
         for fixture in fixtures:
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
@@ -156,7 +151,7 @@ class MiniLeaguesHandler(BaseHandler):
         # filter data
         teams=self.filter_teams(allteams, teamnames)
         results=[] # NB
-        fixtures=self.filter_fixtures(allfixtures, expiry)
+        fixtures=self.filter_fixtures(allfixtures, teams, expiry)
         for fixture in fixtures:
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
