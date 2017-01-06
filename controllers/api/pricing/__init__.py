@@ -24,7 +24,7 @@ def fetch_teams(leaguename):
 def fetch_results(leaguename):
     return [{"name": result["name"],
              "score": result["score"]}
-            for result in yc_lite.get_results(leaguename)]
+            for result in yclite.get_results(leaguename)]
 
 def fetch_fixtures(leaguename):
     return [{"name": fixture["name"],

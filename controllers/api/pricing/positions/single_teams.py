@@ -16,12 +16,9 @@ class IndexHandler(webapp2.RequestHandler):
         payoff=self.request.get("payoff")
         expirystr=self.request.get("expiry")
         # fetch data
-        allteams=yclite.get_teams(leaguename)
-        allresults=yclite.get_results(leaguename)
-        allfixtures=[fixture.to_json()
-                     for fixture in Event.find_all(leaguename)]
-        for fixture in allfixtures:
-            fixture["probabilities"]=fixture.pop("yc_probabilities")
+        allteams, allresults, allfixtures = (fetch_teams(leaguename),
+                                             fetch_results(leaguename),
+                                             fetch_fixtures(leaguename))
         # initialise/validate
         validate_teamnames(allteams, [teamname])
         expiry=filter_expiry_date(allfixtures, expirystr)
