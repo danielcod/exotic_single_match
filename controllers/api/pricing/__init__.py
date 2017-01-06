@@ -6,8 +6,6 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
-MaxProb, MinProb = 0.99, 0.01
-
 All, EOS = "All", "EOS"
 
 Winner, Top, Bottom = "Winner", "Top", "Bottom"
@@ -92,6 +90,4 @@ class BasePositionsHandler(webapp2.RequestHandler):
     def calc_probability(self, pp, index):
         return sum([pp[i] for i in index])
 
-    def calc_price(self, prob, maxprob=MaxProb, minprob=MinProb):
-        return 1/float(prob) if (prob > minprob and prob < maxprob) else None
 

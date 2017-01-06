@@ -29,12 +29,10 @@ class IndexHandler(BasePositionsHandler):
         # pricing        
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         probability=self.calc_probability(pp[teamname], payoff)
-        price=self.calc_price(probability)
         return {"teams": teams,
                 "results": results,
                 "fixtures": fixtures,
-                "probability": probability,
-                "price": price}
+                "probability": probability}
 
 Routing=[('/api/pricing/single_teams', IndexHandler)]
 
