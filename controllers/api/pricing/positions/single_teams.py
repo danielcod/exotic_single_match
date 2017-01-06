@@ -8,7 +8,6 @@ class IndexHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, req):
         teams=fetch_teams(req["league"])
-        validate_teamnames(teams, [req["team"]])
         results=fetch_results(req["league"])
         allfixtures=fetch_fixtures(req["league"])
         expiry=filter_expiry_date(allfixtures, req["expiry"])

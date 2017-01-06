@@ -6,17 +6,6 @@ EOS = "EOS"
 
 Today=datetime.date.today()
 
-def parse_list(liststr):
-    return liststr.split(",")
-
-def validate_teamnames(teams, teamnames):
-    allteamnames=[team["name"]
-                  for team in teams]
-    errors=[teamname for teamname in teamnames
-            if teamname not in allteamnames]
-    if errors!=[]:
-        raise RuntimeError("Invalid teams: %s" % ", ".join(errors))
-
 def fetch_teams(leaguename):
     teams=[{"name": team["name"]}
            for team in yclite.get_teams(leaguename)]
@@ -42,14 +31,14 @@ def fetch_fixtures(leaguename):
         raise RuntimeError("No fixtures found")
     return fixtures
     
-def filter_expiry_date(fixtures, expirystr):
-    if isinstance(expirystr, datetime.date):
-        return expirystr
-    elif expirystr==EOS:
+def filter_expiry_date(fixtures, expiry):
+    if isinstance(expiry, datetime.date):
+        return expiry
+    elif expiry==EOS:
         return sorted([fixture["date"]
                        for fixture in fixtures])[-1]
     else:
-        raise RuntimeError("Couldn't parse '%s' as date" % expirystr)
+        raise RuntimeError("Couldn't parse '%s' as date" % expiry)
 
 def filter_teams(teams, teamnames):
     return [team for team in teams
