@@ -1,6 +1,6 @@
 from controllers.api.pricing.positions import *
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams" -d "{\"league\": \"ENG.1\", \"team\": \"Arsenal\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
     
 class IndexHandler(webapp2.RequestHandler):
 
