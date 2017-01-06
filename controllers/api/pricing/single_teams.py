@@ -12,24 +12,27 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         # unpack league
         leaguename=self.request.get("league")
+        teamname=self.request.get("team")
+        payoff=self.request.get("payoff")
+        expirystr=self.request.get("expiry")
         # fetch data
         allteams=yclite.get_teams(leaguename)
         allresults=yclite.get_results(leaguename)
         allfixtures=[fixture.to_json()
-                     for fixture in Event.find_all(leaguename)]                
-        # unpacket request
-        teamname=self.request.get("team")
-        payoff=parse_payoff_index(self.request.get("payoff"))
-        expiry=parse_date(allfixtures, self.request.get("expiry"))
+                     for fixture in Event.find_all(leaguename)]
+        for fixture in allfixtures:
+            fixture["probabilities"]=fixture.pop("yc_probabilities")
+        # initialise/validate
+        validate_teamnames(allteams, [teamname])
+        expiry=parse_date(allfixtures, expirystr)
+        index=parse_payoff_index(payoff)
         # filter data
         teams, results = allteams, allresults
         fixtures=filter_fixtures(allfixtures, teams, expiry)
-        for fixture in fixtures:
-            fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         probability=sum([pp[teamname][i]
-                         for i in payoff])
+                         for i in index])
         return {"teams": teams,
                 "results": results,
                 "fixtures": fixtures,
