@@ -39,3 +39,14 @@ def emit_json_memcache(age):
         return wrapped_fn
     return wrap
 
+def parse_json_body(fn):
+    def wrapped_fn(self, *args, **kwargs):
+        try:
+            try:                
+                struct=json_loads(self.request.body)            
+            except:
+                raise RuntimeError("Error parsing JSON body")
+            fn(self, struct, *args, **kwargs)
+        except RuntimeError, error:         
+            render_error(self, error)
+    return wrapped_fn

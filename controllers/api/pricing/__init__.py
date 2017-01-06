@@ -43,11 +43,11 @@ def fetch_fixtures(leaguename):
     return fixtures
     
 def filter_expiry_date(fixtures, expirystr):
-    if expirystr==EOS:
+    if isinstance(expirystr, datetime.date):
+        return expirystr
+    elif expirystr==EOS:
         return sorted([fixture["date"]
                        for fixture in fixtures])[-1]
-    elif re.search("^\\d{4}\\-\\d{1,2}\\-\\d{1,2}$", expirystr):
-        return datetime.datetime.strptime(expirystr, "%Y-%m-%d").date()
     else:
         raise RuntimeError("Couldn't parse '%s' as date" % expirystr)
 

@@ -1,19 +1,17 @@
 from controllers.api.pricing.positions import *
 
-# curl "http://localhost:8080/api/pricing/positions/single_teams?league=ENG.1&team=Arsenal&payoff=Winner&expiry=2017-03-01"
+# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams" -d "{\"team\": {\"league\": \"ENG.1\", \"name\": \"Arsenal\"}, \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
     
 class IndexHandler(webapp2.RequestHandler):
 
-    @validate_query({'league': '^\\D{3}\\.\\d$',
-                     'team': '.+',
-                     'payoff': '^(Winner)|(Top \\d+)|(Bottom \\d+)|(Bottom)$',
-                     'expiry': '^(\\d{4}\\-\\d{1,2}\\-\\d{1,2})|(EOS)$'})
+    @parse_json_body
     @emit_json
-    def get(self):
-        leaguename=self.request.get("league")
-        teamname=self.request.get("team")
-        payoff=self.request.get("payoff")
-        expirystr=self.request.get("expiry")
+    def post(self, struct):
+        logging.info(struct)
+        leaguename=struct["team"]["league"]
+        teamname=struct["team"]["name"]
+        payoff=struct["payoff"]
+        expirystr=struct["expiry"]
         teams=fetch_teams(leaguename)
         validate_teamnames(teams, [teamname])
         results=fetch_results(leaguename)
