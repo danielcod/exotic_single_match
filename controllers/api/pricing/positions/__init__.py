@@ -22,6 +22,8 @@ def parse_payoff_index(payoff):
 
 def calc_probability(env, payoff, teamname,
                      paths=Paths, seed=Seed):
+    if env["fixtures"]==[]:
+        raise RuntimeError("No fixtures found")
     pp=simulator.simulate(env["teams"], env["results"], env["fixtures"],
                           paths, seed)
     index=parse_payoff_index(payoff)

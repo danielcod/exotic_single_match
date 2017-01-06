@@ -1,6 +1,6 @@
 from controllers.api.pricing.positions import *
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"ENG.1\", \"name\": \"Liverpool\"}, {\"league\": \"ENG.1\", \"name\": \"Man Utd\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
 
 class IndexHandler(webapp2.RequestHandler):
     
@@ -11,6 +11,14 @@ class IndexHandler(webapp2.RequestHandler):
                 return team
         raise RuntimeError("Selected team not found")            
 
+    def fetch_fixtures(self, teams):
+        leaguenames=set([team["league"]
+                         for team in teams])
+        fixtures=[]
+        for leaguename in leaguenames:
+            fixtures+=fetch_fixtures(leaguename)
+        return fixtures
+    
     def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
         teamnames=[team["name"]
                    for team in teams]
@@ -32,7 +40,7 @@ class IndexHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, req, results=[]): 
         selectedteam=self.filter_selected_team(req["teams"])
-        allfixtures=fetch_fixtures(selectedteam["league"])
+        allfixtures=self.fetch_fixtures(req["teams"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=self.filter_fixtures(allfixtures, req["teams"], expiry)
         env={"teams": req["teams"],

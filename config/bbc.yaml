@@ -1,9 +1,3 @@
-- id: 119000924
-  raw_name: Belgian Pro League
-  name: BEL.1
-- id: 119000950
-  raw_name: Danish Superliga
-  name: DEN.1
 - id: 118996114
   raw_name: Premier League
   name: ENG.1
@@ -16,45 +10,12 @@
 - id: 118996117
   raw_name: League Two
   name: ENG.4
-- id: 118996118
-  raw_name: National League
-  name: ENG.5
 - id: 119000981
   raw_name: French Ligue 1
   name: FRA.1
 - id: 119000986
   raw_name: German Bundesliga
   name: GER.1
-- id: 119001017
-  raw_name: Italian Serie A
-  name: ITA.1
-- id: 119001012
-  raw_name: Dutch Eredivisie
-  name: NED.1
-- id: 119001043
-  raw_name: Norwegian Tippeligaen
-  name: NOR.1
-- id: 119001048
-  raw_name: Portuguese Primeira Liga
-  name: POR.1
-- id: 999999990
-  raw_name: Russian Premier League
-  name: RUS.1
-- id: 118996177
-  raw_name: Scottish Championship
-  name: SCO.2
-- id: 118996178
-  raw_name: Scottish League One
-  name: SCO.3
-- id: 118996179
-  raw_name: Scottish League Two
-  name: SCO.4
 - id: 119001074
   raw_name: Spanish La Liga
   name: SPA.1
-- id: 119001079
-  raw_name: Swedish Allsvenskan
-  name: SWE.1
-- id: 119001110
-  raw_name: Turkish Super Lig  
-  name: TUR.1
