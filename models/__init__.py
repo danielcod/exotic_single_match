@@ -82,9 +82,13 @@ class Event(db.Model):
     """
 
     @classmethod
-    def find_all(self, leaguename, cutoff=None):
+    def find_all(self, leaguename, cutoff=None, force=False):
         query=Event.all()
         query.filter("league = ", leaguename)
         if cutoff:
             query.filter("kickoff > ", cutoff)
-        return fetch_models_db(query)
+        if force:
+            return fetch_models_db(query)
+        else:
+            memkey="events/%s/%s" % (leaguename, cutoff)
+            return fetch_models_memcache(Event, memkey, query)
