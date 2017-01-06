@@ -10,7 +10,19 @@ class IndexHandler(webapp2.RequestHandler):
                 team["selected"]):
                 return team
         raise RuntimeError("Selected team not found")            
-    
+
+    def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
+        teamnames=[team["name"]
+                   for team in teams]
+        def filterfn(result):
+            matchteamnames=result["name"].split(" vs ")
+            return (matchteamnames[0] in teamnames or
+                    matchteamnames[1] in teamnames)
+        return [fixture for fixture in fixtures
+                if (filterfn(fixture) and
+                    fixture["date"] > startdate and
+                    fixture["date"] <= expirydate)]
+
     @parse_json_body
     @emit_json
     def post(self, req, results=[]): # NB no initial results state
@@ -18,7 +30,7 @@ class IndexHandler(webapp2.RequestHandler):
         teams=req["teams"] # requires validation
         allfixtures=fetch_fixtures(selectedteam["league"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
-        fixtures=filter_fixtures(allfixtures, teams, expiry)
+        fixtures=self.filter_fixtures(allfixtures, teams, expiry)
         env={"teams": teams,
              "results": results, 
              "fixtures": fixtures}
