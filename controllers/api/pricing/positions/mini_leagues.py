@@ -1,33 +1,37 @@
 from controllers.api.pricing import *
 
-# curl "http://localhost:8080/api/pricing/single_teams?league=ENG.1&team=Arsenal&payoff=Winner&expiry=2017-03-01"
-    
+# curl "http://localhost:8080/api/pricing/positions/mini_leagues?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&expiry=2017-03-01"
+
 class IndexHandler(webapp2.RequestHandler):
     
     @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
+                     'teams': '.*',
                      'payoff': '^(Winner)|(Top \\d+)|(Bottom \\d+)|(Bottom)$',
                      'expiry': '^(\\d{4}\\-\\d{1,2}\\-\\d{1,2})|(EOS)$'})
     @emit_json
     def get(self):
-        # unpack league
+        # unpack request
         leaguename=self.request.get("league")
         teamname=self.request.get("team")
+        teamnames=parse_list(self.request.get("teams"))
+        if teamname not in teamnames:
+            teamnames+=teamname
         payoff=self.request.get("payoff")
         expirystr=self.request.get("expiry")
         # fetch data
         allteams=yclite.get_teams(leaguename)
-        allresults=yclite.get_results(leaguename)
         allfixtures=[fixture.to_json()
                      for fixture in Event.find_all(leaguename)]
         for fixture in allfixtures:
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # initialise/validate
-        validate_teamnames(allteams, [teamname])
+        validate_teamnames(allteams, teamnames)
         expiry=parse_date(allfixtures, expirystr)
         index=parse_payoff_index(payoff)
         # filter data
-        teams, results = allteams, allresults
+        teams=filter_teams(allteams, teamnames)
+        results=[] # NB
         fixtures=filter_fixtures(allfixtures, teams, expiry)
         # pricing        
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
@@ -38,6 +42,6 @@ class IndexHandler(webapp2.RequestHandler):
                 "fixtures": fixtures,
                 "probability": probability}
 
-Routing=[('/api/pricing/single_teams', IndexHandler)]
+Routing=[('/api/pricing/positions/mini_leagues', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
