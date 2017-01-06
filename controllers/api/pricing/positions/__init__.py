@@ -20,3 +20,16 @@ def parse_payoff_index(payoff):
     else:
         raise RuntimeError("Payoff not recognised")
 
+def calc_probability(teams, results, fixtures, payoff, teamname,
+                     paths=Paths, seed=Seed):
+    pp=simulator.simulate(teams, results, fixtures, paths, seed)
+    index=parse_payoff_index(payoff)
+    """
+    this condition is okay because
+    - payoffs are always anchored at 0 or -1
+    - payoffs are always incrememted atomically (no breaks)
+    """
+    if len(index) > len(pp[teamname]): 
+        raise RuntimeError("Payoff is invalid")
+    return sum([pp[teamname][i]
+                for i in index])

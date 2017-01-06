@@ -29,10 +29,7 @@ class IndexHandler(webapp2.RequestHandler):
         expiry=filter_expiry_date(allfixtures, expirystr)
         fixtures=filter_fixtures(allfixtures, teams, expiry)
         # pricing
-        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
-        index=parse_payoff_index(payoff)                                
-        probability=sum([pp[teamname][i]
-                         for i in index])
+        probability=calc_probability(teams, results, fixtures, payoff, teamname)
         return {"teams": teams,
                 "results": results,
                 "fixtures": fixtures,
