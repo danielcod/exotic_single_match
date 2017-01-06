@@ -10,7 +10,7 @@ class IndexHandler(webapp2.RequestHandler):
                      'payoff': '^(Winner)|(Top \\d+)|(Bottom \\d+)|(Bottom)$',
                      'expiry': '^(\\d{4}\\-\\d{1,2}\\-\\d{1,2})|(EOS)$'})
     @emit_json
-    def get(self):
+    def get(self, results=[]):
         # unpack request
         leaguename=self.request.get("league")
         teamname=self.request.get("team")
@@ -25,7 +25,6 @@ class IndexHandler(webapp2.RequestHandler):
         # pre- process
         validate_teamnames(allteams, teamnames)
         teams=filter_teams(allteams, teamnames)
-        results=[] # NB
         expiry=filter_expiry_date(allfixtures, expirystr)
         fixtures=filter_fixtures(allfixtures, teams, expiry)
         # pricing
