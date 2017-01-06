@@ -2,7 +2,7 @@ from controllers.api import *
 
 import apis.yc_lite_api as yclite
 
-All, EOS = "All", "EOS"
+EOS = "EOS"
 
 Today=datetime.date.today()
 
@@ -43,8 +43,6 @@ def filter_expiry_date(fixtures, expirystr):
         raise RuntimeError("Couldn't parse '%s' as date" % expirystr)
 
 def filter_teams(teams, teamnames):
-    if All in teamnames:
-        return teams
     return [team for team in teams
             if team["name"] in teamnames]
 
