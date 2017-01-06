@@ -7,14 +7,16 @@ EOS = "EOS"
 Today=datetime.date.today()
 
 def fetch_teams(leaguename):
-    teams=[{"name": team["name"]}
+    teams=[{"league": leaguename,
+            "name": team["name"]}
            for team in yclite.get_teams(leaguename)]
     if teams==[]:
         raise RuntimeError("No teams found")
     return teams
 
 def fetch_results(leaguename):
-    results=[{"name": result["name"],
+    results=[{"league": leaguename,
+              "name": result["name"],
               "score": result["score"]}
              for result in yclite.get_results(leaguename)]
     if results==[]:
@@ -22,7 +24,8 @@ def fetch_results(leaguename):
     return results
 
 def fetch_fixtures(leaguename):
-    fixtures=[{"name": fixture["name"],
+    fixtures=[{"league": leaguename,
+               "name": fixture["name"],
                "date": fixture["date"],
                "probabilities": fixture["yc_probabilities"]}
               for fixture in [fixture.to_json()
@@ -39,10 +42,6 @@ def init_expiry_date(fixtures, expiry):
                        for fixture in fixtures])[-1]
     else:
         raise RuntimeError("Couldn't parse '%s' as date" % expiry)
-
-def filter_teams(teams, teamnames):
-    return [team for team in teams
-            if team["name"] in teamnames]
 
 def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     teamnames=[team["name"]
