@@ -4,7 +4,7 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
-Winner, Top, Bottom = "Winner", "Top", "Bottom"
+Winner, Top, Bottom, Finish = "Winner", "Top", "Bottom", "Finish"
 
 def parse_payoff_index(payoff):
     if payoff==Winner:
@@ -12,6 +12,9 @@ def parse_payoff_index(payoff):
     elif re.search(Top+" \\d+", payoff):
         n=int(re.findall("\\d+", payoff)[0])
         return [i for i in range(n)]
+    elif re.search(Finish+" \\d+((st)|(nd)|(rd)|(th))", payoff):
+        n=int(re.findall("\\d+", payoff)[0])
+        return [n-1]
     elif re.search(Bottom+" \\d+", payoff):
         n=int(re.findall("\\d+", payoff)[0])
         return [-(1+i) for i in range(n)]
