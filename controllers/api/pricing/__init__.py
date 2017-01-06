@@ -65,16 +65,6 @@ class BasePositionsHandler(webapp2.RequestHandler):
         return [team for team in teams
                 if team["name"] in teamnames]
 
-    def filter_results(self, results, teams, expirydate, startdate=Today):
-        teamnames=[team["name"]
-                   for team in teams]
-        def filterfn(result):
-            matchteamnames=result["name"].split(" vs ")
-            return (matchteamnames[0] in teamnames or
-                    matchteamnames[1] in teamnames)
-        return [result for result in results
-                if filterfn(result)]
-    
     def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
         teamnames=[team["name"]
                    for team in teams]
