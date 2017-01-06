@@ -15,9 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, req, results=[]): # NB no initial results state
         selectedteam=self.filter_selected_team(req["teams"])
-        allteams=fetch_teams(selectedteam["league"])
-        teams=filter_teams(allteams, [team["name"]
-                                      for team in req["teams"]])
+        teams=req["teams"] # requires validation
         allfixtures=fetch_fixtures(selectedteam["league"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, teams, expiry)
