@@ -43,6 +43,17 @@ def init_expiry_date(fixtures, expiry):
     else:
         raise RuntimeError("Couldn't parse '%s' as date" % expiry)
 
+def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
+    teamnames=[team["name"]
+               for team in teams]
+    def filterfn(fixtures):
+        matchteamnames=fixtures["name"].split(" vs ")
+        return ((matchteamnames[0] in teamnames or
+                 matchteamnames[1] in teamnames) and
+                fixture["date"] > startdate and
+                fixture["date"] <= expirydate)
+    return [fixture for fixture in fixtures
+            if filterfn(fixture)]
 
 
 

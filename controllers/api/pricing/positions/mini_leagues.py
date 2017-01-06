@@ -19,18 +19,6 @@ class IndexHandler(webapp2.RequestHandler):
             fixtures+=fetch_fixtures(leaguename)
         return fixtures
     
-    def filter_fixtures(self, fixtures, teams, expirydate, startdate=Today):
-        teamnames=[team["name"]
-                   for team in teams]
-        def filterfn(fixtures):
-            matchteamnames=fixtures["name"].split(" vs ")
-            return ((matchteamnames[0] in teamnames or
-                     matchteamnames[1] in teamnames) and
-                    fixture["date"] > startdate and
-                    fixture["date"] <= expirydate)
-        return [fixture for fixture in fixtures
-                if filterfn(fixture)]
-
     """
     - use teams supplied by user
     - results=[]
@@ -42,7 +30,7 @@ class IndexHandler(webapp2.RequestHandler):
         selectedteam=self.filter_selected_team(req["teams"])
         allfixtures=self.fetch_fixtures(req["teams"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
-        fixtures=self.filter_fixtures(allfixtures, req["teams"], expiry)
+        fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
         env={"teams": req["teams"],
              "results": results, 
              "fixtures": fixtures}
