@@ -1,4 +1,4 @@
-from controllers.api.pricing import *
+from controllers.api.pricing.positions import *
 
 # curl "http://localhost:8080/api/pricing/positions/mini_leagues?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&expiry=2017-03-01"
 
@@ -27,7 +27,7 @@ class IndexHandler(webapp2.RequestHandler):
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # initialise/validate
         validate_teamnames(allteams, teamnames)
-        expiry=parse_date(allfixtures, expirystr)
+        expiry=filter_expiry_date(allfixtures, expirystr)
         index=parse_payoff_index(payoff)
         # filter data
         teams=filter_teams(allteams, teamnames)
