@@ -18,20 +18,29 @@ def validate_teamnames(teams, teamnames):
         raise RuntimeError("Invalid teams: %s" % ", ".join(errors))
 
 def fetch_teams(leaguename):
-    return [{"name": team["name"]}
-            for team in yclite.get_teams(leaguename)]
+    teams=[{"name": team["name"]}
+           for team in yclite.get_teams(leaguename)]
+    if teams==[]:
+        raise RuntimeError("No teams found")
+    return teams
 
 def fetch_results(leaguename):
-    return [{"name": result["name"],
-             "score": result["score"]}
-            for result in yclite.get_results(leaguename)]
+    results=[{"name": result["name"],
+              "score": result["score"]}
+             for result in yclite.get_results(leaguename)]
+    if results==[]:
+        raise RuntimeError("No results found")
+    return results
 
 def fetch_fixtures(leaguename):
-    return [{"name": fixture["name"],
-             "date": fixture["date"],
-             "probabilities": fixture["yc_probabilities"]}
-            for fixture in [fixture.to_json()
-                            for fixture in Event.find_all(leaguename)]]
+    fixtures=[{"name": fixture["name"],
+               "date": fixture["date"],
+               "probabilities": fixture["yc_probabilities"]}
+              for fixture in [fixture.to_json()
+                              for fixture in Event.find_all(leaguename)]]
+    if fixtures==[]:
+        raise RuntimeError("No fixtures found")
+    return fixtures
     
 def filter_expiry_date(fixtures, expirystr):
     if expirystr==EOS:

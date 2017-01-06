@@ -19,3 +19,4 @@ def parse_payoff_index(payoff):
         return [-1]
     else:
         raise RuntimeError("Payoff not recognised")
+

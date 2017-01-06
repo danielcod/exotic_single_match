@@ -19,15 +19,14 @@ class IndexHandler(webapp2.RequestHandler):
         allteams, allresults, allfixtures = (fetch_teams(leaguename),
                                              fetch_results(leaguename),
                                              fetch_fixtures(leaguename))
-        # initialise/validate
+        # pre- process
         validate_teamnames(allteams, [teamname])
-        expiry=filter_expiry_date(allfixtures, expirystr)
-        index=parse_payoff_index(payoff)
-        # filter data
         teams, results = allteams, allresults
+        expiry=filter_expiry_date(allfixtures, expirystr)
         fixtures=filter_fixtures(allfixtures, teams, expiry)
-        # pricing        
+        # pricing
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
+        index=parse_payoff_index(payoff)
         probability=sum([pp[teamname][i]
                          for i in index])
         return {"teams": teams,
