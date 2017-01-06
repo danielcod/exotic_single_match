@@ -11,14 +11,6 @@ class IndexHandler(webapp2.RequestHandler):
                 return team
         raise RuntimeError("Selected team not found")            
 
-    def fetch_fixtures(self, teams):
-        leaguenames=set([team["league"]
-                         for team in teams])
-        fixtures=[]
-        for leaguename in leaguenames:
-            fixtures+=fetch_fixtures(leaguename)
-        return fixtures
-    
     """
     - use teams supplied by user
     - results=[]
@@ -28,7 +20,8 @@ class IndexHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, req, results=[]): 
         selectedteam=self.filter_selected_team(req["teams"])
-        allfixtures=self.fetch_fixtures(req["teams"])
+        allfixtures=fetch_fixtures([team["league"]
+                                    for team in req["teams"]])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
         env={"teams": req["teams"],

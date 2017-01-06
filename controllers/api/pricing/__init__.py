@@ -6,32 +6,38 @@ EOS = "EOS"
 
 Today=datetime.date.today()
 
-def fetch_teams(leaguename):
-    teams=[{"league": leaguename,
-            "name": team["name"]}
-           for team in yclite.get_teams(leaguename)]
-    if teams==[]:
-        raise RuntimeError("No teams found")
+def fetch_teams(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    teams=[]
+    for leaguename in set(leaguenames):
+        teams+=[{"league": leaguename,
+                 "name": team["name"]}
+                for team in yclite.get_teams(leaguename)]
     return teams
 
-def fetch_results(leaguename):
-    results=[{"league": leaguename,
-              "name": result["name"],
-              "score": result["score"]}
-             for result in yclite.get_results(leaguename)]
-    if results==[]:
-        raise RuntimeError("No results found")
+def fetch_results(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    results=[]
+    for leaguename in set(leaguenames):
+        results+=[{"league": leaguename,
+                   "name": result["name"],
+                   "score": result["score"]}
+                  for result in yclite.get_results(leaguename)]
     return results
 
-def fetch_fixtures(leaguename):
-    fixtures=[{"league": leaguename,
-               "name": fixture["name"],
-               "date": fixture["date"],
-               "probabilities": fixture["yc_probabilities"]}
-              for fixture in [fixture.to_json()
-                              for fixture in Event.find_all(leaguename)]]
-    if fixtures==[]:
-        raise RuntimeError("No fixtures found")
+def fetch_fixtures(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    fixtures=[]
+    for leaguename in set(leaguenames):
+        fixtures+=[{"league": leaguename,
+                    "name": fixture["name"],
+                    "date": fixture["date"],
+                    "probabilities": fixture["yc_probabilities"]}
+                   for fixture in [fixture.to_json()
+                                   for fixture in Event.find_all(leaguename)]]
     return fixtures
     
 def init_expiry_date(fixtures, expiry):
