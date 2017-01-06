@@ -12,9 +12,6 @@ Winner, Top, Bottom = "Winner", "Top", "Bottom"
 
 Today=datetime.date.today()
 
-def parse_boolean(boolstr):
-    return boolstr.lower() in ["true", "1"]
-    
 def parse_list(liststr):
     return liststr.split(",")
 
@@ -27,7 +24,7 @@ def parse_date(fixtures, expirystr):
     else:
         raise RuntimeError("Couldn't parse '%s' as date" % expirystr)
 
-def parse_payoff(payoff):
+def parse_payoff_index(payoff):
     if payoff==Winner:
         return [0]
     elif re.search(Top+" \\d+", payoff):

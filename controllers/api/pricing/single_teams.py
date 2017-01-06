@@ -16,10 +16,10 @@ class IndexHandler(webapp2.RequestHandler):
         allteams=yclite.get_teams(leaguename)
         allresults=yclite.get_results(leaguename)
         allfixtures=[fixture.to_json()
-                   for fixture in Event.find_all(leaguename)]                
+                     for fixture in Event.find_all(leaguename)]                
         # unpacket request
         teamname=self.request.get("team")
-        payoff=parse_payoff(self.request.get("payoff"))
+        payoff=parse_payoff_index(self.request.get("payoff"))
         expiry=parse_date(allfixtures, self.request.get("expiry"))
         # filter data
         teams, results = allteams, allresults
