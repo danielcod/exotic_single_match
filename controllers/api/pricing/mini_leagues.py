@@ -2,7 +2,7 @@ from controllers.api.pricing import *
 
 # curl "http://localhost:8080/api/pricing/mini_leagues?league=ENG.1&team=Arsenal&teams=Arsenal,Liverpool,Man%20Utd&payoff=Winner&expiry=2017-03-01"
 
-class IndexHandler(BasePositionsHandler):
+class IndexHandler(webapp2.RequestHandler):
     
     @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
@@ -19,16 +19,16 @@ class IndexHandler(BasePositionsHandler):
                      for fixture in Event.find_all(leaguename)]                
         # unpacket request
         teamname=self.request.get("team")
-        teamnames=self.parse_list(self.request.get("teams"))
+        teamnames=parse_list(self.request.get("teams"))
         if teamname not in teamnames:
             teamnames+=teamname
-        self.validate_teamnames(allteams, teamnames)
-        payoff=self.parse_payoff(self.request.get("payoff"))
-        expiry=self.parse_date(allfixtures, self.request.get("expiry"))
+        validate_teamnames(allteams, teamnames)
+        payoff=parse_payoff(self.request.get("payoff"))
+        expiry=parse_date(allfixtures, self.request.get("expiry"))
         # filter data
-        teams=self.filter_teams(allteams, teamnames)
+        teams=filter_teams(allteams, teamnames)
         results=[] # NB
-        fixtures=self.filter_fixtures(allfixtures, teams, expiry)
+        fixtures=filter_fixtures(allfixtures, teams, expiry)
         for fixture in fixtures:
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        

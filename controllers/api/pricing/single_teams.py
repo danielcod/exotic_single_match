@@ -2,7 +2,7 @@ from controllers.api.pricing import *
 
 # curl "http://localhost:8080/api/pricing/single_teams?league=ENG.1&team=Arsenal&payoff=Winner&expiry=2017-03-01"
     
-class IndexHandler(BasePositionsHandler):
+class IndexHandler(webapp2.RequestHandler):
     
     @validate_query({'league': '^\\D{3}\\.\\d$',
                      'team': '.+',
@@ -19,11 +19,11 @@ class IndexHandler(BasePositionsHandler):
                    for fixture in Event.find_all(leaguename)]                
         # unpacket request
         teamname=self.request.get("team")
-        payoff=self.parse_payoff(self.request.get("payoff"))
-        expiry=self.parse_date(allfixtures, self.request.get("expiry"))
+        payoff=parse_payoff(self.request.get("payoff"))
+        expiry=parse_date(allfixtures, self.request.get("expiry"))
         # filter data
         teams, results = allteams, allresults
-        fixtures=self.filter_fixtures(allfixtures, teams, expiry)
+        fixtures=filter_fixtures(allfixtures, teams, expiry)
         for fixture in fixtures:
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
