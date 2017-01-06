@@ -20,9 +20,10 @@ def parse_payoff_index(payoff):
     else:
         raise RuntimeError("Payoff not recognised")
 
-def calc_probability(teams, results, fixtures, payoff, teamname,
+def calc_probability(env, payoff, teamname,
                      paths=Paths, seed=Seed):
-    pp=simulator.simulate(teams, results, fixtures, paths, seed)
+    pp=simulator.simulate(env["teams"], env["results"], env["fixtures"],
+                          paths, seed)
     index=parse_payoff_index(payoff)
     """
     this condition is okay because
