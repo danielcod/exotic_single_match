@@ -6,23 +6,21 @@ class IndexHandler(webapp2.RequestHandler):
 
     @parse_json_body
     @emit_json
-    def post(self, struct, results=[]): # NB no initial results state
-        leaguename=struct["teams"][0]["league"] # TEMP
-        teamname=struct["teams"][0]["name"] # TEMP
+    def post(self, req, results=[]): # NB no initial results state
+        leaguename=req["teams"][0]["league"] # TEMP
+        teamname=req["teams"][0]["name"] # TEMP
         teamnames=[team["name"]
-                   for team in struct["teams"]]
-        payoff=struct["payoff"]
-        expirystr=struct["expiry"]
+                   for team in req["teams"]]
         allteams=fetch_teams(leaguename)
         validate_teamnames(allteams, teamnames)
         teams=filter_teams(allteams, teamnames)
         allfixtures=fetch_fixtures(leaguename)
-        expiry=filter_expiry_date(allfixtures, expirystr)
+        expiry=filter_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, teams, expiry)
         env={"teams": teams,
              "results": results, 
              "fixtures": fixtures}
-        probability=calc_probability(env, payoff, teamname)
+        probability=calc_probability(env, req["payoff"], teamname)
         return {"decimal_price": "%.3f" % (1/probability)}
 
 Routing=[('/api/pricing/positions/mini_leagues', IndexHandler)]
