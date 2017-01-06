@@ -1,13 +1,14 @@
 from controllers.api import *
 
+Leagues=yaml.load(file("config/leagues.yaml").read())
+
 # curl "http://localhost:8080/api/leagues"
 
 class IndexHandler(webapp2.RequestHandler):
     
     @emit_json
     def get(self):
-        return [{"name": league["name"]}
-                for league in yaml.load(file("config/bbc.yaml").read())]
+        return Leagues
 
 Routing=[('/api/leagues', IndexHandler)]
 
