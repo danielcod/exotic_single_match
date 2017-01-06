@@ -11,6 +11,9 @@ password: Hufton123
 appengine: true
 """)
 
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/bbc.yaml").read())])
+
 DefaultDateCutoff=datetime.date(2016, 7, 15)
 
 BBC="BBC"

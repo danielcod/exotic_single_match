@@ -2,6 +2,9 @@ from tasks import *
 
 import apis.yc_lite_api as yclite
 
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/leagues.yaml").read())])
+
 # curl "http://localhost:8080/tasks/yc_probabilities?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):

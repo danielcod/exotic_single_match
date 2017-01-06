@@ -8,9 +8,6 @@ import datetime, logging, webapp2, yaml
 
 from helpers.dst_helpers import dst_adjust
 
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/bbc.yaml").read())])
-
 QueueName="default"
 
 def task(fn):
