@@ -87,7 +87,5 @@ class BasePositionsHandler(webapp2.RequestHandler):
                     fixture["date"] > startdate and
                     fixture["date"] <= expirydate)]
 
-    def calc_probability(self, pp, index):
-        return sum([pp[i] for i in index])
 
 

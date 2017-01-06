@@ -33,7 +33,8 @@ class IndexHandler(BasePositionsHandler):
             fixture["probabilities"]=fixture.pop("yc_probabilities")
         # pricing        
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
-        probability=self.calc_probability(pp[teamname], payoff)
+        probability=sum([pp[teamname][i]
+                         for i in payoff])
         return {"teams": teams,
                 "results": results,
                 "fixtures": fixtures,
