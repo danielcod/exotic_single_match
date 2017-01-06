@@ -31,7 +31,7 @@ def fetch_fixtures(leaguename):
         raise RuntimeError("No fixtures found")
     return fixtures
     
-def filter_expiry_date(fixtures, expiry):
+def init_expiry_date(fixtures, expiry):
     if isinstance(expiry, datetime.date):
         return expiry
     elif expiry==EOS:

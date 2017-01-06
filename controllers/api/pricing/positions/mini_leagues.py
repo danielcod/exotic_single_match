@@ -19,7 +19,7 @@ class IndexHandler(webapp2.RequestHandler):
         teams=filter_teams(allteams, [team["name"]
                                       for team in req["teams"]])
         allfixtures=fetch_fixtures(selectedteam["league"])
-        expiry=filter_expiry_date(allfixtures, req["expiry"])
+        expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, teams, expiry)
         env={"teams": teams,
              "results": results, 
