@@ -27,6 +27,8 @@ handlers:
 - url: /js
   static_dir: js
 # API
+- url: /api/expiries.*
+  script: controllers.api.expiries.app
 - url: /api/leagues.*
   script: controllers.api.leagues.app
 - url: /api/pricing/positions/mini_leagues.*
