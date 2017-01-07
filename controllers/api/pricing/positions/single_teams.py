@@ -1,8 +1,8 @@
 from controllers.api.pricing.positions import *
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
     
-class IndexHandler(webapp2.RequestHandler):
+class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
     @emit_json
@@ -20,6 +20,6 @@ class IndexHandler(webapp2.RequestHandler):
         probability=calc_probability(env, req["payoff"], req["team"])
         return {"decimal_price": format_price(probability)}
 
-Routing=[('/api/pricing/positions/single_teams', IndexHandler)]
+Routing=[('/api/pricing/positions/single_teams/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
