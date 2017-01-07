@@ -4,6 +4,8 @@ import apis.yc_lite_api as yclite
 
 Today=datetime.date.today()
 
+MaxProb, MinProb = 0.99, 0.01
+
 def fetch_teams(leaguenames):
     if not isinstance(leaguenames, list):
         leaguenames=[leaguenames]
@@ -66,8 +68,15 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
 
-def format_price(probability):
-    if probability==0:
+def format_price(probability, max_prob=MaxProb, min_prob=MinProb):
+    if (probability < min_prob or
+        probability > max_prob):
         return None
-    return "%.3f" % (1/probability)
+    price=1/float(probability)
+    if price < 5:
+        return "%.2f" % (1/probability)
+    else:
+        return "%.1f" % (1/probability)
+
+
 

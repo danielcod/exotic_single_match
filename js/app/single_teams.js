@@ -72,6 +72,23 @@ var EESingleTeams={
 	});
 	return params;
     },
+    updatePrice: function(params) {
+	$("span[name='price']").text("[updating ..]");
+	$.ajax({
+	    type: "POST",
+	    url: "/api/quant/positions/single_teams/price",
+	    data: JSON.stringify(params),
+	    contentType: "application/json",
+	    dataType: "json",
+	    success: function(struct) {
+		if (struct["decimal_price"]==null) {
+		    $("span[name='price']").text("[no price; sorry]");
+		} else {
+		    $("span[name='price']").text(struct["decimal_price"])
+		};
+	    }
+	});
+    },
     bind: function() {
 	// bind leagues
 	$("select[name='league']").change(function() {
@@ -87,21 +104,21 @@ var EESingleTeams={
 	$("select[name='team']").change(function() {
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
-		console.log(JSON.stringify(params));
+		EESingleTeams.updatePrice(params);
 	    };
 	});
 	// bind payoffs
 	$("select[name='payoff']").change(function() {
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
-		console.log(JSON.stringify(params));
+		EESingleTeams.updatePrice(params);
 	    };
 	});
 	// bind expiries
 	$("select[name='expiry']").change(function() {
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
-		console.log(JSON.stringify(params));
+		EESingleTeams.updatePrice(params);
 	    };
 	});
 	// init leagues

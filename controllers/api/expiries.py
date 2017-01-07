@@ -32,7 +32,7 @@ def add_months(sourcedate,months):
 class IndexHandler(webapp2.RequestHandler):
     
     @emit_json_memcache(60)
-    def get(self, cutoffmonth=5):
+    def get(self, cutoffmonth=4):
         date=datetime.date.today()
         def init_item(date):
             mrange=calendar.monthrange(date.year, date.month)
