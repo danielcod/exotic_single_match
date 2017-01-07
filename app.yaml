@@ -29,6 +29,8 @@ handlers:
 # SITE
 - url: /demo/hello
   script: controllers.demo.hello.app
+- url: /demo/single_teams
+  script: controllers.demo.single_teams.app
 # API
 - url: /api/expiries.*
   script: controllers.api.expiries.app
