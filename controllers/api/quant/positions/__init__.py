@@ -1,4 +1,4 @@
-from controllers.api.pricing import *
+from controllers.api.quant import *
 
 import quant.simulator as simulator
 

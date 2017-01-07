@@ -1,6 +1,6 @@
-from controllers.api.pricing.positions import *
+from controllers.api.quant.positions import *
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/quant/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
 
 class PriceHandler(webapp2.RequestHandler):
     
@@ -18,6 +18,6 @@ class PriceHandler(webapp2.RequestHandler):
         probability=calc_probability(env, req["payoff"], selectedteam["name"])
         return {"decimal_price": format_price(probability)}
 
-Routing=[('/api/pricing/positions/mini_leagues/price', PriceHandler)]
+Routing=[('/api/quant/positions/mini_leagues/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
