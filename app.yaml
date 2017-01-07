@@ -26,6 +26,9 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
+# SITE
+- url: /demo/hello
+  script: controllers.demo.hello.app
 # API
 - url: /api/expiries.*
   script: controllers.api.expiries.app

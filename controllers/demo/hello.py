@@ -3,9 +3,9 @@ from controllers.demo import *
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        self.redirect("/demo/hello")
+        render_template(self, "templates/demo/hello.html", {})
 
-Routing=[('/.*', IndexHandler)]
+Routing=[('/demo/hello', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
