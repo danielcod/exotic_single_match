@@ -6,7 +6,7 @@ Leagues=yaml.load(file("config/leagues.yaml").read())
 
 class IndexHandler(webapp2.RequestHandler):
     
-    @emit_json
+    @emit_json_memcache(60)
     def get(self):
         return Leagues
 

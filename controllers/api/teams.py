@@ -9,7 +9,7 @@ Leagues=yaml.load(file("config/leagues.yaml").read())
 class IndexHandler(webapp2.RequestHandler):
 
     @validate_query({'league': '^\\D{3}\\.\\d$'})
-    @emit_json
+    @emit_json_memcache(60)
     def get(self):
         leaguename=self.request.get("league")
         leaguenames=[league["name"]
