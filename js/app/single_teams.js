@@ -56,6 +56,7 @@ var EESingleTeams={
 	});
     },
     bind: function() {
+	// bind leagues
 	$("select[name='league']").change(function() {
 	    var leaguename=$(this).find("option:selected").val();
 	    $("select[name='team'] option").not(":first").remove();
@@ -63,7 +64,21 @@ var EESingleTeams={
 	    $("select[name='payoff'] option").not(":first").remove();
 	    EESingleTeams.initPayoffs(leaguename);
 	});
+	// bind teams
+	$("select[name='team']").change(function() {
+	    console.log("team changed");
+	});
+	// bind payoffs
+	$("select[name='payoff']").change(function() {
+	    console.log("payoff changed");
+	});
+	// bind expiries
+	$("select[name='expiry']").change(function() {
+	    console.log("expiry changed");
+	});
+	// init leagues
 	this.initLeagues();
+	// init expiries
 	this.initExpiries();
     }
 };
