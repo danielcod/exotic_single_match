@@ -75,11 +75,13 @@ var EESingleTeams={
     bind: function() {
 	// bind leagues
 	$("select[name='league']").change(function() {
-	    var leaguename=$(this).find("option:selected").val();
 	    $("select[name='team'] option").not(":first").remove();
-	    EESingleTeams.initTeams(leaguename);
-	    $("select[name='payoff'] option").not(":first").remove();
-	    EESingleTeams.initPayoffs(leaguename);
+	    $("select[name='payoff'] option").not(":first").remove();	    
+	    var leaguename=$(this).find("option:selected").val();
+	    if (leaguename!='') {
+		EESingleTeams.initTeams(leaguename);
+		EESingleTeams.initPayoffs(leaguename);
+	    };
 	});
 	// bind teams
 	$("select[name='team']").change(function() {
