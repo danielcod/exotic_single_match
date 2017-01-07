@@ -2,8 +2,6 @@ from controllers.api import *
 
 import apis.yc_lite_api as yclite
 
-EOS = "EOS"
-
 Today=datetime.date.today()
 
 def fetch_teams(leaguenames):

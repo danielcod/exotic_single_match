@@ -38,7 +38,7 @@ class IndexHandler(webapp2.RequestHandler):
             mrange=calendar.monthrange(date.year, date.month)
             eomdate=datetime.date(date.year, date.month, mrange[-1])
             eomlabel="End of %s" % ShortMonths[date.month-1]
-            return {"date": eomdate,
+            return {"value": eomdate,
                     "label": eomlabel}
         expiries=[init_item(date)]
         while True:
@@ -46,7 +46,8 @@ class IndexHandler(webapp2.RequestHandler):
             expiries.append(init_item(date))
             if date.month >= cutoffmonth:
                 break
-        expiries[-1]["label"]="End of Season"
+        expiries.append({"label": "End of Season",
+                         "value": EOS})
         return expiries
 
 Routing=[('/api/expiries', IndexHandler)]
