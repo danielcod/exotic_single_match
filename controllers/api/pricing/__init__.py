@@ -49,6 +49,13 @@ def init_expiry_date(fixtures, expiry):
     else:
         raise RuntimeError("Couldn't parse '%s' as date" % expiry)
 
+def filter_selected_team(teams):
+    for team in teams:
+        if ("selected" in team and
+            team["selected"]):
+            return team
+    raise RuntimeError("Selected team not found")            
+    
 def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     teamnames=[team["name"]
                for team in teams]
@@ -61,5 +68,8 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
 
-
+def format_price(probability):
+    if probability==0:
+        return None
+    return "%.3f" % (1/probability)
 

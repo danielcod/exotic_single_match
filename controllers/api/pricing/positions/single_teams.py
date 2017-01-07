@@ -18,7 +18,7 @@ class IndexHandler(webapp2.RequestHandler):
              "results": allresults,
              "fixtures": fixtures}
         probability=calc_probability(env, req["payoff"], req["team"])
-        return {"decimal_price": "%.3f" % (1/probability)}
+        return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/pricing/positions/single_teams', IndexHandler)]
 
