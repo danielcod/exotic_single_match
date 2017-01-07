@@ -55,6 +55,16 @@ var EESingleTeams={
 	    }
 	});
     },
+    isFormComplete: function() {
+	var complete=true;
+	$.each(["league", "team", "payoff", "expiry"], function(i, attr) {
+	    var value=$("select[name='"+attr+"'] option:selected").val();
+	    if (value=='') {
+		complete=false;
+	    };
+	});
+	return complete;
+    },
     bind: function() {
 	// bind leagues
 	$("select[name='league']").change(function() {
@@ -66,15 +76,15 @@ var EESingleTeams={
 	});
 	// bind teams
 	$("select[name='team']").change(function() {
-	    console.log("team changed");
+	    console.log(EESingleTeams.isFormComplete());
 	});
 	// bind payoffs
 	$("select[name='payoff']").change(function() {
-	    console.log("payoff changed");
+	    console.log(EESingleTeams.isFormComplete());
 	});
 	// bind expiries
 	$("select[name='expiry']").change(function() {
-	    console.log("expiry changed");
+	    console.log(EESingleTeams.isFormComplete());
 	});
 	// init leagues
 	this.initLeagues();
