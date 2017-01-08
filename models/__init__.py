@@ -92,3 +92,21 @@ class Event(db.Model):
         else:
             memkey="events/%s/%s" % (leaguename, cutoff)
             return fetch_models_memcache(Event, memkey, query)
+
+    """
+    - mirrors yc_lite.get_remaining_fixtures
+    """
+        
+    @classmethod
+    def fetch_fixtures(self, leaguenames):
+        if not isinstance(leaguenames, list):
+            leaguenames=[leaguenames]
+        fixtures=[]
+        for leaguename in set(leaguenames):
+            fixtures+=[{"league": leaguename,
+                        "name": fixture["name"],
+                        "date": fixture["date"],
+                        "probabilities": fixture["yc_probabilities"]}
+                       for fixture in [fixture.to_json()
+                                       for fixture in Event.find_all(leaguename)]]
+        return fixtures

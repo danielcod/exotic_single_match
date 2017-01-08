@@ -52,7 +52,7 @@ class PriceHandler(webapp2.RequestHandler):
     def post(self, req):
         allteams=yc_lite.get_teams(req["league"])
         allresults=yc_lite.get_results(req["league"])
-        allfixtures=fetch_fixtures(req["league"])
+        allfixtures=Event.fetch_fixtures(req["league"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=[fixture for fixture in allfixtures
                   if (fixture["date"] > Today and

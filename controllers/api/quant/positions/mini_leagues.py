@@ -17,8 +17,8 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, req): 
         selectedteam=filter_selected_team(req["teams"])
-        allfixtures=fetch_fixtures([team["league"]
-                                    for team in req["teams"]])
+        allfixtures=Event.fetch_fixtures([team["league"]
+                                         for team in req["teams"]])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
         env={"teams": req["teams"],
