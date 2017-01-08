@@ -40,7 +40,8 @@ class PriceHandler(webapp2.RequestHandler):
     def post(self, query):
         product=SingleTeamsProduct()
         contract=product.init_contract(query)
-        return product.calc_price(contract)
+        probability=product.calc_probability(contract)
+        return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/pricing/positions/single_teams/payoff', PayoffHandler),
          ('/api/pricing/positions/single_teams/price', PriceHandler)]

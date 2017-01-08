@@ -19,7 +19,6 @@ class SingleTeamsProduct:
                 "fixtures": fixtures,
                 "index": index}        
     
-    def calc_price(self, contract):
-        probability=calc_probability(contract)
-        return {"decimal_price": format_price(probability)}
+    def calc_probability(self, contract):
+        return calc_positional_probability(contract)
             
