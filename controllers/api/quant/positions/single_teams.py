@@ -43,10 +43,12 @@ class PriceHandler(webapp2.RequestHandler):
         fixtures=[fixture for fixture in allfixtures
                   if (fixture["date"] > Today and
                       fixture["date"] <= expiry)]
+        index=parse_payoff_index(req["payoff"])
         env={"teams": allteams,
              "results": allresults,
-             "fixtures": fixtures}
-        probability=calc_probability(env, req["payoff"], req["team"])
+             "fixtures": fixtures,
+             "index": index}
+        probability=calc_probability(env, req["team"])
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/quant/positions/single_teams/payoff', PayoffHandler),
