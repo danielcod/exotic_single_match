@@ -8,13 +8,6 @@ import datetime, re
 
 Today=datetime.date.today()
 
-def filter_selected_team(teams):
-    for team in teams:
-        if ("selected" in team and
-            team["selected"]):
-            return team
-    raise RuntimeError("Selected team not found")            
-    
 def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     teamnames=[team["name"]
                for team in teams]
