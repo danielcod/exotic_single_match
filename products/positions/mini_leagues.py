@@ -6,8 +6,7 @@ class MiniLeaguesProduct:
         selectedteam=filter_selected_team(query["teams"])
         allfixtures=Event.fetch_fixtures([team["league"]
                                          for team in query["teams"]])
-        expiry=init_expiry_date(allfixtures, query["expiry"])
-        fixtures=filter_fixtures(allfixtures, query["teams"], expiry)
+        fixtures=filter_fixtures(allfixtures, query["teams"], query["expiry"])
         index=parse_payoff_index(query["payoff"])
         return {"team": selectedteam,
                 "teams": query["teams"],

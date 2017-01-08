@@ -17,7 +17,7 @@ Months=yaml.load("""
 - December
 """)
 
-EOS="EOS"
+EOS=datetime.date(2017, 7, 1)
 
 ShortMonths=[month[:3]
              for month in Months]

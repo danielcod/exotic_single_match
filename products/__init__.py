@@ -8,17 +8,6 @@ import datetime, re
 
 Today=datetime.date.today()
 
-EOS="EOS"
-
-def init_expiry_date(fixtures, expiry):
-    if isinstance(expiry, datetime.date):
-        return expiry
-    elif expiry==EOS:
-        return sorted([fixture["date"]
-                       for fixture in fixtures])[-1]
-    else:
-        raise RuntimeError("Couldn't parse '%s' as date" % expiry)
-
 def filter_selected_team(teams):
     for team in teams:
         if ("selected" in team and
