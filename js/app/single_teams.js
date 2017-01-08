@@ -6,6 +6,7 @@ var EESingleTeams={
 	    success: function(struct) {
 		var select=$("select[name='league']");
 		$(select).find("option").not(":first").remove();
+		$(select).find("option:first").removeAttr("disabled").prop("selected", true);
 		$.each(struct, function(i, league) {
 		    var option=$("<option>").attr("value", league["name"]).text(league["name"]);
 		    $(select).append(option);
@@ -20,6 +21,7 @@ var EESingleTeams={
 	    success: function(struct) {
 		var select=$("select[name='expiry']");
 		$(select).find("option").not(":first").remove();
+		$(select).find("option:first").removeAttr("disabled").prop("selected", true);
 		$.each(struct, function(i, expiry) {
 		    var option=$("<option>").attr("value", expiry["value"]).text(expiry["label"]);
 		    $(select).append(option);
@@ -34,6 +36,7 @@ var EESingleTeams={
 	    success: function(struct) {
 		var select=$("select[name='team']");
 		$(select).find("option").not(":first").remove();
+		$(select).find("option:first").removeAttr("disabled").prop("selected", true);
 		$.each(struct, function(i, team) {
 		    var option=$("<option>").attr("value", team["name"]).text(team["name"]);
 		    $(select).append(option);
@@ -48,6 +51,7 @@ var EESingleTeams={
 	    success: function(struct) {
 		var select=$("select[name='payoff']");
 		$(select).find("option").not(":first").remove();
+		$(select).find("option:first").removeAttr("disabled").prop("selected", true);
 		$.each(struct, function(i, payoff) {
 		    var option=$("<option>").attr("value", payoff["name"]).text(payoff["name"]);
 		    $(select).append(option);
@@ -94,7 +98,8 @@ var EESingleTeams={
 	$("select[name='league']").change(function() {
 	    $("span[name='price']").text("[...]");
 	    $("select[name='team'] option").not(":first").remove();
-	    $("select[name='payoff'] option").not(":first").remove();	    
+	    $("select[name='payoff'] option").not(":first").remove();
+	    $(this).find("option:first").attr("disabled", true);
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
 		EESingleTeams.initTeams(leaguename);
@@ -103,6 +108,7 @@ var EESingleTeams={
 	});
 	// bind teams
 	$("select[name='team']").change(function() {
+	    $(this).find("option:first").attr("disabled", true);
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
@@ -110,6 +116,7 @@ var EESingleTeams={
 	});
 	// bind payoffs
 	$("select[name='payoff']").change(function() {
+	    $(this).find("option:first").attr("disabled", true);
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
@@ -117,6 +124,7 @@ var EESingleTeams={
 	});
 	// bind expiries
 	$("select[name='expiry']").change(function() {
+	    $(this).find("option:first").attr("disabled", true);
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
