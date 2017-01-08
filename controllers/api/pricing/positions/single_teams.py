@@ -2,6 +2,20 @@ from controllers.api.pricing.positions import *
 
 from products.positions.single_teams import SingleTeamsProduct
 
+"""
+- max 24 teams per league
+"""
+
+def cardinal_suffix(i):
+    if i in [1, 21]:
+        return "st"
+    elif i in [2, 22]:
+        return "nd"
+    elif i in [3, 23]:
+        return "rd"
+    else:
+        return "th"
+
 # curl "http://localhost:8080/api/pricing/positions/single_teams/payoff?league=ENG.1"
 
 class PayoffHandler(webapp2.RequestHandler):
@@ -15,12 +29,12 @@ class PayoffHandler(webapp2.RequestHandler):
             raise RuntimeError("No teams found")
         names=[]
         # Winner
-        names.append(Winner)
+        names.append("Winner")
         # Top X
         for i in range(2, 1+len(teams)/2):
             names.append("Top %i" % i)
         # Bottom
-        names.append(Bottom)
+        names.append("Bottom")
         # Bottom X
         for i in range(2, 1+len(teams)/2):
             names.append("Bottom %i" % i)

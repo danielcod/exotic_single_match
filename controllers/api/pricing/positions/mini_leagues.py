@@ -9,7 +9,7 @@ class PayoffHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         return [{"name": name}
-                for name in [Winner, Bottom]]
+                for name in ["Winner", "Bottom"]]
 
 # curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
 
