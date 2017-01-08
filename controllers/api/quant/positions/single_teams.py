@@ -1,19 +1,5 @@
 from controllers.api.quant.positions import *
 
-"""
-- max 24 teams per league
-"""
-
-def cardinal_suffix(i):
-    if i in [1, 21]:
-        return "st"
-    elif i in [2, 22]:
-        return "nd"
-    elif i in [3, 23]:
-        return "rd"
-    else:
-        return "th"
-
 # curl "http://localhost:8080/api/quant/positions/single_teams/payoff?league=ENG.1"
 
 class PayoffHandler(webapp2.RequestHandler):
