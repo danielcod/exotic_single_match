@@ -8,10 +8,8 @@ class PayoffHandler(webapp2.RequestHandler):
     def get(self):
         return [{"name": name}
                 for name in [Winner, Bottom]]
-    
-# curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
 
-class PriceHandler(webapp2.RequestHandler):
+class MiniLeaguesProduct:
 
     def init_contract(self, query):
         selectedteam=filter_selected_team(query["teams"])
@@ -26,12 +24,20 @@ class PriceHandler(webapp2.RequestHandler):
                 "fixtures": fixtures,
                 "index": index}
         
+    def calc_price(self, contract):
+        probability=calc_probability(contract)
+        return {"decimal_price": format_price(probability)}
+        
+# curl -X POST "http://localhost:8080/api/pricing/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+
+class PriceHandler(webapp2.RequestHandler):
+
     @parse_json_body
     @emit_json
     def post(self, query):
-        contract=self.init_contract(query)
-        probability=calc_probability(contract)
-        return {"decimal_price": format_price(probability)}
+        product=MiniLeaguesProduct()
+        contract=product.init_contract(query)
+        return product.calc_price(contract)
 
 Routing=[('/api/pricing/positions/mini_leagues/payoff', PayoffHandler),
          ('/api/pricing/positions/mini_leagues/price', PriceHandler)]

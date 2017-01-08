@@ -29,9 +29,7 @@ class PayoffHandler(webapp2.RequestHandler):
         return [{"name": name}
                 for name in names]
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
-    
-class PriceHandler(webapp2.RequestHandler):
+class SingleTeamsProduct:
 
     def init_contract(self, query):
         team={"league": query["league"],
@@ -50,12 +48,20 @@ class PriceHandler(webapp2.RequestHandler):
                 "fixtures": fixtures,
                 "index": index}        
     
+    def calc_price(self, contract):
+        probability=calc_probability(contract)
+        return {"decimal_price": format_price(probability)}
+            
+# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+    
+class PriceHandler(webapp2.RequestHandler):
+
     @parse_json_body
     @emit_json
     def post(self, query):
-        contract=self.init_contract(query)
-        probability=calc_probability(contract)
-        return {"decimal_price": format_price(probability)}
+        product=SingleTeamsProduct()
+        contract=product.init_contract(query)
+        return product.calc_price(contract)
 
 Routing=[('/api/pricing/positions/single_teams/payoff', PayoffHandler),
          ('/api/pricing/positions/single_teams/price', PriceHandler)]
