@@ -89,10 +89,18 @@ def calc_position_probabilities(simpoints, paths):
             pp[name][j]+=1/float(paths)
     return pp
 
+"""
+- NB data must be sorted for consistent application of random numbers to teams / consistent results
+"""
+
 def simulate(teams, results, remfixtures, paths, seed):
     random.seed(seed)
-    leaguetable=calc_league_table(teams, results)
-    simpoints=simulate_points(leaguetable, remfixtures, paths)
+    leaguetable=sorted(calc_league_table(teams, results),
+                       key=lambda x: x["name"])
+    simpoints=simulate_points(leaguetable,
+                              sorted(remfixtures,
+                                     key=lambda x: x["name"]),
+                              paths)
     return calc_position_probabilities(simpoints, paths)
 
 if __name__=="__main__":
