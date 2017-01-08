@@ -23,20 +23,49 @@ def get_leagues():
     url=Endpoint+"/api/leagues"
     return fetch_memcache(memkey, url)
 
-def get_teams(leaguename):
-    memkey="%s/teams" % leaguename
-    url=Endpoint+"/api/teams?league=%s" % urllib.quote(leaguename)
-    return fetch_memcache(memkey, url)
+def get_teams(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    def get_teams(leaguename):
+        memkey="%s/teams" % leaguename
+        url=Endpoint+"/api/teams?league=%s" % urllib.quote(leaguename)
+        return fetch_memcache(memkey, url)
+    teams=[]
+    for leaguename in set(leaguenames):
+        teams+=[{"league": leaguename,
+                 "name": team["name"]}
+                for team in get_teams(leaguename)]
+    return teams
 
-def get_remaining_fixtures(leaguename):
-    memkey="%s/remaining_fixtures" % leaguename
-    url=Endpoint+"/api/remaining_fixtures?league=%s" % urllib.quote(leaguename)
-    return fetch_memcache(memkey, url)
+def get_remaining_fixtures(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    def get_remaining_fixtures(leaguename):
+        memkey="%s/fixtures" % leaguename
+        url=Endpoint+"/api/remaining_fixtures?league=%s" % urllib.quote(leaguename)
+        return fetch_memcache(memkey, url)
+    fixtures=[]
+    for leaguename in set(leaguenames):
+        fixtures+=[{"league": leaguename,
+                    "name": fixture["name"],
+                    "probabilities": fixture["probabilities"]}
+                   for fixture in get_remaining_fixtures(leaguename)]
+    return fixtures
 
-def get_results(leaguename):
-    memkey="%s/results" % leaguename
-    url=Endpoint+"/api/results?league=%s" % urllib.quote(leaguename)
-    return fetch_memcache(memkey, url)
+def get_results(leaguenames):
+    if not isinstance(leaguenames, list):
+        leaguenames=[leaguenames]
+    def get_results(leaguename):
+        memkey="%s/results" % leaguename
+        url=Endpoint+"/api/results?league=%s" % urllib.quote(leaguename)
+        return fetch_memcache(memkey, url)
+    results=[]
+    for leaguename in set(leaguenames):
+        results+=[{"league": leaguename,
+                   "name": result["name"],
+                   "score": result["score"]}
+                  for result in get_results(leaguename)]
+    return results
 
 if __name__=="__main__":
     try:
