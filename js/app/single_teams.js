@@ -92,6 +92,7 @@ var EESingleTeams={
     bind: function() {
 	// bind leagues
 	$("select[name='league']").change(function() {
+	    $("span[name='price']").text("[...]");
 	    $("select[name='team'] option").not(":first").remove();
 	    $("select[name='payoff'] option").not(":first").remove();	    
 	    var leaguename=$(this).find("option:selected").val();
