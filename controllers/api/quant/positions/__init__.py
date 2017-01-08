@@ -37,7 +37,7 @@ def parse_payoff_index(payoff):
     else:
         raise RuntimeError("Payoff not recognised")
 
-def calc_probability(env, teamname, paths=Paths, seed=Seed):
+def calc_probability(env, paths=Paths, seed=Seed):
     if env["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
     pp=simulator.simulate(env["teams"], env["results"], env["fixtures"],
@@ -47,7 +47,8 @@ def calc_probability(env, teamname, paths=Paths, seed=Seed):
     - payoffs are always anchored at 0 or -1
     - payoffs are always incrememted atomically (no breaks)
     """
-    if len(env["index"]) > len(pp[teamname]): 
+    ppkey=env["team"]["name"]
+    if len(env["index"]) > len(pp[ppkey]): 
         raise RuntimeError("Payoff is invalid")
-    return sum([pp[teamname][i]
+    return sum([pp[ppkey][i]
                 for i in env["index"]])

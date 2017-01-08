@@ -22,11 +22,12 @@ class PriceHandler(webapp2.RequestHandler):
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
         index=parse_payoff_index(req["payoff"])
-        env={"teams": req["teams"],
+        env={"team": selectedteam,
+             "teams": req["teams"],
              "results": [], 
              "fixtures": fixtures,
              "index": index}
-        probability=calc_probability(env, selectedteam["name"])
+        probability=calc_probability(env)
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/quant/positions/mini_leagues/payoff', PayoffHandler),

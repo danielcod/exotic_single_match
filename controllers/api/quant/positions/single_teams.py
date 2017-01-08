@@ -36,6 +36,8 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, req):
+        team={"league": req["league"],
+              "name": req["team"]}
         allteams=yc_lite.get_teams(req["league"])
         allresults=yc_lite.get_results(req["league"])
         allfixtures=Event.fetch_fixtures(req["league"])
@@ -44,11 +46,12 @@ class PriceHandler(webapp2.RequestHandler):
                   if (fixture["date"] > Today and
                       fixture["date"] <= expiry)]
         index=parse_payoff_index(req["payoff"])
-        env={"teams": allteams,
+        env={"team": team,
+             "teams": allteams,
              "results": allresults,
              "fixtures": fixtures,
              "index": index}
-        probability=calc_probability(env, req["team"])
+        probability=calc_probability(env)
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/quant/positions/single_teams/payoff', PayoffHandler),
