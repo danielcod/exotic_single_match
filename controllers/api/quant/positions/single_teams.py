@@ -33,9 +33,7 @@ class PayoffHandler(webapp2.RequestHandler):
     
 class PriceHandler(webapp2.RequestHandler):
 
-    @parse_json_body
-    @emit_json
-    def post(self, req):
+    def init_env(self, req):
         team={"league": req["league"],
               "name": req["team"]}
         allteams=yc_lite.get_teams(req["league"])
@@ -46,11 +44,16 @@ class PriceHandler(webapp2.RequestHandler):
                   if (fixture["date"] > Today and
                       fixture["date"] <= expiry)]
         index=parse_payoff_index(req["payoff"])
-        env={"team": team,
-             "teams": allteams,
-             "results": allresults,
-             "fixtures": fixtures,
-             "index": index}
+        return {"team": team,
+                "teams": allteams,
+                "results": allresults,
+                "fixtures": fixtures,
+                "index": index}        
+    
+    @parse_json_body
+    @emit_json
+    def post(self, req):
+        env=self.init_env(req)
         probability=calc_probability(env)
         return {"decimal_price": format_price(probability)}
 

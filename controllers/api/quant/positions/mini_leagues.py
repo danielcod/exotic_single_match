@@ -12,21 +12,24 @@ class PayoffHandler(webapp2.RequestHandler):
 # curl -X POST "http://localhost:8080/api/quant/positions/mini_leagues/price" -d "{\"teams\": [{\"league\": \"ENG.1\", \"name\": \"Arsenal\", \"selected\": true}, {\"league\": \"SPA.1\", \"name\": \"Celta Vigo\"}, {\"league\": \"GER.1\", \"name\": \"Borussia Dortmund\"}], \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
 
 class PriceHandler(webapp2.RequestHandler):
-    
-    @parse_json_body
-    @emit_json
-    def post(self, req): 
+
+    def init_env(self, req):
         selectedteam=filter_selected_team(req["teams"])
         allfixtures=Event.fetch_fixtures([team["league"]
                                          for team in req["teams"]])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
         index=parse_payoff_index(req["payoff"])
-        env={"team": selectedteam,
-             "teams": req["teams"],
-             "results": [], 
-             "fixtures": fixtures,
-             "index": index}
+        return {"team": selectedteam,
+                "teams": req["teams"],
+                "results": [], 
+                "fixtures": fixtures,
+                "index": index}
+        
+    @parse_json_body
+    @emit_json
+    def post(self, req):
+        env=self.init_env(req)
         probability=calc_probability(env)
         return {"decimal_price": format_price(probability)}
 
