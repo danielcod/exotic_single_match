@@ -1,6 +1,6 @@
 from controllers.api import *
 
-import apis.yc_lite_api as yclite
+import apis.yc_lite_api as yc_lite
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
@@ -17,7 +17,7 @@ class IndexHandler(webapp2.RequestHandler):
         if leaguename not in leaguenames:
             raise RuntimeError("League not found")
         return [{"name": team["name"]}
-                for team in yclite.get_teams(leaguename)]
+                for team in yc_lite.get_teams(leaguename)]
 
 Routing=[('/api/teams', IndexHandler)]
 

@@ -22,7 +22,7 @@ class PayoffHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         leaguename=self.request.get("league")
-        teams=yclite.get_teams(leaguename)
+        teams=yc_lite.get_teams(leaguename)
         if teams==[]:
             raise RuntimeError("No teams found")
         names=[]

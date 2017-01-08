@@ -1,6 +1,6 @@
 from controllers.api import *
 
-import apis.yc_lite_api as yclite
+import apis.yc_lite_api as yc_lite
 
 Today=datetime.date.today()
 
@@ -13,7 +13,7 @@ def fetch_teams(leaguenames):
     for leaguename in set(leaguenames):
         teams+=[{"league": leaguename,
                  "name": team["name"]}
-                for team in yclite.get_teams(leaguename)]
+                for team in yc_lite.get_teams(leaguename)]
     return teams
 
 def fetch_results(leaguenames):
@@ -24,7 +24,7 @@ def fetch_results(leaguenames):
         results+=[{"league": leaguename,
                    "name": result["name"],
                    "score": result["score"]}
-                  for result in yclite.get_results(leaguename)]
+                  for result in yc_lite.get_results(leaguename)]
     return results
 
 def fetch_fixtures(leaguenames):

@@ -1,6 +1,6 @@
 from tasks import *
 
-import apis.yc_lite_api as yclite
+import apis.yc_lite_api as yc_lite
 
 Leagues=dict([(league["name"], league)
               for league in yaml.load(file("config/leagues.yaml").read())])
@@ -29,7 +29,7 @@ class LeagueHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         remfixtures=dict([(fixture["name"], fixture)
-                          for fixture in yclite.get_remaining_fixtures(leaguename)])
+                          for fixture in yc_lite.get_remaining_fixtures(leaguename)])
         events=Event.find_all(leaguename, force=True) # NB for update
         count=0
         for event in events:
