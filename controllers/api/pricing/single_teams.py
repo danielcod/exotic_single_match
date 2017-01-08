@@ -1,4 +1,4 @@
-from controllers.api.pricing.positions import *
+from controllers.api.pricing import *
 
 from products.positions.single_teams import SingleTeamsProduct
 
@@ -16,7 +16,7 @@ def cardinal_suffix(i):
     else:
         return "th"
 
-# curl "http://localhost:8080/api/pricing/positions/single_teams/payoff?league=ENG.1"
+# curl "http://localhost:8080/api/pricing/single_teams/payoff?league=ENG.1"
 
 class PayoffHandler(webapp2.RequestHandler):
 
@@ -45,7 +45,7 @@ class PayoffHandler(webapp2.RequestHandler):
         return [{"name": name}
                 for name in names]
 
-# curl -X POST "http://localhost:8080/api/pricing/positions/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/pricing/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
     
 class PriceHandler(webapp2.RequestHandler):
 
@@ -57,7 +57,7 @@ class PriceHandler(webapp2.RequestHandler):
         probability=product.calc_probability(contract)
         return {"decimal_price": format_price(probability)}
 
-Routing=[('/api/pricing/positions/single_teams/payoff', PayoffHandler),
-         ('/api/pricing/positions/single_teams/price', PriceHandler)]
+Routing=[('/api/pricing/single_teams/payoff', PayoffHandler),
+         ('/api/pricing/single_teams/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
