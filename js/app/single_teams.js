@@ -44,7 +44,7 @@ var EESingleTeams={
     initPayoffs: function(leaguename) {
 	$.ajax({
 	    dataType: "json",
-	    url: "/api/quant/positions/single_teams/payoff?league="+leaguename,
+	    url: "/api/pricing/positions/single_teams/payoff?league="+leaguename,
 	    success: function(struct) {
 		var select=$("select[name='payoff']");
 		$(select).find("option").not(":first").remove();
@@ -76,7 +76,7 @@ var EESingleTeams={
 	$("span[name='price']").text("[updating ..]");
 	$.ajax({
 	    type: "POST",
-	    url: "/api/quant/positions/single_teams/price",
+	    url: "/api/pricing/positions/single_teams/price",
 	    data: JSON.stringify(params),
 	    contentType: "application/json",
 	    dataType: "json",
