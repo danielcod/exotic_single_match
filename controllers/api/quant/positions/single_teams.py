@@ -50,8 +50,8 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, req):
-        allteams=fetch_teams(req["league"])
-        allresults=fetch_results(req["league"])
+        allteams=yc_lite.get_teams(req["league"])
+        allresults=yc_lite.get_results(req["league"])
         allfixtures=fetch_fixtures(req["league"])
         expiry=init_expiry_date(allfixtures, req["expiry"])
         fixtures=[fixture for fixture in allfixtures

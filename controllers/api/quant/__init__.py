@@ -6,27 +6,6 @@ Today=datetime.date.today()
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
-def fetch_teams(leaguenames):
-    if not isinstance(leaguenames, list):
-        leaguenames=[leaguenames]
-    teams=[]
-    for leaguename in set(leaguenames):
-        teams+=[{"league": leaguename,
-                 "name": team["name"]}
-                for team in yc_lite.get_teams(leaguename)]
-    return teams
-
-def fetch_results(leaguenames):
-    if not isinstance(leaguenames, list):
-        leaguenames=[leaguenames]
-    results=[]
-    for leaguename in set(leaguenames):
-        results+=[{"league": leaguename,
-                   "name": result["name"],
-                   "score": result["score"]}
-                  for result in yc_lite.get_results(leaguename)]
-    return results
-
 def fetch_fixtures(leaguenames):
     if not isinstance(leaguenames, list):
         leaguenames=[leaguenames]
