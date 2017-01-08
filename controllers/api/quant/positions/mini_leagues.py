@@ -13,24 +13,24 @@ class PayoffHandler(webapp2.RequestHandler):
 
 class PriceHandler(webapp2.RequestHandler):
 
-    def init_env(self, req):
-        selectedteam=filter_selected_team(req["teams"])
+    def init_contract(self, query):
+        selectedteam=filter_selected_team(query["teams"])
         allfixtures=Event.fetch_fixtures([team["league"]
-                                         for team in req["teams"]])
-        expiry=init_expiry_date(allfixtures, req["expiry"])
-        fixtures=filter_fixtures(allfixtures, req["teams"], expiry)
-        index=parse_payoff_index(req["payoff"])
+                                         for team in query["teams"]])
+        expiry=init_expiry_date(allfixtures, query["expiry"])
+        fixtures=filter_fixtures(allfixtures, query["teams"], expiry)
+        index=parse_payoff_index(query["payoff"])
         return {"team": selectedteam,
-                "teams": req["teams"],
+                "teams": query["teams"],
                 "results": [], 
                 "fixtures": fixtures,
                 "index": index}
         
     @parse_json_body
     @emit_json
-    def post(self, req):
-        env=self.init_env(req)
-        probability=calc_probability(env)
+    def post(self, query):
+        contract=self.init_contract(query)
+        probability=calc_probability(contract)
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/quant/positions/mini_leagues/payoff', PayoffHandler),

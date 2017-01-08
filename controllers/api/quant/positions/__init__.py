@@ -37,18 +37,18 @@ def parse_payoff_index(payoff):
     else:
         raise RuntimeError("Payoff not recognised")
 
-def calc_probability(env, paths=Paths, seed=Seed):
-    if env["fixtures"]==[]:
+def calc_probability(contract, paths=Paths, seed=Seed):
+    if contract["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
-    pp=simulator.simulate(env["teams"], env["results"], env["fixtures"],
+    pp=simulator.simulate(contract["teams"], contract["results"], contract["fixtures"],
                           paths, seed)
     """
     this condition is okay because
     - payoffs are always anchored at 0 or -1
     - payoffs are always incrememted atomically (no breaks)
     """
-    ppkey=env["team"]["name"]
-    if len(env["index"]) > len(pp[ppkey]): 
+    ppkey=contract["team"]["name"]
+    if len(contract["index"]) > len(pp[ppkey]): 
         raise RuntimeError("Payoff is invalid")
     return sum([pp[ppkey][i]
-                for i in env["index"]])
+                for i in contract["index"]])

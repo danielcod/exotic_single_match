@@ -33,17 +33,17 @@ class PayoffHandler(webapp2.RequestHandler):
     
 class PriceHandler(webapp2.RequestHandler):
 
-    def init_env(self, req):
-        team={"league": req["league"],
-              "name": req["team"]}
-        allteams=yc_lite.get_teams(req["league"])
-        allresults=yc_lite.get_results(req["league"])
-        allfixtures=Event.fetch_fixtures(req["league"])
-        expiry=init_expiry_date(allfixtures, req["expiry"])
+    def init_contract(self, query):
+        team={"league": query["league"],
+              "name": query["team"]}
+        allteams=yc_lite.get_teams(query["league"])
+        allresults=yc_lite.get_results(query["league"])
+        allfixtures=Event.fetch_fixtures(query["league"])
+        expiry=init_expiry_date(allfixtures, query["expiry"])
         fixtures=[fixture for fixture in allfixtures
                   if (fixture["date"] > Today and
                       fixture["date"] <= expiry)]
-        index=parse_payoff_index(req["payoff"])
+        index=parse_payoff_index(query["payoff"])
         return {"team": team,
                 "teams": allteams,
                 "results": allresults,
@@ -52,9 +52,9 @@ class PriceHandler(webapp2.RequestHandler):
     
     @parse_json_body
     @emit_json
-    def post(self, req):
-        env=self.init_env(req)
-        probability=calc_probability(env)
+    def post(self, query):
+        contract=self.init_contract(query)
+        probability=calc_probability(contract)
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/quant/positions/single_teams/payoff', PayoffHandler),
