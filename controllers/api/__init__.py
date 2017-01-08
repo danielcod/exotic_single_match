@@ -6,8 +6,6 @@ from helpers.json_helpers import *
 
 MemcacheAge=60*60 # keep it long to avoid calling DB att the time
 
-EOS="EOS"
-
 def render_json(self, struct):
     self.response.set_status(200)
     self.response.headers['Content-Type']='application/json'

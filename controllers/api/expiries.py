@@ -17,6 +17,8 @@ Months=yaml.load("""
 - December
 """)
 
+EOS="EOS"
+
 ShortMonths=[month[:3]
              for month in Months]
 

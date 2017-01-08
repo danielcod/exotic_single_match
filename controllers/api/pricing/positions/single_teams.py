@@ -1,5 +1,7 @@
 from controllers.api.pricing.positions import *
 
+from products.positions.single_teams import SingleTeamsProduct
+
 # curl "http://localhost:8080/api/pricing/positions/single_teams/payoff?league=ENG.1"
 
 class PayoffHandler(webapp2.RequestHandler):
@@ -29,29 +31,6 @@ class PayoffHandler(webapp2.RequestHandler):
         return [{"name": name}
                 for name in names]
 
-class SingleTeamsProduct:
-
-    def init_contract(self, query):
-        team={"league": query["league"],
-              "name": query["team"]}
-        allteams=yc_lite.get_teams(query["league"])
-        allresults=yc_lite.get_results(query["league"])
-        allfixtures=Event.fetch_fixtures(query["league"])
-        expiry=init_expiry_date(allfixtures, query["expiry"])
-        fixtures=[fixture for fixture in allfixtures
-                  if (fixture["date"] > Today and
-                      fixture["date"] <= expiry)]
-        index=parse_payoff_index(query["payoff"])
-        return {"team": team,
-                "teams": allteams,
-                "results": allresults,
-                "fixtures": fixtures,
-                "index": index}        
-    
-    def calc_price(self, contract):
-        probability=calc_probability(contract)
-        return {"decimal_price": format_price(probability)}
-            
 # curl -X POST "http://localhost:8080/api/pricing/positions/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
     
 class PriceHandler(webapp2.RequestHandler):
