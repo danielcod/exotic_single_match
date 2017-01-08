@@ -1,7 +1,5 @@
 from controllers.api import *
 
-import apis.yc_lite_api as yc_lite
-
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
 def format_price(probability):

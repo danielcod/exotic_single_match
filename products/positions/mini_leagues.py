@@ -2,6 +2,9 @@ from products.positions import *
 
 class MiniLeaguesProduct:
 
+    def validate_query(self, query):
+        pass
+    
     def filter_selected_team(self, teams):
         for team in teams:
             if ("selected" in team and
@@ -21,6 +24,6 @@ class MiniLeaguesProduct:
                 "fixtures": fixtures,
                 "index": index}
         
-    def calc_probability(self, contract):
+    def price_contract(self, contract):
         return calc_positional_probability(contract)
         

@@ -19,8 +19,9 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, query):
         product=MiniLeaguesProduct()
+        product.validate_query(query)
         contract=product.init_contract(query)
-        probability=product.calc_probability(contract)
+        probability=product.price_contract(contract)
         return {"decimal_price": format_price(probability)}
         
 Routing=[('/api/pricing/mini_leagues/payoff', PayoffHandler),

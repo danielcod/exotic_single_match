@@ -4,6 +4,32 @@ import quant.simulator as simulator
 
 Paths, Seed = 1000, 13
 
+"""
+- max 24 teams per league
+"""
+
+def cardinal_suffix(i):
+    if i in [1, 21]:
+        return "st"
+    elif i in [2, 22]:
+        return "nd"
+    elif i in [3, 23]:
+        return "rd"
+    else:
+        return "th"
+
+def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
+    teamnames=[team["name"]
+               for team in teams]
+    def filterfn(fixtures):
+        matchteamnames=fixtures["name"].split(" vs ")
+        return ((matchteamnames[0] in teamnames or
+                 matchteamnames[1] in teamnames) and
+                fixture["date"] > startdate and
+                fixture["date"] <= expirydate)
+    return [fixture for fixture in fixtures
+            if filterfn(fixture)]
+    
 def parse_payoff_index(payoff):
     if payoff=="Winner":
         return [0]
