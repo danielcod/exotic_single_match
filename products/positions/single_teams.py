@@ -3,7 +3,7 @@ from products.positions import *
 class SingleTeamsProduct:
 
     def payoff_names(self, leaguename):
-        teams=yc_lite.get_teams(leaguename)
+        teams=fetch_teams(leaguename)
         names=[]
         names.append("Winner")
         for i in range(2, 1+len(teams)/2):
@@ -21,16 +21,16 @@ class SingleTeamsProduct:
     def init_contract(self, query):
         team={"league": query["league"],
               "name": query["team"]}
-        allteams=yc_lite.get_teams(query["league"])
-        allresults=yc_lite.get_results(query["league"])
-        allfixtures=Event.fetch_fixtures(query["league"])
-        fixtures=[fixture for fixture in allfixtures
+        teams=fetch_teams(query["league"])
+        results=fetch_results(query["league"])
+        fixtures=[fixture
+                  for fixture in fetch_fixtures(query["league"])
                   if (fixture["date"] > Today and
                       fixture["date"] <= query["expiry"])]
         index=parse_payoff_index(query["payoff"])
         return {"team": team,
-                "teams": allteams,
-                "results": allresults,
+                "teams": teams,
+                "results": results,
                 "fixtures": fixtures,
                 "index": index}        
     
