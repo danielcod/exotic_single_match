@@ -114,6 +114,8 @@ var EESingleTeams={
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
+	    } else {
+		$("span[name='price']").text("[...]");
 	    };
 	});
 	// bind payoffs
@@ -122,6 +124,8 @@ var EESingleTeams={
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
+	    } else {
+		$("span[name='price']").text("[...]");
 	    };
 	});
 	// bind expiries
@@ -130,7 +134,9 @@ var EESingleTeams={
 	    if (EESingleTeams.isFormComplete()) {
 		var params=EESingleTeams.serialiseForm();
 		EESingleTeams.updatePrice(params);
-	    };
+	    } else {
+		$("span[name='price']").text("[...]");
+	    }
 	});
 	// init leagues
 	this.initLeagues();
