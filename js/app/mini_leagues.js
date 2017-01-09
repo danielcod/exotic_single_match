@@ -78,14 +78,27 @@ var EEMiniLeagues={
 	this.bindTeam(row);
 	this.initLeagues(row);	
     },
+    bindVersusRow: function(row) {
+	this.bindRow(row);
+	$(row).find("button[name='add']").click(function() {
+	    console.log("add");
+	});
+	$(row).find("button[name='delete']").click(function() {
+	    console.log("delete");
+	});
+    },
     bind: function() {
 	// init your team
-	this.bindRow($("table[name='your_team'] tbody tr:first"));	
+	var yourTeamRow=$("table[name='your_team'] tbody tr:first");
+	this.bindRow(yourTeamRow);
 	// init payoffs
 	$("select[name='payoff']").change(function() {
 	    console.log("payoffs")
 	});
 	this.initPayoffs();
+	// init versus[0]
+	var versusRow=$("table[name='versus'] tbody tr:first");
+	this.bindVersusRow(versusRow);
 	// bind expiries
 	$("select[name='expiry']").change(function() {
 	    console.log("expiries")
