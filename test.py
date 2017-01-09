@@ -20,7 +20,6 @@ Items=yaml.load("""
       payoff: Winner
       expiry: "2017-03-01"
 # << mini leagues >>
-- path: "/api/pricing/mini_leagues/payoff"
 - path: "/api/pricing/mini_leagues/price"
   data:
     product: mini_leagues
