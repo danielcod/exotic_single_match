@@ -40,34 +40,99 @@
       <!-- page title -->
       <h2 class="text-center">Mini Leagues</h2>
       <!-- indicative price -->
-      <h3 style="color:#888;margin-bottom:20px;" class="text-center">Your Price: <span name="price">[...]</span></h3>
-      <!-- sample form -->
+      <h3 style="color:#888;margin-bottom:20px;" class="text-center"><i>Your Price: <span name="price">[...]</span></i></h3>
+      <!-- form -->
       <div style="margin-bottom:20px;">
+	<!-- your team -->
 	<div class="row">
 	  <div class="col-xs-3">
 	  </div>
 	  <div class="col-xs-6">
+	    <label>Your Team</label>
+	    <table class="table table-condensed">
+	      <tbody>
+		<tr>
+		  <td>
+		    <select class="form-control" name="league">
+		      <option value="" disabled selected>Select League</option>
+		    </select>
+		  </td>
+		  <td>
+		    <select class="form-control" name="team">
+		      <option value="" disabled selected>Select Team</option>
+		    </select>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	  <div class="col-xs-3">
+	  </div>
+	</div>
+	<!-- payoff -->
+	<div class="row">
+	  <div class="col-xs-4">
+	  </div>
+	  <div class="col-xs-4">
+	    <label>Payoff</label>
 	    <div class="form-group">
-	      <label>League</label>
-	      <select class="form-control" name="league">
-	      <option value="" disabled selected>Select</option>
-	      </select>
-	    </div>
-	    <div class="form-group">
-	      <label>Team</label>
-	      <select class="form-control" name="team">
+	      <select class="form-control" name="payoff">
 		<option value="" disabled selected>Select</option>
 	      </select>
 	    </div>
+	  </div>
+	  <div class="col-xs-4">
+	  </div>	  
+	</div>
+	<!-- versus -->	
+
+	<div class="row">
+	  <div class="col-xs-2">
+	  </div>
+	  <div class="col-xs-8">
+	    <label>Versus</label>
+	    <table class="table table-condensed">
+	      <tbody>
+		<tr>
+		  <td>
+		    <select class="form-control">
+		      <option value="" disabled selected>Select League</option>
+		    </select>
+		  </td>
+		  <td>
+		    <select class="form-control">
+		      <option value="" disabled selected>Select Team</option>
+		    </select>
+		  </td>
+		  <td>
+		    <button type="button" class="btn btn-secondary">
+		      <span class="glyphicon glyphicon-plus"></span>
+		    </button>
+		    <button type="button" class="btn btn-secondary">
+		      <span class="glyphicon glyphicon-remove"></span>
+		    </button>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	  <div class="col-xs-2">
+	  </div>
+	</div>
+	<!-- expiry -->
+	<div class="row">
+	  <div class="col-xs-4">
+	  </div>
+	  <div class="col-xs-4">
+	    <label>Expiry</label>
 	    <div class="form-group">
-	      <label>Expiry</label>
 	      <select class="form-control" name="expiry">
 		<option value="" disabled selected>Select</option>
 	      </select>
 	    </div>
 	  </div>
-	  <div class="col-xs-3">
-	  </div>
+	  <div class="col-xs-4">
+	  </div>	  
 	</div>
       </div>
       <!-- buttons -->
