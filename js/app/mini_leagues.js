@@ -101,6 +101,21 @@ var EEMiniLeagues={
 		"payoff": payoff,
 		"expiry": expiry};
     },
+    updatePrice: function(params) {
+	$("span[name='price']").text("[updating ..]");
+	var struct={"product": "mini_leagues",
+		    "query": params};
+	$.ajax({
+	    type: "POST",
+	    url: "/api/pricing",
+	    data: JSON.stringify(struct),
+	    contentType: "application/json",
+	    dataType: "json",
+	    success: function(struct) {
+		$("span[name='price']").text(struct["decimal_price"])
+	    }
+	});
+    },
     bindLeague: function(row) {
 	$(row).find("select[name='league']").change(function() {
 	    var leaguename=$(this).find("option:selected").val();
@@ -113,7 +128,8 @@ var EEMiniLeagues={
 	$(row).find("select[name='team']").change(function() {
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
-		console.log(JSON.stringify(struct));
+		// console.log(JSON.stringify(struct));
+		EEMiniLeagues.updatePrice(struct);
 	    } else {
 		$("span[name='price']").text("[...]");
 	    };
@@ -132,7 +148,8 @@ var EEMiniLeagues={
 	$("select[name='payoff']").change(function() {
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
-		console.log(JSON.stringify(struct));
+		// console.log(JSON.stringify(struct));
+		EEMiniLeagues.updatePrice(struct);
 	    } else {
 		$("span[name='price']").text("[...]");
 	    };
@@ -145,7 +162,8 @@ var EEMiniLeagues={
 	$("select[name='expiry']").change(function() {
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
-		console.log(JSON.stringify(struct));
+		// console.log(JSON.stringify(struct));
+		EEMiniLeagues.updatePrice(struct);
 	    } else {
 		$("span[name='price']").text("[...]");
 	    };
