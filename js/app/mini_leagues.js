@@ -59,6 +59,48 @@ var EEMiniLeagues={
 	    }
 	});
     },
+    isFormComplete: function() {
+	var league0=$("table[name='your_team']").find("select[name='league'] option:selected").val();
+	if (league0=='') {
+	    return false;
+	};
+	var team0=$("table[name='your_team']").find("select[name='team'] option:selected").val();
+	if (team0=='') {
+	    return false;
+	};
+	var payoff=$("select[name='payoff'] option:selected").val();
+	if (payoff=='') {
+	    return false;
+	};
+	var league1=$("table[name='versus']").find("select[name='league'] option:selected").val();
+	if (league1=='') {
+	    return false;
+	};
+	var team1=$("table[name='versus']").find("select[name='team'] option:selected").val();
+	if (team1=='') {
+	    return false;
+	};
+	var expiry=$("select[name='expiry'] option:selected").val();
+	if (expiry=='') {
+	    return false;
+	};
+	return true;
+    },
+    serialiseForm: function() {
+	var league0=$("table[name='your_team']").find("select[name='league'] option:selected").val();
+	var team0=$("table[name='your_team']").find("select[name='team'] option:selected").val();
+	var league1=$("table[name='versus']").find("select[name='league'] option:selected").val();
+	var team1=$("table[name='versus']").find("select[name='team'] option:selected").val();
+	var payoff=$("select[name='payoff'] option:selected").val();
+	var expiry=$("select[name='expiry'] option:selected").val();
+	return {"teams": [{"league": league0,
+			   "name": team0,
+			   "selected": true},
+			  {"league": league1,
+			   "name": team1}],
+		"payoff": payoff,
+		"expiry": expiry};
+    },
     bindLeague: function(row) {
 	$(row).find("select[name='league']").change(function() {
 	    var leaguename=$(this).find("option:selected").val();
@@ -69,8 +111,12 @@ var EEMiniLeagues={
     },
     bindTeam: function(row) {
 	$(row).find("select[name='team']").change(function() {
-	    var teamname=$(this).find("option:selected").val();
-	    console.log(teamname);
+	    if (EEMiniLeagues.isFormComplete()) {
+		var struct=EEMiniLeagues.serialiseForm();
+		console.log(JSON.stringify(struct));
+	    } else {
+		$("span[name='price']").text("[...]");
+	    };
 	});
     },
     bindRow: function(row) {
@@ -78,30 +124,31 @@ var EEMiniLeagues={
 	this.bindTeam(row);
 	this.initLeagues(row);	
     },
-    bindVersusRow: function(row) {
-	this.bindRow(row);
-	$(row).find("button[name='add']").click(function() {
-	    console.log("add");
-	});
-	$(row).find("button[name='delete']").click(function() {
-	    console.log("delete");
-	});
-    },
     bind: function() {
 	// init your team
 	var yourTeamRow=$("table[name='your_team'] tbody tr:first");
 	this.bindRow(yourTeamRow);
 	// init payoffs
 	$("select[name='payoff']").change(function() {
-	    console.log("payoffs")
+	    if (EEMiniLeagues.isFormComplete()) {
+		var struct=EEMiniLeagues.serialiseForm();
+		console.log(JSON.stringify(struct));
+	    } else {
+		$("span[name='price']").text("[...]");
+	    };
 	});
 	this.initPayoffs();
 	// init versus[0]
 	var versusRow=$("table[name='versus'] tbody tr:first");
-	this.bindVersusRow(versusRow);
+	this.bindRow(versusRow);
 	// bind expiries
 	$("select[name='expiry']").change(function() {
-	    console.log("expiries")
+	    if (EEMiniLeagues.isFormComplete()) {
+		var struct=EEMiniLeagues.serialiseForm();
+		console.log(JSON.stringify(struct));
+	    } else {
+		$("span[name='price']").text("[...]");
+	    };
 	});
 	this.initExpiries();
     }
