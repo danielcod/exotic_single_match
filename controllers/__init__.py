@@ -6,14 +6,6 @@ from helpers.json_helpers import *
 
 import datetime, logging, re, webapp2, yaml
 
-def render_text(self, msg):
-    self.response.set_status(200)
-    self.response.headers['Content-Type']='text/plain' 
-    self.response.out.write(msg)
-
-def render_ok(self):
-    render_text(self, "ok")
-
 def render_error(self, msg):
     self.response.set_status(400)
     self.response.headers['Content-Type']='text/plain' 
@@ -30,16 +22,6 @@ def render_template(self, path, tv):
     self.response.headers['Content-Type']='text/html' 
     self.response.out.write(template.render(path, tv))
 
-def render_html(self, doctext):
-    self.response.set_status(200)
-    self.response.headers['Content-Type']='text/html' 
-    self.response.out.write(doctext)
-
-def render_json(self, struct):
-    self.response.set_status(200)
-    self.response.headers['Content-Type']='application/json'
-    self.response.out.write(json_dumps(struct))
-    
 def validate_query(config):
     def wrap(fn):
         def wrapped_fn(self, *args, **kwargs):
