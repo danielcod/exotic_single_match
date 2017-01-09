@@ -44,9 +44,24 @@ var EEMiniLeagues={
 	    }
 	});
     },
+    initPayoffs: function(leaguename) {
+	$.ajax({
+	    dataType: "json",
+	    url: "/site/mini_leagues/payoff?league="+leaguename,
+	    success: function(struct) {
+		var select=$("select[name='payoff']");
+		$(select).find("option").not(":first").remove();
+		$(select).find("option:first").prop("disabled", false).prop("selected", true);
+		$.each(struct, function(i, payoff) {
+		    var option=$("<option>").prop("value", payoff["name"]).text(payoff["name"]);
+		    $(select).append(option);
+		});
+	    }
+	});
+    },
     isFormComplete: function() {
 	var complete=true;
-	$.each(["league", "team", "expiry"], function(i, attr) {
+	$.each(["league", "team", "payoff", "expiry"], function(i, attr) {
 	    var value=$("select[name='"+attr+"'] option:selected").val();
 	    if (value=='') {
 		complete=false;
@@ -56,8 +71,7 @@ var EEMiniLeagues={
     },
     serialiseForm: function() {
 	var params={};
-	params["payoff"]="Winner"; // NB
-	$.each(["league", "team", "expiry"], function(i, attr) {
+	$.each(["league", "team", "payoff", "expiry"], function(i, attr) {
 	    params[attr]=$("select[name='"+attr+"'] option:selected").val();
 	});
 	return params;
@@ -86,14 +100,24 @@ var EEMiniLeagues={
 	$("select[name='league']").change(function() {
 	    $("span[name='price']").text("[...]");
 	    $("select[name='team'] option").not(":first").remove();
+	    $("select[name='payoff'] option").not(":first").remove();
 	    $(this).find("option:first").prop("disabled", true);
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
 		EEMiniLeagues.initTeams(leaguename);
+		EEMiniLeagues.initPayoffs(leaguename);
 	    };
 	});
 	// bind teams
 	$("select[name='team']").change(function() {
+	    $(this).find("option:first").prop("disabled", true);
+	    if (EEMiniLeagues.isFormComplete()) {
+		var params=EEMiniLeagues.serialiseForm();
+		EEMiniLeagues.updatePrice(params);
+	    };
+	});
+	// bind payoffs
+	$("select[name='payoff']").change(function() {
 	    $(this).find("option:first").prop("disabled", true);
 	    if (EEMiniLeagues.isFormComplete()) {
 		var params=EEMiniLeagues.serialiseForm();
