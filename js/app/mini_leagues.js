@@ -118,6 +118,9 @@ var EEMiniLeagues={
     },
     bindLeague: function(row) {
 	$(row).find("select[name='league']").change(function() {
+	    $("span[name='price']").text("[...]");
+	    $(row).find("select[name='team'] option").not(":first").remove();
+	    $(this).find("option:first").prop("disabled", true);
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
 		EEMiniLeagues.initTeams(row, leaguename);
@@ -126,6 +129,7 @@ var EEMiniLeagues={
     },
     bindTeam: function(row) {
 	$(row).find("select[name='team']").change(function() {
+	    $(this).find("option:first").prop("disabled", true);
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
 		// console.log(JSON.stringify(struct));
@@ -146,6 +150,7 @@ var EEMiniLeagues={
 	this.bindRow(yourTeamRow);
 	// init payoffs
 	$("select[name='payoff']").change(function() {
+	    $(this).find("option:first").prop("disabled", true);
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
 		// console.log(JSON.stringify(struct));
@@ -160,6 +165,7 @@ var EEMiniLeagues={
 	this.bindRow(versusRow);
 	// bind expiries
 	$("select[name='expiry']").change(function() {
+	    $(this).find("option:first").prop("disabled", true);
 	    if (EEMiniLeagues.isFormComplete()) {
 		var struct=EEMiniLeagues.serialiseForm();
 		// console.log(JSON.stringify(struct));
