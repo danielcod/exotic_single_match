@@ -60,7 +60,6 @@ var EEMiniLeagues={
 	});
     },
     bindLeague: function(row) {
-	// bind leagues
 	$(row).find("select[name='league']").change(function() {
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
@@ -68,6 +67,17 @@ var EEMiniLeagues={
 		EEMiniLeagues.initPayoffs(leaguename);
 	    };
 	});
+    },
+    bindTeam: function(row) {
+	$(row).find("select[name='team']").change(function() {
+	    var teamname=$(this).find("option:selected").val();
+	    console.log(teamname);
+	});
+    },
+    bindRow: function(row) {
+	this.bindLeague(row);
+	this.bindTeam(row);
+	this.initLeagues(row);	
     },
     bind: function() {
 	// bind payoffs
@@ -80,8 +90,7 @@ var EEMiniLeagues={
 	});
 	// init leagues
 	var row=$("table[name='your_team'] tbody tr:first");
-	this.initLeagues(row);
-	this.bindLeague(row);
+	this.bindRow(row);
 	// init expiries
 	this.initExpiries();
     }
