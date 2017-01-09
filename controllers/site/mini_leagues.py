@@ -2,10 +2,8 @@ from controllers.site import *
 
 class PayoffHandler(webapp2.RequestHandler):
 
-    @validate_query({'league': '\\D{3}\\.\\d'})
     @emit_json
     def get(self):
-        leaguename=self.request.get("league") # ignored
         return [{"name": name}
                 for name in ["Winner", "Bottom"]]
 

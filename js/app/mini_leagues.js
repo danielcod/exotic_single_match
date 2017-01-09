@@ -44,10 +44,10 @@ var EEMiniLeagues={
 	    }
 	});
     },
-    initPayoffs: function(leaguename) {
+    initPayoffs: function() {
 	$.ajax({
 	    dataType: "json",
-	    url: "/site/mini_leagues/payoff?league="+leaguename,
+	    url: "/site/mini_leagues/payoff",
 	    success: function(struct) {
 		var select=$("select[name='payoff']");
 		$(select).find("option").not(":first").remove();
@@ -64,7 +64,6 @@ var EEMiniLeagues={
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
 		EEMiniLeagues.initTeams(row, leaguename);
-		EEMiniLeagues.initPayoffs(leaguename);
 	    };
 	});
     },
@@ -80,18 +79,17 @@ var EEMiniLeagues={
 	this.initLeagues(row);	
     },
     bind: function() {
-	// bind payoffs
+	// init your team
+	this.bindRow($("table[name='your_team'] tbody tr:first"));	
+	// init payoffs
 	$("select[name='payoff']").change(function() {
 	    console.log("payoffs")
 	});
+	this.initPayoffs();
 	// bind expiries
 	$("select[name='expiry']").change(function() {
 	    console.log("expiries")
 	});
-	// init leagues
-	var row=$("table[name='your_team'] tbody tr:first");
-	this.bindRow(row);
-	// init expiries
 	this.initExpiries();
     }
 };
