@@ -87,11 +87,7 @@ var EESingleTeams={
 	    contentType: "application/json",
 	    dataType: "json",
 	    success: function(struct) {
-		if (struct["decimal_price"]==null) {
-		    $("span[name='price']").text("[no price; sorry]");
-		} else {
-		    $("span[name='price']").text(struct["decimal_price"])
-		};
+		$("span[name='price']").text(struct["decimal_price"])
 	    }
 	});
     },
