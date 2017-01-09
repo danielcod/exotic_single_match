@@ -2,6 +2,14 @@ from controllers.api import *
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
+from products.positions.single_teams import SingleTeamsProduct
+from products.positions.mini_leagues import MiniLeaguesProduct
+
+Products={
+    "single_teams": SingleTeamsProduct,
+    "mini_leagues": MiniLeaguesProduct
+}
+
 def format_price(probability):
     if probability < MinProb:
         price=MaxPrice
@@ -16,3 +24,17 @@ def format_price(probability):
     else:
         return "%.1f" % price
 
+class PriceHandler(webapp2.RequestHandler):
+
+    @parse_json_body
+    @emit_json
+    def post(self, struct):
+        productname, query = struct["product"], struct["query"]
+        if productname not in Products:
+            raise RuntimeError("Product not found")
+        product=Products[productname]()
+        product.validate_query(query)
+        contract=product.init_contract(query)
+        probability=product.price_contract(contract)
+        return {"decimal_price": format_price(probability)}
+        
