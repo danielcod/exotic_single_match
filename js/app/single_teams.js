@@ -78,10 +78,11 @@ var EESingleTeams={
     },
     updatePrice: function(params) {
 	$("span[name='price']").text("[updating ..]");
+	var struct={"query": params};
 	$.ajax({
 	    type: "POST",
 	    url: "/api/pricing/single_teams/price",
-	    data: JSON.stringify(params),
+	    data: JSON.stringify(struct),
 	    contentType: "application/json",
 	    dataType: "json",
 	    success: function(struct) {

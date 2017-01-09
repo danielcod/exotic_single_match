@@ -14,13 +14,14 @@ class PayoffHandler(webapp2.RequestHandler):
         return [{"name": name}
                 for name in product.payoff_names(leaguename)]
 
-# curl -X POST "http://localhost:8080/api/pricing/single_teams/price" -d "{\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}"
+# curl -X POST "http://localhost:8080/api/pricing/single_teams/price" -d "{\"query\": {\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}}"
     
 class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
     @emit_json
-    def post(self, query):
+    def post(self, struct):
+        query=struct["query"]
         product=SingleTeamsProduct()
         product.validate_query(query)
         contract=product.init_contract(query)

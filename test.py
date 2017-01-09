@@ -13,24 +13,26 @@ Items=yaml.load("""
 - path: "/api/pricing/single_teams/payoff?league=ENG.1"
 - path: "/api/pricing/single_teams/price"
   data: 
-    league: ENG.1
-    team: Chelsea
-    payoff: Winner
-    expiry: "2017-03-01"
+    query:
+      league: ENG.1
+      team: Chelsea
+      payoff: Winner
+      expiry: "2017-03-01"
 # << mini leagues >>
 - path: "/api/pricing/mini_leagues/payoff"
 - path: "/api/pricing/mini_leagues/price"
-  data: 
-    teams:
-    - league: ENG.1
-      name: "Arsenal"
-      selected: true
-    - league: SPA.1
-      name: "Celta Vigo"
-    - league: GER.1
-      name: "Borussia Dortmund"
-    payoff: Winner
-    expiry: "2017-03-01"
+  data:
+    query: 
+      teams:
+      - league: ENG.1
+        name: "Arsenal"
+        selected: true
+      - league: SPA.1
+        name: "Celta Vigo"
+      - league: GER.1
+        name: "Borussia Dortmund"
+      payoff: Winner
+      expiry: "2017-03-01"
 """)
 
 if __name__=="__main__":
