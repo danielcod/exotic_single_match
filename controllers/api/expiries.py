@@ -17,16 +17,16 @@ Months=yaml.load("""
 - December
 """)
 
-EOS=datetime.date(2017, 7, 1)
+EOS=datetime.date(2017, 7, 1) # replace hardcode
 
 ShortMonths=[month[:3]
              for month in Months]
 
-def add_months(sourcedate,months):
-     month=sourcedate.month-1+months
-     year=int(sourcedate.year+month/12)
+def add_months(date, months):
+     month=date.month-1+months
+     year=int(date.year+month/12)
      month=1+month % 12
-     day=min(sourcedate.day, calendar.monthrange(year, month)[1])
+     day=min(date.day, calendar.monthrange(year, month)[1])
      return datetime.date(year, month, day)
 
 # curl "http://localhost:8080/api/expiries"

@@ -30,7 +30,7 @@ class LeagueHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         remfixtures=dict([(fixture["name"], fixture)
                           for fixture in yc_lite.get_remaining_fixtures(leaguename)])
-        events=Event.find_all(leaguename, force=True) # NB for update
+        events=Fixture.find_all(leaguename, force=True) # NB for update
         count=0
         for event in events:
             if event.name not in remfixtures:

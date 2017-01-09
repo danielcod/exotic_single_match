@@ -45,10 +45,8 @@ class LeagueHandler(webapp2.RequestHandler):
         for fixture in fixtures:
             fixture["league"]=leaguename
             fixture["name"]=matched[fixture["name"]]["value"]
-            fixture["source"]=BBC
-            fixture["key_name"]="%s/%s/%s" % (fixture["league"],
-                                              fixture["name"],
-                                              fixture["source"])
+            fixture["key_name"]="%s/%s" % (fixture["league"],
+                                           fixture["name"])
 
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task
@@ -68,7 +66,7 @@ class LeagueHandler(webapp2.RequestHandler):
         fixtures=[fixture for fixture in fixtures
                 if fixture["name"] in resp["matched"]]
         self.update_fixtures(leaguename, fixtures, resp["matched"])
-        [Event(**fixture).put() 
+        [Fixture(**fixture).put() 
          for fixture in fixtures]
         logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
 

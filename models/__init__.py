@@ -61,29 +61,16 @@ def to_json(self, fields=[], extras=[]):
 
 db.Model.to_json=to_json # ** NB **
 
-class Event(db.Model):
+class Fixture(db.Model):
 
-    source=db.StringProperty()
     league=db.StringProperty()
     name=db.StringProperty() # "A vs B"
     date=db.DateProperty()
     yc_probabilities=db.ListProperty(item_type=float)
   
     @classmethod
-    def key_name(self, params):
-        return "%s/%s/%s" % (params["source"],
-                             params["league"], 
-                             params["name"])
-
-    """
-    - status not referenced here
-    - use kickoff to filter fixtures
-    - an event with status==Fixture still has useful 1x2 prices for a results / training set request
-    """
-
-    @classmethod
     def find_all(self, leaguename, cutoff=None, force=False):
-        query=Event.all()
+        query=Fixture.all()
         query.filter("league = ", leaguename)
         if cutoff:
             query.filter("kickoff > ", cutoff)
@@ -91,5 +78,5 @@ class Event(db.Model):
             return fetch_models_db(query)
         else:
             memkey="events/%s/%s" % (leaguename, cutoff)
-            return fetch_models_memcache(Event, memkey, query)
+            return fetch_models_memcache(Fixture, memkey, query)
 

@@ -39,7 +39,7 @@ def fetch_fixtures(leaguenames):
                     "date": fixture["date"],
                     "probabilities": fixture["yc_probabilities"]}
                    for fixture in [fixture.to_json()
-                                   for fixture in Event.find_all(leaguename)]]
+                                   for fixture in Fixture.find_all(leaguename)]]
     return fixtures
 
 
