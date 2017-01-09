@@ -35,11 +35,11 @@ def render_html(self, doctext):
     self.response.headers['Content-Type']='text/html' 
     self.response.out.write(doctext)
 
-def render_audio(self, stuff):
+def render_json(self, struct):
     self.response.set_status(200)
-    self.response.headers['Content-Type']='audio/mp3' 
-    self.response.out.write(stuff)
-
+    self.response.headers['Content-Type']='application/json'
+    self.response.out.write(json_dumps(struct))
+    
 def validate_query(config):
     def wrap(fn):
         def wrapped_fn(self, *args, **kwargs):
@@ -58,3 +58,12 @@ def validate_query(config):
                 render_error(self, error)
         return wrapped_fn
     return wrap
+
+def emit_json(fn):
+    def wrapped_fn(self, *args, **kwargs):
+        try:    
+            struct=fn(self, *args, **kwargs)
+            render_json(self, struct)
+        except RuntimeError, error:  
+            render_error(self, error)
+    return wrapped_fn

@@ -10,7 +10,6 @@ Items=yaml.load("""
 - path: "/api/expiries"
 - path: "/api/teams?league=ENG.1"
 # << single teams >>
-- path: "/api/pricing/single_teams/payoff?league=ENG.1"
 - path: "/api/pricing/single_teams/price"
   data: 
     product: single_teams

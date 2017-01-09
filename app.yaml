@@ -30,7 +30,7 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # SITE
-- url: /demo/single_teams
+- url: /demo/single_teams.*
   script: controllers.demo.single_teams.app
 # API
 - url: /api/expiries.*
