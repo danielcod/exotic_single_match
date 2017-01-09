@@ -37,10 +37,6 @@ handlers:
   script: controllers.api.expiries.app
 - url: /api/leagues.*
   script: controllers.api.leagues.app
-- url: /api/pricing/mini_leagues.*
-  script: controllers.api.pricing.mini_leagues.app
-- url: /api/pricing/single_teams.*
-  script: controllers.api.pricing.single_teams.app
 - url: /api/pricing.*
   script: controllers.api.pricing.app
 - url: /api/teams.*

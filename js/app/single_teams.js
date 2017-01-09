@@ -82,7 +82,7 @@ var EESingleTeams={
 		    "query": params};
 	$.ajax({
 	    type: "POST",
-	    url: "/api/pricing/single_teams/price",
+	    url: "/api/pricing",
 	    data: JSON.stringify(struct),
 	    contentType: "application/json",
 	    dataType: "json",

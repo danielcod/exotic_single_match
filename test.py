@@ -10,7 +10,7 @@ Items=yaml.load("""
 - path: "/api/expiries"
 - path: "/api/teams?league=ENG.1"
 # << single teams >>
-- path: "/api/pricing/single_teams/price"
+- path: "/api/pricing"
   data: 
     product: single_teams
     query:
@@ -19,7 +19,7 @@ Items=yaml.load("""
       payoff: Winner
       expiry: "2017-03-01"
 # << mini leagues >>
-- path: "/api/pricing/mini_leagues/price"
+- path: "/api/pricing"
   data:
     product: mini_leagues
     query: 
