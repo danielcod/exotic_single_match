@@ -30,8 +30,8 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # SITE
-- url: /demo/single_teams.*
-  script: controllers.demo.single_teams.app
+- url: /site/single_teams.*
+  script: controllers.site.single_teams.app
 # API
 - url: /api/expiries.*
   script: controllers.api.expiries.app
@@ -48,4 +48,4 @@ handlers:
   script: tasks.yc_probabilities.app
 # DEFAULT
 - url: /.*
-  script: controllers.demo.root.app
+  script: controllers.site.root.app

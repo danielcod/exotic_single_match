@@ -1,9 +1,9 @@
-from controllers.demo import *
+from controllers.site import *
 
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        self.redirect("/demo/single_teams")
+        self.redirect("/site/single_teams")
 
 Routing=[('/.*', IndexHandler)]
 

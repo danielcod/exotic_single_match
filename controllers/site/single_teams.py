@@ -1,4 +1,4 @@
-from controllers.demo import *
+from controllers.site import *
 
 from products.positions.single_teams import SingleTeamsProduct
 
@@ -15,10 +15,10 @@ class PayoffHandler(webapp2.RequestHandler):
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        render_template(self, "templates/demo/single_teams.html", {})
+        render_template(self, "templates/site/single_teams.html", {})
 
-Routing=[('/demo/single_teams/payoff', PayoffHandler),
-         ('/demo/single_teams', IndexHandler)]
+Routing=[('/site/single_teams/payoff', PayoffHandler),
+         ('/site/single_teams', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

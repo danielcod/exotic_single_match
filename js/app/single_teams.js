@@ -47,7 +47,7 @@ var EESingleTeams={
     initPayoffs: function(leaguename) {
 	$.ajax({
 	    dataType: "json",
-	    url: "/demo/single_teams/payoff?league="+leaguename,
+	    url: "/site/single_teams/payoff?league="+leaguename,
 	    success: function(struct) {
 		var select=$("select[name='payoff']");
 		$(select).find("option").not(":first").remove();
