@@ -1,10 +1,10 @@
 var EEMiniLeagues={
-    initLeagues: function() {
+    initLeagues: function(row) {
 	$.ajax({
 	    dataType: "json",
 	    url: "/api/leagues",
 	    success: function(struct) {
-		var select=$("select[name='league']");
+		var select=$(row).find("select[name='league']");
 		$(select).find("option").not(":first").remove();
 		$(select).find("option:first").prop("disabled", false).prop("selected", true);
 		$.each(struct, function(i, league) {
@@ -133,7 +133,8 @@ var EEMiniLeagues={
 	    };
 	});
 	// init leagues
-	this.initLeagues();
+	var row=$("table[name='your_team'] tbody tr:first");
+	this.initLeagues(row);
 	// init expiries
 	this.initExpiries();
     }
