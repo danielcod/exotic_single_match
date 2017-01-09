@@ -78,7 +78,8 @@ var EESingleTeams={
     },
     updatePrice: function(params) {
 	$("span[name='price']").text("[updating ..]");
-	var struct={"query": params};
+	var struct={"product": "single_teams",
+		    "query": params};
 	$.ajax({
 	    type: "POST",
 	    url: "/api/pricing/single_teams/price",

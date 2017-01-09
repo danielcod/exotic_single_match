@@ -14,7 +14,7 @@ class PayoffHandler(webapp2.RequestHandler):
         return [{"name": name}
                 for name in product.payoff_names(leaguename)]
 
-# curl -X POST "http://localhost:8080/api/pricing/single_teams/price" -d "{\"query\": {\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}}"
+# curl -X POST "http://localhost:8080/api/pricing/single_teams/price" -d "{\"product\": \"single_teams\", \"query\": {\"league\": \"ENG.1\", \"team\": \"Chelsea\", \"payoff\": \"Winner\", \"expiry\": \"2017-03-01\"}}"
     
 class PriceHandler(webapp2.RequestHandler):
 

@@ -13,6 +13,7 @@ Items=yaml.load("""
 - path: "/api/pricing/single_teams/payoff?league=ENG.1"
 - path: "/api/pricing/single_teams/price"
   data: 
+    product: single_teams
     query:
       league: ENG.1
       team: Chelsea
@@ -22,6 +23,7 @@ Items=yaml.load("""
 - path: "/api/pricing/mini_leagues/payoff"
 - path: "/api/pricing/mini_leagues/price"
   data:
+    product: mini_leagues
     query: 
       teams:
       - league: ENG.1
