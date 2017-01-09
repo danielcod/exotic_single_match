@@ -48,6 +48,3 @@ handlers:
   script: tasks.bbc_fixtures.app
 - url: /tasks/yc_probabilities.*
   script: tasks.yc_probabilities.app
-# DEFAULT
-- url: /.*
-  script: controllers.site.root.app
