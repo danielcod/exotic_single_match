@@ -29,12 +29,12 @@ var EEMiniLeagues={
 	    }
 	});
     },
-    initTeams: function(leaguename) {
+    initTeams: function(leaguename, row) {
 	$.ajax({
 	    dataType: "json",
 	    url: "/api/teams?league="+leaguename,
 	    success: function(struct) {
-		var select=$("select[name='team']");
+		var select=$(row).find("select[name='team']");
 		$(select).find("option").not(":first").remove();
 		$(select).find("option:first").prop("disabled", false).prop("selected", true);
 		$.each(struct, function(i, team) {
@@ -104,7 +104,8 @@ var EEMiniLeagues={
 	    $(this).find("option:first").prop("disabled", true);
 	    var leaguename=$(this).find("option:selected").val();
 	    if (leaguename!='') {
-		EEMiniLeagues.initTeams(leaguename);
+		var row=$("table[name='your_team'] tbody tr:first");
+		EEMiniLeagues.initTeams(leaguename, row);
 		EEMiniLeagues.initPayoffs(leaguename);
 	    };
 	});
