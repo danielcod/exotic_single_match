@@ -1,7 +1,5 @@
 from controllers import *
 
-from helpers.dst_helpers import *
-
 MemcacheAge=60*60 # keep it long to avoid calling DB att the time
 
 def emit_json_memcache(age):
