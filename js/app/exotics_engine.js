@@ -27,6 +27,9 @@ var SimpleSelect=React.createClass({
 	console.log(xhr.responseText);
     },
     loadComponent: function(url) {
+	this.setState({options: [],
+		       value: undefined});
+	this.props.changeHandler(this.props.name, undefined);
 	$.ajax({
 	    url: url,
 	    type: "GET",
