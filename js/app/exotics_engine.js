@@ -1,10 +1,14 @@
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {options: [],
-		value: "ENG.2"};
+		value: undefined};
     },
     loadSuccess: function(struct) {
-	this.setState({options: struct});
+	var selectedValue=struct.filter(function(item) {
+	    return item["selected"]==true;
+	})[0]["name"];
+	this.setState({options: struct,
+		       value: selectedValue});
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
