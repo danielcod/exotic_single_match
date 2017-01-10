@@ -1,4 +1,7 @@
-var Hello=React.createClass({
+var SingleTeamsForm=React.createClass({
+    componentDidMount: function() {
+	console.log("mounted");
+    },	
     render: function() {
 	return React.DOM.span({
 	    className: "label label-primary",
@@ -8,7 +11,7 @@ var Hello=React.createClass({
 });
 
 var Main=function() {
-    var hello=React.createElement(Hello, {message: 'Hello World from React!'});
+    var form=React.createElement(SingleTeamsForm, {message: 'Hello World from React!'});
     var container=$("div[id='form']")[0];
-    ReactDOM.render(hello, container);    
+    ReactDOM.render(form, container);    
 };
