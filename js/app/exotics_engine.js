@@ -3,10 +3,22 @@ var SimpleSelect=React.createClass({
 	return {options: [],
 		value: undefined};
     },
+    filterSelectedValue: function(struct) {
+	if (struct.length==0) {
+	    return undefined;
+	} else {
+	    var selectedItems=struct.filter(function(item) {
+		return item["selected"]==true;
+	    });
+	    if (selectedItems.length==0) {
+		return struct[0].value;
+	    } else {
+		return selectedItems[0].value;
+	    }
+	}
+    },
     loadSuccess: function(struct) {
-	var value=struct.filter(function(item) {
-	    return item["selected"]==true;
-	})[0]["value"];
+	var value=this.filterSelectedValue(struct);
 	this.setState({options: struct,
 		       value: value});
 	this.props.changeHandler(this.props.name, value);
