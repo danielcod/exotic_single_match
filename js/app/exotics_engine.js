@@ -1,6 +1,7 @@
 var SimpleSelect=React.createClass({
     getInitialState: function() {
-	return {options: []};
+	return {options: [],
+		value: "ENG.2"};
     },
     ajaxSuccess: function(struct) {
 	this.setState({options: struct});
@@ -20,6 +21,7 @@ var SimpleSelect=React.createClass({
     render: function() {
 	return React.DOM.select({
 	    className: "form-control",
+	    value: this.state.value,
 	    children: this.state.options.map(function(option) {
 		return React.DOM.option({
 		    children: option.name
