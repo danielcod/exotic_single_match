@@ -82,12 +82,25 @@ var SingleTeamsPage=React.createClass({
     getInitialState: function() {
 	return {params: {}};
     },
-    isComplete: function() {
-	var params=this.state.params;
+    isComplete: function(params) {
 	return ((params.league!=undefined) &&
 		(params.team!=undefined) &&
 		(params.payoff!=undefined) &&
 		(params.expiry!=undefined));
+    },
+    updatePrice: function(params) {
+	var struct={"product": "single_teams",
+		    "query": params};
+	$.ajax({
+	    type: "POST",
+	    url: "/api/pricing",
+	    data: JSON.stringify(struct),
+	    contentType: "application/json",
+	    dataType: "json",
+	    success: function(struct) {
+		console.log(JSON.stringify(struct));
+	    }
+	});
     },
     changeHandler: function(name, value) {
 	var params=this.state.params;
@@ -95,7 +108,9 @@ var SingleTeamsPage=React.createClass({
 	this.setState({
 	    params: params
 	});
-	console.log(this.isComplete());
+	if (this.isComplete(params)) {
+	    this.updatePrice(params);
+	};
     },
     initTeamsUrl: function(params) {
 	if (params.league==undefined) {
