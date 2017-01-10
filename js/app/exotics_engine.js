@@ -29,7 +29,6 @@ var SimpleSelect=React.createClass({
     loadComponent: function(url) {
 	this.setState({options: [],
 		       value: undefined});
-	this.props.changeHandler(this.props.name, undefined);
 	$.ajax({
 	    url: url,
 	    type: "GET",
@@ -89,6 +88,7 @@ var SingleTeamsPage=React.createClass({
 		(params.expiry!=undefined));
     },
     updatePrice: function(params) {
+	$("span[id='price']").text("[updating ..]");
 	var struct={"product": "single_teams",
 		    "query": params};
 	$.ajax({
@@ -98,17 +98,22 @@ var SingleTeamsPage=React.createClass({
 	    contentType: "application/json",
 	    dataType: "json",
 	    success: function(struct) {
-		console.log(JSON.stringify(struct));
+		$("span[id='price']").text(struct["decimal_price"]);
 	    }
 	});
     },
     changeHandler: function(name, value) {
 	var params=this.state.params;
 	params[name]=value;
+	if (name=='league') {
+	    params["team"]=undefined;
+	    params["payoff"]=undefined;
+	};
 	this.setState({
 	    params: params
 	});
 	if (this.isComplete(params)) {
+	    console.log(JSON.stringify(params));
 	    this.updatePrice(params);
 	};
     },
