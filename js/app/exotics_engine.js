@@ -37,7 +37,7 @@ var SimpleSelect=React.createClass({
     },
     componentDidMount: function() {
 	this.loadComponent(this.props.url);
-    },	
+    },    
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
