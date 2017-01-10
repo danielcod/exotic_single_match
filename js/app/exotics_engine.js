@@ -4,11 +4,12 @@ var AjaxSelect=React.createClass({
 		value: undefined};
     },
     loadSuccess: function(struct) {
-	var selectedValue=struct.filter(function(item) {
+	var value=struct.filter(function(item) {
 	    return item["selected"]==true;
 	})[0]["name"];
 	this.setState({options: struct,
-		       value: selectedValue});
+		       value: value});
+	this.props.changeHandler(this.props.name, value);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -43,8 +44,16 @@ var AjaxSelect=React.createClass({
 });
 
 var SingleTeamsPage=React.createClass({
+    getInitialState: function() {
+	return {params: {}};
+    },
     changeHandler: function(name, value) {
-	console.log(name+"="+value);
+	var params=this.state.params;
+	params[name]=value;
+	this.setState({
+	    params: params
+	});
+	console.log(JSON.stringify(params));
     },
     render: function() {
 	return React.DOM.div({
