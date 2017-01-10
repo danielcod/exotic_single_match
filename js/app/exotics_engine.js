@@ -43,7 +43,7 @@ var SimpleSelect=React.createClass({
 		    children: this.state.options.map(function(option) {
 			return React.DOM.option({
 			    value: option.value,
-			    children: option.label
+			    children: option.label || option.value
 			})
 		    })
 		})
@@ -80,7 +80,14 @@ var SingleTeamsPage=React.createClass({
 				name: 'league',
 				url: '/api/leagues',
 				changeHandler: this.changeHandler
-			    })
+			    }),
+			React.createElement(
+			    SimpleSelect, {
+				label: "Expiry",
+				name: 'expiry',
+				url: '/api/expiries',
+				changeHandler: this.changeHandler
+			    }),
 		    ]
 		}),
 		React.DOM.div({
