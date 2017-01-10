@@ -6,7 +6,7 @@ var SimpleSelect=React.createClass({
     loadSuccess: function(struct) {
 	var value=struct.filter(function(item) {
 	    return item["selected"]==true;
-	})[0]["name"];
+	})[0]["value"];
 	this.setState({options: struct,
 		       value: value});
 	this.props.changeHandler(this.props.name, value);
@@ -42,7 +42,8 @@ var SimpleSelect=React.createClass({
 		    }.bind(this),
 		    children: this.state.options.map(function(option) {
 			return React.DOM.option({
-			    children: option.name
+			    value: option.value,
+			    children: option.label
 			})
 		    })
 		})

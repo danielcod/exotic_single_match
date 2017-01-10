@@ -10,11 +10,10 @@ class IndexHandler(webapp2.RequestHandler):
     
     @emit_json_memcache(60)
     def get(self):
-        leagues=list(Leagues)
-        for league in leagues:
-            if league["name"]==DefaultLeagueName:
-                league["selected"]=True
-        return leagues
+        return [{"label": league["name"],
+                 "value": league["name"],
+                 "selected": league["name"]==DefaultLeagueName}
+                for league in Leagues]
 
 Routing=[('/api/leagues', IndexHandler)]
 
