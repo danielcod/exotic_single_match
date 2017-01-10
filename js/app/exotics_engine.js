@@ -42,13 +42,24 @@ var SimpleSelect=React.createClass({
     }
 });
 
+var SingleTeamsPage=React.createClass({
+    changeHandler: function(name, value) {
+	console.log(name+"="+value);
+    },
+    render: function() {
+	return React.DOM.div({
+	    children: React.createElement(
+		SimpleSelect, {
+		    name: 'league',
+		    url: '/api/leagues',
+		    changeHandler: this.changeHandler
+		})
+	});
+    }
+});
+
 var Main=function() {
-    var select=React.createElement(SimpleSelect,
-				   {name: 'league',
-				    url: '/api/leagues',
-				    changeHandler: function(name, value) {
-					console.log(name+"="+value);
-				    }});
+    var page=React.createElement(SingleTeamsPage, {})
     var container=$("div[id='form']")[0];
-    ReactDOM.render(select, container);    
+    ReactDOM.render(page, container);    
 };
