@@ -1,6 +1,18 @@
 var SingleTeamsForm=React.createClass({
+    ajaxError: function(xhr, ajaxOptions, thrownError) {	    
+	console.log("ajax error :-(");
+    },
+    ajaxSuccess: function(struct) {
+	console.log(JSON.stringify(struct));
+    },
     componentDidMount: function() {
-	console.log("mounted");
+	$.ajax({
+	    url: "/api/leagues",
+	    type: "GET",
+	    dataType: "json",
+	    success: this.ajaxSuccess,
+	    error: this.ajaxError
+	});
     },	
     render: function() {
 	return React.DOM.span({
