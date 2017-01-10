@@ -26,14 +26,17 @@ var SimpleSelect=React.createClass({
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    componentDidMount: function() {
+    loadComponent: function(url) {
 	$.ajax({
-	    url: this.props.url,
+	    url: url,
 	    type: "GET",
 	    dataType: "json",
 	    success: this.loadSuccess,
 	    error: this.loadError
 	});
+    },
+    componentDidMount: function() {
+	this.loadComponent(this.props.url);
     },	
     render: function() {
 	return React.DOM.div({
