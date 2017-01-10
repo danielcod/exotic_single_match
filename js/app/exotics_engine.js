@@ -3,19 +3,19 @@ var SimpleSelect=React.createClass({
 	return {options: [],
 		value: "ENG.2"};
     },
-    ajaxSuccess: function(struct) {
+    loadSuccess: function(struct) {
 	this.setState({options: struct});
     },
-    ajaxError: function(xhr, ajaxOptions, thrownError) {
-	console.log("ajax error :-(");
+    loadError: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
     },
     componentDidMount: function() {
 	$.ajax({
 	    url: this.props.url,
 	    type: "GET",
 	    dataType: "json",
-	    success: this.ajaxSuccess,
-	    error: this.ajaxError
+	    success: this.loadSuccess,
+	    error: this.loadError
 	});
     },	
     render: function() {
