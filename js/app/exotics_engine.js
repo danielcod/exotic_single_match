@@ -1,4 +1,4 @@
-var AjaxSelect=React.createClass({
+var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {options: [],
 		value: undefined};
@@ -24,21 +24,29 @@ var AjaxSelect=React.createClass({
 	});
     },	
     render: function() {
-	return React.DOM.select({
-	    className: "form-control",
-	    value: this.state.value,
-	    onChange: function(event) {
-		var value=event.target.value;
-		this.setState({
-		    value: value
-		});
-		this.props.changeHandler(this.props.name, value);
-	    }.bind(this),
-	    children: this.state.options.map(function(option) {
-		return React.DOM.option({
-		    children: option.name
+	return React.DOM.div({
+	    className: "form-group",
+	    children: [
+		React.DOM.label({
+		    children: this.props.label
+		}),
+		React.DOM.select({
+		    className: "form-control",
+		    value: this.state.value,
+		    onChange: function(event) {
+			var value=event.target.value;
+			this.setState({
+			    value: value
+			});
+			this.props.changeHandler(this.props.name, value);
+		    }.bind(this),
+		    children: this.state.options.map(function(option) {
+			return React.DOM.option({
+			    children: option.name
+			})
+		    })
 		})
-	    })
+	    ]
 	});
     }
 });
@@ -58,7 +66,8 @@ var SingleTeamsPage=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: React.createElement(
-		AjaxSelect, {
+		SimpleSelect, {
+		    label: "League",
 		    name: 'league',
 		    url: '/api/leagues',
 		    changeHandler: this.changeHandler
