@@ -27,7 +27,7 @@ var SimpleSelect=React.createClass({
 		this.setState({
 		    value: value
 		});
-		console.log(value);
+		this.props.changeHandler(this.props.name, value);
 	    }.bind(this),
 	    children: this.state.options.map(function(option) {
 		return React.DOM.option({
@@ -39,7 +39,12 @@ var SimpleSelect=React.createClass({
 });
 
 var Main=function() {
-    var form=React.createElement(SimpleSelect, {url: '/api/leagues'});
+    var select=React.createElement(SimpleSelect,
+				   {name: 'league',
+				    url: '/api/leagues',
+				    changeHandler: function(name, value) {
+					console.log(name+"="+value);
+				    }});
     var container=$("div[id='form']")[0];
-    ReactDOM.render(form, container);    
+    ReactDOM.render(select, container);    
 };
