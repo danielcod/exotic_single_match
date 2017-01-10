@@ -22,6 +22,13 @@ var SimpleSelect=React.createClass({
 	return React.DOM.select({
 	    className: "form-control",
 	    value: this.state.value,
+	    onChange: function(event) {
+		var value=event.target.value;
+		this.setState({
+		    value: value
+		});
+		console.log(value);
+	    }.bind(this),
 	    children: this.state.options.map(function(option) {
 		return React.DOM.option({
 		    children: option.name
