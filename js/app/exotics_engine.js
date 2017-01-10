@@ -1,4 +1,4 @@
-var SimpleSelect=React.createClass({
+var AjaxSelect=React.createClass({
     getInitialState: function() {
 	return {options: [],
 		value: undefined};
@@ -49,7 +49,7 @@ var SingleTeamsPage=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: React.createElement(
-		SimpleSelect, {
+		AjaxSelect, {
 		    name: 'league',
 		    url: '/api/leagues',
 		    changeHandler: this.changeHandler
