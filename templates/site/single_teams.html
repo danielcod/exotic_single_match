@@ -4,17 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ioSpot Exotics Demo</title>
-    <link href="../css/lib/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/app/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../css/app/bs-wizard.css" rel="stylesheet">
-    <link href="../css/app/exotics-engine.css" rel="stylesheet">
+    <title>{{ title }}</title>
+    <script type="text/javascript" src="js/lib/head.load.min.js"></script>
   </head>
   <body>
     <div class="container">
       <!-- header -->
       <div class="header clearfix">
-	<h3>ioSport Exotics Demo</h3>
+	<h3>{{ title }}</h3>
       </div>
       <!-- form process steps -->
       <div class="row bs-wizard" style="border-bottom:0;">        
@@ -40,41 +37,9 @@
       <!-- page title -->
       <h2 class="text-center">Single Team Outrights</h2>
       <!-- indicative price -->
-      <h3 style="color:#888;margin-bottom:20px;" class="text-center"><i>Your Price: <span name="price">[...]</span></i></h3>
+      <h3 style="color:#888;margin-bottom:20px;" class="text-center"><i>Your Price: <span id="price">[...]</span></i></h3>
       <!-- form -->
-      <div style="margin-bottom:20px;">
-	<div class="row">
-	  <div class="col-xs-3">
-	  </div>
-	  <div class="col-xs-6">
-	    <label>League</label>
-	    <div class="form-group">	      
-	      <select class="form-control" name="league">
-	      <option value="" disabled selected>Select</option>
-	      </select>
-	    </div>
-	    <label>Team</label>
-	    <div class="form-group">
-	      <select class="form-control" name="team">
-		<option value="" disabled selected>Select</option>
-	      </select>
-	    </div>
-	    <label>Payoff</label>
-	    <div class="form-group">
-	      <select class="form-control" name="payoff">
-		<option value="" disabled selected>Select</option>
-	      </select>
-	    </div>
-	    <label>Expiry</label>
-	    <div class="form-group">
-	      <select class="form-control" name="expiry">
-		<option value="" disabled selected>Select</option>
-	      </select>
-	    </div>
-	  </div>
-	  <div class="col-xs-3">
-	  </div>
-	</div>
+      <div id="form">
       </div>
       <!-- buttons -->
       <div class="text-center" style="margin-bottom:20px;">
@@ -88,14 +53,9 @@
         <p><h5>&copy;ioSport 2017</h5></p>
       </footer>
     </div>
-    <!-- javascript -->
-    <script src="../js/lib/jquery.min.js"></script>
-    <script src="../js/lib/bootstrap.min.js"></script>
-    <script src="../js/app/single_teams.js"></script>
     <script type="text/javascript">
-      $(document).ready(function() {
-      EESingleTeams.bind();
-      });
+      head.js({{ deps|safe }});
+      head(function() {Main(); });
     </script>
   </body>
 </html>
