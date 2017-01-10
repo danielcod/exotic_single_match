@@ -44,8 +44,8 @@ var SimpleSelect=React.createClass({
 	}
     },
     componentWillReceiveProps: function(nextProps) {	
-	if ((this.props.url!=nextProps.url) &&
-	    (nextProps.url!=undefined)) {
+	if ((nextProps.url!=undefined) && 
+	    (this.props.url!=nextProps.url)) {
 	    this.loadComponent(nextProps.url);
 	}
     },
@@ -82,19 +82,33 @@ var SingleTeamsPage=React.createClass({
     getInitialState: function() {
 	return {params: {}};
     },
+    isComplete: function() {
+	var params=this.state.params;
+	return ((params.league!=undefined) &&
+		(params.team!=undefined) &&
+		(params.payoff!=undefined) &&
+		(params.expiry!=undefined));
+    },
     changeHandler: function(name, value) {
 	var params=this.state.params;
 	params[name]=value;
 	this.setState({
 	    params: params
 	});
-	console.log(JSON.stringify(params));
+	console.log(this.isComplete());
     },
     initTeamsUrl: function(params) {
 	if (params.league==undefined) {
 	    return undefined;
 	} else {
 	    return "/api/teams?league="+params["league"];
+	}
+    },
+    initPayoffsUrl: function(params) {
+	if (params.league==undefined) {
+	    return undefined;
+	} else {
+	    return "/site/single_teams/payoff?league="+params["league"];
 	}
     },
     render: function() {	
@@ -119,6 +133,13 @@ var SingleTeamsPage=React.createClass({
 				label: "Team",
 				name: 'team',
 				url: this.initTeamsUrl(this.state.params),
+				changeHandler: this.changeHandler
+			    }),
+			React.createElement(
+			    SimpleSelect, {
+				label: "Payoff",
+				name: 'payoff',
+				url: this.initPayoffsUrl(this.state.params),
 				changeHandler: this.changeHandler
 			    }),
 			React.createElement(

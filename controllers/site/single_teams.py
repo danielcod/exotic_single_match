@@ -24,10 +24,10 @@ class PayoffHandler(webapp2.RequestHandler):
     def get(self):
         leaguename=self.request.get("league")
         product=SingleTeamsProduct()
-        payoffs=[{"name": name}
+        payoffs=[{"value": name}
                  for name in product.payoff_names(leaguename)]
         for payoff in payoffs:
-            if payoff["name"]==DefaultPayoffName:
+            if payoff["value"]==DefaultPayoffValue:
                 payoff["selected"]=True
         return payoffs
 
