@@ -65,13 +65,27 @@ var SingleTeamsPage=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    children: React.createElement(
-		SimpleSelect, {
-		    label: "League",
-		    name: 'league',
-		    url: '/api/leagues',
-		    changeHandler: this.changeHandler
+	    className: "row",
+	    children: [
+		React.DOM.div({
+		    className: "col-xs-3",
+		}),
+		React.DOM.div({
+		    className: "col-xs-6",
+		    children: [			
+			React.createElement(
+			    SimpleSelect, {
+				label: "League",
+				name: 'league',
+				url: '/api/leagues',
+				changeHandler: this.changeHandler
+			    })
+		    ]
+		}),
+		React.DOM.div({
+		    className: "col-xs-3",
 		})
+	    ]
 	});
     }
 });
