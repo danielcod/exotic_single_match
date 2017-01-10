@@ -8,7 +8,7 @@ var Hello=React.createClass({
 });
 
 var Main=function() {
-    var hello=React.createElement(Hello, {message: 'Hello World from React!!'});
+    var hello=React.createElement(Hello, {message: 'Hello World from React!'});
     var container=$("div[id='form']")[0];
     ReactDOM.render(hello, container);    
 };
