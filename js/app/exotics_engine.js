@@ -1,9 +1,12 @@
 var SingleTeamsForm=React.createClass({
-    ajaxError: function(xhr, ajaxOptions, thrownError) {	    
-	console.log("ajax error :-(");
+    getInitialState: function() {
+	return {options: []};
     },
     ajaxSuccess: function(struct) {
-	console.log(JSON.stringify(struct));
+	this.setState({options: struct});
+    },
+    ajaxError: function(xhr, ajaxOptions, thrownError) {
+	console.log("ajax error :-(");
     },
     componentDidMount: function() {
 	$.ajax({
@@ -15,9 +18,13 @@ var SingleTeamsForm=React.createClass({
 	});
     },	
     render: function() {
-	return React.DOM.span({
-	    className: "label label-primary",
-	    children: this.props.message
+	return React.DOM.select({
+	    className: "form-control",
+	    children: this.state.options.map(function(option) {
+		return React.DOM.option({
+		    children: option.name
+		})
+	    })
 	});
     }
 });
