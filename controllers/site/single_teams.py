@@ -32,7 +32,7 @@ class IndexHandler(webapp2.RequestHandler):
                          for dep in Deps])
         tv={"title": Title,
             "deps": depsstr}
-        render_template(self, "templates/single_teams.html", tv)
+        render_template(self, "templates/site/single_teams.html", tv)
 
 Routing=[('/site/single_teams/payoff', PayoffHandler),
          ('/site/single_teams', IndexHandler)]
