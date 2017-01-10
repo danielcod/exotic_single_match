@@ -15,6 +15,8 @@ Deps=yaml.load("""
 
 Title="ioSport Exotics Demo"
 
+DefaultPayoffValue="Winner"
+
 class PayoffHandler(webapp2.RequestHandler):
 
     @validate_query({'league': '\\D{3}\\.\\d'})
@@ -22,8 +24,12 @@ class PayoffHandler(webapp2.RequestHandler):
     def get(self):
         leaguename=self.request.get("league")
         product=SingleTeamsProduct()
-        return [{"name": name}
-                for name in product.payoff_names(leaguename)]
+        payoffs=[{"name": name}
+                 for name in product.payoff_names(leaguename)]
+        for payoff in payoffs:
+            if payoff["name"]==DefaultPayoffName:
+                payoff["selected"]=True
+        return payoffs
 
 class IndexHandler(webapp2.RequestHandler):
 

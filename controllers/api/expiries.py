@@ -22,6 +22,8 @@ EOS=datetime.date(2017, 7, 1) # replace hardcode
 ShortMonths=[month[:3]
              for month in Months]
 
+DefaultExpiryValue=EOS
+
 def add_months(date, months):
      month=date.month-1+months
      year=int(date.year+month/12)
@@ -50,6 +52,9 @@ class IndexHandler(webapp2.RequestHandler):
                 break
         expiries.append({"label": "End of Season",
                          "value": EOS})
+        for expiry in expiries:
+             if expiry["value"]==DefaultExpiryValue:
+                  expiry["selected"]=True                  
         return expiries
 
 Routing=[('/api/expiries', IndexHandler)]
