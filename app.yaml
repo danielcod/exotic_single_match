@@ -30,8 +30,6 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # SITE
-- url: /site/mini_leagues.*
-  script: controllers.site.mini_leagues.app
 - url: /site/single_teams.*
   script: controllers.site.single_teams.app
 # API
