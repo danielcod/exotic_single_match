@@ -16,7 +16,7 @@ class IndexHandler(webapp2.RequestHandler):
                      for league in Leagues]
         if leaguename not in leaguenames:
             raise RuntimeError("League not found")
-        return [{"name": team["name"]}
+        return [{"value": team["name"]}
                 for team in yc_lite.get_teams(leaguename)]
 
 Routing=[('/api/teams', IndexHandler)]

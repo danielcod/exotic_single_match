@@ -36,8 +36,16 @@ var SimpleSelect=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent(this.props.url);
-    },    
+	if (this.props.url!=undefined) {
+	    this.loadComponent(this.props.url);
+	}
+    },
+    componentWillReceiveProps: function(nextProps) {	
+	if ((this.props.url!=nextProps.url) &&
+	    (nextProps.url!=undefined)) {
+	    this.loadComponent(nextProps.url);
+	}
+    },
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -79,7 +87,14 @@ var SingleTeamsPage=React.createClass({
 	});
 	console.log(JSON.stringify(params));
     },
-    render: function() {
+    initTeamsUrl: function(params) {
+	if (params.league==undefined) {
+	    return undefined;
+	} else {
+	    return "/api/teams?league="+params["league"];
+	}
+    },
+    render: function() {	
 	return React.DOM.div({
 	    className: "row",
 	    children: [
@@ -94,6 +109,13 @@ var SingleTeamsPage=React.createClass({
 				label: "League",
 				name: 'league',
 				url: '/api/leagues',
+				changeHandler: this.changeHandler
+			    }),
+			React.createElement(
+			    SimpleSelect, {
+				label: "Team",
+				name: 'team',
+				url: this.initTeamsUrl(this.state.params),
 				changeHandler: this.changeHandler
 			    }),
 			React.createElement(
