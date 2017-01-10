@@ -1,4 +1,4 @@
-var SingleTeamsForm=React.createClass({
+var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {options: []};
     },
@@ -10,7 +10,7 @@ var SingleTeamsForm=React.createClass({
     },
     componentDidMount: function() {
 	$.ajax({
-	    url: "/api/leagues",
+	    url: this.props.url,
 	    type: "GET",
 	    dataType: "json",
 	    success: this.ajaxSuccess,
@@ -30,7 +30,7 @@ var SingleTeamsForm=React.createClass({
 });
 
 var Main=function() {
-    var form=React.createElement(SingleTeamsForm, {message: 'Hello World from React!'});
+    var form=React.createElement(SimpleSelect, {url: '/api/leagues'});
     var container=$("div[id='form']")[0];
     ReactDOM.render(form, container);    
 };
