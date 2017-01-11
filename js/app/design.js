@@ -7,7 +7,7 @@ var BlankSelectOption={label: "Select",
 
 var AjaxSelect=React.createClass({
     getInitialState: function() {
-	return {options: [],
+	return {options: [BlankSelectOption],
 		value: this.props.value};
     },
     loadSuccess: function(struct) {
@@ -65,7 +65,6 @@ var SingleTeamsForm=React.createClass({
 	    params: {
 		league: this.props.league,
 		team: this.props.team,
-		payoff: this.props.payoff,
 		expiry: this.props.expiry
 	    }	    
 	};
@@ -73,10 +72,16 @@ var SingleTeamsForm=React.createClass({
     changeHandler: function(name, value) {
 	var params=this.state.params;
 	params[name]=value;
+	if (name=="league") {
+	    params.team=undefined;
+	};
 	this.setState({
 	    params: params
 	});
 	console.log(JSON.stringify(this.state.params));
+    },
+    initTeamsUrl: function(params) {
+	return (params.league!=undefined) ? "/site/design/teams?league="+params.league : undefined;
     },
     render: function() {	
 	return React.DOM.div({
@@ -86,6 +91,13 @@ var SingleTeamsForm=React.createClass({
 			name: "league",
 			url: '/site/design/leagues',
 			value: this.props.league,
+			changeHandler: this.changeHandler
+		    }),
+		React.createElement(
+		    AjaxSelect, {
+			name: 'team',
+			url: this.initTeamsUrl(this.state.params),
+			value: this.props.team,
 			changeHandler: this.changeHandler
 		    }),
 		React.createElement(
