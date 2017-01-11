@@ -5,23 +5,32 @@
 var BlankSelectOption={label: "Select",
 		       value: ""};
 
+/*
+  NB there's difference here between 'value' and 'selected value'
+  the two may not be the same because 'value' may not be present in the options; 'value' is really 'target value'
+  if 'value' isn't part of options then the select will automatically show the first option, which in this case is structured to be the blank option
+  'selected_value' is this 'actually shown option'
+  'selected_value' is stored in state so can (eg) render border around select
+*/
+
 var AjaxSelect=React.createClass({
     getInitialState: function() {
 	return {options: [BlankSelectOption],
-		value: this.props.value};
+		target_value: this.props.value,
+		selected_value: undefined};
     },
     filterSelectedValue: function(struct) {
 	var selectedItems=struct.filter(function(item) {
-	    return item.value==this.state.value;
+	    return item.value==this.state.target_value;
 	}.bind(this));
-	return (selectedItems.length > 0) ? this.state.value : undefined;
+	return (selectedItems.length > 0) ? this.state.target_value : undefined;
     },
     loadSuccess: function(struct) {
 	var state=this.state;
 	state["options"]=[BlankSelectOption].concat(struct);
+	state["selected_value"]=this.filterSelectedValue(struct);	
 	this.setState(state);
-	var selectedValue=this.filterSelectedValue(struct);
-	this.props.changeHandler(this.props.name, selectedValue);
+	this.props.changeHandler(this.props.name, this.state.selected_value);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -52,11 +61,13 @@ var AjaxSelect=React.createClass({
 	    children: [
 		React.DOM.select({
 		    className: "form-control",
-		    value: this.state.value,
+		    value: this.state.target_value,
+		    style: (this.state.selected_value==undefined) ? {border: "3px solid #F88"} : {},
 		    onChange: function(event) {
 			var value=(event.target.value!='') ? event.target.value : undefined; // NB conversion of blank string to undefined
 			this.setState({
-			    value: value
+			    target_value: value,
+			    selected_value: value
 			});
 			this.props.changeHandler(this.props.name, value);
 		    }.bind(this),
