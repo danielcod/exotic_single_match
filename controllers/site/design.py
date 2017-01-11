@@ -58,7 +58,7 @@ def add_months(date, months):
      month=1+month % 12
      day=min(date.day, calendar.monthrange(year, month)[1])
      return datetime.date(year, month, day)
-    
+
 class ExpiriesHandler(webapp2.RequestHandler):
     
     @emit_json
