@@ -24,7 +24,7 @@ class LeaguesHandler(webapp2.RequestHandler):
         return [{"value": league["name"]}
                 for league in Leagues]
 
-class ProductsHandler(webapp2.RequestHandler):
+class InitHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -41,7 +41,7 @@ class IndexHandler(webapp2.RequestHandler):
         render_template(self, "templates/site/design.html", tv)
 
 Routing=[('/site/design/leagues', LeaguesHandler),
-         ('/site/design/products', ProductsHandler),
+         ('/site/design/init', InitHandler),
          ('/site/design', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

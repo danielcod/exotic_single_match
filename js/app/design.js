@@ -114,7 +114,7 @@ var ProductSelect=React.createClass({
     }
 });
 
-var ProductsForm=React.createClass({
+var DesignForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
@@ -141,7 +141,7 @@ var ProductsForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/site/design/products");
+	this.loadComponent("/site/design/init");
     },
     productChangeHandler: function(value) {
 	var state=this.state;
@@ -166,7 +166,7 @@ var ProductsForm=React.createClass({
 });
 
 var Main=function() {
-    var page=React.createElement(ProductsForm, {})
-    var container=$("div[id='products']")[0];
+    var page=React.createElement(DesignForm, {})
+    var container=$("div[id='design']")[0];
     ReactDOM.render(page, container);    
 };
