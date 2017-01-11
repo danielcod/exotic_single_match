@@ -56,12 +56,18 @@ var ProductsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
-	    selected_product: "mini_leagues" // TEMP
+	    query: undefined,
+	    selected_product: "mini_leagues", // TEMP
 	};
     },
     loadProductsCallback: function(struct) {
 	var state=this.state;
 	state["products"]=struct;
+	this.setState(state);
+    },
+    loadQueryCallback: function(struct) {
+	var state=this.state;
+	state["query"]=struct;
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -76,8 +82,18 @@ var ProductsForm=React.createClass({
 	    error: this.loadError
 	});
     },
+    loadQuery: function() {
+	$.ajax({
+	    url: "/site/design/query",
+	    type: "GET",
+	    dataType: "json",
+	    success: this.loadQueryCallback,
+	    error: this.loadError
+	});
+    },
     componentDidMount: function() {
 	this.loadProducts();
+	this.loadQuery();
     },
     productChangeHandler: function(value) {
 	var state=this.state;

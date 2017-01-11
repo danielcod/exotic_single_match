@@ -11,6 +11,16 @@ Products=yaml.load("""
 
 DesignDeps=Deps+["js/app/design.js"]
 
+class QueryHandler(webapp2.RequestHandler):
+    
+    @emit_json
+    def get(self):
+        return {"type": "single_teams",
+                "query": {"league": "ENG.1",
+                          "team": "Chelsea",
+                          "payoff": "Winner",
+                          "expiry": datetime.date(2017, 4, 1)}}
+
 class ProductsHandler(webapp2.RequestHandler):
 
     @emit_json
@@ -27,7 +37,8 @@ class IndexHandler(webapp2.RequestHandler):
         render_template(self, "templates/site/design.html", tv)
 
         
-Routing=[('/site/design/products', ProductsHandler),
+Routing=[('/site/design/query', QueryHandler),
+         ('/site/design/products', ProductsHandler),
          ('/site/design', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
