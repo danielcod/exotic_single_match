@@ -73,10 +73,10 @@ var SingleTeamsForm=React.createClass({
 
 var MiniLeaguesForm=React.createClass({
     render: function() {
-	return React.DOM.h3({
-	    children: React.DOM.span({
-		className: "label label-warning",
-		children: "Mini Leagues Form"
+	return React.DOM.div({
+	    className: "text-center",
+	    children: React.DOM.h3({
+		children: "[Mini Leagues form goes here]"
 	    })
 	});
     }
