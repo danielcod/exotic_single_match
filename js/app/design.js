@@ -1,3 +1,5 @@
+var BlankSelectOption=[{label: "Select"}];
+
 var AjaxSelect=React.createClass({
     getInitialState: function() {
 	return {options: [],
@@ -5,7 +7,7 @@ var AjaxSelect=React.createClass({
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	state["options"]=struct;
+	state["options"]=[BlankSelectOption].concat(struct);
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {

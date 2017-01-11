@@ -24,8 +24,6 @@ ShortMonths=[month[:3]
 
 EOS=datetime.date(2017, 7, 1) 
 
-DefaultExpiryValue=EOS
-
 Products=yaml.load("""
 - label: Single Teams Outright
   name: single_teams
@@ -78,9 +76,6 @@ class ExpiriesHandler(webapp2.RequestHandler):
                 break
         expiries.append({"label": "End of Season",
                          "value": EOS})
-        for expiry in expiries:
-             if expiry["value"]==DefaultExpiryValue:
-                  expiry["selected"]=True                  
         return expiries
     
 class InitHandler(webapp2.RequestHandler):
