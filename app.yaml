@@ -32,6 +32,12 @@ handlers:
 # SITE
 - url: /site/design.*
   script: controllers.site.design.app
+- url: /site/expiries.*
+  script: controllers.site.expiries.app
+- url: /site/leagues.*
+  script: controllers.site.leagues.app
+- url: /site/teams.*
+  script: controllers.site.teams.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app

@@ -1,28 +1,6 @@
 from controllers.site import *
 
-import calendar
-
 DesignDeps=RootDeps+["js/app/design.js"]
-
-Months=yaml.load("""
-- January
-- February
-- March
-- April
-- May
-- June
-- July
-- August
-- September
-- October
-- November
-- December
-""")
-
-ShortMonths=[month[:3]
-             for month in Months]
-
-EOS=datetime.date(2017, 7, 1) 
 
 Products=yaml.load("""
 - label: Single Teams Outright
@@ -43,55 +21,6 @@ SampleProducts=yaml.load("""
     expiry: "2017-07-01"
 """)
 
-class LeaguesHandler(webapp2.RequestHandler):
-
-    @emit_json
-    def get(self):
-        return [{"value": league["name"]}
-                for league in Leagues]
-
-def add_months(date, months):
-     month=date.month-1+months
-     year=int(date.year+month/12)
-     month=1+month % 12
-     day=min(date.day, calendar.monthrange(year, month)[1])
-     return datetime.date(year, month, day)
-
-class TeamsHandler(webapp2.RequestHandler):
-
-    @validate_query({'league': '^\\D{3}\\.\\d$'})
-    @emit_json_memcache(60)
-    def get(self):
-        leaguename=self.request.get("league")
-        leaguenames=[league["name"]
-                     for league in Leagues]
-        if leaguename not in leaguenames:
-            raise RuntimeError("League not found")
-        return [{"value": team["name"]}
-                for team in yc_lite.get_teams(leaguename)]
-
- 
-class ExpiriesHandler(webapp2.RequestHandler):
-    
-    @emit_json
-    def get(self, cutoffmonth=4):
-        date=datetime.date.today()
-        def init_item(date):
-            mrange=calendar.monthrange(date.year, date.month)
-            eomdate=datetime.date(date.year, date.month, mrange[-1])
-            eomlabel="End of %s" % ShortMonths[date.month-1]
-            return {"value": eomdate,
-                    "label": eomlabel}
-        expiries=[init_item(date)]
-        while True:
-            date=add_months(date, 1)
-            expiries.append(init_item(date))
-            if date.month >= cutoffmonth:
-                break
-        expiries.append({"label": "End of Season",
-                         "value": EOS})
-        return expiries
-    
 class InitHandler(webapp2.RequestHandler):
 
     @validate_query({'product_id': '^\\d+$'})
@@ -121,10 +50,7 @@ class IndexHandler(webapp2.RequestHandler):
             "product_id": productid}
         render_template(self, "templates/site/design.html", tv)
 
-Routing=[('/site/design/leagues', LeaguesHandler),
-         ('/site/design/teams', TeamsHandler),
-         ('/site/design/expiries', ExpiriesHandler),
-         ('/site/design/init', InitHandler),
+Routing=[('/site/design/init', InitHandler),
          ('/site/design', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

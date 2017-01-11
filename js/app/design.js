@@ -106,7 +106,7 @@ var SingleTeamsForm=React.createClass({
 	};
     },
     initTeamsUrl: function(params) {
-	return (params.league!=undefined) ? "/site/design/teams?league="+params.league : undefined;
+	return (params.league!=undefined) ? "/site/teams?league="+params.league : undefined;
     },
     render: function() {	
 	return React.DOM.div({
@@ -114,7 +114,7 @@ var SingleTeamsForm=React.createClass({
 		React.createElement(
 		    AjaxSelect, {
 			name: "league",
-			url: '/site/design/leagues',
+			url: '/site/leagues',
 			value: this.props.league,
 			changeHandler: this.changeHandler
 		    }),
@@ -128,7 +128,7 @@ var SingleTeamsForm=React.createClass({
 		React.createElement(
 		    AjaxSelect, {
 			name: "expiry",
-			url: '/site/design/expiries',
+			url: '/site/expiries',
 			value: this.props.expiry,
 			changeHandler: this.changeHandler
 		    })
