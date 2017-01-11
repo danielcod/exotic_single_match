@@ -56,30 +56,28 @@ var ProductsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
-	    selected_product: undefined,
+	    selected_product: "mini_leagues" // TEMP
 	};
     },
-    initCallback: function(struct) {
+    loadProductsCallback: function(struct) {
 	var state=this.state;
-	for (var key in struct) {
-	    state[key]=struct[key];
-	};
+	state["products"]=struct;
 	this.setState(state);
     },
-    initError: function(xhr, ajaxOptions, thrownError) {
+    loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    initialise: function(url) {
+    loadProducts: function() {
 	$.ajax({
-	    url: url,
+	    url: "/site/products",
 	    type: "GET",
 	    dataType: "json",
-	    success: this.initCallback,
-	    error: this.initError
+	    success: this.loadProductsCallback,
+	    error: this.loadError
 	});
     },
     componentDidMount: function() {
-	this.initialise("/site/products");
+	this.loadProducts();
     },
     productChangeHandler: function(value) {
 	var state=this.state;

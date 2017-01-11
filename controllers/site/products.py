@@ -10,10 +10,9 @@ Products=yaml.load("""
 """)
 
 class IndexHandler(webapp2.RequestHandler):
-
+    
     def serve_json(self):
-        struct={"products": Products,
-                "selected_product": "mini_leagues"}
+        struct=Products
         render_json(self, struct)
 
     def serve_template(self):
