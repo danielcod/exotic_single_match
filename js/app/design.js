@@ -65,6 +65,13 @@ var SingleTeamsForm=React.createClass({
 			url: '/site/design/leagues',
 			value: this.props.league,
 			changeHandler: this.changeHandler
+		    }),
+		React.createElement(
+		    AjaxSelect, {
+			name: "expiry",
+			url: '/site/design/expiries',
+			value: this.props.expiry,
+			changeHandler: this.changeHandler
 		    })
 	    ]
 	});
