@@ -32,15 +32,6 @@ handlers:
 # SITE
 - url: /site/single_teams.*
   script: controllers.site.single_teams.app
-# API
-- url: /api/expiries.*
-  script: controllers.api.expiries.app
-- url: /api/leagues.*
-  script: controllers.api.leagues.app
-- url: /api/pricing.*
-  script: controllers.api.pricing.app
-- url: /api/teams.*
-  script: controllers.api.teams.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
