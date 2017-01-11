@@ -1,6 +1,6 @@
 from controllers.site import *
 
-Deps=RootDeps+["js/app/design.js"]
+Deps=RootDeps+["js/app/products.js"]
 
 Products=yaml.load("""
 - label: Single Teams Outright
@@ -48,7 +48,7 @@ class IndexHandler(webapp2.RequestHandler):
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
-        render_template(self, "templates/site/design.html", tv)
+        render_template(self, "templates/site/products.html", tv)
 
 Routing=[('/site/products/init', InitHandler),
          ('/site/products', IndexHandler)]

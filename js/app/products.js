@@ -239,9 +239,9 @@ var ProductForm=React.createClass({
 
 var Main=function() {
     var productId=$("input[name='product_id']").val();
-    var page=React.createElement(ProductForm, {
+    var productForm=React.createElement(ProductForm, {
 	product_id: productId
     });
-    var container=$("div[id='design']")[0];
-    ReactDOM.render(page, container);    
+    var parent=$("div[id='products']")[0];
+    ReactDOM.render(productForm, parent);    
 };
