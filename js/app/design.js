@@ -141,7 +141,8 @@ var DesignForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/site/design/init");
+	var url="/site/design/init?product_id="+this.props.product_id;
+	this.loadComponent(url);
     },
     productChangeHandler: function(value) {
 	var state=this.state;
@@ -166,7 +167,10 @@ var DesignForm=React.createClass({
 });
 
 var Main=function() {
-    var page=React.createElement(DesignForm, {})
+    var productId=$("input[name='product_id']").val();
+    var page=React.createElement(DesignForm, {
+	product_id: productId
+    });
     var container=$("div[id='design']")[0];
     ReactDOM.render(page, container);    
 };

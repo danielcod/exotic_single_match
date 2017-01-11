@@ -9,12 +9,15 @@ Products=yaml.load("""
 
 DesignDeps=RootDeps+["js/app/design.js"]
 
-DefaultProduct=yaml.load("""
-type: single_teams
-query:
-  league: SPA.1
-  team: Barcelona
-  payoff: Winner
+DefaultProductId=0
+
+SampleProducts=yaml.load("""
+- id: 0
+  type: single_teams
+  query:
+    league: SPA.1
+    team: Barcelona
+    payoff: Winner
 """)
 
 class LeaguesHandler(webapp2.RequestHandler):
@@ -26,18 +29,31 @@ class LeaguesHandler(webapp2.RequestHandler):
 
 class InitHandler(webapp2.RequestHandler):
 
-    @emit_json
+    @validate_query({'product_id': '^\\d+$'})
+    @emit_json    
     def get(self):
+        productid=self.request.get("product_id")
+        products=dict([(str(product["id"]), product)
+                       for product in SampleProducts])
+        if productid not in products:
+            raise RuntimeError("Product not found")
+        product=products[productid]        
         return {"products": Products,
-                "product": DefaultProduct}
+                "product": product}
 
 class IndexHandler(webapp2.RequestHandler):
     
-    def get(self):        
+    def get(self):
+        productid=self.request.get("product_id")
+        if productid in ['', None, []]:
+            productid=DefaultProductId
+        else:
+            productid=int(productid)
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in DesignDeps])
         tv={"title": Title,
-            "deps": depsstr}
+            "deps": depsstr,
+            "product_id": productid}
         render_template(self, "templates/site/design.html", tv)
 
 Routing=[('/site/design/leagues', LeaguesHandler),
