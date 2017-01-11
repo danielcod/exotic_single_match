@@ -10,10 +10,18 @@ var AjaxSelect=React.createClass({
 	return {options: [BlankSelectOption],
 		value: this.props.value};
     },
+    filterSelectedValue: function(struct) {
+	var selectedItems=struct.filter(function(item) {
+	    return item.value==this.state.value;
+	}.bind(this));
+	return (selectedItems.length > 0) ? this.state.value : undefined;
+    },
     loadSuccess: function(struct) {
 	var state=this.state;
 	state["options"]=[BlankSelectOption].concat(struct);
 	this.setState(state);
+	var selectedValue=this.filterSelectedValue(struct);
+	this.props.changeHandler(this.props.name, selectedValue);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -39,35 +47,41 @@ var AjaxSelect=React.createClass({
 	}
     },
     render: function() {
-	return React.DOM.select({
-	    className: "form-control",
-	    value: this.state.value,
-	    onChange: function(event) {
-		var value=(event.target.value!='') ? event.target.value : undefined; // NB conversion of blank string to undefined
-		this.setState({
-		    value: value
-		});
-		this.props.changeHandler(this.props.name, value);
-	    }.bind(this),
-	    children: this.state.options.map(function(option) {
-		return React.DOM.option({
-		    value: option.value,
-		    children: option.label || option.value
+	return React.DOM.div({
+	    className: "form-group",
+	    children: [
+		React.DOM.select({
+		    className: "form-control",
+		    value: this.state.value,
+		    onChange: function(event) {
+			var value=(event.target.value!='') ? event.target.value : undefined; // NB conversion of blank string to undefined
+			this.setState({
+			    value: value
+			});
+			this.props.changeHandler(this.props.name, value);
+		    }.bind(this),
+		    children: this.state.options.map(function(option) {
+			return React.DOM.option({
+			    value: option.value,
+			    children: option.label || option.value
+			})
+		    })
 		})
-	    })
-	});
+	    ]
+	});		
     }
 });
 
 var SingleTeamsForm=React.createClass({
     getInitialState: function() {
 	return {
-	    params: {
-		league: this.props.league,
-		team: this.props.team,
-		expiry: this.props.expiry
-	    }	    
+	    params: {}
 	};
+    },
+    isComplete: function(params) {
+	return ((params.league!=undefined) &&
+		(params.team!=undefined) &&
+		(params.expiry!=undefined));
     },
     changeHandler: function(name, value) {
 	var params=this.state.params;
@@ -78,7 +92,9 @@ var SingleTeamsForm=React.createClass({
 	this.setState({
 	    params: params
 	});
-	console.log(JSON.stringify(this.state.params));
+	if (this.isComplete(params)) {
+	    console.log(JSON.stringify(params));
+	};
     },
     initTeamsUrl: function(params) {
 	return (params.league!=undefined) ? "/site/design/teams?league="+params.league : undefined;
@@ -135,24 +151,29 @@ var ProductSelect=React.createClass({
 	}
     },
     render: function() {
-	return React.DOM.select({
-	    className: "form-control",
-	    value: this.state.value,
-	    onChange: function(event) {
-		var value=event.target.value;
-		this.setState({
-		    value: value
-		});
-		this.props.changeHandler(value);
-	    }.bind(this),
-	    children: this.props.options.map(function(option) {
-		return React.DOM.option({
-		    value: option.name,
-		    children: option.label || option.name
+	return React.DOM.div({
+	    className: "form-group",
+	    children: [
+		React.DOM.select({
+		    className: "form-control",
+		    value: this.state.value,
+		    onChange: function(event) {
+			var value=event.target.value;
+			this.setState({
+			    value: value
+			});
+			this.props.changeHandler(value);
+		    }.bind(this),
+		    children: this.props.options.map(function(option) {
+			return React.DOM.option({
+			    value: option.name,
+			    children: option.label || option.name
+			})
+		    })
 		})
-	    })
+	    ]
 	});
-    }
+    }	
 });
 
 var DesignForm=React.createClass({
