@@ -51,11 +51,24 @@ var AjaxSelect=React.createClass({
 	    this.loadComponent(this.props.url);
 	}
     },
-    componentWillReceiveProps: function(nextProps) {	
+    componentWillReceiveProps: function(nextProps) {
+	// check for new url
 	if ((nextProps.url!=undefined) && 
 	    (this.props.url!=nextProps.url)) {
 	    console.log(nextProps.url);
 	    this.loadComponent(nextProps.url);
+	}
+	// check for new id
+	if (this.props.id!=nextProps.id) {
+	    console.log(this.props.name+" reset -> "+this.props.value);
+	    var value=this.props.value;
+	    this.setState({
+		target_value: value,
+		visible_value: value
+	    });
+	    console.log(this.props.name+" target_value set to "+value);
+	    this.setBlankOptionDisabled(true);
+	    this.props.changeHandler(this.props.name, value);
 	}
     },
     shallHighlight: function() {
@@ -99,6 +112,7 @@ var AjaxSelect=React.createClass({
 var SingleTeamsForm=React.createClass({
     getInitialState: function() {
 	return {
+	    id: 1e10*Math.random(),
 	    params: {}
 	};
     },
@@ -128,6 +142,11 @@ var SingleTeamsForm=React.createClass({
     initPayoffsUrl: function(params) {
 	return (params.league!=undefined) ? "/site/products/single_teams/payoff?league="+params.league : undefined;
     },
+    reset: function() {
+	var state=this.state;
+	state.id=1e10*Math.random();
+	this.setState(state);
+    },
     render: function() {	
 	return React.DOM.div({
 	    children: [
@@ -136,29 +155,37 @@ var SingleTeamsForm=React.createClass({
 			name: "league",
 			url: '/site/leagues',
 			value: this.props.league,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    AjaxSelect, {
 			name: 'team',
 			url: this.initTeamsUrl(this.state.params),
 			value: this.props.team,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    AjaxSelect, {
 			name: 'payoff',
 			url: this.initPayoffsUrl(this.state.params),
 			value: this.props.payoff,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    AjaxSelect, {
 			name: "expiry",
 			url: '/site/expiries',
 			value: this.props.expiry,
-			changeHandler: this.changeHandler
-		    })
+			changeHandler: this.changeHandler,
+			id: this.state.id
+		    }),
+		React.DOM.button({
+		    children: "Reset",
+		    onClick: this.reset
+		})
 	    ]
 	});
     }
