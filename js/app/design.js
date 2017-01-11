@@ -1,4 +1,5 @@
-var BlankSelectOption=[{label: "Select"}];
+var BlankSelectOption=[{label: "Select",
+			value: ""}];
 
 var AjaxSelect=React.createClass({
     getInitialState: function() {
@@ -7,7 +8,7 @@ var AjaxSelect=React.createClass({
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	state["options"]=[BlankSelectOption].concat(struct);
+	state["options"]=BlankSelectOption.concat(struct);
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -38,7 +39,7 @@ var AjaxSelect=React.createClass({
 	    className: "form-control",
 	    value: this.state.value,
 	    onChange: function(event) {
-		var value=event.target.value;
+		var value=(event.target.value!='') ? event.target.value : undefined;
 		this.setState({
 		    value: value
 		});
@@ -55,8 +56,23 @@ var AjaxSelect=React.createClass({
 });
 
 var SingleTeamsForm=React.createClass({
+    getInitialState: function() {
+	return {
+	    params: {
+		league: this.props.league,
+		team: this.props.team,
+		payoff: this.props.payoff,
+		expiry: this.props.expiry
+	    }	    
+	};
+    },
     changeHandler: function(name, value) {
-	console.log(name+"="+value);
+	var params=this.state.params;
+	params[name]=value;
+	this.setState({
+	    params: params
+	});
+	console.log(JSON.stringify(this.state.params));
     },
     render: function() {	
 	return React.DOM.div({

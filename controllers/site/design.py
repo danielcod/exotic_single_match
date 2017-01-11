@@ -57,6 +57,20 @@ def add_months(date, months):
      day=min(date.day, calendar.monthrange(year, month)[1])
      return datetime.date(year, month, day)
 
+class TeamsHandler(webapp2.RequestHandler):
+
+    @validate_query({'league': '^\\D{3}\\.\\d$'})
+    @emit_json_memcache(60)
+    def get(self):
+        leaguename=self.request.get("league")
+        leaguenames=[league["name"]
+                     for league in Leagues]
+        if leaguename not in leaguenames:
+            raise RuntimeError("League not found")
+        return [{"value": team["name"]}
+                for team in yc_lite.get_teams(leaguename)]
+
+ 
 class ExpiriesHandler(webapp2.RequestHandler):
     
     @emit_json
@@ -108,6 +122,7 @@ class IndexHandler(webapp2.RequestHandler):
         render_template(self, "templates/site/design.html", tv)
 
 Routing=[('/site/design/leagues', LeaguesHandler),
+         ('/site/design/teams', TeamsHandler),
          ('/site/design/expiries', ExpiriesHandler),
          ('/site/design/init', InitHandler),
          ('/site/design', IndexHandler)]
