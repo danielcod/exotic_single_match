@@ -17,15 +17,6 @@ var AjaxSelect=React.createClass({
 		target_value: this.props.value,
 		visible_value: undefined};
     },
-    filterVisibleValue: function(struct) {
-	var items=struct.filter(function(item) {
-	    return item.value==this.state.target_value;
-	}.bind(this));
-	return (items.length > 0) ? this.state.target_value : undefined;
-    },
-    setBlankOptionDisabled: function(bool) {
-	$(ReactDOM.findDOMNode(this)).find("option:first").attr("disabled", bool);
-    },
     loadSuccess: function(struct) {
 	var state=this.state;
 	state["options"]=[BlankSelectOption].concat(struct);
@@ -55,27 +46,37 @@ var AjaxSelect=React.createClass({
 	// check for new url
 	if ((nextProps.url!=undefined) && 
 	    (this.props.url!=nextProps.url)) {
-	    console.log(nextProps.url);
+	    // console.log(nextProps.url);
 	    this.loadComponent(nextProps.url);
 	}
 	// check for new id
 	if (this.props.id!=nextProps.id) {
-	    console.log(this.props.name+" reset -> "+this.props.value);
-	    var value=this.props.value;
-	    this.setState({
-		target_value: value,
-		visible_value: value
-	    });
-	    console.log(this.props.name+" target_value set to "+value);
-	    this.setBlankOptionDisabled(true);
-	    this.props.changeHandler(this.props.name, value);
+	    this.updateValue(this.props.value);
 	}
+    },
+    filterVisibleValue: function(struct) {
+	var items=struct.filter(function(item) {
+	    return item.value==this.state.target_value;
+	}.bind(this));
+	return (items.length > 0) ? this.state.target_value : undefined;
     },
     shallHighlight: function() {
 	return this.state.visible_value==undefined;
     },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
+    },
+    updateValue: function(value) {
+	// console.log("Setting "+this.props.name+" target_value to "+value);
+	this.setState({
+	    target_value: value,
+	    visible_value: value
+	});
+	this.setBlankOptionDisabled(true);
+	this.props.changeHandler(this.props.name, value);
+    },
+    setBlankOptionDisabled: function(bool) {
+	$(ReactDOM.findDOMNode(this)).find("option:first").attr("disabled", bool);
     },
     render: function() {
 	return React.DOM.div({
@@ -89,13 +90,7 @@ var AjaxSelect=React.createClass({
 		    } : {},
 		    onChange: function(event) {
 			var value=this.formatValue(event.target.value);
-			this.setState({
-			    target_value: value,
-			    visible_value: value
-			});
-			console.log(this.props.name+" target_value set to "+value);
-			this.setBlankOptionDisabled(true);
-			this.props.changeHandler(this.props.name, value);
+			this.updateValue(value);
 		    }.bind(this),
 		    children: this.state.options.map(function(option) {
 			return React.DOM.option({
@@ -133,7 +128,7 @@ var SingleTeamsForm=React.createClass({
 	    params: params
 	});
 	if (this.isComplete(params)) {
-	    // console.log(JSON.stringify(params));
+	    console.log(JSON.stringify(params));
 	};
     },
     initTeamsUrl: function(params) {
