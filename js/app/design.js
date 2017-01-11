@@ -141,7 +141,7 @@ var ProductsForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/site/design/init");
+	this.loadComponent("/site/design/products");
     },
     productChangeHandler: function(value) {
 	var state=this.state;
