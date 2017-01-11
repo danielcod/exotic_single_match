@@ -15,7 +15,11 @@ class InitHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        return {"products": Products}
+        return {"products": Products,
+                "product": {"type": "mini_leagues",
+                            "query": {"league": "ENG.1",
+                                      "team": "Arsenal",
+                                      "payoff": "Winner"}}}
 
 class IndexHandler(webapp2.RequestHandler):
     

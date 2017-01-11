@@ -1,5 +1,6 @@
 var SingleTeamsForm=React.createClass({
     render: function() {	
+	console.log(JSON.stringify(this.props));
 	return React.DOM.h3({
 	    children: React.DOM.span({
 		className: "label label-primary",
@@ -10,7 +11,8 @@ var SingleTeamsForm=React.createClass({
 });
 
 var MiniLeaguesForm=React.createClass({
-    render: function() {	
+    render: function() {
+	console.log(JSON.stringify(this.props));
 	return React.DOM.h3({
 	    children: React.DOM.span({
 		className: "label label-warning",
@@ -56,7 +58,7 @@ var ProductsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
-	    selected_product: "mini_leagues", // TEMP
+	    product: undefined
 	};
     },
     initCallback: function(struct) {
@@ -83,22 +85,25 @@ var ProductsForm=React.createClass({
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	state["selected_product"]=value;
+	state["product"]={
+	    type: value,
+	    query: {}
+	};
 	this.setState(state);
     },
-    render: function() {	
+    render: function() {
 	return React.DOM.div({
 	    className: "text-center",
 	    style: {
 		"margin-bottom": "30px"
 	    },
-	    children: (this.state.selected_product!=undefined) ? [
+	    children: (this.state.product!=undefined) ? [
 		React.createElement(ProductSelect, {
 		    options: this.state.products,
-		    value: this.state.selected_product,
+		    value: this.state.product.type,
 		    changeHandler: this.productChangeHandler
 		}),
-		React.createElement(ProductMapping[this.state.selected_product], {})
+		React.createElement(ProductMapping[this.state.product.type], this.state.product.query)
 	    ] : []
 	});
     }
