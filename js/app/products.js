@@ -90,6 +90,7 @@ var SingleTeamsForm=React.createClass({
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
 		(params.team!=undefined) &&
+		(params.payoff!=undefined) &&
 		(params.expiry!=undefined));
     },
     changeHandler: function(name, value) {
@@ -97,6 +98,7 @@ var SingleTeamsForm=React.createClass({
 	params[name]=value;
 	if (name=="league") {
 	    params.team=undefined; // NB
+	    params.payoff=undefined;
 	};
 	this.setState({
 	    params: params
@@ -107,6 +109,9 @@ var SingleTeamsForm=React.createClass({
     },
     initTeamsUrl: function(params) {
 	return (params.league!=undefined) ? "/site/teams?league="+params.league : undefined;
+    },
+    initPayoffsUrl: function(params) {
+	return (params.league!=undefined) ? "/site/products/single_teams/payoff?league="+params.league : undefined;
     },
     render: function() {	
 	return React.DOM.div({
@@ -123,6 +128,13 @@ var SingleTeamsForm=React.createClass({
 			name: 'team',
 			url: this.initTeamsUrl(this.state.params),
 			value: this.props.team,
+			changeHandler: this.changeHandler
+		    }),
+		React.createElement(
+		    AjaxSelect, {
+			name: 'payoff',
+			url: this.initPayoffsUrl(this.state.params),
+			value: this.props.payoff,
 			changeHandler: this.changeHandler
 		    }),
 		React.createElement(

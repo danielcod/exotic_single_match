@@ -34,6 +34,8 @@ handlers:
   script: controllers.site.expiries.app
 - url: /site/leagues.*
   script: controllers.site.leagues.app
+- url: /site/products/single_teams.*
+  script: controllers.site.products.single_teams.app
 - url: /site/products.*
   script: controllers.site.products.app
 - url: /site/teams.*
