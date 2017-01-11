@@ -80,7 +80,7 @@ var ProductsForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.initialise("/site/products/init");
+	this.initialise("/site/products");
     },
     productChangeHandler: function(value) {
 	var state=this.state;

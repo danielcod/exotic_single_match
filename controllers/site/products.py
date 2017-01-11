@@ -9,28 +9,31 @@ Products=yaml.load("""
   description: A Bird In the Hand 
 """)
 
-class InitHandler(webapp2.RequestHandler):
+class IndexHandler(webapp2.RequestHandler):
 
-    @emit_json
-    def get(self):
-        return {"products": Products,
-                # "bet_type": "single_teams",
+    def serve_json(self):
+        struct={"products": Products,
                 "bet_type": "single_teams",
                 "bet_query": {"league": "ENG.1",
                               "team": "Arsenal",
                               "payoff": "Winner"}}
+        render_json(self, struct)
 
-class IndexHandler(webapp2.RequestHandler):
-
-    def get(self):
+    def serve_template(self):
         depsstr=",".join(["\"../%s\"" % dep
                          for dep in Deps])
         tv={"title": Title,
             "deps": depsstr}
         render_template(self, "templates/site/products.html", tv)
+    
+    def get(self):
+        if "application/json" in self.request.headers["Accept"]:
+            self.serve_json()
+        else:
+            self.serve_template()
 
-Routing=[('/site/products/init', InitHandler),
-         ('/site/products', IndexHandler)]
+
+Routing=[('/site/products', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
