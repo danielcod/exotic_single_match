@@ -20,6 +20,20 @@ var MiniLeaguesForm=React.createClass({
     }
 });
 
+var SimpleSelect=React.createClass({
+    render: function() {
+	return React.DOM.select({
+	    className: "form-control",
+	    children: this.props.options.map(function(option) {
+		return React.DOM.option({
+		    value: option.name,
+		    children: option.label || option.name
+		})
+	    })
+	});
+    }
+});
+
 var ProductsForm=React.createClass({
     loadProductsSuccess: function(struct) {
 	console.log(JSON.stringify(struct));
@@ -45,7 +59,14 @@ var ProductsForm=React.createClass({
 	    style: {
 		"margin-bottom": "30px"
 	    },
-	    children: React.createElement(MiniLeaguesForm, {})
+	    children: [
+		React.createElement(SimpleSelect, {
+		    options: [
+			{name: "Hello"}
+		    ]
+		}),
+		React.createElement(MiniLeaguesForm, {})
+	    ]
 	});
     }
 });
