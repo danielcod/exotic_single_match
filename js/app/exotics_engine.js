@@ -1,4 +1,4 @@
-var SingleTeamsPage=React.createClass({
+var ProductsForm=React.createClass({
     render: function() {	
 	return React.DOM.div({
 	    className: "text-center",
@@ -16,7 +16,7 @@ var SingleTeamsPage=React.createClass({
 });
 
 var Main=function() {
-    var page=React.createElement(SingleTeamsPage, {})
-    var container=$("div[id='form']")[0];
+    var page=React.createElement(ProductsForm, {})
+    var container=$("div[id='products']")[0];
     ReactDOM.render(page, container);    
 };

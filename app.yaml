@@ -30,8 +30,8 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # SITE
-- url: /site/single_teams.*
-  script: controllers.site.single_teams.app
+- url: /site/products.*
+  script: controllers.site.products.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
