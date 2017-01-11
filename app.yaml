@@ -30,12 +30,12 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # SITE
-- url: /site/design.*
-  script: controllers.site.design.app
 - url: /site/expiries.*
   script: controllers.site.expiries.app
 - url: /site/leagues.*
   script: controllers.site.leagues.app
+- url: /site/products.*
+  script: controllers.site.products.app
 - url: /site/teams.*
   script: controllers.site.teams.app
 # TASKS

@@ -1,6 +1,6 @@
 from controllers.site import *
 
-DesignDeps=RootDeps+["js/app/design.js"]
+Deps=RootDeps+["js/app/design.js"]
 
 Products=yaml.load("""
 - label: Single Teams Outright
@@ -44,14 +44,14 @@ class IndexHandler(webapp2.RequestHandler):
         else:
             productid=int(productid)
         depsstr=",".join(["\"../%s\"" % dep
-                          for dep in DesignDeps])
+                          for dep in Deps])
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
         render_template(self, "templates/site/design.html", tv)
 
-Routing=[('/site/design/init', InitHandler),
-         ('/site/design', IndexHandler)]
+Routing=[('/site/products/init', InitHandler),
+         ('/site/products', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
