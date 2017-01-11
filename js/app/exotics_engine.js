@@ -40,25 +40,27 @@ var ProductsForm=React.createClass({
 	    products: []
 	};
     },
-    loadProductsSuccess: function(struct) {
+    initCallback: function(struct) {
 	var state=this.state;
-	state["products"]=struct;
+	for (var key in struct) {
+	    state[key]=struct[key];
+	};
 	this.setState(state);
     },
-    loadProductsError: function(xhr, ajaxOptions, thrownError) {
+    initError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    loadProducts: function(url) {
+    initialise: function(url) {
 	$.ajax({
 	    url: url,
 	    type: "GET",
 	    dataType: "json",
-	    success: this.loadProductsSuccess,
-	    error: this.loadProductsError
+	    success: this.initCallback,
+	    error: this.initError
 	});
     },
     componentDidMount: function() {
-	this.loadProducts("/site/products/list");
+	this.initialise("/site/products/init");
     },
     render: function() {	
 	return React.DOM.div({	    

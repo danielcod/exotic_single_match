@@ -9,11 +9,11 @@ Products=yaml.load("""
   description: A Bird In the Hand 
 """)
 
-class ListHandler(webapp2.RequestHandler):
+class InitHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        return Products
+        return {"products": Products}
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -24,7 +24,7 @@ class IndexHandler(webapp2.RequestHandler):
             "deps": depsstr}
         render_template(self, "templates/site/products.html", tv)
 
-Routing=[('/site/products/list', ListHandler),
+Routing=[('/site/products/init', InitHandler),
          ('/site/products', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
