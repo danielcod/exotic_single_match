@@ -69,7 +69,7 @@ var ProductsForm=React.createClass({
     },
     loadProducts: function() {
 	$.ajax({
-	    url: "/site/products/products",
+	    url: "/site/design/products",
 	    type: "GET",
 	    dataType: "json",
 	    success: this.loadProductsCallback,
