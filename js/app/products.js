@@ -23,11 +23,15 @@ var AjaxSelect=React.createClass({
 	}.bind(this));
 	return (items.length > 0) ? this.state.target_value : undefined;
     },
+    setBlankOptionDisabled: function(bool) {
+	$(ReactDOM.findDOMNode(this)).find("option:first").attr("disabled", bool);
+    },
     loadSuccess: function(struct) {
 	var state=this.state;
 	state["options"]=[BlankSelectOption].concat(struct);
-	state["visible_value"]=this.filterVisibleValue(struct);	
+	state["visible_value"]=this.filterVisibleValue(struct);
 	this.setState(state);
+	this.setBlankOptionDisabled(this.state.visible_value!=undefined);
 	this.props.changeHandler(this.props.name, this.state.visible_value);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -53,6 +57,12 @@ var AjaxSelect=React.createClass({
 	    this.loadComponent(nextProps.url);
 	}
     },
+    shallHighlight: function() {
+	return this.state.visible_value==undefined;
+    },
+    formatValue: function(value) {
+	return (value!='') ? value : undefined;
+    },
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -60,13 +70,16 @@ var AjaxSelect=React.createClass({
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.target_value,
-		    style: (this.state.visible_value==undefined) ? {border: "3px solid #F88"} : {},
+		    style: this.shallHighlight() ? {
+			border: "3px solid #F88"
+		    } : {},
 		    onChange: function(event) {
-			var value=(event.target.value!='') ? event.target.value : undefined; // NB conversion of blank string to undefined
+			var value=this.formatValue(event.target.value);
 			this.setState({
 			    target_value: value,
 			    visible_value: value
 			});
+			this.setBlankOptionDisabled(true);
 			this.props.changeHandler(this.props.name, value);
 		    }.bind(this),
 		    children: this.state.options.map(function(option) {
