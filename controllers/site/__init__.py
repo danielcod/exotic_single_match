@@ -1,6 +1,6 @@
 from controllers import *
 
-Deps=yaml.load("""
+RootDeps=yaml.load("""
 - css/lib/bootstrap.min.css
 - css/lib/jumbotron-narrow.css
 - css/lib/bs-wizard.css
@@ -12,4 +12,5 @@ Deps=yaml.load("""
 
 Title="ioSport Exotics Demo"
 
+Leagues=yaml.load(file("config/leagues.yaml").read())
 

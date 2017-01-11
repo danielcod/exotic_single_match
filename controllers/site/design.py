@@ -7,15 +7,22 @@ Products=yaml.load("""
   name: mini_leagues
 """)
 
-DesignDeps=Deps+["js/app/design.js"]
+DesignDeps=RootDeps+["js/app/design.js"]
 
 DefaultProduct=yaml.load("""
 type: single_teams
 query:
-  league: ENG.1
-  team: Arsenal
+  league: SPA.1
+  team: Barcelona
   payoff: Winner
 """)
+
+class LeaguesHandler(webapp2.RequestHandler):
+
+    @emit_json
+    def get(self):
+        return [{"value": league["name"]}
+                for league in Leagues]
 
 class InitHandler(webapp2.RequestHandler):
 
@@ -32,8 +39,9 @@ class IndexHandler(webapp2.RequestHandler):
         tv={"title": Title,
             "deps": depsstr}
         render_template(self, "templates/site/design.html", tv)
-        
-Routing=[('/site/design/init', InitHandler),
+
+Routing=[('/site/design/leagues', LeaguesHandler),
+         ('/site/design/init', InitHandler),
          ('/site/design', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
