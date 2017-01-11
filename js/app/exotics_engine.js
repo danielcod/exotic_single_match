@@ -20,7 +20,7 @@ var MiniLeaguesForm=React.createClass({
     }
 });
 
-var SimpleSelect=React.createClass({
+var ProductSelect=React.createClass({
     render: function() {
 	return React.DOM.select({
 	    className: "form-control",
@@ -35,8 +35,15 @@ var SimpleSelect=React.createClass({
 });
 
 var ProductsForm=React.createClass({
+    getInitialState: function() {
+	return {
+	    products: []
+	};
+    },
     loadProductsSuccess: function(struct) {
-	console.log(JSON.stringify(struct));
+	var state=this.state;
+	state["products"]=struct;
+	this.setState(state);
     },
     loadProductsError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -60,10 +67,8 @@ var ProductsForm=React.createClass({
 		"margin-bottom": "30px"
 	    },
 	    children: [
-		React.createElement(SimpleSelect, {
-		    options: [
-			{name: "Hello"}
-		    ]
+		React.createElement(ProductSelect, {
+		    options: this.state.products
 		}),
 		React.createElement(MiniLeaguesForm, {})
 	    ]
