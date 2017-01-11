@@ -9,6 +9,8 @@ Products=yaml.load("""
   description: A Bird In the Hand 
 """)
 
+DesignDeps=Deps+["js/app/design.js"]
+
 class ProductsHandler(webapp2.RequestHandler):
 
     @emit_json
@@ -19,7 +21,7 @@ class IndexHandler(webapp2.RequestHandler):
     
     def get(self):
         depsstr=",".join(["\"../%s\"" % dep
-                         for dep in Deps])
+                          for dep in DesignDeps])
         tv={"title": Title,
             "deps": depsstr}
         render_template(self, "templates/site/design.html", tv)

@@ -8,7 +8,6 @@ Deps=yaml.load("""
 - js/lib/bootstrap.min.js
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
-- js/app/exotics_engine.js
 """)
 
 Title="ioSport Exotics Demo"
