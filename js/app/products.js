@@ -54,6 +54,7 @@ var AjaxSelect=React.createClass({
     componentWillReceiveProps: function(nextProps) {	
 	if ((nextProps.url!=undefined) && 
 	    (this.props.url!=nextProps.url)) {
+	    console.log(nextProps.url);
 	    this.loadComponent(nextProps.url);
 	}
     },
@@ -79,6 +80,7 @@ var AjaxSelect=React.createClass({
 			    target_value: value,
 			    visible_value: value
 			});
+			console.log(this.props.name+" target_value set to "+value);
 			this.setBlankOptionDisabled(true);
 			this.props.changeHandler(this.props.name, value);
 		    }.bind(this),
@@ -117,7 +119,7 @@ var SingleTeamsForm=React.createClass({
 	    params: params
 	});
 	if (this.isComplete(params)) {
-	    console.log(JSON.stringify(params));
+	    // console.log(JSON.stringify(params));
 	};
     },
     initTeamsUrl: function(params) {
