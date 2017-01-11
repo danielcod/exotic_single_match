@@ -13,7 +13,12 @@ class InitHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        return {"products": Products}
+        return {"products": Products,
+                # "bet_type": "single_teams",
+                "bet_type": "single_teams",
+                "bet_query": {"league": "ENG.1",
+                              "team": "Arsenal",
+                              "payoff": "Winner"}}
 
 class IndexHandler(webapp2.RequestHandler):
 

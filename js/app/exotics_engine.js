@@ -20,10 +20,28 @@ var MiniLeaguesForm=React.createClass({
     }
 });
 
+var ProductMapping={
+    "single_teams": SingleTeamsForm,
+    "mini_leagues": MiniLeaguesForm
+};
+
 var ProductSelect=React.createClass({
+    getInitialState: function() {
+	return {
+	    value: this.props.value
+	}
+    },
     render: function() {
 	return React.DOM.select({
 	    className: "form-control",
+	    value: this.state.value,
+	    onChange: function(event) {
+		var value=event.target.value;
+		this.setState({
+		    value: value
+		});
+		this.props.changeHandler(value);
+	    }.bind(this),
 	    children: this.props.options.map(function(option) {
 		return React.DOM.option({
 		    value: option.name,
@@ -37,7 +55,9 @@ var ProductSelect=React.createClass({
 var ProductsForm=React.createClass({
     getInitialState: function() {
 	return {
-	    products: []
+	    products: [],
+	    bet_type: undefined,
+	    bet_query: {}
 	};
     },
     initCallback: function(struct) {
@@ -62,18 +82,25 @@ var ProductsForm=React.createClass({
     componentDidMount: function() {
 	this.initialise("/site/products/init");
     },
+    productChangeHandler: function(value) {
+	var state=this.state;
+	state["bet_type"]=value;
+	this.setState(state);
+    },
     render: function() {	
-	return React.DOM.div({	    
+	return React.DOM.div({
 	    className: "text-center",
 	    style: {
 		"margin-bottom": "30px"
 	    },
-	    children: [
+	    children: (this.state.bet_type!=undefined) ? [
 		React.createElement(ProductSelect, {
-		    options: this.state.products
+		    options: this.state.products,
+		    value: this.state.bet_type,
+		    changeHandler: this.productChangeHandler
 		}),
-		React.createElement(MiniLeaguesForm, {})
-	    ]
+		React.createElement(ProductMapping[this.state.bet_type], {})
+	    ] : []
 	});
     }
 });
