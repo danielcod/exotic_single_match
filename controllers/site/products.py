@@ -13,10 +13,7 @@ class IndexHandler(webapp2.RequestHandler):
 
     def serve_json(self):
         struct={"products": Products,
-                "bet_type": "single_teams",
-                "bet_query": {"league": "ENG.1",
-                              "team": "Arsenal",
-                              "payoff": "Winner"}}
+                "selected_product": "mini_leagues"}
         render_json(self, struct)
 
     def serve_template(self):

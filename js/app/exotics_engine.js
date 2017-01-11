@@ -56,8 +56,7 @@ var ProductsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
-	    bet_type: undefined,
-	    bet_query: {}
+	    selected_product: undefined,
 	};
     },
     initCallback: function(struct) {
@@ -84,7 +83,7 @@ var ProductsForm=React.createClass({
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	state["bet_type"]=value;
+	state["selected_product"]=value;
 	this.setState(state);
     },
     render: function() {	
@@ -93,13 +92,13 @@ var ProductsForm=React.createClass({
 	    style: {
 		"margin-bottom": "30px"
 	    },
-	    children: (this.state.bet_type!=undefined) ? [
+	    children: (this.state.selected_product!=undefined) ? [
 		React.createElement(ProductSelect, {
 		    options: this.state.products,
-		    value: this.state.bet_type,
+		    value: this.state.selected_product,
 		    changeHandler: this.productChangeHandler
 		}),
-		React.createElement(ProductMapping[this.state.bet_type], {})
+		React.createElement(ProductMapping[this.state.selected_product], {})
 	    ] : []
 	});
     }
