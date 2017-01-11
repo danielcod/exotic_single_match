@@ -1,5 +1,9 @@
-var BlankSelectOption=[{label: "Select",
-			value: ""}];
+/*
+  weird things happen if you use value=undefined; code will send label as value rather than an undefined value; so set value='' and then convert at changeHandler level
+*/
+
+var BlankSelectOption={label: "Select",
+		       value: ""};
 
 var AjaxSelect=React.createClass({
     getInitialState: function() {
@@ -8,7 +12,7 @@ var AjaxSelect=React.createClass({
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	state["options"]=BlankSelectOption.concat(struct);
+	state["options"]=[BlankSelectOption].concat(struct);
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -39,7 +43,7 @@ var AjaxSelect=React.createClass({
 	    className: "form-control",
 	    value: this.state.value,
 	    onChange: function(event) {
-		var value=(event.target.value!='') ? event.target.value : undefined;
+		var value=(event.target.value!='') ? event.target.value : undefined; // NB conversion of blank string to undefined
 		this.setState({
 		    value: value
 		});
