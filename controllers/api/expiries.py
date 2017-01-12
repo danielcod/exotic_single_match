@@ -1,4 +1,4 @@
-from controllers.site import *
+from controllers.api import *
 
 import calendar
 
@@ -50,7 +50,7 @@ class IndexHandler(webapp2.RequestHandler):
                          "value": EOS})
         return expiries
     
-Routing=[('/site/expiries', IndexHandler)]
+Routing=[('/api/expiries', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

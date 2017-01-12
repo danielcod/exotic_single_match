@@ -1,4 +1,4 @@
-from controllers.site import *
+from controllers.api import *
 
 import apis.yc_lite_api as yc_lite
 
@@ -15,7 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
         return [{"value": team["name"]}
                 for team in yc_lite.get_teams(leaguename)]
 
-Routing=[('/site/teams', IndexHandler)]
+Routing=[('/api/teams', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

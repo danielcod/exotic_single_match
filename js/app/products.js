@@ -158,7 +158,7 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     initTeamsUrl: function(params) {
-	return (params.league!=undefined) ? "/site/teams?league="+params.league : undefined;
+	return (params.league!=undefined) ? "/api/teams?league="+params.league : undefined;
     },
     initPayoffsUrl: function(params) {
 	return (params.league!=undefined) ? "/site/products/single_teams/payoff?league="+params.league : undefined;
@@ -199,7 +199,7 @@ var SingleTeamsForm=React.createClass({
 				    AjaxSelect, {
 					label: "League",
 					name: "league",
-					url: '/site/leagues',
+					url: '/api/leagues',
 					value: this.props.league,
 					changeHandler: this.changeHandler,
 					id: this.state.id
@@ -226,7 +226,7 @@ var SingleTeamsForm=React.createClass({
 				    AjaxSelect, {
 					label: "Expiry",
 					name: "expiry",
-					url: '/site/expiries',
+					url: '/api/expiries',
 					value: this.props.expiry,
 					changeHandler: this.changeHandler,
 					id: this.state.id
