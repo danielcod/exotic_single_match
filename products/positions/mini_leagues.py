@@ -2,6 +2,10 @@ from products.positions import *
 
 class MiniLeaguesProduct:
 
+    def payoff_names(self, leaguename=None, teamname=None):
+        return ["Winner",
+                "Bottom"]
+    
     def validate_query(self, query):
         pass
     

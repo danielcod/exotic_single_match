@@ -2,7 +2,11 @@ from products.positions import *
 
 class SingleTeamsProduct:
 
-    def payoff_names(self, leaguename):
+    """
+    - could be extended to price range of different products for specified team which have prices in 1-99% range (assuming max expiry)
+    """
+    
+    def payoff_names(self, leaguename, teamname=None):
         teams=fetch_teams(leaguename)
         names=[]
         names.append("Winner")

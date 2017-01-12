@@ -161,7 +161,7 @@ var SingleTeamsForm=React.createClass({
 	return (params.league!=undefined) ? "/api/teams?league="+params.league : undefined;
     },
     initPayoffsUrl: function(params) {
-	return (params.league!=undefined) ? "/site/products/single_teams/payoff?league="+params.league : undefined;
+	return (params.league!=undefined) ? "/api/products/payoff?product=single_teams&league="+params.league : undefined;
     },
     reset: function() {
 	var state=this.state;
