@@ -134,7 +134,7 @@ var SingleTeamsForm=React.createClass({
 		    "query": params};
 	$.ajax({
 	    type: "POST",
-	    url: "/site/pricing",
+	    url: "/api/products/pricing",
 	    data: JSON.stringify(struct),
 	    contentType: "application/json",
 	    dataType: "json",

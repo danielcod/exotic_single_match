@@ -1,12 +1,4 @@
-from controllers.site import *
-
-from products.positions.single_teams import SingleTeamsProduct
-from products.positions.mini_leagues import MiniLeaguesProduct
-
-Products={
-    "single_teams": SingleTeamsProduct,
-    "mini_leagues": MiniLeaguesProduct
-}
+from controllers.api.products import *
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
@@ -39,7 +31,7 @@ class IndexHandler(webapp2.RequestHandler):
         probability=product.price_contract(contract)
         return {"decimal_price": format_price(probability)}
 
-Routing=[('/site/pricing', IndexHandler)]
+Routing=[('/api/products/pricing', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
