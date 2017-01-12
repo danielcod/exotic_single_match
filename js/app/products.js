@@ -226,6 +226,7 @@ var SingleTeamsForm=React.createClass({
 		    className: "text-right",
 		    children: [
 			React.DOM.button({
+			    className: "btn btn-danger",
 			    children: "Reset",
 			    onClick: this.reset
 			})
