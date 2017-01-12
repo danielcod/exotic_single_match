@@ -24,7 +24,7 @@ SampleProducts=yaml.load("""
 class InitHandler(webapp2.RequestHandler):
 
     @validate_query({'product_id': '^\\d+$'})
-    @emit_json    
+    @emit_json_memcache(60)    
     def get(self):
         productid=self.request.get("product_id")
         products=dict([(str(product["id"]), product)
@@ -36,7 +36,7 @@ class InitHandler(webapp2.RequestHandler):
                 "product": product}
 
 class IndexHandler(webapp2.RequestHandler):
-    
+
     def get(self):
         productid=self.request.get("product_id")
         if productid in ['', None, []]:

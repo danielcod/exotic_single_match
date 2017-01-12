@@ -5,7 +5,7 @@ from products.positions.single_teams import SingleTeamsProduct
 class PayoffHandler(webapp2.RequestHandler):
 
     @validate_query({'league': '\\D{3}\\.\\d'})
-    @emit_json
+    @emit_json_memcache(60)
     def get(self):
         leaguename=self.request.get("league")
         product=SingleTeamsProduct()

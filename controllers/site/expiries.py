@@ -31,7 +31,7 @@ def add_months(date, months):
 
 class IndexHandler(webapp2.RequestHandler):
     
-    @emit_json
+    @emit_json_memcache(60)
     def get(self, cutoffmonth=4):
         date=datetime.date.today()
         def init_item(date):
