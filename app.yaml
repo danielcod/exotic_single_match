@@ -42,7 +42,7 @@ handlers:
   script: controllers.api.teams.app
 # SITE
 - url: /site/products.*
-  script: controllers.site.productz.app
+  script: controllers.site.products.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
