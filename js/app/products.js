@@ -117,6 +117,25 @@ var SingleTeamsForm=React.createClass({
 		(params.payoff!=undefined) &&
 		(params.expiry!=undefined));
     },
+    fetchPriceSuccess: function(struct) {
+	console.log(JSON.stringify(struct));
+    },
+    fetchPriceError: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    fetchPrice: function(params) {
+	var struct={"product": "single_teams",
+		    "query": params};
+	$.ajax({
+	    type: "POST",
+	    url: "/site/pricing",
+	    data: JSON.stringify(struct),
+	    contentType: "application/json",
+	    dataType: "json",
+	    success: this.fetchPriceSuccess,
+	    error: this.fetchPriceError
+	});
+    },
     changeHandler: function(name, value) {
 	var params=this.state.params;
 	if (params[name]!=value) {
@@ -129,7 +148,7 @@ var SingleTeamsForm=React.createClass({
 		params: params
 	    });
 	    if (this.isComplete(params)) {
-		console.log(JSON.stringify(params));
+		this.fetchPrice(params);
 	    };
 	}
     },
