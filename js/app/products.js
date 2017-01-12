@@ -11,6 +11,13 @@ var BlankSelectOption={label: "Select",
   however that's not a guarantee that target_value will be rendered; if target_value is not in options, select will default to show first option value
   in this case, first option value is always BlankSelectOption above
   can't directly ask select which value is currently displayed (*); but you can pass options to a function on loading and see if any match state.target_value; if they don't then you know that first option/undefined must be being rendered
+  (*) maybe you can just find option:selected to get value ?
+*/
+
+/*
+  resetting can be done by passing random id to select
+  if you want to force a change, change the value of the random id passed into the select as part of props
+  will be handled by componentDidReceiveProps; compare against current id; if different then force change
 */
 
 var AjaxSelect=React.createClass({
