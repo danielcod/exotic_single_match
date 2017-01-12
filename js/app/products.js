@@ -82,6 +82,9 @@ var AjaxSelect=React.createClass({
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
+		React.DOM.label({
+		    children: this.props.label
+		}),
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.target_value,
@@ -185,6 +188,7 @@ var SingleTeamsForm=React.createClass({
 		}),
 		React.createElement(
 		    AjaxSelect, {
+			label: "League",
 			name: "league",
 			url: '/site/leagues',
 			value: this.props.league,
@@ -193,6 +197,7 @@ var SingleTeamsForm=React.createClass({
 		    }),
 		React.createElement(
 		    AjaxSelect, {
+			label: "Team",
 			name: 'team',
 			url: this.initTeamsUrl(this.state.params),
 			value: this.props.team,
@@ -201,6 +206,7 @@ var SingleTeamsForm=React.createClass({
 		    }),
 		React.createElement(
 		    AjaxSelect, {
+			label: "Payoff",
 			name: 'payoff',
 			url: this.initPayoffsUrl(this.state.params),
 			value: this.props.payoff,
@@ -209,15 +215,21 @@ var SingleTeamsForm=React.createClass({
 		    }),
 		React.createElement(
 		    AjaxSelect, {
+			label: "Expiry",
 			name: "expiry",
 			url: '/site/expiries',
 			value: this.props.expiry,
 			changeHandler: this.changeHandler,
 			id: this.state.id
 		    }),
-		React.DOM.button({
-		    children: "Reset",
-		    onClick: this.reset
+		React.DOM.div({
+		    className: "text-right",
+		    children: [
+			React.DOM.button({
+			    children: "Reset",
+			    onClick: this.reset
+			})
+		    ]
 		})
 	    ]
 	});
@@ -250,6 +262,9 @@ var ProductSelect=React.createClass({
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
+		React.DOM.label({
+		    children: "Product Type"
+		}),
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.value,
