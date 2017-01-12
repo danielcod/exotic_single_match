@@ -119,17 +119,19 @@ var SingleTeamsForm=React.createClass({
     },
     changeHandler: function(name, value) {
 	var params=this.state.params;
-	params[name]=value;
-	if (name=="league") {
-	    params.team=undefined; // NB
-	    params.payoff=undefined;
-	};
-	this.setState({
-	    params: params
-	});
-	if (this.isComplete(params)) {
-	    console.log(JSON.stringify(params));
-	};
+	if (params[name]!=value) {
+	    params[name]=value;
+	    if (name=="league") {
+		params.team=undefined; // NB
+		params.payoff=undefined;
+	    };
+	    this.setState({
+		params: params
+	    });
+	    if (this.isComplete(params)) {
+		console.log(JSON.stringify(params));
+	    };
+	}
     },
     initTeamsUrl: function(params) {
 	return (params.league!=undefined) ? "/site/teams?league="+params.league : undefined;
