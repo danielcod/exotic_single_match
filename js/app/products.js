@@ -68,10 +68,10 @@ var AjaxSelect=React.createClass({
     },
     updateValue: function(value) {
 	// console.log("Setting "+this.props.name+" target_value to "+value);
-	this.setState({
-	    target_value: value,
-	    visible_value: value
-	});
+	var state=this.state
+	state.target_value=value;
+	state.visible_value=value;
+	this.setState(state);
 	this.setBlankOptionDisabled(true);
 	this.props.changeHandler(this.props.name, value);
     },
@@ -108,7 +108,8 @@ var SingleTeamsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    id: 1e10*Math.random(),
-	    params: {}
+	    params: {},
+	    price: undefined
 	};
     },
     isComplete: function(params) {
@@ -118,7 +119,9 @@ var SingleTeamsForm=React.createClass({
 		(params.expiry!=undefined));
     },
     fetchPriceSuccess: function(struct) {
-	console.log(JSON.stringify(struct));
+	var state=this.state;
+	state.price=struct.decimal_price;
+	this.setState(state);
     },
     fetchPriceError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -137,18 +140,17 @@ var SingleTeamsForm=React.createClass({
 	});
     },
     changeHandler: function(name, value) {
-	var params=this.state.params;
-	if (params[name]!=value) {
-	    params[name]=value;
+	var state=this.state;
+	if (state.params[name]!=value) {
+	    state.price=undefined;
+	    state.params[name]=value;
 	    if (name=="league") {
-		params.team=undefined; // NB
-		params.payoff=undefined;
+		state.params.team=undefined; 
+		state.params.payoff=undefined;
 	    };
-	    this.setState({
-		params: params
-	    });
-	    if (this.isComplete(params)) {
-		this.fetchPrice(params);
+	    this.setState(state);
+	    if (this.isComplete(state.params)) {
+		this.fetchPrice(state.params);
 	    };
 	}
     },
@@ -166,6 +168,21 @@ var SingleTeamsForm=React.createClass({
     render: function() {	
 	return React.DOM.div({
 	    children: [
+		React.DOM.h3({
+		    className: "text-center",
+		    style: {
+			"color": "#888",
+			"margin-bottom": "20px",
+		    },
+		    children: React.DOM.i({
+			children: [
+			    "Your price: ",
+			    React.DOM.span({
+				children: this.state.price || "[..]"
+			    })
+			]
+		    })
+		}),
 		React.createElement(
 		    AjaxSelect, {
 			name: "league",
@@ -238,9 +255,9 @@ var ProductSelect=React.createClass({
 		    value: this.state.value,
 		    onChange: function(event) {
 			var value=event.target.value;
-			this.setState({
-			    value: value
-			});
+			var state=this.state
+			state.value=value;
+			this.setState(state);
 			this.props.changeHandler(value);
 		    }.bind(this),
 		    children: this.props.options.map(function(option) {
