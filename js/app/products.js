@@ -1,5 +1,17 @@
+/*
+  blank value must be '' not undefined else select will render label as option value :-/
+*/
+
 var BlankSelectOption={label: "Select",
 		       value: ""};
+
+/*
+  you have an initial value as part of props
+  set this initial value to state.target_value on initialisation; setting select.value=this.state.target_value ensures it can be changed via change handler, and that select will attempt to render it
+  however that's not a guarantee that target_value will be rendered; if target_value is not in options, select will default to show first option value
+  in this case, first option value is always BlankSelectOption above
+  can't directly ask select which value is currently displayed (*); but you can pass options to a function on loading and see if any match state.target_value; if they don't then you know that first option/undefined must be being rendered
+*/
 
 var AjaxSelect=React.createClass({
     getInitialState: function() {
