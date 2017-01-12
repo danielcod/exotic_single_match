@@ -5,12 +5,7 @@ from helpers.json_helpers import *
 Endpoint="http://localhost:8080"
 
 Items=yaml.load("""
-# << general >>
-- path: "/api/leagues"
-- path: "/api/expiries"
-- path: "/api/teams?league=ENG.1"
-# << single teams >>
-- path: "/api/pricing"
+- path: "/site/pricing"
   data: 
     product: single_teams
     query:
@@ -18,8 +13,7 @@ Items=yaml.load("""
       team: Chelsea
       payoff: Winner
       expiry: "2017-03-01"
-# << mini leagues >>
-- path: "/api/pricing"
+- path: "/site/pricing"
   data:
     product: mini_leagues
     query: 

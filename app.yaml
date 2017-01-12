@@ -34,10 +34,12 @@ handlers:
   script: controllers.site.expiries.app
 - url: /site/leagues.*
   script: controllers.site.leagues.app
+- url: /site/pricing.*
+  script: controllers.site.pricing.app
 - url: /site/products/single_teams.*
-  script: controllers.site.products.single_teams.app
+  script: controllers.site.productz.single_teams.app
 - url: /site/products.*
-  script: controllers.site.products.app
+  script: controllers.site.productz.app
 - url: /site/teams.*
   script: controllers.site.teams.app
 # TASKS
