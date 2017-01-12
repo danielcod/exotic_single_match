@@ -171,64 +171,80 @@ var SingleTeamsForm=React.createClass({
     render: function() {	
 	return React.DOM.div({
 	    children: [
-		React.DOM.h3({
-		    className: "text-center",
-		    style: {
-			"color": "#888",
-			"margin-bottom": "20px",
-		    },
-		    children: React.DOM.i({
-			children: [
-			    "Your price: ",
-			    React.DOM.span({
-				children: this.state.price || "[..]"
-			    })
-			]
-		    })
-		}),
-		React.createElement(
-		    AjaxSelect, {
-			label: "League",
-			name: "league",
-			url: '/site/leagues',
-			value: this.props.league,
-			changeHandler: this.changeHandler,
-			id: this.state.id
-		    }),
-		React.createElement(
-		    AjaxSelect, {
-			label: "Team",
-			name: 'team',
-			url: this.initTeamsUrl(this.state.params),
-			value: this.props.team,
-			changeHandler: this.changeHandler,
-			id: this.state.id
-		    }),
-		React.createElement(
-		    AjaxSelect, {
-			label: "Payoff",
-			name: 'payoff',
-			url: this.initPayoffsUrl(this.state.params),
-			value: this.props.payoff,
-			changeHandler: this.changeHandler,
-			id: this.state.id
-		    }),
-		React.createElement(
-		    AjaxSelect, {
-			label: "Expiry",
-			name: "expiry",
-			url: '/site/expiries',
-			value: this.props.expiry,
-			changeHandler: this.changeHandler,
-			id: this.state.id
-		    }),
 		React.DOM.div({
-		    className: "text-right",
+		    className: "row",
 		    children: [
-			React.DOM.button({
-			    className: "btn btn-danger",
-			    children: "Reset",
-			    onClick: this.reset
+			React.DOM.div({
+			    className: "col-xs-3"
+			}),
+			React.DOM.div({
+			    className: "col-xs-6",
+			    children: [
+				React.DOM.h3({
+				    className: "text-center",
+				    style: {
+					"color": "#888",
+					"margin-bottom": "20px",
+				    },
+				    children: React.DOM.i({
+					children: [
+					    "Your price: ",
+					    React.DOM.span({
+						children: this.state.price || "[..]"
+					    })
+					]
+				    })
+				}),		
+				React.createElement(
+				    AjaxSelect, {
+					label: "League",
+					name: "league",
+					url: '/site/leagues',
+					value: this.props.league,
+					changeHandler: this.changeHandler,
+					id: this.state.id
+				    }),
+				React.createElement(
+				    AjaxSelect, {
+					label: "Team",
+					name: 'team',
+					url: this.initTeamsUrl(this.state.params),
+					value: this.props.team,
+					changeHandler: this.changeHandler,
+					id: this.state.id
+				    }),
+				React.createElement(
+				    AjaxSelect, {
+					label: "Payoff",
+					name: 'payoff',
+					url: this.initPayoffsUrl(this.state.params),
+					value: this.props.payoff,
+					changeHandler: this.changeHandler,
+					id: this.state.id
+				    }),
+				React.createElement(
+				    AjaxSelect, {
+					label: "Expiry",
+					name: "expiry",
+					url: '/site/expiries',
+					value: this.props.expiry,
+					changeHandler: this.changeHandler,
+					id: this.state.id
+				    }),
+				React.DOM.div({
+				    className: "text-right",
+				    children: [
+					React.DOM.button({
+					    className: "btn btn-danger",
+					    children: "Reset",
+					    onClick: this.reset
+					})
+				    ]
+				})
+			    ]
+			}),
+			React.DOM.div({
+			    className: "col-xs-3"
 			})
 		    ]
 		})
