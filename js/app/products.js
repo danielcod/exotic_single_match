@@ -1,29 +1,19 @@
-/*
-  weird things happen if you use value=undefined; code will send label as value rather than an undefined value; so set value='' and then convert at changeHandler level
-*/
-
 var BlankSelectOption={label: "Select",
 		       value: ""};
-
-/*
-  NB there's difference here between 'target_value' and 'visible value'
-  the two may not be the same because target_value may not be present in options
-  if target_value isn't part of options then the select will automatically show the first option, which in this case is structured to be the blank option
-*/
 
 var AjaxSelect=React.createClass({
     getInitialState: function() {
 	return {options: [BlankSelectOption],
 		target_value: this.props.value,
-		visible_value: undefined};
+		displayed_value: undefined};
     },
     loadSuccess: function(struct) {
 	var state=this.state;
 	state["options"]=[BlankSelectOption].concat(struct);
-	state["visible_value"]=this.filterVisibleValue(struct);
+	state["displayed_value"]=this.filterDisplayedValue(struct);
 	this.setState(state);
-	this.setBlankOptionDisabled(this.state.visible_value!=undefined);
-	this.props.changeHandler(this.props.name, this.state.visible_value);
+	this.setBlankOptionDisabled(this.state.displayed_value!=undefined);
+	this.props.changeHandler(this.props.name, this.state.displayed_value);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -54,14 +44,14 @@ var AjaxSelect=React.createClass({
 	    this.updateValue(this.props.value);
 	}
     },
-    filterVisibleValue: function(struct) {
+    filterDisplayedValue: function(struct) {
 	var items=struct.filter(function(item) {
 	    return item.value==this.state.target_value;
 	}.bind(this));
 	return (items.length > 0) ? this.state.target_value : undefined;
     },
     shallHighlight: function() {
-	return this.state.visible_value==undefined;
+	return this.state.displayed_value==undefined;
     },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
@@ -70,7 +60,7 @@ var AjaxSelect=React.createClass({
 	// console.log("Setting "+this.props.name+" target_value to "+value);
 	var state=this.state
 	state.target_value=value;
-	state.visible_value=value;
+	state.displayed_value=value;
 	this.setState(state);
 	this.setBlankOptionDisabled(true);
 	this.props.changeHandler(this.props.name, value);
