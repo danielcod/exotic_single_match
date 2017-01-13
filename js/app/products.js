@@ -1,28 +1,32 @@
-/*
-  blank value must be '' not undefined else select will render label as option value :-/
-*/
-
-var BlankSelectOption={label: "Select",
-		       value: ""};
-
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
-	    options: [BlankSelectOption].concat(this.props.options),
+	    options: this.props.options,
 	    value: this.props.value
 	}
     },
     componentWillReceiveProps: function(nextProps) {
-	var state=this.state;
-	state.options=[BlankSelectOption].concat(nextProps.options);
-	state.value=nextProps.value;
-	this.setState(state);
+	var filterValues=function(struct) {
+	    return struct.map(function(item) {
+		return item.value;
+	    }).join(";");
+	};
+	var optionsKey=filterValues(this.state.options);
+	var newOptionsKey=filterValues(nextProps.options);
+	if (optionsKey!=newOptionsKey) {
+	    console.log(this.props.name+" options changed");
+	    var state=this.state;
+	    state.options=nextProps.options;
+	    this.setState(state);
+	}
+	if (this.state.value!=nextProps.value) {
+	    console.log(this.props.name+" value changed");
+	}
     },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
     },
     render: function() {
-	console.log(JSON.stringify(this.state.options));
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
@@ -66,7 +70,6 @@ var SingleTeamsForm=React.createClass({
 	};
     },
     loadSuccess: function(name, struct) {
-	// console.log(name+" -> "+JSON.stringify(struct));
 	var state=this.state;
 	state.options[name]=struct;
 	this.setState(state);	
@@ -75,6 +78,7 @@ var SingleTeamsForm=React.createClass({
 	console.log(xhr.responseText);
     },
     loadOptions: function(name, url) {
+	console.log(name+" -> "+url);
 	$.ajax({
 	    url: url,
 	    type: "GET",
@@ -99,6 +103,15 @@ var SingleTeamsForm=React.createClass({
     },
     changeHandler: function(name, value) {
 	console.log(name+"="+value);
+	if (this.state.params[name]!=value) {
+	    var state=this.state;
+	    state.params[name]=value;
+	    if (name=="league") {
+		this.loadOptions("team", this.teamsUrl(state.params));
+		this.loadOptions("payoff", this.payoffsUrl(state.params));
+	    };
+	    this.setState(state);
+	}
     },
     render: function() {
 	return React.DOM.div({
@@ -133,7 +146,7 @@ var SingleTeamsForm=React.createClass({
 			name: "expiry",
 			options: this.state.options.expiry,
 			value: this.state.params.expiry,
-			qchangeHandler: this.changeHandler
+			changeHandler: this.changeHandler
 		    })
 	    ]
 	})
