@@ -107,10 +107,8 @@ var SingleTeamsForm=React.createClass({
     },
     loadOptions: function(name, url) {
 	if (this.state.cache[url]!=undefined) {
-	    console.log("Serving "+url+" from cache");
 	    this.loadSuccess(name, this.state.cache[url]);
 	} else {
-	    console.log("Fetching "+url);
 	    $.ajax({
 		url: url,
 		type: "GET",
