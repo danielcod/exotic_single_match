@@ -1,4 +1,7 @@
 var SingleTeamsForm=React.createClass({
+    deepCopy: function(struct) {
+	return JSON.parse(JSON.stringify(struct));
+    },
     getInitialState: function() {
 	return {
 	    options: {
@@ -7,7 +10,7 @@ var SingleTeamsForm=React.createClass({
 		payoff: [],
 		expiry: []
 	    },
-	    params: this.props.params,
+	    params: this.deepCopy(this.props.params),
 	    cache: {}
 	};
     },

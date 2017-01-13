@@ -11,6 +11,7 @@ var SimpleSelect=React.createClass({
 	}
     },
     componentWillReceiveProps: function(nextProps) {
+	// options
 	if (JSON.stringify(this.state.options)!=
 	   JSON.stringify(nextProps.options)) {
 	    var state=this.state;
@@ -23,6 +24,8 @@ var SimpleSelect=React.createClass({
 	    }
 	    this.setState(state);
 	}
+	// reset
+	console.log(this.props.name+"="+nextProps.value);
     },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
