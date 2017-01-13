@@ -15,6 +15,12 @@ var SimpleSelect=React.createClass({
 	   JSON.stringify(nextProps.options)) {
 	    var state=this.state;
 	    state.options=nextProps.options;
+	    var selectedItems=state.options.filter(function(option) {
+		return option.value==this.state.value;
+	    }.bind(this));
+	    if (selectedItems.length==0) {
+		state.value=undefined;
+	    }
 	    this.setState(state);
 	}
     },
@@ -31,6 +37,9 @@ var SimpleSelect=React.createClass({
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.value,
+		    style: (this.state.value==undefined) ? {
+			border: "3px solid #F88"
+		    } : {},
 		    onChange: function(event) {
 			var value=this.formatValue(event.target.value);
 			var state=this.state
