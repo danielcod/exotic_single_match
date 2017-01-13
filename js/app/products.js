@@ -12,6 +12,12 @@ var SimpleSelect=React.createClass({
 	    value: this.props.value
 	}
     },
+    componentWillReceiveProps: function(nextProps) {
+	var state=this.state;
+	state.options=[BlankSelectOption].concat(nextProps.options);
+	state.value=nextProps.value;
+	this.setState(state);
+    },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
     },
