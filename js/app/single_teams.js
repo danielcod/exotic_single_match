@@ -11,6 +11,7 @@ var SingleTeamsForm=React.createClass({
 		expiry: []
 	    },
 	    params: this.deepCopy(this.props.params),
+	    id: Math.round(1e10*Math.random()),
 	    cache: {}
 	};
     },
@@ -78,7 +79,9 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     reset: function() {
-	console.log("reset");
+	var state=this.state;
+	state.id=Math.round(1e10*Math.random());
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -89,7 +92,8 @@ var SingleTeamsForm=React.createClass({
 			name: "league",
 			options: this.state.options.league,
 			value: this.props.params.league,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -97,7 +101,8 @@ var SingleTeamsForm=React.createClass({
 			name: "team",
 			options: this.state.options.team,
 			value: this.props.params.team,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -105,7 +110,8 @@ var SingleTeamsForm=React.createClass({
 			name: "payoff",
 			options: this.state.options.payoff,
 			value: this.props.params.payoff,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -113,7 +119,8 @@ var SingleTeamsForm=React.createClass({
 			name: "expiry",
 			options: this.state.options.expiry,
 			value: this.props.params.expiry,
-			changeHandler: this.changeHandler
+			changeHandler: this.changeHandler,
+			id: this.state.id
 		    }),
 		React.DOM.div({
 		    className: "text-right",
