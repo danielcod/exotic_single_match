@@ -1,14 +1,12 @@
 var SingleTeamsForm=React.createClass({
-    initOptions: function(params) {
-	var options={};
-	for (var key in params) {
-	    options[key]=[];
-	};
-	return options;
-    },
     getInitialState: function() {
 	return {
-	    options: this.initOptions(this.props.params),
+	    options: {
+		league: [],
+		team: [],
+		payoff: [],
+		expiry: []
+	    },
 	    params: this.props.params,
 	    cache: {}
 	};
@@ -50,8 +48,12 @@ var SingleTeamsForm=React.createClass({
     },
     componentDidMount: function() {
 	this.loadOptions("league", "/api/leagues");
-	this.loadOptions("team", this.teamsUrl(this.state.params));
-	this.loadOptions("payoff", this.payoffsUrl(this.state.params));
+	if (this.state.params.league!=undefined) {
+	    this.loadOptions("team", this.teamsUrl(this.state.params));
+	}
+	if (this.state.params.team!=undefined) {
+	    this.loadOptions("payoff", this.payoffsUrl(this.state.params));
+	}
 	this.loadOptions("expiry", "/api/expiries");
     },
     changeHandler: function(name, value) {
