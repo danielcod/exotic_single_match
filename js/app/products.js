@@ -63,6 +63,8 @@ var SingleTeamsForm=React.createClass({
     },
     componentDidMount: function() {
 	this.loadOptions("leagues", "/api/leagues");
+	this.loadOptions("teams", "/api/teams?league="+this.state.params.league);
+	this.loadOptions("payoffs", "/api/products/payoff?product=single_teams&league="+this.state.params.league);
 	this.loadOptions("expiries", "/api/expiries");
     },
     render: function() {
