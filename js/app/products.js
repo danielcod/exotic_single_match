@@ -16,6 +16,7 @@ var SimpleSelect=React.createClass({
 	return (value!='') ? value : undefined;
     },
     render: function() {
+	console.log(JSON.stringify(this.state.options));
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
@@ -45,10 +46,17 @@ var SimpleSelect=React.createClass({
 });
 
 var SingleTeamsForm=React.createClass({
+    initOptions: function(params) {
+	var options={};
+	for (var key in params) {
+	    options[key]=[];
+	};
+	return options;
+    },
     getInitialState: function() {
 	return {
-	    params: this.props.params,
-	    options: {}
+	    options: this.initOptions(this.props.params),
+	    params: this.props.params
 	};
     },
     loadSuccess: function(name, struct) {
@@ -78,10 +86,10 @@ var SingleTeamsForm=React.createClass({
 	return "/api/products/payoffs?product=single_teams&league="+params.league;
     },
     componentDidMount: function() {
-	this.loadOptions("leagues", "/api/leagues");
-	this.loadOptions("teams", this.teamsUrl(this.state.params));
-	this.loadOptions("payoffs", this.payoffsUrl(this.state.params));
-	this.loadOptions("expiries", "/api/expiries");
+	this.loadOptions("league", "/api/leagues");
+	this.loadOptions("team", this.teamsUrl(this.state.params));
+	this.loadOptions("payoff", this.payoffsUrl(this.state.params));
+	this.loadOptions("expiry", "/api/expiries");
     },
     changeHandler: function(name, value) {
 	console.log(name+"="+value);
@@ -89,38 +97,38 @@ var SingleTeamsForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		this.state.options.leagues ? React.createElement(
+		React.createElement(
 		    SimpleSelect, {
 			label: "League",
 			name: "league",
-			options: this.state.options.leagues,
+			options: this.state.options.league,
 			value: this.state.params.league,
 			changeHandler: this.changeHandler
-		    }) : undefined,
-		this.state.options.teams ? React.createElement(
+		    }),
+		React.createElement(
 		    SimpleSelect, {
 			label: "Team",
 			name: "team",
-			options: this.state.options.teams,
+			options: this.state.options.team,
 			value: this.state.params.team,
 			changeHandler: this.changeHandler
-		    }) : undefined,
-		this.state.options.payoffs ? React.createElement(
+		    }),
+		React.createElement(
 		    SimpleSelect, {
 			label: "Payoff",
 			name: "payoff",
-			options: this.state.options.payoffs,
+			options: this.state.options.payoff,
 			value: this.state.params.payoff,
 			changeHandler: this.changeHandler
-		    }) : undefined,
-		this.state.options.expiries ? React.createElement(
+		    }),
+		React.createElement(
 		    SimpleSelect, {
 			label: "Expiry",
 			name: "expiry",
-			options: this.state.options.expiries,
+			options: this.state.options.expiry,
 			value: this.state.params.expiry,
-			changeHandler: this.changeHandler
-		    }) : undefined
+			qchangeHandler: this.changeHandler
+		    })
 	    ]
 	})
     }
