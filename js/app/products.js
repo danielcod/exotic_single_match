@@ -39,6 +39,9 @@ var AjaxSelect=React.createClass({
 });
 
 var SingleTeamsForm=React.createClass({
+    componentDidMount: function() {
+	console.log(JSON.stringify(this.props));
+    },
     render: function() {
 	return React.DOM.div({
 	    className: "text-center",
