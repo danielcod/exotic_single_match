@@ -75,9 +75,7 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     reset: function() {
-	var state=this.state
-	state.params=this.props.params;
-	this.setState(state);
+	console.log("reset");
     },
     render: function() {
 	return React.DOM.div({
