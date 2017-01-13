@@ -1,7 +1,15 @@
+/*
+  blank value must be '' not undefined else select will render label as option value :-/
+*/
+
+var BlankSelectOption={label: "Select",
+		       value: ""};
+
+
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
-	    options: this.props.options,
+	    options: [BlankSelectOption].concat(this.props.options),
 	    value: this.props.value
 	}
     },
@@ -11,16 +19,13 @@ var SimpleSelect=React.createClass({
 		return item.value;
 	    }).join(";");
 	};
-	var optionsKey=filterValues(this.state.options);
+	var optionsKey=filterValues(this.state.options.slice(1));
 	var newOptionsKey=filterValues(nextProps.options);
 	if (optionsKey!=newOptionsKey) {
-	    console.log(this.props.name+" options changed");
+	    // console.log(this.props.name+" options changed");
 	    var state=this.state;
-	    state.options=nextProps.options;
+	    state.options=[BlankSelectOption].concat(nextProps.options);
 	    this.setState(state);
-	}
-	if (this.state.value!=nextProps.value) {
-	    console.log(this.props.name+" value changed");
 	}
     },
     formatValue: function(value) {
