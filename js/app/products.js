@@ -18,9 +18,17 @@ var SimpleSelect=React.createClass({
 	};
 	var optionsKey=filterValues(this.state.options);
 	var newOptionsKey=filterValues(nextProps.options);
+	var state=this.state;
+	var updated=false;
 	if (optionsKey!=newOptionsKey) {
-	    var state=this.state;
 	    state.options=nextProps.options;
+	    updated=true;
+	}
+	if (this.state.value!=nextProps.value) {
+	    state.value=nextProps.value;
+	    updated=true;
+	}
+	if (updated) {
 	    this.setState(state);
 	}
     },
@@ -112,7 +120,11 @@ var SingleTeamsForm=React.createClass({
 	    var state=this.state;
 	    state.params[name]=value;
 	    if (name=="league") {
+		state.options.team=[];
+		state.params.team=undefined;
 		this.loadOptions("team", this.teamsUrl(state.params));
+		state.options.payoff=[];
+		state.params.payoff=undefined;
 		this.loadOptions("payoff", this.payoffsUrl(state.params));
 	    };
 	    this.setState(state);
