@@ -10,7 +10,7 @@ var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
 	    options: [BlankSelectOption].concat(this.props.options),
-	    target_value: this.props.value
+	    value: this.props.value
 	}
     },
     formatValue: function(value) {
@@ -18,7 +18,7 @@ var SimpleSelect=React.createClass({
     },
     updateValue: function(value) {
 	var state=this.state
-	state.target_value=value;
+	state.value=value;
 	this.setState(state);
     },
     render: function() {
@@ -30,7 +30,7 @@ var SimpleSelect=React.createClass({
 		}),
 		React.DOM.select({
 		    className: "form-control",
-		    value: this.state.target_value,
+		    value: this.state.value,
 		    onChange: function(event) {
 			var value=this.formatValue(event.target.value);
 			this.updateValue(value);
