@@ -1,15 +1,12 @@
 /*
-  blank value must be '' not undefined else select will render label as option value :-/
+  blank option must have option '', then be converted to undefined
+  if you set value=undefined, will use label/child text as value
 */
-
-var BlankSelectOption={label: "Select",
-		       value: ""};
-
 
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
-	    options: [BlankSelectOption].concat(this.props.options),
+	    options: this.props.options,
 	    value: this.props.value
 	}
     },
@@ -19,12 +16,11 @@ var SimpleSelect=React.createClass({
 		return item.value;
 	    }).join(";");
 	};
-	var optionsKey=filterValues(this.state.options.slice(1));
+	var optionsKey=filterValues(this.state.options);
 	var newOptionsKey=filterValues(nextProps.options);
 	if (optionsKey!=newOptionsKey) {
-	    // console.log(this.props.name+" options changed");
 	    var state=this.state;
-	    state.options=[BlankSelectOption].concat(nextProps.options);
+	    state.options=nextProps.options;
 	    this.setState(state);
 	}
     },
@@ -42,18 +38,24 @@ var SimpleSelect=React.createClass({
 		    className: "form-control",
 		    value: this.state.value,
 		    onChange: function(event) {
-			var value=this.formatValue(event.target.value);
+			var value=this.formatValue(event.target.value); // NB
 			var state=this.state
 			state.value=value;
 			this.setState(state);
 			this.props.changeHandler(this.props.name, value);
 		    }.bind(this),
-		    children: this.state.options.map(function(option) {
-			return React.DOM.option({
-			    value: option.value,
-			    children: option.label || option.value
+		    children: [
+			React.DOM.option({
+			    value: '', // NB
+			    children: "Select"
+			}),
+			this.state.options.map(function(option) {
+			    return React.DOM.option({
+				value: option.value,
+				children: option.label || option.value
+			    })
 			})
-		    })
+		    ]
 		})
 	    ]
 	});		
@@ -83,7 +85,6 @@ var SingleTeamsForm=React.createClass({
 	console.log(xhr.responseText);
     },
     loadOptions: function(name, url) {
-	console.log(name+" -> "+url);
 	$.ajax({
 	    url: url,
 	    type: "GET",
@@ -107,7 +108,6 @@ var SingleTeamsForm=React.createClass({
 	this.loadOptions("expiry", "/api/expiries");
     },
     changeHandler: function(name, value) {
-	console.log(name+"="+value);
 	if (this.state.params[name]!=value) {
 	    var state=this.state;
 	    state.params[name]=value;
@@ -116,6 +116,7 @@ var SingleTeamsForm=React.createClass({
 		this.loadOptions("payoff", this.payoffsUrl(state.params));
 	    };
 	    this.setState(state);
+	    console.log(JSON.stringify(this.state.params));
 	}
     },
     render: function() {
