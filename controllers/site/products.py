@@ -1,6 +1,11 @@
 from controllers.site import *
 
-Deps=RootDeps+["js/app/products.js"]
+ProductDeps=yaml.load("""
+- js/app/components.js
+- js/app/single_teams.js
+- js/app/mini_leagues.js
+- js/app/products.js
+""")
 
 Products=yaml.load("""
 - label: Single Teams Outright
@@ -44,7 +49,7 @@ class IndexHandler(webapp2.RequestHandler):
         else:
             productid=int(productid)
         depsstr=",".join(["\"../%s\"" % dep
-                          for dep in Deps])
+                          for dep in RootDeps+ProductDeps])
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
