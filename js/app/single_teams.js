@@ -74,6 +74,9 @@ var SingleTeamsForm=React.createClass({
 	    console.log(JSON.stringify(this.state.params)); // TEMP
 	}
     },
+    reset: function() {
+	console.log("reset");
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -108,7 +111,15 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.expiry,
 			value: this.state.params.expiry,
 			changeHandler: this.changeHandler
+		    }),
+		React.DOM.div({
+		    className: "text-right",
+		    children: React.DOM.button({
+			className: "btn btn-danger",
+			onClick: this.reset,
+			children: "Reset"
 		    })
+		})
 	    ]
 	})
     }

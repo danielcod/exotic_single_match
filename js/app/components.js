@@ -52,7 +52,7 @@ var SimpleSelect=React.createClass({
 			var formatValue=function(value) {
 			    return (value!='') ? value : undefined;
 			}			    
-			var value=formatValue(event.target.value); // NB
+			var value=formatValue(event.target.value);
 			var state=this.state
 			state.value=value;
 			this.setState(state);
