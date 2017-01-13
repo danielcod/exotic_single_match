@@ -44,25 +44,25 @@ var SingleTeamsForm=React.createClass({
 	    params: this.props.params
 	};
     },
-    loadSuccess: function(name, struct) {
-	console.log(JSON.stringify(struct));
+    loadOptionsSuccess: function(name, struct) {
+	console.log(name+" -> "+JSON.stringify(struct));
     },
-    loadError: function(xhr, ajaxOptions, thrownError) {
+    loadOptionsError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    loadComponent: function(name, url) {
+    loadOptions: function(name, url) {
 	$.ajax({
 	    url: url,
 	    type: "GET",
 	    dataType: "json",
 	    success: function(struct) {
-		this.loadSuccess(name, url);
+		this.loadOptionsSuccess(name, struct);
 	    }.bind(this),
-	    error: this.loadError
+	    error: this.loadOptionsError
 	});
     },
     componentDidMount: function() {
-	console.log(JSON.stringify(this.props.params));
+	this.loadOptions("leagues", "/api/leagues");
     },
     render: function() {
 	return React.DOM.div({
