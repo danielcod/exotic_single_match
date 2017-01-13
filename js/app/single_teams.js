@@ -8,7 +8,6 @@ var SingleTeamsForm=React.createClass({
 		expiry: []
 	    },
 	    params: this.props.params,
-	    id: 1e10*Math.random(),
 	    cache: {}
 	};
     },
@@ -77,7 +76,7 @@ var SingleTeamsForm=React.createClass({
     },
     reset: function() {
 	var state=this.state
-	state.id=1e10*Math.random();
+	state.params=this.props.params;
 	this.setState(state);
     },
     render: function() {
@@ -90,7 +89,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.league,
 			value: this.state.params.league,
 			changeHandler: this.changeHandler,
-			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -99,7 +97,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.team,
 			value: this.state.params.team,
 			changeHandler: this.changeHandler,
-			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -108,7 +105,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.payoff,
 			value: this.state.params.payoff,
 			changeHandler: this.changeHandler,
-			id: this.state.id
 		    }),
 		React.createElement(
 		    SimpleSelect, {
@@ -117,7 +113,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.expiry,
 			value: this.state.params.expiry,
 			changeHandler: this.changeHandler,
-			id: this.state.id
 		    }),
 		React.DOM.div({
 		    className: "text-right",
