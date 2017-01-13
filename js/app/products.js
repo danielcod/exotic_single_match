@@ -1,4 +1,4 @@
-var AjaxSelect=React.createClass({
+var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
 	    target_value: this.props.value
@@ -41,11 +41,15 @@ var AjaxSelect=React.createClass({
 var SingleTeamsForm=React.createClass({
     getInitialState: function() {
 	return {
-	    params: this.props.params
+	    params: this.props.params,
+	    options: {}
 	};
     },
     loadOptionsSuccess: function(name, struct) {
 	console.log(name+" -> "+JSON.stringify(struct));
+	var state=this.state;
+	state.options[name]=struct;
+	this.setState(state);	
     },
     loadOptionsError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -75,11 +79,16 @@ var SingleTeamsForm=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    className: "text-center",
-	    children: React.DOM.h3({
-		children: "[Single Teams form goes here]"
-	    })
-	});
+	    children: [
+		this.state.options.leagues ? React.createElement(
+		    SimpleSelect, {
+			label: "League",
+			name: "league",
+			options: this.state.options.leagues,
+			value: this.state.params.league			
+		    }) : undefined
+	    ]
+	})
     }
 });
 
