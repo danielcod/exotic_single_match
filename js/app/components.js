@@ -7,7 +7,8 @@ var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
 	    options: this.props.options,
-	    value: this.props.value
+	    value: this.props.value,
+	    id: this.props.id
 	}
     },
     componentWillReceiveProps: function(nextProps) {
@@ -29,6 +30,10 @@ var SimpleSelect=React.createClass({
 	if (this.state.value!=nextProps.value) {
 	    state.value=nextProps.value;
 	    updated=true;
+	}
+	// check id/reset
+	if (this.state.id!=nextProps.id) {
+	    console.log(this.props.name+" reset");
 	}
 	// update
 	if (updated) {
