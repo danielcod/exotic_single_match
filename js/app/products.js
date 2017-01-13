@@ -46,7 +46,7 @@ var SingleTeamsForm=React.createClass({
 	};
     },
     loadOptionsSuccess: function(name, struct) {
-	console.log(name+" -> "+JSON.stringify(struct));
+	// console.log(name+" -> "+JSON.stringify(struct));
 	var state=this.state;
 	state.options[name]=struct;
 	this.setState(state);	
@@ -86,6 +86,27 @@ var SingleTeamsForm=React.createClass({
 			name: "league",
 			options: this.state.options.leagues,
 			value: this.state.params.league			
+		    }) : undefined,
+		this.state.options.teams ? React.createElement(
+		    SimpleSelect, {
+			label: "Team",
+			name: "team",
+			options: this.state.options.teams,
+			value: this.state.params.team			
+		    }) : undefined,
+		this.state.options.payoffs ? React.createElement(
+		    SimpleSelect, {
+			label: "Payoff",
+			name: "payoff",
+			options: this.state.options.payoffs,
+			value: this.state.params.payoff			
+		    }) : undefined,
+		this.state.options.expiries ? React.createElement(
+		    SimpleSelect, {
+			label: "Expiry",
+			name: "expiry",
+			options: this.state.options.expiries,
+			value: this.state.params.expiry
 		    }) : undefined
 	    ]
 	})
