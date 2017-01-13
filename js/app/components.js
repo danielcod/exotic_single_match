@@ -11,37 +11,28 @@ var SimpleSelect=React.createClass({
 	}
     },
     componentWillReceiveProps: function(nextProps) {
-	var toValueList=function(struct) {
-	    return struct.map(function(item) {
-		return item.value;
-	    }).join(",");
-	};
-	var values=toValueList(this.state.options);
-	var newValues=toValueList(nextProps.options);
-	if (values!=newValues) {
-	    var state=this.state;
-	    state.options=nextProps.options;
-	    this.setState(state);
-	}
-    },
-    render: function() {
-	return React.DOM.div({
-	    className: "form-group",
-	    children: [
-		React.DOM.label({
-		    children: this.props.label
-		}),
-		React.DOM.select({
-		    className: "form-control",
-		    value: this.state.value,
-		    style: (this.state.value==undefined) ? {
-			border: "3px solid #F88"
-		    } : {},
+	if (JSON.stringify(this.state.options)!=
+	   JSON.stringify(nextProps.options)) {
+	   var state=this.state;
+	   state.options=nextProps.options;
+	   this.setState(state);
+       }
+   },
+   formatValue: function(value) {
+       return (value!='') ? value : undefined;
+   },
+   render: function() {
+       return React.DOM.div({
+	   className: "form-group",
+	   children: [
+	       React.DOM.label({
+		   children: this.props.label
+	       }),
+	       React.DOM.select({
+		   className: "form-control",
+		   value: this.state.value,
 		    onChange: function(event) {
-			var formatValue=function(value) {
-			    return (value!='') ? value : undefined;
-			}			    
-			var value=formatValue(event.target.value);
+			var value=this.formatValue(event.target.value);
 			var state=this.state
 			state.value=value;
 			this.setState(state);
