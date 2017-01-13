@@ -24,9 +24,12 @@ var SimpleSelect=React.createClass({
 	    }
 	    this.setState(state);
 	}
-	// reset
+	// value reset
 	if (this.props.id!=nextProps.id) {
-	    console.log("resetting "+this.props.name+" to "+this.props.value);
+	    // console.log("resetting "+this.props.name+" to "+this.props.value);
+	    var state=this.state;
+	    state.value=this.props.value;
+	    this.setState(state);
 	}
     },
     formatValue: function(value) {
