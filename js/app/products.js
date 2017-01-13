@@ -1,6 +1,7 @@
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
+	    options: this.props.options,
 	    target_value: this.props.value
 	}
     },
@@ -26,7 +27,7 @@ var SimpleSelect=React.createClass({
 			var value=this.formatValue(event.target.value);
 			this.updateValue(value);
 		    }.bind(this),
-		    children: this.props.options.map(function(option) {
+		    children: this.state.options.map(function(option) {
 			return React.DOM.option({
 			    value: option.value,
 			    children: option.label || option.value
