@@ -35,9 +35,6 @@ var SimpleSelect=React.createClass({
 	    this.setState(state);
 	}
     },
-    formatValue: function(value) {
-	return (value!='') ? value : undefined;
-    },
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -52,7 +49,10 @@ var SimpleSelect=React.createClass({
 			border: "3px solid #F88"
 		    } : {},
 		    onChange: function(event) {
-			var value=this.formatValue(event.target.value); // NB
+			var formatValue=function(value) {
+			    return (value!='') ? value : undefined;
+			}			    
+			var value=formatValue(event.target.value); // NB
 			var state=this.state
 			state.value=value;
 			this.setState(state);
