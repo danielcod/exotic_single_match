@@ -61,10 +61,16 @@ var SingleTeamsForm=React.createClass({
 	    error: this.loadOptionsError
 	});
     },
+    teamsUrl: function(params) {
+	return "/api/teams?league="+params.league;
+    },
+    payoffsUrl: function(params) {
+	return "/api/products/payoffs?product=single_teams&league="+params.league;
+    },
     componentDidMount: function() {
 	this.loadOptions("leagues", "/api/leagues");
-	this.loadOptions("teams", "/api/teams?league="+this.state.params.league);
-	this.loadOptions("payoffs", "/api/products/payoffs?product=single_teams&league="+this.state.params.league);
+	this.loadOptions("teams", this.teamsUrl(this.state.params));
+	this.loadOptions("payoffs", this.payoffsUrl(this.state.params));
 	this.loadOptions("expiries", "/api/expiries");
     },
     render: function() {
