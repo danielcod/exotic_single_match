@@ -39,8 +39,30 @@ var AjaxSelect=React.createClass({
 });
 
 var SingleTeamsForm=React.createClass({
+    getInitialState: function() {
+	return {
+	    params: this.props.params
+	};
+    },
+    loadSuccess: function(name, struct) {
+	console.log(JSON.stringify(struct));
+    },
+    loadError: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    loadComponent: function(name, url) {
+	$.ajax({
+	    url: url,
+	    type: "GET",
+	    dataType: "json",
+	    success: function(struct) {
+		this.loadSuccess(name, url);
+	    }.bind(this),
+	    error: this.loadError
+	});
+    },
     componentDidMount: function() {
-	console.log(JSON.stringify(this.props));
+	console.log(JSON.stringify(this.props.params));
     },
     render: function() {
 	return React.DOM.div({
@@ -149,7 +171,9 @@ var ProductForm=React.createClass({
 		    value: this.state.product.type,
 		    changeHandler: this.productChangeHandler
 		}),
-		React.createElement(ProductMapping[this.state.product.type], this.state.product.query)
+		React.createElement(ProductMapping[this.state.product.type], {
+		    params: this.state.product.query
+		})
 	    ] : []
 	});
     }
