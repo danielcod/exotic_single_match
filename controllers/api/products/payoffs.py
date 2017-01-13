@@ -14,7 +14,7 @@ class IndexHandler(webapp2.RequestHandler):
                  for name in product.payoff_names(leaguename)]
         return payoffs
 
-Routing=[('/api/products/payoff', IndexHandler)]
+Routing=[('/api/products/payoffs', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

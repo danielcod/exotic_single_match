@@ -34,8 +34,8 @@ handlers:
   script: controllers.api.expiries.app
 - url: /api/leagues.*
   script: controllers.api.leagues.app
-- url: /api/products/payoff.*
-  script: controllers.api.products.payoff.app
+- url: /api/products/payoffs.*
+  script: controllers.api.products.payoffs.app
 - url: /api/products/pricing.*
   script: controllers.api.products.pricing.app
 - url: /api/teams.*
