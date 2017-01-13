@@ -88,8 +88,14 @@ var SingleTeamsForm=React.createClass({
     getInitialState: function() {
 	return {
 	    options: this.initOptions(this.props.params),
-	    params: this.props.params
+	    params: this.props.params,
+	    cache: {}
 	};
+    },
+    updateCache: function(url, struct) {
+	var state=this.state;
+	state.cache[url]=struct;
+	this.setState(state);
     },
     loadSuccess: function(name, struct) {
 	var state=this.state;
@@ -100,15 +106,22 @@ var SingleTeamsForm=React.createClass({
 	console.log(xhr.responseText);
     },
     loadOptions: function(name, url) {
-	$.ajax({
-	    url: url,
-	    type: "GET",
-	    dataType: "json",
-	    success: function(struct) {
-		this.loadSuccess(name, struct);
-	    }.bind(this),
-	    error: this.Error
-	});
+	if (this.state.cache[url]!=undefined) {
+	    console.log("Serving "+url+" from cache");
+	    this.loadSuccess(name, this.state.cache[url]);
+	} else {
+	    console.log("Fetching "+url);
+	    $.ajax({
+		url: url,
+		type: "GET",
+		dataType: "json",
+		success: function(struct) {
+		    this.updateCache(url, struct);
+		    this.loadSuccess(name, struct);
+		}.bind(this),
+		error: this.Error
+	    });
+	}
     },
     teamsUrl: function(params) {
 	return "/api/teams?league="+params.league;
