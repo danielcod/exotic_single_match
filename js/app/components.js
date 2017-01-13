@@ -11,27 +11,16 @@ var SimpleSelect=React.createClass({
 	}
     },
     componentWillReceiveProps: function(nextProps) {
-	var filterValues=function(struct) {
+	var toValueList=function(struct) {
 	    return struct.map(function(item) {
 		return item.value;
-	    }).join(";");
+	    }).join(",");
 	};
-	var state=this.state;
-	var updated=false;
-	// update options
-	var optionsKey=filterValues(this.state.options);
-	var newOptionsKey=filterValues(nextProps.options);
-	if (optionsKey!=newOptionsKey) {
+	var values=toValueList(this.state.options);
+	var newValues=toValueList(nextProps.options);
+	if (values!=newValues) {
+	    var state=this.state;
 	    state.options=nextProps.options;
-	    updated=true;
-	}
-	// update value
-	if (this.state.value!=nextProps.value) {
-	    state.value=nextProps.value;
-	    updated=true;
-	}
-	// update
-	if (updated) {
 	    this.setState(state);
 	}
     },

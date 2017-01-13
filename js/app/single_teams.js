@@ -48,11 +48,11 @@ var SingleTeamsForm=React.createClass({
     },
     componentDidMount: function() {
 	this.loadOptions("league", "/api/leagues");
-	if (this.state.params.league!=undefined) {
-	    this.loadOptions("team", this.teamsUrl(this.state.params));
+	if (this.props.params.league!=undefined) {
+	    this.loadOptions("team", this.teamsUrl(this.props.params));
 	}
-	if (this.state.params.team!=undefined) {
-	    this.loadOptions("payoff", this.payoffsUrl(this.state.params));
+	if (this.props.params.team!=undefined) {
+	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
 	}
 	this.loadOptions("expiry", "/api/expiries");
     },
@@ -87,7 +87,7 @@ var SingleTeamsForm=React.createClass({
 			label: "League",
 			name: "league",
 			options: this.state.options.league,
-			value: this.state.params.league,
+			value: this.props.params.league,
 			changeHandler: this.changeHandler
 		    }),
 		React.createElement(
@@ -95,7 +95,7 @@ var SingleTeamsForm=React.createClass({
 			label: "Team",
 			name: "team",
 			options: this.state.options.team,
-			value: this.state.params.team,
+			value: this.props.params.team,
 			changeHandler: this.changeHandler
 		    }),
 		React.createElement(
@@ -103,7 +103,7 @@ var SingleTeamsForm=React.createClass({
 			label: "Payoff",
 			name: "payoff",
 			options: this.state.options.payoff,
-			value: this.state.params.payoff,
+			value: this.props.params.payoff,
 			changeHandler: this.changeHandler
 		    }),
 		React.createElement(
@@ -111,7 +111,7 @@ var SingleTeamsForm=React.createClass({
 			label: "Expiry",
 			name: "expiry",
 			options: this.state.options.expiry,
-			value: this.state.params.expiry,
+			value: this.props.params.expiry,
 			changeHandler: this.changeHandler
 		    }),
 		React.DOM.div({
