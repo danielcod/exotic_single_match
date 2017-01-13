@@ -82,6 +82,12 @@ var SingleTeamsForm=React.createClass({
 	var state=this.state;
 	state.id=Math.round(1e10*Math.random());
 	this.setState(state);
+	if (this.props.params.league!=undefined) {
+	    this.loadOptions("team", this.teamsUrl(this.props.params));
+	}
+	if (this.props.params.team!=undefined) {
+	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
+	}
     },
     render: function() {
 	return React.DOM.div({
