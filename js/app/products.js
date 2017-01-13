@@ -5,7 +5,6 @@
 var BlankSelectOption={label: "Select",
 		       value: ""};
 
-
 var SimpleSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -15,11 +14,6 @@ var SimpleSelect=React.createClass({
     },
     formatValue: function(value) {
 	return (value!='') ? value : undefined;
-    },
-    updateValue: function(value) {
-	var state=this.state
-	state.value=value;
-	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -33,7 +27,10 @@ var SimpleSelect=React.createClass({
 		    value: this.state.value,
 		    onChange: function(event) {
 			var value=this.formatValue(event.target.value);
-			this.updateValue(value);
+			var state=this.state
+			state.value=value;
+			this.setState(state);
+			this.props.changeHandler(this.props.name, value);
 		    }.bind(this),
 		    children: this.state.options.map(function(option) {
 			return React.DOM.option({
@@ -54,13 +51,13 @@ var SingleTeamsForm=React.createClass({
 	    options: {}
 	};
     },
-    loadOptionsSuccess: function(name, struct) {
+    loadSuccess: function(name, struct) {
 	// console.log(name+" -> "+JSON.stringify(struct));
 	var state=this.state;
 	state.options[name]=struct;
 	this.setState(state);	
     },
-    loadOptionsError: function(xhr, ajaxOptions, thrownError) {
+    loadError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
     loadOptions: function(name, url) {
@@ -69,9 +66,9 @@ var SingleTeamsForm=React.createClass({
 	    type: "GET",
 	    dataType: "json",
 	    success: function(struct) {
-		this.loadOptionsSuccess(name, struct);
+		this.loadSuccess(name, struct);
 	    }.bind(this),
-	    error: this.loadOptionsError
+	    error: this.Error
 	});
     },
     teamsUrl: function(params) {
@@ -86,6 +83,9 @@ var SingleTeamsForm=React.createClass({
 	this.loadOptions("payoffs", this.payoffsUrl(this.state.params));
 	this.loadOptions("expiries", "/api/expiries");
     },
+    changeHandler: function(name, value) {
+	console.log(name+"="+value);
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -94,28 +94,32 @@ var SingleTeamsForm=React.createClass({
 			label: "League",
 			name: "league",
 			options: this.state.options.leagues,
-			value: this.state.params.league			
+			value: this.state.params.league,
+			changeHandler: this.changeHandler
 		    }) : undefined,
 		this.state.options.teams ? React.createElement(
 		    SimpleSelect, {
 			label: "Team",
 			name: "team",
 			options: this.state.options.teams,
-			value: this.state.params.team			
+			value: this.state.params.team,
+			changeHandler: this.changeHandler
 		    }) : undefined,
 		this.state.options.payoffs ? React.createElement(
 		    SimpleSelect, {
 			label: "Payoff",
 			name: "payoff",
 			options: this.state.options.payoffs,
-			value: this.state.params.payoff			
+			value: this.state.params.payoff,
+			changeHandler: this.changeHandler
 		    }) : undefined,
 		this.state.options.expiries ? React.createElement(
 		    SimpleSelect, {
 			label: "Expiry",
 			name: "expiry",
 			options: this.state.options.expiries,
-			value: this.state.params.expiry
+			value: this.state.params.expiry,
+			changeHandler: this.changeHandler
 		    }) : undefined
 	    ]
 	})
