@@ -42,14 +42,18 @@ var ProductForm=React.createClass({
     getInitialState: function() {
 	return {
 	    products: [],
-	    product: undefined
+	    selectedProduct: undefined,
+	    currentProduct: undefined
 	};
+    },
+    deepCopy: function(struct) {
+	return JSON.parse(JSON.stringify(struct));
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	for (var key in struct) {
-	    state[key]=struct[key];
-	}
+	state.products=this.deepCopy(struct.products);
+	state.selectedProduct=this.deepCopy(struct.product);
+	state.currentProduct=this.deepCopy(struct.product);
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -70,22 +74,26 @@ var ProductForm=React.createClass({
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	state["product"]={
-	    type: value,
-	    query: {}
-	};
+	if (state.selectedProduct.type==value) {
+	    state.currentProduct=state.selectedProduct;
+	} else {
+	    state.currentProduct={
+		type: value,
+		query: {}
+	    };
+	}
 	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
-	    children: (this.state.product!=undefined) ? [
+	    children: (this.state.currentProduct!=undefined) ? [
 		React.createElement(ProductSelect, {
 		    options: this.state.products,
-		    value: this.state.product.type,
+		    value: this.state.currentProduct.type,
 		    changeHandler: this.productChangeHandler
 		}),
-		React.createElement(ProductMapping[this.state.product.type], {
-		    params: this.state.product.query
+		React.createElement(ProductMapping[this.state.currentProduct.type], {
+		    params: this.state.currentProduct.query
 		})
 	    ] : []
 	});
