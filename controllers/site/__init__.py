@@ -10,7 +10,7 @@ RootDeps=yaml.load("""
 - js/lib/react-dom.min.js
 """)
 
-Title="ioSport Exotics Demo"
+Title="Team Exotics Demo"
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
