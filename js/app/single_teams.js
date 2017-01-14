@@ -56,13 +56,31 @@ var SingleTeamsForm=React.createClass({
 		(params.payoff!=undefined) &&
 		(params.expiry!=undefined));
     },
+    fetchPriceSuccess: function(struct) {
+	console.log(JSON.stringify(struct));
+    },
+    fetchPriceError: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    fetchPrice: function(struct) {
+	$.ajax({
+	    type: "POST",
+	    url: "/api/products/pricing",
+	    data: JSON.stringify(struct),
+	    contentType: "application/json",
+	    dataType: "json",
+	    success: this.fetchPriceSuccess,
+	    error: this.fetchPriceError
+	});
+    },
     updatePrice: function(params) {
-	/*
 	if (this.isComplete(params)) {
-	    console.log(JSON.stringify(params));
+	    var struct={
+		"product": "single_teams",
+		"query": params
+	    };
+	    this.fetchPrice(struct);
 	}
-	*/
-	console.log(JSON.stringify(params));
     },
     componentDidMount: function() {
 	this.loadOptions("league", "/api/leagues");
