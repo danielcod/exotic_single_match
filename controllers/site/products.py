@@ -7,7 +7,7 @@ ProductDeps=yaml.load("""
 - js/app/products.js
 """)
 
-Products=yaml.load("""
+ProductConfig=yaml.load("""
 - label: Single Teams Outright
   name: single_teams
 - label: Mini Leagues
@@ -37,7 +37,7 @@ class InitHandler(webapp2.RequestHandler):
         if productid not in products:
             raise RuntimeError("Product not found")
         product=products[productid]        
-        return {"products": Products,
+        return {"products": ProductConfig,
                 "product": product}
 
 class IndexHandler(webapp2.RequestHandler):
