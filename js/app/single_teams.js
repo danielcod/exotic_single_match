@@ -50,6 +50,17 @@ var SingleTeamsForm=React.createClass({
     payoffsUrl: function(params) {
 	return "/api/products/payoffs?product=single_teams&league="+params.league;
     },
+    isComplete: function(params) {
+	return ((params.league!=undefined) &&
+		(params.team!=undefined) &&
+		(params.payoff!=undefined) &&
+		(params.expiry!=undefined));
+    },
+    updatePrice: function(params) {
+	if (this.isComplete(params)) {
+	    console.log(JSON.stringify(params));
+	}
+    },
     componentDidMount: function() {
 	this.loadOptions("league", "/api/leagues");
 	if (this.props.params.league!=undefined) {
@@ -59,6 +70,7 @@ var SingleTeamsForm=React.createClass({
 	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
 	}
 	this.loadOptions("expiry", "/api/expiries");
+	this.updatePrice(this.props.params);
     },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
@@ -75,7 +87,7 @@ var SingleTeamsForm=React.createClass({
 		this.loadOptions("payoff", this.payoffsUrl(state.params));
 	    };
 	    this.setState(state);
-	    console.log(JSON.stringify(this.state.params)); // TEMP
+	    this.updatePrice(this.state.params);
 	}
     },
     reset: function() {
@@ -88,6 +100,7 @@ var SingleTeamsForm=React.createClass({
 	if (this.props.params.team!=undefined) {
 	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
 	}
+	this.updatePrice(this.props.params);
     },
     render: function() {
 	return React.DOM.div({
