@@ -57,9 +57,12 @@ var SingleTeamsForm=React.createClass({
 		(params.expiry!=undefined));
     },
     updatePrice: function(params) {
+	/*
 	if (this.isComplete(params)) {
 	    console.log(JSON.stringify(params));
 	}
+	*/
+	console.log(JSON.stringify(params));
     },
     componentDidMount: function() {
 	this.loadOptions("league", "/api/leagues");
@@ -70,7 +73,7 @@ var SingleTeamsForm=React.createClass({
 	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
 	}
 	this.loadOptions("expiry", "/api/expiries");
-	this.updatePrice(this.props.params);
+	this.updatePrice(this.state.params);
     },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
@@ -92,6 +95,7 @@ var SingleTeamsForm=React.createClass({
     },
     reset: function() {
 	var state=this.state;
+	state.params=this.deepCopy(this.props.params);
 	state.id=Math.round(1e10*Math.random());
 	this.setState(state);
 	if (this.props.params.league!=undefined) {
@@ -100,7 +104,7 @@ var SingleTeamsForm=React.createClass({
 	if (this.props.params.team!=undefined) {
 	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
 	}
-	this.updatePrice(this.props.params);
+	this.updatePrice(this.state.params);
     },
     render: function() {
 	return React.DOM.div({
