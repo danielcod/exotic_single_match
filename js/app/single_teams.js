@@ -57,7 +57,7 @@ var SingleTeamsForm=React.createClass({
 		(params.expiry!=undefined));
     },
     fetchPriceSuccess: function(struct) {
-	console.log(JSON.stringify(struct));
+	$("span[id='price']").text(struct["decimal_price"]);
     },
     fetchPriceError: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
@@ -79,7 +79,10 @@ var SingleTeamsForm=React.createClass({
 		"product": "single_teams",
 		"query": params
 	    };
+	    $("span[id='price']").text("[updating ..]");
 	    this.fetchPrice(struct);
+	} else {
+	    $("span[id='price']").text("[..]");
 	}
     },
     componentDidMount: function() {
