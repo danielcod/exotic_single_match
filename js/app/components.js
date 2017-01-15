@@ -8,12 +8,16 @@ var SimpleSelect=React.createClass({
 	return {
 	    options: this.props.options,
 	    value: this.props.value,
+	    debug: this.props.debug || false
 	}
     },
     componentWillReceiveProps: function(nextProps) {
 	// options
 	if (JSON.stringify(this.state.options)!=
-	   JSON.stringify(nextProps.options)) {
+	    JSON.stringify(nextProps.options)) {
+	    if (this.state.debug) {
+		console.log("resetting "+this.props.name+" options from "+JSON.stringify(this.state.options)+" to "+JSON.stringify(nextProps.options));
+	    }
 	    var state=this.state;
 	    state.options=nextProps.options;
 	    var selectedItems=state.options.filter(function(option) {
@@ -26,7 +30,9 @@ var SimpleSelect=React.createClass({
 	}
 	// value reset
 	if (this.props.id!=nextProps.id) {
-	    // console.log("resetting "+this.props.name+" to "+this.props.value);
+	    if (this.state.debug) {
+		console.log("changing "+this.props.name+" value from "+this.state.value+" to "+this.props.value);
+	    }
 	    var state=this.state;
 	    state.value=this.props.value;
 	    this.setState(state);
