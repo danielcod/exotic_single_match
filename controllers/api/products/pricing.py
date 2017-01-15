@@ -28,7 +28,7 @@ class IndexHandler(webapp2.RequestHandler):
         product=Products[productname]()
         product.validate_query(query)
         contract=product.init_contract(query)        
-        payoffs=[{"name": query["payoff"]}]
+        payoffs=product.init_payoffs(query)
         payoffs=product.price_payoffs(contract, payoffs)
         probability=payoffs[0]["value"]
         return {"decimal_price": format_price(probability)}

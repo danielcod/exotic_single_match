@@ -26,6 +26,9 @@ class MiniLeaguesProduct:
                 "results": [], 
                 "fixtures": fixtures}
 
+    def init_payoffs(self, query):
+        return [{"name": query["payoff"]}]
+        
     def price_payoffs(self, contract, payoffs):
         return calc_positional_probability(contract, payoffs)
     
