@@ -47,7 +47,7 @@ def parse_payoff_index(payoff):
     else:
         raise RuntimeError("Payoff not recognised")
 
-def calc_positional_probability(contract, paths=Paths, seed=Seed):
+def calc_positional_probability(contract, payoffs, paths=Paths, seed=Seed):
     if contract["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
     pp=simulator.simulate(contract["teams"],
@@ -55,8 +55,13 @@ def calc_positional_probability(contract, paths=Paths, seed=Seed):
                           contract["fixtures"],
                           paths, seed)
     ppkey=contract["team"]["name"]
-    index=parse_payoff_index(contract["payoff"])
-    if len(index) > len(pp[ppkey]): 
-        raise RuntimeError("Payoff is invalid")
-    return sum([pp[ppkey][i]
-                for i in index])
+    def calc_payoff_value(payoffname):
+        index=parse_payoff_index(payoffname)
+        if len(index) > len(pp[ppkey]): 
+            raise RuntimeError("Payoff is invalid")
+        return sum([pp[ppkey][i]
+                    for i in index])
+    return [{"name": payoff["name"],
+             "value": calc_payoff_value(payoff["name"])}
+            for payoff in payoffs]
+    

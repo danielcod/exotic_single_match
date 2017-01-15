@@ -27,8 +27,10 @@ class IndexHandler(webapp2.RequestHandler):
             raise RuntimeError("Product not found")
         product=Products[productname]()
         product.validate_query(query)
-        contract=product.init_contract(query)
-        probability=product.price_contract(contract)
+        contract=product.init_contract(query)        
+        payoffs=[{"name": query["payoff"]}]
+        payoffs=product.price_payoffs(contract, payoffs)
+        probability=payoffs[0]["value"]
         return {"decimal_price": format_price(probability)}
 
 Routing=[('/api/products/pricing', IndexHandler)]

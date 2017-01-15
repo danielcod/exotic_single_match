@@ -24,9 +24,10 @@ class MiniLeaguesProduct:
         return {"team": selectedteam,
                 "teams": query["teams"],
                 "results": [], 
-                "fixtures": fixtures,
-                "payoff": query["payoff"]}
-        
-    def price_contract(self, contract):
-        return calc_positional_probability(contract)
+                "fixtures": fixtures}
+
+    def price_payoffs(self, contract, payoffs):
+        return calc_positional_probability(contract, payoffs)
+    
+
         

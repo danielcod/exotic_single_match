@@ -34,9 +34,8 @@ class SingleTeamsProduct:
         return {"team": team,
                 "teams": teams,
                 "results": results,
-                "fixtures": fixtures,
-                "payoff": query["payoff"]}
+                "fixtures": fixtures}
     
-    def price_contract(self, contract):
-        return calc_positional_probability(contract)
+    def price_payoffs(self, contract, payoffs):
+        return calc_positional_probability(contract, payoffs)
             
