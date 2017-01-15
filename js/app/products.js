@@ -96,6 +96,17 @@ var ProductForm=React.createClass({
 		    value: this.state.currentProduct.type,
 		    changeHandler: this.productChangeHandler
 		}),
+		React.DOM.p({
+		    className: "text-center",
+		    style: {
+			color: "#888"
+		    },
+		    children: React.DOM.i({
+			children: this.state.products.filter(function(product) {
+			    return product.name==this.state.currentProduct.type
+			}.bind(this))[0]["description"]
+		    })
+		}),
 		React.createElement(ProductMapping[this.state.currentProduct.type], {
 		    params: this.state.currentProduct.query,
 		    blankStyle: BlankStyle
