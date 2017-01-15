@@ -25,7 +25,6 @@ class IndexHandler(webapp2.RequestHandler):
         if productname not in Products:
             raise RuntimeError("Product not found")
         product=Products[productname]()
-        product.validate_query(query)
         contract=product.init_contract(query)        
         payoffs=product.price_contract(contract)
         probability=payoffs[0]["value"]

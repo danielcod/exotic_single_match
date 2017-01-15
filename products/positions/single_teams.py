@@ -34,9 +34,6 @@ class SingleTeamsProduct:
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]
 
-    def validate_query(self, query):
-        pass
-    
     def init_contract(self, query):
         team={"league": query["league"],
               "name": query["team"]}

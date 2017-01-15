@@ -10,9 +10,6 @@ class MiniLeaguesProduct:
     def init_payoffs(self, leaguename=None, teamname=None):
         return Payoffs
     
-    def validate_query(self, query):
-        pass
-    
     def filter_selected_team(self, teams):
         for team in teams:
             if ("selected" in team and
