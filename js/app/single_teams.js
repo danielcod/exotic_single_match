@@ -132,7 +132,7 @@ var SingleTeamsForm=React.createClass({
 		    }),
 		React.createElement(
 		    SimpleSelect, {
-			label: "Payoff",
+			label: "Position",
 			name: "payoff",
 			options: this.state.options.payoff,
 			value: this.props.params.payoff,
@@ -142,7 +142,7 @@ var SingleTeamsForm=React.createClass({
 		    }),
 		React.createElement(
 		    SimpleSelect, {
-			label: "Expiry",
+			label: "At",
 			name: "expiry",
 			options: this.state.options.expiry,
 			value: this.props.params.expiry,

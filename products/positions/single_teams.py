@@ -8,7 +8,7 @@ class SingleTeamsProduct:
     - NB pricing to end of season
     """
         
-    def payoff_names(self, leaguename, teamname=None):
+    def init_payoffs(self, leaguename, teamname=None):
         teams=fetch_teams(leaguename)
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
@@ -24,16 +24,13 @@ class SingleTeamsProduct:
             for i in range(2, len(teams)):
                 names.append("%i%s Place" % (i, cardinal_suffix(i)))
             return names        
-        allpayoffs=[{"name": payoffname}
-                    for payoffname in all_payoff_names(teams)]
         contract={"team": {"name": teamname},
                   "teams": teams,
                   "results": results,
                   "fixtures": fixtures,
-                  "payoffs": allpayoffs}
-        payoffs=calc_positional_probability(contract)        
-        return [payoff["name"]
-                for payoff in payoffs
+                  "payoffs": [{"name": payoffname}
+                              for payoffname in all_payoff_names(teams)]}
+        return [payoff for payoff in calc_positional_probability(contract)
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]
 

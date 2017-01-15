@@ -1,10 +1,14 @@
 from products.positions import *
 
+Payoffs=yaml.load("""
+- name: Winner
+- name: Bottom
+""")
+
 class MiniLeaguesProduct:
 
-    def payoff_names(self, leaguename=None, teamname=None):
-        return ["Winner",
-                "Bottom"]
+    def init_payoffs(self, leaguename=None, teamname=None):
+        return Payoffs
     
     def validate_query(self, query):
         pass
