@@ -66,14 +66,24 @@ var SingleTeamsForm=React.createClass({
 	    $("span[id='price']").text("[..]");
 	}
     },
-    componentDidMount: function() {
+    initialise: function() {
 	this.fetchLeagues();
 	if (this.props.params.league!=undefined) {
 	    this.fetchTeams(this.props.params);
 	    this.fetchPayoffs(this.props.params);
 	}
 	this.fetchExpiries();
-	this.updatePrice(this.state.params); // state ?
+	this.updatePrice(this.props.params); 
+    },
+    reset: function() {
+	var state=this.state;
+	state.params=this.deepCopy(this.props.params);
+	state.id=Math.round(1e10*Math.random());
+	this.setState(state);
+	this.initialise();
+    },
+    componentDidMount: function() {
+	this.initialise();
     },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
@@ -92,19 +102,6 @@ var SingleTeamsForm=React.createClass({
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
-    },
-    reset: function() {
-	var state=this.state;
-	state.params=this.deepCopy(this.props.params);
-	state.id=Math.round(1e10*Math.random());
-	this.setState(state);
-	if (this.props.params.league!=undefined) {
-	    this.fetchTeams(this.props.params);
-	}
-	if (this.props.params.team!=undefined) {
-	    this.fetchPayoffs(this.props.params);
-	}
-	this.updatePrice(this.state.params); // state ?
     },
     render: function() {
 	return React.DOM.div({
