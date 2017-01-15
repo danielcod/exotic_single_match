@@ -14,8 +14,13 @@ class IndexHandler(webapp2.RequestHandler):
         if productname not in Products:
             raise RuntimeError("Product not found")
         product=Products[productname]()
-        payoffs=[{"value": payoff["name"],
-                  "probability": payoff["value"]}
+        def format_payoff(payoff):
+            item={}
+            item["value"]=payoff["name"]
+            if "value" in payoff:
+                item["probability"]=payoff["value"]
+            return item
+        payoffs=[format_payoff(payoff)
                  for payoff in product.init_payoffs(leaguename, teamname)]
         return payoffs
 
