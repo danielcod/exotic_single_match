@@ -58,16 +58,18 @@ var SimpleSelect=React.createClass({
 		    }.bind(this),
 		    children: [
 			React.DOM.option({
-			    value: '', // NB
+			    value: undefined, 
 			    disabled: this.state.value!=undefined,
+			    selected: this.state.value==undefined,
 			    children: "Select"
 			}),
 			this.state.options.map(function(option) {
 			    return React.DOM.option({
 				value: option.value,
+				selected: option.value==this.state.value,
 				children: option.label || option.value
 			    })
-			})
+			}.bind(this))
 		    ]
 		})
 	    ]
