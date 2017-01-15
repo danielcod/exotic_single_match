@@ -1,8 +1,8 @@
-import urllib, yaml
+import httplib, yaml
 
 from helpers.json_helpers import *
 
-Endpoint="http://localhost:8080"
+Endpoint="localhost:8080"
 
 Items=yaml.load("""
 - path: "/api/products/payoffs?product=single_teams&league=ENG.1&team=Chelsea"
@@ -16,17 +16,40 @@ Items=yaml.load("""
       expiry: "2017-03-01"
 """)
 
+def get_json(path):
+    http=httplib.HTTPConnection(Endpoint)
+    headers={"Content-Type": "application/json"}
+    http.request('GET', path, headers=headers)
+    resp=http.getresponse()
+    if resp.status==400:
+        raise RuntimeError(resp.read())
+    if resp.status!=200:
+        raise RuntimeError("Server returned HTTP %i" % resp.status)
+    return json_loads(resp.read())
+
+def post_json(path, struct):
+    http=httplib.HTTPConnection(Endpoint)
+    payload=json_dumps(struct)
+    headers={"Content-Type": "application/json",
+             "Content-Length": str(len(payload))}
+    http.request('POST', path, payload, headers=headers)
+    resp=http.getresponse()
+    if resp.status==400:
+        raise RuntimeError(resp.read())
+    if resp.status!=200:
+        raise RuntimeError("Server returned HTTP %i" % resp.status)
+    return json_loads(resp.read())
+
 if __name__=="__main__":
-    try:
-        for item in Items:
-            print "---------------"
-            print item
-            print
-            url=Endpoint+item["path"]
+    for item in Items:
+        print "---------------"
+        print item
+        print
+        url=Endpoint+item["path"]
+        try:
             if "data" not in item:
-                print urllib.urlopen(url).read()
+                print get_json(item["path"])
             else:
-                payload=json_dumps(item["data"])
-                print urllib.urlopen(url, payload).read()
-    except RuntimeError, error:
-        print "Error: %s" % str(error)
+                print post_json(item["path"], item["data"])
+        except RuntimeError, error:
+            print "Error: %s" % str(error)
