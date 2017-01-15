@@ -1,8 +1,9 @@
 var OptionsLoader=function(handler, errHandler, debug) {
+    this.debug=debug || false;
     this.cache={};
     this.fetch=function(name, url) {
 	if (this.cache[url]==undefined) {
-	    if (debug) {
+	    if (this.debug) {
 		console.log("Fetching "+url);
 	    }
 	    $.ajax({
@@ -16,7 +17,7 @@ var OptionsLoader=function(handler, errHandler, debug) {
 		error: errHandler
 	    });
 	} else {
-	    if (debug) {
+	    if (this.debug) {
 		console.log("Serving "+url+" from cache");
 	    }
 	    handler(name, this.cache[url]);
@@ -25,11 +26,12 @@ var OptionsLoader=function(handler, errHandler, debug) {
 };
 
 var PriceFetcher=function(url, handler, errHandler, debug) {
+    this.debug=debug || false;
     this.cache={};
     this.fetch=function(payload) {
 	var key=JSON.stringify(payload)
 	if (this.cache[key]==undefined) {
-	    if (debug) {
+	    if (this.debug) {
 		console.log("Fetching price for "+key);
 	    }
 	    $.ajax({
@@ -45,7 +47,7 @@ var PriceFetcher=function(url, handler, errHandler, debug) {
 		error: errHandler
 	    });
 	} else {
-	    if (debug) {
+	    if (this.debug) {
 		console.log("Serving price for "+key+" from cache");
 	    }
 	    handler(this.cache[key]);
