@@ -1,6 +1,5 @@
 var ProductMapping={
-    "single_teams": SingleTeamsForm,
-    "mini_leagues": MiniLeaguesForm
+    "single_teams": SingleTeamsForm
 };
 
 var BlankStyle={

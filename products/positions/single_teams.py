@@ -13,9 +13,13 @@ class SingleTeamsProduct:
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
                   if fixture["date"] > Today]
-        def all_payoff_names(teams):
+        def all_payoff_names(leaguename, teams):
             names=[]
             names.append("Winner")
+            if leaguename in Promotion:
+                names.append("Promotion")
+            if leaguename in Relegation:
+                names.append("Relegation")
             for i in range(2, 1+len(teams)/2):
                 names.append("Top %i" % i)
             for i in range(2, 1+len(teams)/2):
@@ -28,12 +32,14 @@ class SingleTeamsProduct:
             for i in range(2, len(teams)):
                 names.append("%i%s Place" % (i, cardinal_suffix(i)))
             return names        
-        contract={"team": {"name": teamname},
+        contract={"team": {"league": leaguename,
+                           "name": teamname},
                   "teams": teams,
                   "results": results,
                   "fixtures": fixtures,
                   "payoffs": [{"name": payoffname}
-                              for payoffname in all_payoff_names(teams)]}
+                              for payoffname in all_payoff_names(leaguename,
+                                                                 teams)]}
         return [payoff for payoff in calc_positional_probability(contract)
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]

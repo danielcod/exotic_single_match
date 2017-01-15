@@ -14,21 +14,6 @@ Items=yaml.load("""
       team: Chelsea
       payoff: Winner
       expiry: "2017-03-01"
-- path: "/api/products/payoffs?product=mini_leagues&league=ENG.1&team=Chelsea"
-- path: "/api/products/pricing"
-  data:
-    product: mini_leagues
-    query: 
-      teams:
-      - league: ENG.1
-        name: "Arsenal"
-        selected: true
-      - league: SPA.1
-        name: "Celta Vigo"
-      - league: GER.1
-        name: "Borussia Dortmund"
-      payoff: Winner
-      expiry: "2017-03-01"
 """)
 
 if __name__=="__main__":

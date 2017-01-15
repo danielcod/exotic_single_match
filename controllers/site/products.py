@@ -4,7 +4,6 @@ ProductDeps=yaml.load("""
 - js/app/services.js
 - js/app/components.js
 - js/app/single_teams.js
-- js/app/mini_leagues.js
 - js/app/products.js
 """)
 
@@ -12,9 +11,6 @@ ProductConfig=yaml.load("""
 - label: Single Teams Outright
   name: single_teams
   description: An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!
-- label: Mini Leagues
-  name: mini_leagues
-  description: Another great product from ioSport
 """)
 
 DefaultProductId=0
