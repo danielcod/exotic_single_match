@@ -48,6 +48,7 @@ def parse_payoff_index(payoff):
         raise RuntimeError("Payoff not recognised")
 
 def calc_positional_probability(contract, payoffs, paths=Paths, seed=Seed):
+    import logging
     if contract["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
     pp=simulator.simulate(contract["teams"],
