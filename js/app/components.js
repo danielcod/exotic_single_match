@@ -48,9 +48,7 @@ var SimpleSelect=React.createClass({
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.value,
-		    style: (this.state.value==undefined) ? {
-			border: "3px solid #F88"
-		    } : {},
+		    style: (this.state.value==undefined) ? this.props.blankStyle : {},
 		    onChange: function(event) {
 			var value=event.target.value;
 			var state=this.state

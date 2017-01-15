@@ -3,6 +3,10 @@ var ProductMapping={
     "mini_leagues": MiniLeaguesForm
 };
 
+var BlankStyle={
+    border: "3px solid #F88"
+};
+
 var ProductSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -93,7 +97,8 @@ var ProductForm=React.createClass({
 		    changeHandler: this.productChangeHandler
 		}),
 		React.createElement(ProductMapping[this.state.currentProduct.type], {
-		    params: this.state.currentProduct.query
+		    params: this.state.currentProduct.query,
+		    blankStyle: BlankStyle
 		})
 	    ] : []
 	});
