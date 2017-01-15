@@ -33,11 +33,19 @@ var SingleTeamsForm=React.createClass({
 	    priceFetcher: this.initPriceFetcher("/api/products/pricing", true)
 	};
     },
-    teamsUrl: function(params) {
-	return "/api/teams?league="+params.league;
+    fetchLeagues: function() {
+	this.state.optionsLoader.fetch("league", "/api/leagues");
     },
-    payoffsUrl: function(params) {
-	return "/api/products/payoffs?product=single_teams&league="+params.league;
+    fetchTeams: function(params) {
+	var url="/api/teams?league="+params.league;
+	this.state.optionsLoader.fetch("team", url);
+    },
+    fetchPayoffs: function(params) {
+	var url="/api/products/payoffs?product=single_teams&league="+params.league;
+	this.state.optionsLoader.fetch("payoff", url);
+    },
+    fetchExpiries: function() {
+	this.state.optionsLoader.fetch("expiry", "/api/expiries");
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -58,13 +66,13 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     componentDidMount: function() {
-	this.state.optionsLoader.fetch("league", "/api/leagues");
+	this.fetchLeagues();
 	if (this.props.params.league!=undefined) {
-	    this.state.optionsLoader.fetch("team", this.teamsUrl(this.props.params));
-	    this.state.optionsLoader.fetch("payoff", this.payoffsUrl(this.props.params));
+	    this.fetchTeams(this.props.params);
+	    this.fetchPayoffs(this.props.params);
 	}
-	this.state.optionsLoader.fetch("expiry", "/api/expiries");
-	this.updatePrice(this.state.params);
+	this.fetchExpiries();
+	this.updatePrice(this.state.params); // state ?
     },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
@@ -74,11 +82,11 @@ var SingleTeamsForm=React.createClass({
 		// team
 		state.options.team=[];
 		state.params.team=undefined;
-		this.state.optionsLoader.fetch("team", this.teamsUrl(state.params));
+		this.fetchTeams(state.params);
 		// payoff
 		state.options.payoff=[];
 		state.params.payoff=undefined;
-		this.state.optionsLoader.fetch("payoff", this.payoffsUrl(state.params));
+		this.fetchPayoffs(state.params);
 	    };
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
@@ -90,12 +98,12 @@ var SingleTeamsForm=React.createClass({
 	state.id=Math.round(1e10*Math.random());
 	this.setState(state);
 	if (this.props.params.league!=undefined) {
-	    this.state.optionsLoader.fetch("team", this.teamsUrl(this.props.params));
+	    this.fetchTeams(this.props.params);
 	}
 	if (this.props.params.team!=undefined) {
-	    this.state.optionsLoader.fetch("payoff", this.payoffsUrl(this.props.params));
+	    this.fetchPayoffs(this.props.params);
 	}
-	this.updatePrice(this.state.params);
+	this.updatePrice(this.state.params); // state ?
     },
     render: function() {
 	return React.DOM.div({
