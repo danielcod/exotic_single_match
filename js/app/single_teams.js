@@ -30,8 +30,8 @@ var SingleTeamsForm=React.createClass({
 	    },
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    optionsLoader: this.initOptionsLoader(true),
-	    priceFetcher: this.initPriceFetcher("/api/products/pricing", true)
+	    optionsLoader: this.initOptionsLoader(),
+	    priceFetcher: this.initPriceFetcher("/api/products/pricing")
 	};
     },
     fetchLeagues: function() {
