@@ -1,4 +1,4 @@
-var JSONLoader=function(handler, errHandler, debug) {
+var OptionsLoader=function(handler, errHandler, debug) {
     this.cache={};
     this.fetch=function(name, url) {
 	if (this.cache[url]==undefined) {

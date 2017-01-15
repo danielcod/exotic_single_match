@@ -2,7 +2,7 @@ var SingleTeamsForm=React.createClass({
     deepCopy: function(struct) {
 	return JSON.parse(JSON.stringify(struct));
     },
-    getInitialState: function() {
+    initOptionsLoader: function(debug) {
 	var handler=function(name, struct) {
 	    var state=this.state;
 	    state.options[name]=struct;
@@ -11,6 +11,9 @@ var SingleTeamsForm=React.createClass({
 	var errHandler=function(xhr, ajaxOptions, thrownError) {
 	    console.log(xhr.responseText);
 	};
+	return new OptionsLoader(handler, errHandler, debug);
+    },				     
+    getInitialState: function() {
 	return {
 	    options: {
 		league: [],
@@ -20,7 +23,7 @@ var SingleTeamsForm=React.createClass({
 	    },
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    loader: new JSONLoader(handler, errHandler, true)
+	    loader: this.initOptionsLoader(true)
 	};
     },
     teamsUrl: function(params) {
