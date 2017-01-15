@@ -38,12 +38,20 @@ def parse_payoff_index(payoff, n):
     elif re.search("^Top \\d+$", payoff):
         i=parse_i(payoff)
         return [j for j in range(i)]
+    elif re.search("^Outside Top \\d+$", payoff):
+        i=parse_i(payoff)
+        return [j for j in range(n)
+                if j >= i]
     elif re.search("^\\d+((st)|(nd)|(rd)|(th)) Place$", payoff):
         i=parse_i(payoff)
         return [i-1]
     elif re.search("^Bottom \\d+$", payoff):
         i=parse_i(payoff)
         return [-(1+j) for j in range(i)]
+    elif re.search("^Outside Bottom \\d+$", payoff):
+        i=parse_i(payoff)
+        return [j for j in range(n)
+                if j < n-i]
     elif re.search("^Bottom$", payoff):
         return [-1]
     else:

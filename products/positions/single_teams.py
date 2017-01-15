@@ -18,9 +18,13 @@ class SingleTeamsProduct:
             names.append("Winner")
             for i in range(2, 1+len(teams)/2):
                 names.append("Top %i" % i)
+            for i in range(2, 1+len(teams)/2):
+                names.append("Outside Top %i" % i)
             names.append("Bottom")
             for i in range(2, 1+len(teams)/2):
                 names.append("Bottom %i" % i)
+            for i in range(2, 1+len(teams)/2):
+                names.append("Outside Bottom %i" % i)
             for i in range(2, len(teams)):
                 names.append("%i%s Place" % (i, cardinal_suffix(i)))
             return names        
