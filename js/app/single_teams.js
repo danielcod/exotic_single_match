@@ -61,8 +61,6 @@ var SingleTeamsForm=React.createClass({
 	this.state.optionsLoader.fetch("league", "/api/leagues");
 	if (this.props.params.league!=undefined) {
 	    this.state.optionsLoader.fetch("team", this.teamsUrl(this.props.params));
-	}
-	if (this.props.params.team!=undefined) {
 	    this.state.optionsLoader.fetch("payoff", this.payoffsUrl(this.props.params));
 	}
 	this.state.optionsLoader.fetch("expiry", "/api/expiries");
