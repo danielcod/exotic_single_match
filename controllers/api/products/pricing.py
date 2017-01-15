@@ -19,7 +19,6 @@ def format_price(probability):
 class IndexHandler(webapp2.RequestHandler):
 
     @parse_json_body
-    # @emit_json_memcache(60)
     @emit_json
     def post(self, struct):
         productname, query = struct["product"], struct["query"]
@@ -28,8 +27,7 @@ class IndexHandler(webapp2.RequestHandler):
         product=Products[productname]()
         product.validate_query(query)
         contract=product.init_contract(query)        
-        payoffs=product.init_payoffs(query)
-        payoffs=product.price_payoffs(contract, payoffs)
+        payoffs=product.price_contract(contract)
         probability=payoffs[0]["value"]
         return {"decimal_price": format_price(probability)}
 

@@ -21,16 +21,15 @@ class MiniLeaguesProduct:
         allfixtures=fetch_fixtures([team["league"]
                                     for team in query["teams"]])
         fixtures=filter_fixtures(allfixtures, query["teams"], query["expiry"])
+        payoffs=[{"name": query["payoff"]}]
         return {"team": selectedteam,
                 "teams": query["teams"],
                 "results": [], 
-                "fixtures": fixtures}
+                "fixtures": fixtures,
+                "payoffs": payoffs}
 
-    def init_payoffs(self, query):
-        return [{"name": query["payoff"]}]
-        
-    def price_payoffs(self, contract, payoffs):
-        return calc_positional_probability(contract, payoffs)
+    def price_contract(self, contract):
+        return calc_positional_probability(contract)
     
 
         

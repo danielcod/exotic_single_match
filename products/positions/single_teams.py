@@ -29,8 +29,9 @@ class SingleTeamsProduct:
         contract={"team": {"name": teamname},
                   "teams": teams,
                   "results": results,
-                  "fixtures": fixtures}
-        payoffs=calc_positional_probability(contract, allpayoffs)        
+                  "fixtures": fixtures,
+                  "payoffs": allpayoffs}
+        payoffs=calc_positional_probability(contract)        
         return [payoff["name"]
                 for payoff in payoffs
                 if (payoff["value"] > MinProbability and
@@ -48,14 +49,13 @@ class SingleTeamsProduct:
                   for fixture in fetch_fixtures(query["league"])
                   if (fixture["date"] > Today and
                       fixture["date"] <= query["expiry"])]
+        payoffs=[{"name": query["payoff"]}]
         return {"team": team,
                 "teams": teams,
                 "results": results,
-                "fixtures": fixtures}
-
-    def init_payoffs(self, query):
-        return [{"name": query["payoff"]}]
+                "fixtures": fixtures,
+                "payoffs": payoffs}
     
-    def price_payoffs(self, contract, payoffs):
-        return calc_positional_probability(contract, payoffs)
+    def price_contract(self, contract):
+        return calc_positional_probability(contract)
             
