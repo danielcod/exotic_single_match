@@ -1,6 +1,7 @@
 from controllers.site import *
 
 ProductDeps=yaml.load("""
+- js/app/services.js
 - js/app/components.js
 - js/app/single_teams.js
 - js/app/mini_leagues.js

@@ -3,6 +3,14 @@ var SingleTeamsForm=React.createClass({
 	return JSON.parse(JSON.stringify(struct));
     },
     getInitialState: function() {
+	var handler=function(name, struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+	var errHandler=function(xhr, ajaxOptions, thrownError) {
+	    console.log(xhr.responseText);
+	};
 	return {
 	    options: {
 		league: [],
@@ -12,37 +20,8 @@ var SingleTeamsForm=React.createClass({
 	    },
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    cache: {}
+	    loader: new JSONLoader(handler, errHandler, true)
 	};
-    },
-    updateCache: function(url, struct) {
-	var state=this.state;
-	state.cache[url]=struct;
-	this.setState(state);
-    },
-    loadSuccess: function(name, struct) {
-	var state=this.state;
-	state.options[name]=struct;
-	this.setState(state);	
-    },
-    loadError: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
-    },
-    loadOptions: function(name, url) {
-	if (this.state.cache[url]!=undefined) {
-	    this.loadSuccess(name, this.state.cache[url]);
-	} else {
-	    $.ajax({
-		url: url,
-		type: "GET",
-		dataType: "json",
-		success: function(struct) {
-		    this.updateCache(url, struct);
-		    this.loadSuccess(name, struct);
-		}.bind(this),
-		error: this.Error
-	    });
-	}
     },
     teamsUrl: function(params) {
 	return "/api/teams?league="+params.league;
@@ -86,14 +65,14 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     componentDidMount: function() {
-	this.loadOptions("league", "/api/leagues");
+	this.state.loader.fetch("league", "/api/leagues");
 	if (this.props.params.league!=undefined) {
-	    this.loadOptions("team", this.teamsUrl(this.props.params));
+	    this.state.loader.fetch("team", this.teamsUrl(this.props.params));
 	}
 	if (this.props.params.team!=undefined) {
-	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
+	    this.state.loader.fetch("payoff", this.payoffsUrl(this.props.params));
 	}
-	this.loadOptions("expiry", "/api/expiries");
+	this.state.loader.fetch("expiry", "/api/expiries");
 	this.updatePrice(this.state.params);
     },
     changeHandler: function(name, value) {
@@ -104,11 +83,11 @@ var SingleTeamsForm=React.createClass({
 		// team
 		state.options.team=[];
 		state.params.team=undefined;
-		this.loadOptions("team", this.teamsUrl(state.params));
+		this.state.loader.fetch("team", this.teamsUrl(state.params));
 		// payoff
 		state.options.payoff=[];
 		state.params.payoff=undefined;
-		this.loadOptions("payoff", this.payoffsUrl(state.params));
+		this.state.loader.fetch("payoff", this.payoffsUrl(state.params));
 	    };
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
@@ -120,10 +99,10 @@ var SingleTeamsForm=React.createClass({
 	state.id=Math.round(1e10*Math.random());
 	this.setState(state);
 	if (this.props.params.league!=undefined) {
-	    this.loadOptions("team", this.teamsUrl(this.props.params));
+	    this.state.loader.fetch("team", this.teamsUrl(this.props.params));
 	}
 	if (this.props.params.team!=undefined) {
-	    this.loadOptions("payoff", this.payoffsUrl(this.props.params));
+	    this.state.loader.fetch("payoff", this.payoffsUrl(this.props.params));
 	}
 	this.updatePrice(this.state.params);
     },
