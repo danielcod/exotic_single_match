@@ -31,7 +31,8 @@ var SingleTeamsForm=React.createClass({
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
 	    optionsLoader: this.initOptionsLoader(),
-	    priceFetcher: this.initPriceFetcher("/api/products/pricing")
+	    priceFetcher: this.initPriceFetcher("/api/products/pricing"),
+	    resetLevel: "default"
 	};
     },
     fetchLeagues: function() {
@@ -82,6 +83,7 @@ var SingleTeamsForm=React.createClass({
 	var state=this.state;
 	state.params=this.deepCopy(this.props.params);
 	state.id=Math.round(1e10*Math.random());
+	state.resetLevel="default";
 	this.setState(state);
 	this.initialise();
     },
@@ -103,6 +105,7 @@ var SingleTeamsForm=React.createClass({
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
 	    };
+	    state.resetLevel="warning";
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
@@ -153,7 +156,7 @@ var SingleTeamsForm=React.createClass({
 		React.DOM.div({
 		    className: "text-right",
 		    children: React.DOM.button({
-			className: "btn btn-danger",
+			className: "btn btn-"+this.state.resetLevel,
 			onClick: this.reset,
 			children: "Reset"
 		    })
