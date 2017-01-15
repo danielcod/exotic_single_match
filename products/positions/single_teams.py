@@ -5,7 +5,7 @@ MinProbability, MaxProbability = 0.01, 0.99
 class SingleTeamsProduct:
 
     """
-    - NB pricing to end of season
+    - NB multiple prices returned, but all priced to end of season
     """
         
     def init_payoffs(self, leaguename, teamname=None):
