@@ -3,20 +3,20 @@ from products import *
 import quant.simulator as simulator
 
 Promotion=yaml.load("""
-ENG.2: '2x100|4x25|18x0'
-ENG.3: '2x100|4x25|18x0'
-ENG.4: '3x100|4x25|17x0'
+ENG.2: '2x1|4x0.25|18x0'
+ENG.3: '2x1|4x0.25|18x0'
+ENG.4: '3x1|4x0.25|17x0'
 """)
 
 Relegation=yaml.load("""
-ENG.1: '17x0|3x100'
-ENG.2: '21x0|3x100'
-ENG.3: '20x0|4x100'
-ENG.4: '22x0|2x100'
-GER.1: '15x0|33|2x100'
-FRA.1: '17x0|3x100'
-SPA.1: '17x0|3x100'
-""")                    
+ENG.1: '17x0|3x1'
+ENG.2: '21x0|3x1'
+ENG.3: '20x0|4x1'
+ENG.4: '22x0|2x1'
+GER.1: '15x0|0.33|2x1'
+FRA.1: '17x0|3x1'
+SPA.1: '17x0|3x1'
+""")                  
 
 Paths, Seed = 1000, 13
 
@@ -49,13 +49,15 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
 def kwik_payoff(text):
     payoff=[]
     for item in text.split("|"):
-        tokens=[int(tok) for tok in item.split("x")]
+        tokens=[float(tok)
+                for tok in item.split("x")]
         if tokens==[]:
             pass
         elif len(tokens)==1:
             payoff.append(tokens[0])
         else:
-            payoff+=[tokens[1] for i in range(tokens[0])]
+            payoff+=[tokens[1]
+                     for i in range(int(tokens[0]))]
     return payoff
 
 def parse_payoff(payoff, n, leaguename):
@@ -66,8 +68,7 @@ def parse_payoff(payoff, n, leaguename):
     elif re.search("^Promotion$", payoff):
         if leaguename not in Promotion:
             raise RuntimeError("No Promotion for %s" % leaguename)
-        return [x/float(100)
-                for x in kwik_payoff(Promotion[leaguename])]
+        return kwik_payoff(Promotion[leaguename])
     elif re.search("^Top \\d+$", payoff):
         i=parse_i(payoff)
         return kwik_payoff("%ix1|%ix0" % (i, n-i))
@@ -86,8 +87,7 @@ def parse_payoff(payoff, n, leaguename):
     elif re.search("^Relegation$", payoff):
         if leaguename not in Relegation:
             raise RuntimeError("No Relegation for %s" % leaguename)
-        return [x/float(100)
-                for x in kwik_payoff(Relegation[leaguename])]
+        return kwik_payoff(Relegation[leaguename])
     elif re.search("^Bottom$", payoff):
         return kwik_payoff("%ix0|1" % (n-1))
     else:
