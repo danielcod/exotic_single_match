@@ -30,22 +30,24 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
     
-def parse_payoff_index(payoff):
-    if payoff=="Winner":
+def parse_payoff_index(payoff, n):
+    def parse_i(payoff):
+        return int(re.findall("\\d+", payoff)[0])
+    if re.search("^Winner$", payoff):
         return [0]
-    elif re.search("Top \\d+", payoff):
-        n=int(re.findall("\\d+", payoff)[0])
-        return [i for i in range(n)]
-    elif re.search("\\d+((st)|(nd)|(rd)|(th)) Place", payoff):
-        n=int(re.findall("\\d+", payoff)[0])
-        return [n-1]
-    elif re.search("Bottom \\d+", payoff):
-        n=int(re.findall("\\d+", payoff)[0])
-        return [-(1+i) for i in range(n)]
-    elif payoff=="Bottom":
+    elif re.search("^Top \\d+$", payoff):
+        i=parse_i(payoff)
+        return [j for j in range(i)]
+    elif re.search("^\\d+((st)|(nd)|(rd)|(th)) Place$", payoff):
+        i=parse_i(payoff)
+        return [i-1]
+    elif re.search("^Bottom \\d+$", payoff):
+        i=parse_i(payoff)
+        return [-(1+j) for j in range(i)]
+    elif re.search("^Bottom$", payoff):
         return [-1]
     else:
-        raise RuntimeError("Payoff not recognised")
+        raise RuntimeError("'%s' not recognised as payoff" % payoff)
 
 def calc_positional_probability(contract, paths=Paths, seed=Seed):
     if contract["fixtures"]==[]:
@@ -56,7 +58,7 @@ def calc_positional_probability(contract, paths=Paths, seed=Seed):
                           paths, seed)
     ppkey=contract["team"]["name"]
     def calc_payoff_value(payoffname):
-        index=parse_payoff_index(payoffname)
+        index=parse_payoff_index(payoffname, len(contract["teams"]))
         if len(index) > len(pp[ppkey]): 
             raise RuntimeError("Payoff is invalid")
         return sum([pp[ppkey][i]
