@@ -28,7 +28,8 @@ class IndexHandler(webapp2.RequestHandler):
         contract=product.init_contract(query)        
         payoffs=product.price_contract(contract)
         probability=payoffs[0]["value"]
-        return {"decimal_price": format_price(probability)}
+        return {"probability": probability,
+                "decimal_price": format_price(probability)}
 
 Routing=[('/api/products/pricing', IndexHandler)]
 
