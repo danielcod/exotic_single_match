@@ -55,7 +55,8 @@ def calc_positional_probability(contract, paths=Paths, seed=Seed):
                           contract["fixtures"],
                           paths, seed)
     ppkey=contract["team"]["name"]
-    if len(contract["index"]) > len(pp[ppkey]): 
+    index=parse_payoff_index(contract["payoff"])
+    if len(index) > len(pp[ppkey]): 
         raise RuntimeError("Payoff is invalid")
     return sum([pp[ppkey][i]
-                for i in contract["index"]])
+                for i in index])

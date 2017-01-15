@@ -21,12 +21,11 @@ class MiniLeaguesProduct:
         allfixtures=fetch_fixtures([team["league"]
                                     for team in query["teams"]])
         fixtures=filter_fixtures(allfixtures, query["teams"], query["expiry"])
-        index=parse_payoff_index(query["payoff"])
         return {"team": selectedteam,
                 "teams": query["teams"],
                 "results": [], 
                 "fixtures": fixtures,
-                "index": index}
+                "payoff": query["payoff"]}
         
     def price_contract(self, contract):
         return calc_positional_probability(contract)

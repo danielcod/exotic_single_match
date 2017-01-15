@@ -31,12 +31,11 @@ class SingleTeamsProduct:
                   for fixture in fetch_fixtures(query["league"])
                   if (fixture["date"] > Today and
                       fixture["date"] <= query["expiry"])]
-        index=parse_payoff_index(query["payoff"])
         return {"team": team,
                 "teams": teams,
                 "results": results,
                 "fixtures": fixtures,
-                "index": index}        
+                "payoff": query["payoff"]}
     
     def price_contract(self, contract):
         return calc_positional_probability(contract)
