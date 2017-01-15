@@ -29,34 +29,47 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
                 fixture["date"] <= expirydate)
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
-    
-def parse_payoff_index(payoff, n):
+
+def kwik_payoff(text):
+    payoff=[]
+    for item in text.split("|"):
+        tokens=[int(tok) for tok in item.split("x")]
+        if tokens==[]:
+            pass
+        elif len(tokens)==1:
+            payoff.append(tokens[0])
+        else:
+            payoff+=[tokens[1] for i in range(tokens[0])]
+    return payoff
+
+def parse_payoff(payoff, n):
     def parse_i(payoff):
         return int(re.findall("\\d+", payoff)[0])
     if re.search("^Winner$", payoff):
-        return [0]
+        return kwik_payoff("1|%ix0" % (n-1))
     elif re.search("^Top \\d+$", payoff):
         i=parse_i(payoff)
-        return [j for j in range(i)]
+        return kwik_payoff("%ix1|%ix0" % (i, n-i))
     elif re.search("^Outside Top \\d+$", payoff):
         i=parse_i(payoff)
-        return [j for j in range(n)
-                if j >= i]
+        return kwik_payoff("%ix0|%ix1" % (i, n-i))
     elif re.search("^\\d+((st)|(nd)|(rd)|(th)) Place$", payoff):
         i=parse_i(payoff)
-        return [i-1]
+        return kwik_payoff("%ix0|%1x1|%ix0" % (i-1, 1, n-i))
     elif re.search("^Bottom \\d+$", payoff):
         i=parse_i(payoff)
-        return [-(1+j) for j in range(i)]
+        return kwik_payoff("%ix0|%ix1" % (n-i, i))
     elif re.search("^Outside Bottom \\d+$", payoff):
         i=parse_i(payoff)
-        return [j for j in range(n)
-                if j < n-i]
+        return kwik_payoff("%ix1|%ix0" % (n-i, i))
     elif re.search("^Bottom$", payoff):
-        return [-1]
+        return kwik_payoff("%ix0|1" % (n-1))
     else:
         raise RuntimeError("'%s' not recognised as payoff" % payoff)
 
+def sumproduct(X, Y):
+    return sum([x*y for x, y in zip(X, Y)])
+    
 def calc_positional_probability(contract, paths=Paths, seed=Seed):
     if contract["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
@@ -66,11 +79,8 @@ def calc_positional_probability(contract, paths=Paths, seed=Seed):
                           paths, seed)
     ppkey=contract["team"]["name"]
     def calc_payoff_value(payoffname):
-        index=parse_payoff_index(payoffname, len(contract["teams"]))
-        if len(index) > len(pp[ppkey]): 
-            raise RuntimeError("Payoff is invalid")
-        return sum([pp[ppkey][i]
-                    for i in index])
+        payoff=parse_payoff(payoffname, len(contract["teams"]))
+        return sumproduct(payoff, pp[ppkey])
     return [{"name": payoff["name"],
              "value": calc_payoff_value(payoff["name"])}
             for payoff in contract["payoffs"]]
