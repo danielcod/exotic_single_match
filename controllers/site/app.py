@@ -14,7 +14,7 @@ ProductConfig=yaml.load("""
   description: An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!
 """)
 
-class InitHandler(webapp2.RequestHandler):
+class EditHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -36,7 +36,7 @@ class IndexHandler(webapp2.RequestHandler):
             "deps": depsstr}
         render_template(self, "templates/site/app.html", tv)
 
-Routing=[('/site/app/init', InitHandler),
+Routing=[('/site/app/edit', EditHandler),
          ('/site/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
