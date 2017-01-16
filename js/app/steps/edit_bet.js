@@ -120,8 +120,8 @@ var EditBetPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(AppProcessSteps, {
-		    steps: AppProcessStepLabels,
+		React.createElement(ProcessSteps, {
+		    steps: ProcessStepLabels,
 		    currentStep: 1
 		}),
 		React.DOM.h3({

@@ -1,10 +1,10 @@
-var AppProcessStepLabels=[
+var ProcessStepLabels=[
     "Browse Bets",
     "Edit Bet",
     "Place Bet"
 ];
 
-var AppProcessStep=React.createClass({
+var ProcessStep=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "col-xs-"+this.props.width+" bs-wizard-step "+this.props.status,
@@ -32,7 +32,7 @@ var AppProcessStep=React.createClass({
     }
 });
 
-var AppProcessSteps=React.createClass({    
+var ProcessSteps=React.createClass({    
     initSteps: function(labels, currentStep) {
 	var steps=[];
 	var width=12/labels.length;
@@ -52,7 +52,7 @@ var AppProcessSteps=React.createClass({
 		label: label,
 		status: status
 	    };
-	    var step=React.createElement(AppProcessStep, stepArgs);
+	    var step=React.createElement(ProcessStep, stepArgs);
 	    steps.push(step);
 	}
 	return steps;

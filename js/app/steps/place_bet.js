@@ -2,8 +2,8 @@ var PlaceBetPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(AppProcessSteps, {
-		    steps: AppProcessStepLabels,
+		React.createElement(ProcessSteps, {
+		    steps: ProcessStepLabels,
 		    currentStep: 2
 		}),
 		React.DOM.div({
