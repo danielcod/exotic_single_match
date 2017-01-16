@@ -37,9 +37,14 @@ var App=React.createClass({
 		React.createElement(AppStageTwoPanel, {}),
 		React.DOM.footer({
 		    className: "footer",
+		    style: {
+			"margin-top": "20px"
+		    },
 		    children: React.DOM.p({
 			children: React.DOM.h5({
-			    children: "&copy;ioSport 2017"
+			    dangerouslySetInnerHTML: {
+				"__html": "&copy; ioSport 2017"
+			    }
 			})
 		    })
 		})
