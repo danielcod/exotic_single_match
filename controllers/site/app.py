@@ -1,9 +1,9 @@
 from controllers.site import *
 
-StageDeps=yaml.load("""
+AppDeps=yaml.load("""
 - js/app/services.js
 - js/app/components.js
-- js/app/single_teams.js
+- js/app/products/single_teams.js
 - js/app/product_betslip.js
 - js/app/app.js
 """)
@@ -37,7 +37,7 @@ class IndexHandler(webapp2.RequestHandler):
             raise RuntimeError("No contracts found")
         productid=contracts[0].key().id()
         depsstr=",".join(["\"../%s\"" % dep
-                          for dep in RootDeps+StageDeps])
+                          for dep in RootDeps+AppDeps])
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
