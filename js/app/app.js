@@ -81,6 +81,15 @@ var AppBrowseBetsPanel=React.createClass({
     }
 });
 			   
+/*
+      <div class="text-center" style="margin-bottom:20px;">
+	<div class="btn-group btn-group-lg">
+	  <button style="width:100px;" type="button" class="btn btn-secondary btn-lg">Cancel</button>
+	  <button style="width:100px;" type="button" class="btn btn-primary btn-lg">Next</button>
+	</div>
+      </div>
+*/
+
 var AppEditBetPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
@@ -105,7 +114,38 @@ var AppEditBetPanel=React.createClass({
 			]
 		    })			
 		}),
-		React.createElement(ProductForm, {})
+		React.createElement(ProductForm, {}),
+		React.DOM.div({
+		    className: "text-center",
+		    children: React.DOM.div({
+			className: "btn-group",
+			style: {
+			    "margin-top": "20px"
+			},
+			children: [
+			    React.DOM.button({
+				className: "btn btn-secondary",
+				style: {
+				    width: "100px"
+				},
+				children: "Cancel",
+				onClick: function() {
+				    this.props.stepChangeHandler(0);
+				}.bind(this)
+			    }),
+			    React.DOM.button({
+				className: "btn btn-primary",
+				style: {
+				    width: "100px"
+				},
+				children: "Next",
+				onClick: function() {
+				    this.props.stepChangeHandler(2);
+				}.bind(this)
+			    })
+			]
+		    })
+		})
 	    ]
 	});
     }
@@ -130,6 +170,11 @@ var App=React.createClass({
 	    currentStep: 1
 	}
     },
+    stepChangeHandler: function(nextStep) {
+	var state=this.state;
+	state.currentStep=nextStep;
+	this.setState(state);
+    },    
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -140,10 +185,13 @@ var App=React.createClass({
 		    })
 		}),
 		(this.state.currentStep==0) ? React.createElement(AppBrowseBetsPanel, {
+		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
 		(this.state.currentStep==1) ? React.createElement(AppEditBetPanel, {
+		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
 		(this.state.currentStep==2) ? React.createElement(AppPlaceBetPanel, {
+		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
 		React.DOM.footer({
 		    className: "footer",
