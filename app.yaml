@@ -41,8 +41,8 @@ handlers:
 - url: /api/teams.*
   script: controllers.api.teams.app
 # SITE
-- url: /site/stage_two.*
-  script: controllers.site.stage_two.app
+- url: /site/app.*
+  script: controllers.site.app.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app

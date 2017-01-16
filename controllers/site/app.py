@@ -4,7 +4,7 @@ StageDeps=yaml.load("""
 - js/app/services.js
 - js/app/components.js
 - js/app/single_teams.js
-- js/app/stage_two.js
+- js/app/app.js
 """)
 
 ProductConfig=yaml.load("""
@@ -40,10 +40,10 @@ class IndexHandler(webapp2.RequestHandler):
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
-        render_template(self, "templates/site/stage_two.html", tv)
+        render_template(self, "templates/site/app.html", tv)
 
-Routing=[('/site/stage_two/init', InitHandler),
-         ('/site/stage_two', IndexHandler)]
+Routing=[('/site/app/init', InitHandler),
+         ('/site/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

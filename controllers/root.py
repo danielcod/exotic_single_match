@@ -3,7 +3,7 @@ from controllers import *
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        self.redirect("/site/stage_two")
+        self.redirect("/site/app")
 
 Routing=[('/', IndexHandler)]
 
