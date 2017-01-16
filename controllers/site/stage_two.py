@@ -43,10 +43,7 @@ class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
         productid=self.request.get("product_id")
-        if productid in ['', None, []]:
-            productid=DefaultProductId
-        else:
-            productid=int(productid)
+        productid=DefaultProductId
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in RootDeps+ProductDeps])
         tv={"title": Title,

@@ -42,9 +42,9 @@
 	  <td>{{ contract.query }}</td>
 	  <td>{{ contract.probability }}</td>
 	  <td>
-	    <button class="btn btn-default">
-	      <span class="glyphicon glyphicon-wrench"></span>
-	    </button>
+	    <a href="/site/stage_two?product_id={{ contract.id }}">
+	      Edit
+	    </a>
 	  </td>
 	</tr>
 	{% endfor %}

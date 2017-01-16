@@ -8,7 +8,6 @@ class IndexHandler(webapp2.RequestHandler):
         contracts=[contract.to_json()
                    for contract in Contract.find_all()]
         contracts=contracts[:5] # TEMP
-        logging.info(contracts)
         tv={"title": Title,
             "contracts": contracts,
             "deps": depsstr}
