@@ -63,7 +63,7 @@ var AppProcessSteps=React.createClass({
 	    style: {
 		"border-bottom": "0px"
 	    },
-	    children: this.initSteps(this.props.steps, 3)
+	    children: this.initSteps(this.props.steps, this.props.currentStep)
 	});
     }
 });
