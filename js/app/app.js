@@ -1,5 +1,5 @@
 var Main=function() {
-    var productForm=React.createElement(ProductForm, {});
-    var parent=$("div[id='products']")[0];
-    ReactDOM.render(productForm, parent);
+    var app=React.createElement(ProductForm, {});
+    var parent=$("div[id='app']")[0];
+    ReactDOM.render(app, parent);
 };
