@@ -45,6 +45,8 @@ handlers:
   script: controllers.site.stage_one.app
 - url: /site/stage_two.*
   script: controllers.site.stage_two.app
+- url: /site/stage_three.*
+  script: controllers.site.stage_three.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
