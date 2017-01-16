@@ -114,7 +114,7 @@ var SingleTeamsForm=React.createClass({
 	return React.DOM.div({
 	    children: [
 		React.createElement(
-		    SimpleSelect, {
+		    MySelect, {
 			label: "League",
 			name: "league",
 			options: this.state.options.league,
@@ -124,7 +124,7 @@ var SingleTeamsForm=React.createClass({
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
-		    SimpleSelect, {
+		    MySelect, {
 			label: "Team",
 			name: "team",
 			options: this.state.options.team,
@@ -134,7 +134,7 @@ var SingleTeamsForm=React.createClass({
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
-		    SimpleSelect, {
+		    MySelect, {
 			label: "Position",
 			name: "payoff",
 			options: this.state.options.payoff,
@@ -144,7 +144,7 @@ var SingleTeamsForm=React.createClass({
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
-		    SimpleSelect, {
+		    MySelect, {
 			label: "At",
 			name: "expiry",
 			options: this.state.options.expiry,

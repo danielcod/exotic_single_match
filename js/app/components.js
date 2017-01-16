@@ -3,7 +3,7 @@
   if you set value=undefined, will use label/child text as value
 */
 
-var SimpleSelect=React.createClass({
+var MySelect=React.createClass({
     getInitialState: function() {
 	return {
 	    options: this.props.options,
