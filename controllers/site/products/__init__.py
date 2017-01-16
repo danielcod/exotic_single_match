@@ -1,4 +1,4 @@
-from controllers.api import *
+from controllers.site import *
 
 from products.positions.single_teams import SingleTeamsProduct
 

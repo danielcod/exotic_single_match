@@ -1,4 +1,4 @@
-from controllers.api.products import *
+from controllers.site.products import *
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
@@ -31,7 +31,7 @@ class IndexHandler(webapp2.RequestHandler):
         return {"probability": probability,
                 "decimal_price": format_price(probability)}
 
-Routing=[('/api/products/pricing', IndexHandler)]
+Routing=[('/site/products/pricing', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

@@ -1,4 +1,4 @@
-from controllers.api.products import *
+from controllers.site.products import *
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -24,7 +24,7 @@ class IndexHandler(webapp2.RequestHandler):
                  for payoff in product.init_payoffs(leaguename, teamname)]
         return payoffs
 
-Routing=[('/api/products/payoffs', IndexHandler)]
+Routing=[('/site/products/payoffs', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

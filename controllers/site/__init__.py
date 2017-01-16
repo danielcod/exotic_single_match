@@ -1,5 +1,7 @@
 from controllers import *
 
+import apis.yc_lite_api as yc_lite
+
 RootDeps=yaml.load("""
 - css/lib/bootstrap.min.css
 - css/lib/jumbotron-narrow.css

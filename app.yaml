@@ -29,20 +29,19 @@ handlers:
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
-# API
-- url: /api/expiries.*
-  script: controllers.api.expiries.app
-- url: /api/leagues.*
-  script: controllers.api.leagues.app
-- url: /api/products/payoffs.*
-  script: controllers.api.products.payoffs.app
-- url: /api/products/pricing.*
-  script: controllers.api.products.pricing.app
-- url: /api/teams.*
-  script: controllers.api.teams.app
 # SITE
 - url: /site/app.*
   script: controllers.site.app.app
+- url: /site/expiries.*
+  script: controllers.site.expiries.app
+- url: /site/leagues.*
+  script: controllers.site.leagues.app
+- url: /site/products/payoffs.*
+  script: controllers.site.products.payoffs.app
+- url: /site/products/pricing.*
+  script: controllers.site.products.pricing.app
+- url: /site/teams.*
+  script: controllers.site.teams.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app

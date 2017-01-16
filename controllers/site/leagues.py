@@ -1,4 +1,4 @@
-from controllers.api import *
+from controllers.site import *
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -7,7 +7,7 @@ class IndexHandler(webapp2.RequestHandler):
         return [{"value": league["name"]}
                 for league in Leagues]
 
-Routing=[('/api/leagues', IndexHandler)]
+Routing=[('/site/leagues', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

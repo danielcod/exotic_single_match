@@ -31,28 +31,28 @@ var SingleTeamsForm=React.createClass({
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
 	    optionsLoader: this.initOptionsLoader(),
-	    priceFetcher: this.initPriceFetcher("/api/products/pricing"),
+	    priceFetcher: this.initPriceFetcher("/site/products/pricing"),
 	    resetLevel: "default"
 	};
     },
     fetchLeagues: function() {
-	this.state.optionsLoader.fetch("league", "/api/leagues");
+	this.state.optionsLoader.fetch("league", "/site/leagues");
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
-	    var url="/api/teams?league="+params.league;
+	    var url="/site/teams?league="+params.league;
 	    this.state.optionsLoader.fetch("team", url);
 	}
     },
     fetchPayoffs: function(params) {
 	if ((params.league!=undefined) &&
 	    (params.team!=undefined)) {
-	    var url="/api/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
+	    var url="/site/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
 	    this.state.optionsLoader.fetch("payoff", url);
 	}
     },
     fetchExpiries: function() {
-	this.state.optionsLoader.fetch("expiry", "/api/expiries");
+	this.state.optionsLoader.fetch("expiry", "/site/expiries");
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
