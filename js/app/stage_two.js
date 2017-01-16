@@ -116,10 +116,19 @@ var ProductForm=React.createClass({
 });
 
 var Main=function() {
+    // initialise product form
     var productId=$("input[name='product_id']").val();
     var productForm=React.createElement(ProductForm, {
 	product_id: productId
     });
     var parent=$("div[id='products']")[0];
-    ReactDOM.render(productForm, parent);    
+    ReactDOM.render(productForm, parent);
+    // bind next button
+    $("button[name='next']").click(function() {
+	window.location.href="/site/stage_three";
+    });
+    // bind cancel button
+    $("button[name='cancel']").click(function() {
+	window.location.href="/site/stage_one";
+    });
 };
