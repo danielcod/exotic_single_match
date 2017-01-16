@@ -96,7 +96,7 @@ def parse_payoff(payoff, n, leaguename):
 def sumproduct(X, Y):
     return sum([x*y for x, y in zip(X, Y)])
     
-def calc_positional_probability(contract, paths=Paths, seed=Seed):    
+def calc_positional_probability(contract, paths=Paths, seed=Seed):
     if contract["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
     pp=simulator.simulate(contract["teams"],
