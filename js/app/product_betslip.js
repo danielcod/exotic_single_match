@@ -2,8 +2,10 @@ var ProductMapping={
     "single_teams": SingleTeamsForm
 };
 
-var BlankStyle={
-    border: "3px solid #F88"
+var ProductStyles={
+    BlankOption: {
+	border: "3px solid #F88"
+    }
 };
 
 var ProductSelect=React.createClass({
@@ -107,7 +109,7 @@ var ProductForm=React.createClass({
 		}),
 		React.createElement(ProductMapping[this.state.currentProduct.type], {
 		    params: this.state.currentProduct.query,
-		    blankStyle: BlankStyle
+		    blankStyle: ProductStyles.BlankOption
 		})
 	    ] : []
 	});
