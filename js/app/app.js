@@ -27,33 +27,35 @@ var AppProcessStep=React.createClass({
 });
 
 var AppProcessSteps=React.createClass({    
+    initSteps: function(items) {
+	var steps=[];
+	var width=12/items.length;
+	for (var i=0; i < items.length; i++) {
+	    var item=items[i];
+	    var stepArgs={
+		width: width,
+		step: i+1,
+		label: item.label,
+		status: item.status
+	    };
+	    var step=React.createElement(AppProcessStep, stepArgs);
+	    steps.push(step);
+	}
+	return steps;
+    },
     render: function() {
 	return React.DOM.div({
 	    className: "row bs-wizard",
 	    style: {
 		"border-bottom": "0px"
 	    },
-	    children: [
-		React.createElement(AppProcessStep, {
-		    width: 4,
-		    step: 1,
-		    label: "Browse Bets",
-		    status: "complete"
-		}),
-		React.createElement(AppProcessStep, {
-		    width: 4,
-		    step: 2,
-		    label: "Edit Bet",
-		    status: "active"
-		}),
-		React.createElement(AppProcessStep, {
-		    width: 4,
-		    step: 3,
-		    label: "Place Bet",
-		    status: "disabled"
-		})
-	    ]
-	})
+	    children: this.initSteps([{label: "Browse Bets",
+				       status: "complete"},
+				      {label: "Edit Bet",
+				       status: "active"},
+				      {label: "Place Bet",
+				       status: "disabled"}])
+	});
     }
 });
 
