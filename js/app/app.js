@@ -1,4 +1,4 @@
-var AppPrice=React.createClass({
+var AppPriceSpan=React.createClass({
     render: function() {
 	return React.DOM.h3({
 	    className: "text-center",
@@ -19,12 +19,22 @@ var AppPrice=React.createClass({
     }
 });
 
+var AppStageTwoPanel=React.createClass({
+    render: function() {
+	return React.DOM.div({
+	    children: [
+		React.createElement(AppPriceSpan, {}),
+		React.createElement(ProductForm, {})
+	    ]
+	});
+    }
+});
+
 var App=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(AppPrice, {}),
-		React.createElement(ProductForm, {})
+		React.createElement(AppStageTwoPanel, {})
 	    ]
 	})
     }
