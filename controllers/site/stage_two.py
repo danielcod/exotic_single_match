@@ -13,16 +13,14 @@ ProductConfig=yaml.load("""
   description: An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!
 """)
 
-DefaultProductId=0
-
-SampleProducts=yaml.load("""
-- id: 0
-  type: single_teams
-  query:
-    league: SPA.1
-    team: Barcelona
-    payoff: Winner
-    expiry: "2017-07-01"
+SampleProduct=yaml.load("""
+id: 0
+type: single_teams
+query:
+  league: SPA.1
+  team: Barcelona
+  payoff: Winner
+  expiry: "2017-07-01"
 """)
 
 class InitHandler(webapp2.RequestHandler):
@@ -31,11 +29,8 @@ class InitHandler(webapp2.RequestHandler):
     @emit_json_memcache(60)    
     def get(self):
         productid=self.request.get("product_id")
-        products=dict([(str(product["id"]), product)
-                       for product in SampleProducts])
-        if productid not in products:
-            raise RuntimeError("Product not found")
-        product=products[productid]        
+        logging.info(productid)
+        product=SampleProduct
         return {"products": ProductConfig,
                 "product": product}
 
@@ -43,7 +38,6 @@ class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
         productid=self.request.get("product_id")
-        productid=DefaultProductId
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in RootDeps+ProductDeps])
         tv={"title": Title,
