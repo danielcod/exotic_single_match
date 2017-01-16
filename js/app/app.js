@@ -1,3 +1,9 @@
+var AppProcessStepLabels=[
+    "Browse Bets",
+    "Edit Bet",
+    "Place Bet"
+];
+
 var AppProcessStep=React.createClass({
     render: function() {
 	return React.DOM.div({
@@ -27,16 +33,24 @@ var AppProcessStep=React.createClass({
 });
 
 var AppProcessSteps=React.createClass({    
-    initSteps: function(items) {
+    initSteps: function(labels, currentStep) {
 	var steps=[];
-	var width=12/items.length;
-	for (var i=0; i < items.length; i++) {
-	    var item=items[i];
+	var width=12/labels.length;
+	for (var i=0; i < labels.length; i++) {
+	    var label=labels[i];
+	    var status;
+	    if (i < (currentStep-1)) {
+		status="complete";
+	    } else if (i==(currentStep-1)) {
+		status="active";
+	    } else {
+		status="disabled"
+	    }
 	    var stepArgs={
 		width: width,
 		step: i+1,
-		label: item.label,
-		status: item.status
+		label: label,
+		status: status
 	    };
 	    var step=React.createElement(AppProcessStep, stepArgs);
 	    steps.push(step);
@@ -49,12 +63,7 @@ var AppProcessSteps=React.createClass({
 	    style: {
 		"border-bottom": "0px"
 	    },
-	    children: this.initSteps([{label: "Browse Bets",
-				       status: "complete"},
-				      {label: "Edit Bet",
-				       status: "active"},
-				      {label: "Place Bet",
-				       status: "disabled"}])
+	    children: this.initSteps(this.props.steps, 3)
 	});
     }
 });
@@ -63,7 +72,10 @@ var AppStageTwoPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(AppProcessSteps, {}),
+		React.createElement(AppProcessSteps, {
+		    steps: this.props.processSteps,
+		    currentStep: 2
+		}),
 		React.DOM.h3({
 		    className: "text-center",
 		    style: {
@@ -96,7 +108,9 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		React.createElement(AppStageTwoPanel, {}),
+		React.createElement(AppStageTwoPanel, {
+		    processSteps: AppProcessStepLabels
+		}),
 		React.DOM.footer({
 		    className: "footer",
 		    style: {
