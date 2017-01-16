@@ -125,6 +125,11 @@ var AppPlaceBetPanel=React.createClass({
 });
 
 var App=React.createClass({
+    getInitialState: function() {
+	return {
+	    currentStep: 0
+	}
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -134,9 +139,12 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		// React.createElement(AppBrowseBetsPanel, {}),
-		React.createElement(AppEditBetPanel, {}),
-		// React.createElement(AppPlaceBetPanel, {}),
+		(this.state.currentStep==0) ? React.createElement(AppBrowseBetsPanel, {
+		}) : undefined,
+		(this.state.currentStep==1) ? React.createElement(AppEditBetPanel, {
+		}) : undefined,
+		(this.state.currentStep==2) ? React.createElement(AppPlaceBetPanel, {
+		}) : undefined,
 		React.DOM.footer({
 		    className: "footer",
 		    style: {
