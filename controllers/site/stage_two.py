@@ -13,16 +13,6 @@ ProductConfig=yaml.load("""
   description: An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!
 """)
 
-SampleProduct=yaml.load("""
-id: 0
-type: single_teams
-query:
-  league: SPA.1
-  team: Barcelona
-  payoff: Winner
-  expiry: "2017-07-01"
-""")
-
 class InitHandler(webapp2.RequestHandler):
 
     @validate_query({'product_id': '^\\d+$'})
@@ -40,7 +30,11 @@ class InitHandler(webapp2.RequestHandler):
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        productid=self.request.get("product_id")
+        # productid=self.request.get("product_id")
+        contracts=Contract.find_all()
+        if contracts==[]:
+            raise RuntimeError("No contracts found")
+        productid=contracts[0].key().id()
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in RootDeps+StageDeps])
         tv={"title": Title,
