@@ -5,8 +5,10 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in RootDeps])
-        contracts=Contract.find_all()
+        contracts=[contract.to_json()
+                   for contract in Contract.find_all()]
         contracts=contracts[:5] # TEMP
+        logging.info(contracts)
         tv={"title": Title,
             "contracts": contracts,
             "deps": depsstr}
