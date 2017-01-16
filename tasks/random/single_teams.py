@@ -67,13 +67,20 @@ class InitHandler(webapp2.RequestHandler):
         i=int(len(payoffs)*random.random())
         payoffname=payoffs[i]["name"]
         i=int(len(Expiries)*random.random())
-        expiryvalue=Expiries[i]["value"]
-        struct={"product": ProductName,
-                "query": {"league": leaguename,
-                          "team": teamname,
-                          "payoff": payoffname,
-                          "expiry": expiryvalue}}
-        logging.info(struct)
+        expiryvalue=Expiries[i]["value"]        
+        query={"league": leaguename,
+               "team": teamname,
+               "payoff": payoffname,
+               "expiry": expiryvalue}
+        contract=Product.init_contract(query)
+        priceresp=Product.price_contract(contract)
+        price=priceresp[0]["value"]
+        Contract(product=ProductName,
+                 query=json_dumps(query),
+                 probability=price).put()
+        logging.info("%s: %s -> %.3f" % (ProductName,
+                                         query,
+                                         price))
 
 Routing=[('/tasks/random/single_teams/init', InitHandler),
          ('/tasks/random/single_teams', IndexHandler)]

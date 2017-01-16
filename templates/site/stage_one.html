@@ -34,6 +34,22 @@
 	  <div class="bs-wizard-info text-center">Place Bet</div>
         </div>
       </div>
+      <!-- table -->
+      <table class="table table-bordered table-striped table-condensed">
+	<tbody>
+	{% for contract in contracts %}
+	<tr>
+	  <td>{{ contract.query }}</td>
+	  <td>{{ contract.probability }}</td>
+	  <td>
+	    <button class="btn btn-default">
+	      <span class="glyphicon glyphicon-wrench"></span>
+	    </button>
+	  </td>
+	</tr>
+	{% endfor %}
+	</tbody>
+      </table>
       <!-- footer -->
       <footer class="footer">
         <p><h5>&copy;ioSport 2017</h5></p>
