@@ -28,7 +28,21 @@ var App=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(AppStageTwoPanel, {})
+		React.DOM.div({
+		    className: "header clearfix",
+		    children: React.DOM.h3({
+			children: "Team Exotics Demo"
+		    })
+		}),
+		React.createElement(AppStageTwoPanel, {}),
+		React.DOM.footer({
+		    className: "footer",
+		    children: React.DOM.p({
+			children: React.DOM.h5({
+			    children: "&copy;ioSport 2017"
+			})
+		    })
+		})
 	    ]
 	})
     }
