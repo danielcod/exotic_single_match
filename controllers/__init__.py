@@ -13,6 +13,11 @@ def render_error(self, msg):
     self.response.headers['Content-Type']='text/plain' 
     self.response.out.write(msg)
 
+def render_ok(self):
+    self.response.set_status(200)
+    self.response.headers['Content-Type']='text/plain' 
+    self.response.out.write("ok")
+
 def render_json(self, struct):
     self.response.set_status(200)
     self.response.headers['Content-Type']='application/json'
