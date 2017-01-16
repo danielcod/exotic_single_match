@@ -16,13 +16,12 @@ ProductConfig=yaml.load("""
 
 class InitHandler(webapp2.RequestHandler):
 
-    @validate_query({'product_id': '^\\d+$'})
     @emit_json
     def get(self):
-        productid=int(self.request.get("product_id"))
-        contract=Contract.get_by_id(productid)
-        if not contract:
-            raise RuntimeError("Contract not found")
+        contracts=Contract.find_all()
+        if contracts==[]:
+            raise RuntimeError("No contracts found")
+        contract=contracts[0]
         product={"type": contract.product,
                  "query": json_loads(contract.query)}
         return {"products": ProductConfig,
@@ -31,16 +30,10 @@ class InitHandler(webapp2.RequestHandler):
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
-        # productid=self.request.get("product_id")
-        contracts=Contract.find_all()
-        if contracts==[]:
-            raise RuntimeError("No contracts found")
-        productid=contracts[0].key().id()
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in RootDeps+AppDeps])
         tv={"title": Title,
-            "deps": depsstr,
-            "product_id": productid}
+            "deps": depsstr}
         render_template(self, "templates/site/app.html", tv)
 
 Routing=[('/site/app/init', InitHandler),
