@@ -26,11 +26,14 @@ query:
 class InitHandler(webapp2.RequestHandler):
 
     @validate_query({'product_id': '^\\d+$'})
-    @emit_json_memcache(60)    
+    @emit_json
     def get(self):
-        productid=self.request.get("product_id")
-        logging.info(productid)
-        product=SampleProduct
+        productid=int(self.request.get("product_id"))
+        contract=Contract.get_by_id(productid)
+        if not contract:
+            raise RuntimeError("Contract not found")
+        product={"type": contract.product,
+                 "query": json_loads(contract.query)}
         return {"products": ProductConfig,
                 "product": product}
 
