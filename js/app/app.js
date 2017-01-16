@@ -127,7 +127,7 @@ var AppPlaceBetPanel=React.createClass({
 var App=React.createClass({
     getInitialState: function() {
 	return {
-	    currentStep: 0
+	    currentStep: 1
 	}
     },
     render: function() {
