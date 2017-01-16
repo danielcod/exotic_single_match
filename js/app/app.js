@@ -48,7 +48,6 @@ var App=React.createClass({
     }
 });
 
-
 var Main=function() {
     var app=React.createElement(App, {});
     var parent=$("div[id='app']")[0];
