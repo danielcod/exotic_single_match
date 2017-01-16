@@ -26,7 +26,7 @@ var AppProcessStep=React.createClass({
     }
 });
 
-var AppProcessSteps=React.createClass({
+var AppProcessSteps=React.createClass({    
     render: function() {
 	return React.DOM.div({
 	    className: "row bs-wizard",
