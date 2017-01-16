@@ -68,12 +68,25 @@ var AppProcessSteps=React.createClass({
     }
 });
 
-var AppStageTwoPanel=React.createClass({
+var AppBrowseBetsPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
 		React.createElement(AppProcessSteps, {
-		    steps: this.props.processSteps,
+		    steps: AppProcessStepLabels,
+		    currentStep: 1
+		})
+	    ]
+	});
+    }
+});
+			   
+var AppEditBetPanel=React.createClass({
+    render: function() {
+	return React.DOM.div({
+	    children: [
+		React.createElement(AppProcessSteps, {
+		    steps: AppProcessStepLabels,
 		    currentStep: 2
 		}),
 		React.DOM.h3({
@@ -98,6 +111,19 @@ var AppStageTwoPanel=React.createClass({
     }
 });
 
+var AppPlaceBetPanel=React.createClass({
+    render: function() {
+	return React.DOM.div({
+	    children: [
+		React.createElement(AppProcessSteps, {
+		    steps: AppProcessStepLabels,
+		    currentStep: 3
+		})
+	    ]
+	});
+    }
+});
+
 var App=React.createClass({
     render: function() {
 	return React.DOM.div({
@@ -108,9 +134,9 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		React.createElement(AppStageTwoPanel, {
-		    processSteps: AppProcessStepLabels
-		}),
+		// React.createElement(AppBrowseBetsPanel, {}),
+		React.createElement(AppEditBetPanel, {}),
+		// React.createElement(AppPlaceBetPanel, {}),
 		React.DOM.footer({
 		    className: "footer",
 		    style: {
