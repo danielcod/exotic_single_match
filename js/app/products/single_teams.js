@@ -113,6 +113,14 @@ var SingleTeamsForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
+		React.DOM.div({
+		    className: "text-right",
+		    children: React.DOM.button({
+			className: "btn btn-"+this.state.resetLevel,
+			onClick: this.reset,
+			children: "Reset"
+		    })
+		}),
 		React.createElement(
 		    MySelect, {
 			label: "League",
@@ -152,15 +160,7 @@ var SingleTeamsForm=React.createClass({
 			changeHandler: this.changeHandler,
 			id: this.state.id,
 			blankStyle: this.props.blankStyle
-		    }),
-		React.DOM.div({
-		    className: "text-right",
-		    children: React.DOM.button({
-			className: "btn btn-"+this.state.resetLevel,
-			onClick: this.reset,
-			children: "Reset"
 		    })
-		})
 	    ]
 	})
     }

@@ -63,6 +63,15 @@ var BrowseBetsPanel=React.createClass({
 		React.createElement(ProcessSteps, {
 		    steps: ProcessStepLabels,
 		    currentStep: 0
+		}),		
+		React.DOM.p({
+		    className: "text-center",
+		    style: {
+			color: "#888"
+		    },
+		    children: React.DOM.i({
+			children: "Select a product that looks interesting, and click 'Next' to either edit it or to place a bet"
+		    })
 		}),
 		React.createElement(BrowseBetsTable, {
 		}),

@@ -6,6 +6,15 @@ var PlaceBetPanel=React.createClass({
 		    steps: ProcessStepLabels,
 		    currentStep: 2
 		}),
+		React.DOM.p({
+		    className: "text-center",
+		    style: {
+			color: "#888"
+		    },
+		    children: React.DOM.i({
+			children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+		    })
+		}),
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({

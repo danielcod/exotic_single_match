@@ -124,20 +124,32 @@ var EditBetPanel=React.createClass({
 		    steps: ProcessStepLabels,
 		    currentStep: 1
 		}),
-		React.DOM.h3({
+		React.DOM.p({
 		    className: "text-center",
 		    style: {
-			color: "#888",
-			"margin-bottom": "20px"			
+			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: [
-			    "Your price: ",
-			    React.DOM.span({
-				id: "price",
-				children: "[..]"
-			    })
-			]
+			children: "Edit your chosen product; the price will be updated in real time; click 'Next' to place a bet when you're done"
+		    })
+		}),		
+		React.DOM.h4({
+		    className: "text-center",
+		    style: {
+			color: "#F88",
+			"margin-bottom": "20px",
+			"margin-top": "20px"
+		    },
+		    children: React.DOM.i({
+			children: React.DOM.b({
+			    children: [
+				"Current price: ",
+				React.DOM.span({
+				    id: "price",
+				    children: "[..]"
+				})
+			    ]
+			})
 		    })			
 		}),
 		React.createElement(ProductForm, {}),
