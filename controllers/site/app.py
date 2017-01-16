@@ -4,7 +4,9 @@ AppDeps=yaml.load("""
 - js/app/services.js
 - js/app/components.js
 - js/app/products/single_teams.js
-- js/app/steps/edit.js
+- js/app/steps/browse_bets.js
+- js/app/steps/edit_bet.js
+- js/app/steps/place_bet.js
 - js/app/app.js
 """)
 
