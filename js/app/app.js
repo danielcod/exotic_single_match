@@ -39,9 +39,9 @@ var AppProcessSteps=React.createClass({
 	for (var i=0; i < labels.length; i++) {
 	    var label=labels[i];
 	    var status;
-	    if (i < (currentStep-1)) {
+	    if (i < currentStep) {
 		status="complete";
-	    } else if (i==(currentStep-1)) {
+	    } else if (i==currentStep) {
 		status="active";
 	    } else {
 		status="disabled"
@@ -74,7 +74,7 @@ var AppBrowseBetsPanel=React.createClass({
 	    children: [
 		React.createElement(AppProcessSteps, {
 		    steps: AppProcessStepLabels,
-		    currentStep: 1
+		    currentStep: 0
 		})
 	    ]
 	});
@@ -87,7 +87,7 @@ var AppEditBetPanel=React.createClass({
 	    children: [
 		React.createElement(AppProcessSteps, {
 		    steps: AppProcessStepLabels,
-		    currentStep: 2
+		    currentStep: 1
 		}),
 		React.DOM.h3({
 		    className: "text-center",
@@ -117,7 +117,7 @@ var AppPlaceBetPanel=React.createClass({
 	    children: [
 		React.createElement(AppProcessSteps, {
 		    steps: AppProcessStepLabels,
-		    currentStep: 3
+		    currentStep: 2
 		})
 	    ]
 	});
