@@ -68,143 +68,6 @@ var AppProcessSteps=React.createClass({
     }
 });
 
-var AppBrowseBetsPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(AppProcessSteps, {
-		    steps: AppProcessStepLabels,
-		    currentStep: 0
-		}),
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
-			children: React.DOM.button({
-			    className: "btn btn-primary",
-			    style: {
-				width: "100px"
-			    },
-			    children: "Next",
-			    onClick: function() {
-				this.props.stepChangeHandler(1);
-			    }.bind(this)
-			})
-		    })
-		})
-	    ]
-	});
-    }
-});
-			   
-var AppEditBetPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(AppProcessSteps, {
-		    steps: AppProcessStepLabels,
-		    currentStep: 1
-		}),
-		React.DOM.h3({
-		    className: "text-center",
-		    style: {
-			color: "#888",
-			"margin-bottom": "20px"			
-		    },
-		    children: React.DOM.i({
-			children: [
-			    "Your price: ",
-			    React.DOM.span({
-				id: "price",
-				children: "[..]"
-			    })
-			]
-		    })			
-		}),
-		React.createElement(ProductForm, {}),
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
-			children: [
-			    React.DOM.button({
-				className: "btn btn-secondary",
-				style: {
-				    width: "100px"
-				},
-				children: "Cancel",
-				onClick: function() {
-				    this.props.stepChangeHandler(0);
-				}.bind(this)
-			    }),
-			    React.DOM.button({
-				className: "btn btn-primary",
-				style: {
-				    width: "100px"
-				},
-				children: "Next",
-				onClick: function() {
-				    this.props.stepChangeHandler(2);
-				}.bind(this)
-			    })
-			]
-		    })
-		})
-	    ]
-	});
-    }
-});
-
-var AppPlaceBetPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(AppProcessSteps, {
-		    steps: AppProcessStepLabels,
-		    currentStep: 2
-		}),
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
-			children: [
-			    React.DOM.button({
-				className: "btn btn-secondary",
-				style: {
-				    width: "120px"
-				},
-				children: "Cancel",
-				onClick: function() {
-				    this.props.stepChangeHandler(0);
-				}.bind(this)
-			    }),
-			    React.DOM.button({
-				className: "btn btn-primary",
-				style: {
-				    width: "120px"
-				},
-				children: "Place Bet",
-				onClick: function() {
-				    this.props.stepChangeHandler(0);
-				}.bind(this)
-			    })
-			]
-		    })
-		})
-	    ]
-	});
-    }
-});
-
 var App=React.createClass({
     getInitialState: function() {
 	return {
@@ -225,13 +88,13 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		(this.state.currentStep==0) ? React.createElement(AppBrowseBetsPanel, {
+		(this.state.currentStep==0) ? React.createElement(BrowseBetsPanel, {
 		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
-		(this.state.currentStep==1) ? React.createElement(AppEditBetPanel, {
+		(this.state.currentStep==1) ? React.createElement(EditBetPanel, {
 		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
-		(this.state.currentStep==2) ? React.createElement(AppPlaceBetPanel, {
+		(this.state.currentStep==2) ? React.createElement(PlaceBetPanel, {
 		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
 		React.DOM.footer({

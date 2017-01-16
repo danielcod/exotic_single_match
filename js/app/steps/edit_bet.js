@@ -116,3 +116,63 @@ var ProductForm=React.createClass({
     }
 });
 
+var EditBetPanel=React.createClass({
+    render: function() {
+	return React.DOM.div({
+	    children: [
+		React.createElement(AppProcessSteps, {
+		    steps: AppProcessStepLabels,
+		    currentStep: 1
+		}),
+		React.DOM.h3({
+		    className: "text-center",
+		    style: {
+			color: "#888",
+			"margin-bottom": "20px"			
+		    },
+		    children: React.DOM.i({
+			children: [
+			    "Your price: ",
+			    React.DOM.span({
+				id: "price",
+				children: "[..]"
+			    })
+			]
+		    })			
+		}),
+		React.createElement(ProductForm, {}),
+		React.DOM.div({
+		    className: "text-center",
+		    children: React.DOM.div({
+			className: "btn-group",
+			style: {
+			    "margin-top": "20px"
+			},
+			children: [
+			    React.DOM.button({
+				className: "btn btn-secondary",
+				style: {
+				    width: "100px"
+				},
+				children: "Cancel",
+				onClick: function() {
+				    this.props.stepChangeHandler(0);
+				}.bind(this)
+			    }),
+			    React.DOM.button({
+				className: "btn btn-primary",
+				style: {
+				    width: "100px"
+				},
+				children: "Next",
+				onClick: function() {
+				    this.props.stepChangeHandler(2);
+				}.bind(this)
+			    })
+			]
+		    })
+		})
+	    ]
+	});
+    }
+});
