@@ -41,10 +41,13 @@ handlers:
 - url: /api/teams.*
   script: controllers.api.teams.app
 # SITE
-- url: /site/products.*
-  script: controllers.site.products.app
+- url: /site/stage_two.*
+  script: controllers.site.stage_two.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
 - url: /tasks/yc_probabilities.*
   script: tasks.yc_probabilities.app
+# ROOT
+- url: .*
+  script: controllers.root.app 

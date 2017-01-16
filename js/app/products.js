@@ -72,7 +72,7 @@ var ProductForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	var url="/site/products/init?product_id="+this.props.product_id;
+	var url="/site/stage_two/init?product_id="+this.props.product_id;
 	this.loadComponent(url);
     },
     productChangeHandler: function(value) {

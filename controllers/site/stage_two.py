@@ -52,10 +52,10 @@ class IndexHandler(webapp2.RequestHandler):
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
-        render_template(self, "templates/site/products.html", tv)
+        render_template(self, "templates/site/stage_two.html", tv)
 
-Routing=[('/site/products/init', InitHandler),
-         ('/site/products', IndexHandler)]
+Routing=[('/site/stage_two/init', InitHandler),
+         ('/site/stage_two', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
