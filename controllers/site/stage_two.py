@@ -1,10 +1,10 @@
 from controllers.site import *
 
-ProductDeps=yaml.load("""
+StageDeps=yaml.load("""
 - js/app/services.js
 - js/app/components.js
 - js/app/single_teams.js
-- js/app/products.js
+- js/app/stage_two.js
 """)
 
 ProductConfig=yaml.load("""
@@ -42,7 +42,7 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         productid=self.request.get("product_id")
         depsstr=",".join(["\"../%s\"" % dep
-                          for dep in RootDeps+ProductDeps])
+                          for dep in RootDeps+StageDeps])
         tv={"title": Title,
             "deps": depsstr,
             "product_id": productid}
