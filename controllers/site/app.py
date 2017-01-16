@@ -1,8 +1,8 @@
 from controllers.site import *
 
 AppDeps=yaml.load("""
-- js/app/services.js
-- js/app/components.js
+- js/app/products/services.js
+- js/app/products/components.js
 - js/app/products/single_teams.js
 - js/app/steps/browse_bets.js
 - js/app/steps/edit_bet.js
