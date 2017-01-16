@@ -30,7 +30,8 @@ var BrowseBetsTable=React.createClass({
 	var state=this.state;
 	state.selectedId=id;
 	this.setState(state);
-    },
+	this.props.clickHandler(id);
+    },	
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-bordered table-striped",
@@ -49,9 +50,24 @@ var BrowseBetsTable=React.createClass({
     }
 });
 
-
-
 var BrowseBetsPanel=React.createClass({
+    getInitialState: function() {
+	return {
+	    selectedId: undefined,
+	    bets: [{description: "Hello World",
+		    price: "1.234",
+		    id: "foobar"},
+		   {description: "How Now Brown Cow",
+		    price: "5.678",
+		    id: "poobar"}]
+	};
+    },
+    handleClicked: function(id) {
+	var state=this.state;
+	state.selectedId=id;
+	this.setState(state);
+	console.log("id="+id); // TEMP	
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -69,12 +85,8 @@ var BrowseBetsPanel=React.createClass({
 		    })
 		}),
 		React.createElement(BrowseBetsTable, {
-		    bets: [{description: "Hello World",
-			    price: "1.234",
-			    id: "foobar"},
-			   {description: "How Now Brown Cow",
-			    price: "5.678",
-			    id: "poobar"}]
+		    bets: this.state.bets,
+		    clickHandler: this.handleClicked
 		}),
 		React.DOM.div({
 		    className: "text-center",
