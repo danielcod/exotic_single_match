@@ -51,7 +51,29 @@ def fetch_expiries():
             for expiry in 
     """
     return get_json("/api/expiries")
-             
+
+def payoff_group_name(payoffname):
+    if payoffname in ["Winner", "Promotion", "Relegation", "Bottom"]:
+        return "Main"
+    elif (payoffname.startswith("Top") or
+          payoffname.startswith("Outside Top")):
+        return "Top"
+    elif (payoffname.startswith("Bottom") or
+          payoffname.startswith("Outside Bottom")):
+        return "Bottom"
+    elif payoffname.endswith("Place"):
+        return "Place"
+    else:
+        raise RuntimeError("No group key for '%s'" % payoffname)
+
+def group_payoffs(payoff):
+    groups={}
+    for payoff in payoff:
+        groupname=payoff_group_name(payoff["name"])
+        groups.setdefault(groupname, [])
+        groups[groupname].append(payoff)
+    return groups
+                             
 if __name__=="__main__":
     try:
         import sys
@@ -76,10 +98,16 @@ if __name__=="__main__":
             j=int(len(teams)*random.random())
             teamname=teams[j]["name"]
             print "team: %s" % teamname
-            payoffs=[payoff
-                     for payoff in fetch_payoffs(leaguename, teamname)
-                     if (payoff["probability"] > MinProb and
-                         payoff["probability"] < MaxProb )]
+            allpayoffs=[payoff
+                        for payoff in fetch_payoffs(leaguename,
+                                                    teamname)
+                        if (payoff["probability"] > MinProb and
+                            payoff["probability"] < MaxProb)]
+            payoffgroups=group_payoffs(allpayoffs)
+            payoffgroupnames=sorted(payoffgroups.keys())
+            j=int(len(payoffgroupnames)*random.random())
+            payoffgroupname=payoffgroupnames[j]
+            payoffs=payoffgroups[payoffgroupname]
             j=int(len(payoffs)*random.random())
             payoffname=payoffs[j]["name"]
             print "payoff: %s" % payoffname
