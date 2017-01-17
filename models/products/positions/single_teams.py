@@ -7,6 +7,18 @@ class SingleTeamsProduct(db.Model):
     payoff=db.StringProperty()
     expiry=db.DateProperty()
     price=db.StringProperty()
+
+    @property
+    def description(self):
+        return "%s/%s/%s/%s" % (self.league,
+                                self.team,
+                                self.payoff,
+                                self.expiry)
+    
+    @classmethod
+    def find_all(self):
+        query=SingleTeamsProduct.all()
+        return fetch_models_db(query)
     
     @classmethod
     def init_payoffs(self, leaguename):
@@ -49,4 +61,6 @@ class SingleTeamsProduct(db.Model):
                 "payoffs": payoffs}
         resp=calc_positional_probability(struct)
         return resp[0]["value"]
+
+
 

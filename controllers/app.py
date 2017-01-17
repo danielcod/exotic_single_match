@@ -5,7 +5,7 @@ import apis.yc_lite_api as yc_lite
 from helpers.expiry_helpers import init_expiries
 from helpers.price_helpers import format_price
 
-from products.positions.single_teams import SingleTeamsProduct
+from models.products.positions.single_teams import SingleTeamsProduct
 
 Title="Team Exotics Demo"
 
@@ -60,16 +60,17 @@ class ExpiriesHandler(webapp2.RequestHandler):
 
 """
 - limited to 5 products until pagination/filtering can be employed
+- need to load selection of products of different types; probably need to be pre- canned
 """
 
 class ListProductsHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        products=Product.find_all()
+        products=SingleTeamsProduct.find_all()
         if products==[]:
             raise RuntimeError("No products found")
-        products=[{"description": product.query,
+        products=[{"description": product.description,
                    "price": product.price,
                    "id": product.key().id()}
                   for product in products]
@@ -83,12 +84,12 @@ class ShowProductHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        products=Product.find_all()
+        products=SingleTeamsProduct.find_all()
         if products==[]:
             raise RuntimeError("No products found")
         product=products[0]
-        return {"type": product.product,
-                "query": json_loads(product.query)}
+        return {"type": "single_teams",
+                "query": product.to_json()}
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
 
@@ -112,8 +113,8 @@ class ProductPriceHandler(webapp2.RequestHandler):
         productname, query = struct["product"], struct["query"]
         if productname not in Products:
             raise RuntimeError("Product not found")
-        product=Products[productname]()
-        probability=product.calc_probability(query)
+        product=Products[productname](**query)
+        probability=product.calc_probability()
         return {"price": format_price(probability)}
 
 class IndexHandler(webapp2.RequestHandler):
