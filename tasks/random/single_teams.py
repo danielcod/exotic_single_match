@@ -68,14 +68,14 @@ class InitHandler(webapp2.RequestHandler):
         payoffname=payoffs[i]["name"]
         i=int(len(Expiries)*random.random())
         expiryvalue=Expiries[i]["value"]        
-        query={"league": leaguename,
-               "team": teamname,
-               "payoff": payoffname,
-               "expiry": expiryvalue}
-        priceresp=Product.price_contract(query)
+        struct={"league": leaguename,
+                "team": teamname,
+                "payoff": payoffname,
+                "expiry": expiryvalue}
+        priceresp=Product.calc_price(struct)
         price=priceresp[0]["value"]
         Contract(product=ProductName,
-                 query=json_dumps(query),
+                 query=json_dumps(struct),
                  probability=price).put()
         logging.info("%s: %s -> %.3f" % (ProductName,
                                          query,

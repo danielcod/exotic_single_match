@@ -45,7 +45,7 @@ class SingleTeamsProduct:
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]
 
-    def price_contract(self, query):
+    def calc_price(self, query):
         team={"league": query["league"],
               "name": query["team"]}
         teams=fetch_teams(query["league"])
