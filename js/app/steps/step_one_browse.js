@@ -118,18 +118,32 @@ var BrowseBetsPanel=React.createClass({
 		    className: "text-center",
 		    children: React.DOM.div({
 			className: "btn-group",
-			children: React.DOM.button({
-			    className: "btn btn-primary",
-			    style: {
-				width: "100px"
-			    },
-			    children: "Next",
-			    onClick: function() {
-				if (this.state.selectedBet!=undefined) {
-				    this.props.stepChangeHandler(1, this.state.selectedBet);
-				}
-			    }.bind(this)
-			})
+			children: [
+			    React.DOM.button({
+				className: "btn btn-primary",
+				style: {
+				    width: "100px"
+				},
+				children: "Edit Bet",
+				onClick: function() {
+				    if (this.state.selectedBet!=undefined) {
+					this.props.stepChangeHandler(1, this.state.selectedBet);
+				    }
+				}.bind(this)
+			    }),
+			    React.DOM.button({
+				className: "btn btn-primary",
+				style: {
+				    width: "100px"
+				},
+				children: "Place Bet",
+				onClick: function() {
+				    if (this.state.selectedBet!=undefined) {
+					this.props.stepChangeHandler(2, this.state.selectedBet);
+				    }
+				}.bind(this)
+			    })
+			]
 		    })
 		})
 	    ]
