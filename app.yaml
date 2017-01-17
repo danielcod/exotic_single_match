@@ -35,14 +35,6 @@ handlers:
 # SITE
 - url: /site/expiries.*
   script: controllers.site.expiries.app
-- url: /site/leagues.*
-  script: controllers.site.leagues.app
-- url: /site/products/payoffs.*
-  script: controllers.site.products.payoffs.app
-- url: /site/products/pricing.*
-  script: controllers.site.products.pricing.app
-- url: /site/teams.*
-  script: controllers.site.teams.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app

@@ -117,6 +117,13 @@ class ProductPriceHandler(webapp2.RequestHandler):
                 return "%.1f" % price
         return {"probability": probability,
                 "decimal_price": format_price(probability)}
+
+class LeaguesHandler(webapp2.RequestHandler):
+
+    @emit_json_memcache(60)
+    def get(self):
+        return [{"value": league["name"]}
+                for league in Leagues]
     
 class IndexHandler(webapp2.RequestHandler):
 
@@ -127,10 +134,25 @@ class IndexHandler(webapp2.RequestHandler):
             "deps": depsstr}
         render_template(self, "templates/app.html", tv)
 
+class TeamsHandler(webapp2.RequestHandler):
+
+    @validate_query({'league': '^\\D{3}\\.\\d$'})
+    @emit_json_memcache(60)
+    def get(self):
+        leaguename=self.request.get("league")
+        leaguenames=[league["name"]
+                     for league in Leagues]
+        if leaguename not in leaguenames:
+            raise RuntimeError("League not found")
+        return [{"value": team["name"]}
+                for team in yc_lite.get_teams(leaguename)]
+        
 Routing=[('/app/products/list', ListProductsHandler),
          ('/app/products/show', ShowProductHandler),
          ('/app/products/payoffs', ProductPayoffsHandler),
          ('/app/products/price', ProductPriceHandler),
+         ('/app/leagues', LeaguesHandler),
+         ('/app/teams', TeamsHandler),
          ('/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

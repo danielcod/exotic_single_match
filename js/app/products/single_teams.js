@@ -36,11 +36,11 @@ var SingleTeamsForm=React.createClass({
 	};
     },
     fetchLeagues: function() {
-	this.state.optionsLoader.fetch("league", "/site/leagues");
+	this.state.optionsLoader.fetch("league", "/app/leagues");
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
-	    var url="/site/teams?league="+params.league;
+	    var url="/app/teams?league="+params.league;
 	    this.state.optionsLoader.fetch("team", url);
 	}
     },
