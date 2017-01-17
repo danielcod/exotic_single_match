@@ -12,7 +12,7 @@ var PlaceBetPanel=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+			children: "Check your bet description and price; enter your size and place your bet!"
 		    })
 		}),
 		React.DOM.div({
@@ -26,7 +26,7 @@ var PlaceBetPanel=React.createClass({
 			    React.DOM.button({
 				className: "btn btn-secondary",
 				style: {
-				    width: "120px"
+				    width: "100px"
 				},
 				children: "Cancel",
 				onClick: function() {
@@ -34,9 +34,19 @@ var PlaceBetPanel=React.createClass({
 				}.bind(this)
 			    }),
 			    React.DOM.button({
+				className: "btn btn-secondary",
+				style: {
+				    width: "100px"
+				},
+				children: "Re- edit",
+				onClick: function() {
+				    this.props.stepChangeHandler(1);
+				}.bind(this)
+			    }),
+			    React.DOM.button({
 				className: "btn btn-primary",
 				style: {
-				    width: "120px"
+				    width: "100px"
 				},
 				children: "Place Bet",
 				onClick: function() {

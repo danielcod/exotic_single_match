@@ -1,7 +1,8 @@
 var ProcessStepLabels=[
     "Browse Bets",
     "Edit Bet",
-    "Place Bet"
+    "Place Bet",
+    "Confirmation"
 ];
 
 var ProcessStep=React.createClass({
