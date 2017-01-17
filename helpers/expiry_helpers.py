@@ -20,6 +20,16 @@ Months=yaml.load("""
 ShortMonths=[month[:3]
              for month in Months]
 
+def cardinal_suffix(i):
+    if (1==(i % 10) and i!=11):
+        return "st"
+    elif (2==(i % 10) and i!=12):
+        return "nd"
+    elif (3==(i % 10) and i!=13):
+        return "rd"
+    else:
+        return "th"
+
 def end_of_season(today):
     if today.month < 7:
         return datetime.date(today.year, 7, 1)
