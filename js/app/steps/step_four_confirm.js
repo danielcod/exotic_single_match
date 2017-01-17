@@ -6,13 +6,16 @@ var BetConfirmationPanel=React.createClass({
 		    steps: ProcessStepLabels,
 		    currentStep: 3
 		}),
-		React.DOM.p({
+		React.DOM.h3({
 		    className: "text-center",
 		    style: {
-			color: "#888"
+			color: "#888",
+			"margin-top": "20px"
 		    },
 		    children: React.DOM.i({
-			children: "Your bet has been placed!"
+			children: React.DOM.b({
+			    children: "Your bet has been placed!"
+			})
 		    })
 		}),
 		React.DOM.div({
@@ -28,7 +31,7 @@ var BetConfirmationPanel=React.createClass({
 				style: {
 				    width: "100px"
 				},
-				children: "Browse",
+				children: "Return",
 				onClick: function() {
 				    this.props.stepChangeHandler(0, undefined);
 				}.bind(this)

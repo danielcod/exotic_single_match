@@ -12,7 +12,7 @@ var PlaceBetPanel=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: "Check your bet description and price; enter your size and place your bet!"
+			children: "Check your bet details and price; enter your size and place your bet!"
 		    })
 		}),
 		React.DOM.div({

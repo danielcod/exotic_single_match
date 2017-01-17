@@ -99,7 +99,7 @@ var BrowseProductsPanel=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: "Select a product that looks interesting, and click 'Next' to either edit it or to place a bet"
+			children: "Select a product you're interested in by clicking a table row; you can then edit that bet's details by clicking on 'Edit Bet', or proceed direct to bet placement by clicking 'Place Bet'"
 		    })
 		}),
 		React.DOM.div({

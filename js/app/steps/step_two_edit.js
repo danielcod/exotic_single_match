@@ -1,7 +1,7 @@
 var Products=[{
     label: "Single Teams Outright",
     type: "single_teams",
-    description: "An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!"
+    description: "An outright bet on a single team, but with dozens of different payoffs and the extra twist of a date option!"
 }];
 
 var ProductMapping={
