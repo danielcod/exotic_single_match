@@ -73,12 +73,14 @@ var BrowseProductsTable=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedProduct: undefined
+	    selectedProduct: undefined,
+	    buttonLevel: "secondary"
 	};
     },
     handleClicked: function(product) {
 	var state=this.state;
 	state.selectedProduct=product;
+	state.buttonLevel="primary";
 	this.setState(state);
     },
     createProduct: function() {
@@ -120,7 +122,7 @@ var BrowseProductsPanel=React.createClass({
 			className: "btn-group",
 			children: [
 			    React.DOM.button({
-				className: "btn btn-primary",
+				className: "btn btn-"+this.state.buttonLevel,
 				style: {
 				    width: "100px"
 				},
@@ -132,7 +134,7 @@ var BrowseProductsPanel=React.createClass({
 				}.bind(this)
 			    }),
 			    React.DOM.button({
-				className: "btn btn-primary",
+				className: "btn btn-"+this.state.buttonLevel,
 				style: {
 				    width: "100px"
 				},
