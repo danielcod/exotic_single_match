@@ -40,7 +40,9 @@ var PlaceBetPanel=React.createClass({
 				},
 				children: "Re- edit",
 				onClick: function() {
+				    /*
 				    this.props.stepChangeHandler(1, undefined);
+				    */
 				}.bind(this)
 			    }),
 			    React.DOM.button({
