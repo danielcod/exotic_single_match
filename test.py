@@ -5,7 +5,7 @@ from helpers.json_helpers import *
 Endpoint="localhost:8080"
 
 Items=yaml.load("""
-- path: "/app/products/payoffs?product=single_teams&league=ENG.1&team=Chelsea"
+- path: "/app/products/payoffs?product=single_teams&league=ENG.1"
 - path: "/app/products/price"
   data: 
     product: single_teams
