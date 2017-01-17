@@ -23,8 +23,29 @@ var BrowseBetsRow=React.createClass({
 var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedId: undefined
+	    selectedId: undefined,
+	    bets: []
 	};
+    },
+    loadSuccess: function(struct) {
+	var state=this.state;
+	state.bets=struct;
+	this.setState(state);
+    },
+    loadError: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    loadComponent: function(url) {
+	$.ajax({
+	    url: url,
+	    type: "GET",
+	    dataType: "json",
+	    success: this.loadSuccess,
+	    error: this.loadError
+	});
+    },
+    componentDidMount: function() {
+	this.loadComponent("/site/app/list");
     },
     handleClicked: function(id) {
 	var state=this.state;
@@ -36,7 +57,7 @@ var BrowseBetsTable=React.createClass({
 	return React.DOM.table({
 	    className: "table table-condensed table-bordered table-striped",
 	    children: React.DOM.tbody({
-		children: this.props.bets.map(function(bet) {
+		children: this.state.bets.map(function(bet) {
 		    return React.createElement(BrowseBetsRow, {
 			description: bet.description,
 			price: bet.price,
@@ -53,13 +74,7 @@ var BrowseBetsTable=React.createClass({
 var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedId: undefined,
-	    bets: [{description: "Hello World",
-		    price: "1.234",
-		    id: "foobar"},
-		   {description: "How Now Brown Cow",
-		    price: "5.678",
-		    id: "poobar"}]
+	    selectedId: undefined
 	};
     },
     handleClicked: function(id) {
@@ -85,7 +100,6 @@ var BrowseBetsPanel=React.createClass({
 		    })
 		}),
 		React.createElement(BrowseBetsTable, {
-		    bets: this.state.bets,
 		    clickHandler: this.handleClicked
 		}),
 		React.DOM.div({

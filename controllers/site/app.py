@@ -24,10 +24,13 @@ class ListHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        contracts=[contract.to_json()
-                   for contract in Contract.find_all()]
+        contracts=Contract.find_all()
         if contracts==[]:
             raise RuntimeError("No contracts found")
+        contracts=[{"description": contract.query,
+                    "price": "%.3f" % (1/float(contract.probability)),
+                    "id": contract.key().id()}
+                   for contract in contracts]
         return contracts[:5] # NB
         
 """
