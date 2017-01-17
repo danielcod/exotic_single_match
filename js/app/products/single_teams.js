@@ -46,7 +46,7 @@ var SingleTeamsForm=React.createClass({
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
-	    var url="/app/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
+	    var url="/app/products/payoffs?product="+this.productName+"&league="+params.league;
 	    this.state.optionsLoader.fetch("payoff", url);
 	}
     },

@@ -135,26 +135,16 @@ class ShowProductHandler(webapp2.RequestHandler):
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
 
-    @validate_query({'league': '\\D{3}\\.\\d',
-                     'team': '.*'})
+    @validate_query({'league': '\\D{3}\\.\\d'})
     @emit_json
     def get(self):
         productname=self.request.get("product")
-        leaguename=self.request.get("league")
-        teamname=self.request.get("team")
-        if teamname in ['', []]:
-            teamname=None
         if productname not in Products:
             raise RuntimeError("Product not found")
         product=Products[productname]()
-        def format_payoff(payoff):
-            item={}
-            item["value"]=payoff["name"]
-            if "value" in payoff:
-                item["probability"]=payoff["value"]
-            return item
-        payoffs=[format_payoff(payoff)
-                 for payoff in product.init_payoffs(leaguename, teamname)]
+        leaguename=self.request.get("league")
+        payoffs=[{"value": payoff["name"]}
+                 for payoff in product.init_payoffs(leaguename)]
         return payoffs
 
 class ProductPriceHandler(webapp2.RequestHandler):
