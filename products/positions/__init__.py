@@ -96,21 +96,21 @@ def parse_payoff(payoff, n, leaguename):
 def sumproduct(X, Y):
     return sum([x*y for x, y in zip(X, Y)])
     
-def calc_positional_probability(contract, paths=Paths, seed=Seed):
-    if contract["fixtures"]==[]:
+def calc_positional_probability(struct, paths=Paths, seed=Seed):
+    if struct["fixtures"]==[]:
         raise RuntimeError("No fixtures found")
-    pp=simulator.simulate(contract["teams"],
-                          contract["results"],
-                          contract["fixtures"],
+    pp=simulator.simulate(struct["teams"],
+                          struct["results"],
+                          struct["fixtures"],
                           paths, seed)
-    leaguename=contract["team"]["league"]
-    teamname=contract["team"]["name"]
+    leaguename=struct["team"]["league"]
+    teamname=struct["team"]["name"]
     def calc_payoff_value(payoffname):
         payoff=parse_payoff(payoffname,
-                            len(contract["teams"]),
+                            len(struct["teams"]),
                             leaguename)
         return sumproduct(payoff, pp[teamname])
     return [{"name": payoff["name"],
              "value": calc_payoff_value(payoff["name"])}
-            for payoff in contract["payoffs"]]
+            for payoff in struct["payoffs"]]
     

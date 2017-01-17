@@ -101,36 +101,37 @@ class ExpiriesHandler(webapp2.RequestHandler):
         return expiries
 
 """
-- limited to 5 contracts until pagination/filtering can be employed
+- limited to 5 products until pagination/filtering can be employed
 """
 
 class ListProductsHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        contracts=Contract.find_all()
-        if contracts==[]:
-            raise RuntimeError("No contracts found")
-        contracts=[{"description": contract.query,
-                    "price": "%.3f" % (1/float(contract.probability)),
-                    "id": contract.key().id()}
-                   for contract in contracts]
-        return contracts[:5] # NB
+        products=Contract.find_all()
+        if products==[]:
+            raise RuntimeError("No products found")
+        products=[{"description": product.query,
+                   "price": "%.3f" % (1/float(product.probability)),
+                   "id": product.key().id()}
+                  for product in products
+                  if product.probability > 0]
+        return products[:5] # NB
         
 """
-- currently just returns a random contract; change so is passed a product_id
+- currently just returns a random product; change so is passed a product_id
 """
     
 class ShowProductHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        contracts=Contract.find_all()
-        if contracts==[]:
-            raise RuntimeError("No contracts found")
-        contract=contracts[0]
-        return {"type": contract.product,
-                "query": json_loads(contract.query)}
+        products=Contract.find_all()
+        if products==[]:
+            raise RuntimeError("No products found")
+        product=products[0]
+        return {"type": product.product,
+                "query": json_loads(product.query)}
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
 

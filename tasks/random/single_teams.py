@@ -78,7 +78,7 @@ class InitHandler(webapp2.RequestHandler):
                  query=json_dumps(struct),
                  probability=price).put()
         logging.info("%s: %s -> %.3f" % (ProductName,
-                                         query,
+                                         struct,
                                          price))
 
 Routing=[('/tasks/random/single_teams/init', InitHandler),
