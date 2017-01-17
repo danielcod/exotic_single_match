@@ -121,7 +121,7 @@ var ProductForm=React.createClass({
     }
 });
 
-var EditBetPanel=React.createClass({
+var EditProductPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [

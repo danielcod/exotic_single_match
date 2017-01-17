@@ -1,4 +1,4 @@
-var BrowseBetsRow=React.createClass({
+var BrowseProductsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    onClick: function() {
@@ -21,7 +21,7 @@ var BrowseBetsRow=React.createClass({
     }
 });
 
-var BrowseBetsTable=React.createClass({
+var BrowseProductsTable=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedProduct: undefined,
@@ -59,7 +59,7 @@ var BrowseBetsTable=React.createClass({
 	    className: "table table-condensed table-bordered table-striped",
 	    children: React.DOM.tbody({
 		children: this.state.products.map(function(product) {
-		    return React.createElement(BrowseBetsRow, {
+		    return React.createElement(BrowseProductsRow, {
 			product: product,
 			selectedProduct: this.state.selectedProduct,
 			clickHandler: this.handleClicked
@@ -70,7 +70,7 @@ var BrowseBetsTable=React.createClass({
     }
 });
 
-var BrowseBetsPanel=React.createClass({
+var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedProduct: undefined
@@ -111,7 +111,7 @@ var BrowseBetsPanel=React.createClass({
 			children: "Create"
 		    })
 		}),
-		React.createElement(BrowseBetsTable, {
+		React.createElement(BrowseProductsTable, {
 		    clickHandler: this.handleClicked
 		}),
 		React.DOM.div({

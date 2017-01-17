@@ -91,11 +91,11 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		(this.state.currentStep==0) ? React.createElement(BrowseBetsPanel, {
+		(this.state.currentStep==0) ? React.createElement(BrowseProductsPanel, {
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
-		(this.state.currentStep==1) ? React.createElement(EditBetPanel, {
+		(this.state.currentStep==1) ? React.createElement(EditProductPanel, {
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
