@@ -10,10 +10,34 @@ class SingleTeamsProduct(db.Model):
 
     @property
     def description(self):
-        return "%s/%s/%s/%s" % (self.league,
-                                self.team,
-                                self.payoff,
-                                self.expiry)
+        def format_payoff(payoff):
+            if payoff=="Winner":
+                return "top of the table"
+            elif payoff=="Bottom":
+                return "bottom of the table"
+            elif payoff=="Promotion":
+                return "promoted"
+            elif payoff=="Relegation":
+                return "relegated"
+            elif re.search("^Top", payoff):
+                return "in the %s" % payoff.lower()
+            elif re.search("^Bottom", payoff):
+                return "in the %s" % payoff.lower()
+            elif re.search("^Outside", payoff):
+                return "outside the %s" % " ".join(payoff.lower().split(" ")[1:])
+            elif re.search("Place$", payoff):
+                return "in "+payoff.lower()
+            else:
+                return payoff
+        def format_expiry_delimiter(expiry):
+            return "at"
+        def format_expiry(expiry):
+            return re.sub("End", "end", format_date(expiry))
+        return "%s %s %s %s (%s)" % (self.team,
+                                     format_payoff(self.payoff),
+                                     format_expiry_delimiter(self.payoff),
+                                     format_expiry(self.expiry),
+                                     self.league)
     
     @classmethod
     def find_all(self):

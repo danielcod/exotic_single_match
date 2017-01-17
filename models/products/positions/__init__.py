@@ -2,11 +2,17 @@ from models.products import *
 
 import quant.simulator as simulator
 
+"""
+- Promotion, Relegation currently commented out because they don't play well with variable fixture dates
+"""
+
 Promotion=yaml.load("""
 ENG.2: '2x1|4x0.25|18x0'
 ENG.3: '2x1|4x0.25|18x0'
 ENG.4: '3x1|4x0.25|17x0'
 """)
+
+Promotion={}
 
 Relegation=yaml.load("""
 ENG.1: '17x0|3x1'
@@ -17,6 +23,8 @@ GER.1: '15x0|0.33|2x1'
 FRA.1: '17x0|3x1'
 SPA.1: '17x0|3x1'
 """)                  
+
+Relegation={}
 
 Paths, Seed = 1000, 13
 

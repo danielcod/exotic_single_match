@@ -75,7 +75,7 @@ class ListProductsHandler(webapp2.RequestHandler):
                    "price": product.price,
                    "id": product.key().id()}
                   for product in products]
-        return products[:5] # NB
+        return products[:8] # NB
         
 class ShowProductHandler(webapp2.RequestHandler):
 
@@ -91,7 +91,7 @@ class ShowProductHandler(webapp2.RequestHandler):
         if not product:
             raise RuntimeError("Product not found")
         return {"type": producttype,
-                "params": product.to_json()}
+                "params": product.to_json(extras=["description"])}
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
 
