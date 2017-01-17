@@ -62,4 +62,4 @@ class SingleTeamsProduct:
     
     def price_contract(self, contract):
         return calc_positional_probability(contract)
-            
+
