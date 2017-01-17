@@ -23,6 +23,7 @@ Deps=yaml.load("""
 - js/app/steps/browse_bets.js
 - js/app/steps/edit_bet.js
 - js/app/steps/place_bet.js
+- js/app/steps/bet_confirmation.js
 - js/app/app.js
 """)
 

@@ -98,6 +98,9 @@ var App=React.createClass({
 		(this.state.currentStep==2) ? React.createElement(PlaceBetPanel, {
 		    stepChangeHandler: this.stepChangeHandler
 		}) : undefined,
+		(this.state.currentStep==3) ? React.createElement(BetConfirmationPanel, {
+		    stepChangeHandler: this.stepChangeHandler
+		}) : undefined,
 		React.DOM.footer({
 		    className: "footer",
 		    style: {
