@@ -112,7 +112,9 @@ var BrowseBetsPanel=React.createClass({
 			    },
 			    children: "Next",
 			    onClick: function() {
-				this.props.stepChangeHandler(1);
+				if (this.state.selectedBet!=undefined) {
+				    this.props.stepChangeHandler(1);
+				}
 			    }.bind(this)
 			})
 		    })
