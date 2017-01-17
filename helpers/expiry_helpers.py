@@ -20,6 +20,16 @@ Months=yaml.load("""
 ShortMonths=[month[:3]
              for month in Months]
 
+def end_of_season(today):
+    if today.month < 7:
+        return datetime.date(today.year, 7, 1)
+    else:
+        return datetime.date(today.year+1, 7, 1)
+
+EOSDate=end_of_season(datetime.date.today())
+    
+EOSLabel="End of Season"
+
 def cardinal_suffix(i):
     if (1==(i % 10) and i!=11):
         return "st"
@@ -30,12 +40,6 @@ def cardinal_suffix(i):
     else:
         return "th"
 
-def end_of_season(today):
-    if today.month < 7:
-        return datetime.date(today.year, 7, 1)
-    else:
-        return datetime.date(today.year+1, 7, 1)
-
 def add_months(date, months):
     month=date.month-1+months
     year=int(date.year+month/12)
@@ -43,23 +47,35 @@ def add_months(date, months):
     day=min(date.day, calendar.monthrange(year, month)[1])
     return datetime.date(year, month, day)
 
-def init_expiries(cutoffmonth=4):    
+def eom_date(date):
+    mrange=calendar.monthrange(date.year, date.month)
+    return datetime.date(date.year, date.month, mrange[-1])
+    
+def format_date(date):
+    if date==EOSDate:
+        return EOSLabel
+    eomdate=eom_date(date)
+    if date==eomdate:
+        return "End of %s" % ShortMonths[date.month-1]
+    else:
+        return "%s %i%s" % (ShortMonths[date.month-1],
+                            date.day,
+                            cardinal_suffix(date.day))
+    
+def init_expiries(cutoffmonth=4):
     date=datetime.date.today()
-    eos=end_of_season(date)
     def init_item(date):
-        mrange=calendar.monthrange(date.year, date.month)
-        eomdate=datetime.date(date.year, date.month, mrange[-1])
-        eomlabel="End of %s" % ShortMonths[date.month-1]
-        return {"value": eomdate,
-                "label": eomlabel}
-    expiries=[init_item(date)]
+        return {"value": date,
+                "label": format_date(date)}
+    item=init_item(eom_date(date))
+    expiries=[item]
     while True:
         date=add_months(date, 1)
-        expiries.append(init_item(date))
+        item=init_item(eom_date(date))
+        expiries.append(item)
         if date.month >= cutoffmonth:
             break
-    expiries.append({"label": "End of Season",
-                     "value": eos})
+    expiries.append(init_item(EOSDate))
     return expiries
 
 if __name__=="__main__":
