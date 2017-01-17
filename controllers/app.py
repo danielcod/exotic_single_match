@@ -108,7 +108,7 @@ class ListProductsHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        products=Contract.find_all()
+        products=Product.find_all()
         if products==[]:
             raise RuntimeError("No products found")
         products=[{"description": product.query,
@@ -126,7 +126,7 @@ class ShowProductHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
-        products=Contract.find_all()
+        products=Product.find_all()
         if products==[]:
             raise RuntimeError("No products found")
         product=products[0]

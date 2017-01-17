@@ -80,7 +80,7 @@ class Fixture(db.Model):
             memkey="events/%s/%s" % (leaguename, cutoff)
             return fetch_models_memcache(Fixture, memkey, query)
 
-class Contract(db.Model):
+class Product(db.Model):
 
     product=db.StringProperty()
     query=db.TextProperty()
@@ -88,5 +88,5 @@ class Contract(db.Model):
 
     @classmethod
     def find_all(self):
-        query=Contract.all()
+        query=Product.all()
         return fetch_models_db(query)

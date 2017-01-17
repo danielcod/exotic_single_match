@@ -2,8 +2,6 @@ from tasks.random import *
 
 from products.positions.single_teams import SingleTeamsProduct
 
-Product=SingleTeamsProduct()
-
 MinProb, MaxProb = 0.25, 0.75
 
 ProductName="single_teams"
@@ -30,7 +28,7 @@ def group_payoffs(payoff):
         groups[groupname].append(payoff)
     return groups
         
-# curl "http://localhost:8080/tasks/random/single_teams?n=1"
+# curl "http://localhost:8080/tasks/random/single_teams?n=5"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -52,7 +50,8 @@ class InitHandler(webapp2.RequestHandler):
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
-        allpayoffs=Product.init_payoffs(leaguename, teamname)
+        product=SingleTeamsProduct()
+        allpayoffs=product.init_payoffs(leaguename, teamname)
         filteredpayoffs=[payoff for payoff in allpayoffs
                          if (payoff["value"] > MinProb and
                              payoff["value"] < MaxProb)]        
@@ -72,11 +71,11 @@ class InitHandler(webapp2.RequestHandler):
                 "team": teamname,
                 "payoff": payoffname,
                 "expiry": expiryvalue}
-        priceresp=Product.calc_price(struct)
+        priceresp=product.calc_price(struct)
         price=priceresp[0]["value"]
-        Contract(product=ProductName,
-                 query=json_dumps(struct),
-                 probability=price).put()
+        Product(product=ProductName,
+                query=json_dumps(struct),
+                probability=price).put()
         logging.info("%s: %s -> %.3f" % (ProductName,
                                          struct,
                                          price))
