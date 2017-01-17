@@ -45,8 +45,7 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     fetchPayoffs: function(params) {
-	if ((params.league!=undefined) &&
-	    (params.team!=undefined)) {
+	if (params.league!=undefined) {
 	    var url="/app/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
 	    this.state.optionsLoader.fetch("payoff", url);
 	}
@@ -98,9 +97,6 @@ var SingleTeamsForm=React.createClass({
 		state.options.team=[];
 		state.params.team=undefined;
 		this.fetchTeams(state.params);
-	    };
-	    if ((name=="league") ||
-		(name=="team")) {
 		state.options.payoff=[];
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
