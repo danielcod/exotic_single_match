@@ -31,16 +31,17 @@ class SingleTeamsProduct:
                 names.append("Outside Bottom %i" % i)
             for i in range(2, len(teams)):
                 names.append("%i%s Place" % (i, cardinal_suffix(i)))
-            return names        
-        contract={"team": {"league": leaguename,
-                           "name": teamname},
-                  "teams": teams,
-                  "results": results,
-                  "fixtures": fixtures,
-                  "payoffs": [{"name": payoffname}
-                              for payoffname in all_payoff_names(leaguename,
-                                                                 teams)]}
-        return [payoff for payoff in calc_positional_probability(contract)
+            return names
+        payoffs=[{"name": payoffname}
+                 for payoffname in all_payoff_names(leaguename, teams)]
+        struct={"team": {"league": leaguename,
+                         "name": teamname},
+                "teams": teams,
+                "results": results,
+                "fixtures": fixtures,
+                "payoffs": payoffs}
+        return [payoff
+                for payoff in calc_positional_probability(struct)
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]
 
