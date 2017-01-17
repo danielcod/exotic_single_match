@@ -34,7 +34,7 @@ class ListHandler(webapp2.RequestHandler):
 - move contract definitions to client side
 """
     
-class EditHandler(webapp2.RequestHandler):
+class ShowHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -55,7 +55,7 @@ class IndexHandler(webapp2.RequestHandler):
         render_template(self, "templates/site/app.html", tv)
 
 Routing=[('/site/app/list', ListHandler),
-         ('/site/app/edit', EditHandler),
+         ('/site/app/show', ShowHandler),
          ('/site/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
