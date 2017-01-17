@@ -60,8 +60,7 @@ class ExpiriesHandler(webapp2.RequestHandler):
         return init_expiries(cutoffmonth)
 
 """
-- need some way of showing multiple products; probably a task which showcases a series of them
-- right now the only product type is SingleTeamsProduct
+- should really pull from a list of 'top products' (created by task), but for now all products are SingleTeamProducrs
 """
 
 class ListProductsHandler(webapp2.RequestHandler):
