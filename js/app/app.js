@@ -72,12 +72,14 @@ var ProcessSteps=React.createClass({
 var App=React.createClass({
     getInitialState: function() {
 	return {
-	    currentStep: 0
+	    currentStep: 0,
+	    selectedBet: undefined
 	}
     },
-    stepChangeHandler: function(nextStep) {
+    stepChangeHandler: function(nextStep, selectedBet) {
 	var state=this.state;
 	state.currentStep=nextStep;
+	state.selectedBet=selectedBet;
 	this.setState(state);
     },    
     render: function() {
@@ -90,16 +92,20 @@ var App=React.createClass({
 		    })
 		}),
 		(this.state.currentStep==0) ? React.createElement(BrowseBetsPanel, {
-		    stepChangeHandler: this.stepChangeHandler
+		    stepChangeHandler: this.stepChangeHandler,
+		    selectedBet: this.state.selectedBet
 		}) : undefined,
 		(this.state.currentStep==1) ? React.createElement(EditBetPanel, {
-		    stepChangeHandler: this.stepChangeHandler
+		    stepChangeHandler: this.stepChangeHandler,
+		    selectedBet: this.state.selectedBet
 		}) : undefined,
 		(this.state.currentStep==2) ? React.createElement(PlaceBetPanel, {
-		    stepChangeHandler: this.stepChangeHandler
+		    stepChangeHandler: this.stepChangeHandler,
+		    selectedBet: this.state.selectedBet
 		}) : undefined,
 		(this.state.currentStep==3) ? React.createElement(BetConfirmationPanel, {
-		    stepChangeHandler: this.stepChangeHandler
+		    stepChangeHandler: this.stepChangeHandler,
+		    selectedBet: this.state.selectedBet
 		}) : undefined,
 		React.DOM.footer({
 		    className: "footer",

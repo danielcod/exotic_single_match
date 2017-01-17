@@ -80,7 +80,6 @@ var BrowseBetsPanel=React.createClass({
 	var state=this.state;
 	state.selectedBet=bet;
 	this.setState(state);
-	console.log(JSON.stringify(bet));
     },
     render: function() {
 	return React.DOM.div({
@@ -113,7 +112,7 @@ var BrowseBetsPanel=React.createClass({
 			    children: "Next",
 			    onClick: function() {
 				if (this.state.selectedBet!=undefined) {
-				    this.props.stepChangeHandler(1);
+				    this.props.stepChangeHandler(1, this.state.selectedBet);
 				}
 			    }.bind(this)
 			})

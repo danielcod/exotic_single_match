@@ -30,7 +30,7 @@ var BetConfirmationPanel=React.createClass({
 				},
 				children: "Browse",
 				onClick: function() {
-				    this.props.stepChangeHandler(0);
+				    this.props.stepChangeHandler(0, undefined);
 				}.bind(this)
 			    })
 			]

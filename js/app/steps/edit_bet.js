@@ -79,6 +79,7 @@ var ProductForm=React.createClass({
 	});
     },
     componentDidMount: function() {
+	console.log(JSON.stringify(this.props.selectedBet));
 	this.loadComponent("/app/products/show");
     },
     productChangeHandler: function(value) {
@@ -157,7 +158,9 @@ var EditBetPanel=React.createClass({
 			})
 		    })			
 		}),
-		React.createElement(ProductForm, {}),
+		React.createElement(ProductForm, {
+		    selectedBet: this.props.selectedBet
+		}),
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({
@@ -173,7 +176,7 @@ var EditBetPanel=React.createClass({
 				},
 				children: "Cancel",
 				onClick: function() {
-				    this.props.stepChangeHandler(0);
+				    this.props.stepChangeHandler(0, undefined);
 				}.bind(this)
 			    }),
 			    React.DOM.button({
@@ -183,7 +186,7 @@ var EditBetPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2);
+				    this.props.stepChangeHandler(2, undefined);
 				}.bind(this)
 			    })
 			]

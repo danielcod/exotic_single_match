@@ -30,7 +30,7 @@ var PlaceBetPanel=React.createClass({
 				},
 				children: "Cancel",
 				onClick: function() {
-				    this.props.stepChangeHandler(0);
+				    this.props.stepChangeHandler(0, undefined);
 				}.bind(this)
 			    }),
 			    React.DOM.button({
@@ -40,7 +40,7 @@ var PlaceBetPanel=React.createClass({
 				},
 				children: "Re- edit",
 				onClick: function() {
-				    this.props.stepChangeHandler(1);
+				    this.props.stepChangeHandler(1, undefined);
 				}.bind(this)
 			    }),
 			    React.DOM.button({
@@ -50,7 +50,7 @@ var PlaceBetPanel=React.createClass({
 				},
 				children: "Place Bet",
 				onClick: function() {
-				    this.props.stepChangeHandler(3);
+				    this.props.stepChangeHandler(3, undefined);
 				}.bind(this)
 			    })
 			]
