@@ -20,10 +20,10 @@ Deps=yaml.load("""
 - js/app/products/services.js
 - js/app/products/components.js
 - js/app/products/single_teams.js
-- js/app/steps/browse_bets.js
-- js/app/steps/edit_bet.js
-- js/app/steps/place_bet.js
-- js/app/steps/bet_confirmation.js
+- js/app/steps/step_one_browse.js
+- js/app/steps/step_two_edit.js
+- js/app/steps/step_three_place.js
+- js/app/steps/step_four_confirm.js
 - js/app/app.js
 """)
 
