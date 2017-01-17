@@ -27,7 +27,7 @@ Leagues=yaml.load(file("config/leagues.yaml").read())
 - limited to 5 contracts until pagination/filtering can be employed
 """
 
-class ListHandler(webapp2.RequestHandler):
+class ListProductsHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -47,7 +47,7 @@ class ListHandler(webapp2.RequestHandler):
 - move contract definitions to client side
 """
     
-class ShowHandler(webapp2.RequestHandler):
+class ShowProductHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -67,8 +67,8 @@ class IndexHandler(webapp2.RequestHandler):
             "deps": depsstr}
         render_template(self, "templates/app.html", tv)
 
-Routing=[('/app/list', ListHandler),
-         ('/app/show', ShowHandler),
+Routing=[('/app/products/list', ListProductsHandler),
+         ('/app/products/show', ShowProductHandler),
          ('/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
