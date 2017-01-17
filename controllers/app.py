@@ -1,6 +1,10 @@
 from controllers import *
 
+from products.positions.single_teams import SingleTeamsProduct
+
 import apis.yc_lite_api as yc_lite
+
+Title="Team Exotics Demo"
 
 Deps=yaml.load("""
 - css/lib/bootstrap.min.css
@@ -19,9 +23,13 @@ Deps=yaml.load("""
 - js/app/app.js
 """)
 
-Title="Team Exotics Demo"
+Products={
+    "single_teams": SingleTeamsProduct,
+}
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
+
+MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
 """
 - limited to 5 contracts until pagination/filtering can be employed
@@ -58,6 +66,58 @@ class ShowProductHandler(webapp2.RequestHandler):
         return {"type": contract.product,
                 "query": json_loads(contract.query)}
 
+class ProductPayoffsHandler(webapp2.RequestHandler):
+
+    @validate_query({'league': '\\D{3}\\.\\d',
+                     'team': '.*'})
+    @emit_json
+    def get(self):
+        productname=self.request.get("product")
+        leaguename=self.request.get("league")
+        teamname=self.request.get("team")
+        if teamname in ['', []]:
+            teamname=None
+        if productname not in Products:
+            raise RuntimeError("Product not found")
+        product=Products[productname]()
+        def format_payoff(payoff):
+            item={}
+            item["value"]=payoff["name"]
+            if "value" in payoff:
+                item["probability"]=payoff["value"]
+            return item
+        payoffs=[format_payoff(payoff)
+                 for payoff in product.init_payoffs(leaguename, teamname)]
+        return payoffs
+
+class ProductPriceHandler(webapp2.RequestHandler):
+
+    @parse_json_body
+    @emit_json
+    def post(self, struct):
+        productname, query = struct["product"], struct["query"]
+        if productname not in Products:
+            raise RuntimeError("Product not found")
+        product=Products[productname]()
+        contract=product.init_contract(query)        
+        payoffs=product.price_contract(contract)
+        probability=payoffs[0]["value"]
+        def format_price(probability):
+            if probability < MinProb:
+                price=MaxPrice
+            elif probability > MaxProb:
+                price=MinPrice
+            else:
+                price=1/float(probability)
+            if price < 2:
+                return "%.3f" % price
+            elif price < 5:
+                return "%.2f" % price
+            else:
+                return "%.1f" % price
+        return {"probability": probability,
+                "decimal_price": format_price(probability)}
+    
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -69,6 +129,8 @@ class IndexHandler(webapp2.RequestHandler):
 
 Routing=[('/app/products/list', ListProductsHandler),
          ('/app/products/show', ShowProductHandler),
+         ('/app/products/payoffs', ProductPayoffsHandler),
+         ('/app/products/price', ProductPriceHandler),
          ('/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

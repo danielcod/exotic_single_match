@@ -31,7 +31,7 @@ var SingleTeamsForm=React.createClass({
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
 	    optionsLoader: this.initOptionsLoader(),
-	    priceFetcher: this.initPriceFetcher("/site/products/pricing"),
+	    priceFetcher: this.initPriceFetcher("/app/products/price"),
 	    resetLevel: "default"
 	};
     },
@@ -47,7 +47,7 @@ var SingleTeamsForm=React.createClass({
     fetchPayoffs: function(params) {
 	if ((params.league!=undefined) &&
 	    (params.team!=undefined)) {
-	    var url="/site/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
+	    var url="/app/products/payoffs?product="+this.productName+"&league="+params.league+"&team="+params.team;
 	    this.state.optionsLoader.fetch("payoff", url);
 	}
     },
