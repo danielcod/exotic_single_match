@@ -114,7 +114,7 @@ class ProductPriceHandler(webapp2.RequestHandler):
             raise RuntimeError("Product not found")
         product=Products[productname]()
         probability=product.calc_probability(query)
-        return {"decimal_price": format_price(probability)}
+        return {"price": format_price(probability)}
 
 class IndexHandler(webapp2.RequestHandler):
 

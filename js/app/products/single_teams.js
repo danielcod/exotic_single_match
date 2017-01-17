@@ -16,7 +16,7 @@ var SingleTeamsForm=React.createClass({
     },
     initPriceFetcher: function(url, debug) {
 	var handler=function(struct) {
-	    $("span[id='price']").text(struct["decimal_price"]);
+	    $("span[id='price']").text(struct["price"]);
 	};
 	return new PriceFetcher(url, handler, this.ajaxErrHandler, debug);
     },
