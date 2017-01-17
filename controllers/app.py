@@ -118,10 +118,7 @@ class ListProductsHandler(webapp2.RequestHandler):
         return contracts[:5] # NB
         
 """
-- currently just returns a random contract
-- change so is passed a product_id
-- rename as 'Show'
-- move contract definitions to client side
+- currently just returns a random contract; change so is passed a product_id
 """
     
 class ShowProductHandler(webapp2.RequestHandler):
