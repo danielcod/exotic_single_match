@@ -72,8 +72,7 @@ class ListProductsHandler(webapp2.RequestHandler):
         products=[{"description": product.query,
                    "price": product.price,
                    "id": product.key().id()}
-                  for product in products
-                  if product.probability > 0]
+                  for product in products]
         return products[:5] # NB
         
 """
