@@ -1,6 +1,6 @@
 var Products=[{
     label: "Single Teams Outright",
-    name: "single_teams",
+    type: "single_teams",
     description: "An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!"
 }];
 
@@ -108,7 +108,7 @@ var ProductForm=React.createClass({
 		    },
 		    children: React.DOM.i({
 			children: Products.filter(function(product) {
-			    return product.name==this.state.currentProduct.type
+			    return product.type==this.state.currentProduct.type
 			}.bind(this))[0]["description"]
 		    })
 		}),

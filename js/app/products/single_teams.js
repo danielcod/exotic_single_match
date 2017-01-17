@@ -1,5 +1,5 @@
 var SingleTeamsForm=React.createClass({
-    productName: "single_teams",
+    productType: "single_teams",
     deepCopy: function(struct) {
 	return JSON.parse(JSON.stringify(struct));
     },
@@ -46,7 +46,7 @@ var SingleTeamsForm=React.createClass({
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
-	    var url="/app/products/payoffs?product="+this.productName+"&league="+params.league;
+	    var url="/app/products/payoffs?type="+this.productType+"&league="+params.league;
 	    this.state.optionsLoader.fetch("payoff", url);
 	}
     },
@@ -62,7 +62,7 @@ var SingleTeamsForm=React.createClass({
     updatePrice: function(params) {
 	if (this.isComplete(params)) {
 	    var struct={
-		"product": this.productName,
+		"type": this.productType,
 		"params": params
 	    };
 	    $("span[id='price']").text("[updating ..]");

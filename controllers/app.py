@@ -97,10 +97,10 @@ class ProductPayoffsHandler(webapp2.RequestHandler):
     @validate_query({'league': '\\D{3}\\.\\d'})
     @emit_json
     def get(self):
-        productname=self.request.get("product")
-        if productname not in Products:
+        producttype=self.request.get("type")
+        if producttype not in Products:
             raise RuntimeError("Product not found")
-        product=Products[productname]()
+        product=Products[producttype]()
         leaguename=self.request.get("league")
         payoffs=[{"value": payoff["name"]}
                  for payoff in product.init_payoffs(leaguename)]
@@ -111,10 +111,10 @@ class ProductPriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, struct):
-        productname, params = struct["product"], struct["params"]
-        if productname not in Products:
+        producttype, params = struct["type"], struct["params"]
+        if producttype not in Products:
             raise RuntimeError("Product not found")
-        product=Products[productname](**params)
+        product=Products[producttype](**params)
         probability=product.calc_probability()
         return {"price": format_price(probability)}
 
