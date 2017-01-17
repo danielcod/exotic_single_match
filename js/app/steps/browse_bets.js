@@ -81,6 +81,9 @@ var BrowseBetsPanel=React.createClass({
 	state.selectedBet=bet;
 	this.setState(state);
     },
+    createBet: function() {
+	console.log("createBet");
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -95,6 +98,17 @@ var BrowseBetsPanel=React.createClass({
 		    },
 		    children: React.DOM.i({
 			children: "Select a product that looks interesting, and click 'Next' to either edit it or to place a bet"
+		    })
+		}),
+		React.DOM.div({
+		    className: "text-right",
+		    style: {
+			"margin-bottom": "10px"
+		    },
+		    children: React.DOM.button({
+			className: "btn btn-secondary",
+			onClick: this.createBet,
+			children: "Create"
 		    })
 		}),
 		React.createElement(BrowseBetsTable, {
