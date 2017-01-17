@@ -138,10 +138,10 @@ var EditBetPanel=React.createClass({
 			children: "Edit your chosen product; the price will be updated in real time; click 'Next' to place a bet when you're done"
 		    })
 		}),		
-		React.DOM.h4({
+		React.DOM.h3({
 		    className: "text-center",
 		    style: {
-			color: "#F88",
+			color: "#888",
 			"margin-bottom": "20px",
 			"margin-top": "20px"
 		    },

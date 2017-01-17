@@ -5,7 +5,7 @@ var BrowseBetsRow=React.createClass({
 		this.props.clickHandler(this.props.id);
 	    }.bind(this),
 	    style: (this.props.id==this.props.selectedId) ? {
-		"background-color": "#88F"
+		"background-color": "#8FA"
 	    } : {},
 	    children: [
 		React.DOM.td({
