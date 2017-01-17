@@ -79,8 +79,7 @@ var ProductForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	console.log(JSON.stringify(this.props.selectedBet));
-	this.loadComponent("/app/products/show");
+	this.loadComponent("/app/products/show?type="+this.props.selectedBet.type+"&id="+this.props.selectedBet.id);
     },
     productChangeHandler: function(value) {
 	var state=this.state;

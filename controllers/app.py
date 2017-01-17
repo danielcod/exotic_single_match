@@ -60,8 +60,8 @@ class ExpiriesHandler(webapp2.RequestHandler):
         return init_expiries(cutoffmonth)
 
 """
-- limited to 5 products until pagination/filtering can be employed
-- need to load selection of products of different types; probably need to be pre- canned
+- need some way of showing multiple products; probably a task which showcases a series of them
+- right now the only product type is SingleTeamsProduct
 """
 
 class ListProductsHandler(webapp2.RequestHandler):
@@ -78,19 +78,20 @@ class ListProductsHandler(webapp2.RequestHandler):
                   for product in products]
         return products[:5] # NB
         
-"""
-- currently just returns a random product; change so is passed a product_id
-"""
-    
 class ShowProductHandler(webapp2.RequestHandler):
 
+    @validate_query({'type': '.+',
+                     'id': '^\\d+'})
     @emit_json
     def get(self):
-        products=SingleTeamsProduct.find_all()
-        if products==[]:
-            raise RuntimeError("No products found")
-        product=products[0]
-        return {"type": "single_teams",
+        producttype=self.request.get("type")
+        if producttype not in Products:
+            raise RuntimeError("Product not found")
+        id=int(self.request.get("id"))
+        product=Products[producttype].get_by_id(id)
+        if not product:
+            raise RuntimeError("Product not found")
+        return {"type": producttype,
                 "params": product.to_json()}
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
