@@ -1,10 +1,8 @@
 from tasks.random import *
 
-from products.positions.single_teams import SingleTeamsProduct
+from models.products.positions import calc_positional_probability
 
-from products.positions import calc_positional_probability
-
-ProductName="single_teams"
+from models.products.positions.single_teams import SingleTeamsProduct
 
 MinProb, MaxProb = 0.05, 0.95
 
@@ -51,8 +49,7 @@ class InitHandler(webapp2.RequestHandler):
         expiry=Expiries[i]
         i=int(len(Leagues)*random.random())
         leaguename=Leagues[i]["name"]        
-        product=SingleTeamsProduct()
-        payoffs=product.init_payoffs(leaguename)
+        payoffs=SingleTeamsProduct.init_payoffs(leaguename)
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
@@ -91,12 +88,17 @@ class InitHandler(webapp2.RequestHandler):
                "team": teamname,
                "payoff": payoffname,
                "expiry": expiry["value"]}
-        Product(product=ProductName,
-                query=json_dumps(query),
-                price=price).put()
-        logging.info("%s: %s -> %s" % (ProductName,
-                                       query,
-                                       price))
+        SingleTeamsProduct(league=leaguename,
+                           team=teamname,
+                           payoff=payoffname,
+                           expiry=expiry["value"],
+                           price=price).put()
+        logging.info("%s/%s/%s/%s -> %s" % (leaguename,
+                                            teamname,
+                                            payoffname,
+                                            expiry["value"],
+                                            price))
+
         
 Routing=[('/tasks/random/single_teams/init', InitHandler),
          ('/tasks/random/single_teams', IndexHandler)]
