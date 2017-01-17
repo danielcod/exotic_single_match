@@ -1,49 +1,28 @@
 from products.positions import *
 
-MinProbability, MaxProbability = 0.01, 0.99
-
 class SingleTeamsProduct:
 
-    """
-    - NB multiple prices returned, but all priced to end of season
-    """
-        
     def init_payoffs(self, leaguename, teamname=None):
         teams=fetch_teams(leaguename)
-        results=fetch_results(leaguename)
-        fixtures=[fixture for fixture in fetch_fixtures(leaguename)
-                  if fixture["date"] > Today]
-        def all_payoff_names(leaguename, teams):
-            names=[]
-            names.append("Winner")
-            if leaguename in Promotion:
-                names.append("Promotion")
-            if leaguename in Relegation:
-                names.append("Relegation")
-            for i in range(2, 1+len(teams)/2):
-                names.append("Top %i" % i)
-            for i in range(2, 1+len(teams)/2):
-                names.append("Outside Top %i" % i)
-            names.append("Bottom")
-            for i in range(2, 1+len(teams)/2):
-                names.append("Bottom %i" % i)
-            for i in range(2, 1+len(teams)/2):
-                names.append("Outside Bottom %i" % i)
-            for i in range(2, len(teams)):
-                names.append("%i%s Place" % (i, cardinal_suffix(i)))
-            return names
-        payoffs=[{"name": payoffname}
-                 for payoffname in all_payoff_names(leaguename, teams)]
-        struct={"team": {"league": leaguename,
-                         "name": teamname},
-                "teams": teams,
-                "results": results,
-                "fixtures": fixtures,
-                "payoffs": payoffs}
-        return [payoff
-                for payoff in calc_positional_probability(struct)
-                if (payoff["value"] > MinProbability and
-                    payoff["value"] < MaxProbability)]
+        names=[]
+        names.append("Winner")
+        if leaguename in Promotion:
+            names.append("Promotion")
+        if leaguename in Relegation:
+            names.append("Relegation")
+        for i in range(2, 1+len(teams)/2):
+            names.append("Top %i" % i)
+        for i in range(2, 1+len(teams)/2):
+            names.append("Outside Top %i" % i)
+        names.append("Bottom")
+        for i in range(2, 1+len(teams)/2):
+            names.append("Bottom %i" % i)
+        for i in range(2, 1+len(teams)/2):
+            names.append("Outside Bottom %i" % i)
+        for i in range(2, len(teams)):
+            names.append("%i%s Place" % (i, cardinal_suffix(i)))
+        return [{"name": name}
+                for name in names]
 
     def calc_price(self, query):
         team={"league": query["league"],
