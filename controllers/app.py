@@ -165,8 +165,7 @@ class ProductPriceHandler(webapp2.RequestHandler):
         if productname not in Products:
             raise RuntimeError("Product not found")
         product=Products[productname]()
-        contract=product.init_contract(query)        
-        payoffs=product.price_contract(contract)
+        payoffs=product.price_contract(query)
         probability=payoffs[0]["value"]
         def format_price(probability):
             if probability < MinProb:

@@ -72,8 +72,7 @@ class InitHandler(webapp2.RequestHandler):
                "team": teamname,
                "payoff": payoffname,
                "expiry": expiryvalue}
-        contract=Product.init_contract(query)
-        priceresp=Product.price_contract(contract)
+        priceresp=Product.price_contract(query)
         price=priceresp[0]["value"]
         Contract(product=ProductName,
                  query=json_dumps(query),

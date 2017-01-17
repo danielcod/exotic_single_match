@@ -44,7 +44,7 @@ class SingleTeamsProduct:
                 if (payoff["value"] > MinProbability and
                     payoff["value"] < MaxProbability)]
 
-    def init_contract(self, query):
+    def price_contract(self, query):
         team={"league": query["league"],
               "name": query["team"]}
         teams=fetch_teams(query["league"])
@@ -54,12 +54,11 @@ class SingleTeamsProduct:
                   if (fixture["date"] > Today and
                       fixture["date"] <= query["expiry"])]
         payoffs=[{"name": query["payoff"]}]
-        return {"team": team,
+        struct={"team": team,
                 "teams": teams,
                 "results": results,
                 "fixtures": fixtures,
                 "payoffs": payoffs}
-    
-    def price_contract(self, contract):
-        return calc_positional_probability(contract)
+        return calc_positional_probability(struct)
+
 
