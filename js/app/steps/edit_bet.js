@@ -88,7 +88,7 @@ var ProductForm=React.createClass({
 	} else {
 	    state.currentProduct={
 		type: value,
-		query: {}
+		params: {}
 	    };
 	}
 	this.setState(state);
@@ -113,7 +113,7 @@ var ProductForm=React.createClass({
 		    })
 		}),
 		React.createElement(ProductMapping[this.state.currentProduct.type], {
-		    params: this.state.currentProduct.query,
+		    params: this.state.currentProduct.params,
 		    blankStyle: ProductStyles.BlankOption
 		})
 	    ] : []

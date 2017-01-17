@@ -90,7 +90,7 @@ class ShowProductHandler(webapp2.RequestHandler):
             raise RuntimeError("No products found")
         product=products[0]
         return {"type": "single_teams",
-                "query": product.to_json()}
+                "params": product.to_json()}
 
 class ProductPayoffsHandler(webapp2.RequestHandler):
 
@@ -111,10 +111,10 @@ class ProductPriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, struct):
-        productname, query = struct["product"], struct["query"]
+        productname, params = struct["product"], struct["params"]
         if productname not in Products:
             raise RuntimeError("Product not found")
-        product=Products[productname](**query)
+        product=Products[productname](**params)
         probability=product.calc_probability()
         return {"price": format_price(probability)}
 

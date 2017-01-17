@@ -63,7 +63,7 @@ var SingleTeamsForm=React.createClass({
 	if (this.isComplete(params)) {
 	    var struct={
 		"product": this.productName,
-		"query": params
+		"params": params
 	    };
 	    $("span[id='price']").text("[updating ..]");
 	    this.state.priceFetcher.fetch(struct);
