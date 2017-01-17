@@ -56,7 +56,6 @@ class InitHandler(webapp2.RequestHandler):
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
-        logging.info(leaguename+"/"+teamname)
         results=yc_lite.get_results(leaguename)        
         fixtures=[{"name": fixture["name"],
                    "date": fixture["date"],
