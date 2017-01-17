@@ -71,7 +71,8 @@ class ListProductsHandler(webapp2.RequestHandler):
         products=SingleTeamsProduct.find_all()
         if products==[]:
             raise RuntimeError("No products found")
-        products=[{"description": product.description,
+        products=[{"type": "single_teams",
+                   "description": product.description,
                    "price": product.price,
                    "id": product.key().id()}
                   for product in products]

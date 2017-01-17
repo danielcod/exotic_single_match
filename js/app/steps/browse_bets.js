@@ -2,18 +2,19 @@ var BrowseBetsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    onClick: function() {
-		this.props.clickHandler(this.props.id);
+		this.props.clickHandler(this.props.bet);
 	    }.bind(this),
-	    style: (this.props.id==this.props.selectedId) ? {
+	    style: ((this.props.selectedBet!=undefined) &&
+		    (this.props.bet.id==this.props.selectedBet.id)) ? {
 		"background-color": "#8FA"
 	    } : {},
 	    children: [
 		React.DOM.td({
-		    children: this.props.description
+		    children: this.props.bet.description
 		}),
 		React.DOM.td({
 		    className: "text-center",			    
-		    children: this.props.price
+		    children: this.props.bet.price
 		})
 	    ]
 	});
@@ -23,7 +24,7 @@ var BrowseBetsRow=React.createClass({
 var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedId: undefined,
+	    selectedBet: undefined,
 	    bets: []
 	};
     },
@@ -47,11 +48,11 @@ var BrowseBetsTable=React.createClass({
     componentDidMount: function() {
 	this.loadComponent("/app/products/list");
     },
-    handleClicked: function(id) {
+    handleClicked: function(bet) {
 	var state=this.state;
-	state.selectedId=id;
+	state.selectedBet=bet;
 	this.setState(state);
-	this.props.clickHandler(id);
+	this.props.clickHandler(bet);
     },	
     render: function() {
 	return React.DOM.table({
@@ -59,10 +60,8 @@ var BrowseBetsTable=React.createClass({
 	    children: React.DOM.tbody({
 		children: this.state.bets.map(function(bet) {
 		    return React.createElement(BrowseBetsRow, {
-			description: bet.description,
-			price: bet.price,
-			id: bet.id,
-			selectedId: this.state.selectedId,
+			bet: bet,
+			selectedBet: this.state.selectedBet,
 			clickHandler: this.handleClicked
 		    });
 		}.bind(this))
@@ -74,14 +73,14 @@ var BrowseBetsTable=React.createClass({
 var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedId: undefined
+	    selectedBet: undefined
 	};
     },
-    handleClicked: function(id) {
+    handleClicked: function(bet) {
 	var state=this.state;
-	state.selectedId=id;
+	state.selectedBet=bet;
 	this.setState(state);
-	console.log("id="+id); // TEMP	
+	console.log(JSON.stringify(bet));
     },
     render: function() {
 	return React.DOM.div({
