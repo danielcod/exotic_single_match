@@ -24,7 +24,7 @@ class SingleTeamsProduct:
         return [{"name": name}
                 for name in names]
 
-    def calc_price(self, query):
+    def calc_probability(self, query):
         team={"league": query["league"],
               "name": query["team"]}
         teams=fetch_teams(query["league"])
@@ -39,6 +39,6 @@ class SingleTeamsProduct:
                 "results": results,
                 "fixtures": fixtures,
                 "payoffs": payoffs}
-        return calc_positional_probability(struct)
-
+        resp=calc_positional_probability(struct)
+        return resp[0]["value"]
 

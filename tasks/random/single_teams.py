@@ -87,16 +87,17 @@ class InitHandler(webapp2.RequestHandler):
         i=int(len(items)*random.random())
         payoffname=items[i]["name"]
         probability=items[i]["value"]
+        price=format_price(probability)
         query={"league": leaguename,
                "team": teamname,
                "payoff": payoffname,
                "expiry": expiry["value"]}
         Product(product=ProductName,
                 query=json_dumps(query),
-                probability=probability).put()
-        logging.info("%s: %s -> %.3f" % (ProductName,
-                                         query,
-                                         probability))
+                price=price).put()
+        logging.info("%s: %s -> %s" % (ProductName,
+                                       query,
+                                       price))
         
 Routing=[('/tasks/random/single_teams/init', InitHandler),
          ('/tasks/random/single_teams', IndexHandler)]

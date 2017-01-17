@@ -84,7 +84,7 @@ class Product(db.Model):
 
     product=db.StringProperty()
     query=db.TextProperty()
-    probability=db.FloatProperty()
+    price=db.StringProperty()
 
     @classmethod
     def find_all(self):
