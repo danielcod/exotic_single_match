@@ -2,19 +2,19 @@ var BrowseBetsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    onClick: function() {
-		this.props.clickHandler(this.props.bet);
+		this.props.clickHandler(this.props.product);
 	    }.bind(this),
-	    style: ((this.props.selectedBet!=undefined) &&
-		    (this.props.bet.id==this.props.selectedBet.id)) ? {
+	    style: ((this.props.selectedProduct!=undefined) &&
+		    (this.props.product.id==this.props.selectedProduct.id)) ? {
 		"background-color": "#8FA"
 	    } : {},
 	    children: [
 		React.DOM.td({
-		    children: this.props.bet.description
+		    children: this.props.product.description
 		}),
 		React.DOM.td({
 		    className: "text-center",			    
-		    children: this.props.bet.price
+		    children: this.props.product.price
 		})
 	    ]
 	});
@@ -24,13 +24,13 @@ var BrowseBetsRow=React.createClass({
 var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedBet: undefined,
-	    bets: []
+	    selectedProduct: undefined,
+	    products: []
 	};
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	state.bets=struct;
+	state.products=struct;
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -48,20 +48,20 @@ var BrowseBetsTable=React.createClass({
     componentDidMount: function() {
 	this.loadComponent("/app/products/list");
     },
-    handleClicked: function(bet) {
+    handleClicked: function(product) {
 	var state=this.state;
-	state.selectedBet=bet;
+	state.selectedProduct=product;
 	this.setState(state);
-	this.props.clickHandler(bet);
+	this.props.clickHandler(product);
     },	
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-bordered table-striped",
 	    children: React.DOM.tbody({
-		children: this.state.bets.map(function(bet) {
+		children: this.state.products.map(function(product) {
 		    return React.createElement(BrowseBetsRow, {
-			bet: bet,
-			selectedBet: this.state.selectedBet,
+			product: product,
+			selectedProduct: this.state.selectedProduct,
 			clickHandler: this.handleClicked
 		    });
 		}.bind(this))
@@ -73,16 +73,16 @@ var BrowseBetsTable=React.createClass({
 var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedBet: undefined
+	    selectedProduct: undefined
 	};
     },
-    handleClicked: function(bet) {
+    handleClicked: function(product) {
 	var state=this.state;
-	state.selectedBet=bet;
+	state.selectedProduct=product;
 	this.setState(state);
     },
-    createBet: function() {
-	console.log("createBet");
+    createProduct: function() {
+	console.log("createProduct");
     },
     render: function() {
 	return React.DOM.div({
@@ -107,7 +107,7 @@ var BrowseBetsPanel=React.createClass({
 		    },
 		    children: React.DOM.button({
 			className: "btn btn-secondary",
-			onClick: this.createBet,
+			onClick: this.createProduct,
 			children: "Create"
 		    })
 		}),
@@ -126,8 +126,8 @@ var BrowseBetsPanel=React.createClass({
 				},
 				children: "Edit Bet",
 				onClick: function() {
-				    if (this.state.selectedBet!=undefined) {
-					this.props.stepChangeHandler(1, this.state.selectedBet);
+				    if (this.state.selectedProduct!=undefined) {
+					this.props.stepChangeHandler(1, this.state.selectedProduct);
 				    }
 				}.bind(this)
 			    }),
@@ -138,8 +138,8 @@ var BrowseBetsPanel=React.createClass({
 				},
 				children: "Place Bet",
 				onClick: function() {
-				    if (this.state.selectedBet!=undefined) {
-					this.props.stepChangeHandler(2, this.state.selectedBet);
+				    if (this.state.selectedProduct!=undefined) {
+					this.props.stepChangeHandler(2, this.state.selectedProduct);
 				    }
 				}.bind(this)
 			    })

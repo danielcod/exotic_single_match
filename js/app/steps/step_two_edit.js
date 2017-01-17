@@ -79,7 +79,7 @@ var ProductForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/app/products/show?type="+this.props.selectedBet.type+"&id="+this.props.selectedBet.id);
+	this.loadComponent("/app/products/show?type="+this.props.selectedProduct.type+"&id="+this.props.selectedProduct.id);
     },
     productChangeHandler: function(value) {
 	var state=this.state;
@@ -158,7 +158,7 @@ var EditBetPanel=React.createClass({
 		    })			
 		}),
 		React.createElement(ProductForm, {
-		    selectedBet: this.props.selectedBet
+		    selectedProduct: this.props.selectedProduct
 		}),
 		React.DOM.div({
 		    className: "text-center",
