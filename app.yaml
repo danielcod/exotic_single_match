@@ -29,9 +29,10 @@ handlers:
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
+# APP
+- url: /app.*
+  script: controllers.app.app
 # SITE
-- url: /site/app.*
-  script: controllers.site.app.app
 - url: /site/expiries.*
   script: controllers.site.expiries.app
 - url: /site/leagues.*

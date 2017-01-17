@@ -1,6 +1,15 @@
-from controllers.site import *
+from controllers import *
 
-AppDeps=yaml.load("""
+import apis.yc_lite_api as yc_lite
+
+Deps=yaml.load("""
+- css/lib/bootstrap.min.css
+- css/lib/jumbotron-narrow.css
+- css/lib/bs-wizard.css
+- js/lib/jquery.min.js
+- js/lib/bootstrap.min.js
+- js/lib/react.min.js
+- js/lib/react-dom.min.js
 - js/app/products/services.js
 - js/app/products/components.js
 - js/app/products/single_teams.js
@@ -9,6 +18,10 @@ AppDeps=yaml.load("""
 - js/app/steps/place_bet.js
 - js/app/app.js
 """)
+
+Title="Team Exotics Demo"
+
+Leagues=yaml.load(file("config/leagues.yaml").read())
 
 """
 - limited to 5 contracts until pagination/filtering can be employed
@@ -49,14 +62,14 @@ class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
         depsstr=",".join(["\"../%s\"" % dep
-                          for dep in RootDeps+AppDeps])
+                          for dep in Deps])
         tv={"title": Title,
             "deps": depsstr}
-        render_template(self, "templates/site/app.html", tv)
+        render_template(self, "templates/app.html", tv)
 
-Routing=[('/site/app/list', ListHandler),
-         ('/site/app/show', ShowHandler),
-         ('/site/app', IndexHandler)]
+Routing=[('/app/list', ListHandler),
+         ('/app/show', ShowHandler),
+         ('/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

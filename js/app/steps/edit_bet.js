@@ -79,7 +79,7 @@ var ProductForm=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/site/app/show");
+	this.loadComponent("/app/show");
     },
     productChangeHandler: function(value) {
 	var state=this.state;

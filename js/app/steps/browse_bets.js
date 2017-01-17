@@ -45,7 +45,7 @@ var BrowseBetsTable=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.loadComponent("/site/app/list");
+	this.loadComponent("/app/list");
     },
     handleClicked: function(id) {
 	var state=this.state;
