@@ -68,6 +68,17 @@ var PlaceBetPanel=React.createClass({
 		    })
 		}) : undefined,
 		React.DOM.div({
+		    className: "form-group",
+		    children: [
+			React.DOM.label({
+			    children: "Your size"
+			}),
+			React.DOM.input({
+			    className: "form-control"
+			})
+		    ]
+		}),
+		React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({
 			className: "btn-group",
