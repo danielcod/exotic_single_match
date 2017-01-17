@@ -1,32 +1,12 @@
 from controllers import *
 
-from products.positions.single_teams import SingleTeamsProduct
-
 import apis.yc_lite_api as yc_lite
 
-import calendar
+from helpers.expiry_helpers import init_expiries
+
+from products.positions.single_teams import SingleTeamsProduct
 
 Title="Team Exotics Demo"
-
-Months=yaml.load("""
-- January
-- February
-- March
-- April
-- May
-- June
-- July
-- August
-- September
-- October
-- November
-- December
-""")
-
-ShortMonths=[month[:3]
-             for month in Months]
-
-EOS=datetime.date(2017, 7, 1) # change hardcode
 
 Deps=yaml.load("""
 - css/lib/bootstrap.min.css
@@ -77,28 +57,7 @@ class ExpiriesHandler(webapp2.RequestHandler):
     
     @emit_json_memcache(60)
     def get(self, cutoffmonth=4):
-        date=datetime.date.today()
-        def add_months(date, months):
-            month=date.month-1+months
-            year=int(date.year+month/12)
-            month=1+month % 12
-            day=min(date.day, calendar.monthrange(year, month)[1])
-            return datetime.date(year, month, day)
-        def init_item(date):
-            mrange=calendar.monthrange(date.year, date.month)
-            eomdate=datetime.date(date.year, date.month, mrange[-1])
-            eomlabel="End of %s" % ShortMonths[date.month-1]
-            return {"value": eomdate,
-                    "label": eomlabel}
-        expiries=[init_item(date)]
-        while True:
-            date=add_months(date, 1)
-            expiries.append(init_item(date))
-            if date.month >= cutoffmonth:
-                break
-        expiries.append({"label": "End of Season",
-                         "value": EOS})
-        return expiries
+        return init_expiries(cutoffmonth)
 
 """
 - limited to 5 products until pagination/filtering can be employed
