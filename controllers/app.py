@@ -4,7 +4,29 @@ from products.positions.single_teams import SingleTeamsProduct
 
 import apis.yc_lite_api as yc_lite
 
+import calendar
+
 Title="Team Exotics Demo"
+
+Months=yaml.load("""
+- January
+- February
+- March
+- April
+- May
+- June
+- July
+- August
+- September
+- October
+- November
+- December
+""")
+
+ShortMonths=[month[:3]
+             for month in Months]
+
+EOS=datetime.date(2017, 7, 1) # change hardcode
 
 Deps=yaml.load("""
 - css/lib/bootstrap.min.css
@@ -30,6 +52,53 @@ Products={
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
+
+class LeaguesHandler(webapp2.RequestHandler):
+
+    @emit_json_memcache(60)
+    def get(self):
+        return [{"value": league["name"]}
+                for league in Leagues]
+    
+class TeamsHandler(webapp2.RequestHandler):
+
+    @validate_query({'league': '^\\D{3}\\.\\d$'})
+    @emit_json_memcache(60)
+    def get(self):
+        leaguename=self.request.get("league")
+        leaguenames=[league["name"]
+                     for league in Leagues]
+        if leaguename not in leaguenames:
+            raise RuntimeError("League not found")
+        return [{"value": team["name"]}
+                for team in yc_lite.get_teams(leaguename)]
+
+class ExpiriesHandler(webapp2.RequestHandler):
+    
+    @emit_json_memcache(60)
+    def get(self, cutoffmonth=4):
+        date=datetime.date.today()
+        def add_months(date, months):
+            month=date.month-1+months
+            year=int(date.year+month/12)
+            month=1+month % 12
+            day=min(date.day, calendar.monthrange(year, month)[1])
+            return datetime.date(year, month, day)
+        def init_item(date):
+            mrange=calendar.monthrange(date.year, date.month)
+            eomdate=datetime.date(date.year, date.month, mrange[-1])
+            eomlabel="End of %s" % ShortMonths[date.month-1]
+            return {"value": eomdate,
+                    "label": eomlabel}
+        expiries=[init_item(date)]
+        while True:
+            date=add_months(date, 1)
+            expiries.append(init_item(date))
+            if date.month >= cutoffmonth:
+                break
+        expiries.append({"label": "End of Season",
+                         "value": EOS})
+        return expiries
 
 """
 - limited to 5 contracts until pagination/filtering can be employed
@@ -118,13 +187,6 @@ class ProductPriceHandler(webapp2.RequestHandler):
         return {"probability": probability,
                 "decimal_price": format_price(probability)}
 
-class LeaguesHandler(webapp2.RequestHandler):
-
-    @emit_json_memcache(60)
-    def get(self):
-        return [{"value": league["name"]}
-                for league in Leagues]
-    
 class IndexHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -133,26 +195,14 @@ class IndexHandler(webapp2.RequestHandler):
         tv={"title": Title,
             "deps": depsstr}
         render_template(self, "templates/app.html", tv)
-
-class TeamsHandler(webapp2.RequestHandler):
-
-    @validate_query({'league': '^\\D{3}\\.\\d$'})
-    @emit_json_memcache(60)
-    def get(self):
-        leaguename=self.request.get("league")
-        leaguenames=[league["name"]
-                     for league in Leagues]
-        if leaguename not in leaguenames:
-            raise RuntimeError("League not found")
-        return [{"value": team["name"]}
-                for team in yc_lite.get_teams(leaguename)]
-        
-Routing=[('/app/products/list', ListProductsHandler),
+    
+Routing=[('/app/leagues', LeaguesHandler),
+         ('/app/teams', TeamsHandler),
+         ('/app/expiries', ExpiriesHandler),        
+         ('/app/products/list', ListProductsHandler),
          ('/app/products/show', ShowProductHandler),
          ('/app/products/payoffs', ProductPayoffsHandler),
          ('/app/products/price', ProductPriceHandler),
-         ('/app/leagues', LeaguesHandler),
-         ('/app/teams', TeamsHandler),
          ('/app', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

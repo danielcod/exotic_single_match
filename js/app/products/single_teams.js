@@ -52,7 +52,7 @@ var SingleTeamsForm=React.createClass({
 	}
     },
     fetchExpiries: function() {
-	this.state.optionsLoader.fetch("expiry", "/site/expiries");
+	this.state.optionsLoader.fetch("expiry", "/app/expiries");
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&

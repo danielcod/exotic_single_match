@@ -32,9 +32,6 @@ handlers:
 # APP
 - url: /app.*
   script: controllers.app.app
-# SITE
-- url: /site/expiries.*
-  script: controllers.site.expiries.app
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
