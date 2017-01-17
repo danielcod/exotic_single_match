@@ -10,12 +10,6 @@ AppDeps=yaml.load("""
 - js/app/app.js
 """)
 
-ProductConfig=yaml.load("""
-- label: Single Teams Outright
-  name: single_teams
-  description: An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!
-""")
-
 """
 - limited to 5 contracts until pagination/filtering can be employed
 """
@@ -48,10 +42,8 @@ class EditHandler(webapp2.RequestHandler):
         if contracts==[]:
             raise RuntimeError("No contracts found")
         contract=contracts[0]
-        product={"type": contract.product,
-                 "query": json_loads(contract.query)}
-        return {"products": ProductConfig,
-                "product": product}
+        return {"type": contract.product,
+                "query": json_loads(contract.query)}
 
 class IndexHandler(webapp2.RequestHandler):
 

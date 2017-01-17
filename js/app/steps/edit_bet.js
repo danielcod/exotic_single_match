@@ -1,3 +1,9 @@
+var Products=[{
+    label: "Single Teams Outright",
+    name: "single_teams",
+    description: "An outright bet on a single team, but with dozens of payoffs per team - plus you don't have to wait until the end of the season!"
+}];
+
 var ProductMapping={
     "single_teams": SingleTeamsForm
 };
@@ -56,9 +62,8 @@ var ProductForm=React.createClass({
     },
     loadSuccess: function(struct) {
 	var state=this.state;
-	state.products=this.deepCopy(struct.products);
-	state.selectedProduct=this.deepCopy(struct.product);
-	state.currentProduct=this.deepCopy(struct.product);
+	state.selectedProduct=this.deepCopy(struct);
+	state.currentProduct=this.deepCopy(struct);
 	this.setState(state);
     },
     loadError: function(xhr, ajaxOptions, thrownError) {
@@ -92,7 +97,7 @@ var ProductForm=React.createClass({
 	return React.DOM.div({
 	    children: (this.state.currentProduct!=undefined) ? [
 		React.createElement(ProductSelect, {
-		    options: this.state.products,
+		    options: Products,
 		    value: this.state.currentProduct.type,
 		    changeHandler: this.productChangeHandler
 		}),
@@ -102,7 +107,7 @@ var ProductForm=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: this.state.products.filter(function(product) {
+			children: Products.filter(function(product) {
 			    return product.name==this.state.currentProduct.type
 			}.bind(this))[0]["description"]
 		    })
