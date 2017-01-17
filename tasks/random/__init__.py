@@ -2,18 +2,16 @@ from tasks import *
 
 import apis.yc_lite_api as yc_lite
 
-import datetime, random, time
+from helpers.expiry_helpers import init_expiries
+
+import random
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
-Expiries=[{"label": "End of Mar",
-           "value": datetime.date(2017, 3, 31)},
-          {"label": "End of Apr",
-           "value": datetime.date(2017, 4, 30)},
-          {"label": "End of Season",
-           "value": datetime.date(2017, 7, 1)}]
+Expiries=init_expiries(cutoffmonth=4)
 
 def random_seed():
+    import time
     q=time.time()
     return int(q*1e10)-(int(q)*1e10)
 
