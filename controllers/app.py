@@ -27,7 +27,7 @@ Deps=yaml.load("""
 - js/app/app.js
 """)
 
-Products={
+ProductMapping={
     "single_teams": SingleTeamsProduct,
 }
 
@@ -80,10 +80,10 @@ class ShowProductHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         producttype=self.request.get("type")
-        if producttype not in Products:
+        if producttype not in ProductMapping:
             raise RuntimeError("Product not found")
         id=int(self.request.get("id"))
-        product=Products[producttype].get_by_id(id)
+        product=ProductMapping[producttype].get_by_id(id)
         if not product:
             raise RuntimeError("Product not found")
         return {"type": producttype,
@@ -95,9 +95,9 @@ class ProductPayoffsHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         producttype=self.request.get("type")
-        if producttype not in Products:
+        if producttype not in ProductMapping:
             raise RuntimeError("Product not found")
-        product=Products[producttype]()
+        product=ProductMapping[producttype]()
         leaguename=self.request.get("league")
         payoffs=[{"value": payoff["name"]}
                  for payoff in product.init_payoffs(leaguename)]
@@ -109,9 +109,9 @@ class ProductPriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, struct):
         producttype, params = struct["type"], struct["params"]
-        if producttype not in Products:
+        if producttype not in ProductMapping:
             raise RuntimeError("Product not found")
-        product=Products[producttype](**params)
+        product=ProductMapping[producttype](**params)
         probability=product.calc_probability()
         return {"price": format_price(probability)}
 
