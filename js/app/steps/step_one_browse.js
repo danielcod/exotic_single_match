@@ -32,13 +32,13 @@ var BrowseProductsTable=React.createClass({
     ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    fetchProductsHandler: function(struct) {
+    browseProductsHandler: function(struct) {
 	var state=this.state;
 	state.products=struct;
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.state.exoticsApi.fetchProducts(this.fetchProductsHandler);
+	this.state.exoticsApi.browseProducts(this.browseProductsHandler);
     },
     handleClicked: function(product) {
 	var state=this.state;

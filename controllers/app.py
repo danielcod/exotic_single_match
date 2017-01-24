@@ -59,11 +59,7 @@ class ExpiriesHandler(webapp2.RequestHandler):
     def get(self, cutoffmonth=4):
         return init_expiries(cutoffmonth)
 
-"""
-- should really pull from a list of 'top products' (created by task), but for now all products are SingleTeamProducrs
-"""
-
-class ListProductsHandler(webapp2.RequestHandler):
+class BrowseProductsHandler(webapp2.RequestHandler):
 
     @emit_json
     def get(self):
@@ -131,7 +127,7 @@ class IndexHandler(webapp2.RequestHandler):
 Routing=[('/app/leagues', LeaguesHandler),
          ('/app/teams', TeamsHandler),
          ('/app/expiries', ExpiriesHandler),        
-         ('/app/products/list', ListProductsHandler),
+         ('/app/products/browse', BrowseProductsHandler),
          ('/app/products/show', ShowProductHandler),
          ('/app/products/payoffs', ProductPayoffsHandler),
          ('/app/products/price', ProductPriceHandler),
