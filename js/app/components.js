@@ -83,13 +83,15 @@ var MyFloatInput=React.createClass({
 	    value: this.props.value
 	};
     },
+    isFloat: function(value) {
+	return value.match(/^\d+(\.\d+)?$/);
+    },
     render: function() {
 	return React.DOM.input({
 	    value: this.state.value,
 	    className: "form-control",
 	    onChange: function(event) {
-		var value=event.target.value;
-		if (value.match(/^\d+(\.\d+)?$/)) {
+		if (this.isFloat(event.target.value)) {
 		    var state=this.state;
 		    state.value=event.target.value;
 		    this.setState(state);
