@@ -9,9 +9,12 @@ var MyFloatInput=React.createClass({
 	    value: this.state.value,
 	    className: "form-control",
 	    onChange: function(event) {
-		var state=this.state;
-		state.value=event.target.value;
-		this.setState(state);
+		var value=event.target.value;
+		if (value.match(/^\d+(\.\d+)?$/)) {
+		    var state=this.state;
+		    state.value=event.target.value;
+		    this.setState(state);
+		};
 	    }.bind(this)
 	});
     }
