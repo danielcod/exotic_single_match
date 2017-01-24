@@ -135,7 +135,7 @@ class IndexHandler(webapp2.RequestHandler):
 Routing=[('/app/leagues', LeaguesHandler),
          ('/app/teams', TeamsHandler),
          ('/app/expiries', ExpiriesHandler),        
-         ('/app/products/browse', BrowseProductsHandler).
+         ('/app/products/browse', BrowseProductsHandler),
          ('/app/products/list', ListProductsHandler),
          ('/app/products/show', ShowProductHandler),
          ('/app/products/payoffs', ProductPayoffsHandler),

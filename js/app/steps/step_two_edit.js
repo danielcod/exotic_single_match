@@ -53,7 +53,6 @@ var ProductForm=React.createClass({
     getInitialState: function() {
 	return {
 	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
-	    products: [],
 	    selectedProduct: undefined,
 	    currentProduct: undefined
 	};
