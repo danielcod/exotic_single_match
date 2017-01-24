@@ -1,38 +1,34 @@
-var OptionsLoader=function(handler, errHandler, debug) {
+var ExoticsAPI=function(errHandler, debug) {
     this.debug=debug || false;
     this.cache={};
-    this.fetch=function(name, url) {
-	if (this.cache[url]==undefined) {
+    this.httpGet=function(url, handler) {
+	var key=url;
+	if (this.cache[key]==undefined) {
 	    if (this.debug) {
-		console.log("Fetching "+url);
+		console.log("Fetching "+key);
 	    }
 	    $.ajax({
 		url: url,
 		type: "GET",
 		dataType: "json",
 		success: function(struct) {
-		    this.cache[url]=struct;
-		    handler(name, struct);
+		    this.cache[key]=struct;
+		    handler(struct);
 		}.bind(this),
 		error: errHandler
 	    });
 	} else {
 	    if (this.debug) {
-		console.log("Serving "+url+" from cache");
+		console.log("Serving "+key+" from cache");
 	    }
-	    handler(name, this.cache[url]);
+	    handler(this.cache[key]);
 	}
-    }
-};
-
-var PriceFetcher=function(url, handler, errHandler, debug) {
-    this.debug=debug || false;
-    this.cache={};
-    this.fetch=function(payload) {
-	var key=JSON.stringify(payload)
+    },
+    this.httpPost=function(url, payload, handler) {
+	var key=url+" "+JSON.stringify(payload)
 	if (this.cache[key]==undefined) {
 	    if (this.debug) {
-		console.log("Fetching price for "+key);
+		console.log("Fetching "+key);
 	    }
 	    $.ajax({
 		url: url,
@@ -48,9 +44,23 @@ var PriceFetcher=function(url, handler, errHandler, debug) {
 	    });
 	} else {
 	    if (this.debug) {
-		console.log("Serving price for "+key+" from cache");
+		console.log("Serving "+key+" from cache");
 	    }
 	    handler(this.cache[key]);
 	}
-    }
+    };
+    this.fetchLeagues=function(handler) {
+	this.httpGet("/app/leagues", handler);
+    };
+    this.fetchTeams=function(leaguename, handler) {
+	var url="/app/teams?league="+leaguename;
+	this.httpGet(url, handler);
+    };
+    this.fetchExpiries=function(handler) {
+	this.httpGet("/app/expiries", handler);
+    };
+    this.fetchPrice=function(struct, handler) {
+	this.httpPost("/app/products/price", struct, handler);
+    };
 };
+

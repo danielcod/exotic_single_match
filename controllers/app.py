@@ -18,7 +18,6 @@ Deps=yaml.load("""
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
 - js/app/services.js
-- js/app/apis.js
 - js/app/components.js
 - js/app/products/single_teams.js
 - js/app/steps/step_one_browse.js
