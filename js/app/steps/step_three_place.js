@@ -1,3 +1,14 @@
+var MyInput=React.createClass({
+    render: function() {
+	return React.DOM.input({
+	    className: "form-control",
+	    onChange: function(event) {
+		console.log(event.target.value);
+	    }
+	});
+    }
+});
+
 var PlaceBetPanel=React.createClass({
     deepCopy: function(struct) {
 	return JSON.parse(JSON.stringify(struct));
@@ -73,9 +84,7 @@ var PlaceBetPanel=React.createClass({
 			React.DOM.label({
 			    children: "Your size"
 			}),
-			React.DOM.input({
-			    className: "form-control"
-			})
+			React.createElement(MyInput, {})
 		    ]
 		}),
 		React.DOM.div({
