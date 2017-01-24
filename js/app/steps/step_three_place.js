@@ -4,7 +4,8 @@ var PlaceBetPanel=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    selectedProduct: undefined
+	    selectedProduct: undefined,
+	    size: 2
 	};
     },
     loadSuccess: function(struct) {
@@ -26,6 +27,11 @@ var PlaceBetPanel=React.createClass({
     },
     componentDidMount: function() {
 	this.loadComponent("/app/products/show?type="+this.props.selectedProduct.type+"&id="+this.props.selectedProduct.id);
+    },
+    sizeChangeHandler: function(size) {
+	var state=this.state;
+	state.size=size;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -74,10 +80,8 @@ var PlaceBetPanel=React.createClass({
 			    children: "Your size"
 			}),
 			React.createElement(MyFloatInput, {
-			    value: undefined,
-			    changeHandler: function(value) {
-				console.log(value);
-			    }
+			    value: this.state.size,
+			    changeHandler: this.sizeChangeHandler
 			})
 		    ]
 		}),
