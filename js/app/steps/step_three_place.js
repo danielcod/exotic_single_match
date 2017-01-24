@@ -1,25 +1,3 @@
-var MyFloatInput=React.createClass({
-    getInitialState: function() {
-	return {
-	    value: this.props.value
-	};
-    },
-    render: function() {
-	return React.DOM.input({
-	    value: this.state.value,
-	    className: "form-control",
-	    onChange: function(event) {
-		var value=event.target.value;
-		if (value.match(/^\d+(\.\d+)?$/)) {
-		    var state=this.state;
-		    state.value=event.target.value;
-		    this.setState(state);
-		};
-	    }.bind(this)
-	});
-    }
-});
-
 var PlaceBetPanel=React.createClass({
     deepCopy: function(struct) {
 	return JSON.parse(JSON.stringify(struct));
