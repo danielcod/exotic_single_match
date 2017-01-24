@@ -6,19 +6,15 @@ var SingleTeamsForm=React.createClass({
     ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    initOptionsLoader: function(debug) {
-	var handler=function(name, struct) {
+    initOptionsHandler: function(name) {
+	return function(struct) {
 	    var state=this.state;
 	    state.options[name]=struct;
 	    this.setState(state);	
 	}.bind(this);
-	return new OptionsLoader(handler, this.ajaxErrHandler, debug);
     },
-    initPriceFetcher: function(url, debug) {
-	var handler=function(struct) {
-	    $("span[id='price']").text(struct["price"]);
-	};
-	return new PriceFetcher(url, handler, this.ajaxErrHandler, debug);
+    priceHandler: function(struct) {
+	$("span[id='price']").text(struct["price"]);
     },
     getInitialState: function() {
 	return {
@@ -30,28 +26,30 @@ var SingleTeamsForm=React.createClass({
 	    },
 	    params: this.deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    optionsLoader: this.initOptionsLoader(),
-	    priceFetcher: this.initPriceFetcher("/app/products/price"),
+	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
 	    resetLevel: "default"
 	};
     },
     fetchLeagues: function() {
-	this.state.optionsLoader.fetch("league", "/app/leagues");
+	var handler=this.initOptionsHandler("league");
+	this.state.exoticsApi.fetchLeagues(handler);
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
-	    var url="/app/teams?league="+params.league;
-	    this.state.optionsLoader.fetch("team", url);
+	    var handler=this.initOptionsHandler("team");
+	    this.state.exoticsApi.fetchTeams(params.league, handler);
 	}
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
 	    var url="/app/products/payoffs?type="+this.productType+"&league="+params.league;
-	    this.state.optionsLoader.fetch("payoff", url);
+	    var handler=this.initOptionsHandler("payoff");
+	    this.state.exoticsApi.httpGet(url, handler);
 	}
     },
     fetchExpiries: function() {
-	this.state.optionsLoader.fetch("expiry", "/app/expiries");
+	var handler=this.initOptionsHandler("expiry");
+	this.state.exoticsApi.fetchExpiries(handler);
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -61,12 +59,12 @@ var SingleTeamsForm=React.createClass({
     },
     updatePrice: function(params) {
 	if (this.isComplete(params)) {
+	    $("span[id='price']").text("[updating ..]");
 	    var struct={
 		"type": this.productType,
 		"params": params
 	    };
-	    $("span[id='price']").text("[updating ..]");
-	    this.state.priceFetcher.fetch(struct);
+	    this.state.exoticsApi.fetchPrice(struct, this.priceHandler);
 	} else {
 	    $("span[id='price']").text("[..]");
 	}
