@@ -1,11 +1,5 @@
 var SingleTeamsForm=React.createClass({
     productType: "single_teams",
-    deepCopy: function(struct) {
-	return JSON.parse(JSON.stringify(struct));
-    },
-    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
-    },
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -24,9 +18,9 @@ var SingleTeamsForm=React.createClass({
 		payoff: [],
 		expiry: []
 	    },
-	    params: this.deepCopy(this.props.params),
+	    params: deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
+	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    resetLevel: "default"
 	};
     },
@@ -78,7 +72,7 @@ var SingleTeamsForm=React.createClass({
     },
     reset: function() {
 	var state=this.state;
-	state.params=this.deepCopy(this.props.params);
+	state.params=deepCopy(this.props.params);
 	state.id=Math.round(1e10*Math.random());
 	state.resetLevel="default";
 	this.setState(state);

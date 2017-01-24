@@ -1,20 +1,14 @@
 var PlaceBetPanel=React.createClass({
-    deepCopy: function(struct) {
-	return JSON.parse(JSON.stringify(struct));
-    },
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
+	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    size: 2
 	};
     },
-    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
-    },
     showProductHandler: function(struct) {
 	var state=this.state;
-	state.selectedProduct=this.deepCopy(struct);
+	state.selectedProduct=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {

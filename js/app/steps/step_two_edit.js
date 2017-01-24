@@ -46,17 +46,11 @@ var ProductSelect=React.createClass({
 var ProductForm=React.createClass({
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
+	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    currentProduct: undefined,
 	    products: []
 	};
-    },
-    deepCopy: function(struct) {
-	return JSON.parse(JSON.stringify(struct));
-    },
-    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
     },
     listProductsHandler: function(struct) {
 	var state=this.state;
@@ -65,8 +59,8 @@ var ProductForm=React.createClass({
     },
     showProductHandler: function(struct) {
 	var state=this.state;
-	state.selectedProduct=this.deepCopy(struct);
-	state.currentProduct=this.deepCopy(struct);
+	state.selectedProduct=deepCopy(struct);
+	state.currentProduct=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {

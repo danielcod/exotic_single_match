@@ -24,13 +24,10 @@ var BrowseProductsRow=React.createClass({
 var BrowseProductsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
+	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    products: []
 	};
-    },
-    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
     },
     browseProductsHandler: function(struct) {
 	var state=this.state;
