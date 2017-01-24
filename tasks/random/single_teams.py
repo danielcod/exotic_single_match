@@ -28,7 +28,7 @@ def group_items(item):
         groups[groupname].append(item)
     return groups
 
-# curl "http://localhost:8080/tasks/random/single_teams?n=1"
+# curl "http://localhost:8080/tasks/random/single_teams?n=10"
 
 class IndexHandler(webapp2.RequestHandler):
 
