@@ -27,6 +27,8 @@ Deps=yaml.load("""
 - js/app/app.js
 """)
 
+Products=yaml.load(file("config/products.yaml").read())
+
 ProductMapping={
     "single_teams": SingleTeamsProduct,
 }
@@ -72,7 +74,13 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                    "id": product.key().id()}
                   for product in products]
         return products[:8] # NB
-        
+
+class ListProductsHandler(webapp2.RequestHandler):
+
+    @emit_json
+    def get(self):
+        return Products
+    
 class ShowProductHandler(webapp2.RequestHandler):
 
     @validate_query({'type': '.+',
@@ -127,7 +135,8 @@ class IndexHandler(webapp2.RequestHandler):
 Routing=[('/app/leagues', LeaguesHandler),
          ('/app/teams', TeamsHandler),
          ('/app/expiries', ExpiriesHandler),        
-         ('/app/products/browse', BrowseProductsHandler),
+         ('/app/products/browse', BrowseProductsHandler).
+         ('/app/products/list', ListProductsHandler),
          ('/app/products/show', ShowProductHandler),
          ('/app/products/payoffs', ProductPayoffsHandler),
          ('/app/products/price', ProductPriceHandler),
