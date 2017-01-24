@@ -1,9 +1,3 @@
-var Products=[{
-    label: "Single Teams Outright",
-    type: "single_teams",
-    description: "An outright bet on a single team, but with dozens of different payoffs and the extra twist of a date option!"
-}];
-
 var ProductMapping={
     "single_teams": SingleTeamsForm
 };
@@ -54,7 +48,8 @@ var ProductForm=React.createClass({
 	return {
 	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
 	    selectedProduct: undefined,
-	    currentProduct: undefined
+	    currentProduct: undefined,
+	    products: []
 	};
     },
     deepCopy: function(struct) {
@@ -62,7 +57,12 @@ var ProductForm=React.createClass({
     },
     ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
-    },    
+    },
+    listProductsHandler: function(struct) {
+	var state=this.state;
+	state.products=struct;
+	this.setState(state);
+    },
     fetchProductHandler: function(struct) {
 	var state=this.state;
 	state.selectedProduct=this.deepCopy(struct);
@@ -70,6 +70,7 @@ var ProductForm=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
+	this.state.exoticsApi.listProducts(this.listProductsHandler);
 	this.state.exoticsApi.fetchProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.fetchProductHandler);
     },
     productChangeHandler: function(value) {
@@ -88,7 +89,7 @@ var ProductForm=React.createClass({
 	return React.DOM.div({
 	    children: (this.state.currentProduct!=undefined) ? [
 		React.createElement(ProductSelect, {
-		    options: Products,
+		    options: this.state.products,
 		    value: this.state.currentProduct.type,
 		    changeHandler: this.productChangeHandler
 		}),
@@ -98,7 +99,7 @@ var ProductForm=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: Products.filter(function(product) {
+			children: this.state.products.filter(function(product) {
 			    return product.type==this.state.currentProduct.type
 			}.bind(this))[0]["description"]
 		    })
