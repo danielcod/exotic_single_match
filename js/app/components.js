@@ -77,26 +77,33 @@ var MySelect=React.createClass({
     }
 });
 
-var MyFloatInput=React.createClass({
+var MyNumberInput=React.createClass({
     getInitialState: function() {
 	return {
 	    value: this.props.value
 	};
     },
-    isFloat: function(value) {
-	return value.match(/^\d+(\.\d+)?$/);
+    parseNumber: function(value) {
+	if (value.match(/^\d+(\.\d+)?$/)) {
+	    return value;
+	} else if (value.match(/^\d+\.$/)) {
+	    return value+"0";
+	} else {
+	    return undefined;
+	};
     },
     render: function() {
 	return React.DOM.input({
 	    value: this.state.value,
 	    className: "form-control",
 	    onChange: function(event) {
-		var value=event.target.value;
-		if (this.isFloat(value)) {
+		var rawValue=event.target.value;
+		var parsedValue=this.parseNumber(rawValue);
+		if (parsedValue!=undefined) {
 		    var state=this.state;
-		    state.value=value;
+		    state.value=rawValue;
 		    this.setState(state);
-		    this.props.changeHandler(value);
+		    this.props.changeHandler(parsedValue);
 		};
 	    }.bind(this)
 	});

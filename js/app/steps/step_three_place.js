@@ -79,7 +79,7 @@ var PlaceBetPanel=React.createClass({
 			React.DOM.label({
 			    children: "Your size"
 			}),
-			React.createElement(MyFloatInput, {
+			React.createElement(MyNumberInput, {
 			    value: this.state.size,
 			    changeHandler: this.sizeChangeHandler
 			})
