@@ -45,20 +45,20 @@ var ProductForm=React.createClass({
 	    products: []
 	};
     },
-    listProductsHandler: function(struct) {
+    productTypesHandler: function(struct) {
 	var state=this.state;
 	state.products=struct;
 	this.setState(state);
     },
-    showProductHandler: function(struct) {
+    productHandler: function(struct) {
 	var state=this.state;
 	state.selectedProduct=deepCopy(struct);
 	state.currentProduct=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listProducts(this.listProductsHandler);
-	this.props.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
+	this.props.exoticsApi.fetchProductTypes(this.productTypesHandler);
+	this.props.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.productHandler);
     },
     productChangeHandler: function(value) {
 	var state=this.state;
