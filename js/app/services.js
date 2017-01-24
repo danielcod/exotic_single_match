@@ -49,6 +49,13 @@ var ExoticsAPI=function(errHandler, debug) {
 	    handler(this.cache[key]);
 	}
     };
+    this.fetchProducts=function(handler) {
+	this.httpGet("/app/products/list", handler);
+    };
+    this.fetchProduct=function(type, id, handler) {
+	var url="/app/products/show?type="+type+"&id="+id;
+	this.httpGet(url, handler);
+    },
     this.fetchLeagues=function(handler) {
 	this.httpGet("/app/leagues", handler);
     };
