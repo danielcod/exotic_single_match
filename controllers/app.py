@@ -17,8 +17,8 @@ Deps=yaml.load("""
 - js/lib/bootstrap.min.js
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
-- js/app/products/services.js
-- js/app/products/components.js
+- js/app/services.js
+- js/app/components.js
 - js/app/products/single_teams.js
 - js/app/steps/step_one_browse.js
 - js/app/steps/step_two_edit.js
