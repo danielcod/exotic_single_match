@@ -1,10 +1,18 @@
-var MyInput=React.createClass({
+var MyFloatInput=React.createClass({
+    getInitialState: function() {
+	return {
+	    value: this.props.value
+	};
+    },
     render: function() {
 	return React.DOM.input({
+	    value: this.state.value,
 	    className: "form-control",
 	    onChange: function(event) {
-		console.log(event.target.value);
-	    }
+		var state=this.state;
+		state.value=event.target.value;
+		this.setState(state);
+	    }.bind(this)
 	});
     }
 });
@@ -84,7 +92,9 @@ var PlaceBetPanel=React.createClass({
 			React.DOM.label({
 			    children: "Your size"
 			}),
-			React.createElement(MyInput, {})
+			React.createElement(MyFloatInput, {
+			    value: "2.0"
+			})
 		    ]
 		}),
 		React.DOM.div({
