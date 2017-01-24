@@ -24,29 +24,21 @@ var BrowseProductsRow=React.createClass({
 var BrowseProductsTable=React.createClass({
     getInitialState: function() {
 	return {
+	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    products: []
 	};
     },
-    loadSuccess: function(struct) {
+    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    fetchProductsHandler: function(struct) {
 	var state=this.state;
 	state.products=struct;
 	this.setState(state);
     },
-    loadError: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
-    },
-    loadComponent: function(url) {
-	$.ajax({
-	    url: url,
-	    type: "GET",
-	    dataType: "json",
-	    success: this.loadSuccess,
-	    error: this.loadError
-	});
-    },
     componentDidMount: function() {
-	this.loadComponent("/app/products/list");
+	this.state.exoticsApi.fetchProducts(this.fetchProductsHandler);
     },
     handleClicked: function(product) {
 	var state=this.state;

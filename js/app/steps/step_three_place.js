@@ -4,29 +4,21 @@ var PlaceBetPanel=React.createClass({
     },
     getInitialState: function() {
 	return {
+	    exoticsApi: new ExoticsAPI(this.ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    size: 2
 	};
     },
-    loadSuccess: function(struct) {
+    ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
+	console.log(xhr.responseText);
+    },
+    fetchProductHandler: function(struct) {
 	var state=this.state;
 	state.selectedProduct=this.deepCopy(struct);
 	this.setState(state);
     },
-    loadError: function(xhr, ajaxOptions, thrownError) {
-	console.log(xhr.responseText);
-    },
-    loadComponent: function(url) {
-	$.ajax({
-	    url: url,
-	    type: "GET",
-	    dataType: "json",
-	    success: this.loadSuccess,
-	    error: this.loadError
-	});
-    },
     componentDidMount: function() {
-	this.loadComponent("/app/products/show?type="+this.props.selectedProduct.type+"&id="+this.props.selectedProduct.id);
+	this.state.exoticsApi.fetchProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.fetchProductHandler);
     },
     sizeChangeHandler: function(size) {
 	var state=this.state;
