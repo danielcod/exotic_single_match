@@ -92,18 +92,22 @@ var App=React.createClass({
 		    })
 		}),
 		(this.state.currentStep==0) ? React.createElement(BrowseProductsPanel, {
+		    exoticsApi: this.props.exoticsApi,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
 		(this.state.currentStep==1) ? React.createElement(EditProductPanel, {
+		    exoticsApi: this.props.exoticsApi,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
 		(this.state.currentStep==2) ? React.createElement(PlaceBetPanel, {
+		    exoticsApi: this.props.exoticsApi,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
 		(this.state.currentStep==3) ? React.createElement(BetConfirmationPanel, {
+		    exoticsApi: this.props.exoticsApi,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}) : undefined,
@@ -126,7 +130,9 @@ var App=React.createClass({
 });
 
 var Main=function() {
-    var app=React.createElement(App, {});
+    var app=React.createElement(App, {
+	exoticsApi: new ExoticsAPI(ajaxErrHandler, false)	
+    });
     var parent=$("div[id='app']")[0];
     ReactDOM.render(app, parent);
 };

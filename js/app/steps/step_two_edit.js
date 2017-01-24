@@ -2,12 +2,6 @@ var ProductMapping={
     "single_teams": SingleTeamsForm
 };
 
-var ProductStyles={
-    BlankOption: {
-	border: "3px solid #F88"
-    }
-};
-
 var ProductSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -46,7 +40,6 @@ var ProductSelect=React.createClass({
 var ProductForm=React.createClass({
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    currentProduct: undefined,
 	    products: []
@@ -64,8 +57,8 @@ var ProductForm=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.state.exoticsApi.listProducts(this.listProductsHandler);
-	this.state.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
+	this.props.exoticsApi.listProducts(this.listProductsHandler);
+	this.props.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
     },
     productChangeHandler: function(value) {
 	var state=this.state;
@@ -92,15 +85,18 @@ var ProductForm=React.createClass({
 		    style: {
 			color: "#888"
 		    },
-		    children: React.DOM.i({
+		    children: (this.state.products.length > 0) ? React.DOM.i({
 			children: this.state.products.filter(function(product) {
 			    return product.type==this.state.currentProduct.type
 			}.bind(this))[0]["description"]
-		    })
+		    }) : undefined
 		}),
 		React.createElement(ProductMapping[this.state.currentProduct.type], {
+		    exoticsApi: this.props.exoticsApi,
 		    params: this.state.currentProduct.params,
-		    blankStyle: ProductStyles.BlankOption
+		    blankStyle: {
+			border: "3px solid #F88"
+		    }
 		})
 	    ] : []
 	});
@@ -144,6 +140,7 @@ var EditProductPanel=React.createClass({
 		    })			
 		}),
 		React.createElement(ProductForm, {
+		    exoticsApi: this.props.exoticsApi,
 		    selectedProduct: this.props.selectedProduct
 		}),
 		React.DOM.div({

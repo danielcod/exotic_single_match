@@ -24,7 +24,6 @@ var BrowseProductsRow=React.createClass({
 var BrowseProductsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    products: []
 	};
@@ -35,7 +34,7 @@ var BrowseProductsTable=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.state.exoticsApi.browseProducts(this.browseProductsHandler);
+	this.props.exoticsApi.browseProducts(this.browseProductsHandler);
     },
     handleClicked: function(product) {
 	var state=this.state;
@@ -103,6 +102,7 @@ var BrowseProductsPanel=React.createClass({
 		    })
 		}),
 		React.createElement(BrowseProductsTable, {
+		    exoticsApi: this.props.exoticsApi,
 		    clickHandler: this.handleClicked
 		}),
 		React.DOM.div({

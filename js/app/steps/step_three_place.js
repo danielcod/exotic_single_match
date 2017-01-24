@@ -1,7 +1,6 @@
 var PlaceBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    selectedProduct: undefined,
 	    size: 2
 	};
@@ -12,7 +11,7 @@ var PlaceBetPanel=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.state.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
+	this.props.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
     },
     sizeChangeHandler: function(size) {
 	var state=this.state;

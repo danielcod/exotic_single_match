@@ -20,30 +20,29 @@ var SingleTeamsForm=React.createClass({
 	    },
 	    params: deepCopy(this.props.params),
 	    id: Math.round(1e10*Math.random()),
-	    exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	    resetLevel: "default"
 	};
     },
     fetchLeagues: function() {
 	var handler=this.initOptionsHandler("league");
-	this.state.exoticsApi.fetchLeagues(handler);
+	this.props.exoticsApi.fetchLeagues(handler);
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
-	    this.state.exoticsApi.fetchTeams(params.league, handler);
+	    this.props.exoticsApi.fetchTeams(params.league, handler);
 	}
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
 	    var url="/app/products/payoffs?type="+this.productType+"&league="+params.league;
 	    var handler=this.initOptionsHandler("payoff");
-	    this.state.exoticsApi.httpGet(url, handler);
+	    this.props.exoticsApi.httpGet(url, handler);
 	}
     },
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
-	this.state.exoticsApi.fetchExpiries(handler);
+	this.props.exoticsApi.fetchExpiries(handler);
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -58,7 +57,7 @@ var SingleTeamsForm=React.createClass({
 		"type": this.productType,
 		"params": params
 	    };
-	    this.state.exoticsApi.fetchPrice(struct, this.priceHandler);
+	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
 	} else {
 	    $("span[id='price']").text("[..]");
 	}
