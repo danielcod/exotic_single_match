@@ -1,9 +1,21 @@
-var ProcessStepLabels=[
-    "Browse Bets",
-    "Edit Bet",
-    "Place Bet",
-    "Confirmation"
-];
+var ProcessStepConfig=[
+    {
+	label: "Browse Bets",
+	klass: "BrowseProductsPanel"
+    },
+    {
+	label: "Edit Bet",
+	klass: "EditProductPanel"
+    },
+    {
+	label: "Place Bet",
+	klass: "PlaceBetPanel"
+    },
+    {
+	label: "Confirmation",
+	klass: "BetConfirmationPanel"
+    }
+];	
 
 var ProcessStep=React.createClass({
     render: function() {
@@ -34,11 +46,11 @@ var ProcessStep=React.createClass({
 });
 
 var ProcessSteps=React.createClass({    
-    initSteps: function(labels, currentStep) {
-	var steps=[];
-	var width=12/labels.length;
-	for (var i=0; i < labels.length; i++) {
-	    var label=labels[i];
+    initSteps: function(steps, currentStep) {
+	var items=[];
+	var width=12/steps.length;
+	for (var i=0; i < steps.length; i++) {
+	    var label=steps[i].label;
 	    var status;
 	    if (i < currentStep) {
 		status="complete";
@@ -54,9 +66,9 @@ var ProcessSteps=React.createClass({
 		status: status
 	    };
 	    var step=React.createElement(ProcessStep, stepArgs);
-	    steps.push(step);
+	    items.push(step);
 	}
-	return steps;
+	return items;
     },
     render: function() {
 	return React.DOM.div({
@@ -91,26 +103,12 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		(this.state.currentStep==0) ? React.createElement(BrowseProductsPanel, {
+		React.createElement(eval(ProcessStepConfig[this.state.currentStep].klass), {
 		    exoticsApi: this.props.exoticsApi,
+		    steps: ProcessStepConfig,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
-		}) : undefined,
-		(this.state.currentStep==1) ? React.createElement(EditProductPanel, {
-		    exoticsApi: this.props.exoticsApi,
-		    stepChangeHandler: this.stepChangeHandler,
-		    selectedProduct: this.state.selectedProduct
-		}) : undefined,
-		(this.state.currentStep==2) ? React.createElement(PlaceBetPanel, {
-		    exoticsApi: this.props.exoticsApi,
-		    stepChangeHandler: this.stepChangeHandler,
-		    selectedProduct: this.state.selectedProduct
-		}) : undefined,
-		(this.state.currentStep==3) ? React.createElement(BetConfirmationPanel, {
-		    exoticsApi: this.props.exoticsApi,
-		    stepChangeHandler: this.stepChangeHandler,
-		    selectedProduct: this.state.selectedProduct
-		}) : undefined,
+		}),
 		React.DOM.footer({
 		    className: "footer",
 		    style: {

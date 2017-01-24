@@ -3,7 +3,7 @@ var BetConfirmationPanel=React.createClass({
 	return React.DOM.div({
 	    children: [
 		React.createElement(ProcessSteps, {
-		    steps: ProcessStepLabels,
+		    steps: this.props.steps,
 		    currentStep: 3
 		}),
 		React.DOM.h3({

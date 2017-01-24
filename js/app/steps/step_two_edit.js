@@ -108,7 +108,7 @@ var EditProductPanel=React.createClass({
 	return React.DOM.div({
 	    children: [
 		React.createElement(ProcessSteps, {
-		    steps: ProcessStepLabels,
+		    steps: this.props.steps,
 		    currentStep: 1
 		}),
 		React.DOM.p({

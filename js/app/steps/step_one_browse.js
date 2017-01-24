@@ -78,7 +78,7 @@ var BrowseProductsPanel=React.createClass({
 	return React.DOM.div({
 	    children: [
 		React.createElement(ProcessSteps, {
-		    steps: ProcessStepLabels,
+		    steps: this.props.steps,
 		    currentStep: 0
 		}),		
 		React.DOM.p({
