@@ -1,22 +1,3 @@
-var ProcessStepConfig=[
-    {
-	label: "Browse Bets",
-	klass: "BrowseProductsPanel"
-    },
-    {
-	label: "Edit Bet",
-	klass: "EditProductPanel"
-    },
-    {
-	label: "Place Bet",
-	klass: "PlaceBetPanel"
-    },
-    {
-	label: "Confirmation",
-	klass: "BetConfirmationPanel"
-    }
-];	
-
 var ProcessStep=React.createClass({
     render: function() {
 	return React.DOM.div({
@@ -103,9 +84,9 @@ var App=React.createClass({
 			children: "Team Exotics Demo"
 		    })
 		}),
-		React.createElement(eval(ProcessStepConfig[this.state.currentStep].klass), {
+		React.createElement(this.props.steps[this.state.currentStep].klass, {
 		    exoticsApi: this.props.exoticsApi,
-		    steps: ProcessStepConfig,
+		    steps: this.props.steps,
 		    stepChangeHandler: this.stepChangeHandler,
 		    selectedProduct: this.state.selectedProduct
 		}),
@@ -129,7 +110,25 @@ var App=React.createClass({
 
 var Main=function() {
     var app=React.createElement(App, {
-	exoticsApi: new ExoticsAPI(ajaxErrHandler, false)	
+	exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
+	steps: [
+	    {
+		label: "Browse Bets",
+		klass: BrowseProductsPanel
+	    },
+	    {
+		label: "Edit Bet",
+		klass: EditProductPanel
+	    },
+	    {
+		label: "Place Bet",
+		klass: PlaceBetPanel
+	    },
+	    {
+		label: "Confirmation",
+		klass: BetConfirmationPanel
+	    }	    
+	]
     });
     var parent=$("div[id='app']")[0];
     ReactDOM.render(app, parent);
