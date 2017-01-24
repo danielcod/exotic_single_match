@@ -12,13 +12,13 @@ var PlaceBetPanel=React.createClass({
     ajaxErrHandler: function(xhr, ajaxOptions, thrownError) {
 	console.log(xhr.responseText);
     },
-    fetchProductHandler: function(struct) {
+    showProductHandler: function(struct) {
 	var state=this.state;
 	state.selectedProduct=this.deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.state.exoticsApi.fetchProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.fetchProductHandler);
+	this.state.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
     },
     sizeChangeHandler: function(size) {
 	var state=this.state;

@@ -63,7 +63,7 @@ var ProductForm=React.createClass({
 	state.products=struct;
 	this.setState(state);
     },
-    fetchProductHandler: function(struct) {
+    showProductHandler: function(struct) {
 	var state=this.state;
 	state.selectedProduct=this.deepCopy(struct);
 	state.currentProduct=this.deepCopy(struct);
@@ -71,7 +71,7 @@ var ProductForm=React.createClass({
     },
     componentDidMount: function() {
 	this.state.exoticsApi.listProducts(this.listProductsHandler);
-	this.state.exoticsApi.fetchProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.fetchProductHandler);
+	this.state.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.showProductHandler);
     },
     productChangeHandler: function(value) {
 	var state=this.state;

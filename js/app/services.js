@@ -55,7 +55,7 @@ var ExoticsAPI=function(errHandler, debug) {
     this.browseProducts=function(handler) {
 	this.httpGet("/app/products/browse", handler);
     };
-    this.fetchProduct=function(type, id, handler) {
+    this.showProduct=function(type, id, handler) {
 	var url="/app/products/show?type="+type+"&id="+id;
 	this.httpGet(url, handler);
     },
