@@ -74,7 +74,10 @@ var PlaceBetPanel=React.createClass({
 			    children: "Your size"
 			}),
 			React.createElement(MyFloatInput, {
-			    value: "2.0"
+			    value: undefined,
+			    changeHandler: function(value) {
+				console.log(value);
+			    }
 			})
 		    ]
 		}),

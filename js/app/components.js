@@ -91,10 +91,12 @@ var MyFloatInput=React.createClass({
 	    value: this.state.value,
 	    className: "form-control",
 	    onChange: function(event) {
-		if (this.isFloat(event.target.value)) {
+		var value=event.target.value;
+		if (this.isFloat(value)) {
 		    var state=this.state;
-		    state.value=event.target.value;
+		    state.value=value;
 		    this.setState(state);
+		    this.props.changeHandler(value);
 		};
 	    }.bind(this)
 	});
