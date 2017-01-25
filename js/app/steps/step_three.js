@@ -89,16 +89,6 @@ var PlaceBetPanel=React.createClass({
 				}.bind(this)
 			    }),
 			    React.DOM.button({
-				className: "btn btn-secondary",
-				style: {
-				    width: "100px"
-				},
-				children: "Re- edit",
-				onClick: function() {
-				    this.props.stepChangeHandler(1, this.props.selectedProduct);
-				}.bind(this)
-			    }),
-			    React.DOM.button({
 				className: "btn btn-primary",
 				style: {
 				    width: "100px"
