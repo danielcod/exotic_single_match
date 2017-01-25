@@ -41,7 +41,7 @@ var EditProductForm=React.createClass({
     getInitialState: function() {
 	return {
 	    initialProduct: undefined,
-	    currentProduct: undefined,
+	    selectedProduct: undefined,
 	    products: []
 	};
     },
@@ -53,7 +53,7 @@ var EditProductForm=React.createClass({
     productHandler: function(struct) {
 	var state=this.state;
 	state.initialProduct=deepCopy(struct);
-	state.currentProduct=deepCopy(struct);
+	state.selectedProduct=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {
@@ -63,9 +63,9 @@ var EditProductForm=React.createClass({
     productChangeHandler: function(value) {
 	var state=this.state;
 	if (state.initialProduct.type==value) {
-	    state.currentProduct=state.initialProduct;
+	    state.selectedProduct=state.initialProduct;
 	} else {
-	    state.currentProduct={
+	    state.selectedProduct={
 		type: value,
 		params: {}
 	    };
@@ -74,10 +74,10 @@ var EditProductForm=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    children: (this.state.currentProduct!=undefined) ? [
+	    children: (this.state.selectedProduct!=undefined) ? [
 		React.createElement(EditProductSelect, {
 		    options: this.state.products,
-		    value: this.state.currentProduct.type,
+		    value: this.state.selectedProduct.type,
 		    changeHandler: this.productChangeHandler
 		}),
 		React.DOM.p({
@@ -87,13 +87,13 @@ var EditProductForm=React.createClass({
 		    },
 		    children: (this.state.products.length > 0) ? React.DOM.i({
 			children: this.state.products.filter(function(product) {
-			    return product.type==this.state.currentProduct.type
+			    return product.type==this.state.selectedProduct.type
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(EditProductMapping[this.state.currentProduct.type], {
+		React.createElement(EditProductMapping[this.state.selectedProduct.type], {
 		    exoticsApi: this.props.exoticsApi,
-		    params: this.state.currentProduct.params,
+		    params: this.state.selectedProduct.params,
 		    blankStyle: {
 			border: "3px solid #F88"
 		    }
@@ -168,7 +168,7 @@ var EditProductPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2, this.props.initialProduct);
+				    this.props.stepChangeHandler(2, this.props.selectedProduct);
 				}.bind(this)
 			    })
 			]
