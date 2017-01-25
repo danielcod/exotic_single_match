@@ -40,7 +40,7 @@ var EditProductSelect=React.createClass({
 var EditProductForm=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedProduct: undefined,
+	    initialProduct: undefined,
 	    currentProduct: undefined,
 	    products: []
 	};
@@ -52,18 +52,18 @@ var EditProductForm=React.createClass({
     },
     productHandler: function(struct) {
 	var state=this.state;
-	state.selectedProduct=deepCopy(struct);
+	state.initialProduct=deepCopy(struct);
 	state.currentProduct=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProductTypes(this.productTypesHandler);
-	this.props.exoticsApi.showProduct(this.props.selectedProduct.type, this.props.selectedProduct.id, this.productHandler);
+	this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.id, this.productHandler);
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	if (state.selectedProduct.type==value) {
-	    state.currentProduct=state.selectedProduct;
+	if (state.initialProduct.type==value) {
+	    state.currentProduct=state.initialProduct;
 	} else {
 	    state.currentProduct={
 		type: value,
@@ -141,7 +141,7 @@ var EditProductPanel=React.createClass({
 		}),
 		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
-		    selectedProduct: this.props.selectedProduct
+		    initialProduct: this.props.selectedProduct
 		}),
 		React.DOM.div({
 		    className: "text-center",
@@ -168,7 +168,7 @@ var EditProductPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2, this.props.selectedProduct);
+				    this.props.stepChangeHandler(2, this.props.initialProduct);
 				}.bind(this)
 			    })
 			]
