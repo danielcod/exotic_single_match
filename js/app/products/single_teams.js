@@ -19,8 +19,7 @@ var SingleTeamsForm=React.createClass({
 		expiry: []
 	    },
 	    params: deepCopy(this.props.params),
-	    id: Math.round(1e10*Math.random()),
-	    resetLevel: "default"
+	    id: Math.round(1e10*Math.random())
 	};
     },
     fetchLeagues: function() {
@@ -69,14 +68,6 @@ var SingleTeamsForm=React.createClass({
 	this.fetchExpiries();
 	this.updatePrice(this.props.params); 
     },
-    reset: function() {
-	var state=this.state;
-	state.params=deepCopy(this.props.params);
-	state.id=Math.round(1e10*Math.random());
-	state.resetLevel="default";
-	this.setState(state);
-	this.initialise();
-    },
     componentDidMount: function() {
 	this.initialise();
     },
@@ -92,7 +83,6 @@ var SingleTeamsForm=React.createClass({
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
 	    };
-	    state.resetLevel="warning";
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
@@ -100,14 +90,6 @@ var SingleTeamsForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.DOM.div({
-		    className: "text-right",
-		    children: React.DOM.button({
-			className: "btn btn-"+this.state.resetLevel,
-			onClick: this.reset,
-			children: "Reset"
-		    })
-		}),
 		React.createElement(
 		    MySelect, {
 			label: "League",
@@ -115,7 +97,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.league,
 			value: this.props.params.league,
 			changeHandler: this.changeHandler,
-			id: this.state.id,
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
@@ -125,7 +106,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.team,
 			value: this.props.params.team,
 			changeHandler: this.changeHandler,
-			id: this.state.id,
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
@@ -135,7 +115,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.payoff,
 			value: this.props.params.payoff,
 			changeHandler: this.changeHandler,
-			id: this.state.id,
 			blankStyle: this.props.blankStyle
 		    }),
 		React.createElement(
@@ -145,7 +124,6 @@ var SingleTeamsForm=React.createClass({
 			options: this.state.options.expiry,
 			value: this.props.params.expiry,
 			changeHandler: this.changeHandler,
-			id: this.state.id,
 			blankStyle: this.props.blankStyle
 		    })
 	    ]
