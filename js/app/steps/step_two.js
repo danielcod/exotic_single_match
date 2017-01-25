@@ -1,8 +1,8 @@
-var ProductMapping={
+var EditProductMapping={
     "single_teams": SingleTeamsForm
 };
 
-var ProductSelect=React.createClass({
+var EditProductSelect=React.createClass({
     getInitialState: function() {
 	return {
 	    value: this.props.value
@@ -37,7 +37,7 @@ var ProductSelect=React.createClass({
     }	
 });
 
-var ProductForm=React.createClass({
+var EditProductForm=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedProduct: undefined,
@@ -75,7 +75,7 @@ var ProductForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: (this.state.currentProduct!=undefined) ? [
-		React.createElement(ProductSelect, {
+		React.createElement(EditProductSelect, {
 		    options: this.state.products,
 		    value: this.state.currentProduct.type,
 		    changeHandler: this.productChangeHandler
@@ -91,7 +91,7 @@ var ProductForm=React.createClass({
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(ProductMapping[this.state.currentProduct.type], {
+		React.createElement(EditProductMapping[this.state.currentProduct.type], {
 		    exoticsApi: this.props.exoticsApi,
 		    params: this.state.currentProduct.params,
 		    blankStyle: {
@@ -139,7 +139,7 @@ var EditProductPanel=React.createClass({
 			})
 		    })			
 		}),
-		React.createElement(ProductForm, {
+		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    selectedProduct: this.props.selectedProduct
 		}),

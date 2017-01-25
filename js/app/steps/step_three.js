@@ -105,7 +105,7 @@ var PlaceBetPanel=React.createClass({
 				},
 				children: "Place Bet",
 				onClick: function() {
-				    this.props.stepChangeHandler(3, undefined);
+				    this.props.stepChangeHandler(0, undefined);
 				}.bind(this)
 			    })
 			]

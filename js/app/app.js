@@ -123,11 +123,7 @@ var Main=function() {
 	    {
 		label: "Place Bet",
 		klass: PlaceBetPanel
-	    },
-	    {
-		label: "Confirmation",
-		klass: BetConfirmationPanel
-	    }	    
+	    }
 	]
     });
     var parent=$("div[id='app']")[0];

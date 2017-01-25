@@ -23,7 +23,6 @@ Deps=yaml.load("""
 - js/app/steps/step_one.js
 - js/app/steps/step_two.js
 - js/app/steps/step_three.js
-- js/app/steps/step_four.js
 - js/app/app.js
 """)
 
