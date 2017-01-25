@@ -71,9 +71,6 @@ var BrowseProductsPanel=React.createClass({
 	state.buttonLevel="primary";
 	this.setState(state);
     },
-    createProduct: function() {
-	console.log("createProduct");
-    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -88,17 +85,6 @@ var BrowseProductsPanel=React.createClass({
 		    },
 		    children: React.DOM.i({
 			children: "Select a product you're interested in by clicking a table row; you can then edit that bet's details by clicking on 'Edit Bet'"
-		    })
-		}),
-		React.DOM.div({
-		    className: "text-right",
-		    style: {
-			"margin-bottom": "10px"
-		    },
-		    children: React.DOM.button({
-			className: "btn btn-secondary",
-			onClick: this.createProduct,
-			children: "Create"
 		    })
 		}),
 		React.createElement(BrowseProductsTable, {
