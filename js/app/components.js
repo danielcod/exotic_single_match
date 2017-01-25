@@ -36,15 +36,6 @@ var MySelect=React.createClass({
 	    }
 	    this.setState(state);
 	}
-	// value reset
-	if (this.props.id!=nextProps.id) {
-	    if (this.state.debug) {
-		console.log("changing "+this.props.name+" value from "+this.state.value+" to "+this.props.value);
-	    }
-	    var state=this.state;
-	    state.value=this.props.value;
-	    this.setState(state);
-	}
     },
     render: function() {
 	return React.DOM.div({
