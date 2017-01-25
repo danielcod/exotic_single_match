@@ -141,7 +141,7 @@ var EditProductPanel=React.createClass({
 		}),
 		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
-		    initialProduct: this.props.selectedProduct
+		    initialProduct: this.props.initialProduct
 		}),
 		React.DOM.div({
 		    className: "text-center",
@@ -168,7 +168,7 @@ var EditProductPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2, this.props.selectedProduct);
+				    this.props.stepChangeHandler(2, this.props.initialProduct);
 				}.bind(this)
 			    })
 			]

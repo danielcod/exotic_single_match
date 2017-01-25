@@ -88,7 +88,7 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    steps: this.props.steps,
 		    stepChangeHandler: this.stepChangeHandler,
-		    selectedProduct: this.state.currentProduct
+		    initialProduct: this.state.currentProduct
 		}),
 		React.DOM.footer({
 		    className: "footer",
