@@ -33,11 +33,11 @@ class SingleTeamsProduct(db.Model):
             return "at"
         def format_expiry(expiry):
             return re.sub("End", "end", format_date(expiry))
-        return "%s %s %s %s (%s)" % (self.team,
+        return "%s (%s) %s %s %s" % (self.team,
+                                     self.league,
                                      format_payoff(self.payoff),
                                      format_expiry_delimiter(self.payoff),
-                                     format_expiry(self.expiry),
-                                     self.league)
+                                     format_expiry(self.expiry))
     
     @classmethod
     def find_all(self):
