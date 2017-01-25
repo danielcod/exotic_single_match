@@ -66,13 +66,13 @@ var App=React.createClass({
     getInitialState: function() {
 	return {
 	    currentStep: 0,
-	    selectedProduct: undefined
+	    currentProduct: undefined
 	}
     },
     stepChangeHandler: function(nextStep, selectedProduct) {
 	var state=this.state;
 	state.currentStep=nextStep;
-	state.selectedProduct=selectedProduct;
+	state.currentProduct=selectedProduct;
 	this.setState(state);
     },    
     render: function() {
@@ -88,7 +88,7 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    steps: this.props.steps,
 		    stepChangeHandler: this.stepChangeHandler,
-		    selectedProduct: this.state.selectedProduct
+		    selectedProduct: this.state.currentProduct
 		}),
 		React.DOM.footer({
 		    className: "footer",
