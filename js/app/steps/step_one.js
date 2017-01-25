@@ -87,7 +87,7 @@ var BrowseProductsPanel=React.createClass({
 			color: "#888"
 		    },
 		    children: React.DOM.i({
-			children: "Select a product you're interested in by clicking a table row; you can then edit that bet's details by clicking on 'Edit Bet', or proceed direct to bet placement by clicking 'Place Bet'"
+			children: "Select a product you're interested in by clicking a table row; you can then edit that bet's details by clicking on 'Edit Bet'"
 		    })
 		}),
 		React.DOM.div({
@@ -107,34 +107,17 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.DOM.div({
 		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			children: [
-			    React.DOM.button({
-				className: "btn btn-"+this.state.buttonLevel,
-				style: {
-				    width: "100px"
-				},
-				children: "Edit Bet",
-				onClick: function() {
-				    if (this.state.selectedProduct!=undefined) {
-					this.props.stepChangeHandler(1, this.state.selectedProduct);
-				    }
-				}.bind(this)
-			    }),
-			    React.DOM.button({
-				className: "btn btn-"+this.state.buttonLevel,
-				style: {
-				    width: "100px"
-				},
-				children: "Place Bet",
-				onClick: function() {
-				    if (this.state.selectedProduct!=undefined) {
-					this.props.stepChangeHandler(2, this.state.selectedProduct);
-				    }
-				}.bind(this)
-			    })
-			]
+		    children: React.DOM.button({
+			className: "btn btn-"+this.state.buttonLevel,
+			style: {
+			    width: "100px"
+			},
+			children: "Edit Bet",
+			onClick: function() {
+			    if (this.state.selectedProduct!=undefined) {
+				this.props.stepChangeHandler(1, this.state.selectedProduct);
+			    }
+			}.bind(this)
 		    })
 		})
 	    ]
