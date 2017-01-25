@@ -18,8 +18,7 @@ var SingleTeamsForm=React.createClass({
 		payoff: [],
 		expiry: []
 	    },
-	    params: deepCopy(this.props.params),
-	    id: Math.round(1e10*Math.random())
+	    params: deepCopy(this.props.params)
 	};
     },
     fetchLeagues: function() {
