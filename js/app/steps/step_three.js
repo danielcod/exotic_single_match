@@ -1,6 +1,8 @@
 var PlaceBetPanel=React.createClass({
     getInitialState: function() {
 	return {
+	    confirmMessage: undefined,
+	    buttonMessage: "Place Bet",
 	    selectedProduct: undefined,
 	    size: 2
 	};
@@ -58,6 +60,18 @@ var PlaceBetPanel=React.createClass({
 			})
 		    })
 		}) : undefined,
+		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
+		    className: "text-center",
+		    style: {
+			color: "#888",
+			"margin-top": "20px"
+		    },
+		    children: React.DOM.i({
+			children: React.DOM.b({
+			    children: this.state.confirmMessage
+			})
+		    })    
+		}) : undefined,
 		React.DOM.div({
 		    className: "form-group",
 		    children: [
@@ -93,9 +107,16 @@ var PlaceBetPanel=React.createClass({
 				style: {
 				    width: "100px"
 				},
-				children: "Place Bet",
+				children: this.state.buttonMessage,
 				onClick: function() {
-				    this.props.stepChangeHandler(0, undefined);
+				    if (this.state.confirmMessage==undefined) {
+					var state=this.state;
+					state.confirmMessage="Your bet has been placed!";
+					state.buttonMessage="View Bets";
+					this.setState(state);
+				    } else {
+					this.props.stepChangeHandler(0, undefined);
+				    }
 				}.bind(this)
 			    })
 			]
