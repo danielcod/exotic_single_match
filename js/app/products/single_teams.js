@@ -56,6 +56,7 @@ var SingleTeamsForm=React.createClass({
 		"params": params
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
+	    this.props.changeHandler(struct);
 	} else {
 	    $("span[id='price']").text("[..]");
 	}

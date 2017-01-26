@@ -94,6 +94,9 @@ var EditProductForm=React.createClass({
 		React.createElement(EditProductMapping[this.state.selectedProduct.type], {
 		    exoticsApi: this.props.exoticsApi,
 		    params: this.state.selectedProduct.params,
+		    changeHandler: function(struct) {
+			console.log(JSON.stringify(struct));
+		    },
 		    blankStyle: {
 			border: "3px solid #F88"
 		    }
