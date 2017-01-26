@@ -59,6 +59,7 @@ var SingleTeamsForm=React.createClass({
 	    this.props.changeHandler(struct);
 	} else {
 	    $("span[id='price']").text("[..]");
+	    this.props.changeHandler(undefined);
 	}
     },
     initialise: function() {
