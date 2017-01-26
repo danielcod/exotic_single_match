@@ -41,7 +41,9 @@ var BrowseProductsRow=React.createClass({
 	    } : {},
 	    children: [
 		React.DOM.td({
-		    children: this.props.product.description
+		    dangerouslySetInnerHTML: {
+			"__html": this.props.product.description
+		    }
 		}),
 		React.DOM.td({
 		    className: "text-center",			    
