@@ -110,19 +110,11 @@ var EditProductPanel=React.createClass({
 	    currentProduct: this.props.initialProduct
 	}
     },
-    /* 
-       update currentProduct
-       problem is currentProduct and this.props.initialProduct are in different forms
-       probably need to make some kind of ajax call to the server at this point
-    */
     productChangeHandler: function(struct) {
-	console.log(JSON.stringify(struct));
-    },
-    /*
-      just so you can dump props.initialProduct to console and compare/contrast with currentProduct updates
-    */
-    componentDidMount: function() {
-	console.log(JSON.stringify(this.props.initialProduct));
+	console.log(JSON.stringify(struct)); // TEMP
+	var state=this.state;
+	state.currentProduct=struct;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
