@@ -2,8 +2,7 @@ from models.products.positions import *
 
 class SingleTeamsProduct(db.Model):
 
-    Description="<span class='label label-primary'>Team</span> <b><i>%s</i></b> (%s) %s %s %s" 
-
+    Description="<b><i>%s</i></b> (%s) %s %s %s <span class='label label-primary'>Team</span>" 
     
     league=db.StringProperty()
     team=db.StringProperty()

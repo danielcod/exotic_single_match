@@ -40,10 +40,10 @@ var PlaceBetPanel=React.createClass({
 			color: "#888",
 			"margin-top": "20px"
 		    },
-		    children: React.DOM.i({
-			children: React.DOM.b({
-			    children: "Your bet: "+this.state.selectedProduct.params.description
-			})
+		    children: React.DOM.h3({
+			dangerouslySetInnerHTML: {
+			    "__html": this.state.selectedProduct.params.description
+			}
 		    })
 		}) : undefined,
 		(this.state.selectedProduct!=undefined) ? React.DOM.h3({
