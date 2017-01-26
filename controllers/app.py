@@ -78,7 +78,7 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                    "price": product.price,
                    "id": product.key().id()}
                   for product in products]
-        return products[:8] # NB
+        return products[:5] # NB
 
 class ShowProductHandler(webapp2.RequestHandler):
 

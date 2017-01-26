@@ -45,7 +45,22 @@ var BrowseProductsRow=React.createClass({
 		}),
 		React.DOM.td({
 		    className: "text-center",			    
-		    children: this.props.product.price
+		    children: React.DOM.h5({
+			style: {
+			    color: "#888"
+			},
+			children: React.DOM.b({
+			    children: this.props.product.price
+			})
+		    })
+		}),
+		React.DOM.td({
+		    children: React.DOM.button({
+			className: "btn btn-warning",
+			children: React.DOM.span({
+			    className: "glyphicon glyphicon-wrench"
+			})
+		    })
 		})
 	    ]
 	});
