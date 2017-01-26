@@ -35,7 +35,7 @@ class SingleTeamsProduct(db.Model):
             return re.sub("End", "end", format_date(expiry))
         return {"selection": "%s (%s)" % (self.team,
                                           self.league),
-                "market": "%s %s %s" % (format_payoff(self.payoff),
+                "market": "%s %s %s" % (format_payoff(self.payoff).capitalize(),
                                         format_expiry_delimiter(self.payoff),
                                         format_expiry(self.expiry)),
                 "group": {"label": "Teams",

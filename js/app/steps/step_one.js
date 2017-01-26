@@ -35,19 +35,17 @@ var BrowseProductsRow=React.createClass({
 	    children: [
 		React.DOM.td({
 		    children: [
-			React.DOM.span({
-			    className: "label label-"+this.props.product.params.description.group.level,
-			    style: {
-				"margin-right": "5px"
-			    },
-			    children: this.props.product.params.description.group.label
-			}),
 			React.DOM.b({
 			    style: {
 				"margin-right": "5px"
 			    },
 			    children: this.props.product.params.description.selection
 			}),
+			React.DOM.span({
+			    className: "label label-"+this.props.product.params.description.group.level,
+			    children: this.props.product.params.description.group.label
+			}),
+			React.DOM.br({}),
 			React.DOM.span({
 			    children: this.props.product.params.description.market
 			})
@@ -71,7 +69,7 @@ var BrowseProductsRow=React.createClass({
 			    this.props.clickHandler(this.props.product);
 			}.bind(this),
 			children: React.DOM.span({
-			    className: "glyphicon glyphicon-wrench"
+			    className: "glyphicon glyphicon-pencil"
 			})
 		    })
 		})
