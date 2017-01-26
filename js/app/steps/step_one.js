@@ -1,3 +1,34 @@
+var BrowseProductsTabs=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    className: "nav nav-tabs",
+	    children: [
+		React.DOM.li({
+		    className: "active",
+		    children: React.DOM.a({
+			children: "Popular"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "Daily"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "Jackpots"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "My Bets"
+		    })
+		})
+	    ]
+	});
+    }
+});
+
 var BrowseProductsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
@@ -92,7 +123,6 @@ var BrowseProductsPaginator=React.createClass({
 	    ]
 	});
     }
-
 });
 
 var BrowseProductsPanel=React.createClass({
@@ -114,14 +144,12 @@ var BrowseProductsPanel=React.createClass({
 		React.createElement(ProcessSteps, {
 		    steps: this.props.steps,
 		    currentStep: 0
-		}),		
-		React.DOM.p({
-		    className: "text-center",
+		}),
+		React.DOM.div({
 		    style: {
-			color: "#888"
+			"margin-bottom": "20px"
 		    },
-		    children: React.DOM.i({
-			children: "Select a product you're interested in by clicking a table row; you can then edit that bet's details by clicking on 'Edit Bet'"
+		    children: React.createElement(BrowseProductsTabs, {
 		    })
 		}),
 		React.createElement(BrowseProductsTable, {
