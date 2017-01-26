@@ -34,9 +34,24 @@ var BrowseProductsRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    dangerouslySetInnerHTML: {
-			"__html": this.props.product.params.description
-		    }
+		    children: [
+			React.DOM.span({
+			    className: "label label-"+this.props.product.params.description.group.level,
+			    style: {
+				"margin-right": "5px"
+			    },
+			    children: this.props.product.params.description.group.label
+			}),
+			React.DOM.b({
+			    style: {
+				"margin-right": "5px"
+			    },
+			    children: this.props.product.params.description.selection
+			}),
+			React.DOM.span({
+			    children: this.props.product.params.description.market
+			})
+		    ]
 		}),
 		React.DOM.td({
 		    className: "text-center",			    

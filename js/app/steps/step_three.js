@@ -43,9 +43,17 @@ var PlaceBetPanel=React.createClass({
 			"margin-top": "20px"
 		    },
 		    children: React.DOM.h3({
-			dangerouslySetInnerHTML: {
-			    "__html": this.state.params.description
-			}
+			children: [
+			    React.DOM.b({
+				style: {
+				    "margin-right": "5px"
+				},
+				children: this.state.params.description.selection
+			    }),
+			    React.DOM.span({
+				children: this.state.params.description.market
+			    })
+			]
 		    })
 		}) : undefined,
 		(this.state.params!=undefined) ? React.DOM.h3({

@@ -2,8 +2,6 @@ from models.products.positions import *
 
 class SingleTeamsProduct(db.Model):
 
-    Description="<b><i>%s</i></b> (%s) %s %s %s <span class='label label-danger'>Team</span>" 
-    
     league=db.StringProperty()
     team=db.StringProperty()
     payoff=db.StringProperty()
@@ -35,11 +33,13 @@ class SingleTeamsProduct(db.Model):
             return "at"
         def format_expiry(expiry):
             return re.sub("End", "end", format_date(expiry))
-        return self.Description % (self.team,
-                                   self.league,
-                                   format_payoff(self.payoff),
-                                   format_expiry_delimiter(self.payoff),
-                                   format_expiry(self.expiry))
+        return {"selection": "%s (%s)" % (self.team,
+                                          self.league),
+                "market": "%s %s %s" % (format_payoff(self.payoff),
+                                        format_expiry_delimiter(self.payoff),
+                                        format_expiry(self.expiry)),
+                "group": {"label": "Teams",
+                          "level": "danger"}}
     
     @classmethod
     def find_all(self):
