@@ -105,6 +105,25 @@ var EditProductForm=React.createClass({
 });
 
 var EditProductPanel=React.createClass({
+    getInitialState: function() {
+	return {
+	    currentProduct: this.props.initialProduct
+	}
+    },
+    /* 
+       update currentProduct
+       problem is currentProduct and this.props.initialProduct are in different forms
+       probably need to make some kind of ajax call to the server at this point
+    */
+    productChangeHandler: function(struct) {
+	console.log(JSON.stringify(struct));
+    },
+    /*
+      just so you can dump props.initialProduct to console and compare/contrast with currentProduct updates
+    */
+    componentDidMount: function() {
+	console.log(JSON.stringify(this.props.initialProduct));
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -142,9 +161,7 @@ var EditProductPanel=React.createClass({
 		}),
 		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
-		    productChangeHandler: function(struct) {
-			console.log(JSON.stringify(struct));
-		    },
+		    productChangeHandler: this.productChangeHandler,
 		    initialProduct: this.props.initialProduct
 		}),
 		React.DOM.div({
@@ -172,7 +189,7 @@ var EditProductPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2, this.props.initialProduct);
+				    this.props.stepChangeHandler(2, this.state.currentProduct);
 				}.bind(this)
 			    })
 			]

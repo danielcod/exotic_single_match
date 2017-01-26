@@ -112,7 +112,7 @@ var PlaceBetPanel=React.createClass({
 				    if (this.state.confirmMessage==undefined) {
 					var state=this.state;
 					state.confirmMessage="Your bet has been placed!";
-					state.buttonMessage="View Bets";
+					state.buttonMessage="Start Again";
 					this.setState(state);
 				    } else {
 					this.props.stepChangeHandler(0, undefined);
