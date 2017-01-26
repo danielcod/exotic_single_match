@@ -93,7 +93,7 @@ var EditProductForm=React.createClass({
 		}),
 		React.createElement(EditProductMapping[this.state.selectedProduct.type], {
 		    exoticsApi: this.props.exoticsApi,
-		    changeHandler: this.props.changeHandler,
+		    changeHandler: this.props.productChangeHandler,
 		    params: this.state.selectedProduct.params,
 		    blankStyle: {
 			border: "3px solid #F88"
@@ -142,7 +142,7 @@ var EditProductPanel=React.createClass({
 		}),
 		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
-		    changeHandler: function(struct) {
+		    productChangeHandler: function(struct) {
 			console.log(JSON.stringify(struct));
 		    },
 		    initialProduct: this.props.initialProduct
