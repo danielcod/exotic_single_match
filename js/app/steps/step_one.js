@@ -32,13 +32,6 @@ var BrowseProductsTabs=React.createClass({
 var BrowseProductsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
-	    onClick: function() {
-		this.props.clickHandler(this.props.product);
-	    }.bind(this),
-	    style: ((this.props.selectedProduct!=undefined) &&
-		    (this.props.product.id==this.props.selectedProduct.id)) ? {
-		"background-color": "#8FA"
-	    } : {},
 	    children: [
 		React.DOM.td({
 		    dangerouslySetInnerHTML: {
@@ -59,6 +52,9 @@ var BrowseProductsRow=React.createClass({
 		React.DOM.td({
 		    children: React.DOM.button({
 			className: "btn btn-warning",
+			onClick: function() {
+			    this.props.clickHandler(this.props.product);
+			}.bind(this),
 			children: React.DOM.span({
 			    className: "glyphicon glyphicon-wrench"
 			})
