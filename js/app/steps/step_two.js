@@ -111,7 +111,6 @@ var EditProductPanel=React.createClass({
 	}
     },
     productChangeHandler: function(struct) {
-	console.log(JSON.stringify(struct)); // TEMP
 	var state=this.state;
 	state.currentProduct=struct;
 	this.setState(state);
