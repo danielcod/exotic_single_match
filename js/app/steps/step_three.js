@@ -3,16 +3,13 @@ var PlaceBetPanel=React.createClass({
 	return {
 	    confirmMessage: undefined,
 	    buttonMessage: "Place Bet",
-	    selectedProduct: undefined,
+	    params: undefined,
 	    size: 2
 	};
     },
     showProductHandler: function(struct) {
 	var state=this.state;
-	state.selectedProduct={
-	    type: this.props.initialProduct.type,
-	    params: struct
-	}
+	state.params=struct;
 	this.setState(state);
     },
     componentDidMount: function() {
@@ -39,7 +36,7 @@ var PlaceBetPanel=React.createClass({
 			children: "Check your bet details and price; enter your size and place your bet!"
 		    })
 		}),
-		(this.state.selectedProduct!=undefined) ? React.DOM.h3({
+		(this.state.params!=undefined) ? React.DOM.h3({
 		    className: "text-center",
 		    style: {
 			color: "#888",
@@ -47,11 +44,11 @@ var PlaceBetPanel=React.createClass({
 		    },
 		    children: React.DOM.h3({
 			dangerouslySetInnerHTML: {
-			    "__html": this.state.selectedProduct.params.description
+			    "__html": this.state.params.description
 			}
 		    })
 		}) : undefined,
-		(this.state.selectedProduct!=undefined) ? React.DOM.h3({
+		(this.state.params!=undefined) ? React.DOM.h3({
 		    className: "text-center",
 		    style: {
 			color: "#888",
@@ -59,7 +56,7 @@ var PlaceBetPanel=React.createClass({
 		    },
 		    children: React.DOM.i({
 			children: React.DOM.b({
-			    children: "Your price: "+this.state.selectedProduct.params.price
+			    children: "Your price: "+this.state.params.price
 			})
 		    })
 		}) : undefined,
