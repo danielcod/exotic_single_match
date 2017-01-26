@@ -58,6 +58,43 @@ var BrowseProductsTable=React.createClass({
     }
 });
 
+var BrowseProductsPaginator=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    className: "pagination",
+	    children: [
+		React.DOM.li({
+		    className: "active",
+		    children: React.DOM.a({
+			children: "1"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "2"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "3"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "4"
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			children: "5"
+		    })
+		})
+	    ]
+	});
+    }
+
+});
+
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
@@ -90,6 +127,14 @@ var BrowseProductsPanel=React.createClass({
 		React.createElement(BrowseProductsTable, {
 		    exoticsApi: this.props.exoticsApi,
 		    clickHandler: this.handleClicked
+		}),
+		React.DOM.div({
+		    className: "text-center",
+		    style: {
+			"margin-top": "-20px"
+		    },
+		    children: React.createElement(BrowseProductsPaginator, {
+		    })
 		}),
 		React.DOM.div({
 		    className: "text-center",
