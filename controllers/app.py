@@ -74,10 +74,10 @@ class BrowseProductsHandler(webapp2.RequestHandler):
         if products==[]:
             raise RuntimeError("No products found")
         products=[{"type": "single_teams",
-                   "description": product.description,
-                   "price": product.price,
-                   "id": product.key().id()}
-                  for product in products]
+                   "params": {"description": product.description,
+                              "price": product.price,
+                              "id": product.key().id()}}
+                   for product in products]
         return products[:5] # NB
 
 class ShowProductHandler(webapp2.RequestHandler):

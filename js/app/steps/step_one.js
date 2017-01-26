@@ -35,7 +35,7 @@ var BrowseProductsRow=React.createClass({
 	    children: [
 		React.DOM.td({
 		    dangerouslySetInnerHTML: {
-			"__html": this.props.product.description
+			"__html": this.props.product.params.description
 		    }
 		}),
 		React.DOM.td({
@@ -45,7 +45,7 @@ var BrowseProductsRow=React.createClass({
 			    color: "#888"
 			},
 			children: React.DOM.b({
-			    children: this.props.product.price
+			    children: this.props.product.params.price
 			})
 		    })
 		}),
