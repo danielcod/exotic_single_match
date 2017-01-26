@@ -120,7 +120,8 @@ class ProductPriceHandler(webapp2.RequestHandler):
             raise RuntimeError("Product not found")
         product=ProductMapping[producttype](**params)
         probability=product.calc_probability()
-        return {"price": format_price(probability)}
+        return {"price": format_price(probability),
+                "description": product.description}
 
 class IndexHandler(webapp2.RequestHandler):
 
