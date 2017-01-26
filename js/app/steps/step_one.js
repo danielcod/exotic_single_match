@@ -169,9 +169,36 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.DOM.div({
 		    style: {
-			"margin-bottom": "20px"
+			"margin-bottom": "10px"
 		    },
 		    children: React.createElement(BrowseProductsTabs, {
+		    })
+		}),
+		React.DOM.div({
+		    className: "row",
+		    style: {
+			"margin-bottom": "10px"
+		    },
+		    children: React.DOM.div({
+			className: "col-sm-12",
+			children: [
+			    React.DOM.select({
+				className: "form-control pull-left",
+				style: {
+				    width: "100px"
+				},
+				children: React.DOM.option({
+				    children: "Exotic"
+				})
+			    }),
+			    React.DOM.button({
+				className: "btn btn-secondary pull-right",
+				style: {
+				    width: "120px"
+				},
+				children: "Build My Own"
+			    })
+			]
 		    })
 		}),
 		React.createElement(BrowseProductsTable, {
