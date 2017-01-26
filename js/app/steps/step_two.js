@@ -181,7 +181,9 @@ var EditProductPanel=React.createClass({
 				},
 				children: "Next",
 				onClick: function() {
-				    this.props.stepChangeHandler(2, this.state.currentProduct);
+				    if (this.state.currentProduct!=undefined) {
+					this.props.stepChangeHandler(2, this.state.currentProduct);
+				    }
 				}.bind(this)
 			    })
 			]
