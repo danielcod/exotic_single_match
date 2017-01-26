@@ -9,11 +9,14 @@ var PlaceBetPanel=React.createClass({
     },
     showProductHandler: function(struct) {
 	var state=this.state;
-	state.selectedProduct=deepCopy(struct);
+	state.selectedProduct={
+	    type: this.props.initialProduct.type,
+	    params: struct
+	}
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.params.id, this.showProductHandler);
+	this.props.exoticsApi.fetchPrice(this.props.initialProduct, this.showProductHandler);
     },
     sizeChangeHandler: function(size) {
 	var state=this.state;
