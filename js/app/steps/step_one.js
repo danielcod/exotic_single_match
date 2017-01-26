@@ -145,15 +145,11 @@ var BrowseProductsPaginator=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedProduct: undefined,
 	    buttonLevel: "secondary"
 	};
     },
     handleClicked: function(product) {
-	var state=this.state;
-	state.selectedProduct=product;
-	state.buttonLevel="primary";
-	this.setState(state);
+	this.props.stepChangeHandler(1, product);
     },
     render: function() {
 	return React.DOM.div({
@@ -179,21 +175,6 @@ var BrowseProductsPanel=React.createClass({
 			"margin-top": "-20px"
 		    },
 		    children: React.createElement(BrowseProductsPaginator, {
-		    })
-		}),
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.button({
-			className: "btn btn-"+this.state.buttonLevel,
-			style: {
-			    width: "100px"
-			},
-			children: "Edit Bet",
-			onClick: function() {
-			    if (this.state.selectedProduct!=undefined) {
-				this.props.stepChangeHandler(1, this.state.selectedProduct);
-			    }
-			}.bind(this)
 		    })
 		})
 	    ]
