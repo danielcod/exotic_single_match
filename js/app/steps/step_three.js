@@ -27,15 +27,6 @@ var PlaceBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 2
 		}),
-		React.DOM.p({
-		    className: "text-center",
-		    style: {
-			color: "#888"
-		    },
-		    children: React.DOM.i({
-			children: "Check your bet details and price; enter your size and place your bet!"
-		    })
-		}),
 		(this.state.params!=undefined) ? React.DOM.h3({
 		    className: "text-center",
 		    style: {

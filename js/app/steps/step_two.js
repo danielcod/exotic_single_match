@@ -122,15 +122,6 @@ var EditProductPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 1
 		}),
-		React.DOM.p({
-		    className: "text-center",
-		    style: {
-			color: "#888"
-		    },
-		    children: React.DOM.i({
-			children: "Edit your chosen product; the price will be updated in real time; click 'Next' to place a bet when you're done"
-		    })
-		}),		
 		React.DOM.h3({
 		    className: "text-center",
 		    style: {
