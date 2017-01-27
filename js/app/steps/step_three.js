@@ -2,7 +2,6 @@ var PlaceBetPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    confirmMessage: undefined,
-	    buttonMessage: "Place Bet",
 	    params: undefined,
 	    size: 2
 	};
@@ -104,12 +103,11 @@ var PlaceBetPanel=React.createClass({
 				style: {
 				    width: "100px"
 				},
-				children: this.state.buttonMessage,
+				children: "Place Bet",
 				onClick: function() {
 				    if (this.state.confirmMessage==undefined) {
 					var state=this.state;
 					state.confirmMessage="Your bet has been placed!";
-					state.buttonMessage="Start Again";
 					this.setState(state);
 				    } else {
 					this.props.stepChangeHandler(0, undefined);
