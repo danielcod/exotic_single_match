@@ -27,7 +27,8 @@ var PlaceBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 2
 		}),
-		(this.state.params!=undefined) ? [
+		((this.state.params!=undefined) &&
+		 (this.state.confirmMessage==undefined)) ? [
 		    React.DOM.h3({			
 			className: "text-center",
 			style: {
@@ -54,7 +55,19 @@ var PlaceBetPanel=React.createClass({
 				children: "Your price: "+this.state.params.price
 			    })
 			})
-		    })
+		    }),
+		    React.DOM.div({
+			className: "form-group",
+			children: [
+			    React.DOM.label({
+				children: "Your size"
+			    }),
+			    React.createElement(MyNumberInput, {
+				value: this.state.size,
+				changeHandler: this.sizeChangeHandler
+			    })
+			]
+		    })	    
 		] : undefined,
 		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
 		    className: "text-center",
@@ -68,18 +81,6 @@ var PlaceBetPanel=React.createClass({
 			})
 		    })    
 		}) : undefined,
-		React.DOM.div({
-		    className: "form-group",
-		    children: [
-			React.DOM.label({
-			    children: "Your size"
-			}),
-			React.createElement(MyNumberInput, {
-			    value: this.state.size,
-			    changeHandler: this.sizeChangeHandler
-			})
-		    ]
-		}),
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({
