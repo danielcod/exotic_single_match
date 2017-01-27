@@ -27,38 +27,35 @@ var PlaceBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 2
 		}),
-		(this.state.params!=undefined) ? React.DOM.h3({
-		    className: "text-center",
-		    style: {
-			color: "#888",
-			"margin-top": "20px"
-		    },
-		    children: React.DOM.h3({
-			children: [
-			    React.DOM.b({
-				style: {
-				    "margin-right": "5px"
-				},
-				children: this.state.params.description.selection
-			    }),
-			    React.DOM.span({
-				children: this.state.params.description.market
-			    })
-			]
-		    })
-		}) : undefined,
-		(this.state.params!=undefined) ? React.DOM.h3({
-		    className: "text-center",
-		    style: {
-			color: "#888",
-			"margin-top": "20px"
-		    },
-		    children: React.DOM.i({
+		(this.state.params!=undefined) ? [
+		    React.DOM.h3({			
+			className: "text-center",
+			style: {
+			    color: "#888"
+			},
 			children: React.DOM.b({
-			    children: "Your price: "+this.state.params.price
+			    children: this.state.params.description.selection
+			})
+		    }),		    
+		    React.DOM.h3({
+			className: "text-center",			
+			style: {
+			    color: "#888"
+			},
+			children: this.state.params.description.market
+		    }),
+		    React.DOM.h3({
+			className: "text-center",
+			style: {
+			    color: "#888"
+			},
+			children: React.DOM.i({
+			    children: React.DOM.b({
+				children: "Your price: "+this.state.params.price
+			    })
 			})
 		    })
-		}) : undefined,
+		] : undefined,
 		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
 		    className: "text-center",
 		    style: {
