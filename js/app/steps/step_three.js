@@ -28,15 +28,15 @@ var PlaceBetPanel=React.createClass({
 		}),
 		((this.state.params!=undefined) &&
 		 (this.state.confirmMessage==undefined)) ? [
-		     React.DOM.h3({			
-			 className: "text-center",
-			 children: React.DOM.b({
-			     children: this.state.params.description.selection
-			 })
-		     }),		    
-		     React.DOM.h3({
-			 className: "text-center",			
-			 children: this.state.params.description.market
+		     React.DOM.h2({			
+			 className: "heading text-center",
+			 children: [
+			     this.state.params.description.selection,
+			     React.DOM.small({
+				 className: "text-center",			
+				 children: this.state.params.description.market
+			     })
+			 ]
 		     }),
 		     React.DOM.div({
 			 className: "row",
@@ -59,17 +59,24 @@ var PlaceBetPanel=React.createClass({
 			     })
 			 })
 		     }),
-		     React.DOM.div({
-			 className: "form-group",
-			 children: [
-			     React.DOM.label({
-				 children: "Your size"
-			     }),
-			     React.createElement(MyNumberInput, {
-				 value: this.state.size,
-				 changeHandler: this.sizeChangeHandler
-			     })
-			 ]
+		     React.DOM.form({
+			 className: "form-horizontal",
+			 children: React.DOM.div({
+			     className: "form-group",
+			     children: [
+				 React.DOM.label({
+				     className: "col-xs-12 text-center control-label",
+				     children: "Your size"
+				 }),
+				 React.DOM.div({
+				     className: "col-xs-8 col-xs-offset-2",
+				     children: React.createElement(MyNumberInput, {
+					 value: this.state.size,
+					 changeHandler: this.sizeChangeHandler
+				     })			 
+				 })
+			     ]			     
+			 })
 		     })	    
 		 ] : undefined,
 		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
