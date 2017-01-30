@@ -119,19 +119,31 @@ var EditProductPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 1
 		}),
-		React.DOM.h3({
-		    className: "text-center",
-		    children: React.DOM.i({
-			children: React.DOM.b({
-			    children: [
-				"Current price: ",
-				React.DOM.span({
-				    id: "price",
-				    children: "[..]"
+		React.DOM.form({
+		    style: {
+			"margin-top": "20px"
+		    },
+		    children: React.DOM.div({
+			className: "row",
+			children: React.DOM.div({
+			    className: "col-xs-12",
+			    children: React.DOM.div({
+				className: "form-group",
+				children: React.DOM.h3({
+				    className: "current-price text-center",
+				    style: {
+					margin: "0 0 10px"
+				    },
+				    children: [
+					"Current price: ",
+					React.DOM.span({
+					    children: "[..]"
+					})					
+				    ]				    
 				})
-			    ]
+			    })
 			})
-		    })			
+		    })
 		}),
 		React.createElement(EditProductForm, {
 		    exoticsApi: this.props.exoticsApi,
