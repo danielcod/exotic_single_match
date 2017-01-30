@@ -37,7 +37,7 @@ var PlaceBetPanel=React.createClass({
 			    })
 			]
 		    }),
-		    React.DOM.div({
+		    (this.state.confirmMessage==undefined) ? React.DOM.div({
 			className: "form-group",
 			children: React.DOM.h3({
 			    className: "current-price text-center",
@@ -50,6 +50,17 @@ var PlaceBetPanel=React.createClass({
 				    children: this.state.params.price
 				})					
 			    ]				    
+			})
+		    }) : React.DOM.div({
+			className: "form-group",
+			children: React.DOM.h3({
+			    className: "current-price text-center",
+			    style: {
+				margin: "0 0 10px"
+			    },
+			    children: React.DOM.span({
+				children: this.state.size+" @ "+this.state.params.price
+			    })
 			})
 		    })
 		] : undefined,
