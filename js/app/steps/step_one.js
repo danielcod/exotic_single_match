@@ -114,36 +114,59 @@ var BrowseProductsTable=React.createClass({
 
 var BrowseProductsPaginator=React.createClass({
     render: function() {
-	return React.DOM.ul({
-	    className: "pagination",
-	    children: [
-		React.DOM.li({
-		    className: "active",
-		    children: React.DOM.a({
-			children: "1"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "2"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "3"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "4"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "5"
-		    })
-		})
-	    ]
+	return React.DOM.nav({
+	    children: React.DOM.ul({
+		className: "pagination pagination-sm",
+		children: [
+		    React.DOM.li({
+			className: "disabled",
+			children: React.DOM.a({
+			    children: React.DOM.span({
+				dangerouslySetInnerHTML: {
+				    "__html": "&laquo;"
+				}
+			    })
+			})
+		    }),
+		    React.DOM.li({
+			className: "active",
+			children: React.DOM.a({
+			    children: "1"
+			})
+		    }),
+		    React.DOM.li({
+			children: React.DOM.a({
+			    children: "2"
+			})
+		    }),
+		    React.DOM.li({
+			children: React.DOM.a({
+			    children: "3"
+			})
+		    }),
+		    React.DOM.li({
+			children: React.DOM.a({
+			    children: "4"
+			})
+		    }),
+		    React.DOM.li({
+			children: React.DOM.a({
+			    children: "5"
+			})
+		    }),
+		    React.DOM.li({
+			className: "disabled",
+			children: React.DOM.a({
+			    children: React.DOM.span({
+				dangerouslySetInnerHTML: {
+				    "__html": "&raquo;"
+				}
+			    })
+			})
+		    }),
+
+		]
+	    })
 	});
     }
 });
@@ -165,9 +188,6 @@ var BrowseProductsPanel=React.createClass({
 		    currentStep: 0
 		}),
 		React.DOM.div({
-		    style: {
-			"margin-bottom": "10px"
-		    },
 		    children: React.createElement(BrowseProductsTabs, {
 		    })
 		}),
@@ -206,9 +226,6 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.DOM.div({
 		    className: "text-center",
-		    style: {
-			"margin-top": "-20px"
-		    },
 		    children: React.createElement(BrowseProductsPaginator, {
 		    })
 		})

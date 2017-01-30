@@ -88,16 +88,14 @@ var App=React.createClass({
 		}),
 		React.DOM.footer({
 		    className: "footer",
-		    style: {
-			"margin-top": "20px"
-		    },
-		    children: React.DOM.p({
-			children: React.DOM.h5({
-			    dangerouslySetInnerHTML: {
-				"__html": "&copy; ioSport 2017"
-			    }
+		    children: [
+			"Powered by",
+			React.DOM.img({
+			    className: "img-responsive",
+			    src: "img/iosport.png",
+			    alt: "ioSport"			    
 			})
-		    })
+		    ]
 		})
 	    ]
 	})

@@ -24,6 +24,8 @@ handlers:
 # STATIC
 - url: /css
   static_dir: css
+- url: /img
+  static_dir: img
 - url: /js
   static_dir: js
 - url: /favicon.ico
