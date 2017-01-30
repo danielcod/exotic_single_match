@@ -90,43 +90,54 @@ var SingleTeamsForm=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
+	    className: "row",
 	    children: [
-		React.createElement(
-		    MySelect, {
-			label: "League",
-			name: "league",
-			options: this.state.options.league,
-			value: this.props.params.league,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
-		    }),
-		React.createElement(
-		    MySelect, {
-			label: "Team",
-			name: "team",
-			options: this.state.options.team,
-			value: this.props.params.team,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
-		    }),
-		React.createElement(
-		    MySelect, {
-			label: "Position",
-			name: "payoff",
-			options: this.state.options.payoff,
-			value: this.props.params.payoff,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
-		    }),
-		React.createElement(
-		    MySelect, {
-			label: "At",
-			name: "expiry",
-			options: this.state.options.expiry,
-			value: this.props.params.expiry,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
-		    })
+		React.DOM.div({
+		    className: "col-xs-6",
+		    children: [
+			React.createElement(
+			    MySelect, {
+				label: "League",
+				name: "league",
+				options: this.state.options.league,
+				value: this.props.params.league,
+				changeHandler: this.changeHandler,
+				blankStyle: this.props.blankStyle
+			    }),
+			React.createElement(
+			    MySelect, {
+				label: "Position",
+				name: "payoff",
+				options: this.state.options.payoff,
+				value: this.props.params.payoff,
+				changeHandler: this.changeHandler,
+				blankStyle: this.props.blankStyle
+			    })
+		    ]
+		}),
+		React.DOM.div({
+		    className: "col-xs-6",
+		    children: [
+			React.createElement(
+			    MySelect, {
+				label: "Team",
+				name: "team",
+				options: this.state.options.team,
+				value: this.props.params.team,
+				changeHandler: this.changeHandler,
+				blankStyle: this.props.blankStyle
+			    }),
+			React.createElement(
+			    MySelect, {
+				label: "At",
+				name: "expiry",
+				options: this.state.options.expiry,
+				value: this.props.params.expiry,
+				changeHandler: this.changeHandler,
+				blankStyle: this.props.blankStyle
+			    })
+		    ]
+		})
 	    ]
 	})
     }
