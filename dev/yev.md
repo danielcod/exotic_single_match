@@ -1,0 +1,1 @@
+- how do you separate Team/Exotics selects in stage 1 ?

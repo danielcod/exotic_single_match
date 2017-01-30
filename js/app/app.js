@@ -50,9 +50,6 @@ var ProcessSteps=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "row bs-wizard",
-	    style: {
-		"border-bottom": "0px"
-	    },
 	    children: this.initSteps(this.props.steps, this.props.currentStep)
 	});
     }
