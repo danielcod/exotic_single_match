@@ -39,7 +39,7 @@ class SingleTeamsProduct(db.Model):
                                         format_expiry_delimiter(self.payoff),
                                         format_expiry(self.expiry)),
                 "group": {"label": "Teams",
-                          "level": "danger"}}
+                          "level": "red"}}
     
     @classmethod
     def find_all(self):

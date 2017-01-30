@@ -4,10 +4,6 @@ var ProcessStep=React.createClass({
 	    className: "col-xs-"+this.props.width+" bs-wizard-step "+this.props.status,
 	    children: [
 		React.DOM.div({
-		    className: "text-center bs-wizard-stepnum",
-		    children: "Step "+this.props.step
-		}),
-		React.DOM.div({
 		    className: "progress",
 		    children: React.DOM.div({
 			className: "progress-bar"
@@ -80,7 +76,7 @@ var App=React.createClass({
 	    children: [
 		React.DOM.div({
 		    className: "header clearfix",
-		    children: React.DOM.h3({
+		    children: React.DOM.h1({
 			children: "Team Exotics Demo"
 		    })
 		}),
@@ -113,15 +109,15 @@ var Main=function() {
 	exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	steps: [
 	    {
-		label: "Browse Bets",
+		label: "Browse",
 		klass: BrowseProductsPanel
 	    },
 	    {
-		label: "Edit Bet",
+		label: "Tweak",
 		klass: EditProductPanel
 	    },
 	    {
-		label: "Place Bet",
+		label: "Bet",
 		klass: PlaceBetPanel
 	    }
 	]

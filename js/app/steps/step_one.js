@@ -35,40 +35,32 @@ var BrowseProductsRow=React.createClass({
 	    children: [
 		React.DOM.td({
 		    children: [
-			React.DOM.b({
-			    style: {
-				"margin-right": "5px"
-			    },
+			React.DOM.h5({
 			    children: this.props.product.params.description.selection
 			}),
 			React.DOM.span({
 			    className: "label label-"+this.props.product.params.description.group.level,
 			    children: this.props.product.params.description.group.label
 			}),
-			React.DOM.br({}),
-			React.DOM.span({
+			React.DOM.p({
 			    children: this.props.product.params.description.market
 			})
 		    ]
 		}),
 		React.DOM.td({
 		    className: "text-center",			    
-		    children: React.DOM.h5({
-			style: {
-			    color: "#888"
-			},
-			children: React.DOM.b({
-			    children: this.props.product.params.price
-			})
+		    children: React.DOM.span({
+			className: "price",
+			children: this.props.product.params.price
 		    })
 		}),
 		React.DOM.td({
-		    children: React.DOM.button({
-			className: "btn btn-warning",
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
 			onClick: function() {
 			    this.props.clickHandler(this.props.product);
 			}.bind(this),
-			children: React.DOM.span({
+			children: React.DOM.i({
 			    className: "glyphicon glyphicon-pencil"
 			})
 		    })
@@ -174,31 +166,30 @@ var BrowseProductsPanel=React.createClass({
 		    children: React.createElement(BrowseProductsTabs, {
 		    })
 		}),
-		React.DOM.div({
-		    className: "row",
-		    style: {
-			"margin-bottom": "10px"
-		    },
+		React.DOM.form({
 		    children: React.DOM.div({
-			className: "col-sm-12",
-			children: [
-			    React.DOM.select({
-				className: "form-control pull-left",
-				style: {
-				    width: "100px"
-				},
-				children: React.DOM.option({
-				    children: "Exotic"
+			className: "row row_filters",
+			children: React.DOM.div({
+			    className: "col-xs-12",
+			    children: [
+				React.DOM.select({
+				    className: "form-control input-sm btn-secondary",
+				    children: React.DOM.option({
+					children: "Team"
+				    })
+				}),
+				React.DOM.select({
+				    className: "form-control input-sm btn-secondary",
+				    children: React.DOM.option({
+					children: "Exotic"
+				    })
+				}),
+				React.DOM.button({
+				    className: "btn btn-sm btn-primary pull-right",
+				    children: "Build My Own"
 				})
-			    }),
-			    React.DOM.button({
-				className: "btn btn-secondary pull-right",
-				style: {
-				    width: "120px"
-				},
-				children: "Build My Own"
-			    })
-			]
+			    ]
+			})
 		    })
 		}),
 		React.createElement(BrowseProductsTable, {
