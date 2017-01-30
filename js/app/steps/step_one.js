@@ -36,11 +36,13 @@ var BrowseProductsRow=React.createClass({
 		React.DOM.td({
 		    children: [
 			React.DOM.h5({
-			    children: this.props.product.params.description.selection
-			}),
-			React.DOM.span({
-			    className: "label label-"+this.props.product.params.description.group.level,
-			    children: this.props.product.params.description.group.label
+			    children: [
+				this.props.product.params.description.selection,
+				React.DOM.span({
+				    className: "label label-"+this.props.product.params.description.group.level,
+				    children: this.props.product.params.description.group.label
+				})
+			    ]
 			}),
 			React.DOM.p({
 			    children: this.props.product.params.description.market
