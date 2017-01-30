@@ -38,11 +38,24 @@ var PlaceBetPanel=React.createClass({
 			 className: "text-center",			
 			 children: this.state.params.description.market
 		     }),
-		     React.DOM.h3({
-			 className: "text-center",
-			 children: React.DOM.i({
-			     children: React.DOM.b({
-				 children: "Your price: "+this.state.params.price
+		     React.DOM.div({
+			 className: "row",
+			 children: React.DOM.div({
+			     className: "col-xs-12",
+			     children: React.DOM.div({
+				 className: "form-group",
+				 children: React.DOM.h3({
+				     className: "current-price text-center",
+				     style: {
+					 margin: "0 0 10px"
+				     },
+				     children: [
+					 "Your price: ",
+					 React.DOM.span({
+					     children: this.state.params.price
+					 })					
+				     ]				    
+				 })
 			     })
 			 })
 		     }),
