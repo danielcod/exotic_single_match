@@ -38,24 +38,18 @@ var PlaceBetPanel=React.createClass({
 			]
 		    }),
 		    React.DOM.div({
-			className: "row",
-			children: React.DOM.div({
-			    className: "col-xs-12",
-			    children: React.DOM.div({
-				className: "form-group",
-				children: React.DOM.h3({
-				    className: "current-price text-center",
-				    style: {
-					margin: "0 0 10px"
-				    },
-				    children: [
-					"Your price: ",
-					React.DOM.span({
-					    children: this.state.params.price
-					})					
-				    ]				    
-				})
-			    })
+			className: "form-group",
+			children: React.DOM.h3({
+			    className: "current-price text-center",
+			    style: {
+				margin: "0 0 10px"
+			    },
+			    children: [
+				"Your price: ",
+				React.DOM.span({
+				    children: this.state.params.price
+				})					
+			    ]				    
 			})
 		    })
 		] : undefined,
@@ -89,6 +83,9 @@ var PlaceBetPanel=React.createClass({
 		}) : undefined,
 		(this.state.confirmMessage==undefined) ? React.DOM.div({
 		    className: "text-center",
+		    style: {
+			margin: "5px 0 20px"
+		    },		    
 		    children: [
 			React.DOM.button({
 			    className: "btn btn-secondary",
@@ -118,7 +115,10 @@ var PlaceBetPanel=React.createClass({
 		}) : React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({
-			className: "btn-group",
+			className: "text-center",
+			style: {
+			    margin: "5px 0 20px"
+			},			
 			children: React.DOM.button({
 			    className: "btn btn-primary",
 			    children: "Bet Again",
