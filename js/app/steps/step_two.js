@@ -93,7 +93,7 @@ var EditProductForm=React.createClass({
 		    changeHandler: this.props.productChangeHandler,
 		    params: this.state.selectedProduct.params,
 		    blankStyle: {
-			border: "3px solid #F88"
+			border: "1px solid #59a0df"
 		    }
 		})
 	    ] : []
@@ -152,27 +152,36 @@ var EditProductPanel=React.createClass({
 		}),
 		React.DOM.div({
 		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			children: [
-			    React.DOM.button({
-				className: "btn btn-secondary",
-				children: "Cancel",
-				onClick: function() {
-				    this.props.stepChangeHandler(0, undefined);
-				}.bind(this)
-			    }),
-			    React.DOM.button({
-				className: "btn btn-primary",
-				children: "Next",
-				onClick: function() {
-				    if (this.state.currentProduct!=undefined) {
-					this.props.stepChangeHandler(2, this.state.currentProduct);
-				    }
-				}.bind(this)
-			    })
-			]
-		    })
+		    style: {
+			margin: "5px 0 20px"
+		    },
+		    children: [
+			React.DOM.button({
+			    className: "btn btn-secondary",
+			    style: {
+				width: "100px",
+				"margin-right": "3px"
+				
+			    },
+			    children: "Cancel",
+			    onClick: function() {
+				this.props.stepChangeHandler(0, undefined);
+			    }.bind(this)
+			}),
+			React.DOM.button({
+			    className: "btn btn-primary",
+			    style: {
+				width: "100px",
+				"margin-left": "3px"
+			    },
+			    children: "Next",
+			    onClick: function() {
+				if (this.state.currentProduct!=undefined) {
+				    this.props.stepChangeHandler(2, this.state.currentProduct);
+				}
+			    }.bind(this)
+			})
+		    ]
 		})
 	    ]
 	});
