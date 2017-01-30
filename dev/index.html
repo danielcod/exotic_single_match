@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <title>Team Exotics Demo</title>
+
+    <link rel="stylesheet" href="assets/css/theme.min.css">
+
+  </head>
+  <body>
+
+    <!-- Content
+    ================================================== -->
+
+    <div id="app" class="container">
+      <div data-reactroot="">
+
+        <!-- Header -->
+        <div class="header clearfix">
+          <h1>Team Exotics Demo</h1>
+        </div>
+
+        <!-- Body -->
+        <div>
+
+          <!-- Steps -->
+          <div class="row bs-wizard" style="border-bottom: 0px;">
+            <div class="col-xs-4 bs-wizard-step active">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Browse</div>
+            </div>
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Tweak</div>
+            </div>
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Bet</div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Popular</a>
+            </li>
+            <li role="presentation">
+              <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Daily</a>
+            </li>
+            <li role="presentation">
+              <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Jackpots</a>
+            </li>
+            <li role="presentation">
+              <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">My Bets</a>
+            </li>
+          </ul>
+          
+          <!-- Filters -->
+          <form>
+            <div class="row row_filters">
+              <div class="col-xs-12">
+                
+                  <select class="form-control input-sm btn-secondary">
+                    <option value="#" selected>Team</option>
+                    <option value="#">Option 1</option>
+                    <option value="#">Option 2</option>
+                    <option value="#">A very long option</option>
+                  </select>
+
+                  <select class="form-control input-sm btn-secondary">
+                    <option value="#" selected>Exotic</option>
+                    <option value="#">Option 1</option>
+                    <option value="#">Option 2</option>
+                    <option value="#">A very long option</option>
+                  </select>
+                
+                  <button type="submit" class="btn btn-sm btn-primary pull-right">
+                    Build my own
+                  </button>
+
+                </div>
+            </div> <!-- / .row -->
+          </form>
+
+          <!-- Table -->
+          <table class="table table-condensed table-striped table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <h5>
+                    Liverpool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="label label-red">Beast Mode</span>
+                  </h5>
+                  <p>
+                    Win next 4 games by 2+ goals <br>
+                    Concede in at least 3 games
+                  </p>
+                </td>
+                <td class="text-center"><span class="price">45.0</span></td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-secondary"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>
+                    Crewe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="label label-teal">Mini-League</span>
+                  </h5>
+                  <p>
+                    Top2 vs LIV, BARCA, INTER -5 games <br>
+                    Lose at least once and score &lt; 8 goals
+                  </p>
+                </td>
+                <td class="text-center"><span class="price">45.0</span></td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-secondary"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>
+                    Chelsea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="label label-blue">Positions</span>
+                  </h5>
+                  <p>
+                    Winner @ End of Mar <br>
+                    No clean sheets
+                  </p>
+                </td>
+                <td class="text-center"><span class="price">23.5</span></td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-secondary"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>
+                    Real Madrid&nbsp;&nbsp;&nbsp; <span class="label label-orange">Park The Bus</span>
+                  </h5>
+                  <p>
+                    3 consecutive clean sheets <br>
+                    Win all 3 games by 3+ goals
+                  </p>
+                </td>
+                <td class="text-center"><span class="price">15.5</span></td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-secondary"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>
+                    Newcastle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="label label-red">Points</span>
+                  </h5>
+                  <p>
+                    10+ points in the next 4 games <br>
+                    Score > 4 goals 2+ times
+                  </p>
+                </td>
+                <td class="text-center"><span class="price">17.0</span></td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-secondary"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <nav aria-label="Page navigation" class="text-center">
+            <ul class="pagination pagination-sm">
+              <li class="disabled">
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          Powered by <img src="assets/img/iosport.png" class="img-responsive" alt="ioSport">
+        </footer>
+
+      </div>
+    </div> <!-- / .container -->
+
+    <!-- JavaScript
+    ================================================== -->
+
+    <!-- JS Global -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- JS Custom -->
+    <script src="assets/js/theme.min.js"></script>
+
+  </body>
+</html>

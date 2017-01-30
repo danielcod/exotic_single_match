@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <title>Team Exotics Demo</title>
+
+    <link rel="stylesheet" href="assets/css/theme.min.css">
+
+  </head>
+  <body>
+
+    <!-- Content
+    ================================================== -->
+
+    <div id="app" class="container">
+      <div data-reactroot="">
+
+        <!-- Header -->
+        <div class="header clearfix">
+          <h1>Team Exotics Demo</h1>
+        </div>
+
+        <!-- Body -->
+        <div>
+
+          <!-- Steps -->
+          <div class="row bs-wizard" style="border-bottom: 0px;">
+            <div class="col-xs-4 bs-wizard-step complete">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Browse</div>
+            </div>
+            <div class="col-xs-4 bs-wizard-step complete">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Tweak</div>
+            </div>
+            <div class="col-xs-4 bs-wizard-step active">
+              <div class="progress">
+                <div class="progress-bar"></div>
+              </div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Bet</div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <p class="text-center hidden" style="margin: 15px 0;">
+            Check your bet details and price. <br>Enter your size and place your bet!
+          </p>
+
+          <!-- Heading -->
+          <h2 class="heading text-center" style="margin: 30px 0;">
+            FC Ingolstadt 04 (GER.1) <small>Bottom of the table at end of Apr</small>
+          </h2>
+
+          <!-- Price -->
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <h3 class="current-price text-center" style="margin: 0 0 20px;">Your price: <span>1.001</span></h3>
+              </div>
+            </div>
+          </div> <!-- / .row -->
+
+          <!-- Form -->
+          <form class="form-horizontal" id="form_bet">
+            <div class="form-group">
+              <label class="col-xs-12 text-center control-label">Your size</label>
+              <div class="col-xs-8 col-xs-offset-2">
+                <input type="number" class="form-control text-center" value="2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- Alert -->
+                <div class="alert alert-success" style="display: none; margin-top: 10px;">
+                  <i class="glyphicon glyphicon-ok"></i> Your bet has been placed!
+                </div>
+              </div>
+            </div> <!-- / .row -->
+            <div class="row">
+              <!-- Buttons -->
+              <div class="text-center" style="margin: 5px 0 20px;">
+                <button class="btn btn-secondary" style="width: 100px;">
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" style="width: 100px;">
+                  Place Bet
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          Powered by <img src="assets/img/iosport.png" class="img-responsive" alt="ioSport">
+        </footer>
+
+      </div>
+    </div> <!-- / .container -->
+
+    <!-- JavaScript
+    ================================================== -->
+
+    <!-- JS Global -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- JS Custom -->
+    <script src="assets/js/theme.min.js"></script>
+
+  </body>
+</html>
