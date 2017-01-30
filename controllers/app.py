@@ -10,7 +10,8 @@ from models.products.positions.single_teams import SingleTeamsProduct
 Title="Team Exotics Demo"
 
 Deps=yaml.load("""
-- css/lib/bootstrap.min.css
+# - css/lib/bootstrap.min.css
+- css/app/theme.min.css
 - css/lib/jumbotron-narrow.css
 - css/lib/bs-wizard.css
 - js/lib/jquery.min.js
