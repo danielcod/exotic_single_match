@@ -16,7 +16,7 @@ var EditProductSelect=React.createClass({
 		    children: "Product Type"
 		}),
 		React.DOM.select({
-		    className: "form-control",
+		    className: "form-control btn-primary input-lg",
 		    value: this.state.value,
 		    onChange: function(event) {
 			var value=event.target.value;
