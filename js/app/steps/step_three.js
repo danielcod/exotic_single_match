@@ -30,25 +30,16 @@ var PlaceBetPanel=React.createClass({
 		 (this.state.confirmMessage==undefined)) ? [
 		     React.DOM.h3({			
 			 className: "text-center",
-			 style: {
-			     color: "#888"
-			 },
 			 children: React.DOM.b({
 			     children: this.state.params.description.selection
 			 })
 		     }),		    
 		     React.DOM.h3({
 			 className: "text-center",			
-			 style: {
-			     color: "#888"
-			 },
 			 children: this.state.params.description.market
 		     }),
 		     React.DOM.h3({
 			 className: "text-center",
-			 style: {
-			    color: "#888"
-			 },
 			 children: React.DOM.i({
 			     children: React.DOM.b({
 				 children: "Your price: "+this.state.params.price
@@ -70,10 +61,6 @@ var PlaceBetPanel=React.createClass({
 		 ] : undefined,
 		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
 		    className: "text-center",
-		    style: {
-			color: "#888",
-			"margin-top": "20px"
-		    },
 		    children: React.DOM.i({
 			children: React.DOM.b({
 			    children: this.state.confirmMessage
@@ -84,15 +71,9 @@ var PlaceBetPanel=React.createClass({
 		    className: "text-center",
 		    children: React.DOM.div({
 			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
 			children: [
 			    React.DOM.button({
 				className: "btn btn-secondary",
-				style: {
-				    width: "100px"
-				},
 				children: "Cancel",
 				onClick: function() {
 				    this.props.stepChangeHandler(0, undefined);
@@ -100,9 +81,6 @@ var PlaceBetPanel=React.createClass({
 			    }),
 			    React.DOM.button({
 				className: "btn btn-primary",
-				style: {
-				    width: "100px"
-				},
 				children: "Place Bet",
 				onClick: function() {
 				    var state=this.state;
@@ -116,14 +94,8 @@ var PlaceBetPanel=React.createClass({
 		    className: "text-center",
 		    children: React.DOM.div({
 			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
 			children: React.DOM.button({
 			    className: "btn btn-primary",
-			    style: {
-				width: "100px"
-			    },
 			    children: "Bet Again",
 			    onClick: function() {
 				var state=this.state;

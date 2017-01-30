@@ -82,9 +82,6 @@ var EditProductForm=React.createClass({
 		}),
 		React.DOM.p({
 		    className: "text-center",
-		    style: {
-			color: "#888"
-		    },
 		    children: (this.state.products.length > 0) ? React.DOM.i({
 			children: this.state.products.filter(function(product) {
 			    return product.type==this.state.selectedProduct.type
@@ -124,11 +121,6 @@ var EditProductPanel=React.createClass({
 		}),
 		React.DOM.h3({
 		    className: "text-center",
-		    style: {
-			color: "#888",
-			"margin-bottom": "20px",
-			"margin-top": "20px"
-		    },
 		    children: React.DOM.i({
 			children: React.DOM.b({
 			    children: [
@@ -150,15 +142,9 @@ var EditProductPanel=React.createClass({
 		    className: "text-center",
 		    children: React.DOM.div({
 			className: "btn-group",
-			style: {
-			    "margin-top": "20px"
-			},
 			children: [
 			    React.DOM.button({
 				className: "btn btn-secondary",
-				style: {
-				    width: "100px"
-				},
 				children: "Cancel",
 				onClick: function() {
 				    this.props.stepChangeHandler(0, undefined);
@@ -166,9 +152,6 @@ var EditProductPanel=React.createClass({
 			    }),
 			    React.DOM.button({
 				className: "btn btn-primary",
-				style: {
-				    width: "100px"
-				},
 				children: "Next",
 				onClick: function() {
 				    if (this.state.currentProduct!=undefined) {
