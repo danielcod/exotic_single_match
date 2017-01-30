@@ -39,6 +39,9 @@ var BrowseProductsRow=React.createClass({
 			    children: [
 				this.props.product.params.description.selection,
 				React.DOM.span({
+				    style: {
+					"margin-left": "10px"
+				    },
 				    className: "label label-"+this.props.product.params.description.group.level,
 				    children: this.props.product.params.description.group.label
 				})
@@ -176,6 +179,9 @@ var BrowseProductsPanel=React.createClass({
 			    children: [
 				React.DOM.select({
 				    className: "form-control input-sm btn-secondary",
+				    style: {
+					"margin-right": "5px"
+				    },
 				    children: React.DOM.option({
 					children: "Team"
 				    })
