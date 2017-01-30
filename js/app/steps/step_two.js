@@ -81,7 +81,7 @@ var EditProductForm=React.createClass({
 		    changeHandler: this.productChangeHandler
 		}),
 		React.DOM.p({
-		    className: "text-center",
+		    className: "help-block",
 		    children: (this.state.products.length > 0) ? React.DOM.i({
 			children: this.state.products.filter(function(product) {
 			    return product.type==this.state.selectedProduct.type
