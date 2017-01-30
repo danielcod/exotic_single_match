@@ -89,27 +89,32 @@ var PlaceBetPanel=React.createClass({
 		}) : undefined,
 		(this.state.confirmMessage==undefined) ? React.DOM.div({
 		    className: "text-center",
-		    children: React.DOM.div({
-			className: "btn-group",
-			children: [
-			    React.DOM.button({
-				className: "btn btn-secondary",
-				children: "Cancel",
-				onClick: function() {
-				    this.props.stepChangeHandler(0, undefined);
-				}.bind(this)
-			    }),
-			    React.DOM.button({
-				className: "btn btn-primary",
-				children: "Place Bet",
-				onClick: function() {
-				    var state=this.state;
-				    state.confirmMessage="Your bet has been placed!";
-				    this.setState(state);
-				}.bind(this)
-			    })
-			]
-		    })
+		    children: [
+			React.DOM.button({
+			    className: "btn btn-secondary",
+			    style: {
+				width: "100px",
+				"margin-right": "3px"
+			    },
+			    children: "Cancel",
+			    onClick: function() {
+				this.props.stepChangeHandler(0, undefined);
+			    }.bind(this)
+			}),
+			React.DOM.button({
+			    className: "btn btn-primary",
+			    style: {
+				width: "100px",
+				"margin-left": "3px"
+			    },
+			    children: "Place Bet",
+			    onClick: function() {
+				var state=this.state;
+				state.confirmMessage="Your bet has been placed!";
+				this.setState(state);
+			    }.bind(this)
+			})
+		    ]
 		}) : React.DOM.div({
 		    className: "text-center",
 		    children: React.DOM.div({

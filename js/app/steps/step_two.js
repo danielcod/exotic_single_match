@@ -160,8 +160,7 @@ var EditProductPanel=React.createClass({
 			    className: "btn btn-secondary",
 			    style: {
 				width: "100px",
-				"margin-right": "3px"
-				
+				"margin-right": "3px"				
 			    },
 			    children: "Cancel",
 			    onClick: function() {
