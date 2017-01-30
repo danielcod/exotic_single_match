@@ -26,66 +26,66 @@ var PlaceBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 2
 		}),
-		((this.state.params!=undefined) &&
-		 (this.state.confirmMessage==undefined)) ? [
-		     React.DOM.h2({			
-			 className: "heading text-center",
-			 children: [
-			     this.state.params.description.selection,
-			     React.DOM.small({
-				 className: "text-center",			
-				 children: this.state.params.description.market
-			     })
-			 ]
-		     }),
-		     React.DOM.div({
-			 className: "row",
-			 children: React.DOM.div({
-			     className: "col-xs-12",
-			     children: React.DOM.div({
-				 className: "form-group",
-				 children: React.DOM.h3({
-				     className: "current-price text-center",
-				     style: {
-					 margin: "0 0 10px"
-				     },
-				     children: [
-					 "Your price: ",
-					 React.DOM.span({
-					     children: this.state.params.price
-					 })					
-				     ]				    
-				 })
-			     })
-			 })
-		     }),
-		     React.DOM.form({
-			 className: "form-horizontal",
-			 children: React.DOM.div({
-			     className: "form-group",
-			     children: [
-				 React.DOM.label({
-				     className: "col-xs-12 text-center control-label",
-				     children: "Your size"
-				 }),
-				 React.DOM.div({
-				     className: "col-xs-8 col-xs-offset-2",
-				     children: React.createElement(MyNumberInput, {
-					 value: this.state.size,
-					 changeHandler: this.sizeChangeHandler
-				     })			 
-				 })
-			     ]			     
-			 })
-		     })	    
-		 ] : undefined,
-		(this.state.confirmMessage!=undefined) ? React.DOM.h3({
-		    className: "text-center",
-		    children: React.DOM.i({
-			children: React.DOM.b({
-			    children: this.state.confirmMessage
+		(this.state.params!=undefined) ? [
+		    React.DOM.h2({			
+			className: "heading text-center",
+			children: [
+			    this.state.params.description.selection,
+			    React.DOM.small({
+				className: "text-center",			
+				children: this.state.params.description.market
+			    })
+			]
+		    }),
+		    React.DOM.div({
+			className: "row",
+			children: React.DOM.div({
+			    className: "col-xs-12",
+			    children: React.DOM.div({
+				className: "form-group",
+				children: React.DOM.h3({
+				    className: "current-price text-center",
+				    style: {
+					margin: "0 0 10px"
+				    },
+				    children: [
+					"Your price: ",
+					React.DOM.span({
+					    children: this.state.params.price
+					})					
+				    ]				    
+				})
+			    })
 			})
-		    })    
+		    })
+		] : undefined,
+		(this.state.confirmMessage==undefined) ? React.DOM.form({
+		    className: "form-horizontal",
+		    children: React.DOM.div({
+			className: "form-group",
+			children: [
+			    React.DOM.label({
+				className: "col-xs-12 text-center control-label",
+				children: "Your size"
+			    }),
+			    React.DOM.div({
+				className: "col-xs-8 col-xs-offset-2",
+				children: React.createElement(MyNumberInput, {
+				    value: this.state.size,
+				    changeHandler: this.sizeChangeHandler
+				})			 
+			    })
+			]			     
+		    })
+		}) : undefined,
+		(this.state.confirmMessage!=undefined) ? React.DOM.div({
+		    className: "alert alert-success",
+		    children: [
+			React.DOM.i({
+			    className: "glyphicon glyphicon-ok"
+			}),
+			this.state.confirmMessage
+		    ]
 		}) : undefined,
 		(this.state.confirmMessage==undefined) ? React.DOM.div({
 		    className: "text-center",
