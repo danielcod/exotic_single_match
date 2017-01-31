@@ -58,9 +58,17 @@ var PlaceBetPanel=React.createClass({
 			    style: {
 				margin: "0 0 10px"
 			    },
-			    children: React.DOM.span({
-				children: this.state.size+" @ "+this.state.params.price
-			    })
+			    children: [
+				React.DOM.span({
+				    style: {
+					color: "#FFF"
+				    },
+				    children: "£"+this.state.size+" @ "
+				}),
+				React.DOM.span({
+				    children: this.state.params.price
+				})
+			    ]
 			})
 		    })
 		] : undefined,
