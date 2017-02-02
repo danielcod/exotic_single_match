@@ -99,7 +99,7 @@ var BrowseProductsTable=React.createClass({
 });
 
 var BrowseProductsPaginator=React.createClass({
-    initItems: function(nItems, pageSize, offset, paginatorSize) {
+    initItems: function(nItems, pageSize, offset, paginatorSize, clickHandler) {
 	var nPages=Math.floor(nItems/pageSize);
 	if (0 != nItems % pageSize) {
 	    nPages+=1;
@@ -111,6 +111,7 @@ var BrowseProductsPaginator=React.createClass({
 	var items=[];
 	if (firstItem!=0) {
 	    items.push(React.DOM.li({
+		onClick: clickHandler.bind(null, "prev"),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -123,6 +124,7 @@ var BrowseProductsPaginator=React.createClass({
 	for (var i=firstItem; i < lastItem; i++) {
 	    var item=React.DOM.li({
 		className: (currentItem==i) ? "active" : "",
+		onClick: clickHandler.bind(null, i),
 		children: React.DOM.a({
 		    children: (i+1).toString()
 		})
@@ -131,6 +133,7 @@ var BrowseProductsPaginator=React.createClass({
 	}
 	if (lastItem!=nPages) {
 	    items.push(React.DOM.li({
+		onClick: clickHandler.bind(null, "next"),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -149,7 +152,8 @@ var BrowseProductsPaginator=React.createClass({
 		children: this.initItems(this.props.nItems,
 					 this.props.pageSize,
 					 this.props.offset,
-					 this.props.paginatorSize)
+					 this.props.paginatorSize,
+					 this.props.clickHandler)
 	    })
 	});
     }
@@ -169,6 +173,9 @@ var BrowseProductsPanel=React.createClass({
 	var state=this.state;
 	state.selectedTab=tab.name;
 	this.setState(state);
+    },
+    handlePaginatorClicked: function(item) {
+	console.log(item);
     },
     render: function() {
 	return React.DOM.div({
@@ -239,8 +246,11 @@ var BrowseProductsPanel=React.createClass({
 		    children: React.createElement(BrowseProductsPaginator, {
 			nItems: 30,
 			pageSize: 10,
-			offset: this.state.tableOffset,
-			paginatorSize: 5
+			offset: this.state.tableOffset,			
+			paginatorSize: 5,
+			clickHandler: function(item) {
+			    console.log(item);
+			}			
 		    })
 		})
 	    ]
