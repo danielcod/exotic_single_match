@@ -128,7 +128,6 @@ var BrowseProductsPaginator=React.createClass({
 	    nPages+=1;
 	}
 	var currentPage=Math.round(-0.5+offset/pageSize);
-	console.log(currentPage);
 	var items=[];
 	for (var i=0; i < nPages; i++) {
 	    var item=React.DOM.li({
