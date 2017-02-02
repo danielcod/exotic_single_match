@@ -172,11 +172,6 @@ var BrowseProductsPaginator=React.createClass({
 });
 
 var BrowseProductsPanel=React.createClass({
-    getInitialState: function() {
-	return {
-	    buttonLevel: "secondary"
-	};
-    },
     handleClicked: function(product) {
 	this.props.stepChangeHandler(1, product);
     },
