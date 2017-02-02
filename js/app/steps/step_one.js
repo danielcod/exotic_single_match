@@ -77,6 +77,11 @@ var BrowseProductsTable=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.browseProducts(this.browseProductsHandler);
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (nextProps.selectedTab!=this.props.selectedTab) {
+	    this.props.exoticsApi.browseProducts(this.browseProductsHandler);
+	}
+    },
     handleClicked: function(product) {
 	var state=this.state;
 	state.selectedProduct=product;
@@ -265,7 +270,8 @@ var BrowseProductsPanel=React.createClass({
 		    clickHandler: this.handleStepClicked,
 		    dataLoadedHandler: this.handleDataLoaded,
 		    rowOffset: this.state.rowOffset,
-		    nRows: this.state.nRows
+		    nRows: this.state.nRows,
+		    selectedTab: this.state.selectedTab
 		}),
 		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
