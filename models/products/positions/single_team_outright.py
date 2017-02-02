@@ -1,6 +1,6 @@
 from models.products.positions import *
 
-class SingleTeamOutrightsProduct(db.Model):
+class SingleTeamOutrightProduct(db.Model):
 
     league=db.StringProperty()
     team=db.StringProperty()
@@ -42,7 +42,7 @@ class SingleTeamOutrightsProduct(db.Model):
     
     @classmethod
     def find_all(self):
-        query=SingleTeamOutrightsProduct.all()
+        query=SingleTeamOutrightProduct.all()
         return fetch_models_db(query)
     
     @classmethod

@@ -1,5 +1,5 @@
 var EditProductMapping={
-    "single_team_outrights": SingleTeamOutrightsForm
+    "single_team_outright": SingleTeamOutrightForm
 };
 
 var EditProductSelect=React.createClass({

@@ -5,7 +5,7 @@ import apis.yc_lite_api as yc_lite
 from helpers.expiry_helpers import init_expiries
 from helpers.price_helpers import format_price
 
-from models.products.positions.single_team_outrights import SingleTeamOutrightsProduct
+from models.products.positions.single_team_outright import SingleTeamOutrightProduct
 
 import random
 
@@ -19,7 +19,7 @@ Deps=yaml.load("""
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components.js
-- js/app/products/single_team_outrights.js
+- js/app/products/single_team_outright.js
 - js/app/steps/step_one.js
 - js/app/steps/step_two.js
 - js/app/steps/step_three.js
@@ -29,7 +29,7 @@ Deps=yaml.load("""
 ProductTypes=yaml.load(file("config/product_types.yaml").read())
 
 ProductMapping={
-    "single_team_outrights": SingleTeamOutrightsProduct,
+    "single_team_outright": SingleTeamOutrightProduct,
 }
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
@@ -72,10 +72,10 @@ class BrowseProductsHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         seed=int(self.request.get("seed"))
-        products=SingleTeamOutrightsProduct.find_all()
+        products=SingleTeamOutrightProduct.find_all()
         if products==[]:
             raise RuntimeError("No products found")
-        products=[{"type": "single_team_outrights",
+        products=[{"type": "single_team_outright",
                    "params": {"description": product.description,
                               "price": product.price,
                               "id": product.key().id()}}

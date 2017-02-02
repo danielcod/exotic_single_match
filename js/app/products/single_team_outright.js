@@ -1,5 +1,5 @@
-var SingleTeamOutrightsForm=React.createClass({
-    productType: "single_team_outrights",
+var SingleTeamOutrightForm=React.createClass({
+    productType: "single_team_outright",
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;

@@ -2,7 +2,7 @@ from tasks.random import *
 
 from models.products.positions import calc_positional_probability
 
-from models.products.positions.single_team_outrights import SingleTeamOutrightsProduct
+from models.products.positions.single_team_outright import SingleTeamOutrightProduct
 
 MinProb, MaxProb = 0.05, 0.95
 
@@ -28,7 +28,7 @@ def group_items(item):
         groups[groupname].append(item)
     return groups
 
-# curl "http://localhost:8080/tasks/random/single_team_outrights?n=100"
+# curl "http://localhost:8080/tasks/random/single_team_outright?n=100"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -36,7 +36,7 @@ class IndexHandler(webapp2.RequestHandler):
     @task
     def get(self):
         n=int(self.request.get("n"))
-        tasks=[taskqueue.add(url="/tasks/random/single_team_outrights/init")
+        tasks=[taskqueue.add(url="/tasks/random/single_team_outright/init")
                for i in range(n)]
         logging.info("%s league tasks started" % n)
 
@@ -49,7 +49,7 @@ class InitHandler(webapp2.RequestHandler):
         expiry=Expiries[i]
         i=int(len(Leagues)*random.random())
         leaguename=Leagues[i]["name"]        
-        payoffs=SingleTeamOutrightsProduct.init_payoffs(leaguename)
+        payoffs=SingleTeamOutrightProduct.init_payoffs(leaguename)
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
@@ -88,7 +88,7 @@ class InitHandler(webapp2.RequestHandler):
                "team": teamname,
                "payoff": payoffname,
                "expiry": expiry["value"]}
-        SingleTeamOutrightsProduct(league=leaguename,
+        SingleTeamOutrightProduct(league=leaguename,
                                    team=teamname,
                                    payoff=payoffname,
                                    expiry=expiry["value"],
@@ -99,7 +99,7 @@ class InitHandler(webapp2.RequestHandler):
                                             expiry["value"],
                                             price))
         
-Routing=[('/tasks/random/single_team_outrights/init', InitHandler),
-         ('/tasks/random/single_team_outrights', IndexHandler)]
+Routing=[('/tasks/random/single_team_outright/init', InitHandler),
+         ('/tasks/random/single_team_outright', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

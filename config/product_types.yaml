@@ -1,4 +1,4 @@
-- label: "Single Teams Outright"
-  type: "single_teams"
+- label: "Single Team Outright"
+  type: "single_team_outright"
   description: "An outright bet on a single team, but with dozens of different payoffs and the extra twist of a date option!"
 
