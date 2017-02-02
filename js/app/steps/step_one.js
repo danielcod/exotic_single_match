@@ -156,8 +156,18 @@ var BrowseProductsPaginator=React.createClass({
 });
 
 var BrowseProductsPanel=React.createClass({
-    handleClicked: function(product) {
+    getInitialState: function() {
+	return {
+	    selectedTab: "popular"
+	}
+    },
+    handleStepClicked: function(product) {
 	this.props.stepChangeHandler(1, product);
+    },
+    handleTabClicked: function(tab) {
+	var state=this.state;
+	state.selectedTab=tab.name;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -186,10 +196,8 @@ var BrowseProductsPanel=React.createClass({
 				label: "My Bets"
 			    }
 			],
-			selected: "popular",
-			clickHandler: function(item) {
-			    console.log(JSON.stringify(item));
-			}
+			selected: this.state.selectedTab,
+			clickHandler: this.handleTabClicked
 		    })
 		}),
 		React.DOM.form({
@@ -223,7 +231,7 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.createElement(BrowseProductsTable, {
 		    exoticsApi: this.props.exoticsApi,
-		    clickHandler: this.handleClicked
+		    clickHandler: this.handleStepClicked
 		}),
 		React.DOM.div({
 		    className: "text-center",
