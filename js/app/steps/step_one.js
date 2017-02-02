@@ -97,12 +97,7 @@ var BrowseProductsTable=React.createClass({
     }
 });
 
-var BrowseProductsPaginator=React.createClass({
-    render: function() {
-	return React.DOM.nav({
-	    children: React.DOM.ul({
-		className: "pagination pagination-sm",
-		children: [
+/*
 		    React.DOM.li({
 			className: "disabled",
 			children: React.DOM.a({
@@ -113,32 +108,7 @@ var BrowseProductsPaginator=React.createClass({
 			    })
 			})
 		    }),
-		    React.DOM.li({
-			className: "active",
-			children: React.DOM.a({
-			    children: "1"
-			})
-		    }),
-		    React.DOM.li({
-			children: React.DOM.a({
-			    children: "2"
-			})
-		    }),
-		    React.DOM.li({
-			children: React.DOM.a({
-			    children: "3"
-			})
-		    }),
-		    React.DOM.li({
-			children: React.DOM.a({
-			    children: "4"
-			})
-		    }),
-		    React.DOM.li({
-			children: React.DOM.a({
-			    children: "5"
-			})
-		    }),
+
 		    React.DOM.li({
 			className: "disabled",
 			children: React.DOM.a({
@@ -149,8 +119,27 @@ var BrowseProductsPaginator=React.createClass({
 			    })
 			})
 		    }),
+*/
 
-		]
+var BrowseProductsPaginator=React.createClass({
+    initItems: function(nItems, pageSize) {
+	var nPages=Math.round(-0.5+nItems/pageSize);
+	var items=[];
+	for (var i=0; i < nPages; i++) {
+	    var item=React.DOM.li({
+		children: React.DOM.a({
+		    children: (i+1).toString()
+		})
+	    })
+	    items.push(item);
+	}
+	return items;
+    },
+    render: function() {
+	return React.DOM.nav({
+	    children: React.DOM.ul({
+		className: "pagination pagination-sm",
+		children: this.initItems(50, 10)
 	    })
 	});
     }
