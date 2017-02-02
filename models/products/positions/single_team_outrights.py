@@ -29,13 +29,10 @@ class SingleTeamOutrightProduct(db.Model):
                 return "in "+payoff.lower()
             else:
                 return payoff
-        def format_expiry_delimiter(expiry):
-            return "at"
         def format_expiry(expiry):
             return re.sub("End", "end", format_date(expiry))
         return {"selection": self.team, # include league ?
-                "market": "%s %s %s" % (format_payoff(self.payoff).capitalize(),
-                                        format_expiry_delimiter(self.payoff),
+                "market": "%s at %s" % (format_payoff(self.payoff).capitalize(),
                                         format_expiry(self.expiry)),
                 "group": {"label": "Outright",
                           "level": "red"}}

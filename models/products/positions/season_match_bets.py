@@ -10,12 +10,11 @@ class SeasonMatchBetProduct(db.Model):
 
     @property
     def description(self):
-        def format_expiry_delimiter(expiry):
-            return "at"
         def format_expiry(expiry):
             return re.sub("End", "end", format_date(expiry))
         return {"selection": self.team, # include league ?
-                "market": "To finish above %s" % self.versus,
+                "market": "To be above %s at %s" % (self.versus,
+                                                    format_expiry(self.expiry)),
                 "group": {"label": "SMB",
                           "level": "orange"}}
     
