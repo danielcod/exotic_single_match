@@ -93,7 +93,7 @@ var EditProductForm=React.createClass({
 		    changeHandler: this.props.productChangeHandler,
 		    params: this.state.selectedProduct.params,
 		    blankStyle: {
-			border: "1px solid #59a0df"
+			border: "3px solid #59a0df"
 		    }
 		})
 	    ] : []
