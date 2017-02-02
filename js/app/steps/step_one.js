@@ -124,6 +124,9 @@ var BrowseProductsTable=React.createClass({
 var BrowseProductsPaginator=React.createClass({
     initItems: function(nItems, pageSize) {
 	var nPages=Math.round(-0.5+nItems/pageSize);
+	if (0 != nItems % pageSize) {
+	    nPages+=1;
+	}
 	var items=[];
 	for (var i=0; i < nPages; i++) {
 	    var item=React.DOM.li({
