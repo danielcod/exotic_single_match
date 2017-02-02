@@ -108,6 +108,7 @@ var BrowseProductsPaginator=React.createClass({
 	var firstItem=paginator.length*Math.floor(currentItem/paginator.length);
 	var lastItem=Math.min(nItems-1, firstItem+paginator.length);
 	var items=[];
+	// '<<'
 	if (firstItem!=0) {
 	    items.push(React.DOM.li({
 		onClick: clickHandler.bind(null, (firstItem-1)*table.nRows),
@@ -120,6 +121,7 @@ var BrowseProductsPaginator=React.createClass({
 		})
 	    }));
 	}
+	// numbered steps
 	for (var i=firstItem; i < lastItem; i++) {
 	    var item=React.DOM.li({
 		className: (currentItem==i) ? "active" : "",
@@ -130,6 +132,7 @@ var BrowseProductsPaginator=React.createClass({
 	    })
 	    items.push(item);
 	}
+	// '>>'
 	if (lastItem!=nItems-1) {
 	    items.push(React.DOM.li({
 		onClick: clickHandler.bind(null, lastItem*table.nRows),
@@ -159,8 +162,11 @@ var BrowseProductsPaginator=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
+	    selectedTab: "popular",
+	    nRows: 10,
 	    rowOffset: 0,
-	    selectedTab: "popular"
+	    paginatorLength: 5
+
 	}
     },
     handleStepClicked: function(product) {
@@ -245,11 +251,11 @@ var BrowseProductsPanel=React.createClass({
 		    children: React.createElement(BrowseProductsPaginator, {
 			table: {
 			    nItems: 91,
-			    nRows: 10,
+			    nRows: this.state.nRows,
 			    offset: this.state.rowOffset
 			},
 			paginator: {
-			    length: 5
+			    length: this.state.paginatorLength
 			},
 			clickHandler: this.handlePaginatorClicked
 		    })
