@@ -28,8 +28,8 @@ var EditProductSelect=React.createClass({
 		    }.bind(this),
 		    children: this.props.options.map(function(option) {
 			return React.DOM.option({
-			    value: option.name,
-			    children: option.label || option.name
+			    value: option.type,
+			    children: option.label || option.type
 			})
 		    })
 		})
