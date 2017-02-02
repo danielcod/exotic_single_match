@@ -99,19 +99,18 @@ var BrowseProductsTable=React.createClass({
 });
 
 var BrowseProductsPaginator=React.createClass({
-    initItems: function(nItems, pageSize, offset, paginatorSize, clickHandler) {
-	var nPages=Math.floor(nItems/pageSize);
-	if (0 != nItems % pageSize) {
-	    nPages+=1;
+    initItems: function(nRows, pageSize, rowOffset, paginatorSize, clickHandler) {
+	var nItems=Math.floor(nRows/pageSize);
+	if (0 != nRows % pageSize) {
+	    nItems+=1;
 	}
-	var currentItem=Math.floor(offset/pageSize);
+	var currentItem=Math.floor(rowOffset/pageSize);
 	var firstItem=paginatorSize*Math.floor(currentItem/paginatorSize);
-	var paginatorLength=Math.min(paginatorSize, Math.floor((nItems-offset)/paginatorSize));
-	var lastItem=firstItem+paginatorLength;
+	var lastItem=Math.min(nItems-1, firstItem+paginatorSize);
 	var items=[];
 	if (firstItem!=0) {
 	    items.push(React.DOM.li({
-		onClick: clickHandler.bind(null, "prev"),
+		onClick: clickHandler.bind(null, (firstItem-1)*pageSize),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -131,9 +130,9 @@ var BrowseProductsPaginator=React.createClass({
 	    })
 	    items.push(item);
 	}
-	if (lastItem!=nPages) {
+	if (lastItem!=nItems-1) {
 	    items.push(React.DOM.li({
-		onClick: clickHandler.bind(null, "next"),
+		onClick: clickHandler.bind(null, lastItem*pageSize),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -149,9 +148,9 @@ var BrowseProductsPaginator=React.createClass({
 	return React.DOM.nav({
 	    children: React.DOM.ul({
 		className: "pagination pagination-sm",
-		children: this.initItems(this.props.nItems,
+		children: this.initItems(this.props.nRows,
 					 this.props.pageSize,
-					 this.props.offset,
+					 this.props.rowOffset,
 					 this.props.paginatorSize,
 					 this.props.clickHandler)
 	    })
@@ -162,7 +161,7 @@ var BrowseProductsPaginator=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    offset: 0,
+	    rowOffset: 0,
 	    selectedTab: "popular"
 	}
     },
@@ -174,9 +173,9 @@ var BrowseProductsPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handlePaginatorClicked: function(offset) {
+    handlePaginatorClicked: function(rowOffset) {
 	var state=this.state;
-	state.offset=offset;
+	state.rowOffset=rowOffset;
 	this.setState(state);
     },
     render: function() {
@@ -246,9 +245,9 @@ var BrowseProductsPanel=React.createClass({
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
-			nItems: 30,
+			nRows: 91,
 			pageSize: 10,
-			offset: this.state.offset,			
+			rowOffset: this.state.rowOffset,			
 			paginatorSize: 5,
 			clickHandler: this.handlePaginatorClicked
 		    })
