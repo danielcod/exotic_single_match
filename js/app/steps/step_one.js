@@ -99,18 +99,18 @@ var BrowseProductsTable=React.createClass({
 });
 
 var BrowseProductsPaginator=React.createClass({
-    initItems: function(nRows, pageSize, rowOffset, paginatorSize, clickHandler) {
-	var nItems=Math.floor(nRows/pageSize);
-	if (0 != nRows % pageSize) {
+    initItems: function(table, paginator, clickHandler) {
+	var nItems=Math.floor(table.nItems/table.nRows);
+	if (0 != table.nItems % table.nRows) {
 	    nItems+=1;
 	}
-	var currentItem=Math.floor(rowOffset/pageSize);
-	var firstItem=paginatorSize*Math.floor(currentItem/paginatorSize);
-	var lastItem=Math.min(nItems-1, firstItem+paginatorSize);
+	var currentItem=Math.floor(table.offset/table.nRows);
+	var firstItem=paginator.length*Math.floor(currentItem/paginator.length);
+	var lastItem=Math.min(nItems-1, firstItem+paginator.length);
 	var items=[];
 	if (firstItem!=0) {
 	    items.push(React.DOM.li({
-		onClick: clickHandler.bind(null, (firstItem-1)*pageSize),
+		onClick: clickHandler.bind(null, (firstItem-1)*table.nRows),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -123,7 +123,7 @@ var BrowseProductsPaginator=React.createClass({
 	for (var i=firstItem; i < lastItem; i++) {
 	    var item=React.DOM.li({
 		className: (currentItem==i) ? "active" : "",
-		onClick: clickHandler.bind(null, i*pageSize),
+		onClick: clickHandler.bind(null, i*table.nRows),
 		children: React.DOM.a({
 		    children: (i+1).toString()
 		})
@@ -132,7 +132,7 @@ var BrowseProductsPaginator=React.createClass({
 	}
 	if (lastItem!=nItems-1) {
 	    items.push(React.DOM.li({
-		onClick: clickHandler.bind(null, lastItem*pageSize),
+		onClick: clickHandler.bind(null, lastItem*table.nRows),
 		children: React.DOM.a({
 		    children: React.DOM.span({
 			dangerouslySetInnerHTML: {
@@ -148,10 +148,8 @@ var BrowseProductsPaginator=React.createClass({
 	return React.DOM.nav({
 	    children: React.DOM.ul({
 		className: "pagination pagination-sm",
-		children: this.initItems(this.props.nRows,
-					 this.props.pageSize,
-					 this.props.rowOffset,
-					 this.props.paginatorSize,
+		children: this.initItems(this.props.table,
+					 this.props.paginator,
 					 this.props.clickHandler)
 	    })
 	});
@@ -245,10 +243,14 @@ var BrowseProductsPanel=React.createClass({
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
-			nRows: 91,
-			pageSize: 10,
-			rowOffset: this.state.rowOffset,			
-			paginatorSize: 5,
+			table: {
+			    nItems: 91,
+			    nRows: 10,
+			    offset: this.state.rowOffset
+			},
+			paginator: {
+			    length: 5
+			},
 			clickHandler: this.handlePaginatorClicked
 		    })
 		})
