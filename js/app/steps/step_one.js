@@ -97,39 +97,29 @@ var BrowseProductsTable=React.createClass({
     }
 });
 
-/*
-		    React.DOM.li({
-			className: "disabled",
-			children: React.DOM.a({
-			    children: React.DOM.span({
-				dangerouslySetInnerHTML: {
-				    "__html": "&laquo;"
-				}
-			    })
-			})
-		    }),
-
-		    React.DOM.li({
-			className: "disabled",
-			children: React.DOM.a({
-			    children: React.DOM.span({
-				dangerouslySetInnerHTML: {
-				    "__html": "&raquo;"
-				}
-			    })
-			})
-		    }),
-*/
-
 var BrowseProductsPaginator=React.createClass({
-    initItems: function(nItems, pageSize, offset) {
-	var nPages=Math.round(-0.5+nItems/pageSize);
+    initItems: function(nItems, pageSize, offset, paginatorSize) {
+	var nPages=Math.floor(nItems/pageSize);
 	if (0 != nItems % pageSize) {
 	    nPages+=1;
 	}
-	var currentPage=Math.round(-0.5+offset/pageSize);
+	var currentPage=Math.floor(offset/pageSize);
+	var firstPage=paginatorSize*Math.floor(currentPage/paginatorSize);
+	var paginatorLength=Math.min(paginatorSize, Math.floor((nItems-offset)/paginatorSize));
+	var lastPage=firstPage+paginatorLength;
 	var items=[];
-	for (var i=0; i < nPages; i++) {
+	if (firstPage!=0) {
+	    items.push(React.DOM.li({
+		children: React.DOM.a({
+		    children: React.DOM.span({
+			dangerouslySetInnerHTML: {
+			    "__html": "&laquo;"
+			}
+		    })
+		})
+	    }));
+	}
+	for (var i=firstPage; i < lastPage; i++) {
 	    var item=React.DOM.li({
 		className: (currentPage==i) ? "active" : "",
 		children: React.DOM.a({
@@ -137,6 +127,17 @@ var BrowseProductsPaginator=React.createClass({
 		})
 	    })
 	    items.push(item);
+	}
+	if (lastPage!=nPages) {
+	    items.push(React.DOM.li({
+		children: React.DOM.a({
+		    children: React.DOM.span({
+			dangerouslySetInnerHTML: {
+			    "__html": "&raquo;"
+			}
+		    })
+		})
+	    }))
 	}
 	return items;
     },
@@ -146,7 +147,8 @@ var BrowseProductsPaginator=React.createClass({
 		className: "pagination pagination-sm",
 		children: this.initItems(this.props.nItems,
 					 this.props.pageSize,
-					 this.props.offset)
+					 this.props.offset,
+					 this.props.paginatorSize)
 	    })
 	});
     }
@@ -222,9 +224,10 @@ var BrowseProductsPanel=React.createClass({
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
-			nItems: 50,
+			nItems: 90,
 			pageSize: 10,
-			offset: 20
+			offset: 70,
+			paginatorSize: 5
 		    })
 		})
 	    ]
