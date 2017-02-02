@@ -5,6 +5,7 @@ var BrowseProductsTabs=React.createClass({
 	    children: this.props.tabs.map(function(tab) {
 		return React.DOM.li({
 		    className: (tab.name==this.props.selected) ? "active" : "",
+		    onClick: this.props.clickHandler.bind(null, tab),
 		    children: React.DOM.a({
 			children: tab.label
 		    })
@@ -185,7 +186,10 @@ var BrowseProductsPanel=React.createClass({
 				label: "My Bets"
 			    }
 			],
-			selected: "popular"
+			selected: "popular",
+			clickHandler: function(item) {
+			    console.log(JSON.stringify(item));
+			}
 		    })
 		}),
 		React.DOM.form({
