@@ -7,6 +7,8 @@ from helpers.price_helpers import format_price
 
 from models.products.positions.single_teams import SingleTeamsProduct
 
+import random
+
 Title="Team Exotics Demo"
 
 Deps=yaml.load("""
@@ -66,8 +68,10 @@ class ProductTypesHandler(webapp2.RequestHandler):
     
 class BrowseProductsHandler(webapp2.RequestHandler):
 
+    @validate_query({'seed': '^\\d+$'})
     @emit_json
     def get(self):
+        seed=int(self.request.get("seed"))
         products=SingleTeamsProduct.find_all()
         if products==[]:
             raise RuntimeError("No products found")
@@ -76,9 +80,9 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                               "price": product.price,
                               "id": product.key().id()}}
                    for product in products]
-        import random
+        random.seed(seed) # NB
         return [products[int(random.random()*len(products))]
-                for i in range(47)]
+                for i in range(50)]
 
 class ShowProductHandler(webapp2.RequestHandler):
 
