@@ -108,7 +108,7 @@ var Main=function() {
 		klass: BrowseProductsPanel
 	    },
 	    {
-		label: "Tweak",
+		label: "Edit",
 		klass: EditProductPanel
 	    },
 	    {
