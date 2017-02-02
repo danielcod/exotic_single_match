@@ -139,7 +139,7 @@ var BrowseProductsPaginator=React.createClass({
 	return React.DOM.nav({
 	    children: React.DOM.ul({
 		className: "pagination pagination-sm",
-		children: this.initItems(50, 10)
+		children: this.initItems(this.props.nItems, this.props.pageSize)
 	    })
 	});
     }
@@ -215,6 +215,8 @@ var BrowseProductsPanel=React.createClass({
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
+			nItems: 50,
+			pageSize: 10
 		    })
 		})
 	    ]
