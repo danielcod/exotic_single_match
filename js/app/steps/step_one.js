@@ -103,12 +103,12 @@ var BrowseProductsPaginator=React.createClass({
 	if (0 != nItems % pageSize) {
 	    nPages+=1;
 	}
-	var currentPage=Math.floor(offset/pageSize);
-	var firstPage=paginatorSize*Math.floor(currentPage/paginatorSize);
+	var currentItem=Math.floor(offset/pageSize);
+	var firstItem=paginatorSize*Math.floor(currentItem/paginatorSize);
 	var paginatorLength=Math.min(paginatorSize, Math.floor((nItems-offset)/paginatorSize));
-	var lastPage=firstPage+paginatorLength;
+	var lastItem=firstItem+paginatorLength;
 	var items=[];
-	if (firstPage!=0) {
+	if (firstItem!=0) {
 	    items.push(React.DOM.li({
 		children: React.DOM.a({
 		    children: React.DOM.span({
@@ -119,16 +119,16 @@ var BrowseProductsPaginator=React.createClass({
 		})
 	    }));
 	}
-	for (var i=firstPage; i < lastPage; i++) {
+	for (var i=firstItem; i < lastItem; i++) {
 	    var item=React.DOM.li({
-		className: (currentPage==i) ? "active" : "",
+		className: (currentItem==i) ? "active" : "",
 		children: React.DOM.a({
 		    children: (i+1).toString()
 		})
 	    })
 	    items.push(item);
 	}
-	if (lastPage!=nPages) {
+	if (lastItem!=nPages) {
 	    items.push(React.DOM.li({
 		children: React.DOM.a({
 		    children: React.DOM.span({
