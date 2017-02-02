@@ -114,7 +114,7 @@ var SeasonMatchBetForm=React.createClass({
 		    children: [
 			React.createElement(
 			    MySelect, {
-				label: "Team",
+				label: "Your Team",
 				name: "team",
 				options: this.state.options.team,
 				value: this.props.params.team,
