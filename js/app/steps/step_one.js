@@ -2,29 +2,14 @@ var BrowseProductsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
-	    children: [
-		React.DOM.li({
-		    className: "active",
+	    children: this.props.tabs.map(function(tab) {
+		return React.DOM.li({
+		    className: (tab.name==this.props.selected) ? "active" : "",
 		    children: React.DOM.a({
-			children: "Popular"
+			children: tab.label
 		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "Daily"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "Jackpots"
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.a({
-			children: "My Bets"
-		    })
-		})
-	    ]
+		});				    
+	    }.bind(this))
 	});
     }
 });
@@ -184,6 +169,25 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.DOM.div({
 		    children: React.createElement(BrowseProductsTabs, {
+			tabs: [
+			    {
+				name: "popular",
+				label: "Popular"
+			    },
+			    {
+				name: "daily",
+				label: "Daily"
+			    },
+			    {
+				name: "jackpots",
+				label: "Jackpots"
+			    },
+			    {
+				name: "my_bets",
+				label: "My Bets"
+			    }
+			],
+			selected: "popular"
 		    })
 		}),
 		React.DOM.form({
