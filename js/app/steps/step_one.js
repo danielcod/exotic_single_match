@@ -122,14 +122,17 @@ var BrowseProductsTable=React.createClass({
 */
 
 var BrowseProductsPaginator=React.createClass({
-    initItems: function(nItems, pageSize) {
+    initItems: function(nItems, pageSize, offset) {
 	var nPages=Math.round(-0.5+nItems/pageSize);
 	if (0 != nItems % pageSize) {
 	    nPages+=1;
 	}
+	var currentPage=Math.round(-0.5+offset/pageSize);
+	console.log(currentPage);
 	var items=[];
 	for (var i=0; i < nPages; i++) {
 	    var item=React.DOM.li({
+		className: (currentPage==i) ? "active" : "",
 		children: React.DOM.a({
 		    children: (i+1).toString()
 		})
@@ -142,7 +145,9 @@ var BrowseProductsPaginator=React.createClass({
 	return React.DOM.nav({
 	    children: React.DOM.ul({
 		className: "pagination pagination-sm",
-		children: this.initItems(this.props.nItems, this.props.pageSize)
+		children: this.initItems(this.props.nItems,
+					 this.props.pageSize,
+					 this.props.offset)
 	    })
 	});
     }
@@ -219,7 +224,8 @@ var BrowseProductsPanel=React.createClass({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
 			nItems: 50,
-			pageSize: 10
+			pageSize: 10,
+			offset: 20
 		    })
 		})
 	    ]
