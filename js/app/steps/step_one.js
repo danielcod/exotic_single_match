@@ -158,6 +158,7 @@ var BrowseProductsPaginator=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
+	    tableOffset: 0,
 	    selectedTab: "popular"
 	}
     },
@@ -236,9 +237,9 @@ var BrowseProductsPanel=React.createClass({
 		React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
-			nItems: 90,
+			nItems: 30,
 			pageSize: 10,
-			offset: 70,
+			offset: this.state.tableOffset,
 			paginatorSize: 5
 		    })
 		})
