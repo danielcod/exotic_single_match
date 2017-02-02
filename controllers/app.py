@@ -76,7 +76,9 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                               "price": product.price,
                               "id": product.key().id()}}
                    for product in products]
-        return products[:5] # NB
+        import random
+        return [products[int(random.random()*len(products))]
+                for i in range(50)]
 
 class ShowProductHandler(webapp2.RequestHandler):
 

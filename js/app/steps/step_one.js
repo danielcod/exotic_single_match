@@ -72,6 +72,7 @@ var BrowseProductsTable=React.createClass({
 	var state=this.state;
 	state.products=struct;
 	this.setState(state);
+	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
 	this.props.exoticsApi.browseProducts(this.browseProductsHandler);
@@ -86,7 +87,7 @@ var BrowseProductsTable=React.createClass({
 	return React.DOM.table({
 	    className: "table table-condensed table-bordered table-striped",
 	    children: React.DOM.tbody({
-		children: this.state.products.map(function(product) {
+		children: this.state.products.slice(this.props.rowOffset, this.props.rowOffset+this.props.nRows).map(function(product) {
 		    return React.createElement(BrowseProductsRow, {
 			product: product,
 			selectedProduct: this.state.selectedProduct,
@@ -163,7 +164,8 @@ var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
-	    nRows: 10,
+	    nRows: 5,
+	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5
 
@@ -180,6 +182,11 @@ var BrowseProductsPanel=React.createClass({
     handlePaginatorClicked: function(rowOffset) {
 	var state=this.state;
 	state.rowOffset=rowOffset;
+	this.setState(state);
+    },
+    handleDataLoaded: function(nItems) {
+	var state=this.state;
+	state.nItems=nItems;
 	this.setState(state);
     },
     render: function() {
@@ -244,13 +251,16 @@ var BrowseProductsPanel=React.createClass({
 		}),
 		React.createElement(BrowseProductsTable, {
 		    exoticsApi: this.props.exoticsApi,
-		    clickHandler: this.handleStepClicked
+		    clickHandler: this.handleStepClicked,
+		    dataLoadedHandler: this.handleDataLoaded,
+		    rowOffset: this.state.rowOffset,
+		    nRows: this.state.nRows
 		}),
-		React.DOM.div({
+		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
 		    children: React.createElement(BrowseProductsPaginator, {
 			table: {
-			    nItems: 91,
+			    nItems:this.state.nItems,
 			    nRows: this.state.nRows,
 			    offset: this.state.rowOffset
 			},
@@ -259,7 +269,7 @@ var BrowseProductsPanel=React.createClass({
 			},
 			clickHandler: this.handlePaginatorClicked
 		    })
-		})
+		}) : null
 	    ]
 	});
     }
