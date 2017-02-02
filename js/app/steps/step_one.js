@@ -124,7 +124,7 @@ var BrowseProductsPaginator=React.createClass({
 	for (var i=firstItem; i < lastItem; i++) {
 	    var item=React.DOM.li({
 		className: (currentItem==i) ? "active" : "",
-		onClick: clickHandler.bind(null, i),
+		onClick: clickHandler.bind(null, i*pageSize),
 		children: React.DOM.a({
 		    children: (i+1).toString()
 		})
@@ -162,7 +162,7 @@ var BrowseProductsPaginator=React.createClass({
 var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    tableOffset: 0,
+	    offset: 0,
 	    selectedTab: "popular"
 	}
     },
@@ -174,8 +174,10 @@ var BrowseProductsPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handlePaginatorClicked: function(item) {
-	console.log(item);
+    handlePaginatorClicked: function(offset) {
+	var state=this.state;
+	state.offset=offset;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -246,11 +248,9 @@ var BrowseProductsPanel=React.createClass({
 		    children: React.createElement(BrowseProductsPaginator, {
 			nItems: 30,
 			pageSize: 10,
-			offset: this.state.tableOffset,			
+			offset: this.state.offset,			
 			paginatorSize: 5,
-			clickHandler: function(item) {
-			    console.log(item);
-			}			
+			clickHandler: this.handlePaginatorClicked
 		    })
 		})
 	    ]
