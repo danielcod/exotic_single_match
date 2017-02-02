@@ -4,7 +4,7 @@ var SeasonMatchBetForm=React.createClass({
     initOptionsHandler: function(names) {
 	return function(struct) {
 	    var state=this.state;
-	    for (var i=0; i < names.size; i++) {
+	    for (var i=0; i < names.length; i++) {
 		var name=names[i];
 		state.options[name]=struct;
 	    }
