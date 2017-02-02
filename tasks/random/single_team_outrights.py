@@ -2,7 +2,7 @@ from tasks.random import *
 
 from models.products.positions import calc_positional_probability
 
-from models.products.positions.single_team_outright import SingleTeamOutrightProduct
+from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
 MinProb, MaxProb = 0.05, 0.95
 

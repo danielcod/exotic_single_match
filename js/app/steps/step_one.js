@@ -200,7 +200,6 @@ var BrowseProductsPanel=React.createClass({
 	this.setState(state);
     },
     handleDataLoaded: function(nItems) {
-	console.log(nItems+" items loaded");
 	var state=this.state;
 	state.nItems=nItems;
 	this.setState(state);

@@ -5,7 +5,7 @@ import apis.yc_lite_api as yc_lite
 from helpers.expiry_helpers import init_expiries
 from helpers.price_helpers import format_price
 
-from models.products.positions.single_team_outright import SingleTeamOutrightProduct
+from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
 import random
 
