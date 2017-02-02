@@ -107,7 +107,17 @@ var BrowseProductsPaginator=React.createClass({
 	}
 	var currentItem=Math.floor(table.offset/table.nRows);
 	var firstItem=paginator.length*Math.floor(currentItem/paginator.length);
-	var lastItem=Math.min(nItems-1, firstItem+paginator.length);
+	var lastItem=Math.min(nItems, firstItem+paginator.length);
+	/*
+	console.log(JSON.stringify({
+	    table: table,
+	    paginator: paginator,
+	    nItems: nItems,
+	    currentItem: currentItem,
+	    firstItem: firstItem,
+	    lastItem: lastItem
+	}));
+	*/
 	var items=[];
 	// '<<'
 	if (firstItem!=0) {
@@ -134,7 +144,7 @@ var BrowseProductsPaginator=React.createClass({
 	    items.push(item);
 	}
 	// '>>'
-	if (lastItem!=nItems-1) {
+	if (lastItem!=nItems) {
 	    items.push(React.DOM.li({
 		onClick: clickHandler.bind(null, lastItem*table.nRows),
 		children: React.DOM.a({
@@ -185,6 +195,7 @@ var BrowseProductsPanel=React.createClass({
 	this.setState(state);
     },
     handleDataLoaded: function(nItems) {
+	console.log(nItems+" items loaded");
 	var state=this.state;
 	state.nItems=nItems;
 	this.setState(state);

@@ -78,7 +78,7 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                    for product in products]
         import random
         return [products[int(random.random()*len(products))]
-                for i in range(50)]
+                for i in range(47)]
 
 class ShowProductHandler(webapp2.RequestHandler):
 
