@@ -6,6 +6,7 @@ from helpers.expiry_helpers import init_expiries
 from helpers.price_helpers import format_price
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
+from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
 import random
 
@@ -19,7 +20,8 @@ Deps=yaml.load("""
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components.js
-- js/app/products/single_team_outright.js
+- js/app/products/single_team_outrights.js
+- js/app/products/season_match_bets.js
 - js/app/steps/step_one.js
 - js/app/steps/step_two.js
 - js/app/steps/step_three.js
@@ -30,6 +32,7 @@ ProductTypes=yaml.load(file("config/product_types.yaml").read())
 
 ProductMapping={
     "single_team_outright": SingleTeamOutrightProduct,
+    "season_match_bet": SeasonMatchBetProduct
 }
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
@@ -68,19 +71,31 @@ class ProductTypesHandler(webapp2.RequestHandler):
     
 class BrowseProductsHandler(webapp2.RequestHandler):
 
+    def load_single_team_outrights(self):
+        return [{"type": "single_team_outright",
+                 "params": {"description": product.description,
+                            "price": product.price,
+                            "id": product.key().id()}}
+                for product in SingleTeamOutrightProduct.find_all()]
+
+    def load_season_match_bets(self):
+        return [{"type": "season_match_bet",
+                 "params": {"description": product.description,
+                            "price": product.price,
+                            "id": product.key().id()}}
+                for product in SeasonMatchBetProduct.find_all()]
+    
     @validate_query({'seed': '^\\d+$'})
     @emit_json
     def get(self):
         seed=int(self.request.get("seed"))
-        products=SingleTeamOutrightProduct.find_all()
+        random.seed(seed) # NB
+        products=[]
+        products+=self.load_single_team_outrights()
+        products+=self.load_season_match_bets()
         if products==[]:
             raise RuntimeError("No products found")
-        products=[{"type": "single_team_outright",
-                   "params": {"description": product.description,
-                              "price": product.price,
-                              "id": product.key().id()}}
-                   for product in products]
-        random.seed(seed) # NB
+        logging.info("%i products found" % len(products))
         return [products[int(random.random()*len(products))]
                 for i in range(50)]
 

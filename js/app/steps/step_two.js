@@ -1,5 +1,6 @@
 var EditProductMapping={
-    "single_team_outright": SingleTeamOutrightForm
+    "single_team_outright": SingleTeamOutrightForm,
+    "season_match_bet": SeasonMatchBetForm
 };
 
 var EditProductSelect=React.createClass({

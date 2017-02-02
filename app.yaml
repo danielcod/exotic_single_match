@@ -37,6 +37,8 @@ handlers:
 # TASKS
 - url: /tasks/bbc_fixtures.*
   script: tasks.bbc_fixtures.app
+- url: /tasks/random/season_match_bets.*
+  script: tasks.random.season_match_bets.app
 - url: /tasks/random/single_team_outrights.*
   script: tasks.random.single_team_outrights.app
 - url: /tasks/yc_probabilities.*

@@ -37,7 +37,7 @@ class SingleTeamOutrightProduct(db.Model):
                 "market": "%s %s %s" % (format_payoff(self.payoff).capitalize(),
                                         format_expiry_delimiter(self.payoff),
                                         format_expiry(self.expiry)),
-                "group": {"label": "Teams",
+                "group": {"label": "Outright",
                           "level": "red"}}
     
     @classmethod

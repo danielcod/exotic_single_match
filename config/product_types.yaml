@@ -1,4 +1,6 @@
 - label: "Single Team Outright"
   type: "single_team_outright"
-  description: "An outright bet on a single team, but with dozens of different payoffs and the extra twist of a date option!"
-
+  description: "An outright bet on a single team, but with dozens of different payoffs!"
+- label: "Season Match Bet"
+  type: "season_match_bet"
+  description: "Bet on your favorite team to finish ahead of their hated rival!"
