@@ -82,6 +82,11 @@ var SeasonMatchBetForm=React.createClass({
 	    this.updatePrice(this.state.params);
 	}
     },
+    highlighter: function() {
+	return ((this.state.params.team!=undefined) &&
+		(this.state.params.versus!=undefined) &&
+		(this.state.params.team==this.state.params.versus))
+    },
     render: function() {
 	return React.DOM.div({
 	    className: "row",
@@ -105,7 +110,8 @@ var SeasonMatchBetForm=React.createClass({
 				options: this.state.options.team,
 				value: this.props.params.versus,
 				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
+				blankStyle: this.props.blankStyle,
+				highlighter: this.highlighter
 			    })
 		    ]
 		}),
@@ -119,7 +125,8 @@ var SeasonMatchBetForm=React.createClass({
 				options: this.state.options.team,
 				value: this.props.params.team,
 				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
+				blankStyle: this.props.blankStyle,
+				highlighter: this.highlighter
 			    }),
 			React.createElement(
 			    MySelect, {
