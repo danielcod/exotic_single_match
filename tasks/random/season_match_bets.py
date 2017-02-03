@@ -6,6 +6,9 @@ import quant.simulator as simulator
 
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
+def sumproduct(X, Y):
+    return sum([(x*y) for x, y in zip(X, Y)])
+
 # curl "http://localhost:8080/tasks/random/season_match_bets?n=10"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -77,7 +80,11 @@ class InitHandler(webapp2.RequestHandler):
         i=int(len(Leagues)*random.random())
         leaguename=Leagues[i]["name"]        
         pp=self.calc_pp_surface(leaguename, expiry)
-        logging.info(pp)
+        pp=sorted([(key, values)
+                   for key, values in pp.items()],
+                  key=lambda x: sumproduct(values, range(len(values))))
+        for k, v in pp:
+            print (k, sumproduct(v, range(len(v))))
         
 Routing=[('/tasks/random/season_match_bets/init', InitHandler),
          ('/tasks/random/season_match_bets', IndexHandler)]
