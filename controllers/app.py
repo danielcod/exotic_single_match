@@ -118,8 +118,10 @@ class BrowseProductsHandler(webapp2.RequestHandler):
         products=self.load_products()
         if products==[]:
             raise RuntimeError("No products found")
-        return [products[int(random.random()*len(products))]
-                for i in range(50)]
+        index=list(set([int(random.random()*len(products))
+                        for i in range(50)]))
+        return [products[i]
+                for i in index]
 
 class ShowProductHandler(webapp2.RequestHandler):
 

@@ -125,7 +125,7 @@ var EditProductPanel=React.createClass({
 		    children: React.DOM.h3({
 			className: "current-price text-center",
 			style: {
-			    margin: "0 0 10px"
+			    margin: "20 0 10px"
 			},
 			children: [
 			    "Current price: ",
