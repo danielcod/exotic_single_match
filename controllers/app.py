@@ -84,18 +84,40 @@ class BrowseProductsHandler(webapp2.RequestHandler):
                             "price": product.price,
                             "id": product.key().id()}}
                 for product in SeasonMatchBetProduct.find_all()]
+
+    def load_products_db(self):
+        products=[]
+        products+=self.load_single_team_outrights()
+        products+=self.load_season_match_bets()
+        return products
+
+    def load_products_memcache(self):
+        resp=memcache.get("products")
+        if resp in ['', None, []]:
+            return None
+        return json_loads(resp)
+
+    def save_products_memcache(self, products, age=60):
+        memcache.set("products", json_dumps(products), age)
     
+    def load_products(self):
+        products=self.load_products_memcache()
+        if products!=None:
+            logging.info("Serving products from memcache")
+            return products
+        logging.info("Loading products from DB")
+        products=self.load_products_db()
+        self.save_products_memcache(products)
+        return products
+        
     @validate_query({'seed': '^\\d+$'})
     @emit_json
     def get(self):
         seed=int(self.request.get("seed"))
         random.seed(seed) # NB
-        products=[]
-        products+=self.load_single_team_outrights()
-        products+=self.load_season_match_bets()
+        products=self.load_products()
         if products==[]:
             raise RuntimeError("No products found")
-        logging.info("%i products found" % len(products))
         return [products[int(random.random()*len(products))]
                 for i in range(50)]
 
