@@ -29,7 +29,14 @@ class InitHandler(webapp2.RequestHandler):
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
         i=int(len(teams)*random.random())
-        versusname=teams[i]["name"]
+        def init_versusname(nmax=50):
+            for i in range(nmax):
+                j=int(len(teams)*random.random())
+                versusname=teams[j]["name"]
+                if teamname!=versusname:
+                    return versusname
+            raise RuntimeError("Couldn't find versus team")
+        versusname=init_versusname()
         probability=0.1+0.8*random.random()
         price=format_price(probability)
         SeasonMatchBetProduct(league=leaguename,
