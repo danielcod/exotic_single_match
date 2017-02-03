@@ -20,6 +20,31 @@ class IndexHandler(webapp2.RequestHandler):
 
 class InitHandler(webapp2.RequestHandler):
 
+    """
+    - this should be moved into product model
+    """
+    
+    def calc_prices(self, leaguename, teamname, expiry, teams, payoffs):
+        results=yc_lite.get_results(leaguename)        
+        fixtures=[{"name": fixture["name"],
+                   "date": fixture["date"],
+                   "probabilities": fixture["yc_probabilities"]}
+                   for fixture in [fixture.to_json()
+                                   for fixture in Fixture.find_all(leaguename)]]
+        today=datetime.date.today()
+        fixtures=[fixture for fixture in fixtures
+                  if (fixture["date"] > today and
+                      fixture["date"] < expiry["value"])]
+        struct={"team": {"league": leaguename,
+                         "name": teamname},
+                "teams": teams,
+                "results": results,
+                "fixtures": fixtures,
+                "payoffs": payoffs}
+        return [item for item in calc_positional_probability(struct)
+                if (item["value"] > MinProb and
+                    item["value"] < MaxProb)]
+    
     def group_items(self, item):
         def item_group_name(name):
             if name in ["Winner", "Promotion", "Relegation", "Bottom"]:
@@ -40,6 +65,14 @@ class InitHandler(webapp2.RequestHandler):
             groups.setdefault(groupname, [])
             groups[groupname].append(item)
         return groups
+
+    def random_groupname(self, groups):
+        groupnames=sorted(groups.keys())
+        if "Main" in groupnames:
+            return "Main"
+        else:            
+            i=int(len(groupnames)*random.random())
+            return groupnames[i]
     
     @task
     def post(self):
@@ -52,41 +85,18 @@ class InitHandler(webapp2.RequestHandler):
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
-        results=yc_lite.get_results(leaguename)        
-        fixtures=[{"name": fixture["name"],
-                   "date": fixture["date"],
-                   "probabilities": fixture["yc_probabilities"]}
-                   for fixture in [fixture.to_json()
-                                   for fixture in Fixture.find_all(leaguename)]]
-        today=datetime.date.today()
-        fixtures=[fixture for fixture in fixtures
-                  if (fixture["date"] > today and
-                      fixture["date"] < expiry["value"])]
-        struct={"team": {"league": leaguename,
-                         "name": teamname},
-                "teams": teams,
-                "results": results,
-                "fixtures": fixtures,
-                "payoffs": payoffs}
-        items=[item for item in calc_positional_probability(struct)
-              if (item["value"] > MinProb and
-                  item["value"] < MaxProb)]
-        groups=self.group_items(items)
-        groupnames=sorted(groups.keys())
-        if "Main" in groupnames:
-            groupname="Main"
-        else:
-            i=int(len(groupnames)*random.random())
-            groupname=groupnames[i]
+        allitems=self.calc_prices(leaguename,
+                                  teamname,
+                                  expiry,
+                                  teams,
+                                  payoffs)
+        groups=self.group_items(allitems)
+        groupname=self.random_groupname(groups)
         items=groups[groupname]
         i=int(len(items)*random.random())
         payoffname=items[i]["name"]
         probability=items[i]["value"]
         price=format_price(probability)
-        query={"league": leaguename,
-               "team": teamname,
-               "payoff": payoffname,
-               "expiry": expiry["value"]}
         SingleTeamOutrightProduct(league=leaguename,
                                    team=teamname,
                                    payoff=payoffname,
