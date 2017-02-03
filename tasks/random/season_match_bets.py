@@ -35,8 +35,7 @@ class InitHandler(webapp2.RequestHandler):
     - this should be moved into product model
     """
     
-    def calc_pp_surface(self, leaguename, expiry, paths=1000, seed=13):
-        teams=yc_lite.get_teams(leaguename)
+    def calc_pp_surface(self, leaguename, teams, expiry, paths=1000, seed=13):
         results=yc_lite.get_results(leaguename)        
         fixtures=[{"name": fixture["name"],
                    "date": fixture["date"],
@@ -73,18 +72,23 @@ class InitHandler(webapp2.RequestHandler):
     """
     
     @task
-    def post(self):
+    def post(self, std=3):        
         random.seed(random_seed())
         i=int(len(Expiries)*random.random())
         expiry=Expiries[i]
         i=int(len(Leagues)*random.random())
-        leaguename=Leagues[i]["name"]        
-        pp=self.calc_pp_surface(leaguename, expiry)
+        leaguename=Leagues[i]["name"]
+        teams=yc_lite.get_teams(leaguename)
+        pp=self.calc_pp_surface(leaguename, teams, expiry)
         pp=sorted([(key, values)
                    for key, values in pp.items()],
-                  key=lambda x: sumproduct(values, range(len(values))))
-        for k, v in pp:
-            print (k, sumproduct(v, range(len(v))))
+                  key=lambda x: sumproduct(x[1], range(len(x[1]))))
+        i=std+int((len(teams)-(2*std))*random.random())
+        teamname=teams[i]["name"]
+        f=1 if random.random() > 0.5 else -1
+        j=i+f*(1+int(random.random()*std))
+        versusname=teams[j]["name"]
+        logging.info("%s/%s vs %s" % (leaguename, teamname, versusname))
         
 Routing=[('/tasks/random/season_match_bets/init', InitHandler),
          ('/tasks/random/season_match_bets', IndexHandler)]
