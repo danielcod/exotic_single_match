@@ -1,6 +1,8 @@
 from tasks.random import *
 
-from models.products.positions import calc_positional_probability
+# from models.products.positions import calc_positional_probability
+
+import quant.simulator as simulator
 
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
@@ -25,14 +27,29 @@ class InitHandler(webapp2.RequestHandler):
             if teamname!=versusname:
                 return versusname
         raise RuntimeError("Couldn't find versus team")        
+
+    """
+    - this should be moved into product model
+    """
     
-    @task
-    def post(self):
-        random.seed(random_seed())
-        i=int(len(Expiries)*random.random())
-        expiry=Expiries[i]
-        i=int(len(Leagues)*random.random())
-        leaguename=Leagues[i]["name"]        
+    def calc_pp_surface(self, leaguename, expiry, paths=1000, seed=13):
+        teams=yc_lite.get_teams(leaguename)
+        results=yc_lite.get_results(leaguename)        
+        fixtures=[{"name": fixture["name"],
+                   "date": fixture["date"],
+                   "probabilities": fixture["yc_probabilities"]}
+                   for fixture in [fixture.to_json()
+                                   for fixture in Fixture.find_all(leaguename)]]
+        today=datetime.date.today()
+        fixtures=[fixture for fixture in fixtures
+                  if (fixture["date"] > today and
+                      fixture["date"] < expiry["value"])]
+        return simulator.simulate(teams,
+                                  results,
+                                  fixtures,
+                                  paths, seed)
+    
+    """
         teams=yc_lite.get_teams(leaguename)
         i=int(len(teams)*random.random())
         teamname=teams[i]["name"]
@@ -50,6 +67,17 @@ class InitHandler(webapp2.RequestHandler):
                                             versusname,
                                             expiry["value"],
                                             price))
+    """
+    
+    @task
+    def post(self):
+        random.seed(random_seed())
+        i=int(len(Expiries)*random.random())
+        expiry=Expiries[i]
+        i=int(len(Leagues)*random.random())
+        leaguename=Leagues[i]["name"]        
+        pp=self.calc_pp_surface(leaguename, expiry)
+        logging.info(pp)
         
 Routing=[('/tasks/random/season_match_bets/init', InitHandler),
          ('/tasks/random/season_match_bets', IndexHandler)]
