@@ -84,6 +84,8 @@ var PlaceBetPanel=React.createClass({
 			    React.DOM.div({
 				className: "col-xs-8 col-xs-offset-2",
 				children: React.createElement(MyNumberInput, {
+				    min: 2,
+				    max: 1000,
 				    value: this.state.size,
 				    changeHandler: this.sizeChangeHandler
 				})			 

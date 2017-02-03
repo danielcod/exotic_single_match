@@ -82,28 +82,24 @@ var MyNumberInput=React.createClass({
 	    value: this.props.value
 	};
     },
-    parseNumber: function(value) {
-	if (value.match(/^\d+(\.\d+)?$/)) {
-	    return value;
-	} else if (value.match(/^\d+\.$/)) {
-	    return value+"0";
-	} else {
-	    return undefined;
-	};
-    },
     render: function() {
 	return React.DOM.input({
+	    type: "number",
+	    min: this.props.min,
+	    max: this.props.max,
 	    value: this.state.value,
-	    className: "form-control",
+	    className: "form-control text-center",
 	    onChange: function(event) {
 		var rawValue=event.target.value;
-		var parsedValue=this.parseNumber(rawValue);
-		if (parsedValue!=undefined) {
+		if ((rawValue!='') &&
+		    (rawValue!=undefined) &&
+		    (rawValue!=NaN)) {
+		    var parsedValue=parseInt(rawValue);
 		    var state=this.state;
-		    state.value=rawValue;
+		    state.value=parsedValue;
 		    this.setState(state);
 		    this.props.changeHandler(parsedValue);
-		};
+		}
 	    }.bind(this)
 	});
     }
