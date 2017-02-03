@@ -6,28 +6,6 @@ from models.products.positions.single_team_outrights import SingleTeamOutrightPr
 
 MinProb, MaxProb = 0.05, 0.95
 
-def item_group_name(name):
-    if name in ["Winner", "Promotion", "Relegation", "Bottom"]:
-        return "Main"
-    elif (name.startswith("Top") or
-          name.startswith("Outside Top")):
-        return "Top"
-    elif (name.startswith("Bottom") or
-          name.startswith("Outside Bottom")):
-        return "Bottom"
-    elif name.endswith("Place"):
-        return "Place"
-    else:
-        raise RuntimeError("No group key for '%s'" % name)
-
-def group_items(item):
-    groups={}
-    for item in item:
-        groupname=item_group_name(item["name"])
-        groups.setdefault(groupname, [])
-        groups[groupname].append(item)
-    return groups
-
 # curl "http://localhost:8080/tasks/random/single_team_outrights?n=10"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -42,6 +20,27 @@ class IndexHandler(webapp2.RequestHandler):
 
 class InitHandler(webapp2.RequestHandler):
 
+    def group_items(self, item):
+        def item_group_name(name):
+            if name in ["Winner", "Promotion", "Relegation", "Bottom"]:
+                return "Main"
+            elif (name.startswith("Top") or
+                  name.startswith("Outside Top")):
+                return "Top"
+            elif (name.startswith("Bottom") or
+                  name.startswith("Outside Bottom")):
+                return "Bottom"
+            elif name.endswith("Place"):
+                return "Place"
+            else:
+                raise RuntimeError("No group key for '%s'" % name)
+        groups={}
+        for item in item:
+            groupname=item_group_name(item["name"])
+            groups.setdefault(groupname, [])
+            groups[groupname].append(item)
+        return groups
+    
     @task
     def post(self):
         random.seed(random_seed())
@@ -72,7 +71,7 @@ class InitHandler(webapp2.RequestHandler):
         items=[item for item in calc_positional_probability(struct)
               if (item["value"] > MinProb and
                   item["value"] < MaxProb)]
-        groups=group_items(items)
+        groups=self.group_items(items)
         groupnames=sorted(groups.keys())
         if "Main" in groupnames:
             groupname="Main"
