@@ -75,7 +75,7 @@ class InitHandler(webapp2.RequestHandler):
                              if (teamname in fixture["name"] or
                                  versusname in fixture["name"])],
                 "payoffs": [{"name": "Winner"}]}
-        return calc_positional_probability(struct)[0]
+        return calc_positional_probability(struct)
 
     @task
     def post(self, std=3):        
@@ -95,13 +95,23 @@ class InitHandler(webapp2.RequestHandler):
         f=1 if random.random() > 0.5 else -1
         j=i+f*(1+int((std-1)*random.random()))
         versusname=teamnames[j]
-        logging.info("%s/%s vs %s" % (leaguename, teamname, versusname))
-        allitems=self.calc_prices(leaguename,
-                                  teamname,
-                                  versusname,
-                                  expiry,
-                                  teams)
-        logging.info(allitems)
+        items=self.calc_prices(leaguename,
+                               teamname,
+                               versusname,
+                               expiry,
+                               teams)
+        probability=items[0]["value"]
+        price=format_price(probability)
+        SeasonMatchBetProduct(league=leaguename,
+                              team=teamname,
+                              versus=versusname,
+                              expiry=expiry["value"],
+                              price=price).put()
+        logging.info("%s/%s/%s/%s -> %s" % (leaguename,
+                                            teamname,
+                                            versusname,
+                                            expiry["value"],
+                                            price))
         
 Routing=[('/tasks/random/season_match_bets/init', InitHandler),
          ('/tasks/random/season_match_bets', IndexHandler)]

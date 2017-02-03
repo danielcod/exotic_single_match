@@ -13,8 +13,8 @@ Expiries=init_expiries(cutoffmonth=4)
 
 def random_seed():
     import time
-    q=time.time()
-    return int(q*1e10)-(int(q)*1e10)
+    return int(1e10*time.time()) % 1e10
+
 
           
 
