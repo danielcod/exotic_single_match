@@ -11,7 +11,7 @@ Winner="Winner"
 def sumproduct(X, Y):
     return sum([(x*y) for x, y in zip(X, Y)])
 
-# curl "http://localhost:8080/tasks/random/season_match_bets?n=10"
+# curl "http://localhost:8080/tasks/random/season_match_bets?n=20"
 
 class IndexHandler(webapp2.RequestHandler):
 

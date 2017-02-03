@@ -6,7 +6,7 @@ from models.products.positions.single_team_outrights import SingleTeamOutrightPr
 
 MinProb, MaxProb = 0.05, 0.95
 
-# curl "http://localhost:8080/tasks/random/single_team_outrights?n=10"
+# curl "http://localhost:8080/tasks/random/single_team_outrights?n=20"
 
 class IndexHandler(webapp2.RequestHandler):
 
