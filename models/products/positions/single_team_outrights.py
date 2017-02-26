@@ -34,6 +34,10 @@ class SingleTeamOutrightProduct(db.Model):
         return [{"name": name}
                 for name in names]
 
+    """
+    - NB is calculated at end of season
+    """
+    
     @classmethod
     def filter_itm_selections(self, leaguename,
                               paths=Paths, seed=Seed,

@@ -1,5 +1,7 @@
 from models.products.positions import *
 
+MinProb, MaxProb = 0.01, 0.99
+
 class SeasonMatchBetProduct(db.Model):
 
     Payoff="Winner"
@@ -15,6 +17,35 @@ class SeasonMatchBetProduct(db.Model):
         query=SeasonMatchBetProduct.all()
         return fetch_models_db(query)
 
+    """
+    - NB is calculated at end of season
+    """
+    
+    @classmethod
+    def filter_itm_selections(self, leaguename):
+        teams=fetch_teams(leaguename)
+        results=fetch_results(leaguename)
+        fixtures=[fixture for fixture in fetch_fixtures(leaguename)
+                  if (fixture["date"] > Today and
+                      fixture["date"] <= self.expiry)]
+        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        items=[]
+        for team in teams:
+            for versus in teams:
+                if team["name"]==versus["name"]:
+                    continue
+                diff=[x-y for x, y in zip(pp[team["name"]],
+                                          pp[versus["name"]])]
+                diff0, diff1 = (sum([v for v in diff if v > 0]),
+                                sum([-v for v in diff if v < 0]))
+                if ((minprob < diff0 < maxprob) and
+                    (minprob < diff1 < maxprob)):
+                    item={"team": team["name"],
+                          "versus": versus["name"]}
+                    items.append(item)
+        return items
+        
+    
     def calc_probability(self, paths=Paths, seed=Seed):
         teams=[team for team in fetch_teams(self.league)
                if team["name"] in [self.team, self.versus]]
