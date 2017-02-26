@@ -191,9 +191,18 @@ var BrowseProductsPanel=React.createClass({
 	    teams: [this.DefaultTeam]
 	}
     },
+    sortTeams: function(item0, item1) {
+	if (item0.value < item1.value) {
+	    return -1;
+	} else if (item0.value > item1.value) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+    },
     fetchTeamsHandler: function(teams) {
 	var state=this.state;
-	state.teams=[this.DefaultTeam].concat(teams);
+	state.teams=[this.DefaultTeam].concat(teams.sort(this.sortTeams));
 	this.setState(state);
     },
     componentDidMount: function() {
