@@ -1,5 +1,7 @@
 from models.products.positions import *
 
+MinProb, MaxProb = 0.01, 0.99
+
 class SingleTeamOutrightProduct(db.Model):
 
     league=db.StringProperty()
@@ -31,15 +33,36 @@ class SingleTeamOutrightProduct(db.Model):
             names.append("%i%s Place" % (i, cardinal_suffix(i)))
         return [{"name": name}
                 for name in names]
+
+    @classmethod
+    def filter_itm_selections(self, leaguename,
+                              paths=Paths, seed=Seed,
+                              maxprob=MaxProb, minprob=MinProb):
+        teams=fetch_teams(leaguename)
+        results=fetch_results(leaguename)
+        fixtures=[fixture for fixture in fetch_fixtures(leaguename)
+                  if (fixture["date"] > Today and
+                      fixture["date"] <= self.expiry)]
+        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        payoffs=self.init_payoffs(leaguename)
+        items=[]
+        for team in teams:
+            for payoff in payoffs:
+                value=sumproduct(payoff, pp[team["name"]])
+                if minprob < value < maxprob:
+                    item={"team": team["name"],
+                          "payoff": payoffname}
+                    items.append(item)
+        return items
     
-    def calc_probability(self):
+    def calc_probability(self, paths=Paths, seed=Seed):
         teams=fetch_teams(self.league)
         results=fetch_results(self.league)
         fixtures=[fixture for fixture in fetch_fixtures(self.league)
                   if (fixture["date"] > Today and
                       fixture["date"] <= self.expiry)]
+        pp=simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.payoff, len(teams))
-        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         return sumproduct(payoff, pp[self.team])
 
     @property

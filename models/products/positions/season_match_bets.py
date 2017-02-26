@@ -15,7 +15,7 @@ class SeasonMatchBetProduct(db.Model):
         query=SeasonMatchBetProduct.all()
         return fetch_models_db(query)
 
-    def calc_probability(self):
+    def calc_probability(self, paths=Paths, seed=Seed):
         teams=[team for team in fetch_teams(self.league)
                if team["name"] in [self.team, self.versus]]
         results=[result for result in fetch_results(self.league)
@@ -28,8 +28,8 @@ class SeasonMatchBetProduct(db.Model):
                        (self.versus in fixture["name"])))]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
+        pp=simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.Payoff, len(teams))
-        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         return sumproduct(payoff, pp[self.team])
 
     @property
