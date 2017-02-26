@@ -16,6 +16,9 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
 
+def sumproduct(X, Y):
+    return sum([x*y for x, y in zip(X, Y)])
+
 def kwik_payoff(text):
     payoff=[]
     for item in text.split("|"):
@@ -55,24 +58,4 @@ def parse_payoff(payoff, n):
     else:
         raise RuntimeError("'%s' not recognised as payoff" % payoff)
 
-def sumproduct(X, Y):
-    return sum([x*y for x, y in zip(X, Y)])
-    
-def calc_positional_probability(struct, paths=Paths, seed=Seed):
-    if struct["fixtures"]==[]:
-        raise RuntimeError("No fixtures found")
-    pp=simulator.simulate(struct["teams"],
-                          struct["results"],
-                          struct["fixtures"],
-                          paths, seed)
-    leaguename=struct["team"]["league"]
-    teamname=struct["team"]["name"]
-    def calc_payoff_value(payoffname):
-        payoff=parse_payoff(payoffname,
-                            len(struct["teams"]),
-                            leaguename)
-        return sumproduct(payoff, pp[teamname])
-    return [{"name": payoff["name"],
-             "value": calc_payoff_value(payoff["name"])}
-            for payoff in struct["payoffs"]]
     

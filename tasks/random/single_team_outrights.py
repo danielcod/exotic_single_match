@@ -1,10 +1,31 @@
 from tasks.random import *
 
-from models.products.positions import calc_positional_probability
+from models.products.positions import parse_payoff, sumproduct
+
+import quant.simulator as simulator
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
 MinProb, MaxProb = 0.05, 0.95
+
+# AARGH
+
+def calc_positional_probability(struct, paths=1000, seed=13):
+    if struct["fixtures"]==[]:
+        raise RuntimeError("No fixtures found")
+    pp=simulator.simulate(struct["teams"],
+                          struct["results"],
+                          struct["fixtures"],
+                          paths, seed)
+    leaguename=struct["team"]["league"]
+    teamname=struct["team"]["name"]
+    def calc_payoff_value(payoffname):
+        payoff=parse_payoff(payoffname,
+                            len(struct["teams"]))
+        return sumproduct(payoff, pp[teamname])
+    return [{"name": payoff["name"],
+             "value": calc_payoff_value(payoff["name"])}
+            for payoff in struct["payoffs"]]
 
 # curl "http://localhost:8080/tasks/random/single_team_outrights?n=20"
 
