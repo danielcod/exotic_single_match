@@ -90,6 +90,8 @@ class InitHandler(webapp2.RequestHandler):
                                   expiry,
                                   teams,
                                   payoffs)
+        if allitems==[]:
+            raise RuntimeError("No price items found")
         groups=self.group_items(allitems)
         groupname=self.random_groupname(groups)
         items=groups[groupname]
