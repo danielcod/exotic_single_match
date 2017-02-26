@@ -12,6 +12,7 @@ import random
 
 Deps=yaml.load("""
 - css/app/theme.min.css
+- css/app/exotics_engine.css
 - js/lib/jquery.min.js
 - js/lib/bootstrap.min.js
 - js/lib/react.min.js
