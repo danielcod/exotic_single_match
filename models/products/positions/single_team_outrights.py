@@ -8,35 +8,6 @@ class SingleTeamOutrightProduct(db.Model):
     expiry=db.DateProperty()
     price=db.StringProperty()
 
-    @property
-    def description(self):
-        def format_payoff(payoff):
-            if payoff=="Winner":
-                return "top of the table"
-            elif payoff=="Bottom":
-                return "bottom of the table"
-            elif payoff=="Promotion":
-                return "promoted"
-            elif payoff=="Relegation":
-                return "relegated"
-            elif re.search("^Top", payoff):
-                return "in the %s" % payoff.lower()
-            elif re.search("^Bottom", payoff):
-                return "in the %s" % payoff.lower()
-            elif re.search("^Outside", payoff):
-                return "outside the %s" % " ".join(payoff.lower().split(" ")[1:])
-            elif re.search("Place$", payoff):
-                return "in "+payoff.lower()
-            else:
-                return payoff
-        def format_expiry(expiry):
-            return re.sub("End", "end", format_date(expiry))
-        return {"selection": self.team, # include league ?
-                "market": "%s at %s" % (format_payoff(self.payoff).capitalize(),
-                                        format_expiry(self.expiry)),
-                "group": {"label": "Outright",
-                          "level": "red"}}
-    
     @classmethod
     def find_all(self):
         query=SingleTeamOutrightProduct.all()
@@ -84,5 +55,34 @@ class SingleTeamOutrightProduct(db.Model):
         resp=calc_positional_probability(struct)
         return resp[0]["value"]
 
+    @property
+    def description(self):
+        def format_payoff(payoff):
+            if payoff=="Winner":
+                return "top of the table"
+            elif payoff=="Bottom":
+                return "bottom of the table"
+            elif payoff=="Promotion":
+                return "promoted"
+            elif payoff=="Relegation":
+                return "relegated"
+            elif re.search("^Top", payoff):
+                return "in the %s" % payoff.lower()
+            elif re.search("^Bottom", payoff):
+                return "in the %s" % payoff.lower()
+            elif re.search("^Outside", payoff):
+                return "outside the %s" % " ".join(payoff.lower().split(" ")[1:])
+            elif re.search("Place$", payoff):
+                return "in "+payoff.lower()
+            else:
+                return payoff
+        def format_expiry(expiry):
+            return re.sub("End", "end", format_date(expiry))
+        return {"selection": self.team, # include league ?
+                "market": "%s at %s" % (format_payoff(self.payoff).capitalize(),
+                                        format_expiry(self.expiry)),
+                "group": {"label": "Outright",
+                          "level": "red"}}
+    
 
 

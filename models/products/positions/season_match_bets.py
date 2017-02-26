@@ -10,16 +10,6 @@ class SeasonMatchBetProduct(db.Model):
     expiry=db.DateProperty()
     price=db.StringProperty()
 
-    @property
-    def description(self):
-        def format_expiry(expiry):
-            return re.sub("End", "end", format_date(expiry))
-        return {"selection": self.team, # include league ?
-                "market": "To be above %s at %s" % (self.versus,
-                                                    format_expiry(self.expiry)),
-                "group": {"label": "SMB",
-                          "level": "orange"}}
-    
     @classmethod
     def find_all(self):
         query=SeasonMatchBetProduct.all()
@@ -48,7 +38,18 @@ class SeasonMatchBetProduct(db.Model):
                 "payoffs": payoffs}
         resp=calc_positional_probability(struct)
         return resp[0]["value"]
+
+    @property
+    def description(self):
+        def format_expiry(expiry):
+            return re.sub("End", "end", format_date(expiry))
+        return {"selection": self.team, # include league ?
+                "market": "To be above %s at %s" % (self.versus,
+                                                    format_expiry(self.expiry)),
+                "group": {"label": "SMB",
+                          "level": "orange"}}
     
+
 
 
 
