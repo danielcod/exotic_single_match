@@ -8,8 +8,6 @@ from helpers.price_helpers import format_price
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
-import random
-
 Deps=yaml.load("""
 - css/app/theme.min.css
 - css/app/exotics_engine.css
@@ -36,9 +34,11 @@ ProductMapping={
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
+MemcacheAge=60
+
 class LeaguesHandler(webapp2.RequestHandler):
 
-    @emit_json_memcache(60)
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         return [{"value": league["name"]}
                 for league in Leagues]
@@ -46,7 +46,7 @@ class LeaguesHandler(webapp2.RequestHandler):
 class TeamsHandler(webapp2.RequestHandler):
 
     @validate_query({'league': '^\\D{3}\\.\\d$'})
-    @emit_json_memcache(60)
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         leaguename=self.request.get("league")
         leaguenames=[league["name"]
@@ -58,13 +58,13 @@ class TeamsHandler(webapp2.RequestHandler):
 
 class ExpiriesHandler(webapp2.RequestHandler):
     
-    @emit_json_memcache(60)
+    @emit_json_memcache(MemcacheAge)
     def get(self, cutoffmonth=4):
         return init_expiries(cutoffmonth)
 
 class ProductTypesHandler(webapp2.RequestHandler):
 
-    @emit_json
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         return ProductTypes
     
@@ -111,9 +111,10 @@ class BrowseProductsHandler(webapp2.RequestHandler):
         
     @validate_query({'seed': '^\\d+$',
                      'group': '.+'})
-    @emit_json
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         seed=int(self.request.get("seed"))
+        import random
         random.seed(seed) # NB
         products=self.load_products()
         if products==[]:
@@ -127,7 +128,7 @@ class ShowProductHandler(webapp2.RequestHandler):
 
     @validate_query({'type': '.+',
                      'id': '^\\d+'})
-    @emit_json
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         producttype=self.request.get("type")
         if producttype not in ProductMapping:
@@ -142,7 +143,7 @@ class ShowProductHandler(webapp2.RequestHandler):
 class ProductPayoffsHandler(webapp2.RequestHandler):
 
     @validate_query({'league': '\\D{3}\\.\\d'})
-    @emit_json
+    @emit_json_memcache(MemcacheAge)
     def get(self):
         producttype=self.request.get("type")
         if producttype not in ProductMapping:
@@ -156,6 +157,7 @@ class ProductPayoffsHandler(webapp2.RequestHandler):
 class ProductPriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
+    # @emit_json_memcache(MemcacheAge)
     @emit_json
     def post(self, struct):
         producttype, params = struct["type"], struct["params"]
