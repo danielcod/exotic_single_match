@@ -21,9 +21,9 @@ Deps=yaml.load("""
 - js/app/components.js
 - js/app/products/single_team_outrights.js
 - js/app/products/season_match_bets.js
-- js/app/steps/step_one.js
-- js/app/steps/step_two.js
-- js/app/steps/step_three.js
+- js/app/pages/page_one.js
+- js/app/pages/page_two.js
+- js/app/pages/page_three.js
 - js/app/app.js
 """)
 
