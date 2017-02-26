@@ -1,3 +1,8 @@
+var EmptyProduct={
+    type: "single_team_outright",
+    params: {}
+};
+
 var BrowseProductsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -206,6 +211,9 @@ var BrowseProductsPanel=React.createClass({
 	state.nItems=nItems;
 	this.setState(state);
     },
+    handleCreateProduct: function() {
+	this.props.stepChangeHandler(1, EmptyProduct);
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -258,8 +266,9 @@ var BrowseProductsPanel=React.createClass({
 					children: "Exotic"
 				    })
 				}),
-				React.DOM.button({
+				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
+				    onClick: this.handleCreateProduct,
 				    children: "Build My Own"
 				})
 			    ]
