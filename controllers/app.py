@@ -34,27 +34,40 @@ ProductMapping={
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
-MemcacheAge=60
-
 class LeaguesHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
     def get(self):
         return [{"value": league["name"]}
                 for league in Leagues]
+
+# curl "http://localhost:8080/app/teams?league=ENG.1"
     
 class TeamsHandler(webapp2.RequestHandler):
 
-    @validate_query({'league': '^\\D{3}\\.\\d$'})
-    @emit_json_memcache(MemcacheAge)
-    def get(self):
-        leaguename=self.request.get("league")
+    def get_all_teams(self):
+        teams=[]
+        for league in Leagues:
+            teams+=[{"value": team["name"]}
+                    for team in yc_lite.get_teams(league["name"])]
+        return teams
+    
+    def get_teams(self, leaguename):
         leaguenames=[league["name"]
                      for league in Leagues]
         if leaguename not in leaguenames:
             raise RuntimeError("League not found")
         return [{"value": team["name"]}
                 for team in yc_lite.get_teams(leaguename)]
+    
+    @validate_query({'league': '^(\\D{3}\\.\\d$)|(All)'})
+    @emit_json_memcache(MemcacheAge)
+    def get(self):
+        leaguename=self.request.get("league")
+        if leaguename==All:
+            return self.get_all_teams()
+        else:
+            return self.get_teams(leaguename)
 
 class ExpiriesHandler(webapp2.RequestHandler):
     

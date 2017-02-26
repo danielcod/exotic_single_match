@@ -6,7 +6,9 @@ from helpers.json_helpers import *
 
 import datetime, logging, re, webapp2, yaml
 
-MemcacheAge=60*60 # keep it long to avoid calling DB att the time
+MemcacheAge=60*60 # keep it long to avoid calling DB all the time
+
+All="All"
 
 def render_error(self, msg):
     self.response.set_status(400)
