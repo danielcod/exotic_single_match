@@ -28,7 +28,7 @@ class SeasonMatchBetProduct(db.Model):
                        (self.versus in fixture["name"])))]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        payoff=parse_payoff(self.Payoff, len(teams), self.league)
+        payoff=parse_payoff(self.Payoff, len(teams))
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         return sumproduct(payoff, pp[self.team])
 

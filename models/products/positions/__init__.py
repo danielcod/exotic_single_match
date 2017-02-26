@@ -30,7 +30,7 @@ def kwik_payoff(text):
                      for i in range(int(tokens[0]))]
     return payoff
 
-def parse_payoff(payoff, n, leaguename):
+def parse_payoff(payoff, n):
     def parse_i(payoff):
         return int(re.findall("\\d+", payoff)[0])
     if re.search("^Winner$", payoff):

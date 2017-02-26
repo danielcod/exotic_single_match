@@ -38,7 +38,7 @@ class SingleTeamOutrightProduct(db.Model):
         fixtures=[fixture for fixture in fetch_fixtures(self.league)
                   if (fixture["date"] > Today and
                       fixture["date"] <= self.expiry)]
-        payoff=parse_payoff(self.payoff, len(teams), self.league)
+        payoff=parse_payoff(self.payoff, len(teams))
         pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
         return sumproduct(payoff, pp[self.team])
 
