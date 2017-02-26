@@ -16,28 +16,21 @@ class SeasonMatchBetProduct(db.Model):
         return fetch_models_db(query)
 
     def calc_probability(self):
-        today=datetime.date.today()
-        team={"league": self.league,
-              "name": self.team}
-        teams=[team_ for team_ in fetch_teams(self.league)
-               if team_["name"] in [self.team, self.versus]]
+        teams=[team for team in fetch_teams(self.league)
+               if team["name"] in [self.team, self.versus]]
         results=[result for result in fetch_results(self.league)
                  if (self.team in result["name"] or
                      self.versus in result["name"])]
-        fixtures=[fixture
-                  for fixture in fetch_fixtures(self.league)
+        fixtures=[fixture for fixture in fetch_fixtures(self.league)
                   if ((fixture["date"] > Today) and
                       (fixture["date"] <= self.expiry) and
                       ((self.team in fixture["name"]) or
                        (self.versus in fixture["name"])))]
-        payoffs=[{"name": self.Payoff}]
-        struct={"team": team,
-                "teams": teams,
-                "results": results,
-                "fixtures": fixtures,
-                "payoffs": payoffs}
-        resp=calc_positional_probability(struct)
-        return resp[0]["value"]
+        if fixtures==[]:
+            raise RuntimeError("No fixtures found")
+        payoff=parse_payoff(self.Payoff, len(teams), self.league)
+        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
+        return sumproduct(payoff, pp[self.team])
 
     @property
     def description(self):
