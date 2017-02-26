@@ -178,15 +178,26 @@ var BrowseProductsPaginator=React.createClass({
 });
 
 var BrowseProductsPanel=React.createClass({
+    DefaultTeam: {
+	value: "Team"
+    },
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
-	    paginatorLength: 5
-
+	    paginatorLength: 5,
+	    teams: [this.DefaultTeam]
 	}
+    },
+    fetchTeamsHandler: function(teams) {
+	var state=this.state;
+	state.teams=[this.DefaultTeam].concat(teams);
+	this.setState(state);
+    },
+    componentDidMount: function() {
+	this.props.exoticsApi.fetchTeams(undefined, this.fetchTeamsHandler);
     },
     handleStepClicked: function(product) {
 	this.props.stepChangeHandler(1, product);
@@ -251,8 +262,10 @@ var BrowseProductsPanel=React.createClass({
 				    style: {
 					"margin-right": "5px"
 				    },
-				    children: React.DOM.option({
-					children: "Team"
+				    children: this.state.teams.map(function(team) {
+					return React.DOM.option({
+					    children: team.value
+					});
 				    })
 				}),
 				React.DOM.select({
