@@ -16,7 +16,7 @@ class SeasonMatchBetProduct(db.Model):
         return fetch_models_db(query)
 
     """
-    - is the probability calculation correct ??
+    - probability calculation not correct
     """
     
     @classmethod
@@ -35,14 +35,10 @@ class SeasonMatchBetProduct(db.Model):
             for versus in teams:
                 if team["name"]==versus["name"]:
                     continue
-                diff=[x-y for x, y in zip(pp[team["name"]],
-                                          pp[versus["name"]])]
-                diff0, diff1 = (sum([v for v in diff if v > 0]),
-                                sum([-v for v in diff if v < 0]))
-                if (diff0+diff1)!=0:
-                    prob=diff0/float(diff0+diff1)
-                else:
-                    prob=0.5
+                prob=sum([x-y
+                          for x, y in zip(pp[team["name"]],
+                                          pp[versus["name"]])
+                          if x-y > 0])
                 if ((minprob < prob < maxprob) and
                     (minprob < prob < maxprob)):
                     item={"team": team["name"],
