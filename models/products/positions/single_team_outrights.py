@@ -33,23 +33,14 @@ class SingleTeamOutrightProduct(db.Model):
                 for name in names]
     
     def calc_probability(self):
-        today=datetime.date.today()
-        team={"league": self.league,
-              "name": self.team}
         teams=fetch_teams(self.league)
         results=fetch_results(self.league)
-        fixtures=[fixture
-                  for fixture in fetch_fixtures(self.league)
+        fixtures=[fixture for fixture in fetch_fixtures(self.league)
                   if (fixture["date"] > Today and
                       fixture["date"] <= self.expiry)]
-        payoffs=[{"name": self.payoff}]
-        struct={"team": team,
-                "teams": teams,
-                "results": results,
-                "fixtures": fixtures,
-                "payoffs": payoffs}
-        resp=calc_positional_probability(struct)
-        return resp[0]["value"]
+        payoff=parse_payoff(self.payoff, len(teams), self.league)
+        pp=simulator.simulate(teams, results, fixtures, Paths, Seed)
+        return sumproduct(payoff, pp[self.team])
 
     @property
     def description(self):
