@@ -3,6 +3,8 @@ var EditProductMapping={
     "season_match_bet": SeasonMatchBetForm
 };
 
+var DefaultProductName="single_team_outright";
+
 var EditProductSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -59,11 +61,13 @@ var EditProductForm=React.createClass({
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProductTypes(this.productTypesHandler);
-	if ((this.props.initialProduct.params!=undefined) &&
-	    (this.props.initialProduct.params.id!=undefined)) {
+	if (this.props.initialProduct!=undefined) {
 	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.params.id, this.productHandler);
 	} else {
-	    this.productHandler(this.props.initialProduct);
+	    this.productHandler({
+		type: DefaultProductName,
+		params: {}
+	    })
 	}
     },
     productChangeHandler: function(value) {

@@ -1,8 +1,3 @@
-var EmptyProduct={
-    type: "single_team_outright",
-    params: {}
-};
-
 var BrowseProductsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -212,7 +207,7 @@ var BrowseProductsPanel=React.createClass({
 	this.setState(state);
     },
     handleCreateProduct: function() {
-	this.props.stepChangeHandler(1, EmptyProduct);
+	this.props.stepChangeHandler(1, undefined);
     },
     render: function() {
 	return React.DOM.div({
