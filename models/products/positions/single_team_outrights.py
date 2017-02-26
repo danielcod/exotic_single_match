@@ -18,10 +18,6 @@ class SingleTeamOutrightProduct(db.Model):
         teams=fetch_teams(leaguename)
         names=[]
         names.append("Winner")
-        if leaguename in Promotion:
-            names.append("Promotion")
-        if leaguename in Relegation:
-            names.append("Relegation")
         for i in range(2, 1+len(teams)/2):
             names.append("Top %i" % i)
         for i in range(2, 1+len(teams)/2):
@@ -62,10 +58,6 @@ class SingleTeamOutrightProduct(db.Model):
                 return "top of the table"
             elif payoff=="Bottom":
                 return "bottom of the table"
-            elif payoff=="Promotion":
-                return "promoted"
-            elif payoff=="Relegation":
-                return "relegated"
             elif re.search("^Top", payoff):
                 return "in the %s" % payoff.lower()
             elif re.search("^Bottom", payoff):

@@ -47,7 +47,7 @@ class InitHandler(webapp2.RequestHandler):
     
     def group_items(self, item):
         def item_group_name(name):
-            if name in ["Winner", "Promotion", "Relegation", "Bottom"]:
+            if name in ["Winner", "Bottom"]:
                 return "Main"
             elif (name.startswith("Top") or
                   name.startswith("Outside Top")):

@@ -2,30 +2,6 @@ from models.products import *
 
 import quant.simulator as simulator
 
-"""
-- Promotion, Relegation currently commented out because they don't play well with variable fixture dates
-"""
-
-Promotion=yaml.load("""
-ENG.2: '2x1|4x0.25|18x0'
-ENG.3: '2x1|4x0.25|18x0'
-ENG.4: '3x1|4x0.25|17x0'
-""")
-
-Promotion={}
-
-Relegation=yaml.load("""
-ENG.1: '17x0|3x1'
-ENG.2: '21x0|3x1'
-ENG.3: '20x0|4x1'
-ENG.4: '22x0|2x1'
-GER.1: '15x0|0.33|2x1'
-FRA.1: '17x0|3x1'
-SPA.1: '17x0|3x1'
-""")                  
-
-Relegation={}
-
 Paths, Seed = 1000, 13
 
 def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
@@ -59,10 +35,6 @@ def parse_payoff(payoff, n, leaguename):
         return int(re.findall("\\d+", payoff)[0])
     if re.search("^Winner$", payoff):
         return kwik_payoff("1|%ix0" % (n-1))
-    elif re.search("^Promotion$", payoff):
-        if leaguename not in Promotion:
-            raise RuntimeError("No Promotion for %s" % leaguename)
-        return kwik_payoff(Promotion[leaguename])
     elif re.search("^Top \\d+$", payoff):
         i=parse_i(payoff)
         return kwik_payoff("%ix1|%ix0" % (i, n-i))
@@ -78,10 +50,6 @@ def parse_payoff(payoff, n, leaguename):
     elif re.search("^Outside Bottom \\d+$", payoff):
         i=parse_i(payoff)
         return kwik_payoff("%ix1|%ix0" % (n-i, i))
-    elif re.search("^Relegation$", payoff):
-        if leaguename not in Relegation:
-            raise RuntimeError("No Relegation for %s" % leaguename)
-        return kwik_payoff(Relegation[leaguename])
     elif re.search("^Bottom$", payoff):
         return kwik_payoff("%ix0|1" % (n-1))
     else:
