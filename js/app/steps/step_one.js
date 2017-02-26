@@ -34,7 +34,9 @@ var BrowseProductsRow=React.createClass({
 			    ]
 			}),
 			React.DOM.p({
-			    children: this.props.product.params.description.market
+			    dangerouslySetInnerHTML: {
+				"__html": this.props.product.params.description.market
+			    }
 			})
 		    ]
 		}),

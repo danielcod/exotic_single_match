@@ -32,8 +32,10 @@ var PlaceBetPanel=React.createClass({
 			children: [
 			    this.state.params.description.selection,
 			    React.DOM.small({
-				className: "text-center",			
-				children: this.state.params.description.market
+				className: "text-center",
+				dangerouslySetInnerHTML: {
+				    "__html": this.state.params.description.market
+				}
 			    })
 			]
 		    }),
