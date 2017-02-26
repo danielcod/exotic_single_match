@@ -10,8 +10,6 @@ from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
 import random
 
-Title="Team Exotics Demo"
-
 Deps=yaml.load("""
 - css/app/theme.min.css
 - js/lib/jquery.min.js
@@ -110,7 +108,8 @@ class BrowseProductsHandler(webapp2.RequestHandler):
         self.save_products_memcache(products)
         return products
         
-    @validate_query({'seed': '^\\d+$'})
+    @validate_query({'seed': '^\\d+$',
+                     'group': '.+'})
     @emit_json
     def get(self):
         seed=int(self.request.get("seed"))
@@ -171,8 +170,7 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         depsstr=",".join(["\"../%s\"" % dep
                           for dep in Deps])
-        tv={"title": Title,
-            "deps": depsstr}
+        tv={"deps": depsstr}
         render_template(self, "templates/app.html", tv)
     
 Routing=[('/app/leagues', LeaguesHandler),
