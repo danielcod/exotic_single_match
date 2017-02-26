@@ -19,10 +19,11 @@ class SeasonMatchBetProduct(db.Model):
 
     """
     - NB is calculated at end of season
+    - is the probability calculation correct ??
     """
     
     @classmethod
-    def filter_itm_selections(self, leaguename):
+    def filter_atm_versus(self, leaguename):
         teams=fetch_teams(leaguename)
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
@@ -38,10 +39,15 @@ class SeasonMatchBetProduct(db.Model):
                                           pp[versus["name"]])]
                 diff0, diff1 = (sum([v for v in diff if v > 0]),
                                 sum([-v for v in diff if v < 0]))
-                if ((minprob < diff0 < maxprob) and
-                    (minprob < diff1 < maxprob)):
+                if (diff0+diff1)!=0:
+                    prob=diff0/float(diff0+diff1)
+                else:
+                    prob=0.5
+                if ((minprob < prob < maxprob) and
+                    (minprob < prob < maxprob)):
                     item={"team": team["name"],
-                          "versus": versus["name"]}
+                          "versus": versus["name"],
+                          "probability": prob}
                     items.append(item)
         return items
         

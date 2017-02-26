@@ -39,9 +39,9 @@ class SingleTeamOutrightProduct(db.Model):
     """
     
     @classmethod
-    def filter_itm_selections(self, leaguename,
-                              paths=Paths, seed=Seed,
-                              maxprob=MaxProb, minprob=MinProb):
+    def filter_atm_payoffs(self, leaguename,
+                           paths=Paths, seed=Seed,
+                           maxprob=MaxProb, minprob=MinProb):
         teams=fetch_teams(leaguename)
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
@@ -52,10 +52,11 @@ class SingleTeamOutrightProduct(db.Model):
         items=[]
         for team in teams:
             for payoff in payoffs:
-                value=sumproduct(payoff, pp[team["name"]])
-                if minprob < value < maxprob:
+                prob=sumproduct(payoff, pp[team["name"]])
+                if minprob < prob < maxprob:
                     item={"team": team["name"],
-                          "payoff": payoffname}
+                          "payoff": payoffname,
+                          "probability": prob}
                     items.append(item)
         return items
     
