@@ -34,28 +34,27 @@ class SingleTeamOutrightProduct(db.Model):
         return [{"name": name}
                 for name in names]
 
-    """
-    - NB is calculated at end of season
-    """
-    
     @classmethod
     def filter_atm_payoffs(self, leaguename,
                            paths=Paths, seed=Seed,
-                           maxprob=MaxProb, minprob=MinProb):
+                           minprob=MinFilterProb, maxprob=MaxFilterProb):
         teams=fetch_teams(leaguename)
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
-                  if (fixture["date"] > Today and
-                      fixture["date"] <= self.expiry)]
+                  if fixture["date"] > Today] # NB no expiry check
+        if fixtures==[]:
+            raise RuntimeError("No fixtures found")
         pp=simulator.simulate(teams, results, fixtures, paths, seed)
         payoffs=self.init_payoffs(leaguename)
+        for payoff in payoffs:
+            payoff["payoff"]=parse_payoff(payoff["name"], len(teams))
         items=[]
         for team in teams:
             for payoff in payoffs:
-                prob=sumproduct(payoff, pp[team["name"]])
+                prob=sumproduct(payoff["payoff"], pp[team["name"]])
                 if minprob < prob < maxprob:
                     item={"team": team["name"],
-                          "payoff": payoffname,
+                          "payoff": payoff["name"],
                           "probability": prob}
                     items.append(item)
         return items
@@ -66,6 +65,8 @@ class SingleTeamOutrightProduct(db.Model):
         fixtures=[fixture for fixture in fetch_fixtures(self.league)
                   if (fixture["date"] > Today and
                       fixture["date"] <= self.expiry)]
+        if fixtures==[]:
+            raise RuntimeError("No fixtures found")
         pp=simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.payoff, len(teams))
         return sumproduct(payoff, pp[self.team])

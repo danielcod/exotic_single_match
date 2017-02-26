@@ -41,6 +41,8 @@ handlers:
   script: tasks.random.season_match_bets.app
 - url: /tasks/random/single_team_outrights.*
   script: tasks.random.single_team_outrights.app
+- url: /tasks/selections/single_team_outrights.*
+  script: tasks.selections.single_team_outrights.app
 - url: /tasks/yc_probabilities.*
   script: tasks.yc_probabilities.app
 # ROOT

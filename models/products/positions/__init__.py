@@ -2,6 +2,8 @@ from models.products import *
 
 import quant.simulator as simulator
 
+MinFilterProb, MaxFilterProb = 0.01, 0.99
+
 Paths, Seed = 1000, 13
 
 def filter_fixtures(fixtures, teams, expirydate, startdate=Today):

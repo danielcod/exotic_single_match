@@ -1,7 +1,5 @@
 from models.products.positions import *
 
-MinProb, MaxProb = 0.01, 0.99
-
 class SeasonMatchBetProduct(db.Model):
 
     Payoff="Winner"
@@ -18,17 +16,19 @@ class SeasonMatchBetProduct(db.Model):
         return fetch_models_db(query)
 
     """
-    - NB is calculated at end of season
     - is the probability calculation correct ??
     """
     
     @classmethod
-    def filter_atm_versus(self, leaguename):
+    def filter_atm_versus(self, leaguename,
+                          paths=Paths, seed=Seed,
+                          minprob=MinFilterProb, maxprob=MaxFilterProb):
         teams=fetch_teams(leaguename)
         results=fetch_results(leaguename)
         fixtures=[fixture for fixture in fetch_fixtures(leaguename)
-                  if (fixture["date"] > Today and
-                      fixture["date"] <= self.expiry)]
+                  if fixture["date"] > Today] # NB no expiry check
+        if fixtures==[]:
+            raise RuntimeError("No fixtures found")
         pp=simulator.simulate(teams, results, fixtures, paths, seed)
         items=[]
         for team in teams:
@@ -50,8 +50,7 @@ class SeasonMatchBetProduct(db.Model):
                           "probability": prob}
                     items.append(item)
         return items
-        
-    
+            
     def calc_probability(self, paths=Paths, seed=Seed):
         teams=[team for team in fetch_teams(self.league)
                if team["name"] in [self.team, self.versus]]
