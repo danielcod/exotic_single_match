@@ -75,11 +75,11 @@ var BrowseProductsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.browseProducts(this.browseProductsHandler);
+	this.props.exoticsApi.browseProducts(this.props.selectedTab, this.browseProductsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	if (nextProps.selectedTab!=this.props.selectedTab) {
-	    this.props.exoticsApi.browseProducts(this.browseProductsHandler);
+	    this.props.exoticsApi.browseProducts(nextProps.selectedTab, this.browseProductsHandler);
 	}
     },
     handleClicked: function(product) {

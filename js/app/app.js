@@ -74,7 +74,7 @@ var App=React.createClass({
 		React.DOM.div({
 		    className: "header clearfix",
 		    children: React.DOM.h1({
-			children: "Team Exotics Demo"
+			children: "Team Exotics"
 		    })
 		}),
 		React.createElement(this.props.steps[this.state.currentStep].klass, {
