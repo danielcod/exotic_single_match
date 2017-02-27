@@ -26,7 +26,12 @@ class LeagueHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         versus=SeasonMatchBetProduct.filter_atm_versus(leaguename)
-        logging.info(versus)
+        keyname="smb_versus/%s" % leaguename
+        Blob(key_name=keyname,
+             league=leaguename,
+             text=json_dumps(versus),
+             timestamp=datetime.datetime.now()).put()
+        logging.info("Save %s blob [%i items]" % (keyname, len(versus)))
         
 Routing=[('/tasks/blobs/smb_versus/league', LeagueHandler),
          ('/tasks/blobs/smb_versus', IndexHandler)]
