@@ -36,6 +36,15 @@ var MySelect=React.createClass({
 	    }
 	    this.setState(state);
 	}
+	// value
+	if (this.state.value!=nextProps.value) {
+	    if (this.state.debug) {
+		console.log("resetting "+this.props.name+" value from "+this.state.value+" to "+nextProps.value);
+	    }
+	    var state=this.state;
+	    state.value=nextProps.value;
+	    this.setState(state);
+	}
     },
     shallHighlight: function() {
 	if (this.props.highlighter!=undefined) {

@@ -95,6 +95,8 @@ var SingleTeamOutrightForm=React.createClass({
 		state.options.payoff=[];
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
+	    } else if (name=="team") {
+		state.params.payoff=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
