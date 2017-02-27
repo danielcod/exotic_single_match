@@ -35,18 +35,18 @@ handlers:
 - url: /app.*
   script: controllers.app.app
 # TASKS
-- url: /tasks/bbc_fixtures.*
-  script: tasks.bbc_fixtures.app
-- url: /tasks/random/season_match_bets.*
-  script: tasks.random.season_match_bets.app
-- url: /tasks/random/single_team_outrights.*
-  script: tasks.random.single_team_outrights.app
 - url: /tasks/blobs/outright_payoffs.*
   script: tasks.blobs.outright_payoffs.app
 - url: /tasks/blobs/smb_versus.*
   script: tasks.blobs.smb_versus.app
-- url: /tasks/yc_probabilities.*
-  script: tasks.yc_probabilities.app
+- url: /tasks/random/season_match_bets.*
+  script: tasks.random.season_match_bets.app
+- url: /tasks/random/single_team_outrights.*
+  script: tasks.random.single_team_outrights.app
+- url: /tasks/pricing/bbc_fixtures.*
+  script: tasks.pricing.bbc_fixtures.app
+- url: /tasks/pricing/yc_probabilities.*
+  script: tasks.pricing.yc_probabilities.app
 # ROOT
 - url: .*
   script: controllers.root.app 

@@ -1,11 +1,6 @@
-from tasks import *
+from tasks.pricing import *
 
-import apis.yc_lite_api as yc_lite
-
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/leagues.yaml").read())])
-
-# curl "http://localhost:8080/tasks/yc_probabilities?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/pricing/yc_probabilities?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -16,7 +11,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/yc_probabilities/league",
+        [taskqueue.add(url="/tasks/pricing/yc_probabilities/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -40,8 +35,8 @@ class LeagueHandler(webapp2.RequestHandler):
             count+=1
         logging.info("Updated %i %s fixtures" % (count, leaguename))
 
-Routing=[('/tasks/yc_probabilities/league', LeagueHandler),
-         ('/tasks/yc_probabilities', IndexHandler)]
+Routing=[('/tasks/pricing/yc_probabilities/league', LeagueHandler),
+         ('/tasks/pricing/yc_probabilities', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

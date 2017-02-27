@@ -1,15 +1,10 @@
-from tasks import *
+from tasks.pricing import *
 
 import sport_data_client.services.event_matcher as event_matcher
 
 import sport_data_client.scrapers.bbc_football as bbc
 
-SDKwargs=yaml.load("""
-realm: prod
-username: admin
-password: Hufton123
-appengine: true
-""")
+# NB override default leagues
 
 Leagues=dict([(league["name"], league)
               for league in yaml.load(file("config/bbc.yaml").read())])
@@ -21,7 +16,7 @@ BBC="BBC"
 def get_date_cutoff(leaguename):
     return DefaultDateCutoff
 
-# curl "http://localhost:8080/tasks/bbc_fixtures?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/pricing/bbc_fixtures?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -32,7 +27,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/bbc_fixtures/league",
+        [taskqueue.add(url="/tasks/pricing/bbc_fixtures/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -70,8 +65,8 @@ class LeagueHandler(webapp2.RequestHandler):
          for fixture in fixtures]
         logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
 
-Routing=[('/tasks/bbc_fixtures/league', LeagueHandler),
-         ('/tasks/bbc_fixtures', IndexHandler)]
+Routing=[('/tasks/pricing/bbc_fixtures/league', LeagueHandler),
+         ('/tasks/pricing/bbc_fixtures', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
