@@ -19,6 +19,7 @@ var SeasonMatchBetForm=React.createClass({
 	    options: {
 		league: [],
 		team: [],
+		versus: [],
 		expiry: []
 	    },
 	    params: deepCopy(this.props.params)
@@ -30,9 +31,28 @@ var SeasonMatchBetForm=React.createClass({
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
-	    var handler=this.initOptionsHandler(["team", "versus"]);
+	    var handler=this.initOptionsHandler(["team"]);
 	    this.props.exoticsApi.fetchTeams(params.league, handler);
 	}
+    },
+    fetchVersus: function(params) {
+	if (params.league!=undefined) {
+	    var handler=this.initOptionsHandler(["versus"]);
+	    var key="smb_versus/"+params.league;
+	    this.props.exoticsApi.fetchBlob(key, handler);
+	}
+    },
+    filterVersus: function(teams, teamname) {
+	return teams.filter(function(team) {
+	    return (team.team==teamname) && (team.versus!=teamname);
+	})
+    },
+    formatVersus: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.versus
+	    }
+	});
     },
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler(["expiry"]);
@@ -62,6 +82,7 @@ var SeasonMatchBetForm=React.createClass({
     initialise: function() {
 	this.fetchLeagues();
 	this.fetchTeams(this.props.params);
+	this.fetchVersus(this.props.params);
 	this.fetchExpiries();
 	this.updatePrice(this.props.params); 
     },
@@ -75,8 +96,10 @@ var SeasonMatchBetForm=React.createClass({
 	    if (name=="league") {
 		state.options.team=[];
 		state.params.team=undefined;
-                state.params.versus=undefined;
 		this.fetchTeams(state.params);
+		state.options.versus=[];
+		state.params.versus=undefined;
+		this.fetchVersus(state.params);
 	    };
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
@@ -107,7 +130,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "Versus",
 				name: "versus",
-				options: this.state.options.team,
+				options: this.formatVersus(this.filterVersus(this.state.options.versus, this.state.params.team)),
 				value: this.props.params.versus,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
