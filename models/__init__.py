@@ -80,3 +80,9 @@ class Fixture(db.Model):
             memkey="events/%s/%s" % (leaguename, cutoff)
             return fetch_models_memcache(Fixture, memkey, query)
 
+class Blob(db.Model):
+
+    league=db.StringProperty()
+    memkey=db.StringProperty()
+    text=db.TextProperty()
+    timestamp=db.DateTimeProperty()
