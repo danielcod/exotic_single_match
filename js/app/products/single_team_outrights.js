@@ -76,10 +76,10 @@ var SingleTeamOutrightForm=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.props.params);
-	this.fetchPayoffs(this.props.params);
+	this.fetchTeams(this.state.params);
+	this.fetchPayoffs(this.state.params);
 	this.fetchExpiries();
-	this.updatePrice(this.props.params); 
+	this.updatePrice(this.state.params); 
     },
     componentDidMount: function() {
 	this.initialise();
@@ -95,7 +95,7 @@ var SingleTeamOutrightForm=React.createClass({
 		state.options.payoff=[];
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
-	    };
+	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
@@ -112,7 +112,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "League",
 				name: "league",
 				options: this.state.options.league,
-				value: this.props.params.league,
+				value: this.state.params.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -121,7 +121,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "Position",
 				name: "payoff",
 				options: this.formatPayoffs(this.filterPayoffs(this.state.options.payoff, this.state.params.team)),
-				value: this.props.params.payoff,
+				value: this.state.params.payoff,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })
@@ -135,7 +135,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "Team",
 				name: "team",
 				options: this.state.options.team,
-				value: this.props.params.team,
+				value: this.state.params.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -144,7 +144,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "At",
 				name: "expiry",
 				options: this.state.options.expiry,
-				value: this.props.params.expiry,
+				value: this.state.params.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })

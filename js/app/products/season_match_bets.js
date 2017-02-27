@@ -77,10 +77,10 @@ var SeasonMatchBetForm=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.props.params);
-	this.fetchVersus(this.props.params);
+	this.fetchTeams(this.state.params);
+	this.fetchVersus(this.state.params);
 	this.fetchExpiries();
-	this.updatePrice(this.props.params); 
+	this.updatePrice(this.state.params); 
     },
     componentDidMount: function() {
 	this.initialise();
@@ -96,7 +96,7 @@ var SeasonMatchBetForm=React.createClass({
 		state.options.versus=[];
 		state.params.versus=undefined;
 		this.fetchVersus(state.params);
-	    };
+	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
@@ -118,7 +118,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "League",
 				name: "league",
 				options: this.state.options.league,
-				value: this.props.params.league,
+				value: this.state.params.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -127,7 +127,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "Versus",
 				name: "versus",
 				options: this.formatVersus(this.filterVersus(this.state.options.versus, this.state.params.team)),
-				value: this.props.params.versus,
+				value: this.state.params.versus,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
 				highlighter: this.highlighter
@@ -142,7 +142,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "Your Team",
 				name: "team",
 				options: this.state.options.team,
-				value: this.props.params.team,
+				value: this.state.params.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
 				highlighter: this.highlighter
@@ -152,7 +152,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "At",
 				name: "expiry",
 				options: this.state.options.expiry,
-				value: this.props.params.expiry,
+				value: this.state.params.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })
