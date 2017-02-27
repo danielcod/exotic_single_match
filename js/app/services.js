@@ -72,6 +72,10 @@ var ExoticsAPI=function(errHandler, debug) {
 	}
 	this.httpGet(url, handler);
     };
+    this.fetchBlob=function(key, handler) {
+	var url="/app/blobs?key="+key;
+	this.httpGet(url, handler);
+    },
     this.fetchExpiries=function(handler) {
 	this.httpGet("/app/expiries", handler);
     };
