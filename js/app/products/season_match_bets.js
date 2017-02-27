@@ -1,13 +1,9 @@
 var SeasonMatchBetForm=React.createClass({
     productType: "season_match_bet",
-    // initOptionsHandler converted to accept arrays as teams handler will need to update both team and versus fields
-    initOptionsHandler: function(names) {
+    initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
-	    for (var i=0; i < names.length; i++) {
-		var name=names[i];
-		state.options[name]=struct;
-	    }
+	    state.options[name]=struct;
 	    this.setState(state);	
 	}.bind(this);
     },
@@ -26,18 +22,18 @@ var SeasonMatchBetForm=React.createClass({
 	};
     },
     fetchLeagues: function() {
-	var handler=this.initOptionsHandler(["league"]);
+	var handler=this.initOptionsHandler("league");
 	this.props.exoticsApi.fetchLeagues(handler);
     },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
-	    var handler=this.initOptionsHandler(["team"]);
+	    var handler=this.initOptionsHandler("team");
 	    this.props.exoticsApi.fetchTeams(params.league, handler);
 	}
     },
     fetchVersus: function(params) {
 	if (params.league!=undefined) {
-	    var handler=this.initOptionsHandler(["versus"]);
+	    var handler=this.initOptionsHandler("versus");
 	    var key="smb_versus/"+params.league;
 	    this.props.exoticsApi.fetchBlob(key, handler);
 	}
@@ -55,7 +51,7 @@ var SeasonMatchBetForm=React.createClass({
 	});
     },
     fetchExpiries: function() {
-	var handler=this.initOptionsHandler(["expiry"]);
+	var handler=this.initOptionsHandler("expiry");
 	this.props.exoticsApi.fetchExpiries(handler);
     },
     isComplete: function(params) {
