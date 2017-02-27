@@ -97,7 +97,7 @@ var SeasonMatchBetForm=React.createClass({
 		state.params.versus=undefined;
 		this.fetchVersus(state.params);
 	    } else if (name=="team") {
-               state.params.versus=undefined;
+		state.params.versus=undefined;
             }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);

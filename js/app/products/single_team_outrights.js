@@ -84,19 +84,30 @@ var SingleTeamOutrightForm=React.createClass({
     componentDidMount: function() {
 	this.initialise();
     },
+    hasPayoff: function(teamname, payoffname) {
+	var payoffs=this.state.options.payoff.filter(function(payoff) {
+	    return (payoff.team==teamname) && (payoff.payoff==payoffname);
+	});
+	return payoffs.length!=0;
+    },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
 	    var state=this.state;
 	    state.params[name]=value;
 	    if (name=="league") {
+		// load teams for league
 		state.options.team=[];
 		state.params.team=undefined;
 		this.fetchTeams(state.params);
+		// load payoffs for league
 		state.options.payoff=[];
 		state.params.payoff=undefined;
 		this.fetchPayoffs(state.params);
 	    } else if (name=="team") {
-		state.params.payoff=undefined;
+		// reset selected payoff if no longer exists
+		if (!this.hasPayoff(value, this.state.params.payoff)) {
+		    state.params.payoff=undefined;
+		}
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
