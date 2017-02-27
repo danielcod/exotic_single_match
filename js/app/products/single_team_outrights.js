@@ -33,10 +33,22 @@ var SingleTeamOutrightForm=React.createClass({
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
-	    var url="/app/products/payoffs?type="+this.productType+"&league="+params.league;
 	    var handler=this.initOptionsHandler("payoff");
-	    this.props.exoticsApi.httpGet(url, handler);
+	    var key="outright_payoffs/"+params.league;
+	    this.props.exoticsApi.fetchBlob(key, handler);
 	}
+    },
+    filterPayoffs: function(payoffs, teamname) {
+	return payoffs.filter(function(payoff) {
+	    return payoff.team==teamname;
+	})
+    },
+    formatPayoffs: function(payoffs) {
+	return payoffs.map(function(payoff) {
+	    return {
+		value: payoff.payoff
+	    }
+	});
     },
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
@@ -108,7 +120,7 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "Position",
 				name: "payoff",
-				options: this.state.options.payoff,
+				options: this.formatPayoffs(this.filterPayoffs(this.state.options.payoff, this.state.params.team)),
 				value: this.props.params.payoff,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
