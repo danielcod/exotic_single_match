@@ -26,7 +26,12 @@ class LeagueHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         payoffs=SingleTeamOutrightProduct.filter_atm_payoffs(leaguename)
-        logging.info(payoffs)
+        keyname="outright_payoffs/%s" % leaguename
+        Blob(key_name=keyname,
+             league=leaguename,
+             text=json_dumps(payoffs),
+             timestamp=datetime.datetime.now()).put()
+        logging.info("Save %s blob [%i items]" % (keyname, len(payoffs)))
         
 Routing=[('/tasks/blobs/outright_payoffs/league', LeagueHandler),
          ('/tasks/blobs/outright_payoffs', IndexHandler)]
