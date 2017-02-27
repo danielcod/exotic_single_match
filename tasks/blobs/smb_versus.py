@@ -1,13 +1,8 @@
-from tasks import *
+from tasks.blobs import *
 
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
-import apis.yc_lite_api as yc_lite
-
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/leagues.yaml").read())])
-
-# curl "http://localhost:8080/tasks/selections/season_match_bets?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/blobs/smb_versus?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -18,7 +13,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/selections/season_match_bets/league",
+        [taskqueue.add(url="/tasks/blobs/smb_versus/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -33,8 +28,8 @@ class LeagueHandler(webapp2.RequestHandler):
         versus=SeasonMatchBetProduct.filter_atm_versus(leaguename)
         logging.info(versus)
         
-Routing=[('/tasks/selections/season_match_bets/league', LeagueHandler),
-         ('/tasks/selections/season_match_bets', IndexHandler)]
+Routing=[('/tasks/blobs/smb_versus/league', LeagueHandler),
+         ('/tasks/blobs/smb_versus', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

@@ -1,13 +1,8 @@
-from tasks import *
+from tasks.blobs import *
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
-import apis.yc_lite_api as yc_lite
-
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/leagues.yaml").read())])
-
-# curl "http://localhost:8080/tasks/selections/single_team_outrights?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/blobs/outright_payoffs?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -18,7 +13,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/selections/single_team_outrights/league",
+        [taskqueue.add(url="/tasks/blobs/outright_payoffs/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -33,8 +28,8 @@ class LeagueHandler(webapp2.RequestHandler):
         payoffs=SingleTeamOutrightProduct.filter_atm_payoffs(leaguename)
         logging.info(payoffs)
         
-Routing=[('/tasks/selections/single_team_outrights/league', LeagueHandler),
-         ('/tasks/selections/single_team_outrights', IndexHandler)]
+Routing=[('/tasks/blobs/outright_payoffs/league', LeagueHandler),
+         ('/tasks/blobs/outright_payoffs', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

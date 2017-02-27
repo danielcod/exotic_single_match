@@ -41,10 +41,10 @@ handlers:
   script: tasks.random.season_match_bets.app
 - url: /tasks/random/single_team_outrights.*
   script: tasks.random.single_team_outrights.app
-- url: /tasks/selections/season_match_bets.*
-  script: tasks.selections.season_match_bets.app
-- url: /tasks/selections/single_team_outrights.*
-  script: tasks.selections.single_team_outrights.app
+- url: /tasks/blobs/outright_payoffs.*
+  script: tasks.blobs.outright_payoffs.app
+- url: /tasks/blobs/smb_versus.*
+  script: tasks.blobs.smb_versus.app
 - url: /tasks/yc_probabilities.*
   script: tasks.yc_probabilities.app
 # ROOT
