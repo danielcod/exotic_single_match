@@ -85,6 +85,12 @@ var SeasonMatchBetForm=React.createClass({
     componentDidMount: function() {
 	this.initialise();
     },
+    hasVersus: function(teamname, versusname) {
+	var versus=this.state.options.versus.filter(function(versus) {
+	    return (versus.team==teamname) && (versus.versus==versusname);
+	});
+	return versus.length!=0;
+    },
     changeHandler: function(name, value) {
 	if (this.state.params[name]!=value) {
 	    var state=this.state;
@@ -97,7 +103,9 @@ var SeasonMatchBetForm=React.createClass({
 		state.params.versus=undefined;
 		this.fetchVersus(state.params);
 	    } else if (name=="team") {
-		state.params.versus=undefined;
+		if (!this.hasVersus(value, this.state.params.versus)) {
+		    state.params.versus=undefined;
+		}
             }
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
