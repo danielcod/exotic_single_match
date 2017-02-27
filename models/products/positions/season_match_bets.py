@@ -16,7 +16,10 @@ class SeasonMatchBetProduct(db.Model):
         return fetch_models_db(query)
 
     """
-    - probability calculation not correct
+    - this is a quick heuristic calculation 
+    - not 100% correct as assumes the two distibutions are independant
+    - also make some funny implicit assumptions about two teams being in the same place
+    - but should be close
     """
     
     @classmethod
@@ -30,15 +33,19 @@ class SeasonMatchBetProduct(db.Model):
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
         pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        def calc_probability(teamname, versusname):
+            return sum([pp[teamname][i]*sum(pp[versusname][i:])
+                        for i in range(len(pp))])
         items=[]
         for team in teams:
             for versus in teams:
                 if team["name"]==versus["name"]:
                     continue
-                prob=sum([x-y
-                          for x, y in zip(pp[team["name"]],
-                                          pp[versus["name"]])
-                          if x-y > 0])
+                prob0, prob1 = (calc_probability(team["name"],
+                                                 versus["name"]),
+                                calc_probability(versus["name"],
+                                                 team["name"]))
+                prob=prob0/float(prob0+prob1)
                 if ((minprob < prob < maxprob) and
                     (minprob < prob < maxprob)):
                     item={"team": team["name"],
