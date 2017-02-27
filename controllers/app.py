@@ -3,6 +3,7 @@ from controllers import *
 import apis.yc_lite_api as yc_lite
 
 from helpers.expiry_helpers import init_expiries
+
 from helpers.price_helpers import format_price
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
@@ -34,6 +35,8 @@ ProductMapping={
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
+# curl http://localhost:8080/app/leagues
+
 class LeaguesHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
@@ -60,7 +63,7 @@ class TeamsHandler(webapp2.RequestHandler):
         return [{"value": team["name"]}
                 for team in yc_lite.get_teams(leaguename)]
     
-    @validate_query({'league': '^(\\D{3}\\.\\d$)|(All)'})
+    @validate_query({'league': '^(\\D{3}\\.\\d)|(All)$'})
     @emit_json_memcache(MemcacheAge)
     def get(self):
         leaguename=self.request.get("league")
@@ -69,12 +72,29 @@ class TeamsHandler(webapp2.RequestHandler):
         else:
             return self.get_teams(leaguename)
 
+# curl "http://localhost:8080/app/blobs?key=outright_payoffs/ENG.1"
+        
+class BlobsHandler(webapp2.RequestHandler):
+
+    @validate_query({'key': '.+'})
+    @emit_json_memcache(MemcacheAge)
+    def get(self):
+        key=self.request.get("key")
+        blob=Blob.get_by_key_name(key)
+        if not blob:
+            raise RuntimeError("Blob not found")
+        return json_loads(blob.text)
+
+# curl "http://localhost:8080/app/expiries"
+    
 class ExpiriesHandler(webapp2.RequestHandler):
     
     @emit_json_memcache(MemcacheAge)
     def get(self, cutoffmonth=4):
         return init_expiries(cutoffmonth)
 
+# curl "http://localhost:8080/app/product_types"
+    
 class ProductTypesHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
@@ -191,6 +211,7 @@ class IndexHandler(webapp2.RequestHandler):
     
 Routing=[('/app/leagues', LeaguesHandler),
          ('/app/teams', TeamsHandler),
+         ('/app/blobs', BlobsHandler),
          ('/app/expiries', ExpiriesHandler),
          ('/app/product_types', ProductTypesHandler),         
          ('/app/products/browse', BrowseProductsHandler),
