@@ -173,20 +173,6 @@ class ShowProductHandler(webapp2.RequestHandler):
         return {"type": producttype,
                 "params": product.to_json(extras=["description"])}
 
-class ProductPayoffsHandler(webapp2.RequestHandler):
-
-    @validate_query({'league': '\\D{3}\\.\\d'})
-    @emit_json_memcache(MemcacheAge)
-    def get(self):
-        producttype=self.request.get("type")
-        if producttype not in ProductMapping:
-            raise RuntimeError("Product not found")
-        product=ProductMapping[producttype]()
-        leaguename=self.request.get("league")
-        payoffs=[{"value": payoff["name"]}
-                 for payoff in product.init_payoffs(leaguename)]
-        return payoffs
-
 class ProductPriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
@@ -216,7 +202,6 @@ Routing=[('/app/leagues', LeaguesHandler),
          ('/app/product_types', ProductTypesHandler),         
          ('/app/products/browse', BrowseProductsHandler),
          ('/app/products/show', ShowProductHandler),
-         ('/app/products/payoffs', ProductPayoffsHandler),
          ('/app/products/price', ProductPriceHandler),
          ('/app', IndexHandler)]
 
