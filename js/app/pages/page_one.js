@@ -177,9 +177,41 @@ var BrowseProductsPaginator=React.createClass({
     }
 });
 
+var BrowseProductsTeamSelect=React.createClass({
+    render: function() {
+	return React.DOM.select({
+	    className: "form-control input-sm btn-secondary",
+	    style: {
+		"margin-right": "5px"
+	    },
+	    children: this.props.teams.map(function(team) {
+		return React.DOM.option({
+		    children: team.value
+		});
+	    })
+	});
+    }
+});
+
+var BrowseProductsExoticSelect=React.createClass({
+    render: function() {
+	return React.DOM.select({
+	    className: "form-control input-sm btn-secondary",
+	    children: this.props.productTypes.map(function(productType) {
+		return React.DOM.option({
+		    children: productType.value
+		});
+	    })
+	})
+    }
+});
+
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
 	value: "Team"
+    },
+    DefaultProductType: {
+	value: "Exotic"
     },
     getInitialState: function() {
 	return {
@@ -188,7 +220,8 @@ var BrowseProductsPanel=React.createClass({
 	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5,
-	    teams: [this.DefaultTeam]
+	    teams: [this.DefaultTeam],
+	    productTypes: [this.DefaultProductType]
 	}
     },
     sortTeams: function(item0, item1) {
@@ -266,22 +299,11 @@ var BrowseProductsPanel=React.createClass({
 			children: React.DOM.div({
 			    className: "col-xs-12",
 			    children: [
-				React.DOM.select({
-				    className: "form-control input-sm btn-secondary",
-				    style: {
-					"margin-right": "5px"
-				    },
-				    children: this.state.teams.map(function(team) {
-					return React.DOM.option({
-					    children: team.value
-					});
-				    })
+				React.createElement(BrowseProductsTeamSelect, {
+				    teams: this.state.teams
 				}),
-				React.DOM.select({
-				    className: "form-control input-sm btn-secondary",
-				    children: React.DOM.option({
-					children: "Exotic"
-				    })
+				React.createElement(BrowseProductsExoticSelect, {
+				    productTypes: this.state.productTypes
 				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
