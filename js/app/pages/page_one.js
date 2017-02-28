@@ -15,6 +15,43 @@ var BrowseProductsTabs=React.createClass({
     }
 });
 
+var BrowseProductsTeamSelect=React.createClass({
+    render: function() {
+	return React.DOM.select({
+	    className: "form-control input-sm btn-secondary",
+	    style: {
+		"margin-right": "5px"
+	    },
+	    onChange: function(event) {
+		var value=event.target.value;
+		this.props.changeHandler(value);
+	    }.bind(this),
+	    children: this.props.teams.map(function(team) {
+		return React.DOM.option({
+		    children: team.value
+		});
+	    })
+	});
+    }
+});
+
+var BrowseProductsExoticSelect=React.createClass({
+    render: function() {
+	return React.DOM.select({
+	    className: "form-control input-sm btn-secondary",
+	    onChange: function(event) {
+		var value=event.target.value;
+		this.props.changeHandler(value);
+	    }.bind(this),
+	    children: this.props.productTypes.map(function(productType) {
+		return React.DOM.option({
+		    children: productType.value
+		});
+	    })
+	})
+    }
+});
+
 var BrowseProductsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
@@ -177,35 +214,6 @@ var BrowseProductsPaginator=React.createClass({
     }
 });
 
-var BrowseProductsTeamSelect=React.createClass({
-    render: function() {
-	return React.DOM.select({
-	    className: "form-control input-sm btn-secondary",
-	    style: {
-		"margin-right": "5px"
-	    },
-	    children: this.props.teams.map(function(team) {
-		return React.DOM.option({
-		    children: team.value
-		});
-	    })
-	});
-    }
-});
-
-var BrowseProductsExoticSelect=React.createClass({
-    render: function() {
-	return React.DOM.select({
-	    className: "form-control input-sm btn-secondary",
-	    children: this.props.productTypes.map(function(productType) {
-		return React.DOM.option({
-		    children: productType.value
-		});
-	    })
-	})
-    }
-});
-
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
 	name: "All"
@@ -216,6 +224,8 @@ var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
+	    selectedTeam: undefined,
+	    selectedProductType: undefined,
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
@@ -290,6 +300,12 @@ var BrowseProductsPanel=React.createClass({
     handleCreateProduct: function() {
 	this.props.stepChangeHandler(1, undefined);
     },
+    handleTeamChanged: function(value) {
+	console.log(value);
+    },
+    handleProductTypeChanged: function(value) {
+	console.log(value);
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -328,10 +344,12 @@ var BrowseProductsPanel=React.createClass({
 			    className: "col-xs-12",
 			    children: [
 				React.createElement(BrowseProductsTeamSelect, {
-				    teams: this.formatTeamOptions(this.state.teams)
+				    teams: this.formatTeamOptions(this.state.teams),
+				    changeHandler: this.handleTeamChanged
 				}),
 				React.createElement(BrowseProductsExoticSelect, {
-				    productTypes: this.formatProductTypeOptions(this.state.productTypes)
+				    productTypes: this.formatProductTypeOptions(this.state.productTypes),
+				    changeHandler: this.handleProductTypeChanged
 				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
