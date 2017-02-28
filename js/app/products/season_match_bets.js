@@ -1,5 +1,4 @@
 var SeasonMatchBetForm=React.createClass({
-    productType: "season_match_bet",
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -86,7 +85,7 @@ var SeasonMatchBetForm=React.createClass({
 	if (this.isComplete(params)) {
 	    $("span[id='price']").text("[updating ..]");
 	    var struct={
-		"type": this.productType,
+		"type": "season_match_bet",
 		"params": params
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);

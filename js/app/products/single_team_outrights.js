@@ -1,5 +1,4 @@
 var SingleTeamOutrightForm=React.createClass({
-    productType: "single_team_outright",
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -85,7 +84,7 @@ var SingleTeamOutrightForm=React.createClass({
 	if (this.isComplete(params)) {
 	    $("span[id='price']").text("[updating ..]");
 	    var struct={
-		"type": this.productType,
+		"type": "single_team_outright",
 		"params": params
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
