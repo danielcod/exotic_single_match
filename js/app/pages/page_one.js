@@ -208,10 +208,10 @@ var BrowseProductsExoticSelect=React.createClass({
 
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
-	name: "Team"
+	name: "All"
     },
     DefaultProductType: {
-	label: "Exotic"
+	label: "All"
     },
     getInitialState: function() {
 	return {
