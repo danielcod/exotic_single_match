@@ -120,6 +120,12 @@ var BrowseProductsTable=React.createClass({
 	if (nextProps.selectedTab!=this.props.selectedTab) {
 	    this.props.exoticsApi.browseProducts(nextProps.selectedTab, this.browseProductsHandler);
 	}
+	if (nextProps.selectedTeam!=this.props.selectedTeam) {
+	    console.log("team changed to "+nextProps.selectedTeam);
+	}
+	if (nextProps.selectedProductType!=this.props.selectedProductType) {
+	    console.log("productType changed to "+nextProps.selectedProductType);
+	}
     },
     handleClicked: function(product) {
 	var state=this.state;
@@ -224,8 +230,8 @@ var BrowseProductsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
-	    selectedTeam: undefined,
-	    selectedProductType: undefined,
+	    selectedTeam: "All",
+	    selectedProductType: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
@@ -301,10 +307,14 @@ var BrowseProductsPanel=React.createClass({
 	this.props.stepChangeHandler(1, undefined);
     },
     handleTeamChanged: function(value) {
-	console.log(value);
+	var state=this.state;
+	state.selectedTeam=value;
+	this.setState(state);
     },
     handleProductTypeChanged: function(value) {
-	console.log(value);
+	var state=this.state;
+	state.selectedProductType=value;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -366,7 +376,9 @@ var BrowseProductsPanel=React.createClass({
 		    dataLoadedHandler: this.handleDataLoaded,
 		    rowOffset: this.state.rowOffset,
 		    nRows: this.state.nRows,
-		    selectedTab: this.state.selectedTab
+		    selectedTab: this.state.selectedTab,
+		    selectedTeam: this.state.selectedTeam,
+		    selectedProductType: this.state.selectedProductType
 		}),
 		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
