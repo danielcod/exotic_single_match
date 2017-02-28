@@ -53,7 +53,7 @@ class SeasonMatchBetProduct(db.Model):
                           "probability": prob}
                     items.append(item)
         return items
-            
+
     def calc_probability(self, paths=Paths, seed=Seed):
         teams=[team for team in fetch_teams(self.league)
                if team["name"] in [self.team, self.versus]]
@@ -71,6 +71,13 @@ class SeasonMatchBetProduct(db.Model):
         payoff=parse_payoff(self.Payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
+    @property
+    def json_struct(self):
+        return {"type": "season_match_bet",
+                "params": {"description": self.description,
+                           "price": self.price,
+                           "id": self.key().id()}}
+        
     @property
     def description(self):
         def format_expiry(expiry):

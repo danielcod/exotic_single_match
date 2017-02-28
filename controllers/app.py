@@ -101,17 +101,11 @@ class ProductTypesHandler(webapp2.RequestHandler):
 class BrowseProductsHandler(webapp2.RequestHandler):
 
     def load_single_team_outrights(self):
-        return [{"type": "single_team_outright",
-                 "params": {"description": product.description,
-                            "price": product.price,
-                            "id": product.key().id()}}
+        return [product.json_struct
                 for product in SingleTeamOutrightProduct.find_all()]
 
     def load_season_match_bets(self):
-        return [{"type": "season_match_bet",
-                 "params": {"description": product.description,
-                            "price": product.price,
-                            "id": product.key().id()}}
+        return [product.json_struct
                 for product in SeasonMatchBetProduct.find_all()]
 
     def load_products_db(self):

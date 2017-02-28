@@ -72,6 +72,13 @@ class SingleTeamOutrightProduct(db.Model):
         return sumproduct(payoff, pp[self.team])
 
     @property
+    def json_struct(self):
+        return {"type": "single_team_outright",
+                "params": {"description": self.description,
+                           "price": self.price,
+                           "id": self.key().id()}}
+        
+    @property
     def description(self):
         def format_payoff(payoff):
             if payoff=="Winner":
