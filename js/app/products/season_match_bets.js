@@ -68,11 +68,7 @@ var SeasonMatchBetForm=React.createClass({
 	this.props.exoticsApi.fetchExpiries(handler);
     },
     formatExpiryOptions: function(expiries) {
-	return expiries.map(function(expiry) {
-	    return {
-		value: expiry.value
-	    }
-	});
+	return expiries; // expiries come with label, value fields
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -181,8 +177,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "At",
 				name: "expiry",
-				// options: this.formatExpiryOptions(this.state.options.expiry),
-				options: this.state.options.expiry,
+				options: this.formatExpiryOptions(this.state.options.expiry),
 				value: this.state.params.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
