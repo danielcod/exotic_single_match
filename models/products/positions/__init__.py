@@ -48,7 +48,7 @@ def parse_payoff(payoff, n):
         return kwik_payoff("%ix0|%ix1" % (i, n-i))
     elif re.search("^\\d+((st)|(nd)|(rd)|(th)) Place$", payoff):
         i=parse_i(payoff)
-        return kwik_payoff("%ix0|%1x1|%ix0" % (i-1, 1, n-i))
+        return kwik_payoff("%ix0|1|%ix0" % (i-1, n-i))
     elif re.search("^Bottom \\d+$", payoff):
         i=parse_i(payoff)
         return kwik_payoff("%ix0|%ix1" % (n-i, i))
