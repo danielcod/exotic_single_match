@@ -52,9 +52,18 @@ var ExoticsAPI=function(errHandler, debug) {
     this.fetchProductTypes=function(handler) {
 	this.httpGet("/app/product_types", handler);
     };
-    this.browseProducts=function(group, handler) {
+    this.browseProducts=function(group, team, productType, handler) {
+	var url="/app/products/browse?";
 	var seed=new Date().getTime();
-	this.httpGet("/app/products/browse?seed="+seed+"&group="+group, handler);
+	url+="seed="+seed+"&";
+	url+="group="+group+"&";
+	if (team!=undefined) {
+	    url+="team="+team+"&";
+	}
+	if (productType!=undefined) {
+	    url+="product_type="+productType+"&";
+	}
+	this.httpGet(url, handler);
     };
     this.showProduct=function(type, id, handler) {
 	var url="/app/products/show?type="+type+"&id="+id;

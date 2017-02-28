@@ -104,6 +104,9 @@ var BrowseProductsTable=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedProduct: undefined,
+	    selectedTab: this.props.selectedTab,
+	    selectedTeam: this.props.selectedTeam,
+	    selectedProductType: this.props.selectedProductType,
 	    products: []
 	};
     },
@@ -114,17 +117,26 @@ var BrowseProductsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.browseProducts(this.props.selectedTab, this.browseProductsHandler);
+	this.props.exoticsApi.browseProducts(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProductType, this.browseProductsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
+	var state=this.state;
+	var updated=false;
 	if (nextProps.selectedTab!=this.props.selectedTab) {
-	    this.props.exoticsApi.browseProducts(nextProps.selectedTab, this.browseProductsHandler);
+	    state.selectedTab=nextProps.selectedTab;
+	    updated=true;
 	}
 	if (nextProps.selectedTeam!=this.props.selectedTeam) {
-	    console.log("team changed to "+nextProps.selectedTeam);
+	    state.selectedTeam=nextProps.selectedTeam;
+	    updated=true;
 	}
 	if (nextProps.selectedProductType!=this.props.selectedProductType) {
-	    console.log("productType changed to "+nextProps.selectedProductType);
+	    state.selectedProductType=nextProps.selectedProductType;
+	    updated=true;
+	}
+	if (updated) {
+	    this.setState(state);
+	    this.props.exoticsApi.browseProducts(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProductType, this.browseProductsHandler);
 	}
     },
     handleClicked: function(product) {
