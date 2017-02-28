@@ -1,31 +1,6 @@
 from tasks.random import *
 
-from models.products.positions import parse_payoff, sumproduct
-
-import quant.simulator as simulator
-
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
-
-MinProb, MaxProb = 0.05, 0.95
-
-# AARGH
-
-def calc_positional_probability(struct, paths=1000, seed=13):
-    if struct["fixtures"]==[]:
-        raise RuntimeError("No fixtures found")
-    pp=simulator.simulate(struct["teams"],
-                          struct["results"],
-                          struct["fixtures"],
-                          paths, seed)
-    leaguename=struct["team"]["league"]
-    teamname=struct["team"]["name"]
-    def calc_payoff_value(payoffname):
-        payoff=parse_payoff(payoffname,
-                            len(struct["teams"]))
-        return sumproduct(payoff, pp[teamname])
-    return [{"name": payoff["name"],
-             "value": calc_payoff_value(payoff["name"])}
-            for payoff in struct["payoffs"]]
 
 # curl "http://localhost:8080/tasks/random/single_team_outrights?n=20"
 
@@ -33,105 +8,41 @@ class IndexHandler(webapp2.RequestHandler):
 
     @validate_query({'n': '\\d+'})
     @task
-    def get(self):
+    def get(self):         
+        leaguenames=[leaguename 
+                     for leaguename in self.request.get("leagues").split(",")
+                     if leaguename in Leagues.keys()]
+        if leaguenames==[]:
+            leaguenames=Leagues.keys()
         n=int(self.request.get("n"))
-        tasks=[taskqueue.add(url="/tasks/random/single_team_outrights/init")
-               for i in range(n)]
-        logging.info("%s league tasks started" % n)
+        [taskqueue.add(url="/tasks/random/single_team_outrights/league",
+                             params={"league": leaguename,
+                                     "n": n},
+                       queue_name=QueueName)
+         for leaguename in leaguenames]
+        logging.info("%s league tasks started" % len(leaguenames))
 
-class InitHandler(webapp2.RequestHandler):
+class LeagueHandler(webapp2.RequestHandler):
 
-    """
-    - this should be moved into product model
-    """
-    
-    def calc_prices(self, leaguename, teamname, expiry, teams, payoffs):
-        results=yc_lite.get_results(leaguename)        
-        fixtures=[{"name": fixture["name"],
-                   "date": fixture["date"],
-                   "probabilities": fixture["yc_probabilities"]}
-                   for fixture in [fixture.to_json()
-                                   for fixture in Fixture.find_all(leaguename)]]
-        today=datetime.date.today()
-        fixtures=[fixture for fixture in fixtures
-                  if (fixture["date"] > today and
-                      fixture["date"] < expiry["value"])]
-        struct={"team": {"league": leaguename,
-                         "name": teamname},
-                "teams": teams,
-                "results": results,
-                "fixtures": fixtures,
-                "payoffs": payoffs}
-        return [item for item in calc_positional_probability(struct)
-                if (item["value"] > MinProb and
-                    item["value"] < MaxProb)]
-    
-    def group_items(self, item):
-        def item_group_name(name):
-            if name in ["Winner", "Bottom"]:
-                return "Main"
-            elif (name.startswith("Top") or
-                  name.startswith("Outside Top")):
-                return "Top"
-            elif (name.startswith("Bottom") or
-                  name.startswith("Outside Bottom")):
-                return "Bottom"
-            elif name.endswith("Place"):
-                return "Place"
-            else:
-                raise RuntimeError("No group key for '%s'" % name)
-        groups={}
-        for item in item:
-            groupname=item_group_name(item["name"])
-            groups.setdefault(groupname, [])
-            groups[groupname].append(item)
-        return groups
-
-    def random_groupname(self, groups):
-        groupnames=sorted(groups.keys())
-        if "Main" in groupnames:
-            return "Main"
-        else:            
-            i=int(len(groupnames)*random.random())
-            return groupnames[i]
-    
     @task
     def post(self):
-        random.seed(random_seed())
-        i=int(len(Expiries)*random.random())
-        expiry=Expiries[i]
-        i=int(len(Leagues)*random.random())
-        leaguename=Leagues[i]["name"]        
-        payoffs=SingleTeamOutrightProduct.init_payoffs(leaguename)
-        teams=yc_lite.get_teams(leaguename)
-        i=int(len(teams)*random.random())
-        teamname=teams[i]["name"]
-        allitems=self.calc_prices(leaguename,
-                                  teamname,
-                                  expiry,
-                                  teams,
-                                  payoffs)
-        if allitems==[]:
-            raise RuntimeError("No price items found")
-        groups=self.group_items(allitems)
-        groupname=self.random_groupname(groups)
-        items=groups[groupname]
-        i=int(len(items)*random.random())
-        payoffname=items[i]["name"]
-        probability=items[i]["value"]
-        price=format_price(probability)
-        SingleTeamOutrightProduct(league=leaguename,
-                                   team=teamname,
-                                   payoff=payoffname,
-                                   expiry=expiry["value"],
-                                   price=price).put()
-        logging.info("%s/%s/%s/%s -> %s" % (leaguename,
-                                            teamname,
-                                            payoffname,
-                                            expiry["value"],
-                                            price))
+        leaguename=self.request.get("league")
+        blob=Blob.get_by_key_name("outright_payoffs/%s" % leaguename)
+        payoffs=json_loads(blob.text)
+        n=int(self.request.get("n"))
+        expiry=Expiries[-1] # NB
+        for i in range(n):
+            j=int(random.random()*len(payoffs))
+            payoff=payoffs[j]
+            price=format_price(payoff["probability"])
+            SingleTeamOutrightProduct(league=leaguename,
+                                      team=payoff["team"],
+                                      payoff=payoff["payoff"],
+                                      expiry=expiry["value"],
+                                      price=price).put()
+        logging.info("Created %s SingleTeamOutright bets [%i]" % (leaguename, n))
         
-Routing=[('/tasks/random/single_team_outrights/init', InitHandler),
+Routing=[('/tasks/random/single_team_outrights/league', LeagueHandler),
          ('/tasks/random/single_team_outrights', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

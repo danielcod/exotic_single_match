@@ -8,7 +8,8 @@ from helpers.price_helpers import format_price
 
 import random
 
-Leagues=yaml.load(file("config/leagues.yaml").read())
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/leagues.yaml").read())])
 
 Expiries=init_expiries(cutoffmonth=4)
 
