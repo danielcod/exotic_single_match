@@ -3,8 +3,6 @@ var EditProductMapping={
     "season_match_bet": SeasonMatchBetForm
 };
 
-var DefaultProductName="single_team_outright";
-
 var EditProductSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -65,7 +63,7 @@ var EditProductForm=React.createClass({
 	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.params.id, this.productHandler);
 	} else {
 	    this.productHandler({
-		type: DefaultProductName,
+		type: "single_team_outright",
 		params: {}
 	    })
 	}
