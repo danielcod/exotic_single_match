@@ -100,19 +100,12 @@ class ProductTypesHandler(webapp2.RequestHandler):
     
 class BrowseProductsHandler(webapp2.RequestHandler):
 
-    def load_single_team_outrights(self):
-        return [product.json_struct
-                for product in SingleTeamOutrightProduct.find_all()]
-
-    def load_season_match_bets(self):
-        return [product.json_struct
-                for product in SeasonMatchBetProduct.find_all()]
-
     def load_products_db(self):
         products=[]
-        products+=self.load_single_team_outrights()
-        products+=self.load_season_match_bets()
-        return products
+        products+=SingleTeamOutrightProduct.find_all()
+        products+=SeasonMatchBetProduct.find_all()
+        return [product.json_struct
+                for product in products]
 
     def load_products_memcache(self):
         resp=memcache.get("products")
