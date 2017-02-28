@@ -41,8 +41,7 @@ class LeaguesHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
     def get(self):
-        return [{"value": league["name"]}
-                for league in Leagues]
+        return Leagues
 
 # curl "http://localhost:8080/app/teams?league=ENG.1"
     
@@ -51,8 +50,7 @@ class TeamsHandler(webapp2.RequestHandler):
     def get_all_teams(self):
         teams=[]
         for league in Leagues:
-            teams+=[{"value": team["name"]}
-                    for team in yc_lite.get_teams(league["name"])]
+            teams+=yc_lite.get_teams(league["name"])
         return teams
     
     def get_teams(self, leaguename):
@@ -60,8 +58,7 @@ class TeamsHandler(webapp2.RequestHandler):
                      for league in Leagues]
         if leaguename not in leaguenames:
             raise RuntimeError("League not found")
-        return [{"value": team["name"]}
-                for team in yc_lite.get_teams(leaguename)]
+        return yc_lite.get_teams(leaguename)
     
     @validate_query({'league': '^(\\D{3}\\.\\d)|(All)$'})
     @emit_json_memcache(MemcacheAge)

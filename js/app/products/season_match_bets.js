@@ -27,7 +27,7 @@ var SeasonMatchBetForm=React.createClass({
     formatLeagueOptions: function(leagues) {
 	return leagues.map(function(league) {
 	    return {
-		value: league.value
+		value: league.name
 	    }
 	});
     },
@@ -40,7 +40,7 @@ var SeasonMatchBetForm=React.createClass({
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.value
+		value: team.name
 	    }
 	});
     },

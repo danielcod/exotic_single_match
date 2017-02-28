@@ -208,7 +208,7 @@ var BrowseProductsExoticSelect=React.createClass({
 
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
-	value: "Team"
+	name: "Team"
     },
     DefaultProductType: {
 	value: "Exotic"
@@ -225,9 +225,9 @@ var BrowseProductsPanel=React.createClass({
 	}
     },
     sortTeams: function(item0, item1) {
-	if (item0.value < item1.value) {
+	if (item0.name < item1.name) {
 	    return -1;
-	} else if (item0.value > item1.value) {
+	} else if (item0.name > item1.name) {
 	    return 1;
 	} else {
 	    return 0;
@@ -241,7 +241,7 @@ var BrowseProductsPanel=React.createClass({
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.value
+		value: team.name
 	    }
 	});
     },
