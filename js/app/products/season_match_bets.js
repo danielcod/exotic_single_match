@@ -25,11 +25,25 @@ var SeasonMatchBetForm=React.createClass({
 	var handler=this.initOptionsHandler("league");
 	this.props.exoticsApi.fetchLeagues(handler);
     },
+    formatLeagueOptions: function(leagues) {
+	return leagues.map(function(league) {
+	    return {
+		value: league.value
+	    }
+	});
+    },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
 	    this.props.exoticsApi.fetchTeams(params.league, handler);
 	}
+    },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.value
+	    }
+	});
     },
     fetchVersus: function(params) {
 	if (params.league!=undefined) {
@@ -43,7 +57,7 @@ var SeasonMatchBetForm=React.createClass({
 	    return (team.team==teamname) && (team.versus!=teamname);
 	})
     },
-    formatVersus: function(teams) {
+    formatVersusOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
 		value: team.versus
@@ -53,6 +67,13 @@ var SeasonMatchBetForm=React.createClass({
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
 	this.props.exoticsApi.fetchExpiries(handler);
+    },
+    formatExpiryOptions: function(expiries) {
+	return expiries.map(function(expiry) {
+	    return {
+		value: expiry.value
+	    }
+	});
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -127,7 +148,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "League",
 				name: "league",
-				options: this.state.options.league,
+				options: this.formatLeagueOptions(this.state.options.league),
 				value: this.state.params.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
@@ -136,7 +157,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "Versus",
 				name: "versus",
-				options: this.formatVersus(this.filterVersus(this.state.options.versus, this.state.params.team)),
+				options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.params.team)),
 				value: this.state.params.versus,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
@@ -151,7 +172,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "Your Team",
 				name: "team",
-				options: this.state.options.team,
+				options: this.formatTeamOptions(this.state.options.team),
 				value: this.state.params.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
@@ -161,7 +182,7 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "At",
 				name: "expiry",
-				options: this.state.options.expiry,
+				options: this.formatExpiryOptions(this.state.options.expiry),
 				value: this.state.params.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
