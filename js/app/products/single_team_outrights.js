@@ -25,11 +25,25 @@ var SingleTeamOutrightForm=React.createClass({
 	var handler=this.initOptionsHandler("league");
 	this.props.exoticsApi.fetchLeagues(handler);
     },
+    formatLeagueOptions: function(leagues) {
+	return leagues.map(function(league) {
+	    return {
+		value: league.value
+	    }
+	});
+    },
     fetchTeams: function(params) {
 	if (params.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
 	    this.props.exoticsApi.fetchTeams(params.league, handler);
 	}
+    },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.value
+	    }
+	});
     },
     fetchPayoffs: function(params) {
 	if (params.league!=undefined) {
@@ -43,7 +57,7 @@ var SingleTeamOutrightForm=React.createClass({
 	    return payoff.team==teamname;
 	})
     },
-    formatPayoffs: function(payoffs) {
+    formatPayoffOptions: function(payoffs) {
 	return payoffs.map(function(payoff) {
 	    return {
 		value: payoff.payoff
@@ -53,6 +67,13 @@ var SingleTeamOutrightForm=React.createClass({
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
 	this.props.exoticsApi.fetchExpiries(handler);
+    },
+    formatExpiryOptions: function(expiries) {
+	return expiries.map(function(expiry) {
+	    return {
+		value: expiry.value
+	    }
+	});
     },
     isComplete: function(params) {
 	return ((params.league!=undefined) &&
@@ -124,7 +145,7 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "League",
 				name: "league",
-				options: this.state.options.league,
+				options: this.formatLeagueOptions(this.state.options.league),
 				value: this.state.params.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
@@ -133,7 +154,7 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "Position",
 				name: "payoff",
-				options: this.formatPayoffs(this.filterPayoffs(this.state.options.payoff, this.state.params.team)),
+				options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.params.team)),
 				value: this.state.params.payoff,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
@@ -147,7 +168,7 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "Team",
 				name: "team",
-				options: this.state.options.team,
+				options: this.formatTeamOptions(this.state.options.team),
 				value: this.state.params.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
@@ -156,6 +177,7 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "At",
 				name: "expiry",
+				// options: this.formatExpiryOptions(this.state.options.expiry),
 				options: this.state.options.expiry,
 				value: this.state.params.expiry,
 				changeHandler: this.changeHandler,
