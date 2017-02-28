@@ -211,7 +211,7 @@ var BrowseProductsPanel=React.createClass({
 	name: "Team"
     },
     DefaultProductType: {
-	value: "Exotic"
+	label: "Exotic"
     },
     getInitialState: function() {
 	return {
@@ -245,15 +245,29 @@ var BrowseProductsPanel=React.createClass({
 	    }
 	});
     },
+    sortProductTypes: function(item0, item1) {
+	if (item0.label < item1.label) {
+	    return -1;
+	} else if (item0.label > item1.label) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+    },
+    fetchProductTypesHandler: function(productTypes) {
+	var state=this.state;
+	state.productTypes=[this.DefaultProductType].concat(productTypes.sort(this.sortProductTypes));
+    },
     formatProductTypeOptions: function(productTypes) {
 	return productTypes.map(function(productType) {
 	    return {
-		value: productType.value
+		value: productType.label
 	    }
 	});
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchTeams(undefined, this.fetchTeamsHandler);
+	this.props.exoticsApi.fetchProductTypes(this.fetchProductTypesHandler);
     },
     handleStepClicked: function(product) {
 	this.props.stepChangeHandler(1, product);
