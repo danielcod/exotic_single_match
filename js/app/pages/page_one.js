@@ -238,6 +238,20 @@ var BrowseProductsPanel=React.createClass({
 	state.teams=[this.DefaultTeam].concat(teams.sort(this.sortTeams));
 	this.setState(state);
     },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.value
+	    }
+	});
+    },
+    formatProductTypeOptions: function(productTypes) {
+	return productTypes.map(function(productType) {
+	    return {
+		value: productType.value
+	    }
+	});
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchTeams(undefined, this.fetchTeamsHandler);
     },
@@ -300,10 +314,10 @@ var BrowseProductsPanel=React.createClass({
 			    className: "col-xs-12",
 			    children: [
 				React.createElement(BrowseProductsTeamSelect, {
-				    teams: this.state.teams
+				    teams: this.formatTeamOptions(this.state.teams)
 				}),
 				React.createElement(BrowseProductsExoticSelect, {
-				    productTypes: this.state.productTypes
+				    productTypes: this.formatProductTypeOptions(this.state.productTypes)
 				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
