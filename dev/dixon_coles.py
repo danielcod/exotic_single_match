@@ -1,6 +1,7 @@
 """
-- need to replace existing Oddschecker code with new SDC stuff
-- solve with respect to 1x2 only; can use rho for over/under matching later
+- replace scipy with custom solve
+- add in over/under probs
+- solve for rho
 """
 
 """
