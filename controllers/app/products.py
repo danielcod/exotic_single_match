@@ -83,9 +83,9 @@ class PriceHandler(webapp2.RequestHandler):
         return {"price": format_price(probability),
                 "description": product.description}
 
-Routing=[('/app/products/browse', IndexHandler),
-         ('/app/products/show', ShowHandler),
-         ('/app/products/price', PriceHandler)]
+Routing=[('/app/products/show', ShowHandler),
+         ('/app/products/price', PriceHandler),
+         ('/app/products', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

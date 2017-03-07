@@ -16,8 +16,8 @@ class IndexHandler(webapp2.RequestHandler):
             leaguenames=Leagues.keys()
         n=int(self.request.get("n"))
         [taskqueue.add(url="/tasks/products/random/season_match_bets/league",
-                             params={"league": leaguename,
-                                     "n": n},
+                       params={"league": leaguename,
+                               "n": n},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s league tasks started" % len(leaguenames))

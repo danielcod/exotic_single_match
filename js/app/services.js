@@ -53,7 +53,7 @@ var ExoticsAPI=function(errHandler, debug) {
 	this.httpGet("/app/product_types", handler);
     };
     this.browseProducts=function(group, team, productType, handler) {
-	var url="/app/products/browse?";
+	var url="/app/products?";
 	var seed=new Date().getTime();
 	url+="seed="+seed+"&";
 	url+="group="+group+"&";
