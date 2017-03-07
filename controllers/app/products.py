@@ -38,9 +38,17 @@ class IndexHandler(webapp2.RequestHandler):
         self.save_products_memcache(products)
         return products
             
-    # @validate_query({'group': '.+'})
+    @validate_query({'group': '.+',
+                     'team': '.+',
+                     'product_type': '.+'})
     @emit_json_memcache(MemcacheAge)
     def get(self):
+        groupname=self.request.get("group")
+        teamname=self.request.get("team")
+        productname=self.request.get("product_type")
+        logging.info("Group: %s" % groupname)
+        logging.info("Team: %s" % teamname)
+        logging.info("Product: %s" % productname)
         return self.load_products()
 
 class ShowHandler(webapp2.RequestHandler):
