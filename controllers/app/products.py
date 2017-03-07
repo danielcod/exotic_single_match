@@ -37,21 +37,11 @@ class IndexHandler(webapp2.RequestHandler):
         products=self.load_products_db()
         self.save_products_memcache(products)
         return products
-        
-    @validate_query({'seed': '^\\d+$',
-                     'group': '.+'})
+            
+    # @validate_query({'group': '.+'})
     @emit_json_memcache(MemcacheAge)
     def get(self):
-        seed=int(self.request.get("seed"))
-        import random
-        random.seed(seed) # NB
-        products=self.load_products()
-        if products==[]:
-            raise RuntimeError("No products found")
-        index=list(set([int(random.random()*len(products))
-                        for i in range(50)]))
-        return [products[i]
-                for i in index]
+        return self.load_products()
 
 class ShowHandler(webapp2.RequestHandler):
 

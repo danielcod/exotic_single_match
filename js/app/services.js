@@ -54,8 +54,6 @@ var ExoticsAPI=function(errHandler, debug) {
     };
     this.browseProducts=function(group, team, productType, handler) {
 	var url="/app/products?";
-	var seed=new Date().getTime();
-	url+="seed="+seed+"&";
 	url+="group="+group+"&";
 	if (team!=undefined) {
 	    url+="team="+team+"&";
