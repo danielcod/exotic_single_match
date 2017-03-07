@@ -1,6 +1,6 @@
-from tasks.pricing import *
+from tasks.quant import *
 
-# curl "http://localhost:8080/tasks/pricing/yc_probabilities?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/quant/yc_probabilities?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -11,7 +11,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/pricing/yc_probabilities/league",
+        [taskqueue.add(url="/tasks/quant/yc_probabilities/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -35,8 +35,8 @@ class LeagueHandler(webapp2.RequestHandler):
             count+=1
         logging.info("Updated %i %s fixtures" % (count, leaguename))
 
-Routing=[('/tasks/pricing/yc_probabilities/league', LeagueHandler),
-         ('/tasks/pricing/yc_probabilities', IndexHandler)]
+Routing=[('/tasks/quant/yc_probabilities/league', LeagueHandler),
+         ('/tasks/quant/yc_probabilities', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

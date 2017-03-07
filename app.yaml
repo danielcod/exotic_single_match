@@ -55,10 +55,10 @@ handlers:
   script: tasks.random.season_match_bets.app
 - url: /tasks/random/single_team_outrights.*
   script: tasks.random.single_team_outrights.app
-- url: /tasks/pricing/bbc_fixtures.*
-  script: tasks.pricing.bbc_fixtures.app
-- url: /tasks/pricing/yc_probabilities.*
-  script: tasks.pricing.yc_probabilities.app
+- url: /tasks/quant/bbc_fixtures.*
+  script: tasks.quant.bbc_fixtures.app
+- url: /tasks/quant/yc_probabilities.*
+  script: tasks.quant.yc_probabilities.app
 # ROOT
 - url: .*
   script: controllers.root.app 
