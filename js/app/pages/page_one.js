@@ -234,18 +234,18 @@ var BrowseProductsPaginator=React.createClass({
 
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
-	label: "All Teams",
-	value: "All"
+	name: "All Teams",
+	value: "all"
     },
     DefaultProductType: {
 	label: "All Exotics",
-	value: "All"
+	value: "all"
     },
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
-	    selectedTeam: "All",
-	    selectedProductType: "All",
+	    selectedTeam: "all",
+	    selectedProductType: "all",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
