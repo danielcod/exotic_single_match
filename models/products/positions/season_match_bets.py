@@ -11,8 +11,12 @@ class SeasonMatchBetProduct(db.Model):
     price=db.StringProperty()
 
     @classmethod
-    def find_all(self):
+    def find_all(self, leaguename=None, teamname=None):
         query=SeasonMatchBetProduct.all()
+        if leaguename:
+            query.filter("league = ", leaguename)
+        if teamname:
+            query.filter("team = ", teamname)            
         return fetch_models_db(query)
 
     """
