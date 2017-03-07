@@ -1,3 +1,7 @@
+var AllTeamsLabel="All Teams";
+
+var AllExoticsLabel="All Exotics";
+
 var BrowseProductsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -234,12 +238,10 @@ var BrowseProductsPaginator=React.createClass({
 
 var BrowseProductsPanel=React.createClass({
     DefaultTeam: {
-	name: "All Teams",
-	value: "all"
+	value: AllTeamsLabel
     },
     DefaultProductType: {
-	label: "All Exotics",
-	value: "all"
+	value: AllExoticsLabel
     },
     getInitialState: function() {
 	return {
@@ -270,7 +272,7 @@ var BrowseProductsPanel=React.createClass({
     },
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
-	    if (team.value=="All") {
+	    if (team.value==AllTeamsLabel) {
 		return team; // default
 	    } else {
 		return {
@@ -294,7 +296,7 @@ var BrowseProductsPanel=React.createClass({
     },
     formatProductTypeOptions: function(productTypes) {
 	return productTypes.map(function(productType) {
-	    if (productType.value=="All") {
+	    if (productType.value==AllExoticsLabel) {
 		return productType; // default
 	    } else {
 		return {		
