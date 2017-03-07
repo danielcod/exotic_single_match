@@ -1,7 +1,3 @@
-var AllTeamsLabel="All Teams";
-
-var AllExoticsLabel="All Exotics";
-
 var BrowseProductsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -237,23 +233,25 @@ var BrowseProductsPaginator=React.createClass({
 });
 
 var BrowseProductsPanel=React.createClass({
-    DefaultTeam: {
-	value: AllTeamsLabel
-    },
-    DefaultProductType: {
-	value: AllExoticsLabel
-    },
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
-	    selectedTeam: "all",
-	    selectedProductType: "all",
+	    defaultTeam: {
+		label: "All Teams",
+		value: "All"
+	    },
+	    selectedTeam: "All",
+	    defaultProductType: {
+		label: "All Exotics",
+		value: "All"
+	    },
+	    selectedProductType: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5,
-	    teams: [this.DefaultTeam],
-	    productTypes: [this.DefaultProductType]
+	    teams: [],
+	    productTypes: []
 	}
     },
     sortTeams: function(item0, item1) {
@@ -267,17 +265,13 @@ var BrowseProductsPanel=React.createClass({
     },
     fetchTeamsHandler: function(teams) {
 	var state=this.state;
-	state.teams=[this.DefaultTeam].concat(teams.sort(this.sortTeams));
+	state.teams=teams.sort(this.sortTeams);
 	this.setState(state);
     },
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
-	    if (team.value==AllTeamsLabel) {
-		return team; // default
-	    } else {
-		return {
-		    value: team.name
-		}
+	    return {
+		value: team.name
 	    }
 	});
     },
@@ -292,16 +286,13 @@ var BrowseProductsPanel=React.createClass({
     },
     fetchProductTypesHandler: function(productTypes) {
 	var state=this.state;
-	state.productTypes=[this.DefaultProductType].concat(productTypes.sort(this.sortProductTypes));
+	state.productTypes=productTypes.sort(this.sortProductTypes);
+	this.setState(state);
     },
     formatProductTypeOptions: function(productTypes) {
 	return productTypes.map(function(productType) {
-	    if (productType.value==AllExoticsLabel) {
-		return productType; // default
-	    } else {
-		return {		
-		    value: productType.label
-		}
+	    return {		
+		value: productType.label
 	    }
 	});
     },
@@ -378,11 +369,11 @@ var BrowseProductsPanel=React.createClass({
 			    className: "col-xs-12",
 			    children: [
 				React.createElement(BrowseProductsTeamSelect, {
-				    teams: this.formatTeamOptions(this.state.teams),
+				    teams: [this.state.defaultTeam].concat(this.formatTeamOptions(this.state.teams)),
 				    changeHandler: this.handleTeamChanged
 				}),
 				React.createElement(BrowseProductsExoticSelect, {
-				    productTypes: this.formatProductTypeOptions(this.state.productTypes),
+				    productTypes: [this.state.defaultProductType].concat(this.formatProductTypeOptions(this.state.productTypes)),
 				    changeHandler: this.handleProductTypeChanged
 				}),
 				React.DOM.a({
