@@ -66,7 +66,8 @@ def init_expiries(cutoffmonth=4):
     date=datetime.date.today()
     def init_item(date):
         return {"value": date,
-                "label": format_date(date)}
+                # "label": format_date(date),
+                "label": date.strftime("%Y-%m-%d")}
     item=init_item(eom_date(date))
     expiries=[item]
     while True:
