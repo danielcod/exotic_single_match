@@ -28,7 +28,7 @@ var BrowseProductsTeamSelect=React.createClass({
 	    }.bind(this),
 	    children: this.props.teams.map(function(team) {
 		return React.DOM.option({
-		    children: team.value
+		    children: team.label || team.value
 		});
 	    })
 	});
@@ -45,7 +45,7 @@ var BrowseProductsExoticSelect=React.createClass({
 	    }.bind(this),
 	    children: this.props.productTypes.map(function(productType) {
 		return React.DOM.option({
-		    children: productType.value
+		    children: productType.label || productType.value
 		});
 	    })
 	})
