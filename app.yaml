@@ -51,6 +51,10 @@ handlers:
   script: tasks.blobs.outright_payoffs.app
 - url: /tasks/blobs/smb_versus.*
   script: tasks.blobs.smb_versus.app
+- url: /tasks/products/delete/season_match_bets.*
+  script: tasks.products.delete.season_match_bets.app
+- url: /tasks/products/delete/single_team_outrights.*
+  script: tasks.products.delete.single_team_outrights.app
 - url: /tasks/products/random/season_match_bets.*
   script: tasks.products.random.season_match_bets.app
 - url: /tasks/products/random/single_team_outrights.*
