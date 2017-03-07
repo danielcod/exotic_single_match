@@ -1,8 +1,8 @@
-from tasks.products.delete import *
+from tasks.products.trash import *
 
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
-# curl "http://localhost:8080/tasks/products/delete/season_match_bets"
+# curl "http://localhost:8080/tasks/products/trash/season_match_bets"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -13,7 +13,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/products/delete/season_match_bets/league",
+        [taskqueue.add(url="/tasks/products/trash/season_match_bets/league",
                              params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -26,11 +26,11 @@ class LeagueHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         products=SeasonMatchBetProduct.find_all(leaguename)
         for product in products:
-            product.delete()
-        logging.info("Deleted %s SeasonMatchBet bets [%i]" % (leaguename, len(products)))
+            product.trash()
+        logging.info("Trashed %s SeasonMatchBet bets [%i]" % (leaguename, len(products)))
         
-Routing=[('/tasks/products/delete/season_match_bets/league', LeagueHandler),
-         ('/tasks/products/delete/season_match_bets', IndexHandler)]
+Routing=[('/tasks/products/trash/season_match_bets/league', LeagueHandler),
+         ('/tasks/products/trash/season_match_bets', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
