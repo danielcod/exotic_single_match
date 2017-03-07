@@ -2,7 +2,7 @@ from tasks.random import *
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
-# curl "http://localhost:8080/tasks/random/single_team_outrights?n=20"
+# curl "http://localhost:8080/tasks/random/single_team_outrights?n=3"
 
 class IndexHandler(webapp2.RequestHandler):
 

@@ -11,7 +11,7 @@ import random
 Leagues=dict([(league["name"], league)
               for league in yaml.load(file("config/leagues.yaml").read())])
 
-Expiries=init_expiries(cutoffmonth=4)
+Expiries=init_expiries()
 
 def random_seed():
     import time

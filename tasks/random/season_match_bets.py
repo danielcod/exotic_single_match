@@ -2,7 +2,7 @@ from tasks.random import *
 
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
 
-# curl "http://localhost:8080/tasks/random/season_match_bets?n=20"
+# curl "http://localhost:8080/tasks/random/season_match_bets?n=3"
 
 class IndexHandler(webapp2.RequestHandler):
 
