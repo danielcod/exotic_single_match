@@ -1,5 +1,7 @@
 from controllers.app import *
 
+ProductTypes=yaml.load(file("config/product_types.yaml").read())
+
 # curl "http://localhost:8080/app/product_types"
     
 class IndexHandler(webapp2.RequestHandler):

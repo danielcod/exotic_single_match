@@ -2,13 +2,6 @@ from controllers import *
 
 import apis.yc_lite_api as yc_lite
 
-from helpers.expiry_helpers import init_expiries
-
-from helpers.price_helpers import format_price
-
-from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
-from models.products.positions.season_match_bets import SeasonMatchBetProduct
-
 Deps=yaml.load("""
 - css/app/theme.min.css
 - css/app/exotics_engine.css
@@ -25,13 +18,6 @@ Deps=yaml.load("""
 - js/app/pages/page_three.js
 - js/app/app.js
 """)
-
-ProductTypes=yaml.load(file("config/product_types.yaml").read())
-
-ProductMapping={
-    "single_team_outright": SingleTeamOutrightProduct,
-    "season_match_bet": SeasonMatchBetProduct
-}
 
 Leagues=yaml.load(file("config/leagues.yaml").read())
 

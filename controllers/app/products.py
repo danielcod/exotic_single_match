@@ -1,5 +1,15 @@
 from controllers.app import *
 
+from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
+from models.products.positions.season_match_bets import SeasonMatchBetProduct
+
+from helpers.price_helpers import format_price
+
+ProductMapping={
+    "single_team_outright": SingleTeamOutrightProduct,
+    "season_match_bet": SeasonMatchBetProduct
+}
+
 class IndexHandler(webapp2.RequestHandler):
 
     def load_products_db(self):
