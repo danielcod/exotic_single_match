@@ -1,15 +1,10 @@
-from tasks import *
-
-import apis.yc_lite_api as yc_lite
+from tasks.products import *
 
 from helpers.expiry_helpers import init_expiries
 
 from helpers.price_helpers import format_price
 
 import random
-
-Leagues=dict([(league["name"], league)
-              for league in yaml.load(file("config/leagues.yaml").read())])
 
 Expiries=init_expiries()
 

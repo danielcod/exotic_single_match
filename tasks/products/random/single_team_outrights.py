@@ -1,8 +1,8 @@
-from tasks.random import *
+from tasks.products.random import *
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 
-# curl "http://localhost:8080/tasks/random/single_team_outrights?n=3"
+# curl "http://localhost:8080/tasks/products/random/single_team_outrights?n=3"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -15,7 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
         if leaguenames==[]:
             leaguenames=Leagues.keys()
         n=int(self.request.get("n"))
-        [taskqueue.add(url="/tasks/random/single_team_outrights/league",
+        [taskqueue.add(url="/tasks/products/random/single_team_outrights/league",
                              params={"league": leaguename,
                                      "n": n},
                        queue_name=QueueName)
@@ -42,7 +42,7 @@ class LeagueHandler(webapp2.RequestHandler):
                                       price=price).put()
         logging.info("Created %s SingleTeamOutright bets [%i]" % (leaguename, n))
         
-Routing=[('/tasks/random/single_team_outrights/league', LeagueHandler),
-         ('/tasks/random/single_team_outrights', IndexHandler)]
+Routing=[('/tasks/products/random/single_team_outrights/league', LeagueHandler),
+         ('/tasks/products/random/single_team_outrights', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
