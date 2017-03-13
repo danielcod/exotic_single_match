@@ -1,22 +1,15 @@
 """
-- replace scipy with custom solve
-- add in over/under probs
-- solve for rho
-"""
-
-"""
 http://localhost:8888/notebooks/notebooks/sportshacker/dixon_coles_adjustment.ipynb
 """
 
 import math
 
-HomeWin, AwayWin, Draw = "home_win", "away_win", "draw"
+HomeWin, Draw, AwayWin = MOSelections = ["home_win", "draw", "away_win"]
 
 def poisson(l, x):
     return (l**x)*math.exp(-l)/math.factorial(x)
 
-"""
-def correct_score_grid(lx, ly, rho, n):
+def poisson_dc(lx, ly, rho, n):
     def DC_factor(i, j):
         if i==0 and j==0:
             return 1-lx*ly*rho
@@ -28,20 +21,27 @@ def correct_score_grid(lx, ly, rho, n):
             return 1-rho
         else:
             return 1
-    return [[poisson(lx, i)*poisson(ly, j)*DC_factor(i, j)
-             for j in range(n)]
-            for i in range(n)]
-"""
-
-def correct_score_grid(lx, ly, n):
-    return [[poisson(lx, i)*poisson(ly, j)
+    return [[poisson_(lx, i)*poisson(ly, j)*DC_factor(i, j)
              for j in range(n)]
             for i in range(n)]
 
 class CSGrid(list):
 
-    def __init__(self, data):
-        list.__init__(self, data)
+    @classmethod
+    def solve(self, probs, n):
+        from scipy import optimize
+        def errfn(q):
+            lx, ly = q
+            grid=CSGrid(lx, ly, n)
+            return (sum([(grid.match_odds(name)-prob)**2
+                         for name, prob in zip(MOSelections,
+                                               probs)])/float(3))**0.5
+        return optimize.fmin(errfn, (1, 1))
+
+    def __init__(self, lx, ly, n):
+        list.__init__(self, [[poisson(lx, i)*poisson(ly, j)
+                              for j in range(n)]
+                             for i in range(n)])
 
     def sum(self, filterfn):
         return sum([self[i][j]                    
@@ -50,34 +50,20 @@ class CSGrid(list):
                     if filterfn(i, j)])
                     
     def match_odds(self, selection):
-        filterfns={
-            HomeWin: lambda i, j: i > j,
-            Draw: lambda i, j: i==j,
-            AwayWin: lambda i, j: i < j
-        }
-        return self.sum(filterfns[selection])
+        if selection==HomeWin:
+            filterfn=lambda i, j: i > j
+        elif selection==Draw:
+            filterfn=lambda i, j: i==j
+        elif selection==AwayWin:
+            filterfn=lambda i, j: i < j            
+        return self.sum(filterfn)
     
-def solve_grid_params(match_odds_probs, n):
-    from scipy import optimize
-    def errfn(q):
-        lx, ly = q
-        grid=CSGrid(correct_score_grid(lx, ly, n))
-        return sum([(grid.match_odds(key)-value)**2
-                    for key, value in match_odds_probs.items()])
-    return optimize.fmin(errfn, (1, 1))
 
 if __name__=="__main__":
-    n=10
-    lx, ly = solve_grid_params({
-        HomeWin: 0.5,
-        Draw: 0.3,
-        AwayWin: 0.2
-    }, n)
+    lx, ly = CSGrid.solve([0.5, 0.3, 0.2], 10)
     print "lx: %.5f" % lx
     print "ly: %.5f" % ly
-    grid=CSGrid(correct_score_grid(lx, ly, n))
-    for selection in [HomeWin,
-                      Draw,
-                      AwayWin]:
+    grid=CSGrid(lx, ly, 10)
+    for selection in MOSelections:        
         print "%s: %.5f" % (selection, grid.match_odds(selection))
     
