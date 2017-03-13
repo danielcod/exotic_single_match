@@ -67,7 +67,8 @@ class Fixture(db.Model):
     name=db.StringProperty() # "A vs B"
     date=db.DateProperty()
     yc_probabilities=db.ListProperty(item_type=float)
-  
+    dc_probabilities=db.TextProperty()
+    
     @classmethod
     def find_all(self, leaguename, cutoff=None, force=False):
         query=Fixture.all()
