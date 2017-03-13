@@ -4,3 +4,6 @@
 - label: "Season Match Bet"
   type: "season_match_bet"
   description: "Bet on your favorite team to finish ahead of their hated rival!"
+- label: "Mini League"
+  type": "mini_league"
+  description: "Construct your own mini league and bet on the winner!"
