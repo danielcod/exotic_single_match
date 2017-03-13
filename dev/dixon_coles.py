@@ -58,7 +58,6 @@ class CSGrid(list):
             filterfn=lambda i, j: i < j            
         return self.sum(filterfn)
     
-
 if __name__=="__main__":
     lx, ly = CSGrid.solve([0.5, 0.3, 0.2], 10)
     print "lx: %.5f" % lx
@@ -67,3 +66,4 @@ if __name__=="__main__":
     for selection in MOSelections:        
         print "%s: %.5f" % (selection, grid.match_odds(selection))
     
+
