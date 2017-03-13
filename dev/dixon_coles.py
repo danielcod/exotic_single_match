@@ -6,6 +6,8 @@ import math
 
 HomeWin, Draw, AwayWin = MOSelections = ["home_win", "draw", "away_win"]
 
+N=10
+
 def poisson(l, x):
     return (l**x)*math.exp(-l)/math.factorial(x)
 
@@ -25,20 +27,30 @@ def poisson_dc(lx, ly, rho, n):
              for j in range(n)]
             for i in range(n)]
 
+def rms_error(X, Y):
+    return (sum([(x-y)**2 for x, y in zip(X, Y)])/float(len(X)))**0.5
+
 class CSGrid(list):
 
     @classmethod
-    def solve(self, probs, n):
-        from scipy import optimize
-        def errfn(q):
-            lx, ly = q
-            grid=CSGrid(lx, ly, n)
-            return (sum([(grid.match_odds(name)-prob)**2
-                         for name, prob in zip(MOSelections,
-                                               probs)])/float(3))**0.5
-        return optimize.fmin(errfn, (1, 1))
-
-    def __init__(self, lx, ly, n):
+    def solve(self, probs, n=N, generations=1000, seed=13):
+        import random
+        random.seed(seed)
+        l, besterr = [1, 1], 1e10
+        for i in range(generations):
+            factor, j = ((generations-i)/float(generations))**2, i%2
+            q=factor*random.gauss(0, 1)
+            l[j]+=q
+            grid=CSGrid(l[0], l[1], n)
+            err=rms_error([grid.match_odds(selection)
+                           for selection in MOSelections], probs)
+            if err < besterr:
+                besterr=err
+            else:
+                l[j]-=q
+        return l[0], l[1], besterr
+    
+    def __init__(self, lx, ly, n=N):
         list.__init__(self, [[poisson(lx, i)*poisson(ly, j)
                               for j in range(n)]
                              for i in range(n)])
@@ -55,15 +67,22 @@ class CSGrid(list):
         elif selection==Draw:
             filterfn=lambda i, j: i==j
         elif selection==AwayWin:
-            filterfn=lambda i, j: i < j            
+            filterfn=lambda i, j: i < j
+        else:
+            raise RuntimeError("No filter fn for '%s'" % selection)
         return self.sum(filterfn)
     
 if __name__=="__main__":
-    lx, ly = CSGrid.solve([0.5, 0.3, 0.2], 10)
-    print "lx: %.5f" % lx
-    print "ly: %.5f" % ly
-    grid=CSGrid(lx, ly, 10)
-    for selection in MOSelections:        
-        print "%s: %.5f" % (selection, grid.match_odds(selection))
+    try:
+        lx, ly, err = CSGrid.solve([0.5, 0.3, 0.2])
+        print "lx: %.5f" % lx
+        print "ly: %.5f" % ly
+        print "err: %.5f" % err
+        grid=CSGrid(lx, ly)
+        for selection in MOSelections:        
+            print "%s: %.5f" % (selection, grid.match_odds(selection))
+    except RuntimeError, error:
+        print "Error: %s" % str(error)
+        
     
 
