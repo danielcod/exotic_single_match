@@ -1,5 +1,7 @@
 from tasks.quant import *
 
+from quant.dixon_coles import CSGrid
+
 # curl "http://localhost:8080/tasks/quant/dc_probabilities?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -41,8 +43,18 @@ class FixtureHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         eventname=self.request.get("event")
-        logging.info("%s/%s" % (leaguename, eventname))
-
+        keyname="%s/%s" % (leaguename, eventname)
+        event=Fixture.get_by_key_name(keyname)
+        if not event:
+            raise RuntimeError("%s not found" % keyname)
+        lx, ly, err = CSGrid.solve(event.yc_probabilities)
+        event.dc_poisson_means=[lx, ly]
+        event.dc_error=err
+        event.put()
+        logging.info("Updated %s :: %.5f/%.5f -> %.5f" % (keyname,
+                                                          lx, ly,
+                                                          err))
+        
 Routing=[('/tasks/quant/dc_probabilities/league', LeagueHandler),
          ('/tasks/quant/dc_probabilities/fixture', FixtureHandler),
          ('/tasks/quant/dc_probabilities', IndexHandler)]
