@@ -2,7 +2,9 @@ from tasks.quant import *
 
 from quant.dixon_coles import CSGrid
 
-# curl "http://localhost:8080/tasks/quant/dc_probabilities?leagues=ENG.1"
+MaxError=0.001
+
+# curl "http://localhost:8080/tasks/quant/dc_poisson_means?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -13,7 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/quant/dc_probabilities/league",
+        [taskqueue.add(url="/tasks/quant/dc_poisson_means/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -29,7 +31,7 @@ class LeagueHandler(webapp2.RequestHandler):
                           for fixture in yc_lite.get_remaining_fixtures(leaguename)])
         events=[event for event in Fixture.find_all(leaguename)
                 if event.name in remfixtures]
-        [taskqueue.add(url="/tasks/quant/dc_probabilities/fixture",
+        [taskqueue.add(url="/tasks/quant/dc_poisson_means/fixture",
                        params={"league": leaguename,
                                "event": event.name},
                        queue_name=QueueName)
@@ -48,6 +50,8 @@ class FixtureHandler(webapp2.RequestHandler):
         if not event:
             raise RuntimeError("%s not found" % keyname)
         lx, ly, err = CSGrid.solve(event.yc_probabilities)
+        if err > MaxError:
+            raise RuntimeError("%s error [%.5f] exceeded max [%.5f]" % (keyname, err, MaxError))
         event.dc_poisson_means=[lx, ly]
         event.dc_error=err
         event.put()
@@ -55,9 +59,9 @@ class FixtureHandler(webapp2.RequestHandler):
                                                           lx, ly,
                                                           err))
         
-Routing=[('/tasks/quant/dc_probabilities/league', LeagueHandler),
-         ('/tasks/quant/dc_probabilities/fixture', FixtureHandler),
-         ('/tasks/quant/dc_probabilities', IndexHandler)]
+Routing=[('/tasks/quant/dc_poisson_means/league', LeagueHandler),
+         ('/tasks/quant/dc_poisson_means/fixture', FixtureHandler),
+         ('/tasks/quant/dc_poisson_means', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
