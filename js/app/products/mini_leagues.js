@@ -1,4 +1,4 @@
-var MiniLeagueBetForm=React.createClass({
+var MiniLeagueForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "row",

@@ -1,7 +1,7 @@
 var EditProductMapping={
     "single_team_outright": SingleTeamOutrightForm,
     "season_match_bet": SeasonMatchBetForm,
-    "mini_league": MiniLeagueBetForm
+    "mini_league": MiniLeagueForm
 };
 
 var EditProductSelect=React.createClass({

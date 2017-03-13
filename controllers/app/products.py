@@ -2,14 +2,14 @@ from controllers.app import *
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
-from models.products.positions.mini_leagues import MiniLeagueBetProduct
+from models.products.positions.mini_leagues import MiniLeagueProducts
 
 from helpers.price_helpers import format_price
 
 ProductMapping={
     "single_team_outright": SingleTeamOutrightProduct,
     "season_match_bet": SeasonMatchBetProduct,
-    "mini_league": MiniLeagueBetProduct
+    "mini_league": MiniLeagueProducts
 }
 
 class IndexHandler(webapp2.RequestHandler):
@@ -18,7 +18,7 @@ class IndexHandler(webapp2.RequestHandler):
         products=[]
         products+=SingleTeamOutrightProduct.find_all()
         products+=SeasonMatchBetProduct.find_all()
-        products+=MiniLeagueBetProduct.find_all()
+        products+=MiniLeagueProducts.find_all()
         return [product.json_struct
                 for product in products]
 
