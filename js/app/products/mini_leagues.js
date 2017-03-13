@@ -2,7 +2,10 @@ var MiniLeagueBetForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "row",
-	    children: "Hello World!"
+	    children: React.DOM.h3({
+		className: "text-center",
+		children: "[Mini- League]"
+	    })
 	})
     }
 });
