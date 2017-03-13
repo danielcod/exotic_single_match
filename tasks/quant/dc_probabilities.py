@@ -27,9 +27,24 @@ class LeagueHandler(webapp2.RequestHandler):
                           for fixture in yc_lite.get_remaining_fixtures(leaguename)])
         events=[event for event in Fixture.find_all(leaguename)
                 if event.name in remfixtures]
-        logging.info("%i fixtures found [%s]" % (len(events), leaguename))
+        [taskqueue.add(url="/tasks/quant/dc_probabilities/fixture",
+                       params={"league": leaguename,
+                               "event": event.name},
+                       queue_name=QueueName)
+         for event in events]
+        logging.info("%i %s fixture tasks started" % (len(events), leaguename))
+
+class FixtureHandler(webapp2.RequestHandler):
+
+    @validate_query({"league": "\\D{3}\\.\\d",
+                     "event": ".+"})
+    def post(self):
+        leaguename=self.request.get("league")
+        eventname=self.request.get("event")
+        logging.info("%s/%s" % (leaguename, eventname))
 
 Routing=[('/tasks/quant/dc_probabilities/league', LeagueHandler),
+         ('/tasks/quant/dc_probabilities/fixture', FixtureHandler),
          ('/tasks/quant/dc_probabilities', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
