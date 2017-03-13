@@ -3,9 +3,6 @@ var MiniLeagueRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    style: {
-			"padding-top": "20px"
-		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "league",
@@ -28,9 +25,6 @@ var MiniLeagueRow=React.createClass({
 		    )
 		}),
 		React.DOM.td({
-		    style: {
-			"padding-top": "20px"
-		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
@@ -76,7 +70,7 @@ var MiniLeagueRow=React.createClass({
 var MiniLeagueForm=React.createClass({
     render: function() {
 	return React.DOM.table({
-	    className: "table table-condensed",	    
+	    className: "table",
 	    children: [
 		React.DOM.thead({
 		    children: React.DOM.tr({
