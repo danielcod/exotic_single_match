@@ -58,9 +58,9 @@ var MySelect=React.createClass({
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
-		React.DOM.label({
+		(this.props.label!=undefined) ? React.DOM.label({
 		    children: this.props.label
-		}),
+		}) : undefined,
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.value,
