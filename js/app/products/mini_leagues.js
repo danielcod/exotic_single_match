@@ -144,6 +144,9 @@ var MiniLeagueForm=React.createClass({
     deleteHandler: function(id) {
 	console.log(id+" deleted");
     },
+    addHandler: function() {
+	console.log("Row added");
+    },
     render: function() {	
 	return React.DOM.div({
 	    children: [
@@ -154,9 +157,7 @@ var MiniLeagueForm=React.createClass({
 			children: React.DOM.a({
 			    className: "btn btn-sm btn-primary pull-right",
 			    children: "Add Team",
-			    onClick: function() {
-				console.log("Add team")
-			    }
+			    onClick: this.addHandler
 			})
 		    })
 		}),
