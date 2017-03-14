@@ -1,7 +1,6 @@
 var MiniLeagueRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
-	    console.log(name+" -> "+JSON.stringify(struct)); // TEMP
 	    var state=this.state;
 	    state.options[name]=struct;
 	    this.setState(state);	
@@ -59,18 +58,8 @@ var MiniLeagueRow=React.createClass({
 		    children: React.createElement(
 			MySelect, {
 			    name: "league",
-			    options: [
-				{
-				    value: "ENG.1",
-				},
-				{
-				    value: "ENG.2",
-				},
-				{
-				    value: "ENG.3"
-				}
-			    ],
-			    value: "ENG.1",
+			    options: this.formatLeagueOptions(this.state.options.league),
+			    value: this.state.params.league,
 			    changeHandler: function(name, value) {
 				console.log(name+"="+value);
 			    }
@@ -87,18 +76,8 @@ var MiniLeagueRow=React.createClass({
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
-			    options: [
-				{
-				    value: "Arsenal",
-				},
-				{
-				    value: "Liverpool",
-				},
-				{
-				    value: "Man City"
-				}
-			    ],
-			    value: "Liverpool",
+			    options: this.formatTeamOptions(this.state.options.team),
+			    value: this.state.params.team,
 			    changeHandler: function(name, value) {
 				console.log(name+"="+value);
 			    }
