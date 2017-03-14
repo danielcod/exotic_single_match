@@ -12,7 +12,10 @@ var MiniLeagueRow=React.createClass({
 		league: [],
 		team: []
 	    },
-	    params: {}
+	    params: {
+		league: "ENG.1",
+		team: "Arsenal",
+	    }
 	};
     },
     fetchLeagues: function() {
@@ -59,6 +62,7 @@ var MiniLeagueRow=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
+	this.fetchTeams(this.state.params);
     },
     componentDidMount: function() {
 	this.initialise();
