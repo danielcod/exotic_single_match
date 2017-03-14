@@ -155,7 +155,12 @@ var MiniLeagueForm=React.createClass({
 	this.setState(state);
     },
     addHandler: function() {
-	console.log("Row added");
+	var state=this.state;
+	state.items.push({
+	    id: this.itemUuid(),
+	    disabled: false
+	});
+	this.setState(state);
     },
     render: function() {	
 	return React.DOM.div({
