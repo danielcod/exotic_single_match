@@ -64,9 +64,9 @@ var MiniLeagueRow=React.createClass({
     componentWillReceiveProps: function(nextProps) {
 	if (JSON.stringify(this.state.params)!=
 	    JSON.stringify(nextProps.params)) {
-	    // console.log(JSON.stringify(nextProps.params));
 	    var state=this.state;
 	    state.params=deepCopy(nextProps.params);
+	    this.fetchTeams(state.params);
 	    this.setState(state);
 	}
     },
