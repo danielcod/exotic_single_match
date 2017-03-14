@@ -147,7 +147,12 @@ var MiniLeagueForm=React.createClass({
 	console.log(id+" -> "+name+"="+value);
     },
     deleteHandler: function(id) {
-	console.log(id+" deleted");
+	var state=this.state;
+	var items=state.items.filter(function(item) {
+	    return item.id!=id;
+	});
+	state.items=items;
+	this.setState(state);
     },
     addHandler: function() {
 	console.log("Row added");
