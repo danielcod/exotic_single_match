@@ -97,52 +97,14 @@ var MiniLeagueRow=React.createClass({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
-			})
+			}),
+			onClick: function() {
+			    console.log("Delete row");
+			}
 		    })
 		})
 	    ]
 	})				    
-    }
-});
-
-var MiniLeagueTable=React.createClass({
-    render: function() {	
-	return React.DOM.table({
-	    className: "table",
-	    style: {
-		margin: "0px",
-		padding: "0px"
-	    },
-	    children: [
-		React.DOM.thead({
-		    children: React.DOM.tr({
-			children: [
-			    React.DOM.th({
-				children: "League"
-			    }),
-			    React.DOM.th({
-				children: "Team"
-			    }),
-			    React.DOM.th({
-				children: []
-			    })
-			]
-		    })
-		}),		
-		React.DOM.tbody({
-		    children: [
-			React.createElement(MiniLeagueRow, {
-			    exoticsApi: this.props.exoticsApi,
-			    blankStyle: this.props.blankStyle
-			}),
-			React.createElement(MiniLeagueRow, {
-			    exoticsApi: this.props.exoticsApi,
-			    blankStyle: this.props.blankStyle
-			})
-		    ]
-		})
-	    ]
-	})
     }
 });
 
@@ -156,7 +118,10 @@ var MiniLeagueForm=React.createClass({
 			className: "col-xs-12",
 			children: React.DOM.a({
 			    className: "btn btn-sm btn-primary pull-right",
-			    children: "Add Team"
+			    children: "Add Team",
+			    onClick: function() {
+				console.log("Add team")
+			    }
 			})
 		    })
 		}),
@@ -164,11 +129,43 @@ var MiniLeagueForm=React.createClass({
 		    className: "row",
 		    children: React.DOM.div({
 			className: "col-xs-12",
-			children: React.createElement(MiniLeagueTable, {
-			    exoticsApi: this.props.exoticsApi,
-			    blankStyle: this.props.blankStyle
+			children: React.DOM.table({
+			    className: "table",
+			    style: {
+				margin: "0px",
+				padding: "0px"
+			    },
+			    children: [
+				React.DOM.thead({
+				    children: React.DOM.tr({
+					children: [
+					    React.DOM.th({
+						children: "League"
+					    }),
+					    React.DOM.th({
+						children: "Team"
+					    }),
+					    React.DOM.th({
+						children: []
+					    })
+					]
+				    })
+				}),		
+				React.DOM.tbody({
+				    children: [
+					React.createElement(MiniLeagueRow, {
+					    exoticsApi: this.props.exoticsApi,
+					    blankStyle: this.props.blankStyle
+					}),
+					React.createElement(MiniLeagueRow, {
+					    exoticsApi: this.props.exoticsApi,
+					    blankStyle: this.props.blankStyle
+					})
+				    ]
+				})
+			    ]
 			})
-		    })
+		    })					    
 		})
 	    ]
 	});
