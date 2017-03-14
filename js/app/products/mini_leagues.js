@@ -39,6 +39,9 @@ var MiniLeagueRow=React.createClass({
 	    }
 	});
     },
+    changeHandler: function(name, value) {
+	console.log(name+"="+value);
+    },
     initialise: function() {
 	this.fetchLeagues();
     },
@@ -60,10 +63,8 @@ var MiniLeagueRow=React.createClass({
 			    name: "league",
 			    options: this.formatLeagueOptions(this.state.options.league),
 			    value: this.state.params.league,
-			    blankStyle: this.props.blankStyle,
-			    changeHandler: function(name, value) {
-				console.log(name+"="+value);
-			    }
+			    changeHandler: this.changeHandler,
+			    blankStyle: this.props.blankStyle
 			}
 		    )
 		}),		
@@ -79,10 +80,8 @@ var MiniLeagueRow=React.createClass({
 			    name: "team",
 			    options: this.formatTeamOptions(this.state.options.team),
 			    value: this.state.params.team,
-			    blankStyle: this.props.blankStyle,
-			    changeHandler: function(name, value) {
-				console.log(name+"="+value);
-			    }
+			    changeHandler: this.changeHandler,
+			    blankStyle: this.props.blankStyle
 			}
 		    )
 		}),
