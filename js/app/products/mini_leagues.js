@@ -49,7 +49,7 @@ var MiniLeagueRow=React.createClass({
 		this.fetchTeams(state.params);
 	    }
 	    this.setState(state);
-	    this.props.changeHandler(name, value);
+	    this.props.changeHandler(this.props.id, name, value);
 	}
     },
     initialise: function() {
@@ -118,8 +118,11 @@ var MiniLeagueRow=React.createClass({
 });
 
 var MiniLeagueForm=React.createClass({
-    rowChangeHandler: function(name, value) {
-	console.log(name+"="+value);
+    rowUuid: function() {
+	return Math.round(Math.random()*1e16);
+    },
+    rowChangeHandler: function(id, name, value) {
+	console.log(id+" -> "+name+"="+value);
     },
     render: function() {	
 	return React.DOM.div({
@@ -166,11 +169,13 @@ var MiniLeagueForm=React.createClass({
 				React.DOM.tbody({
 				    children: [
 					React.createElement(MiniLeagueRow, {
+					    id: this.rowUuid(),
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.rowChangeHandler
 					}),
 					React.createElement(MiniLeagueRow, {
+					    id: this.rowUuid(),
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.rowChangeHandler
