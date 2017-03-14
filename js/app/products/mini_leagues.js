@@ -52,12 +52,12 @@ var MiniLeagueRow=React.createClass({
 		this.fetchTeams(state.params);
 	    }
 	    this.setState(state);
-	    this.props.changeHandler(this.props.item.id, name, value);
+	    this.props.changeHandler(this.props.params.id, name, value);
 	}
     },
     deleteHandler: function() {
-	if (!this.props.item.disabled) {
-	    this.props.deleteHandler(this.props.item.id);
+	if (!this.props.params.disabled) {
+	    this.props.deleteHandler(this.props.params.id);
 	}
     },
     initialise: function() {
@@ -112,7 +112,7 @@ var MiniLeagueRow=React.createClass({
 			"padding-bottom": "0px"
 		    },
 		    children: React.DOM.a({
-			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
+			className: "btn btn-"+(this.props.params.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
@@ -192,9 +192,9 @@ var MiniLeagueForm=React.createClass({
 				    })
 				}),		
 				React.DOM.tbody({
-				    children: this.state.items.map(function(item) {
+				    children: this.state.items.map(function(params) {
 					return React.createElement(MiniLeagueRow, {
-					    item: item,
+					    params: params,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.changeHandler,
