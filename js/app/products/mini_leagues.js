@@ -61,9 +61,18 @@ var MiniLeagueRow=React.createClass({
 	this.fetchLeagues();
 	this.fetchTeams(this.state.params);
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (JSON.stringify(this.state.params)!=
+	    JSON.stringify(nextProps.params)) {
+	    // console.log(JSON.stringify(nextProps.params));
+	    var state=this.state;
+	    state.params=deepCopy(nextProps.params);
+	    this.setState(state);
+	}
+    },
     componentDidMount: function() {
 	this.initialise();
-    },
+    },    
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -144,7 +153,19 @@ var MiniLeagueForm=React.createClass({
 	};
     },
     changeHandler: function(id, name, value) {
-	console.log(id+" -> "+name+"="+value);
+	var state=this.state;
+	var updated=false;
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
+	    if ((item.id==id) &&
+		(item[name]!=value)) {
+		item[name]=value;
+		updated=true;
+	    }
+	}
+	if (updated) {
+	    this.setState(state);
+	}
     },
     deleteHandler: function(id) {
 	var state=this.state;
