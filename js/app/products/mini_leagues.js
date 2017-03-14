@@ -68,20 +68,6 @@ var MiniLeagueRow=React.createClass({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-plus-sign"
-			})
-		    })
-		}),
-		React.DOM.td({
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px",
-			"padding-top": "0px",
-			"padding-bottom": "0px"
-		    },
-		    children: React.DOM.a({
-			className: "btn btn-secondary",
-			children: React.DOM.i({
 			    className: "glyphicon glyphicon-minus-sign"
 			})
 		    })
@@ -104,9 +90,6 @@ var MiniLeagueForm=React.createClass({
 			    }),
 			    React.DOM.th({
 				children: "Team"
-			    }),
-			    React.DOM.th({
-				children: []
 			    }),
 			    React.DOM.th({
 				children: []
