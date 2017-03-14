@@ -53,7 +53,9 @@ var MiniLeagueRow=React.createClass({
 	}
     },
     deleteHandler: function() {
-	this.props.deleteHandler(this.props.item.id);
+	if (!this.props.item.disabled) {
+	    this.props.deleteHandler(this.props.item.id);
+	}
     },
     initialise: function() {
 	this.fetchLeagues();
@@ -106,7 +108,7 @@ var MiniLeagueRow=React.createClass({
 			"padding-bottom": "0px"
 		    },
 		    children: React.DOM.a({
-			className: "btn btn-secondary",
+			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
