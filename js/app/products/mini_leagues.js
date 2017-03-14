@@ -52,6 +52,9 @@ var MiniLeagueRow=React.createClass({
 	    this.props.changeHandler(this.props.item.id, name, value);
 	}
     },
+    deleteHandler: function() {
+	console.log(this.props.item.id+" deleted");
+    },
     initialise: function() {
 	this.fetchLeagues();
     },
@@ -107,9 +110,7 @@ var MiniLeagueRow=React.createClass({
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
-			onClick: function() {
-			    console.log("Delete row");
-			}
+			onClick: this.deleteHandler
 		    })
 		})
 	    ]
@@ -125,15 +126,17 @@ var MiniLeagueForm=React.createClass({
 	return {
 	    items: [
 		{
-		    id: this.itemUuid()
+		    id: this.itemUuid(),
+		    disabled: true
 		},
 		{
-		    id: this.itemUuid()
+		    id: this.itemUuid(),
+		    disabled: false
 		}
 	    ]
 	};
     },
-    handleRowChanged: function(id, name, value) {
+    changeHandler: function(id, name, value) {
 	console.log(id+" -> "+name+"="+value);
     },
     render: function() {	
@@ -184,7 +187,7 @@ var MiniLeagueForm=React.createClass({
 					    item: item,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
-					    changeHandler: this.handleRowChanged
+					    changeHandler: this.changeHandler
 					});
 				    }.bind(this))
 				})
