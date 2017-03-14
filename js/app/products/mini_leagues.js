@@ -12,10 +12,7 @@ var MiniLeagueRow=React.createClass({
 		league: [],
 		team: []
 	    },
-	    params: {
-		league: "ENG.1",
-		team: "Arsenal",
-	    }
+	    params: deepCopy(this.props.params)
 	};
     },
     fetchLeagues: function() {
@@ -133,11 +130,15 @@ var MiniLeagueForm=React.createClass({
 	    items: [
 		{
 		    id: this.itemUuid(),
-		    disabled: true
+		    disabled: true,
+		    league: "ENG.1",
+		    team: "Arsenal"
 		},
 		{
 		    id: this.itemUuid(),
-		    disabled: false
+		    disabled: false,
+		    league: "SPA.1",
+		    team: "Barcelona"
 		}
 	    ]
 	};
