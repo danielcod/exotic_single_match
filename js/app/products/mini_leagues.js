@@ -118,17 +118,17 @@ var MiniLeagueRow=React.createClass({
 });
 
 var MiniLeagueForm=React.createClass({
-    rowUuid: function() {
+    itemUuid: function() {
 	return Math.round(Math.random()*1e16);
     },
     getInitialState: function() {
 	return {
-	    rows: [
+	    items: [
 		{
-		    id: this.rowUuid()
+		    id: this.itemUuid()
 		},
 		{
-		    id: this.rowUuid()
+		    id: this.itemUuid()
 		}
 	    ]
 	};
@@ -179,9 +179,9 @@ var MiniLeagueForm=React.createClass({
 				    })
 				}),		
 				React.DOM.tbody({
-				    children: this.state.rows.map(function(row) {
+				    children: this.state.items.map(function(item) {
 					return React.createElement(MiniLeagueRow, {
-					    id: row.id,
+					    id: item.id,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.handleRowChanged
