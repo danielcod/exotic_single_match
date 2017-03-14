@@ -53,7 +53,7 @@ var MiniLeagueRow=React.createClass({
 	}
     },
     deleteHandler: function() {
-	console.log(this.props.item.id+" deleted");
+	this.props.deleteHandler(this.props.item.id);
     },
     initialise: function() {
 	this.fetchLeagues();
@@ -139,6 +139,9 @@ var MiniLeagueForm=React.createClass({
     changeHandler: function(id, name, value) {
 	console.log(id+" -> "+name+"="+value);
     },
+    deleteHandler: function(id) {
+	console.log(id+" deleted");
+    },
     render: function() {	
 	return React.DOM.div({
 	    children: [
@@ -187,7 +190,8 @@ var MiniLeagueForm=React.createClass({
 					    item: item,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
-					    changeHandler: this.changeHandler
+					    changeHandler: this.changeHandler,
+					    deleteHandler: this.deleteHandler
 					});
 				    }.bind(this))
 				})
