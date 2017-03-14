@@ -1,4 +1,51 @@
 var MiniLeagueRow=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    console.log(name+" -> "+JSON.stringify(struct)); // TEMP
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		league: [],
+		team: []
+	    },
+	    params: {}
+	};
+    },
+    fetchLeagues: function() {
+	var handler=this.initOptionsHandler("league");
+	this.props.exoticsApi.fetchLeagues(handler);
+    },
+    formatLeagueOptions: function(leagues) {
+	return leagues.map(function(league) {
+	    return {
+		value: league.name
+	    }
+	});
+    },
+    fetchTeams: function(params) {
+	if (params.league!=undefined) {
+	    var handler=this.initOptionsHandler("team");
+	    this.props.exoticsApi.fetchTeams(params.league, handler);
+	}
+    },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.name
+	    }
+	});
+    },
+    initialise: function() {
+	this.fetchLeagues();
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -103,8 +150,12 @@ var MiniLeagueTable=React.createClass({
 		}),		
 		React.DOM.tbody({
 		    children: [
-			React.createElement(MiniLeagueRow, {}),
-			React.createElement(MiniLeagueRow, {})
+			React.createElement(MiniLeagueRow, {
+			    exoticsApi: this.props.exoticsApi
+			}),
+			React.createElement(MiniLeagueRow, {
+			    exoticsApi: this.props.exoticsApi
+			})
 		    ]
 		})
 	    ]
@@ -130,7 +181,9 @@ var MiniLeagueForm=React.createClass({
 		    className: "row",
 		    children: React.DOM.div({
 			className: "col-xs-12",
-			children: React.createElement(MiniLeagueTable, {})
+			children: React.createElement(MiniLeagueTable, {
+			    exoticsApi: this.props.exoticsApi
+			})
 		    })
 		})
 	    ]
