@@ -49,7 +49,7 @@ var MiniLeagueRow=React.createClass({
 		this.fetchTeams(state.params);
 	    }
 	    this.setState(state);
-	    this.props.changeHandler(this.props.id, name, value);
+	    this.props.changeHandler(this.props.item.id, name, value);
 	}
     },
     initialise: function() {
@@ -181,7 +181,7 @@ var MiniLeagueForm=React.createClass({
 				React.DOM.tbody({
 				    children: this.state.items.map(function(item) {
 					return React.createElement(MiniLeagueRow, {
-					    id: item.id,
+					    item: item,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.handleRowChanged
