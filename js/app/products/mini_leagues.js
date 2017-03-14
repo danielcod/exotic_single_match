@@ -68,7 +68,7 @@ var MiniLeagueRow=React.createClass({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-minus-sign"
+			    className: "glyphicon glyphicon-remove"
 			})
 		    })
 		})
@@ -77,10 +77,14 @@ var MiniLeagueRow=React.createClass({
     }
 });
 
-var MiniLeagueForm=React.createClass({
-    render: function() {
+var MiniLeagueTable=React.createClass({
+    render: function() {	
 	return React.DOM.table({
 	    className: "table",
+	    style: {
+		margin: "0px",
+		padding: "0px"
+	    },
 	    children: [
 		React.DOM.thead({
 		    children: React.DOM.tr({
@@ -105,5 +109,31 @@ var MiniLeagueForm=React.createClass({
 		})
 	    ]
 	})
+    }
+});
+
+var MiniLeagueForm=React.createClass({
+    render: function() {	
+	return React.DOM.div({
+	    children: [
+		React.DOM.div({		    
+		    className: "row",
+		    children: React.DOM.div({
+			className: "col-xs-12",
+			children: React.DOM.a({
+			    className: "btn btn-sm btn-primary pull-right",
+			    children: "Add Team"
+			})
+		    })
+		}),
+		React.DOM.div({
+		    className: "row",
+		    children: React.DOM.div({
+			className: "col-xs-12",
+			children: React.createElement(MiniLeagueTable, {})
+		    })
+		})
+	    ]
+	});
     }
 });
