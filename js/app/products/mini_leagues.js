@@ -40,7 +40,16 @@ var MiniLeagueRow=React.createClass({
 	});
     },
     changeHandler: function(name, value) {
-	console.log(name+"="+value);
+	if (this.state.params[name]!=value) {
+	    var state=this.state;
+	    state.params[name]=value;
+	    if (name=="league") {
+		state.options.team=[];
+		state.params.team=undefined;
+		this.fetchTeams(state.params);
+	    }
+	    this.setState(state);
+	}
     },
     initialise: function() {
 	this.fetchLeagues();
