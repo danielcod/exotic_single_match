@@ -183,15 +183,28 @@ var MiniLeagueForm=React.createClass({
 	this.setState(state);
     },
     isComplete: function(params) {
+	// check min length
 	if (params.items.length < 2) {
 	    return false;
 	}
+	// check undefined fields
 	for (var i=0; i < params.items.length; i++) {
 	    var item=params.items[i];
 	    if ((item.league==undefined) ||
 		(item.team==undefined)) {
 		return false;
 	    }
+	}
+	// check unique team names
+	var teamnames=[];
+	for (var i=0; i < params.items.length; i++) {
+	    var item=params.items[i];
+	    if (teamnames.indexOf(item.team)==-1) {
+		teamnames.push(item.team);
+	    }
+	}
+	if (teamnames.length!=params.items.length) {
+	    return false
 	}
 	return true;
     },
