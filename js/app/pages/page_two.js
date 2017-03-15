@@ -90,6 +90,9 @@ var EditProductForm=React.createClass({
 	}
 	this.setState(state);
     },
+    loadProductClass: function(name) {
+	return EditProductMapping[name];
+    },
     render: function() {
 	return React.DOM.div({
 	    children: (this.state.selectedProduct!=undefined) ? [
@@ -106,7 +109,7 @@ var EditProductForm=React.createClass({
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(EditProductMapping[this.state.selectedProduct.type], {
+		React.createElement(this.loadProductClass(this.state.selectedProduct.type), {
 		    exoticsApi: this.props.exoticsApi,
 		    changeHandler: this.props.productChangeHandler,
 		    params: this.state.selectedProduct.params,
