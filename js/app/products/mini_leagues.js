@@ -136,27 +136,29 @@ var MiniLeagueForm=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    items: [
-		{
-		    id: this.itemUuid(),
-		    disabled: true,
-		    league: "ENG.1",
-		    team: "Arsenal"
-		},
-		{
-		    id: this.itemUuid(),
-		    disabled: false,
-		    league: "SPA.1",
-		    team: "Barcelona"
-		}
-	    ]
-	};
+	    params: {
+		items: [
+		    {
+			id: this.itemUuid(),
+			disabled: true,
+			league: "ENG.1",
+			team: "Arsenal"
+		    },
+		    {
+			id: this.itemUuid(),
+			disabled: false,
+			league: "SPA.1",
+			team: "Barcelona"
+		    }
+		]
+	    }
+	}
     },
     changeHandler: function(id, name, value) {
 	var state=this.state;
 	var updated=false;
-	for (var i=0; i < state.items.length; i++) {
-	    var item=state.items[i];
+	for (var i=0; i < state.params.items.length; i++) {
+	    var item=state.params.items[i];
 	    if ((item.id==id) &&
 		(item[name]!=value)) {
 		item[name]=value;
@@ -169,19 +171,24 @@ var MiniLeagueForm=React.createClass({
     },
     deleteHandler: function(id) {
 	var state=this.state;
-	var items=state.items.filter(function(item) {
+	var items=state.params.items.filter(function(item) {
 	    return item.id!=id;
 	});
-	state.items=items;
+	state.params.items=items;
 	this.setState(state);
     },
     addHandler: function() {
 	var state=this.state;
-	state.items.push({
+	state.params.items.push({
 	    id: this.itemUuid(),
 	    disabled: false
 	});
 	this.setState(state);
+    },
+    initialise: function() {
+    },
+    componentDidMount: function() {
+	this.initialise();
     },
     render: function() {	
 	return React.DOM.div({
@@ -224,7 +231,7 @@ var MiniLeagueForm=React.createClass({
 				    })
 				}),		
 				React.DOM.tbody({
-				    children: this.state.items.map(function(params) {
+				    children: this.state.params.items.map(function(params) {
 					return React.createElement(MiniLeagueRow, {
 					    params: params,
 					    exoticsApi: this.props.exoticsApi,
