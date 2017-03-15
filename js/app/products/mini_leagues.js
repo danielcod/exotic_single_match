@@ -163,6 +163,7 @@ var MiniLeagueForm=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
+	    this.updatePrice(state.params);
 	}
     },
     deleteHandler: function(id) {
@@ -180,6 +181,30 @@ var MiniLeagueForm=React.createClass({
 	    disabled: false
 	});
 	this.setState(state);
+    },
+    isComplete: function(params) {
+	if (params.items.length < 2) {
+	    return false;
+	}
+	for (var i=0; i < params.items.length; i++) {
+	    var item=params.items[i];
+	    if ((item.league==undefined) ||
+		(item.team==undefined)) {
+		return false;
+	    }
+	}
+	return true;
+    },
+    updatePrice: function(params) {
+	if (this.isComplete(params)) {
+	    console.log(JSON.stringify(params));
+	}
+    },
+    initialise: function() {
+	this.updatePrice(this.state.params); 
+    },
+    componentDidMount: function() {
+	this.initialise();
     },
     render: function() {	
 	return React.DOM.div({
