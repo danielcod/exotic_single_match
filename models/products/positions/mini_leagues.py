@@ -17,7 +17,6 @@ class MiniLeagueProducts(db.Model):
 
     def calc_probability(self, paths=Paths, seed=Seed):
         import random
-        random.seed(seed)
         return 0.1+0.8*random.random()
 
     @property
