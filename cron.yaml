@@ -1,0 +1,13 @@
+# quant
+- url: "/tasks/quant/bbc_fixtures"
+  schedule: "every 24 hours"
+- url: "/tasks/quant/yc_probabilities"
+  schedule: "every 24 hours"
+- url: "/tasks/quant/dc_poisson_means"
+  schedule: "every 24 hours"
+# blobs
+- url: "/tasks/blobs/outright_payoffs"
+  schedule: "every 24 hours"
+- url: "/tasks/blobs/smb_versus"
+  schedule: "every 24 hours"
+
