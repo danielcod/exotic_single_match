@@ -155,10 +155,14 @@ var MiniLeagueForm=React.createClass({
 	var updated=false;
 	for (var i=0; i < state.params.items.length; i++) {
 	    var item=state.params.items[i];
-	    if ((item.id==id) &&
-		(item[name]!=value)) {
-		item[name]=value;
-		updated=true;
+	    if (item.id==id) {		
+		if (item[name]!=value) {
+		    item[name]=value;
+		    if (name=="league") {
+			item.team=undefined; // NB reset team
+		    }
+		    updated=true;
+		}
 	    }
 	}
 	if (updated) {
