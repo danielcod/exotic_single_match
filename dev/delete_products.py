@@ -1,6 +1,7 @@
 import httplib, yaml
 
 Endpoints=yaml.load("""
+prod: iosport-exotics-engine.appspot.com:80
 dev: localhost:8080
 """)
 
