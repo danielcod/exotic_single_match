@@ -135,6 +135,9 @@ var MiniLeagueForm=React.createClass({
 	return Math.round(Math.random()*1e16);
     },
     initParams: function(params) {
+	if (params.items==undefined) {
+	    params.items=[{}, {}]; // two rows by default
+	}
 	for (var i=0; i < params.items.length; i++) {
 	    var item=params.items[i];
 	    item.id=this.itemUuid();
@@ -144,9 +147,7 @@ var MiniLeagueForm=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    params: {
-		items: []
-	    }
+	    params: this.initParams(deepCopy(this.props.params))
 	}
     },
     changeHandler: function(id, name, value) {
@@ -178,23 +179,6 @@ var MiniLeagueForm=React.createClass({
 	    id: this.itemUuid(),
 	    disabled: false
 	});
-	this.setState(state);
-    },
-    componentDidMount: function() {
-	var params={
-	    items: [
-		{
-		    league: "ENG.1",
-		    team: "Arsenal"
-		},
-		{
-		    league: "SPA.1",
-		    team: "Barcelona"
-		}
-	    ]
-	};
-	var state=this.state;
-	state.params=this.initParams(params);
 	this.setState(state);
     },
     render: function() {	
