@@ -137,20 +137,7 @@ var MiniLeagueForm=React.createClass({
     getInitialState: function() {
 	return {
 	    params: {
-		items: [
-		    {
-			id: this.itemUuid(),
-			disabled: true,
-			league: "ENG.1",
-			team: "Arsenal"
-		    },
-		    {
-			id: this.itemUuid(),
-			disabled: false,
-			league: "SPA.1",
-			team: "Barcelona"
-		    }
-		]
+		items: []
 	    }
 	}
     },
@@ -185,10 +172,30 @@ var MiniLeagueForm=React.createClass({
 	});
 	this.setState(state);
     },
-    initialise: function() {
+    initialise: function(params) {
+	for (var i=0; i < params.items.length; i++) {
+	    var item=params.items[i];
+	    item.id=this.itemUuid();
+	    item.disabled=(i==0);
+	}
+	var state=this.state;
+	state.params=params;
+	this.setState(state);
     },
     componentDidMount: function() {
-	this.initialise();
+	var params={
+	    items: [
+		{
+		    league: "ENG.1",
+		    team: "Arsenal"
+		},
+		{
+		    league: "SPA.1",
+		    team: "Barcelona"
+		}
+	    ]
+	};
+	this.initialise(params);
     },
     render: function() {	
 	return React.DOM.div({
