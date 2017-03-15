@@ -177,6 +177,7 @@ var MiniLeagueForm=React.createClass({
 	});
 	state.params.items=items;
 	this.setState(state);
+	this.updatePrice(state.params);
     },
     addHandler: function() {
 	var state=this.state;
@@ -185,6 +186,7 @@ var MiniLeagueForm=React.createClass({
 	    disabled: false
 	});
 	this.setState(state);
+	this.updatePrice(state.params);
     },
     isComplete: function(params) {
 	// check min length
