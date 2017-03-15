@@ -1,3 +1,4 @@
+cron:
 # quant
 - url: "/tasks/quant/bbc_fixtures"
   schedule: "every 24 hours"
