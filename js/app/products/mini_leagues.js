@@ -208,9 +208,21 @@ var MiniLeagueForm=React.createClass({
 	}
 	return true;
     },
+    priceHandler: function(struct) {
+	$("span[id='price']").text(struct["price"]);
+    },
     updatePrice: function(params) {
 	if (this.isComplete(params)) {
-	    console.log(JSON.stringify(params));
+	    $("span[id='price']").text("[updating ..]");
+	    var struct={
+		"type": "mini_league",
+		"params": params
+	    };
+	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
+	    // this.props.changeHandler(struct);
+	} else {
+	    $("span[id='price']").text("[..]");
+	    // this.props.changeHandler(undefined);
 	}
     },
     initialise: function() {
