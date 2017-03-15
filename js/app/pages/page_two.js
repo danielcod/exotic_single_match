@@ -1,9 +1,3 @@
-var EditProductMapping={
-    "single_team_outright": SingleTeamOutrightForm,
-    "season_match_bet": SeasonMatchBetForm,
-    "mini_league": MiniLeagueForm
-};
-
 var EditProductSelect=React.createClass({
     getInitialState: function() {
 	return {
@@ -90,8 +84,14 @@ var EditProductForm=React.createClass({
 	}
 	this.setState(state);
     },
-    loadProductClass: function(name) {
-	return EditProductMapping[name];
+    loadProductForm: function(type) {
+	for(var i=0 ; i < this.state.products.length; i++) {
+	    var product=this.state.products[i];
+	    if (type==product.type) {
+		return eval(product.form);
+	    }
+	}
+	return undefined;
     },
     render: function() {
 	return React.DOM.div({
@@ -109,7 +109,7 @@ var EditProductForm=React.createClass({
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(this.loadProductClass(this.state.selectedProduct.type), {
+		React.createElement(this.loadProductForm(this.state.selectedProduct.type), {
 		    exoticsApi: this.props.exoticsApi,
 		    changeHandler: this.props.productChangeHandler,
 		    params: this.state.selectedProduct.params,
