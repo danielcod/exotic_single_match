@@ -8,8 +8,17 @@ class SingleTeamOutrightProduct(db.Model):
     team=db.StringProperty()
     payoff=db.StringProperty()
     expiry=db.DateProperty()
+
     price=db.StringProperty()
 
+    @classmethod
+    def from_json(self, params):
+        return SingleTeamOutrightProduct(league=params["league"],
+                                         team=params["team"],
+                                         payoff=params["payoff"],
+                                         expiry=params["expiry"])
+
+    
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
         query=SingleTeamOutrightProduct.all()

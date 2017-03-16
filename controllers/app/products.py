@@ -84,7 +84,7 @@ class PriceHandler(webapp2.RequestHandler):
                       for product in ProductTypes])
         if producttype not in productmapping:
             raise RuntimeError("Product not found")
-        product=productmapping[producttype](**params)
+        product=productmapping[producttype].from_json(params)
         probability=product.calc_probability()
         return {"price": format_price(probability),
                 "description": product.description}

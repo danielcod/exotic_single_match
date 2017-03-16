@@ -8,8 +8,16 @@ class SeasonMatchBetProduct(db.Model):
     team=db.StringProperty()
     versus=db.StringProperty()
     expiry=db.DateProperty()
+
     price=db.StringProperty()
 
+    @classmethod
+    def from_json(self, params):
+        return SeasonMatchBetProduct(league=params["league"],
+                                     team=params["team"],
+                                     versus=params["versus"],
+                                     expiry=params["expiry"])
+    
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
         query=SeasonMatchBetProduct.all()

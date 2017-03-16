@@ -4,8 +4,14 @@ class MiniLeagueProduct(db.Model):
 
     league=db.StringProperty()
     team=db.StringProperty()
+
     price=db.StringProperty()
 
+    @classmethod
+    def from_json(self, params):
+        return MiniLeagueProduct(league=params["league"],
+                                 team=params["team"])
+    
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
         query=MiniLeagueProduct.all()
