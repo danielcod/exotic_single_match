@@ -110,14 +110,14 @@ var BrowseProductsTable=React.createClass({
 	    products: []
 	};
     },
-    browseProductsHandler: function(struct) {
+    listProductsHandler: function(struct) {
 	var state=this.state;
 	state.products=struct;
 	this.setState(state);
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.browseProducts(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProductType, this.browseProductsHandler);
+	this.props.exoticsApi.listProducts(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProductType, this.listProductsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -136,7 +136,7 @@ var BrowseProductsTable=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.browseProducts(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProductType, this.browseProductsHandler);
+	    this.props.exoticsApi.listProducts(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProductType, this.listProductsHandler);
 	}
     },
     handleClicked: function(product) {

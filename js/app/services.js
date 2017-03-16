@@ -52,7 +52,7 @@ var ExoticsAPI=function(errHandler, debug) {
     this.fetchProductTypes=function(handler) {
 	this.httpGet("/app/product_types", handler);
     };
-    this.browseProducts=function(group, team, productType, handler) {
+    this.listProducts=function(group, team, productType, handler) {
 	var url="/app/products/list?";
 	url+="group="+group+"&";
 	if (team!=undefined) {
