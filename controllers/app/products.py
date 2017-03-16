@@ -12,7 +12,7 @@ ProductMapping={
     "mini_league": MiniLeagueProducts
 }
 
-class IndexHandler(webapp2.RequestHandler):
+class ListHandler(webapp2.RequestHandler):
 
     def load_products_db(self):
         products=[]
@@ -83,9 +83,9 @@ class PriceHandler(webapp2.RequestHandler):
         return {"price": format_price(probability),
                 "description": product.description}
 
-Routing=[('/app/products/show', ShowHandler),
-         ('/app/products/price', PriceHandler),
-         ('/app/products', IndexHandler)]
+Routing=[('/app/products/list', ListHandler),
+         ('/app/products/show', ShowHandler),
+         ('/app/products/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
