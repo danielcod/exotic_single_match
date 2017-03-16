@@ -64,11 +64,11 @@ var EditProductForm=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProductTypes(this.productTypesHandler);
 	if (this.props.initialProduct!=undefined) {
-	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.params.id, this.productHandler);
+	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.id, this.productHandler);
 	} else {
 	    this.productHandler({
 		type: "single_team_outright",
-		params: {}
+		product: {}
 	    })
 	}
     },
@@ -79,7 +79,7 @@ var EditProductForm=React.createClass({
 	} else {
 	    state.selectedProduct={
 		type: value,
-		params: {}
+		product: {}
 	    };
 	}
 	this.setState(state);
@@ -112,7 +112,7 @@ var EditProductForm=React.createClass({
 		React.createElement(this.loadProductForm(this.state.selectedProduct.type), {
 		    exoticsApi: this.props.exoticsApi,
 		    changeHandler: this.props.productChangeHandler,
-		    params: this.state.selectedProduct.params,
+		    product: this.state.selectedProduct,
 		    blankStyle: {
 			border: "3px solid #59a0df"
 		    }

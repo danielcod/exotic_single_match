@@ -2,13 +2,13 @@ var PlaceBetPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    confirmMessage: undefined,
-	    params: undefined,
+	    product: undefined,
 	    size: 2
 	};
     },
     showProductHandler: function(struct) {
 	var state=this.state;
-	state.params=struct;
+	state.product=struct;
 	this.setState(state);
     },
     componentDidMount: function() {
@@ -26,15 +26,15 @@ var PlaceBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 2
 		}),
-		(this.state.params!=undefined) ? [
+		(this.state.product!=undefined) ? [
 		    React.DOM.h2({			
 			className: "heading text-center",
 			children: [
-			    this.state.params.description.selection,
+			    this.state.product.description.selection,
 			    React.DOM.small({
 				className: "text-center",
 				dangerouslySetInnerHTML: {
-				    "__html": this.state.params.description.market
+				    "__html": this.state.product.description.market
 				}
 			    })
 			]
@@ -49,7 +49,7 @@ var PlaceBetPanel=React.createClass({
 			    children: [
 				"Your price: ",
 				React.DOM.span({
-				    children: this.state.params.price
+				    children: this.state.product.price
 				})					
 			    ]				    
 			})
@@ -68,7 +68,7 @@ var PlaceBetPanel=React.createClass({
 				    children: "£"+this.state.size+" @ "
 				}),
 				React.DOM.span({
-				    children: this.state.params.price
+				    children: this.state.product.price
 				})
 			    ]
 			})

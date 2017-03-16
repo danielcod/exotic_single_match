@@ -22,9 +22,11 @@ class MiniLeagueProducts(db.Model):
     @property
     def json_struct(self):
         return {"type": "mini_league",
-                "params": {"description": self.description,
-                           "price": self.price,
-                           "id": self.key().id()}}
+                "id": self.key().id(),
+                "league": self.league,
+                "team": self.team,
+                "price": self.price,
+                "description": self.description}
         
     @property
     def description(self):

@@ -12,7 +12,7 @@ var MiniLeagueRow=React.createClass({
 		league: [],
 		team: []
 	    },
-	    params: deepCopy(this.props.params)
+	    product: deepCopy(this.props.product)
 	};
     },
     fetchLeagues: function() {
@@ -26,10 +26,10 @@ var MiniLeagueRow=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(params) {
-	if (params.league!=undefined) {
+    fetchTeams: function(product) {
+	if (product.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(params.league, handler);
+	    this.props.exoticsApi.fetchTeams(product.league, handler);
 	}
     },
     formatTeamOptions: function(teams) {
@@ -40,35 +40,35 @@ var MiniLeagueRow=React.createClass({
 	});
     },
     changeHandler: function(name, value) {
-	if (this.state.params[name]!=value) {
+	if (this.state.product[name]!=value) {
 	    var state=this.state;
-	    state.params[name]=value;
+	    state.product[name]=value;
 	    if (name=="league") {
 		state.options.team=[];
-		state.params.team=undefined;
-		this.fetchTeams(state.params);
+		state.product.team=undefined;
+		this.fetchTeams(state.product);
 	    }
 	    this.setState(state);
-	    this.props.changeHandler(this.props.params.id, name, value);
+	    this.props.changeHandler(this.props.product.id, name, value);
 	}
     },
     deleteHandler: function() {
-	if (!this.props.params.disabled) {
-	    this.props.deleteHandler(this.props.params.id);
+	if (!this.props.product.disabled) {
+	    this.props.deleteHandler(this.props.product.id);
 	}
     },
     componentWillReceiveProps: function(nextProps) {
-	if (JSON.stringify(this.state.params)!=
-	    JSON.stringify(nextProps.params)) {
+	if (JSON.stringify(this.state.product)!=
+	    JSON.stringify(nextProps.product)) {
 	    var state=this.state;
-	    state.params=deepCopy(nextProps.params);
-	    this.fetchTeams(state.params);
+	    state.product=deepCopy(nextProps.product);
+	    this.fetchTeams(state.product);
 	    this.setState(state);
 	}
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.params);
+	this.fetchTeams(this.state.product);
     },
     componentDidMount: function() {
 	this.initialise();
@@ -87,7 +87,7 @@ var MiniLeagueRow=React.createClass({
 			MySelect, {
 			    name: "league",
 			    options: this.formatLeagueOptions(this.state.options.league),
-			    value: this.state.params.league,
+			    value: this.state.product.league,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
 			}
@@ -104,7 +104,7 @@ var MiniLeagueRow=React.createClass({
 			MySelect, {
 			    name: "team",
 			    options: this.formatTeamOptions(this.state.options.team),
-			    value: this.state.params.team,
+			    value: this.state.product.team,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
 			}
@@ -118,7 +118,7 @@ var MiniLeagueRow=React.createClass({
 			"padding-bottom": "0px"
 		    },
 		    children: React.DOM.a({
-			className: "btn btn-"+(this.props.params.disabled ? "default" : "secondary"),
+			className: "btn btn-"+(this.props.product.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
@@ -134,36 +134,36 @@ var MiniLeagueForm=React.createClass({
     itemUuid: function() {
 	return Math.round(Math.random()*1e16);
     },
-    initParams: function(params) {
-	if (params.items==undefined) {
-	    params.items=[{}, {}]; // two rows by default
+    initParams: function(product) {
+	if (product.items==undefined) {
+	    product.items=[{}, {}]; // two rows by default
 	}
-	for (var i=0; i < params.items.length; i++) {
-	    var item=params.items[i];
+	for (var i=0; i < product.items.length; i++) {
+	    var item=product.items[i];
 	    item.id=this.itemUuid();
 	    item.disabled=(i==0);
 	}
-	return params;
+	return product;
     },
     getInitialState: function() {
 	return {
-	    params: this.initParams(deepCopy(this.props.params))
+	    product: this.initParams(deepCopy(this.props.product))
 	}
     },
     addHandler: function() {
 	var state=this.state;
-	state.params.items.push({
+	state.product.items.push({
 	    id: this.itemUuid(),
 	    disabled: false
 	});
 	this.setState(state);
-	this.updatePrice(state.params);
+	this.updatePrice(state.product);
     },
     changeHandler: function(id, name, value) {
 	var state=this.state;
 	var updated=false;
-	for (var i=0; i < state.params.items.length; i++) {
-	    var item=state.params.items[i];
+	for (var i=0; i < state.product.items.length; i++) {
+	    var item=state.product.items[i];
 	    if (item.id==id) {		
 		if (item[name]!=value) {
 		    item[name]=value;
@@ -176,26 +176,26 @@ var MiniLeagueForm=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.updatePrice(state.params);
+	    this.updatePrice(state.product);
 	}
     },
     deleteHandler: function(id) {
 	var state=this.state;
-	var items=state.params.items.filter(function(item) {
+	var items=state.product.items.filter(function(item) {
 	    return item.id!=id;
 	});
-	state.params.items=items;
+	state.product.items=items;
 	this.setState(state);
-	this.updatePrice(state.params);
+	this.updatePrice(state.product);
     },
-    isComplete: function(params) {
+    isComplete: function(product) {
 	// check min length
-	if (params.items.length < 2) {
+	if (product.items.length < 2) {
 	    return false;
 	}
 	// check undefined fields
-	for (var i=0; i < params.items.length; i++) {
-	    var item=params.items[i];
+	for (var i=0; i < product.items.length; i++) {
+	    var item=product.items[i];
 	    if ((item.league==undefined) ||
 		(item.team==undefined)) {
 		return false;
@@ -203,13 +203,13 @@ var MiniLeagueForm=React.createClass({
 	}
 	// check unique team names
 	var teamnames=[];
-	for (var i=0; i < params.items.length; i++) {
-	    var item=params.items[i];
+	for (var i=0; i < product.items.length; i++) {
+	    var item=product.items[i];
 	    if (teamnames.indexOf(item.team)==-1) {
 		teamnames.push(item.team);
 	    }
 	}
-	if (teamnames.length!=params.items.length) {
+	if (teamnames.length!=product.items.length) {
 	    return false
 	}
 	return true;
@@ -217,12 +217,12 @@ var MiniLeagueForm=React.createClass({
     priceHandler: function(struct) {
 	$("span[id='price']").text(struct["price"]);
     },
-    updatePrice: function(params) {
-	if (this.isComplete(params)) {
+    updatePrice: function(product) {
+	if (this.isComplete(product)) {
 	    $("span[id='price']").text("[updating ..]");
 	    var struct={
 		"type": "mini_league",
-		"params": params
+		"product": product
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
 	    this.props.changeHandler(struct);
@@ -232,7 +232,7 @@ var MiniLeagueForm=React.createClass({
 	}
     },
     initialise: function() {
-	this.updatePrice(this.state.params); 
+	this.updatePrice(this.state.product); 
     },
     componentDidMount: function() {
 	this.initialise();
@@ -278,9 +278,9 @@ var MiniLeagueForm=React.createClass({
 				    })
 				}),		
 				React.DOM.tbody({
-				    children: this.state.params.items.map(function(params) {
+				    children: this.state.product.items.map(function(product) {
 					return React.createElement(MiniLeagueRow, {
-					    params: params,
+					    product: product,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.changeHandler,

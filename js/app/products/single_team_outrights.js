@@ -14,7 +14,7 @@ var SingleTeamOutrightForm=React.createClass({
 		payoff: [],
 		expiry: []
 	    },
-	    params: deepCopy(this.props.params)
+	    product: deepCopy(this.props.product)
 	};
     },
     fetchLeagues: function() {
@@ -28,10 +28,10 @@ var SingleTeamOutrightForm=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(params) {
-	if (params.league!=undefined) {
+    fetchTeams: function(product) {
+	if (product.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(params.league, handler);
+	    this.props.exoticsApi.fetchTeams(product.league, handler);
 	}
     },
     formatTeamOptions: function(teams) {
@@ -41,10 +41,10 @@ var SingleTeamOutrightForm=React.createClass({
 	    }
 	});
     },
-    fetchPayoffs: function(params) {
-	if (params.league!=undefined) {
+    fetchPayoffs: function(product) {
+	if (product.league!=undefined) {
 	    var handler=this.initOptionsHandler("payoff");
-	    var key="outright_payoffs/"+params.league;
+	    var key="outright_payoffs/"+product.league;
 	    this.props.exoticsApi.fetchBlob(key, handler);
 	}
     },
@@ -74,43 +74,43 @@ var SingleTeamOutrightForm=React.createClass({
 	return payoffs.length!=0;
     },
     changeHandler: function(name, value) {
-	if (this.state.params[name]!=value) {
+	if (this.state.product[name]!=value) {
 	    var state=this.state;
-	    state.params[name]=value;
+	    state.product[name]=value;
 	    if (name=="league") {
 		// load teams for league
 		state.options.team=[];
-		state.params.team=undefined;
-		this.fetchTeams(state.params);
+		state.product.team=undefined;
+		this.fetchTeams(state.product);
 		// load payoffs for league
 		state.options.payoff=[];
-		state.params.payoff=undefined;
-		this.fetchPayoffs(state.params);
+		state.product.payoff=undefined;
+		this.fetchPayoffs(state.product);
 	    } else if (name=="team") {
 		// reset selected payoff if no longer exists
-		if (!this.hasPayoff(value, this.state.params.payoff)) {
-		    state.params.payoff=undefined;
+		if (!this.hasPayoff(value, this.state.product.payoff)) {
+		    state.product.payoff=undefined;
 		}
 	    }
 	    this.setState(state);
-	    this.updatePrice(this.state.params);
+	    this.updatePrice(this.state.product);
 	}
     },
-    isComplete: function(params) {
-	return ((params.league!=undefined) &&
-		(params.team!=undefined) &&
-		(params.payoff!=undefined) &&
-		(params.expiry!=undefined));
+    isComplete: function(product) {
+	return ((product.league!=undefined) &&
+		(product.team!=undefined) &&
+		(product.payoff!=undefined) &&
+		(product.expiry!=undefined));
     },
     priceHandler: function(struct) {
 	$("span[id='price']").text(struct["price"]);
     },
-    updatePrice: function(params) {
-	if (this.isComplete(params)) {
+    updatePrice: function(product) {
+	if (this.isComplete(product)) {
 	    $("span[id='price']").text("[updating ..]");
 	    var struct={
 		"type": "single_team_outright",
-		"params": params
+		"product": product
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
 	    this.props.changeHandler(struct);
@@ -121,10 +121,10 @@ var SingleTeamOutrightForm=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.params);
-	this.fetchPayoffs(this.state.params);
+	this.fetchTeams(this.state.product);
+	this.fetchPayoffs(this.state.product);
 	this.fetchExpiries();
-	this.updatePrice(this.state.params); 
+	this.updatePrice(this.state.product); 
     },
     componentDidMount: function() {
 	this.initialise();
@@ -141,7 +141,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "League",
 				name: "league",
 				options: this.formatLeagueOptions(this.state.options.league),
-				value: this.state.params.league,
+				value: this.state.product.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -149,8 +149,8 @@ var SingleTeamOutrightForm=React.createClass({
 			    MySelect, {
 				label: "Position",
 				name: "payoff",
-				options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.params.team)),
-				value: this.state.params.payoff,
+				options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.product.team)),
+				value: this.state.product.payoff,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })
@@ -164,7 +164,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "Team",
 				name: "team",
 				options: this.formatTeamOptions(this.state.options.team),
-				value: this.state.params.team,
+				value: this.state.product.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -173,7 +173,7 @@ var SingleTeamOutrightForm=React.createClass({
 				label: "At",
 				name: "expiry",
 				options: this.formatExpiryOptions(this.state.options.expiry),
-				value: this.state.params.expiry,
+				value: this.state.product.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })

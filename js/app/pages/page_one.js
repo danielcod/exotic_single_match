@@ -60,19 +60,19 @@ var BrowseProductsRow=React.createClass({
 		    children: [
 			React.DOM.h5({
 			    children: [
-				this.props.product.params.description.selection,
+				this.props.product.description.selection,
 				React.DOM.span({
 				    style: {
 					"margin-left": "10px"
 				    },
-				    className: "label label-"+this.props.product.params.description.group.level,
-				    children: this.props.product.params.description.group.label
+				    className: "label label-"+this.props.product.description.group.level,
+				    children: this.props.product.description.group.label
 				})
 			    ]
 			}),
 			React.DOM.p({
 			    dangerouslySetInnerHTML: {
-				"__html": this.props.product.params.description.market
+				"__html": this.props.product.description.market
 			    }
 			})
 		    ]
@@ -81,7 +81,7 @@ var BrowseProductsRow=React.createClass({
 		    className: "text-center",			    
 		    children: React.DOM.span({
 			className: "price",
-			children: this.props.product.params.price
+			children: this.props.product.price
 		    })
 		}),
 		React.DOM.td({

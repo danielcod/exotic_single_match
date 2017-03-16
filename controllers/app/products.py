@@ -67,8 +67,7 @@ class ShowHandler(webapp2.RequestHandler):
         product=ProductMapping[producttype].get_by_id(id)
         if not product:
             raise RuntimeError("Product not found")
-        return {"type": producttype,
-                "params": product.to_json(extras=["description"])}
+        return product.json_struct
 
 class PriceHandler(webapp2.RequestHandler):
 
@@ -76,7 +75,7 @@ class PriceHandler(webapp2.RequestHandler):
     # @emit_json_memcache(MemcacheAge)
     @emit_json
     def post(self, struct):
-        producttype, params = struct["type"], struct["params"]
+        producttype, params = struct["type"], struct["product"]
         if producttype not in ProductMapping:
             raise RuntimeError("Product not found")
         product=ProductMapping[producttype](**params)

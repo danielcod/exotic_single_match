@@ -14,7 +14,7 @@ var SeasonMatchBetForm=React.createClass({
 		versus: [],
 		expiry: []
 	    },
-	    params: deepCopy(this.props.params)
+	    product: deepCopy(this.props.product)
 	};
     },
     fetchLeagues: function() {
@@ -28,10 +28,10 @@ var SeasonMatchBetForm=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(params) {
-	if (params.league!=undefined) {
+    fetchTeams: function(product) {
+	if (product.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(params.league, handler);
+	    this.props.exoticsApi.fetchTeams(product.league, handler);
 	}
     },
     formatTeamOptions: function(teams) {
@@ -41,10 +41,10 @@ var SeasonMatchBetForm=React.createClass({
 	    }
 	});
     },
-    fetchVersus: function(params) {
-	if (params.league!=undefined) {
+    fetchVersus: function(product) {
+	if (product.league!=undefined) {
 	    var handler=this.initOptionsHandler("versus");
-	    var key="smb_versus/"+params.league;
+	    var key="smb_versus/"+product.league;
 	    this.props.exoticsApi.fetchBlob(key, handler);
 	}
     },
@@ -74,41 +74,41 @@ var SeasonMatchBetForm=React.createClass({
 	return versus.length!=0;
     },
     changeHandler: function(name, value) {
-	if (this.state.params[name]!=value) {
+	if (this.state.product[name]!=value) {
 	    var state=this.state;
-	    state.params[name]=value;
+	    state.product[name]=value;
 	    if (name=="league") {
 		state.options.team=[];
-		state.params.team=undefined;
-		this.fetchTeams(state.params);
+		state.product.team=undefined;
+		this.fetchTeams(state.product);
 		state.options.versus=[];
-		state.params.versus=undefined;
-		this.fetchVersus(state.params);
+		state.product.versus=undefined;
+		this.fetchVersus(state.product);
 	    } else if (name=="team") {
-		if (!this.hasVersus(value, this.state.params.versus)) {
-		    state.params.versus=undefined;
+		if (!this.hasVersus(value, this.state.product.versus)) {
+		    state.product.versus=undefined;
 		}
             }
 	    this.setState(state);
-	    this.updatePrice(this.state.params);
+	    this.updatePrice(this.state.product);
 	}
     },
-    isComplete: function(params) {
-	return ((params.league!=undefined) &&
-		(params.team!=undefined) &&
-		(params.versus!=undefined) &&
-		(params.team!=params.versus) &&
-		(params.expiry!=undefined));
+    isComplete: function(product) {
+	return ((product.league!=undefined) &&
+		(product.team!=undefined) &&
+		(product.versus!=undefined) &&
+		(product.team!=product.versus) &&
+		(product.expiry!=undefined));
     },
     priceHandler: function(struct) {
 	$("span[id='price']").text(struct["price"]);
     },
-    updatePrice: function(params) {
-	if (this.isComplete(params)) {
+    updatePrice: function(product) {
+	if (this.isComplete(product)) {
 	    $("span[id='price']").text("[updating ..]");
 	    var struct={
 		"type": "season_match_bet",
-		"params": params
+		"product": product
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
 	    this.props.changeHandler(struct);
@@ -119,18 +119,18 @@ var SeasonMatchBetForm=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.params);
-	this.fetchVersus(this.state.params);
+	this.fetchTeams(this.state.product);
+	this.fetchVersus(this.state.product);
 	this.fetchExpiries();
-	this.updatePrice(this.state.params); 
+	this.updatePrice(this.state.product); 
     },
     componentDidMount: function() {
 	this.initialise();
     },
     highlighter: function() {
-	return ((this.state.params.team!=undefined) &&
-		(this.state.params.versus!=undefined) &&
-		(this.state.params.team==this.state.params.versus))
+	return ((this.state.product.team!=undefined) &&
+		(this.state.product.versus!=undefined) &&
+		(this.state.product.team==this.state.product.versus))
     },
     render: function() {
 	return React.DOM.div({
@@ -144,7 +144,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "League",
 				name: "league",
 				options: this.formatLeagueOptions(this.state.options.league),
-				value: this.state.params.league,
+				value: this.state.product.league,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    }),
@@ -152,8 +152,8 @@ var SeasonMatchBetForm=React.createClass({
 			    MySelect, {
 				label: "Versus",
 				name: "versus",
-				options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.params.team)),
-				value: this.state.params.versus,
+				options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.product.team)),
+				value: this.state.product.versus,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
 				highlighter: this.highlighter
@@ -168,7 +168,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "Your Team",
 				name: "team",
 				options: this.formatTeamOptions(this.state.options.team),
-				value: this.state.params.team,
+				value: this.state.product.team,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle,
 				highlighter: this.highlighter
@@ -178,7 +178,7 @@ var SeasonMatchBetForm=React.createClass({
 				label: "At",
 				name: "expiry",
 				options: this.formatExpiryOptions(this.state.options.expiry),
-				value: this.state.params.expiry,
+				value: this.state.product.expiry,
 				changeHandler: this.changeHandler,
 				blankStyle: this.props.blankStyle
 			    })

@@ -78,9 +78,13 @@ class SeasonMatchBetProduct(db.Model):
     @property
     def json_struct(self):
         return {"type": "season_match_bet",
-                "params": {"description": self.description,
-                           "price": self.price,
-                           "id": self.key().id()}}
+                "id": self.key().id(),
+                "league": self.league,
+                "team": self.team,
+                "versus": self.versus,
+                "expiry": self.expiry,
+                "price": self.price,
+                "description": self.description}
         
     @property
     def description(self):
