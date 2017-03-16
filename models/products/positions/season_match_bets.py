@@ -75,8 +75,7 @@ class SeasonMatchBetProduct(db.Model):
         payoff=parse_payoff(self.Payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
-    @property
-    def json_struct(self):
+    def to_json(self):
         return {"type": "season_match_bet",
                 "id": self.key().id(),
                 "league": self.league,

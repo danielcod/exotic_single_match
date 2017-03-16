@@ -19,8 +19,7 @@ class MiniLeagueProducts(db.Model):
         import random
         return 0.1+0.8*random.random()
 
-    @property
-    def json_struct(self):
+    def to_json(self):
         return {"type": "mini_league",
                 "id": self.key().id(),
                 "league": self.league,

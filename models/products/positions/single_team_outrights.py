@@ -75,8 +75,7 @@ class SingleTeamOutrightProduct(db.Model):
         payoff=parse_payoff(self.payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
-    @property
-    def json_struct(self):
+    def to_json(self):
         return {"type": "single_team_outright",
                 "id": self.key().id(),
                 "league": self.league,

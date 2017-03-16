@@ -19,7 +19,7 @@ class IndexHandler(webapp2.RequestHandler):
         products+=SingleTeamOutrightProduct.find_all()
         products+=SeasonMatchBetProduct.find_all()
         products+=MiniLeagueProducts.find_all()
-        return [product.json_struct
+        return [product.to_json()
                 for product in products]
 
     def load_products_memcache(self):
@@ -67,7 +67,7 @@ class ShowHandler(webapp2.RequestHandler):
         product=ProductMapping[producttype].get_by_id(id)
         if not product:
             raise RuntimeError("Product not found")
-        return product.json_struct
+        return product.to_json()
 
 class PriceHandler(webapp2.RequestHandler):
 
