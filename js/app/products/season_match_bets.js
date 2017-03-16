@@ -6,9 +6,6 @@ var SeasonMatchBetForm=React.createClass({
 	    this.setState(state);	
 	}.bind(this);
     },
-    priceHandler: function(struct) {
-	$("span[id='price']").text(struct["price"]);
-    },
     getInitialState: function() {
 	return {
 	    options: {
@@ -70,37 +67,6 @@ var SeasonMatchBetForm=React.createClass({
     formatExpiryOptions: function(expiries) {
 	return expiries; // expiries come with label, value fields
     },
-    isComplete: function(params) {
-	return ((params.league!=undefined) &&
-		(params.team!=undefined) &&
-		(params.versus!=undefined) &&
-		(params.team!=params.versus) &&
-		(params.expiry!=undefined));
-    },
-    updatePrice: function(params) {
-	if (this.isComplete(params)) {
-	    $("span[id='price']").text("[updating ..]");
-	    var struct={
-		"type": "season_match_bet",
-		"params": params
-	    };
-	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
-	    this.props.changeHandler(struct);
-	} else {
-	    $("span[id='price']").text("[..]");
-	    this.props.changeHandler(undefined);
-	}
-    },
-    initialise: function() {
-	this.fetchLeagues();
-	this.fetchTeams(this.state.params);
-	this.fetchVersus(this.state.params);
-	this.fetchExpiries();
-	this.updatePrice(this.state.params); 
-    },
-    componentDidMount: function() {
-	this.initialise();
-    },
     hasVersus: function(teamname, versusname) {
 	var versus=this.state.options.versus.filter(function(versus) {
 	    return (versus.team==teamname) && (versus.versus==versusname);
@@ -126,6 +92,40 @@ var SeasonMatchBetForm=React.createClass({
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
+    },
+    isComplete: function(params) {
+	return ((params.league!=undefined) &&
+		(params.team!=undefined) &&
+		(params.versus!=undefined) &&
+		(params.team!=params.versus) &&
+		(params.expiry!=undefined));
+    },
+    priceHandler: function(struct) {
+	$("span[id='price']").text(struct["price"]);
+    },
+    updatePrice: function(params) {
+	if (this.isComplete(params)) {
+	    $("span[id='price']").text("[updating ..]");
+	    var struct={
+		"type": "season_match_bet",
+		"params": params
+	    };
+	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
+	    this.props.changeHandler(struct);
+	} else {
+	    $("span[id='price']").text("[..]");
+	    this.props.changeHandler(undefined);
+	}
+    },
+    initialise: function() {
+	this.fetchLeagues();
+	this.fetchTeams(this.state.params);
+	this.fetchVersus(this.state.params);
+	this.fetchExpiries();
+	this.updatePrice(this.state.params); 
+    },
+    componentDidMount: function() {
+	this.initialise();
     },
     highlighter: function() {
 	return ((this.state.params.team!=undefined) &&

@@ -6,9 +6,6 @@ var SingleTeamOutrightForm=React.createClass({
 	    this.setState(state);	
 	}.bind(this);
     },
-    priceHandler: function(struct) {
-	$("span[id='price']").text(struct["price"]);
-    },
     getInitialState: function() {
 	return {
 	    options: {
@@ -70,36 +67,6 @@ var SingleTeamOutrightForm=React.createClass({
     formatExpiryOptions: function(expiries) {
 	return expiries; // expiries come with label, value fields
     },
-    isComplete: function(params) {
-	return ((params.league!=undefined) &&
-		(params.team!=undefined) &&
-		(params.payoff!=undefined) &&
-		(params.expiry!=undefined));
-    },
-    updatePrice: function(params) {
-	if (this.isComplete(params)) {
-	    $("span[id='price']").text("[updating ..]");
-	    var struct={
-		"type": "single_team_outright",
-		"params": params
-	    };
-	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
-	    this.props.changeHandler(struct);
-	} else {
-	    $("span[id='price']").text("[..]");
-	    this.props.changeHandler(undefined);
-	}
-    },
-    initialise: function() {
-	this.fetchLeagues();
-	this.fetchTeams(this.state.params);
-	this.fetchPayoffs(this.state.params);
-	this.fetchExpiries();
-	this.updatePrice(this.state.params); 
-    },
-    componentDidMount: function() {
-	this.initialise();
-    },
     hasPayoff: function(teamname, payoffname) {
 	var payoffs=this.state.options.payoff.filter(function(payoff) {
 	    return (payoff.team==teamname) && (payoff.payoff==payoffname);
@@ -128,6 +95,39 @@ var SingleTeamOutrightForm=React.createClass({
 	    this.setState(state);
 	    this.updatePrice(this.state.params);
 	}
+    },
+    isComplete: function(params) {
+	return ((params.league!=undefined) &&
+		(params.team!=undefined) &&
+		(params.payoff!=undefined) &&
+		(params.expiry!=undefined));
+    },
+    priceHandler: function(struct) {
+	$("span[id='price']").text(struct["price"]);
+    },
+    updatePrice: function(params) {
+	if (this.isComplete(params)) {
+	    $("span[id='price']").text("[updating ..]");
+	    var struct={
+		"type": "single_team_outright",
+		"params": params
+	    };
+	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
+	    this.props.changeHandler(struct);
+	} else {
+	    $("span[id='price']").text("[..]");
+	    this.props.changeHandler(undefined);
+	}
+    },
+    initialise: function() {
+	this.fetchLeagues();
+	this.fetchTeams(this.state.params);
+	this.fetchPayoffs(this.state.params);
+	this.fetchExpiries();
+	this.updatePrice(this.state.params); 
+    },
+    componentDidMount: function() {
+	this.initialise();
     },
     render: function() {
 	return React.DOM.div({
