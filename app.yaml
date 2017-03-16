@@ -38,8 +38,6 @@ handlers:
   script: controllers.app.expiries.app
 - url: /app/leagues.*
   script: controllers.app.leagues.app
-- url: /app/product_types.*
-  script: controllers.app.product_types.app
 - url: /app/products.*
   script: controllers.app.products.app
 - url: /app/teams.*
