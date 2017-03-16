@@ -225,10 +225,10 @@ var MiniLeagueForm=React.createClass({
 		"params": params
 	    };
 	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
-	    // this.props.changeHandler(struct);
+	    this.props.changeHandler(struct);
 	} else {
 	    $("span[id='price']").text("[..]");
-	    // this.props.changeHandler(undefined);
+	    this.props.changeHandler(undefined);
 	}
     },
     initialise: function() {
