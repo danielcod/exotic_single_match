@@ -10,6 +10,6 @@
   class: "SeasonMatchBetProduct"
 - label: "Mini League"
   type: "mini_league"
-  description: "Construct your own mini league and bet on the winner!"
+  description: "Construct your own virtual mini league of teams from different countries and divisions!"
   form: "MiniLeagueForm"
   class: "MiniLeagueProduct"

@@ -1,4 +1,4 @@
-var MiniLeagueRow=React.createClass({
+var MiniLeagueVersusRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -296,7 +296,7 @@ var MiniLeagueForm=React.createClass({
 				}),		
 				React.DOM.tbody({
 				    children: this.state.product.versus.map(function(product) {
-					return React.createElement(MiniLeagueRow, {
+					return React.createElement(MiniLeagueVersusRow, {
 					    product: product,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
