@@ -52,6 +52,9 @@ var MiniLeagueRow=React.createClass({
 	    this.props.changeHandler(this.props.product.id, name, value);
 	}
     },
+    addHandler: function() {
+	this.props.addHandler(this.props.product.id);
+    },
     deleteHandler: function() {
 	if (!this.props.product.disabled) {
 	    this.props.deleteHandler(this.props.product.id);
@@ -76,6 +79,21 @@ var MiniLeagueRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    children: [
+		React.DOM.td({
+		    style: {
+			"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "0px",
+			"padding-bottom": "0px"
+		    },
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-plus-sign"
+			}),
+			onClick: this.addHandler
+		    })
+		}),
 		React.DOM.td({
 		    style: {
 			"margin-top": "0px",
@@ -150,7 +168,7 @@ var MiniLeagueForm=React.createClass({
 	    product: this.initParams(deepCopy(this.props.product))
 	}
     },
-    addHandler: function() {
+    addHandler: function(id) { // id currently not used
 	var state=this.state;
 	state.product.versus.push({
 	    id: this.itemUuid(),
@@ -240,17 +258,6 @@ var MiniLeagueForm=React.createClass({
     render: function() {	
 	return React.DOM.div({
 	    children: [
-		React.DOM.div({		    
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: React.DOM.a({
-			    className: "btn btn-sm btn-primary pull-right",
-			    children: "Add Team",
-			    onClick: this.addHandler
-			})
-		    })
-		}),
 		React.DOM.div({
 		    className: "row",
 		    children: React.DOM.div({
@@ -266,10 +273,12 @@ var MiniLeagueForm=React.createClass({
 				    children: React.DOM.tr({
 					children: [
 					    React.DOM.th({
-						children: "League"
+						children: []
 					    }),
 					    React.DOM.th({
-						children: "Team"
+						className: "text-center",
+						colSpan: 2,
+						children: "Versus"
 					    }),
 					    React.DOM.th({
 						children: []
@@ -284,7 +293,8 @@ var MiniLeagueForm=React.createClass({
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
 					    changeHandler: this.changeHandler,
-					    deleteHandler: this.deleteHandler
+					    deleteHandler: this.deleteHandler,
+					    addHandler: this.addHandler
 					});
 				    }.bind(this))
 				})
