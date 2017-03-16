@@ -2,15 +2,13 @@ from models.products.positions import *
 
 class MiniLeagueProduct(db.Model):
 
-    league=db.StringProperty()
-    team=db.StringProperty()
-
+    versus=db.TextProperty()
+    
     price=db.StringProperty()
 
     @classmethod
     def from_json(self, params):
-        return MiniLeagueProduct(league=params["league"],
-                                 team=params["team"])
+        return MiniLeagueProduct(versus=json_dumps(params["versus"]))
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
@@ -28,14 +26,13 @@ class MiniLeagueProduct(db.Model):
     def to_json(self):
         return {"type": "mini_league",
                 "id": self.key().id(),
-                "league": self.league,
-                "team": self.team,
+                "versus": json_loads(self.versus),
                 "price": self.price,
                 "description": self.description}
         
     @property
     def description(self):
-        return {"selection": self.team, # include league ?
+        return {"selection": "Hello World",
                 "market": "Mini- League",
                 "group": {"label": "Mini-League",
                           "level": "green"}}

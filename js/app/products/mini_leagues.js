@@ -135,11 +135,11 @@ var MiniLeagueForm=React.createClass({
 	return Math.round(Math.random()*1e16);
     },
     initParams: function(product) {
-	if (product.items==undefined) {
-	    product.items=[{}, {}]; // two rows by default
+	if (product.versus==undefined) {
+	    product.versus=[{}, {}]; // two rows by default
 	}
-	for (var i=0; i < product.items.length; i++) {
-	    var item=product.items[i];
+	for (var i=0; i < product.versus.length; i++) {
+	    var item=product.versus[i];
 	    item.id=this.itemUuid();
 	    item.disabled=(i==0);
 	}
@@ -152,7 +152,7 @@ var MiniLeagueForm=React.createClass({
     },
     addHandler: function() {
 	var state=this.state;
-	state.product.items.push({
+	state.product.versus.push({
 	    id: this.itemUuid(),
 	    disabled: false
 	});
@@ -162,8 +162,8 @@ var MiniLeagueForm=React.createClass({
     changeHandler: function(id, name, value) {
 	var state=this.state;
 	var updated=false;
-	for (var i=0; i < state.product.items.length; i++) {
-	    var item=state.product.items[i];
+	for (var i=0; i < state.product.versus.length; i++) {
+	    var item=state.product.versus[i];
 	    if (item.id==id) {		
 		if (item[name]!=value) {
 		    item[name]=value;
@@ -181,21 +181,21 @@ var MiniLeagueForm=React.createClass({
     },
     deleteHandler: function(id) {
 	var state=this.state;
-	var items=state.product.items.filter(function(item) {
+	var versus=state.product.versus.filter(function(item) {
 	    return item.id!=id;
 	});
-	state.product.items=items;
+	state.product.versus=versus;
 	this.setState(state);
 	this.updatePrice(state.product);
     },
     isComplete: function(product) {
 	// check min length
-	if (product.items.length < 2) {
+	if (product.versus.length < 2) {
 	    return false;
 	}
 	// check undefined fields
-	for (var i=0; i < product.items.length; i++) {
-	    var item=product.items[i];
+	for (var i=0; i < product.versus.length; i++) {
+	    var item=product.versus[i];
 	    if ((item.league==undefined) ||
 		(item.team==undefined)) {
 		return false;
@@ -203,13 +203,13 @@ var MiniLeagueForm=React.createClass({
 	}
 	// check unique team names
 	var teamnames=[];
-	for (var i=0; i < product.items.length; i++) {
-	    var item=product.items[i];
+	for (var i=0; i < product.versus.length; i++) {
+	    var item=product.versus[i];
 	    if (teamnames.indexOf(item.team)==-1) {
 		teamnames.push(item.team);
 	    }
 	}
-	if (teamnames.length!=product.items.length) {
+	if (teamnames.length!=product.versus.length) {
 	    return false
 	}
 	return true;
@@ -278,7 +278,7 @@ var MiniLeagueForm=React.createClass({
 				    })
 				}),		
 				React.DOM.tbody({
-				    children: this.state.product.items.map(function(product) {
+				    children: this.state.product.versus.map(function(product) {
 					return React.createElement(MiniLeagueRow, {
 					    product: product,
 					    exoticsApi: this.props.exoticsApi,
