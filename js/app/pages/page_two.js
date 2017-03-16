@@ -62,7 +62,7 @@ var EditProductForm=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchProductTypes(this.productTypesHandler);
+	this.props.exoticsApi.fetchProducts(this.productTypesHandler);
 	if (this.props.initialProduct!=undefined) {
 	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.id, this.productHandler);
 	} else {

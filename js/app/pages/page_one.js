@@ -284,7 +284,7 @@ var BrowseProductsPanel=React.createClass({
 	    return 0;
 	}
     },
-    fetchProductTypesHandler: function(productTypes) {
+    fetchProductsHandler: function(productTypes) {
 	var state=this.state;
 	state.productTypes=productTypes.sort(this.sortProductTypes);
 	this.setState(state);
@@ -298,7 +298,7 @@ var BrowseProductsPanel=React.createClass({
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchTeams(undefined, this.fetchTeamsHandler);
-	this.props.exoticsApi.fetchProductTypes(this.fetchProductTypesHandler);
+	this.props.exoticsApi.fetchProducts(this.fetchProductsHandler);
     },
     handleStepClicked: function(product) {
 	this.props.stepChangeHandler(1, product);

@@ -6,11 +6,19 @@ from models.products.positions.mini_leagues import MiniLeagueProducts
 
 from helpers.price_helpers import format_price
 
+ProductTypes=yaml.load(file("config/product_types.yaml").read())
+
 ProductMapping={
     "single_team_outright": SingleTeamOutrightProduct,
     "season_match_bet": SeasonMatchBetProduct,
     "mini_league": MiniLeagueProducts
 }
+
+class IndexHandler(webapp2.RequestHandler):
+
+    @emit_json_memcache(MemcacheAge)
+    def get(self):
+        return ProductTypes
 
 class ListHandler(webapp2.RequestHandler):
 
@@ -85,7 +93,8 @@ class PriceHandler(webapp2.RequestHandler):
 
 Routing=[('/app/products/list', ListHandler),
          ('/app/products/show', ShowHandler),
-         ('/app/products/price', PriceHandler)]
+         ('/app/products/price', PriceHandler),
+         ('/app/products', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
