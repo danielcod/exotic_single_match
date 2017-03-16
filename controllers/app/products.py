@@ -2,17 +2,11 @@ from controllers.app import *
 
 from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
 from models.products.positions.season_match_bets import SeasonMatchBetProduct
-from models.products.positions.mini_leagues import MiniLeagueProducts
+from models.products.positions.mini_leagues import MiniLeagueProduct
 
 from helpers.price_helpers import format_price
 
 ProductTypes=yaml.load(file("config/product_types.yaml").read())
-
-ProductMapping={
-    "single_team_outright": SingleTeamOutrightProduct,
-    "season_match_bet": SeasonMatchBetProduct,
-    "mini_league": MiniLeagueProducts
-}
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -26,7 +20,7 @@ class ListHandler(webapp2.RequestHandler):
         products=[]
         products+=SingleTeamOutrightProduct.find_all()
         products+=SeasonMatchBetProduct.find_all()
-        products+=MiniLeagueProducts.find_all()
+        products+=MiniLeagueProduct.find_all()
         return [product.to_json()
                 for product in products]
 
@@ -69,10 +63,12 @@ class ShowHandler(webapp2.RequestHandler):
     @emit_json_memcache(MemcacheAge)
     def get(self):
         producttype=self.request.get("type")
-        if producttype not in ProductMapping:
+        productmapping=dict([(product["type"], eval(product["class"]))
+                      for product in ProductTypes])
+        if producttype not in productmapping:
             raise RuntimeError("Product not found")
         id=int(self.request.get("id"))
-        product=ProductMapping[producttype].get_by_id(id)
+        product=productmapping[producttype].get_by_id(id)
         if not product:
             raise RuntimeError("Product not found")
         return product.to_json()
@@ -84,9 +80,11 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, struct):
         producttype, params = struct["type"], struct["product"]
-        if producttype not in ProductMapping:
+        productmapping=dict([(product["type"], eval(product["class"]))
+                      for product in ProductTypes])
+        if producttype not in productmapping:
             raise RuntimeError("Product not found")
-        product=ProductMapping[producttype](**params)
+        product=productmapping[producttype](**params)
         probability=product.calc_probability()
         return {"price": format_price(probability),
                 "description": product.description}

@@ -1,6 +1,6 @@
 from models.products.positions import *
 
-class MiniLeagueProducts(db.Model):
+class MiniLeagueProduct(db.Model):
 
     league=db.StringProperty()
     team=db.StringProperty()
@@ -8,7 +8,7 @@ class MiniLeagueProducts(db.Model):
 
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
-        query=MiniLeagueProducts.all()
+        query=MiniLeagueProduct.all()
         if leaguename:
             query.filter("league = ", leaguename)
         if teamname:
