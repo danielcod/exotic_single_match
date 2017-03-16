@@ -170,10 +170,18 @@ var MiniLeagueForm=React.createClass({
     },
     addHandler: function(id) { // id currently not used
 	var state=this.state;
-	state.product.versus.push({
-	    id: this.itemUuid(),
-	    disabled: false
-	});
+	var versus=[]
+	for (var i=0; i < state.product.versus.length; i++) {
+	    var item=state.product.versus[i];
+	    versus.push(item);
+	    if (item.id==id) {
+		versus.push({
+		    id: this.itemUuid(),
+		    disabled: false
+		});
+	    }
+	}
+	state.product.versus=versus;
 	this.setState(state);
 	this.updatePrice(state.product);
     },
@@ -292,9 +300,10 @@ var MiniLeagueForm=React.createClass({
 					    product: product,
 					    exoticsApi: this.props.exoticsApi,
 					    blankStyle: this.props.blankStyle,
+					    addHandler: this.addHandler,
 					    changeHandler: this.changeHandler,
 					    deleteHandler: this.deleteHandler,
-					    addHandler: this.addHandler
+
 					});
 				    }.bind(this))
 				})
