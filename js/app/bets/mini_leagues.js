@@ -6,6 +6,12 @@ var MiniLeagueForm=React.createClass({
 	    this.setState(state);	
 	}.bind(this);
     },
+    initBet: function(bet) {
+	if (bet.versus==undefined) {
+	    bet.versus=[];
+	}
+	return bet;
+    },
     getInitialState: function() {
 	return {
 	    options: {
@@ -21,7 +27,7 @@ var MiniLeagueForm=React.createClass({
 		],
 		expiry: []
 	    },
-	    bet: deepCopy(this.props.bet)
+	    bet: this.initBet(deepCopy(this.props.bet))
 	};
     },
     fetchLeagues: function() {
@@ -49,7 +55,14 @@ var MiniLeagueForm=React.createClass({
 	});
     },
     versusChangeHandler: function(items) {
-	console.log(JSON.stringify(items));
+	var state=this.state;
+	state.bet.versus=items.map(function(item) {
+	    return {
+		league: item.league,
+		team: item.team
+	    };
+	});
+	this.setState(state);
     },
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
@@ -80,7 +93,7 @@ var MiniLeagueForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("mini_league_form", bet)
+	    this.props.updatePriceHandler("mini_league", bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}
@@ -141,16 +154,7 @@ var MiniLeagueForm=React.createClass({
 				})
 			    }),
 			    React.createElement(TeamSelectorTable, {
-				items: [
-				    {
-					league: "ENG.1",
-					team: "Liverpool"
-				    },
-				    {
-					league: "SPA.1",
-					team: "Barcelona"
-				    }
-				],
+				items: this.state.bet.versus,
 				exoticsApi: this.props.exoticsApi,
 				blankStyle: this.props.blankStyle,
 				changeHandler: this.versusChangeHandler

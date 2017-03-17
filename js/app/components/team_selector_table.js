@@ -155,7 +155,6 @@ var TeamSelectorTable=React.createClass({
     initItems: function(items) {
 	if (items.length==0) {
 	    items.push({});
-	    items.push({});
 	}
 	for (var i=0; i < items.length; i++) {
 	    var item=items[i];
