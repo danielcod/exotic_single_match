@@ -14,6 +14,10 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         return Products
 
+"""
+- this should be replaced by series of tasks generating interesting blobs
+"""
+    
 class ListHandler(webapp2.RequestHandler):
 
     def load_bets_db(self):
