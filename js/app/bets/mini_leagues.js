@@ -1,4 +1,4 @@
-var MiniLeagueVersusRow=React.createClass({
+var MiniLeagueRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -12,7 +12,7 @@ var MiniLeagueVersusRow=React.createClass({
 		league: [],
 		team: []
 	    },
-	    bet: deepCopy(this.props.bet)
+	    item: deepCopy(this.props.item)
 	};
     },
     fetchLeagues: function() {
@@ -26,10 +26,10 @@ var MiniLeagueVersusRow=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(bet) {
-	if (bet.league!=undefined) {
+    fetchTeams: function(item) {
+	if (item.league!=undefined) {
 	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(bet.league, handler);
+	    this.props.exoticsApi.fetchTeams(item.league, handler);
 	}
     },
     formatTeamOptions: function(teams) {
@@ -40,38 +40,38 @@ var MiniLeagueVersusRow=React.createClass({
 	});
     },
     changeHandler: function(name, value) {
-	if (this.state.bet[name]!=value) {
+	if (this.state.item[name]!=value) {
 	    var state=this.state;
-	    state.bet[name]=value;
+	    state.item[name]=value;
 	    if (name=="league") {
 		state.options.team=[];
-		state.bet.team=undefined;
-		this.fetchTeams(state.bet);
+		state.item.team=undefined;
+		this.fetchTeams(state.item);
 	    }
 	    this.setState(state);
-	    this.props.changeHandler(this.props.bet.id, name, value);
+	    this.props.changeHandler(this.props.item.id, name, value);
 	}
     },
     addHandler: function() {
-	this.props.addHandler(this.props.bet.id);
+	this.props.addHandler(this.props.item.id);
     },
     deleteHandler: function() {
-	if (!this.props.bet.disabled) {
-	    this.props.deleteHandler(this.props.bet.id);
+	if (!this.props.item.disabled) {
+	    this.props.deleteHandler(this.props.item.id);
 	}
     },
     componentWillReceiveProps: function(nextProps) {
-	if (JSON.stringify(this.state.bet)!=
-	    JSON.stringify(nextProps.bet)) {
+	if (JSON.stringify(this.state.item)!=
+	    JSON.stringify(nextProps.item)) {
 	    var state=this.state;
-	    state.bet=deepCopy(nextProps.bet);
-	    this.fetchTeams(state.bet);
+	    state.item=deepCopy(nextProps.item);
+	    this.fetchTeams(state.item);
 	    this.setState(state);
 	}
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.bet);
+	this.fetchTeams(this.state.item);
     },
     componentDidMount: function() {
 	this.initialise();
@@ -105,7 +105,7 @@ var MiniLeagueVersusRow=React.createClass({
 			MySelect, {
 			    name: "league",
 			    options: this.formatLeagueOptions(this.state.options.league),
-			    value: this.state.bet.league,
+			    value: this.state.item.league,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
 			}
@@ -122,7 +122,7 @@ var MiniLeagueVersusRow=React.createClass({
 			MySelect, {
 			    name: "team",
 			    options: this.formatTeamOptions(this.state.options.team),
-			    value: this.state.bet.team,
+			    value: this.state.item.team,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
 			}
@@ -136,7 +136,7 @@ var MiniLeagueVersusRow=React.createClass({
 			"padding-bottom": "0px"
 		    },
 		    children: React.DOM.a({
-			className: "btn btn-"+(this.props.bet.disabled ? "default" : "secondary"),
+			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
@@ -148,48 +148,49 @@ var MiniLeagueVersusRow=React.createClass({
     }
 });
 
-var MiniLeagueForm=React.createClass({
-    itemUuid: function() {
+var MiniLeagueTable=React.createClass({
+    uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
-    initParams: function(bet) {
-	if (bet.versus==undefined) {
-	    bet.versus=[{}, {}]; // two rows by default
+    initItems: function(items) {
+	if (items.length==0) {
+	    items.push({});
+	    items.push({});
 	}
-	for (var i=0; i < bet.versus.length; i++) {
-	    var item=bet.versus[i];
-	    item.id=this.itemUuid();
+	for (var i=0; i < items.length; i++) {
+	    var item=items[i];
+	    item.id=this.uuid();
 	    item.disabled=(i==0);
 	}
-	return bet;
+	return items;
     },
     getInitialState: function() {
 	return {
-	    bet: this.initParams(deepCopy(this.props.bet))
+	    items: this.initItems(deepCopy(this.props.items))
 	}
     },
     addHandler: function(id) { // id currently not used
 	var state=this.state;
-	var versus=[]
-	for (var i=0; i < state.bet.versus.length; i++) {
-	    var item=state.bet.versus[i];
-	    versus.push(item);
+	var items=[]
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
+	    items.push(item);
 	    if (item.id==id) {
-		versus.push({
-		    id: this.itemUuid(),
+		items.push({
+		    id: this.uuid(),
 		    disabled: false
 		});
 	    }
 	}
-	state.bet.versus=versus;
+	state.items=items;
 	this.setState(state);
-	this.updatePrice(state.bet);
+	// callback parent
     },
     changeHandler: function(id, name, value) {
 	var state=this.state;
 	var updated=false;
-	for (var i=0; i < state.bet.versus.length; i++) {
-	    var item=state.bet.versus[i];
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
 	    if (item.id==id) {		
 		if (item[name]!=value) {
 		    item[name]=value;
@@ -202,18 +203,63 @@ var MiniLeagueForm=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.updatePrice(state.bet);
+	    // callback parent
 	}
     },
     deleteHandler: function(id) {
 	var state=this.state;
-	var versus=state.bet.versus.filter(function(item) {
+	var items=state.items.filter(function(item) {
 	    return item.id!=id;
 	});
-	state.bet.versus=versus;
+	state.items=items;
 	this.setState(state);
-	this.updatePrice(state.bet);
+	// callback parent
     },
+    render: function() {
+	return React.DOM.table({
+	    className: "table",
+	    style: {
+		margin: "0px",
+		padding: "0px"
+	    },
+	    children: [
+		React.DOM.thead({
+		    children: React.DOM.tr({
+			children: [
+			    React.DOM.th({
+				children: []
+			    }),
+			    React.DOM.th({
+				children: "League"
+			    }),
+			    React.DOM.td({
+				children: "Team"
+			    }),
+			    React.DOM.th({
+				children: []
+			    })
+			]
+		    })
+		}),		
+		React.DOM.tbody({
+		    children: this.state.items.map(function(item) {
+			return React.createElement(MiniLeagueRow, {
+			    item: item,
+			    exoticsApi: this.props.exoticsApi,
+			    blankStyle: this.props.blankStyle,
+			    addHandler: this.addHandler,
+			    changeHandler: this.changeHandler,
+			    deleteHandler: this.deleteHandler
+			});
+		    }.bind(this))
+		})
+	    ]
+	});
+    }
+});
+    
+var MiniLeagueForm=React.createClass({
+    /*
     isComplete: function(bet) {
 	// check min length
 	if (bet.versus.length < 2) {
@@ -263,6 +309,7 @@ var MiniLeagueForm=React.createClass({
     componentDidMount: function() {
 	this.initialise();
     },
+    */
     render: function() {	
 	return React.DOM.div({
 	    children: [
@@ -270,44 +317,10 @@ var MiniLeagueForm=React.createClass({
 		    className: "row",
 		    children: React.DOM.div({
 			className: "col-xs-12",
-			children: React.DOM.table({
-			    className: "table",
-			    style: {
-				margin: "0px",
-				padding: "0px"
-			    },
-			    children: [
-				React.DOM.thead({
-				    children: React.DOM.tr({
-					children: [
-					    React.DOM.th({
-						children: []
-					    }),
-					    React.DOM.th({
-						className: "text-center",
-						colSpan: 2,
-						children: "Versus"
-					    }),
-					    React.DOM.th({
-						children: []
-					    })
-					]
-				    })
-				}),		
-				React.DOM.tbody({
-				    children: this.state.bet.versus.map(function(bet) {
-					return React.createElement(MiniLeagueVersusRow, {
-					    bet: bet,
-					    exoticsApi: this.props.exoticsApi,
-					    blankStyle: this.props.blankStyle,
-					    addHandler: this.addHandler,
-					    changeHandler: this.changeHandler,
-					    deleteHandler: this.deleteHandler,
-
-					});
-				    }.bind(this))
-				})
-			    ]
+			children: React.createElement(MiniLeagueTable, {
+			    items: [],
+			    exoticsApi: this.props.exoticsApi,
+			    blankStyle: this.props.blankStyle
 			})
 		    })					    
 		})
