@@ -141,29 +141,6 @@ var MiniLeagueForm=React.createClass({
 		}),
 		React.DOM.div({
 		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: [
-			    React.DOM.div({
-				className: "text-center",
-				children: React.DOM.label({
-				    style: {
-					"margin-top": "12px"
-				    },
-				    children: "Versus"
-				})
-			    }),
-			    React.createElement(LeagueTeamSelectorTable, {
-				items: this.state.bet.versus,
-				exoticsApi: this.props.exoticsApi,
-				blankStyle: this.props.blankStyle,
-				changeHandler: this.versusChangeHandler
-			    })
-			]
-		    })
-		}),
-		React.DOM.div({
-		    className: "row",
 		    children: [
 			React.DOM.div({
 			    className: "col-xs-6",
@@ -190,6 +167,29 @@ var MiniLeagueForm=React.createClass({
 				})
 			})
 		    ]
+		}),
+		React.DOM.div({
+		    className: "row",
+		    children: React.DOM.div({
+			className: "col-xs-12",
+			children: [
+			    React.DOM.div({
+				className: "text-center",
+				children: React.DOM.label({
+				    style: {
+					"margin-top": "12px"
+				    },
+				    children: "Versus"
+				})
+			    }),
+			    React.createElement(LeagueTeamSelectorTable, {
+				items: this.state.bet.versus,
+				exoticsApi: this.props.exoticsApi,
+				blankStyle: this.props.blankStyle,
+				changeHandler: this.versusChangeHandler
+			    })
+			]
+		    })
 		})
 	    ]
 	})
