@@ -86,9 +86,9 @@ var EditBetForm=React.createClass({
     },
     loadProductForm: function(type) {
 	for(var i=0 ; i < this.state.products.length; i++) {
-	    var bet=this.state.products[i];
-	    if (type==bet.type) {
-		return eval(bet.form);
+	    var product=this.state.products[i];
+	    if (type==product.type) {
+		return eval(product.form);
 	    }
 	}
 	return undefined;

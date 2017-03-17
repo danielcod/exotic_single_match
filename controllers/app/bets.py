@@ -58,12 +58,12 @@ class ShowHandler(webapp2.RequestHandler):
     @emit_json_memcache(MemcacheAge)
     def get(self):
         bettype=self.request.get("type")
-        betmapping=dict([(bet["type"], eval(bet["class"]))
-                      for bet in Products])
-        if bettype not in betmapping:
+        products=dict([(bet["type"], eval(bet["class"]))
+                       for bet in Products])
+        if bettype not in products:
             raise RuntimeError("Bet not found")
-        id=int(self.request.get("id"))
-        bet=betmapping[bettype].get_by_id(id)
+        betid=int(self.request.get("id"))
+        bet=products[bettype].get_by_id(betid)
         if not bet:
             raise RuntimeError("Bet not found")
         return bet.to_json()

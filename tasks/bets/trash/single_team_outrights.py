@@ -25,8 +25,8 @@ class LeagueHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         bets=SingleTeamOutrightBet.find_all(leaguename)
-        for product in bets:
-            product.delete()
+        for bet in bets:
+            bet.delete()
         logging.info("Trashed %s SeasonTeamOutright bets [%i]" % (leaguename, len(bets)))
         
 Routing=[('/tasks/bets/trash/single_team_outrights/league', LeagueHandler),
