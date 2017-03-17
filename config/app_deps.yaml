@@ -6,7 +6,7 @@
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components/form_components.js
-- js/app/components/team_selector_table.js
+- js/app/components/league_team_selectors.js
 - js/app/components/paginator.js
 - js/app/components/utils.js
 - js/app/bets/mini_leagues.js
