@@ -43,14 +43,8 @@ class ListHandler(webapp2.RequestHandler):
         self.save_bets_memcache(bets)
         return bets
             
-    @validate_query({'group': '.+',
-                     'team': '.+',
-                     'bet_type': '.+'})
     @emit_json_memcache(MemcacheAge)
     def get(self):
-        groupname=self.request.get("group")
-        teamname=self.request.get("team")
-        betname=self.request.get("type")
         return self.load_bets()
 
 class ShowHandler(webapp2.RequestHandler):
