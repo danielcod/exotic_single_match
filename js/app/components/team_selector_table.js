@@ -80,12 +80,6 @@ var TeamSelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px",
-			"padding-top": "0px",
-			"padding-bottom": "0px"
-		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -95,12 +89,6 @@ var TeamSelectorRow=React.createClass({
 		    })
 		}),
 		React.DOM.td({
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px",
-			"padding-top": "12px",
-			"padding-bottom": "0px"
-		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "league",
@@ -112,12 +100,6 @@ var TeamSelectorRow=React.createClass({
 		    )
 		}),		
 		React.DOM.td({
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px",
-			"padding-top": "12px",
-			"padding-bottom": "0px"
-		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
@@ -129,12 +111,6 @@ var TeamSelectorRow=React.createClass({
 		    )
 		}),
 		React.DOM.td({
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px",
-			"padding-top": "0px",
-			"padding-bottom": "0px"
-		    },
 		    children: React.DOM.a({
 			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
@@ -184,7 +160,7 @@ var TeamSelectorTable=React.createClass({
 	}
 	state.items=items;
 	this.setState(state);
-	// callback parent
+	this.props.changeHandler(state.items);
     },
     changeHandler: function(id, name, value) {
 	var state=this.state;
@@ -203,7 +179,7 @@ var TeamSelectorTable=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    // callback parent
+	    this.props.changeHandler(state.items);
 	}
     },
     deleteHandler: function(id) {
@@ -213,15 +189,11 @@ var TeamSelectorTable=React.createClass({
 	});
 	state.items=items;
 	this.setState(state);
-	// callback parent
+	this.props.changeHandler(state.items);
     },
     render: function() {
 	return React.DOM.table({
-	    className: "table",
-	    style: {
-		margin: "0px",
-		padding: "0px"
-	    },
+	    className: "table table-condensed",
 	    children: [
 		React.DOM.thead({
 		    children: React.DOM.tr({
