@@ -102,21 +102,11 @@ var SingleTeamOutrightForm=React.createClass({
 		(bet.payoff!=undefined) &&
 		(bet.expiry!=undefined));
     },
-    priceHandler: function(struct) {
-	$("span[id='price']").text(struct["price"]);
-    },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    $("span[id='price']").text("[updating ..]");
-	    var struct={
-		"type": "single_team_outright",
-		"bet": bet
-	    };
-	    this.props.exoticsApi.fetchPrice(struct, this.priceHandler);
-	    this.props.changeHandler(struct);
+	    this.props.updatePriceHandler("single_team_outright", bet)
 	} else {
-	    $("span[id='price']").text("[..]");
-	    this.props.changeHandler(undefined);
+	    this.props.resetPriceHandler();
 	}
     },
     initialise: function() {

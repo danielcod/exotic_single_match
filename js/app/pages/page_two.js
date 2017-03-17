@@ -93,6 +93,23 @@ var EditBetForm=React.createClass({
 	}
 	return undefined;
     },
+    updatePrice: function(type, bet) {
+	$("span[id='price']").text("[updating ..]");
+	this.props.exoticsApi.fetchPrice({
+	    type: type,
+	    bet: bet	    
+	}, function(struct) {
+	    $("span[id='price']").text(struct["price"]);
+	});
+	this.props.productChangeHandler({
+	    type: type,
+	    bet: bet
+	});
+    },
+    resetPrice: function() {
+	$("span[id='price']").text("[..]");
+	this.props.productChangeHandler(undefined);
+    },
     render: function() {
 	return React.DOM.div({
 	    children: (this.state.selectedBet!=undefined) ? [
@@ -111,11 +128,12 @@ var EditBetForm=React.createClass({
 		}),
 		React.createElement(this.loadProductForm(this.state.selectedBet.type), {
 		    exoticsApi: this.props.exoticsApi,
-		    changeHandler: this.props.productChangeHandler,
 		    bet: this.state.selectedBet,
 		    blankStyle: {
 			border: "3px solid #59a0df"
-		    }
+		    },
+		    updatePriceHandler: this.updatePrice,
+		    resetPriceHandler: this.resetPrice
 		})
 	    ] : []
 	});
