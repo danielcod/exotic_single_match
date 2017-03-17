@@ -36,6 +36,7 @@ var MiniLeagueForm=React.createClass({
 	    };
 	});
 	this.setState(state);
+	this.updatePrice(this.state.bet);
     },
     changeHandler: function(name, value) {
 	if (this.state.bet[name]!=value) {
@@ -46,11 +47,35 @@ var MiniLeagueForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
+	// check scalar fields
 	if ((bet.league==undefined) ||
 	    (bet.team==undefined) ||
 	    (bet.payoff==undefined) ||
 	    (bet.expiry==undefined)) {
 	    return false;
+	}
+	// check min versus length
+	if (bet.versus.length==0) {
+	    return false;
+	}
+	// check undefined versus fields
+	for (var i=0; i < bet.versus.length; i++) {
+	    var item=bet.versus[i];
+	    if ((item.league==undefined) ||
+		(item.team==undefined)) {
+		return false;
+	    }
+	}
+	// check unique team names
+	var teamnames=[bet.team];	
+	for (var i=0; i < bet.versus.length; i++) {
+	    var item=bet.versus[i];
+	    if (teamnames.indexOf(item.team)==-1) {
+		teamnames.push(item.team);
+	    }
+	}
+	if (teamnames.length!=(bet.versus.length+1)) {
+	    return false
 	}
 	return true;
     },
