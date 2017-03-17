@@ -1,4 +1,4 @@
-var MiniLeagueRow=React.createClass({
+var TeamSelectorRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -148,7 +148,7 @@ var MiniLeagueRow=React.createClass({
     }
 });
 
-var MiniLeagueTable=React.createClass({
+var TeamSelectorTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
@@ -243,7 +243,7 @@ var MiniLeagueTable=React.createClass({
 		}),		
 		React.DOM.tbody({
 		    children: this.state.items.map(function(item) {
-			return React.createElement(MiniLeagueRow, {
+			return React.createElement(TeamSelectorRow, {
 			    item: item,
 			    exoticsApi: this.props.exoticsApi,
 			    blankStyle: this.props.blankStyle,
@@ -317,7 +317,7 @@ var MiniLeagueForm=React.createClass({
 		    className: "row",
 		    children: React.DOM.div({
 			className: "col-xs-12",
-			children: React.createElement(MiniLeagueTable, {
+			children: React.createElement(TeamSelectorTable, {
 			    items: [],
 			    exoticsApi: this.props.exoticsApi,
 			    blankStyle: this.props.blankStyle
