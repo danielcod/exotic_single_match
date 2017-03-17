@@ -194,38 +194,18 @@ var TeamSelectorTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed",
-	    children: [
-		React.DOM.thead({
-		    children: React.DOM.tr({
-			children: [
-			    React.DOM.th({
-				children: []
-			    }),
-			    React.DOM.th({
-				children: "League"
-			    }),
-			    React.DOM.td({
-				children: "Team"
-			    }),
-			    React.DOM.th({
-				children: []
-			    })
-			]
-		    })
-		}),		
-		React.DOM.tbody({
-		    children: this.state.items.map(function(item) {
-			return React.createElement(TeamSelectorRow, {
-			    item: item,
-			    exoticsApi: this.props.exoticsApi,
-			    blankStyle: this.props.blankStyle,
-			    addHandler: this.addHandler,
-			    changeHandler: this.changeHandler,
-			    deleteHandler: this.deleteHandler
-			});
-		    }.bind(this))
-		})
-	    ]
+	    children: React.DOM.tbody({
+		children: this.state.items.map(function(item) {
+		    return React.createElement(TeamSelectorRow, {
+			item: item,
+			exoticsApi: this.props.exoticsApi,
+			blankStyle: this.props.blankStyle,
+			addHandler: this.addHandler,
+			changeHandler: this.changeHandler,
+			deleteHandler: this.deleteHandler
+		    });
+		}.bind(this))
+	    })
 	});
     }
 });
