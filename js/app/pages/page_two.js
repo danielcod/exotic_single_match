@@ -94,20 +94,20 @@ var EditBetForm=React.createClass({
 	return undefined;
     },
     updatePrice: function(type, bet) {
-	$("span[id='price']").text("[updating ..]");
+	this.props.priceChangeHandler("[updating ..]");
 	this.props.exoticsApi.fetchPrice({
 	    type: type,
 	    bet: bet	    
 	}, function(struct) {
-	    $("span[id='price']").text(struct["price"]);
-	});
+	    this.props.priceChangeHandler(struct["price"]);
+	}.bind(this));
 	this.props.productChangeHandler({
 	    type: type,
 	    bet: bet
 	});
     },
     resetPrice: function() {
-	$("span[id='price']").text("[..]");
+	this.props.priceChangeHandler("[..]");
 	this.props.productChangeHandler(undefined);
     },
     render: function() {
@@ -143,12 +143,18 @@ var EditBetForm=React.createClass({
 var EditBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    currentBet: this.props.initialBet
+	    currentBet: this.props.initialBet,
+	    price: "[..]"
 	}
     },
     productChangeHandler: function(struct) {
 	var state=this.state;
 	state.currentBet=struct;
+	this.setState(state);
+    },
+    priceChangeHandler: function(price) {
+	var state=this.state;
+	state.price=price;
 	this.setState(state);
     },
     render: function() {
@@ -169,7 +175,7 @@ var EditBetPanel=React.createClass({
 			    "Current price: ",
 			    React.DOM.span({
 				id: "price",
-				children: "[..]"
+				children: this.state.price
 			    })					
 			]				    
 		    })
@@ -177,6 +183,7 @@ var EditBetPanel=React.createClass({
 		React.createElement(EditBetForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
+		    priceChangeHandler: this.priceChangeHandler,
 		    initialBet: this.props.initialBet
 		}),
 		React.DOM.div({
