@@ -46,6 +46,12 @@ var MiniLeagueForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
+	if ((bet.league==undefined) ||
+	    (bet.team==undefined) ||
+	    (bet.payoff==undefined) ||
+	    (bet.expiry==undefined)) {
+	    return false;
+	}
 	return true;
     },
     updatePrice: function(bet) {
