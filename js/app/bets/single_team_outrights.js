@@ -21,18 +21,31 @@ var ExpirySelector=React.createClass({
     formatExpiryOptions: function(expiries) {
 	return expiries; // expiries come with label, value fields
     },
+    changeHandler: function(name, value) {
+	if (this.state[name]!=value) {
+	    var state=this.state;
+	    state[name]=value;
+	    this.setState(state);
+	    this.props.changeHandler(name, value);
+	}
+    },
+    initialise: function() {
+	this.fetchExpiries();
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
     render: function() {
 	return React.createElement(MySelect, {
 	    label: "At",
 	    name: "expiry",
 	    options: this.formatExpiryOptions(this.state.options.expiry),
 	    value: this.state.expiry,
-	    changeHandler: this.props.changeHandler,
+	    changeHandler: this.changeHandler,
 	    blankStyle: this.props.blankStyle
 	});
     }
 });
-
 
 var SingleTeamOutrightForm=React.createClass({
     initOptionsHandler: function(name) {
@@ -45,8 +58,7 @@ var SingleTeamOutrightForm=React.createClass({
     getInitialState: function() {
 	return {
 	    options: {
-		payoff: [],
-		expiry: []
+		payoff: []
 	    },
 	    bet: deepCopy(this.props.bet)
 	};
@@ -69,13 +81,6 @@ var SingleTeamOutrightForm=React.createClass({
 		value: payoff.payoff
 	    }
 	});
-    },
-    fetchExpiries: function() {
-	var handler=this.initOptionsHandler("expiry");
-	this.props.exoticsApi.fetchExpiries(handler);
-    },
-    formatExpiryOptions: function(expiries) {
-	return expiries; // expiries come with label, value fields
     },
     hasPayoff: function(teamname, payoffname) {
 	var payoffs=this.state.options.payoff.filter(function(payoff) {
@@ -125,7 +130,6 @@ var SingleTeamOutrightForm=React.createClass({
     },
     initialise: function() {
 	this.fetchPayoffs(this.state.bet);
-	this.fetchExpiries();
 	this.updatePrice(this.state.bet); 
     },
     componentDidMount: function() {
@@ -158,15 +162,12 @@ var SingleTeamOutrightForm=React.createClass({
 			}),
 			React.DOM.div({
 			    className: "col-xs-6",
-			    children: React.createElement(
-				MySelect, {
-				    label: "At",
-				    name: "expiry",
-				    options: this.formatExpiryOptions(this.state.options.expiry),
-				    value: this.state.bet.expiry,
-				    changeHandler: this.changeHandler,
-				    blankStyle: this.props.blankStyle
-				})
+			    children: React.createElement(ExpirySelector, {
+				exoticsApi: this.props.exoticsApi,
+				expiry: this.state.bet.expiry,
+				changeHandler: this.changeHandler,
+				blankStyle: this.props.blankStyle
+			    })
 			})
 		    ]
 		})
