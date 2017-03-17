@@ -1,11 +1,3 @@
-var deepCopy=function(struct) {
-    return JSON.parse(JSON.stringify(struct));
-};
-
-var ajaxErrHandler=function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr.responseText);    
-};
-
 /*
   blank option must have option '', then be converted to undefined
   if you set value=undefined, will use label/child text as value

@@ -6,8 +6,6 @@ from models.bets.positions.mini_leagues import MiniLeagueBet
 
 from helpers.price_helpers import format_price
 
-Products=yaml.load(file("config/products.yaml").read())
-
 class IndexHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
