@@ -9,37 +9,11 @@ var SingleTeamOutrightForm=React.createClass({
     getInitialState: function() {
 	return {
 	    options: {
-		league: [],
-		team: [],
 		payoff: [],
 		expiry: []
 	    },
 	    bet: deepCopy(this.props.bet)
 	};
-    },
-    fetchLeagues: function() {
-	var handler=this.initOptionsHandler("league");
-	this.props.exoticsApi.fetchLeagues(handler);
-    },
-    formatLeagueOptions: function(leagues) {
-	return leagues.map(function(league) {
-	    return {
-		value: league.name
-	    }
-	});
-    },
-    fetchTeams: function(bet) {
-	if (bet.league!=undefined) {
-	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(bet.league, handler);
-	}
-    },
-    formatTeamOptions: function(teams) {
-	return teams.map(function(team) {
-	    return {
-		value: team.name
-	    }
-	});
     },
     fetchPayoffs: function(bet) {
 	if (bet.league!=undefined) {
@@ -73,15 +47,11 @@ var SingleTeamOutrightForm=React.createClass({
 	});
 	return payoffs.length!=0;
     },
-    changeHandler: function(name, value) {
+    leagueTeamChangeHandler: function(name, value) {
 	if (this.state.bet[name]!=value) {
 	    var state=this.state;
 	    state.bet[name]=value;
 	    if (name=="league") {
-		// load teams for league
-		state.options.team=[];
-		state.bet.team=undefined;
-		this.fetchTeams(state.bet);
 		// load payoffs for league
 		state.options.payoff=[];
 		state.bet.payoff=undefined;
@@ -92,6 +62,14 @@ var SingleTeamOutrightForm=React.createClass({
 		    state.bet.payoff=undefined;
 		}
 	    }
+	    this.setState(state);
+	    this.updatePrice(this.state.bet);
+	}
+    },
+    changeHandler: function(name, value) {
+	if (this.state.bet[name]!=value) {
+	    var state=this.state;
+	    state.bet[name]=value;
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
 	}
@@ -110,8 +88,6 @@ var SingleTeamOutrightForm=React.createClass({
 	}
     },
     initialise: function() {
-	this.fetchLeagues();
-	this.fetchTeams(this.state.bet);
 	this.fetchPayoffs(this.state.bet);
 	this.fetchExpiries();
 	this.updatePrice(this.state.bet); 
@@ -121,52 +97,41 @@ var SingleTeamOutrightForm=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    className: "row",
 	    children: [
-		React.DOM.div({
-		    className: "col-xs-6",
-		    children: [
-			React.createElement(
-			    MySelect, {
-				label: "League",
-				name: "league",
-				options: this.formatLeagueOptions(this.state.options.league),
-				value: this.state.bet.league,
-				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
-			    }),
-			React.createElement(
-			    MySelect, {
-				label: "Position",
-				name: "payoff",
-				options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.team)),
-				value: this.state.bet.payoff,
-				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
-			    })
-		    ]
+		React.createElement(LeagueTeamSelectorRow, {
+		    exoticsApi: this.props.exoticsApi,
+		    league: this.state.bet.league,
+		    team: this.state.bet.team,
+		    changeHandler: this.leagueTeamChangeHandler,
+		    blankStyle: this.props.blankStyle
 		}),
 		React.DOM.div({
-		    className: "col-xs-6",
+		    className: "row",
 		    children: [
-			React.createElement(
-			    MySelect, {
-				label: "Team",
-				name: "team",
-				options: this.formatTeamOptions(this.state.options.team),
-				value: this.state.bet.team,
-				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
-			    }),
-			React.createElement(
-			    MySelect, {
-				label: "At",
-				name: "expiry",
-				options: this.formatExpiryOptions(this.state.options.expiry),
-				value: this.state.bet.expiry,
-				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
-			    })
+			React.DOM.div({
+			    className: "col-xs-6",
+			    children: React.createElement(
+				MySelect, {
+				    label: "Position",
+				    name: "payoff",
+				    options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.team)),
+				    value: this.state.bet.payoff,
+				    changeHandler: this.changeHandler,
+				    blankStyle: this.props.blankStyle
+				})
+			}),
+			React.DOM.div({
+			    className: "col-xs-6",
+			    children: React.createElement(
+				MySelect, {
+				    label: "At",
+				    name: "expiry",
+				    options: this.formatExpiryOptions(this.state.options.expiry),
+				    value: this.state.bet.expiry,
+				    changeHandler: this.changeHandler,
+				    blankStyle: this.props.blankStyle
+				})
+			})
 		    ]
 		})
 	    ]
