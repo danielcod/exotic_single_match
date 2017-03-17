@@ -38,14 +38,6 @@ var MySelect=React.createClass({
 	    this.setState(state);
 	}
     },
-    shallHighlight: function() {
-	if (this.props.highlighter!=undefined) {
-	    if (this.props.highlighter()) {
-		return true;
-	    }
-	}
-	return (this.state.value==undefined);
-    },
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -56,7 +48,7 @@ var MySelect=React.createClass({
 		React.DOM.select({
 		    className: "form-control",
 		    value: this.state.value,
-		    style: this.shallHighlight() ? this.props.blankStyle : {},
+		    style: (this.state.value==undefined) ? this.props.blankStyle : {},
 		    onChange: function(event) {
 			var value=event.target.value;
 			var state=this.state
