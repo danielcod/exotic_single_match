@@ -1,4 +1,4 @@
-var LeagueTeamTableSelectorRow=React.createClass({
+var LeagueTeamSelectorTableRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -219,7 +219,7 @@ var LeagueTeamSelectorTable=React.createClass({
 	    className: "table",
 	    children: React.DOM.tbody({
 		children: this.state.items.map(function(item) {
-		    return React.createElement(LeagueTeamTableSelectorRow, {
+		    return React.createElement(LeagueTeamSelectorTableRow, {
 			item: item,
 			exoticsApi: this.props.exoticsApi,
 			blankStyle: this.props.blankStyle,
