@@ -1,3 +1,39 @@
+var ExpirySelector=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		expiry: []
+	    },
+	    expiry: this.props.expiry
+	};
+    },
+    fetchExpiries: function() {
+	var handler=this.initOptionsHandler("expiry");
+	this.props.exoticsApi.fetchExpiries(handler);
+    },
+    formatExpiryOptions: function(expiries) {
+	return expiries; // expiries come with label, value fields
+    },
+    render: function() {
+	return React.createElement(MySelect, {
+	    label: "At",
+	    name: "expiry",
+	    options: this.formatExpiryOptions(this.state.options.expiry),
+	    value: this.state.expiry,
+	    changeHandler: this.props.changeHandler,
+	    blankStyle: this.props.blankStyle
+	});
+    }
+});
+
+
 var SingleTeamOutrightForm=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
