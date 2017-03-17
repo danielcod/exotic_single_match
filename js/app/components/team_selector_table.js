@@ -1,4 +1,4 @@
-var TeamSelectorRow=React.createClass({
+var LeagueTeamTableSelectorRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
 	    var state=this.state;
@@ -148,7 +148,7 @@ var TeamSelectorRow=React.createClass({
     }
 });
 
-var TeamSelectorTable=React.createClass({
+var LeagueTeamSelectorTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
@@ -219,7 +219,7 @@ var TeamSelectorTable=React.createClass({
 	    className: "table",
 	    children: React.DOM.tbody({
 		children: this.state.items.map(function(item) {
-		    return React.createElement(TeamSelectorRow, {
+		    return React.createElement(LeagueTeamTableSelectorRow, {
 			item: item,
 			exoticsApi: this.props.exoticsApi,
 			blankStyle: this.props.blankStyle,
