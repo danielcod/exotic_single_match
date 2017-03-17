@@ -1,3 +1,99 @@
+var LeagueTeamSelectorRow=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		league: [],
+		team: [],
+	    },
+	    league: this.props.league,
+	    team: this.props.team
+	};
+    },
+    fetchLeagues: function() {
+	var handler=this.initOptionsHandler("league");
+	this.props.exoticsApi.fetchLeagues(handler);
+    },
+    formatLeagueOptions: function(leagues) {
+	return leagues.map(function(league) {
+	    return {
+		value: league.name
+	    }
+	});
+    },
+    fetchTeams: function(leaguename) {
+	if (leaguename!=undefined) {
+	    var handler=this.initOptionsHandler("team");
+	    this.props.exoticsApi.fetchTeams(leaguename, handler);
+	}
+    },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.name
+	    }
+	});
+    },
+    changeHandler: function(name, value) {
+	if (this.state[name]!=value) {
+	    var state=this.state;
+	    state[name]=value;
+	    if (name=="league") {
+		// load teams for league
+		state.options.team=[];
+		state.team=undefined;
+		this.fetchTeams(state.league);
+	    }
+	    this.setState(state);
+	    this.props.changeHandler(name, value);
+	}
+    },
+    initialise: function() {
+	this.fetchLeagues();
+	this.fetchTeams(this.state.league);
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
+    render: function() {
+	return React.DOM.div({
+	    className: "row",
+	    children: [
+		React.DOM.div({
+		    className: "col-xs-6",
+		    children: React.createElement(
+			MySelect, {
+			    label: "League",
+			    name: "league",
+			    options: this.formatLeagueOptions(this.state.options.league),
+			    value: this.state.league,
+			    changeHandler: this.changeHandler,
+			    blankStyle: this.props.blankStyle
+			}),
+		}),			
+		React.DOM.div({
+		    className: "col-xs-6",
+		    children: React.createElement(
+			MySelect, {
+			    label: "Team",
+			    name: "team",
+			    options: this.formatTeamOptions(this.state.options.team),
+			    value: this.state.team,
+			    changeHandler: this.changeHandler,
+			    blankStyle: this.props.blankStyle
+			})
+		})
+	    ]
+	})
+    }
+});
+
 var LeagueTeamSelectorTableRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
