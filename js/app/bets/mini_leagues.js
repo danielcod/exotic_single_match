@@ -11,7 +11,14 @@ var MiniLeagueForm=React.createClass({
 	    options: {
 		league: [],
 		team: [],
-		payoff: [],
+		payoff: [
+		    {
+			value: "Top"
+		    },
+		    {
+			value: "Bottom"
+		    }
+		],
 		expiry: []
 	    },
 	    bet: deepCopy(this.props.bet)
@@ -44,37 +51,12 @@ var MiniLeagueForm=React.createClass({
     versusChangeHandler: function(items) {
 	console.log(JSON.stringify(items));
     },
-    fetchPayoffs: function(bet) {
-	if (bet.league!=undefined) {
-	    var handler=this.initOptionsHandler("payoff");
-	    var key="outright_payoffs/"+bet.league;
-	    this.props.exoticsApi.fetchBlob(key, handler);
-	}
-    },
-    filterPayoffs: function(payoffs, teamname) {
-	return payoffs.filter(function(payoff) {
-	    return payoff.team==teamname;
-	})
-    },
-    formatPayoffOptions: function(payoffs) {
-	return payoffs.map(function(payoff) {
-	    return {
-		value: payoff.payoff
-	    }
-	});
-    },
     fetchExpiries: function() {
 	var handler=this.initOptionsHandler("expiry");
 	this.props.exoticsApi.fetchExpiries(handler);
     },
     formatExpiryOptions: function(expiries) {
 	return expiries; // expiries come with label, value fields
-    },
-    hasPayoff: function(teamname, payoffname) {
-	var payoffs=this.state.options.payoff.filter(function(payoff) {
-	    return (payoff.team==teamname) && (payoff.payoff==payoffname);
-	});
-	return payoffs.length!=0;
     },
     changeHandler: function(name, value) {
 	if (this.state.bet[name]!=value) {
@@ -85,15 +67,6 @@ var MiniLeagueForm=React.createClass({
 		state.options.team=[];
 		state.bet.team=undefined;
 		this.fetchTeams(state.bet);
-		// load payoffs for league
-		state.options.payoff=[];
-		state.bet.payoff=undefined;
-		this.fetchPayoffs(state.bet);
-	    } else if (name=="team") {
-		// reset selected payoff if no longer exists
-		if (!this.hasPayoff(value, this.state.bet.payoff)) {
-		    state.bet.payoff=undefined;
-		}
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -115,7 +88,6 @@ var MiniLeagueForm=React.createClass({
     initialise: function() {
 	this.fetchLeagues();
 	this.fetchTeams(this.state.bet);
-	this.fetchPayoffs(this.state.bet);
 	this.fetchExpiries();
 	this.updatePrice(this.state.bet); 
     },
@@ -184,7 +156,7 @@ var MiniLeagueForm=React.createClass({
 				MySelect, {
 				    label: "Position",
 				    name: "payoff",
-				    options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.team)),
+				    options: this.state.options.payoff,
 				    value: this.state.bet.payoff,
 				    changeHandler: this.changeHandler,
 				    blankStyle: this.props.blankStyle
