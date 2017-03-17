@@ -73,7 +73,7 @@ class PriceHandler(webapp2.RequestHandler):
         bettype, betparams = struct["type"], struct["bet"]
         products=dict([(product["type"], eval(product["class"]))
                        for product in Products])
-        if product not in products:
+        if bettype not in products:
             raise RuntimeError("Product not found")
         bet=products[bettype].from_json(betparams)
         probability=bet.calc_probability()
