@@ -6,12 +6,6 @@ from models.bets.positions.mini_leagues import MiniLeagueBet
 
 from helpers.price_helpers import format_price
 
-class IndexHandler(webapp2.RequestHandler):
-
-    @emit_json_memcache(MemcacheAge)
-    def get(self):
-        return Products
-
 """
 - this should be replaced by series of tasks generating interesting blobs
 """
@@ -84,8 +78,7 @@ class PriceHandler(webapp2.RequestHandler):
 
 Routing=[('/app/bets/list', ListHandler),
          ('/app/bets/show', ShowHandler),
-         ('/app/bets/price', PriceHandler),
-         ('/app/bets', IndexHandler)]
+         ('/app/bets/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

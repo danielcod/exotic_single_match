@@ -50,7 +50,7 @@ var ExoticsAPI=function(errHandler, debug) {
 	}
     };
     this.fetchProducts=function(handler) {
-	this.httpGet("/app/bets", handler);
+	this.httpGet("/app/products", handler);
     };
     this.listBets=function(group, team, type, handler) {
 	var url="/app/bets/list?";
