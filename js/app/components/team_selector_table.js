@@ -80,6 +80,12 @@ var TeamSelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "0px",
+			"padding-bottom": "0px"
+		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -89,6 +95,12 @@ var TeamSelectorRow=React.createClass({
 		    })
 		}),
 		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "12px",
+			"padding-bottom": "0px"
+		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "league",
@@ -100,6 +112,12 @@ var TeamSelectorRow=React.createClass({
 		    )
 		}),		
 		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "12px",
+			"padding-bottom": "0px"
+		    },
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
@@ -111,6 +129,12 @@ var TeamSelectorRow=React.createClass({
 		    )
 		}),
 		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "0px",
+			"padding-bottom": "0px"
+		    },
 		    children: React.DOM.a({
 			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
 			children: React.DOM.i({
