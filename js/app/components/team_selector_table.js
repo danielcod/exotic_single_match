@@ -193,7 +193,7 @@ var TeamSelectorTable=React.createClass({
     },
     render: function() {
 	return React.DOM.table({
-	    className: "table table-condensed",
+	    className: "table",
 	    children: React.DOM.tbody({
 		children: this.state.items.map(function(item) {
 		    return React.createElement(TeamSelectorRow, {

@@ -183,14 +183,3 @@ var MiniLeagueForm=React.createClass({
 
 
 
-/*
-var MiniLeagueForm=React.createClass({
-    render: function() {	
-	return React.DOM.div({
-	    children: [
-	    ]
-	});
-    }
-});
-
-*/
