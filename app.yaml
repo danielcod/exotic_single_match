@@ -32,31 +32,31 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # APP
+- url: /app/bets.*
+  script: controllers.app.bets.app
 - url: /app/blobs.*
   script: controllers.app.blobs.app
 - url: /app/expiries.*
   script: controllers.app.expiries.app
 - url: /app/leagues.*
   script: controllers.app.leagues.app
-- url: /app/products.*
-  script: controllers.app.products.app
 - url: /app/teams.*
   script: controllers.app.teams.app
 - url: /app.*
   script: controllers.app.app
 # TASKS
+- url: /tasks/bets/init/season_match_bets.*
+  script: tasks.bets.init.season_match_bets.app
+- url: /tasks/bets/init/single_team_outrights.*
+  script: tasks.bets.init.single_team_outrights.app
+- url: /tasks/bets/trash/season_match_bets.*
+  script: tasks.bets.trash.season_match_bets.app
+- url: /tasks/bets/trash/single_team_outrights.*
+  script: tasks.bets.trash.single_team_outrights.app
 - url: /tasks/blobs/outright_payoffs.*
   script: tasks.blobs.outright_payoffs.app
 - url: /tasks/blobs/smb_versus.*
   script: tasks.blobs.smb_versus.app
-- url: /tasks/products/init/season_match_bets.*
-  script: tasks.products.init.season_match_bets.app
-- url: /tasks/products/init/single_team_outrights.*
-  script: tasks.products.init.single_team_outrights.app
-- url: /tasks/products/trash/season_match_bets.*
-  script: tasks.products.trash.season_match_bets.app
-- url: /tasks/products/trash/single_team_outrights.*
-  script: tasks.products.trash.single_team_outrights.app
 - url: /tasks/quant/bbc_fixtures.*
   script: tasks.quant.bbc_fixtures.app
 - url: /tasks/quant/dc_poisson_means.*
