@@ -2,13 +2,21 @@ from models.bets.positions import *
 
 class MiniLeagueBet(db.Model):
 
+    league=db.StringProperty()
+    team=db.StringProperty()
+    payoff=db.StringProperty()
+    expiry=db.DateProperty()
     versus=db.TextProperty()
     
     price=db.StringProperty()
-
+    
     @classmethod
     def from_json(self, params):
-        return MiniLeagueBet(versus=json_dumps(params["versus"]))
+        return MiniLeagueBet(league=params["league"],
+                             team=params["team"],
+                             payoff=params["payoff"],
+                             expiry=params["expiry"],
+                             versus=json_dumps(params["versus"]))
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
@@ -26,14 +34,22 @@ class MiniLeagueBet(db.Model):
     def to_json(self):
         return {"type": "mini_league",
                 "id": self.key().id(),
+                "league": self.league,
+                "team": self.team,
+                "payoff": self.payoff,
+                "expiry": self.expiry,
                 "versus": json_loads(self.versus),
                 "price": self.price,
                 "description": self.description}
         
     @property
     def description(self):
-        return {"selection": "Hello World",
-                "market": "Mini- League",
+        marketstr="To be %s of mini league with %s at %s"
+        return {"selection": self.team,
+                "market": marketstr % (self.payoff.lower(),
+                                       ", ".join([item["team"]
+                                                  for item in json_loads(self.versus)]),                                       
+                                       format_date(self.expiry)),
                 "group": {"label": "Mini-League",
                           "level": "green"}}
     

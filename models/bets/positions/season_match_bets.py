@@ -14,9 +14,9 @@ class SeasonMatchBet(db.Model):
     @classmethod
     def from_json(self, params):
         return SeasonMatchBet(league=params["league"],
-                                     team=params["team"],
-                                     versus=params["versus"],
-                                     expiry=params["expiry"])
+                              team=params["team"],
+                              versus=params["versus"],
+                              expiry=params["expiry"])
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
@@ -95,7 +95,7 @@ class SeasonMatchBet(db.Model):
         
     @property
     def description(self):
-        return {"selection": self.team, # include league ?
+        return {"selection": self.team, 
                 "market": "To be above %s at %s" % (self.versus,
                                                     format_date(self.expiry)),
                 "group": {"label": "SMB",

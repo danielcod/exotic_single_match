@@ -14,9 +14,9 @@ class SingleTeamOutrightBet(db.Model):
     @classmethod
     def from_json(self, params):
         return SingleTeamOutrightBet(league=params["league"],
-                                         team=params["team"],
-                                         payoff=params["payoff"],
-                                         expiry=params["expiry"])
+                                     team=params["team"],
+                                     payoff=params["payoff"],
+                                     expiry=params["expiry"])
 
     
     @classmethod
@@ -111,7 +111,7 @@ class SingleTeamOutrightBet(db.Model):
                 return "in "+payoff.lower()
             else:
                 return payoff
-        return {"selection": self.team, # include league ?
+        return {"selection": self.team, 
                 "market": "%s at %s" % (format_payoff(self.payoff).capitalize(),
                                         format_date(self.expiry)),
                 "group": {"label": "Outright",
