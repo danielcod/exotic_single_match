@@ -59,13 +59,13 @@ var App=React.createClass({
     getInitialState: function() {
 	return {
 	    currentStep: 0,
-	    currentProduct: undefined
+	    currentBet: undefined
 	}
     },
-    stepChangeHandler: function(nextStep, selectedProduct) {
+    stepChangeHandler: function(nextStep, selectedBet) {
 	var state=this.state;
 	state.currentStep=nextStep;
-	state.currentProduct=selectedProduct;
+	state.currentBet=selectedBet;
 	this.setState(state);
     },    
     render: function() {
@@ -81,7 +81,7 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    steps: this.props.steps,
 		    stepChangeHandler: this.stepChangeHandler,
-		    initialProduct: this.state.currentProduct
+		    initialBet: this.state.currentBet
 		}),
 		React.DOM.footer({
 		    className: "footer",
@@ -105,11 +105,11 @@ var Main=function() {
 	steps: [
 	    {
 		label: "Browse",
-		klass: BrowseProductsPanel
+		klass: BrowseBetsPanel
 	    },
 	    {
 		label: "Edit",
-		klass: EditProductPanel
+		klass: EditBetPanel
 	    },
 	    {
 		label: "Bet",

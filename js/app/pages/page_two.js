@@ -1,4 +1,4 @@
-var EditProductSelect=React.createClass({
+var EditBetSelect=React.createClass({
     getInitialState: function() {
 	return {
 	    value: this.props.value
@@ -9,7 +9,7 @@ var EditProductSelect=React.createClass({
 	    className: "form-group",
 	    children: [
 		React.DOM.label({
-		    children: "Product Type"
+		    children: "Bet Type"
 		}),
 		React.DOM.select({
 		    className: "form-control btn-primary input-lg",
@@ -33,15 +33,15 @@ var EditProductSelect=React.createClass({
     }	
 });
 
-var EditProductForm=React.createClass({
+var EditBetForm=React.createClass({
     getInitialState: function() {
 	return {
-	    initialProduct: undefined,
-	    selectedProduct: undefined,
+	    initialBet: undefined,
+	    selectedBet: undefined,
 	    products: []
 	};
     },
-    sortProductTypes: function(item0, item1) {
+    sortProducts: function(item0, item1) {
 	if (item0.label < item1.label) {
 	    return -1;
 	} else if (item0.label > item1.label) {
@@ -50,69 +50,69 @@ var EditProductForm=React.createClass({
 	    return 0;
 	}
     },
-    productTypesHandler: function(struct) {
+    productsHandler: function(struct) {
 	var state=this.state;	
-	state.products=struct.sort(this.sortProductTypes);
+	state.products=struct.sort(this.sortProducts);
 	this.setState(state);
     },
-    productHandler: function(struct) {
+    betHandler: function(struct) {
 	var state=this.state;
-	state.initialProduct=deepCopy(struct);
-	state.selectedProduct=deepCopy(struct);
+	state.initialBet=deepCopy(struct);
+	state.selectedBet=deepCopy(struct);
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchProducts(this.productTypesHandler);
-	if (this.props.initialProduct!=undefined) {
-	    this.props.exoticsApi.showProduct(this.props.initialProduct.type, this.props.initialProduct.id, this.productHandler);
+	this.props.exoticsApi.fetchProducts(this.productsHandler);
+	if (this.props.initialBet!=undefined) {
+	    this.props.exoticsApi.showBet(this.props.initialBet.type, this.props.initialBet.id, this.betHandler);
 	} else {
-	    this.productHandler({
+	    this.betHandler({
 		type: "single_team_outright",
-		product: {}
+		bet: {}
 	    })
 	}
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	if (state.initialProduct.type==value) {
-	    state.selectedProduct=state.initialProduct;
+	if (state.initialBet.type==value) {
+	    state.selectedBet=state.initialBet;
 	} else {
-	    state.selectedProduct={
+	    state.selectedBet={
 		type: value,
-		product: {}
+		bet: {}
 	    };
 	}
 	this.setState(state);
     },
     loadProductForm: function(type) {
 	for(var i=0 ; i < this.state.products.length; i++) {
-	    var product=this.state.products[i];
-	    if (type==product.type) {
-		return eval(product.form);
+	    var bet=this.state.products[i];
+	    if (type==bet.type) {
+		return eval(bet.form);
 	    }
 	}
 	return undefined;
     },
     render: function() {
 	return React.DOM.div({
-	    children: (this.state.selectedProduct!=undefined) ? [
-		React.createElement(EditProductSelect, {
+	    children: (this.state.selectedBet!=undefined) ? [
+		React.createElement(EditBetSelect, {
 		    options: this.state.products,
-		    value: this.state.selectedProduct.type,
+		    value: this.state.selectedBet.type,
 		    changeHandler: this.productChangeHandler
 		}),
 		React.DOM.p({
 		    className: "help-block",
 		    children: (this.state.products.length > 0) ? React.DOM.i({
-			children: this.state.products.filter(function(product) {
-			    return product.type==this.state.selectedProduct.type
+			children: this.state.products.filter(function(bet) {
+			    return bet.type==this.state.selectedBet.type
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(this.loadProductForm(this.state.selectedProduct.type), {
+		React.createElement(this.loadProductForm(this.state.selectedBet.type), {
 		    exoticsApi: this.props.exoticsApi,
 		    changeHandler: this.props.productChangeHandler,
-		    product: this.state.selectedProduct,
+		    bet: this.state.selectedBet,
 		    blankStyle: {
 			border: "3px solid #59a0df"
 		    }
@@ -122,15 +122,15 @@ var EditProductForm=React.createClass({
     }
 });
 
-var EditProductPanel=React.createClass({
+var EditBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    currentProduct: this.props.initialProduct
+	    currentBet: this.props.initialBet
 	}
     },
     productChangeHandler: function(struct) {
 	var state=this.state;
-	state.currentProduct=struct;
+	state.currentBet=struct;
 	this.setState(state);
     },
     render: function() {
@@ -156,10 +156,10 @@ var EditProductPanel=React.createClass({
 			]				    
 		    })
 		}),
-		React.createElement(EditProductForm, {
+		React.createElement(EditBetForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
-		    initialProduct: this.props.initialProduct
+		    initialBet: this.props.initialBet
 		}),
 		React.DOM.div({
 		    className: "text-center",
@@ -186,8 +186,8 @@ var EditProductPanel=React.createClass({
 			    },
 			    children: "Next",
 			    onClick: function() {
-				if (this.state.currentProduct!=undefined) {
-				    this.props.stepChangeHandler(2, this.state.currentProduct);
+				if (this.state.currentBet!=undefined) {
+				    this.props.stepChangeHandler(2, this.state.currentBet);
 				}
 			    }.bind(this)
 			})

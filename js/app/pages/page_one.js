@@ -1,4 +1,4 @@
-var BrowseProductsTabs=React.createClass({
+var BrowseBetsTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -15,7 +15,7 @@ var BrowseProductsTabs=React.createClass({
     }
 });
 
-var BrowseProductsTeamSelect=React.createClass({
+var BrowseBetsTeamSelect=React.createClass({
     render: function() {
 	return React.DOM.select({
 	    className: "form-control input-sm btn-secondary",
@@ -35,7 +35,7 @@ var BrowseProductsTeamSelect=React.createClass({
     }
 });
 
-var BrowseProductsExoticSelect=React.createClass({
+var BrowseBetsProductSelect=React.createClass({
     render: function() {
 	return React.DOM.select({
 	    className: "form-control input-sm btn-secondary",
@@ -43,16 +43,16 @@ var BrowseProductsExoticSelect=React.createClass({
 		var value=event.target.value;
 		this.props.changeHandler(value);
 	    }.bind(this),
-	    children: this.props.productTypes.map(function(productType) {
+	    children: this.props.products.map(function(product) {
 		return React.DOM.option({
-		    children: productType.label || productType.value
+		    children: product.label || product.value
 		});
 	    })
 	})
     }
 });
 
-var BrowseProductsRow=React.createClass({
+var BrowseBetsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -60,19 +60,19 @@ var BrowseProductsRow=React.createClass({
 		    children: [
 			React.DOM.h5({
 			    children: [
-				this.props.product.description.selection,
+				this.props.bet.description.selection,
 				React.DOM.span({
 				    style: {
 					"margin-left": "10px"
 				    },
-				    className: "label label-"+this.props.product.description.group.level,
-				    children: this.props.product.description.group.label
+				    className: "label label-"+this.props.bet.description.group.level,
+				    children: this.props.bet.description.group.label
 				})
 			    ]
 			}),
 			React.DOM.p({
 			    dangerouslySetInnerHTML: {
-				"__html": this.props.product.description.market
+				"__html": this.props.bet.description.market
 			    }
 			})
 		    ]
@@ -81,14 +81,14 @@ var BrowseProductsRow=React.createClass({
 		    className: "text-center",			    
 		    children: React.DOM.span({
 			className: "price",
-			children: this.props.product.price
+			children: this.props.bet.price
 		    })
 		}),
 		React.DOM.td({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			onClick: function() {
-			    this.props.clickHandler(this.props.product);
+			    this.props.clickHandler(this.props.bet);
 			}.bind(this),
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-pencil"
@@ -100,24 +100,24 @@ var BrowseProductsRow=React.createClass({
     }
 });
 
-var BrowseProductsTable=React.createClass({
+var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedProduct: undefined,
+	    selectedBet: undefined,
 	    selectedTab: this.props.selectedTab,
 	    selectedTeam: this.props.selectedTeam,
-	    selectedProductType: this.props.selectedProductType,
-	    products: []
+	    selectedProduct: this.props.selectedProduct,
+	    bets: []
 	};
     },
-    listProductsHandler: function(struct) {
+    listBetsHandler: function(struct) {
 	var state=this.state;
-	state.products=struct;
+	state.bets=struct;
 	this.setState(state);
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listProducts(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProductType, this.listProductsHandler);
+	this.props.exoticsApi.listBets(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProduct, this.listBetsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -130,29 +130,29 @@ var BrowseProductsTable=React.createClass({
 	    state.selectedTeam=nextProps.selectedTeam;
 	    updated=true;
 	}
-	if (nextProps.selectedProductType!=this.props.selectedProductType) {
-	    state.selectedProductType=nextProps.selectedProductType;
+	if (nextProps.selectedProduct!=this.props.selectedProduct) {
+	    state.selectedProduct=nextProps.selectedProduct;
 	    updated=true;
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.listProducts(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProductType, this.listProductsHandler);
+	    this.props.exoticsApi.listBets(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProduct, this.listBetsHandler);
 	}
     },
-    handleClicked: function(product) {
+    handleClicked: function(bet) {
 	var state=this.state;
-	state.selectedProduct=product;
+	state.selectedBet=bet;
 	this.setState(state);
-	this.props.clickHandler(product);
+	this.props.clickHandler(bet);
     },	
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-bordered table-striped",
 	    children: React.DOM.tbody({
-		children: this.state.products.slice(this.props.rowOffset, this.props.rowOffset+this.props.nRows).map(function(product) {
-		    return React.createElement(BrowseProductsRow, {
-			product: product,
-			selectedProduct: this.state.selectedProduct,
+		children: this.state.bets.slice(this.props.rowOffset, this.props.rowOffset+this.props.nRows).map(function(bet) {
+		    return React.createElement(BrowseBetsRow, {
+			bet: bet,
+			selectedBet: this.state.selectedBet,
 			clickHandler: this.handleClicked
 		    });
 		}.bind(this))
@@ -161,7 +161,7 @@ var BrowseProductsTable=React.createClass({
     }
 });
 
-var BrowseProductsPaginator=React.createClass({
+var BrowseBetsPaginator=React.createClass({
     initItems: function(table, paginator, clickHandler) {
 	var nItems=Math.floor(table.nItems/table.nRows);
 	if (0 != table.nItems % table.nRows) {
@@ -232,7 +232,7 @@ var BrowseProductsPaginator=React.createClass({
     }
 });
 
-var BrowseProductsPanel=React.createClass({
+var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "popular",
@@ -241,17 +241,17 @@ var BrowseProductsPanel=React.createClass({
 		value: "All"
 	    },
 	    selectedTeam: "All",
-	    defaultProductType: {
+	    defaultProduct: {
 		label: "All Exotics",
 		value: "All"
 	    },
-	    selectedProductType: "All",
+	    selectedProduct: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5,
 	    teams: [],
-	    productTypes: []
+	    products: []
 	}
     },
     sortTeams: function(item0, item1) {
@@ -275,7 +275,7 @@ var BrowseProductsPanel=React.createClass({
 	    }
 	});
     },
-    sortProductTypes: function(item0, item1) {
+    sortProducts: function(item0, item1) {
 	if (item0.label < item1.label) {
 	    return -1;
 	} else if (item0.label > item1.label) {
@@ -284,15 +284,15 @@ var BrowseProductsPanel=React.createClass({
 	    return 0;
 	}
     },
-    fetchProductsHandler: function(productTypes) {
+    fetchProductsHandler: function(products) {
 	var state=this.state;
-	state.productTypes=productTypes.sort(this.sortProductTypes);
+	state.products=products.sort(this.sortProducts);
 	this.setState(state);
     },
-    formatProductTypeOptions: function(productTypes) {
-	return productTypes.map(function(productType) {
+    formatProductOptions: function(products) {
+	return products.map(function(product) {
 	    return {		
-		value: productType.label
+		value: product.label
 	    }
 	});
     },
@@ -300,8 +300,8 @@ var BrowseProductsPanel=React.createClass({
 	this.props.exoticsApi.fetchTeams(undefined, this.fetchTeamsHandler);
 	this.props.exoticsApi.fetchProducts(this.fetchProductsHandler);
     },
-    handleStepClicked: function(product) {
-	this.props.stepChangeHandler(1, product);
+    handleStepClicked: function(bet) {
+	this.props.stepChangeHandler(1, bet);
     },
     handleTabClicked: function(tab) {
 	var state=this.state;
@@ -318,7 +318,7 @@ var BrowseProductsPanel=React.createClass({
 	state.nItems=nItems;
 	this.setState(state);
     },
-    handleCreateProduct: function() {
+    handleCreateBet: function() {
 	this.props.stepChangeHandler(1, undefined);
     },
     handleTeamChanged: function(value) {
@@ -326,9 +326,9 @@ var BrowseProductsPanel=React.createClass({
 	state.selectedTeam=value;
 	this.setState(state);
     },
-    handleProductTypeChanged: function(value) {
+    handleProductChanged: function(value) {
 	var state=this.state;
-	state.selectedProductType=value;
+	state.selectedProduct=value;
 	this.setState(state);
     },
     render: function() {
@@ -339,7 +339,7 @@ var BrowseProductsPanel=React.createClass({
 		    currentStep: 0
 		}),
 		React.DOM.div({
-		    children: React.createElement(BrowseProductsTabs, {
+		    children: React.createElement(BrowseBetsTabs, {
 			tabs: [
 			    {
 				name: "popular",
@@ -368,24 +368,24 @@ var BrowseProductsPanel=React.createClass({
 			children: React.DOM.div({
 			    className: "col-xs-12",
 			    children: [
-				React.createElement(BrowseProductsTeamSelect, {
+				React.createElement(BrowseBetsTeamSelect, {
 				    teams: [this.state.defaultTeam].concat(this.formatTeamOptions(this.state.teams)),
 				    changeHandler: this.handleTeamChanged
 				}),
-				React.createElement(BrowseProductsExoticSelect, {
-				    productTypes: [this.state.defaultProductType].concat(this.formatProductTypeOptions(this.state.productTypes)),
-				    changeHandler: this.handleProductTypeChanged
+				React.createElement(BrowseBetsProductSelect, {
+				    products: [this.state.defaultProduct].concat(this.formatProductOptions(this.state.products)),
+				    changeHandler: this.handleProductChanged
 				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
-				    onClick: this.handleCreateProduct,
+				    onClick: this.handleCreateBet,
 				    children: "Build My Own"
 				})
 			    ]
 			})
 		    })
 		}),
-		React.createElement(BrowseProductsTable, {
+		React.createElement(BrowseBetsTable, {
 		    exoticsApi: this.props.exoticsApi,
 		    clickHandler: this.handleStepClicked,
 		    dataLoadedHandler: this.handleDataLoaded,
@@ -393,11 +393,11 @@ var BrowseProductsPanel=React.createClass({
 		    nRows: this.state.nRows,
 		    selectedTab: this.state.selectedTab,
 		    selectedTeam: this.state.selectedTeam,
-		    selectedProductType: this.state.selectedProductType
+		    selectedProduct: this.state.selectedProduct
 		}),
 		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
-		    children: React.createElement(BrowseProductsPaginator, {
+		    children: React.createElement(BrowseBetsPaginator, {
 			table: {
 			    nItems:this.state.nItems,
 			    nRows: this.state.nRows,

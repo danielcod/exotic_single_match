@@ -50,21 +50,21 @@ var ExoticsAPI=function(errHandler, debug) {
 	}
     };
     this.fetchProducts=function(handler) {
-	this.httpGet("/app/products", handler);
+	this.httpGet("/app/bets", handler);
     };
-    this.listProducts=function(group, team, productType, handler) {
-	var url="/app/products/list?";
+    this.listBets=function(group, team, type, handler) {
+	var url="/app/bets/list?";
 	url+="group="+group+"&";
 	if (team!=undefined) {
 	    url+="team="+team+"&";
 	}
-	if (productType!=undefined) {
-	    url+="product_type="+productType+"&";
+	if (type!=undefined) {
+	    url+="type="+type+"&";
 	}
 	this.httpGet(url, handler);
     };
-    this.showProduct=function(type, id, handler) {
-	var url="/app/products/show?type="+type+"&id="+id;
+    this.showBet=function(type, id, handler) {
+	var url="/app/bets/show?type="+type+"&id="+id;
 	this.httpGet(url, handler);
     },
     this.fetchLeagues=function(handler) {
@@ -87,7 +87,7 @@ var ExoticsAPI=function(errHandler, debug) {
 	this.httpGet("/app/expiries", handler);
     };
     this.fetchPrice=function(struct, handler) {
-	this.httpPost("/app/products/price", struct, handler);
+	this.httpPost("/app/bets/price", struct, handler);
     };
 };
 
