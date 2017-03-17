@@ -5,7 +5,7 @@
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
 - js/app/services.js
-- js/app/components/my_form_components.js
+- js/app/components/form.js
 - js/app/components/utils.js
 - js/app/bets/mini_leagues.js
 - js/app/bets/season_match_bets.js
