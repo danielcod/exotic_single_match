@@ -11,9 +11,9 @@ Deps=yaml.load("""
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components.js
-- js/app/products/single_team_outrights.js
-- js/app/products/season_match_bets.js
-- js/app/products/mini_leagues.js
+- js/app/bets/single_team_outrights.js
+- js/app/bets/season_match_bets.js
+- js/app/bets/mini_leagues.js
 - js/app/pages/page_one.js
 - js/app/pages/page_two.js
 - js/app/pages/page_three.js
