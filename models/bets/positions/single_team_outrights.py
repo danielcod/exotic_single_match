@@ -1,8 +1,8 @@
-from models.products.positions import *
+from models.bets.positions import *
 
 MinProb, MaxProb = 0.01, 0.99
 
-class SingleTeamOutrightProduct(db.Model):
+class SingleTeamOutrightBet(db.Model):
 
     league=db.StringProperty()
     team=db.StringProperty()
@@ -13,7 +13,7 @@ class SingleTeamOutrightProduct(db.Model):
 
     @classmethod
     def from_json(self, params):
-        return SingleTeamOutrightProduct(league=params["league"],
+        return SingleTeamOutrightBet(league=params["league"],
                                          team=params["team"],
                                          payoff=params["payoff"],
                                          expiry=params["expiry"])
@@ -21,7 +21,7 @@ class SingleTeamOutrightProduct(db.Model):
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
-        query=SingleTeamOutrightProduct.all()
+        query=SingleTeamOutrightBet.all()
         if leaguename:
             query.filter("league = ", leaguename)
         if teamname:

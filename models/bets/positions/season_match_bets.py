@@ -1,6 +1,6 @@
-from models.products.positions import *
+from models.bets.positions import *
 
-class SeasonMatchBetProduct(db.Model):
+class SeasonMatchBet(db.Model):
 
     Payoff="Winner"
     
@@ -13,14 +13,14 @@ class SeasonMatchBetProduct(db.Model):
 
     @classmethod
     def from_json(self, params):
-        return SeasonMatchBetProduct(league=params["league"],
+        return SeasonMatchBet(league=params["league"],
                                      team=params["team"],
                                      versus=params["versus"],
                                      expiry=params["expiry"])
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
-        query=SeasonMatchBetProduct.all()
+        query=SeasonMatchBet.all()
         if leaguename:
             query.filter("league = ", leaguename)
         if teamname:

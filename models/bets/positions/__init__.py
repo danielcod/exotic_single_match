@@ -1,4 +1,4 @@
-from models.products import *
+from models.bets import *
 
 import quant.simulator as simulator
 

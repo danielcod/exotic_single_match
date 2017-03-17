@@ -1,6 +1,6 @@
-from models.products.positions import *
+from models.bets.positions import *
 
-class MiniLeagueProduct(db.Model):
+class MiniLeagueBet(db.Model):
 
     versus=db.TextProperty()
     
@@ -8,11 +8,11 @@ class MiniLeagueProduct(db.Model):
 
     @classmethod
     def from_json(self, params):
-        return MiniLeagueProduct(versus=json_dumps(params["versus"]))
+        return MiniLeagueBet(versus=json_dumps(params["versus"]))
     
     @classmethod
     def find_all(self, leaguename=None, teamname=None):
-        query=MiniLeagueProduct.all()
+        query=MiniLeagueBet.all()
         if leaguename:
             query.filter("league = ", leaguename)
         if teamname:
