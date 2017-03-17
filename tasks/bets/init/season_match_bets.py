@@ -1,8 +1,8 @@
-from tasks.products.init import *
+from tasks.bets.init import *
 
-from models.products.positions.season_match_bets import SeasonMatchBetProduct
+from models.bets.positions.season_match_bets import SeasonMatchBet
 
-# curl "http://localhost:8080/tasks/products/init/season_match_bets?n=1"
+# curl "http://localhost:8080/tasks/bets/init/season_match_bets?n=1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -15,7 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
         if leaguenames==[]:
             leaguenames=Leagues.keys()
         n=int(self.request.get("n"))
-        [taskqueue.add(url="/tasks/products/init/season_match_bets/league",
+        [taskqueue.add(url="/tasks/bets/init/season_match_bets/league",
                        params={"league": leaguename,
                                "n": n},
                        queue_name=QueueName)
@@ -35,15 +35,15 @@ class LeagueHandler(webapp2.RequestHandler):
             j=int(random.random()*len(teams))
             team=teams[j]
             price=format_price(team["probability"])
-            SeasonMatchBetProduct(league=leaguename,
+            SeasonMatchBet(league=leaguename,
                                   team=team["team"],
                                   versus=team["versus"],
                                   expiry=expiry["value"],
                                   price=price).put()
         logging.info("Created %s SeasonMatchBet bets [%i]" % (leaguename, n))
         
-Routing=[('/tasks/products/init/season_match_bets/league', LeagueHandler),
-         ('/tasks/products/init/season_match_bets', IndexHandler)]
+Routing=[('/tasks/bets/init/season_match_bets/league', LeagueHandler),
+         ('/tasks/bets/init/season_match_bets', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

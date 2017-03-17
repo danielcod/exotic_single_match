@@ -1,4 +1,4 @@
-from tasks.products import *
+from tasks.bets import *
 
 from helpers.expiry_helpers import init_expiries
 

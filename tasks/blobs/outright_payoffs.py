@@ -1,6 +1,6 @@
 from tasks.blobs import *
 
-from models.products.positions.single_team_outrights import SingleTeamOutrightProduct
+from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
 
 # curl "http://localhost:8080/tasks/blobs/outright_payoffs?leagues=ENG.1"
 
@@ -25,7 +25,7 @@ class LeagueHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")
-        payoffs=SingleTeamOutrightProduct.filter_atm_payoffs(leaguename)
+        payoffs=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         keyname="outright_payoffs/%s" % leaguename
         Blob(key_name=keyname,
              league=leaguename,
