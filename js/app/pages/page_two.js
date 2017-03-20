@@ -34,6 +34,11 @@ var EditBetSelect=React.createClass({
 });
 
 var EditBetForm=React.createClass({
+    initBet: function(bet) {
+	return (bet!=undefined) ? deepCopy(bet) : {
+	    type: "single_team_outright"
+	}
+    },
     getInitialState: function() {
 	return {
 	    initialBet: undefined,
@@ -63,13 +68,7 @@ var EditBetForm=React.createClass({
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProducts(this.productsHandler);
-	if (this.props.initialBet!=undefined) {
-	    this.props.exoticsApi.showBet(this.props.initialBet.type, this.props.initialBet.id, this.betHandler);
-	} else {
-	    this.betHandler({
-		type: "single_team_outright"
-	    })
-	}
+	this.betHandler(this.initBet(this.props.initialBet));
     },
     productChangeHandler: function(value) {
 	var state=this.state;
