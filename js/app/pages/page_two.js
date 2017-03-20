@@ -128,7 +128,7 @@ var EditBetForm=React.createClass({
 var EditBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    bet: this.props.initialBet,
+	    bet: this.props.bet,
 	    price: "[..]"
 	}
     },
@@ -169,7 +169,7 @@ var EditBetPanel=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
 		    priceChangeHandler: this.priceChangeHandler,
-		    bet: this.props.initialBet
+		    bet: this.props.bet
 		}),
 		React.DOM.div({
 		    className: "text-center",

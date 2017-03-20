@@ -12,7 +12,7 @@ var PlaceBetPanel=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchPrice(this.props.initialBet, this.showBetHandler);
+	this.props.exoticsApi.fetchPrice(this.props.bet, this.showBetHandler);
     },
     sizeChangeHandler: function(size) {
 	var state=this.state;
