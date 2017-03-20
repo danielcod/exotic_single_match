@@ -21,7 +21,7 @@ class IndexHandler(webapp2.RequestHandler):
         taskqueue.add(url="/tasks/blobs/outright_payoffs/reduce",
                       params={"leagues": ",".join(leaguenames)},
                       queue_name=QueueName)
-        logging.info("reduce task added")
+        logging.info("Reduce task added")
 
 class MapHandler(webapp2.RequestHandler):
 
@@ -29,10 +29,10 @@ class MapHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")
-        payoffs=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
+        items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         keyname="outright_payoffs/%s" % leaguename
-        memcache.add(keyname, json_dumps(payoffs), MemcacheAge)
-        logging.info("Save %s blob [%i items]" % (keyname, len(payoffs)))
+        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        logging.info("Save %s blob [%i items]" % (keyname, len(items)))
 
 class ReduceHandler(webapp2.RequestHandler):
 
