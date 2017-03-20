@@ -42,8 +42,6 @@ handlers:
   script: controllers.app.leagues.app
 - url: /app/products.*
   script: controllers.app.products.app
-- url: /app/teams.*
-  script: controllers.app.teams.app
 - url: /app.*
   script: controllers.app.app
 # TASKS
