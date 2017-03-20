@@ -1,4 +1,4 @@
-from google.appengine.api import taskqueue
+from google.appengine.api import memcache, taskqueue
 
 from models import *
 
@@ -9,6 +9,8 @@ import datetime, logging, webapp2, yaml
 from helpers.dst_helpers import dst_adjust
 
 from helpers.json_helpers import *
+
+MemcacheAge=60*60
 
 QueueName="default"
 
