@@ -14,12 +14,9 @@ var SingleTeamOutrightForm=React.createClass({
 	    bet: deepCopy(this.props.bet)
 	};
     },
-    fetchPayoffs: function(bet) {
-	if (bet.league!=undefined) {
-	    var handler=this.initOptionsHandler("payoff");
-	    var key="outright_payoffs/"+bet.league;
-	    this.props.exoticsApi.fetchBlob(key, handler);
-	}
+    fetchPayoffs: function() {
+	var handler=this.initOptionsHandler("payoff");
+	this.props.exoticsApi.fetchBlob("outright_payoffs", handler);
     },
     filterPayoffs: function(payoffs, teamname) {
 	return payoffs.filter(function(payoff) {
@@ -43,12 +40,8 @@ var SingleTeamOutrightForm=React.createClass({
 	if (this.state.bet[name]!=value) {
 	    var state=this.state;
 	    state.bet[name]=value;
-	    if (name=="league") {
-		// load payoffs for league
-		state.options.payoff=[];
-		state.bet.payoff=undefined;
-		this.fetchPayoffs(state.bet);
-	    } else if (name=="team") {
+	    if ((name=="league") ||
+		(name=="team")) {
 		// reset selected payoff if no longer exists
 		if (!this.hasPayoff(value, this.state.bet.payoff)) {
 		    state.bet.payoff=undefined;
@@ -80,7 +73,7 @@ var SingleTeamOutrightForm=React.createClass({
 	}
     },
     initialise: function() {
-	this.fetchPayoffs(this.state.bet);
+	this.fetchPayoffs();
 	this.updatePrice(this.state.bet); 
     },
     componentDidMount: function() {
