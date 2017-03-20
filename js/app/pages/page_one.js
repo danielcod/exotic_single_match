@@ -225,7 +225,7 @@ var BrowseBetsPanel=React.createClass({
 	});
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchAllTeams(this.fetchTeamsHandler);
+	this.props.exoticsApi.fetchTeams(this.fetchTeamsHandler);
 	this.props.exoticsApi.fetchProducts(this.fetchProductsHandler);
     },
     handleStepClicked: function(bet) {

@@ -27,16 +27,19 @@ var LeagueTeamSelectorRow=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(leaguename) {
-	if (leaguename!=undefined) {
-	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(leaguename, handler);
-	}
+    fetchTeams: function() {
+	var handler=this.initOptionsHandler("team");
+	this.props.exoticsApi.fetchTeams(handler);
+    },
+    filterTeams: function(teams, leaguename) {
+	return teams.filter(function(team) {
+	    return team.league==leaguename;
+	})
     },
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.name
+		value: team.team
 	    }
 	});
     },
@@ -45,10 +48,7 @@ var LeagueTeamSelectorRow=React.createClass({
 	    var state=this.state;
 	    state[name]=value;
 	    if (name=="league") {
-		// load teams for league
-		state.options.team=[];
 		state.team=undefined;
-		this.fetchTeams(state.league);
 	    }
 	    this.setState(state);
 	    this.props.changeHandler(name, value);
@@ -56,7 +56,7 @@ var LeagueTeamSelectorRow=React.createClass({
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.league);
+	this.fetchTeams();
     },
     componentDidMount: function() {
 	this.initialise();
@@ -83,7 +83,7 @@ var LeagueTeamSelectorRow=React.createClass({
 			MySelect, {
 			    label: "Team",
 			    name: "team",
-			    options: this.formatTeamOptions(this.state.options.team),
+			    options: this.formatTeamOptions(this.filterTeams(this.state.options.team, this.state.league)),
 			    value: this.state.team,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
@@ -122,16 +122,19 @@ var LeagueTeamSelectorTableRow=React.createClass({
 	    }
 	});
     },
-    fetchTeams: function(item) {
-	if (item.league!=undefined) {
-	    var handler=this.initOptionsHandler("team");
-	    this.props.exoticsApi.fetchTeams(item.league, handler);
-	}
+    fetchTeams: function() {
+	var handler=this.initOptionsHandler("team");
+	this.props.exoticsApi.fetchTeams(handler);
+    },
+    filterTeams: function(teams, leaguename) {
+	return teams.filter(function(team) {
+	    return team.league==leaguename;
+	})
     },
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.name
+		value: team.team
 	    }
 	});
     },
@@ -140,9 +143,7 @@ var LeagueTeamSelectorTableRow=React.createClass({
 	    var state=this.state;
 	    state.item[name]=value;
 	    if (name=="league") {
-		state.options.team=[];
 		state.item.team=undefined;
-		this.fetchTeams(state.item);
 	    }
 	    this.setState(state);
 	    this.props.changeHandler(this.props.item.id, name, value);
@@ -161,13 +162,12 @@ var LeagueTeamSelectorTableRow=React.createClass({
 	    JSON.stringify(nextProps.item)) {
 	    var state=this.state;
 	    state.item=deepCopy(nextProps.item);
-	    this.fetchTeams(state.item);
 	    this.setState(state);
 	}
     },
     initialise: function() {
 	this.fetchLeagues();
-	this.fetchTeams(this.state.item);
+	this.fetchTeams();
     },
     componentDidMount: function() {
 	this.initialise();
@@ -217,7 +217,7 @@ var LeagueTeamSelectorTableRow=React.createClass({
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
-			    options: this.formatTeamOptions(this.state.options.team),
+			    options: this.formatTeamOptions(this.filterTeams(this.state.options.team, this.state.league)),
 			    value: this.state.item.team,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
