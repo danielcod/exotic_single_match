@@ -34,7 +34,7 @@ class MapHandler(webapp2.RequestHandler):
             item.pop("probability") # don't pass probabilities to client
         keyname="outright_payoffs/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
-        logging.info("Save %s blob [%i items]" % (keyname, len(items)))
+        logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):
 
@@ -49,7 +49,7 @@ class ReduceHandler(webapp2.RequestHandler):
             if resp in ['', None, []]:
                 continue
             items+=json_loads(resp)
-        logging.info("%i outright payoffs found" % len(items))
+        logging.info("Total %i outright payoffs" % len(items))
         Blob(key_name="outright_payoffs",
              text=json_dumps(items),
              timestamp=datetime.datetime.now()).put()
