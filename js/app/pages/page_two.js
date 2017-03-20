@@ -34,17 +34,17 @@ var EditBetSelect=React.createClass({
 });
 
 var EditBetForm=React.createClass({
-    initBet: function(bet) {
+    initBet: function(bet) {	
 	return (bet!=undefined) ? deepCopy(bet) : {
-	    type: "single_team_outright"
+	    "type":"season_match_bet"
 	}
     },
     getInitialState: function() {
 	return {
-	    initialBet: undefined,
-	    selectedBet: undefined,
+	    initialBet: this.initBet(this.props.initialBet),
+	    selectedBet: this.initBet(this.props.initialBet),
 	    products: []
-	};
+	}
     },
     sortProducts: function(item0, item1) {
 	if (item0.label < item1.label) {
@@ -60,15 +60,8 @@ var EditBetForm=React.createClass({
 	state.products=struct.sort(this.sortProducts);
 	this.setState(state);
     },
-    betHandler: function(struct) {
-	var state=this.state;
-	state.initialBet=deepCopy(struct);
-	state.selectedBet=deepCopy(struct);
-	this.setState(state);
-    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProducts(this.productsHandler);
-	this.betHandler(this.initBet(this.props.initialBet));
     },
     productChangeHandler: function(value) {
 	var state=this.state;
@@ -110,7 +103,7 @@ var EditBetForm=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    children: (this.state.selectedBet!=undefined) ? [
+	    children: [
 		React.createElement(EditBetSelect, {
 		    options: this.state.products,
 		    value: this.state.selectedBet.type,
@@ -124,7 +117,7 @@ var EditBetForm=React.createClass({
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		React.createElement(this.loadProductForm(this.state.selectedBet.type), {
+		(this.state.products.length!=0) ? React.createElement(this.loadProductForm(this.state.selectedBet.type), {
 		    exoticsApi: this.props.exoticsApi,
 		    bet: this.state.selectedBet,
 		    blankStyle: {
@@ -132,8 +125,8 @@ var EditBetForm=React.createClass({
 		    },
 		    updatePriceHandler: this.updatePrice,
 		    resetPriceHandler: this.resetPrice
-		})
-	    ] : []
+		}) : undefined
+	    ]
 	});
     }
 });
