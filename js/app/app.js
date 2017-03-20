@@ -58,14 +58,14 @@ var ProcessSteps=React.createClass({
 var App=React.createClass({
     getInitialState: function() {
 	return {
-	    currentStep: 0,
-	    currentBet: undefined
+	    step: 0,
+	    bet: undefined
 	}
     },
-    stepChangeHandler: function(nextStep, selectedBet) {
+    stepChangeHandler: function(step, bet) {
 	var state=this.state;
-	state.currentStep=nextStep;
-	state.currentBet=selectedBet;
+	state.step=step;
+	state.bet=bet;
 	this.setState(state);
     },    
     render: function() {
@@ -77,11 +77,11 @@ var App=React.createClass({
 			children: "Team Exotics"
 		    })
 		}),
-		React.createElement(this.props.steps[this.state.currentStep].klass, {
+		React.createElement(this.props.steps[this.state.step].klass, {
 		    exoticsApi: this.props.exoticsApi,
 		    steps: this.props.steps,
 		    stepChangeHandler: this.stepChangeHandler,
-		    initialBet: this.state.currentBet
+		    initialBet: this.state.bet
 		}),
 		React.DOM.footer({
 		    className: "footer",
