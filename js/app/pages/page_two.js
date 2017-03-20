@@ -41,8 +41,7 @@ var EditBetForm=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    initialBet: this.initBet(this.props.initialBet),
-	    selectedBet: this.initBet(this.props.initialBet),
+	    bet: this.initBet(this.props.bet),
 	    products: []
 	}
     },
@@ -65,13 +64,8 @@ var EditBetForm=React.createClass({
     },
     productChangeHandler: function(value) {
 	var state=this.state;
-	if (state.initialBet.type==value) {
-	    state.selectedBet=state.initialBet;
-	} else {
-	    state.selectedBet={
-		type: value,
-		bet: {}
-	    };
+	state.bet={
+	    type: value
 	}
 	this.setState(state);
     },
@@ -106,20 +100,20 @@ var EditBetForm=React.createClass({
 	    children: [
 		React.createElement(EditBetSelect, {
 		    options: this.state.products,
-		    value: this.state.selectedBet.type,
+		    value: this.state.bet.type,
 		    changeHandler: this.productChangeHandler
 		}),
 		React.DOM.p({
 		    className: "help-block",
 		    children: (this.state.products.length > 0) ? React.DOM.i({
 			children: this.state.products.filter(function(bet) {
-			    return bet.type==this.state.selectedBet.type
+			    return bet.type==this.state.bet.type
 			}.bind(this))[0]["description"]
 		    }) : undefined
 		}),
-		(this.state.products.length!=0) ? React.createElement(this.loadProductForm(this.state.selectedBet.type), {
+		(this.state.products.length!=0) ? React.createElement(this.loadProductForm(this.state.bet.type), {
 		    exoticsApi: this.props.exoticsApi,
-		    bet: this.state.selectedBet,
+		    bet: this.state.bet,
 		    blankStyle: {
 			border: "3px solid #59a0df"
 		    },
@@ -175,7 +169,7 @@ var EditBetPanel=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
 		    priceChangeHandler: this.priceChangeHandler,
-		    initialBet: this.props.initialBet
+		    bet: this.props.initialBet
 		}),
 		React.DOM.div({
 		    className: "text-center",
