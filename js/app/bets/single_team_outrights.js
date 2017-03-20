@@ -36,16 +36,14 @@ var SingleTeamOutrightForm=React.createClass({
 	});
 	return payoffs.length!=0;
     },
-    leagueTeamChangeHandler: function(name, value) {
-	if (this.state.bet[name]!=value) {
+    leagueTeamChangeHandler: function(struct) {
+	if ((this.state.bet.league!=struct.league) ||
+	    (this.state.bet.team!=struct.team)) {
 	    var state=this.state;
-	    state.bet[name]=value;
-	    if ((name=="league") ||
-		(name=="team")) {
-		// reset selected payoff if no longer exists
-		if (!this.hasPayoff(value, this.state.bet.payoff)) {
-		    state.bet.payoff=undefined;
-		}
+	    state.bet.league=struct.league;
+	    state.bet.team=struct.team;
+	    if (!this.hasPayoff(struct.team, this.state.bet.payoff)) {
+		state.bet.payoff=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -82,13 +80,19 @@ var SingleTeamOutrightForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(LeagueTeamSelectorRow, {
-		    exoticsApi: this.props.exoticsApi,
-		    league: this.state.bet.league,
-		    team: this.state.bet.team,
-		    changeHandler: this.leagueTeamChangeHandler,
-		    blankStyle: this.props.blankStyle
-		}),
+		React.DOM.div({
+		    className: "row",
+		    children: React.DOM.div({
+			className: "col-xs-12",
+			children:  React.createElement(TeamSelector, {
+			    exoticsApi: this.props.exoticsApi,
+			    league: this.state.bet.league,
+			    team: this.state.bet.team,
+			    changeHandler: this.leagueTeamChangeHandler,
+			    blankStyle: this.props.blankStyle
+			})
+		    })
+		}),		    
 		React.DOM.div({
 		    className: "row",
 		    children: [

@@ -1,3 +1,64 @@
+var TeamSelector=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		team: [],
+	    },
+	    league: this.props.league,
+	    team: this.props.team
+	};
+    },
+    fetchTeams: function() {
+	var handler=this.initOptionsHandler("team");
+	this.props.exoticsApi.fetchTeams(handler);
+    },
+    formatTeamOptions: function(teams) {
+	return teams.map(function(team) {
+	    return {
+		value: team.league+"/"+team.team
+	    }
+	});
+    },
+    changeHandler: function(name, value) {
+	var tokens=value.split("/");
+	var leaguename=tokens[0];
+	var teamname=tokens[1];
+	var state=this.state;
+	state.league=leaguename;
+	state.team=teamname;
+	this.setState(state);
+	this.props.changeHandler({
+	    league: leaguename,
+	    team: teamname
+	});
+    },
+    initialise: function() {
+	this.fetchTeams();
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
+    render: function() {
+	return React.createElement(
+	    MySelect, {
+		label: "Team",
+		name: "team",
+		options: this.formatTeamOptions(this.state.options.team),
+		value: this.state.league+"/"+this.state.team,
+		changeHandler: this.changeHandler,
+		blankStyle: this.props.blankStyle
+	    }
+	);
+    }
+});
+
 var LeagueTeamSelectorRow=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
