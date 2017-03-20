@@ -217,7 +217,7 @@ var LeagueTeamSelectorTableRow=React.createClass({
 		    children: React.createElement(
 			MySelect, {
 			    name: "team",
-			    options: this.formatTeamOptions(this.filterTeams(this.state.options.team, this.state.league)),
+			    options: this.formatTeamOptions(this.filterTeams(this.state.options.team, this.state.item.league)),
 			    value: this.state.item.team,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle
