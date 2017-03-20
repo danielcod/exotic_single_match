@@ -128,13 +128,13 @@ var EditBetForm=React.createClass({
 var EditBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    currentBet: this.props.initialBet,
+	    bet: this.props.initialBet,
 	    price: "[..]"
 	}
     },
     productChangeHandler: function(struct) {
 	var state=this.state;
-	state.currentBet=struct;
+	state.bet=struct;
 	this.setState(state);
     },
     priceChangeHandler: function(price) {
@@ -196,8 +196,8 @@ var EditBetPanel=React.createClass({
 			    },
 			    children: "Next",
 			    onClick: function() {
-				if (this.state.currentBet!=undefined) {
-				    this.props.stepChangeHandler(2, this.state.currentBet);
+				if (this.state.bet!=undefined) {
+				    this.props.stepChangeHandler(2, this.state.bet);
 				}
 			    }.bind(this)
 			})
