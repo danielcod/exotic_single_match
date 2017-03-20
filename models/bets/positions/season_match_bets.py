@@ -60,7 +60,8 @@ class SeasonMatchBet(db.Model):
                 prob=prob0/float(prob0+prob1)
                 if ((minprob < prob < maxprob) and
                     (minprob < prob < maxprob)):
-                    item={"team": team["name"],
+                    item={"league": leaguename,
+                          "team": team["name"],
                           "versus": versus["name"],
                           "probability": prob}
                     items.append(item)

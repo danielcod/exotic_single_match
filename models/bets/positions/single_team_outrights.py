@@ -66,7 +66,8 @@ class SingleTeamOutrightBet(db.Model):
             for payoff in payoffs:
                 prob=sumproduct(payoff["payoff"], pp[team["name"]])
                 if minprob < prob < maxprob:
-                    item={"team": team["name"],
+                    item={"league": leaguename,
+                          "team": team["name"],
                           "payoff": payoff["name"],
                           "probability": prob}
                     items.append(item)

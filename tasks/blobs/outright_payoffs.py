@@ -31,12 +31,6 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         payoffs=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         keyname="outright_payoffs/%s" % leaguename
-        """
-        Blob(key_name=keyname,
-             league=leaguename,
-             text=json_dumps(payoffs),
-             timestamp=datetime.datetime.now()).put()
-        """
         memcache.add(keyname, json_dumps(payoffs), MemcacheAge)
         logging.info("Save %s blob [%i items]" % (keyname, len(payoffs)))
 
@@ -53,8 +47,12 @@ class ReduceHandler(webapp2.RequestHandler):
             if resp in ['', None, []]:
                 continue
             items+=json_loads(resp)
-        logging.info("%i items found" % len(items))
-        
+        logging.info("%i outright payoffs found" % len(items))
+        Blob(key_name="outright_payoffs",
+             text=json_dumps(items),
+             timestamp=datetime.datetime.now()).put()
+        logging.info("Saved to /outright_payoffs")
+                
 Routing=[('/tasks/blobs/outright_payoffs/reduce', ReduceHandler),
          ('/tasks/blobs/outright_payoffs/map', MapHandler),
          ('/tasks/blobs/outright_payoffs', IndexHandler)]

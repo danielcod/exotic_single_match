@@ -84,7 +84,6 @@ class Fixture(db.Model):
 
 class Blob(db.Model):
 
-    league=db.StringProperty()
     text=db.TextProperty()
     timestamp=db.DateTimeProperty()
 
