@@ -19,9 +19,19 @@ var TeamSelector=React.createClass({
 	var handler=this.initOptionsHandler("team");
 	this.props.exoticsApi.fetchTeams(handler);
     },
+    sortTeams: function(item0, item1) {
+	if (item0.team < item1.team) {
+	    return -1;
+	} else if (item0.team > item1.team) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+    },
     formatTeamOptions: function(teams) {
-	return teams.map(function(team) {
+	return teams.sort(this.sortTeams).map(function(team) {
 	    return {
+		label: team.team+" ("+team.league+")",
 		value: team.league+"/"+team.team
 	    }
 	});
