@@ -66,13 +66,12 @@ var ExoticsAPI=function(errHandler, debug) {
     this.fetchLeagues=function(handler) {
 	this.httpGet("/app/leagues", handler);
     };
+    this.fetchAllTeams=function(handler) {
+	var url="/app/teams?league=All";
+	this.httpGet(url, handler);
+    };
     this.fetchTeams=function(leaguename, handler) {
-	var url;
-	if (leaguename==undefined) {
-	    url="/app/teams?league=All";
-	} else {
-	    url="/app/teams?league="+leaguename;
-	}
+	var url="/app/teams?league="+leaguename;
 	this.httpGet(url, handler);
     };
     this.fetchBlob=function(key, handler) {
