@@ -103,7 +103,7 @@ var BrowseBetsRow=React.createClass({
 var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedBet: undefined,
+	    bet: undefined,
 	    selectedTab: this.props.selectedTab,
 	    selectedTeam: this.props.selectedTeam,
 	    selectedProduct: this.props.selectedProduct,
@@ -141,7 +141,7 @@ var BrowseBetsTable=React.createClass({
     },
     handleClicked: function(bet) {
 	var state=this.state;
-	state.selectedBet=bet;
+	state.bet=bet;
 	this.setState(state);
 	this.props.clickHandler(bet);
     },	
@@ -152,7 +152,6 @@ var BrowseBetsTable=React.createClass({
 		children: this.state.bets.slice(this.props.rowOffset, this.props.rowOffset+this.props.nRows).map(function(bet) {
 		    return React.createElement(BrowseBetsRow, {
 			bet: bet,
-			selectedBet: this.state.selectedBet,
 			clickHandler: this.handleClicked
 		    });
 		}.bind(this))
