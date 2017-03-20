@@ -67,8 +67,7 @@ var EditBetForm=React.createClass({
 	    this.props.exoticsApi.showBet(this.props.initialBet.type, this.props.initialBet.id, this.betHandler);
 	} else {
 	    this.betHandler({
-		type: "single_team_outright",
-		bet: {}
+		type: "single_team_outright"
 	    })
 	}
     },
