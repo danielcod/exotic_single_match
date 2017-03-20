@@ -11,8 +11,7 @@ var TeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    league: this.props.league,
-	    team: this.props.team
+	    item: this.props.item
 	};
     },
     fetchTeams: function() {
@@ -41,13 +40,10 @@ var TeamSelector=React.createClass({
 	var leaguename=tokens[0];
 	var teamname=tokens[1];
 	var state=this.state;
-	state.league=leaguename;
-	state.team=teamname;
+	state.item.league=leaguename;
+	state.item.team=teamname;
 	this.setState(state);
-	this.props.changeHandler({
-	    league: leaguename,
-	    team: teamname
-	});
+	this.props.changeHandler(state.item);
     },
     initialise: function() {
 	this.fetchTeams();
@@ -61,7 +57,7 @@ var TeamSelector=React.createClass({
 		label: "Team",
 		name: "team",
 		options: this.formatTeamOptions(this.state.options.team),
-		value: this.state.league+"/"+this.state.team,
+		value: this.state.item.league+"/"+this.state.item.team,
 		changeHandler: this.changeHandler,
 		blankStyle: this.props.blankStyle
 	    }

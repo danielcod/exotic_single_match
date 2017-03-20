@@ -86,8 +86,10 @@ var SingleTeamOutrightForm=React.createClass({
 			className: "col-xs-12",
 			children:  React.createElement(TeamSelector, {
 			    exoticsApi: this.props.exoticsApi,
-			    league: this.state.bet.league,
-			    team: this.state.bet.team,
+			    item: {
+				league: this.state.bet.league,
+				team: this.state.bet.team
+			    },
 			    changeHandler: this.leagueTeamChangeHandler,
 			    blankStyle: this.props.blankStyle
 			})
