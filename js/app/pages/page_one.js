@@ -104,9 +104,9 @@ var BrowseBetsTable=React.createClass({
     getInitialState: function() {
 	return {
 	    bet: undefined,
-	    selectedTab: this.props.selectedTab,
-	    selectedTeam: this.props.selectedTeam,
-	    selectedProduct: this.props.selectedProduct,
+	    tab: this.props.tab,
+	    team: this.props.team,
+	    product: this.props.product,
 	    bets: []
 	};
     },
@@ -117,26 +117,26 @@ var BrowseBetsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listBets(this.props.selectedTab, this.props.selectedTeam, this.props.selectedProduct, this.listBetsHandler);
+	this.props.exoticsApi.listBets(this.props.tab, this.props.team, this.props.product, this.listBetsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
 	var updated=false;
-	if (nextProps.selectedTab!=this.props.selectedTab) {
-	    state.selectedTab=nextProps.selectedTab;
+	if (nextProps.tab!=this.props.tab) {
+	    state.tab=nextProps.tab;
 	    updated=true;
 	}
-	if (nextProps.selectedTeam!=this.props.selectedTeam) {
-	    state.selectedTeam=nextProps.selectedTeam;
+	if (nextProps.team!=this.props.team) {
+	    state.team=nextProps.team;
 	    updated=true;
 	}
-	if (nextProps.selectedProduct!=this.props.selectedProduct) {
-	    state.selectedProduct=nextProps.selectedProduct;
+	if (nextProps.product!=this.props.product) {
+	    state.product=nextProps.product;
 	    updated=true;
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.listBets(this.state.selectedTab, this.state.selectedTeam, this.state.selectedProduct, this.listBetsHandler);
+	    this.props.exoticsApi.listBets(this.state.tab, this.state.team, this.state.product, this.listBetsHandler);
 	}
     },
     handleClicked: function(bet) {
@@ -163,17 +163,17 @@ var BrowseBetsTable=React.createClass({
 var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    selectedTab: "popular",
+	    tab: "popular",
 	    defaultTeam: {
 		label: "All Teams",
 		value: "All"
 	    },
-	    selectedTeam: "All",
+	    team: "All",
 	    defaultProduct: {
 		label: "All Exotics",
 		value: "All"
 	    },
-	    selectedProduct: "All",
+	    product: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
@@ -233,7 +233,7 @@ var BrowseBetsPanel=React.createClass({
     },
     handleTabClicked: function(tab) {
 	var state=this.state;
-	state.selectedTab=tab.name;
+	state.tab=tab.name;
 	this.setState(state);
     },
     handlePaginatorClicked: function(rowOffset) {
@@ -251,12 +251,12 @@ var BrowseBetsPanel=React.createClass({
     },
     handleTeamChanged: function(value) {
 	var state=this.state;
-	state.selectedTeam=value;
+	state.team=value;
 	this.setState(state);
     },
     handleProductChanged: function(value) {
 	var state=this.state;
-	state.selectedProduct=value;
+	state.product=value;
 	this.setState(state);
     },
     render: function() {
@@ -286,7 +286,7 @@ var BrowseBetsPanel=React.createClass({
 				label: "My Bets"
 			    }
 			],
-			selected: this.state.selectedTab,
+			selected: this.state.tab,
 			clickHandler: this.handleTabClicked
 		    })
 		}),
@@ -319,9 +319,9 @@ var BrowseBetsPanel=React.createClass({
 		    dataLoadedHandler: this.handleDataLoaded,
 		    rowOffset: this.state.rowOffset,
 		    nRows: this.state.nRows,
-		    selectedTab: this.state.selectedTab,
-		    selectedTeam: this.state.selectedTeam,
-		    selectedProduct: this.state.selectedProduct
+		    tab: this.state.tab,
+		    team: this.state.team,
+		    product: this.state.product
 		}),
 		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
