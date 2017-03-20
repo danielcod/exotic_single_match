@@ -14,12 +14,9 @@ var SeasonMatchBetForm=React.createClass({
 	    bet: deepCopy(this.props.bet)
 	};
     },
-    fetchVersus: function(bet) {
-	if (bet.league!=undefined) {
-	    var handler=this.initOptionsHandler("versus");
-	    var key="smb_versus/"+bet.league;
-	    this.props.exoticsApi.fetchBlob(key, handler);
-	}
+    fetchVersus: function() {
+	var handler=this.initOptionsHandler("versus");
+	this.props.exoticsApi.fetchBlob("smb_versus", handler);
     },
     filterVersus: function(teams, teamname) {
 	return teams.filter(function(team) {
@@ -43,11 +40,8 @@ var SeasonMatchBetForm=React.createClass({
 	if (this.state.bet[name]!=value) {
 	    var state=this.state;
 	    state.bet[name]=value;
-	    if (name=="league") {
-		state.options.versus=[];
-		state.bet.versus=undefined;
-		this.fetchVersus(state.bet);
-	    } else if (name=="team") {
+	    if ((name=="league") ||
+		(name=="team")) {
 		if (!this.hasVersus(value, this.state.bet.versus)) {
 		    state.bet.versus=undefined;
 		}
@@ -79,7 +73,7 @@ var SeasonMatchBetForm=React.createClass({
 	}
     },
     initialise: function() {
-	this.fetchVersus(this.state.bet);
+	this.fetchVersus();
 	this.updatePrice(this.state.bet); 
     },
     componentDidMount: function() {
