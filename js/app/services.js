@@ -63,10 +63,6 @@ var ExoticsAPI=function(errHandler, debug) {
 	}
 	this.httpGet(url, handler);
     };
-    this.showBet=function(type, id, handler) {
-	var url="/app/bets/show?type="+type+"&id="+id;
-	this.httpGet(url, handler);
-    },
     this.fetchLeagues=function(handler) {
 	this.httpGet("/app/leagues", handler);
     };

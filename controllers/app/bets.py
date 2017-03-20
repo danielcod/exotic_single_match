@@ -43,23 +43,6 @@ class ListHandler(webapp2.RequestHandler):
     def get(self):
         return self.load_bets()
 
-class ShowHandler(webapp2.RequestHandler):
-
-    @validate_query({'type': '.+',
-                     'id': '^\\d+'})
-    @emit_json_memcache(MemcacheAge)
-    def get(self):
-        bettype=self.request.get("type")
-        products=dict([(bet["type"], eval(bet["class"]))
-                       for bet in Products])
-        if bettype not in products:
-            raise RuntimeError("Bet not found")
-        betid=int(self.request.get("id"))
-        bet=products[bettype].get_by_id(betid)
-        if not bet:
-            raise RuntimeError("Bet not found")
-        return bet.to_json()
-
 class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
@@ -77,7 +60,6 @@ class PriceHandler(webapp2.RequestHandler):
                 "description": bet.description}
 
 Routing=[('/app/bets/list', ListHandler),
-         ('/app/bets/show', ShowHandler),
          ('/app/bets/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
