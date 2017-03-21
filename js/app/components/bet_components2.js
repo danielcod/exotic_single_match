@@ -151,3 +151,80 @@ var TeamSelectorRow=React.createClass({
 	})				    
     }
 });
+
+var LeagueTeamTable=React.createClass({
+    uuid: function() {
+	return Math.round(Math.random()*1e16);
+    },
+    initItems: function(items) {
+	if (items.length==0) {
+	    items.push({});
+	}
+	for (var i=0; i < items.length; i++) {
+	    var item=items[i];
+	    item.id=this.uuid();
+	    item.disabled=(i==0);
+	}
+	return items;
+    },
+    getInitialState: function() {
+	return {
+	    items: this.initItems(deepCopy(this.props.items))
+	}
+    },
+    addHandler: function(id) { // id currently not used
+	var state=this.state;
+	var items=[]
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
+	    items.push(item);
+	    if (item.id==id) {
+		items.push({
+		    id: this.uuid(),
+		    disabled: false
+		});
+	    }
+	}
+	state.items=items;
+	this.setState(state);
+	this.props.changeHandler(state.items);
+    },
+    changeHandler: function(id, struct) {
+	var state=this.state;
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
+	    if (item.id==id) {
+		item.league=struct.league;
+		item.team=struct.team;
+	    }
+	}
+	this.setState(state);
+	this.props.changeHandler(state.items);
+    },
+    deleteHandler: function(id) {
+	var state=this.state;
+	var items=state.items.filter(function(item) {
+	    return item.id!=id;
+	});
+	state.items=items;
+	this.setState(state);
+	this.props.changeHandler(state.items);
+    },
+    render: function() {
+	return React.DOM.table({
+	    className: "table",
+	    children: React.DOM.tbody({
+		children: this.state.items.map(function(item) {
+		    return React.createElement(LeagueTeamSelectorTableRow, {
+			item: item,
+			exoticsApi: this.props.exoticsApi,
+			blankStyle: this.props.blankStyle,
+			addHandler: this.addHandler,
+			changeHandler: this.changeHandler,
+			deleteHandler: this.deleteHandler
+		    });
+		}.bind(this))
+	    })
+	});
+    }
+});
