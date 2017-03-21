@@ -131,7 +131,7 @@ var TeamSelector=React.createClass({
 var TeamSelectorRow=React.createClass({
     getInitialState: function() {
 	return {
-	    item: deepCopy(this.props.item)
+	    item: this.props.item
 	};
     },
     changeHandler: function(struct) {
@@ -156,7 +156,7 @@ var TeamSelectorRow=React.createClass({
 	if (JSON.stringify(this.state.item)!=
 	    JSON.stringify(nextProps.item)) {
 	    var state=this.state;
-	    state.item=deepCopy(nextProps.item);
+	    state.item=nextProps.item;
 	    this.setState(state);
 	}
     },
@@ -233,7 +233,7 @@ var TeamSelectorTable=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    items: this.initItems(deepCopy(this.props.items))
+	    items: this.initItems(this.props.items)
 	}
     },
     addHandler: function(id) { // id currently not used

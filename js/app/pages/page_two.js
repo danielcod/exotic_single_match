@@ -35,7 +35,7 @@ var EditBetSelect=React.createClass({
 
 var EditBetForm=React.createClass({
     initBet: function(bet) {	
-	return (bet!=undefined) ? deepCopy(bet) : {
+	return (bet!=undefined) ? bet : {
 	    "type":"season_match_bet"
 	}
     },

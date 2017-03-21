@@ -11,7 +11,7 @@ var SingleTeamOutrightForm=React.createClass({
 	    options: {
 		payoff: []
 	    },
-	    bet: deepCopy(this.props.bet)
+	    bet: this.props.bet
 	};
     },
     fetchPayoffs: function() {

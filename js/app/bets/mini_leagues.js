@@ -24,7 +24,7 @@ var MiniLeagueForm=React.createClass({
 		    }
 		]
 	    },
-	    bet: this.initBet(deepCopy(this.props.bet))
+	    bet: this.initBet(this.props.bet)
 	};
     },
     teamChangeHandler: function(struct) {

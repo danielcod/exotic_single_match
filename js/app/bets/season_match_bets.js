@@ -11,7 +11,7 @@ var SeasonMatchBetForm=React.createClass({
 	    options: {
 		versus: []
 	    },
-	    bet: deepCopy(this.props.bet)
+	    bet: this.props.bet
 	};
     },
     fetchVersus: function() {
