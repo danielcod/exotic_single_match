@@ -20,9 +20,9 @@ var SeasonMatchBetForm=React.createClass({
 	this.props.exoticsApi.fetchTeams(handler);
     },
     sortTeams: function(item0, item1) {
-	if (item0.name < item1.name) {
+	if (item0.team < item1.team) {
 	    return -1;
-	} else if (item0.name > item1.name) {
+	} else if (item0.team > item1.team) {
 	    return 1;
 	} else {
 	    return 0;
@@ -31,8 +31,8 @@ var SeasonMatchBetForm=React.createClass({
     formatTeamOptions: function(teams) {
 	return teams.sort(this.sortTeams).map(function(team) {
 	    return {
-		label: team.name+" ("+team.league+")",
-		value: team.league+"/"+team.name
+		label: team.team+" ("+team.league+")",
+		value: team.league+"/"+team.team
 	    }
 	});
     },
@@ -42,7 +42,7 @@ var SeasonMatchBetForm=React.createClass({
     },
     filterVersus: function(teams, teamname) {
 	return teams.filter(function(team) {
-	    return (team.name==teamname) && (team.versus!=teamname);
+	    return (team.team==teamname) && (team.versus!=teamname);
 	})
     },
     formatVersusOptions: function(teams) {
@@ -54,7 +54,7 @@ var SeasonMatchBetForm=React.createClass({
     },
     hasVersus: function(teamname, versusname) {
 	var versus=this.state.options.versus.filter(function(versus) {
-	    return (versus.name==teamname) && (versus.versus==versusname);
+	    return (versus.team==teamname) && (versus.versus==versusname);
 	});
 	return versus.length!=0;
     },

@@ -84,7 +84,7 @@ var SingleTeamOutrightForm=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    item: {
 			league: this.state.bet.league,
-			name: this.state.bet.team // NB switch of key
+			team: this.state.bet.team
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,

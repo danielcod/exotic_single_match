@@ -68,9 +68,9 @@ var TeamSelector=React.createClass({
 	this.props.exoticsApi.fetchTeams(handler);
     },
     sortTeams: function(item0, item1) {
-	if (item0.name < item1.name) {
+	if (item0.team < item1.team) {
 	    return -1;
-	} else if (item0.name > item1.name) {
+	} else if (item0.team > item1.team) {
 	    return 1;
 	} else {
 	    return 0;
@@ -78,18 +78,18 @@ var TeamSelector=React.createClass({
     },
     formatTeamLabel: function(team) {
 	if ((team.league==undefined) ||
-	    (team.name==undefined)) {
+	    (team.team==undefined)) {
 	    return undefined;
 	} else {
-	    return team.name+" ("+team.league+")";
+	    return team.team+" ("+team.league+")";
 	}
     },
     formatTeamValue: function(team) {
 	if ((team.league==undefined) ||
-	    (team.name==undefined)) {
+	    (team.team==undefined)) {
 	    return undefined;
 	} else {
-	    return team.league+"/"+team.name;
+	    return team.league+"/"+team.team;
 	}
     },    
     formatTeamOptions: function(teams) {
