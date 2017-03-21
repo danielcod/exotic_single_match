@@ -8,7 +8,6 @@
 - js/app/components/form_components.js
 - js/app/components/bet_components.js
 - js/app/components/paginator.js
-- js/app/components/utils.js
 - js/app/bets/mini_leagues.js
 - js/app/bets/season_match_bets.js
 - js/app/bets/single_team_outrights.js

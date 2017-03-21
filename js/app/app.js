@@ -99,6 +99,10 @@ var App=React.createClass({
     }
 });
 
+var ajaxErrHandler=function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr.responseText);    
+};
+
 var Main=function() {
     var app=React.createElement(App, {
 	exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
