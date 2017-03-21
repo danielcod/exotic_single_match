@@ -103,73 +103,55 @@ var MiniLeagueForm=React.createClass({
 	this.initialise();
     },
     render: function() {
-	return React.DOM.div({
-	    children: [
-		React.DOM.div({
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children:  React.createElement(TeamSelector, {
-			    exoticsApi: this.props.exoticsApi,
-			    item: {
-				league: this.state.bet.league,
-				team: this.state.bet.team
+	return React.createElement(GridLayout, {
+	    rows: [
+		[
+		    React.createElement(TeamSelector, {
+			exoticsApi: this.props.exoticsApi,
+			item: {
+			    league: this.state.bet.league,
+			    team: this.state.bet.team
+			},
+			changeHandler: this.teamChangeHandler,
+			blankStyle: this.props.blankStyle,
+			detached: true
+		    })
+		],
+		[
+		    React.createElement(MySelect, {
+			label: "Position",
+			name: "payoff",
+			options: this.state.options.payoff,
+			value: this.state.bet.payoff,
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle
+		    }),
+		    React.createElement(ExpirySelector, {
+			exoticsApi: this.props.exoticsApi,
+			expiry: this.state.bet.expiry,
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle
+		    })
+		],
+		[
+		    React.DOM.div({
+			className: "text-center",
+			children: React.DOM.label({
+			    style: {
+				"margin-top": "12px"
 			    },
-			    changeHandler: this.teamChangeHandler,
-			    blankStyle: this.props.blankStyle,
-			    detached: true
+			    children: "Versus"
 			})
+		    }),
+		],
+		[
+		    React.createElement(TeamSelectorTable, {
+			items: this.state.bet.versus,
+			exoticsApi: this.props.exoticsApi,
+			blankStyle: this.props.blankStyle,
+			changeHandler: this.versusChangeHandler
 		    })
-		}),		    
-		React.DOM.div({
-		    className: "row",
-		    children: [
-			React.DOM.div({
-			    className: "col-xs-6",
-			    children: React.createElement(
-				MySelect, {
-				    label: "Position",
-				    name: "payoff",
-				    options: this.state.options.payoff,
-				    value: this.state.bet.payoff,
-				    changeHandler: this.changeHandler,
-				    blankStyle: this.props.blankStyle
-				})
-			}),
-			React.DOM.div({
-			    className: "col-xs-6",
-			    children: React.createElement(ExpirySelector, {
-				exoticsApi: this.props.exoticsApi,
-				expiry: this.state.bet.expiry,
-				changeHandler: this.changeHandler,
-				blankStyle: this.props.blankStyle
-			    })
-			})
-		    ]
-		}),
-		React.DOM.div({
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: [
-			    React.DOM.div({
-				className: "text-center",
-				children: React.DOM.label({
-				    style: {
-					"margin-top": "12px"
-				    },
-				    children: "Versus"
-				})
-			    }),
-			    React.createElement(TeamSelectorTable, {
-				items: this.state.bet.versus,
-				exoticsApi: this.props.exoticsApi,
-				blankStyle: this.props.blankStyle,
-				changeHandler: this.versusChangeHandler
-			    })
-			]
-		    })
-		})
+		]
 	    ]
 	})
     }
