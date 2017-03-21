@@ -27,6 +27,16 @@ var MiniLeagueForm=React.createClass({
 	    bet: this.initBet(deepCopy(this.props.bet))
 	};
     },
+    leagueTeamChangeHandler: function(struct) {
+	if ((this.state.bet.league!=struct.league) ||
+	    (this.state.bet.team!=struct.team)) {
+	    var state=this.state;
+	    state.bet.league=struct.league;
+	    state.bet.team=struct.team;
+	    this.setState(state);
+	    this.updatePrice(this.state.bet);
+	}
+    },
     versusChangeHandler: function(items) {
 	var state=this.state;
 	state.bet.versus=items.map(function(item) {
@@ -95,13 +105,21 @@ var MiniLeagueForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(LeagueTeamSelectorRow, {
-		    exoticsApi: this.props.exoticsApi,
-		    league: this.state.bet.league,
-		    team: this.state.bet.team,
-		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle
-		}),
+		React.DOM.div({
+		    className: "row",
+		    children: React.DOM.div({
+			className: "col-xs-12",
+			children:  React.createElement(TeamSelector, {
+			    exoticsApi: this.props.exoticsApi,
+			    item: {
+				league: this.state.bet.league,
+				team: this.state.bet.team
+			    },
+			    changeHandler: this.leagueTeamChangeHandler,
+			    blankStyle: this.props.blankStyle
+			})
+		    })
+		}),		    
 		React.DOM.div({
 		    className: "row",
 		    children: [
