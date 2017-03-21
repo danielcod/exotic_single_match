@@ -51,6 +51,9 @@ var SeasonMatchBetForm=React.createClass({
 	    var state=this.state;
 	    state.bet.league=struct.league;
 	    state.bet.team=struct.team;
+	    if (!this.hasVersus(struct.team, state.bet.versus)) {
+		state.bet.versus=undefined;
+	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
 	}
