@@ -65,3 +65,89 @@ var TeamSelector=React.createClass({
     }
 });
 
+var TeamSelectorRow=React.createClass({
+    getInitialState: function() {
+	return {
+	    item: deepCopy(this.props.item)
+	};
+    },
+    changeHandler: function(struct) {
+	if ((this.state.item.league!=struct.league) ||
+	    (this.state.item.team!=struct.team)) {
+	    var state=this.state;
+	    state.item.league=struct.league;
+	    state.item.team=struct.team;
+	    this.setState(state);
+	    this.props.changeHandler(this.props.item.id, struct);
+	}
+    },
+    addHandler: function() {
+	this.props.addHandler(this.props.item.id);
+    },
+    deleteHandler: function() {
+	if (!this.props.item.disabled) {
+	    this.props.deleteHandler(this.props.item.id);
+	}
+    },
+    componentWillReceiveProps: function(nextProps) {
+	if (JSON.stringify(this.state.item)!=
+	    JSON.stringify(nextProps.item)) {
+	    var state=this.state;
+	    state.item=deepCopy(nextProps.item);
+	    this.setState(state);
+	}
+    },
+    render: function() {
+	return React.DOM.tr({
+	    children: [
+		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "0px",
+			"padding-bottom": "0px"
+		    },
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-plus-sign"
+			}),
+			onClick: this.addHandler
+		    })
+		}),
+		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "12px",
+			"padding-bottom": "0px"
+		    },
+		    children: React.createElement(TeamSelector, {
+			exoticsApi: this.props.exoticsApi,
+			item: {
+			    league: this.state.item.league,
+			    team: this.state.item.team
+			},
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle
+		    })
+		}),		
+		React.DOM.td({
+		    style: {
+		    	"margin-top": "0px",
+			"margin-bottom": "0px",
+			"padding-top": "0px",
+			"padding-bottom": "0px"
+		    },
+		    children: React.DOM.a({
+			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-remove"
+			}),
+			onClick: this.deleteHandler
+		    })
+		})
+	    ]
+	})				    
+    }
+});
