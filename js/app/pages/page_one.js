@@ -183,9 +183,9 @@ var BrowseBetsPanel=React.createClass({
 	}
     },
     sortTeams: function(item0, item1) {
-	if (item0.team < item1.team) {
+	if (item0.name < item1.name) {
 	    return -1;
-	} else if (item0.team > item1.team) {
+	} else if (item0.name > item1.name) {
 	    return 1;
 	} else {
 	    return 0;
@@ -199,7 +199,7 @@ var BrowseBetsPanel=React.createClass({
     formatTeamOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.team
+		value: team.name
 	    }
 	});
     },

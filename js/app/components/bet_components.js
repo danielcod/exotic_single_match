@@ -19,9 +19,9 @@ var TeamSelector=React.createClass({
 	this.props.exoticsApi.fetchTeams(handler);
     },
     sortTeams: function(item0, item1) {
-	if (item0.team < item1.team) {
+	if (item0.name < item1.name) {
 	    return -1;
-	} else if (item0.team > item1.team) {
+	} else if (item0.name > item1.name) {
 	    return 1;
 	} else {
 	    return 0;
@@ -30,8 +30,8 @@ var TeamSelector=React.createClass({
     formatTeamOptions: function(teams) {
 	return teams.sort(this.sortTeams).map(function(team) {
 	    return {
-		label: team.team+" ("+team.league+")",
-		value: team.league+"/"+team.team
+		label: team.name+" ("+team.league+")",
+		value: team.league+"/"+team.name
 	    }
 	});
     },
