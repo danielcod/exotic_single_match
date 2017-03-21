@@ -284,13 +284,13 @@ var GridLayout=React.createClass({
 	    children: item
 	});
     },
-    initRow: function(items) {
-	var colwidth=12/items.length;
+    initRow: function(row) {
+	var colwidth=12/row.length;
 	return React.DOM.div({
 	    className: "row",
-	    children: items.map(function(item) {		
+	    children: Array.isArray(row) ? row.map(function(item) {		
 		return this.initItem(item, colwidth)
-	    }.bind(this))
+	    }.bind(this)) : this.initItem(row, 12)
 	});
     },
     render: function() {

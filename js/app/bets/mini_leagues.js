@@ -105,18 +105,16 @@ var MiniLeagueForm=React.createClass({
     render: function() {
 	return React.createElement(GridLayout, {
 	    rows: [
-		[
-		    React.createElement(TeamSelector, {
-			exoticsApi: this.props.exoticsApi,
-			item: {
-			    league: this.state.bet.league,
-			    team: this.state.bet.team
-			},
-			changeHandler: this.teamChangeHandler,
-			blankStyle: this.props.blankStyle,
-			detached: true
-		    })
-		],
+		React.createElement(TeamSelector, {
+		    exoticsApi: this.props.exoticsApi,
+		    item: {
+			league: this.state.bet.league,
+			team: this.state.bet.team
+		    },
+		    changeHandler: this.teamChangeHandler,
+		    blankStyle: this.props.blankStyle,
+		    detached: true
+		}),
 		[
 		    React.createElement(MySelect, {
 			label: "Position",
@@ -133,25 +131,21 @@ var MiniLeagueForm=React.createClass({
 			blankStyle: this.props.blankStyle
 		    })
 		],
-		[
-		    React.DOM.div({
-			className: "text-center",
-			children: React.DOM.label({
-			    style: {
-				"margin-top": "12px"
-			    },
-			    children: "Versus"
-			})
-		    }),
-		],
-		[
-		    React.createElement(TeamSelectorTable, {
-			items: this.state.bet.versus,
-			exoticsApi: this.props.exoticsApi,
-			blankStyle: this.props.blankStyle,
-			changeHandler: this.versusChangeHandler
+		React.DOM.div({
+		    className: "text-center",
+		    children: React.DOM.label({
+			style: {
+			    "margin-top": "12px"
+			},
+			children: "Versus"
 		    })
-		]
+		}),
+		React.createElement(TeamSelectorTable, {
+		    items: this.state.bet.versus,
+		    exoticsApi: this.props.exoticsApi,
+		    blankStyle: this.props.blankStyle,
+		    changeHandler: this.versusChangeHandler
+		})
 	    ]
 	})
     }

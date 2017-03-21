@@ -80,18 +80,16 @@ var SingleTeamOutrightForm=React.createClass({
     render: function() {
 	return React.createElement(GridLayout, {
 	    rows: [
-		[
-		    React.createElement(TeamSelector, {
-			exoticsApi: this.props.exoticsApi,
-			item: {
-			    league: this.state.bet.league,
-			    team: this.state.bet.team
-			},
-			changeHandler: this.teamChangeHandler,
-			blankStyle: this.props.blankStyle,
-			detached: true
-		    })
-		],
+		React.createElement(TeamSelector, {
+		    exoticsApi: this.props.exoticsApi,
+		    item: {
+			league: this.state.bet.league,
+			team: this.state.bet.team
+		    },
+		    changeHandler: this.teamChangeHandler,
+		    blankStyle: this.props.blankStyle,
+		    detached: true
+		}),
 		[
 		    React.createElement(MySelect, {
                         label: "Position",
