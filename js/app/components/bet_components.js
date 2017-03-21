@@ -1,3 +1,52 @@
+var ExpirySelector=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		expiry: []
+	    },
+	    expiry: this.props.expiry
+	};
+    },
+    fetchExpiries: function() {
+	var handler=this.initOptionsHandler("expiry");
+	this.props.exoticsApi.fetchExpiries(handler);
+    },
+    formatExpiryOptions: function(expiries) {
+	return expiries; // expiries come with label, value fields
+    },
+    changeHandler: function(name, value) {
+	if (this.state[name]!=value) {
+	    var state=this.state;
+	    state[name]=value;
+	    this.setState(state);
+	    this.props.changeHandler(name, value);
+	}
+    },
+    initialise: function() {
+	this.fetchExpiries();
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
+    render: function() {
+	return React.createElement(MySelect, {
+	    label: "At",
+	    name: "expiry",
+	    options: this.formatExpiryOptions(this.state.options.expiry),
+	    value: this.state.expiry,
+	    changeHandler: this.changeHandler,
+	    blankStyle: this.props.blankStyle
+	});
+    }
+});
+
 var TeamSelector=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
@@ -230,51 +279,27 @@ var TeamSelectorTable=React.createClass({
     }
 });
 
-var ExpirySelector=React.createClass({
-    initOptionsHandler: function(name) {
-	return function(struct) {
-	    var state=this.state;
-	    state.options[name]=struct;
-	    this.setState(state);	
-	}.bind(this);
+var GridLayout=React.createClass({
+    initItem: function(item, colwidth) {
+	return React.DOM.div({
+	    className: "col-xs-"+colwidth,
+	    children: item
+	});
     },
-    getInitialState: function() {
-	return {
-	    options: {
-		expiry: []
-	    },
-	    expiry: this.props.expiry
-	};
-    },
-    fetchExpiries: function() {
-	var handler=this.initOptionsHandler("expiry");
-	this.props.exoticsApi.fetchExpiries(handler);
-    },
-    formatExpiryOptions: function(expiries) {
-	return expiries; // expiries come with label, value fields
-    },
-    changeHandler: function(name, value) {
-	if (this.state[name]!=value) {
-	    var state=this.state;
-	    state[name]=value;
-	    this.setState(state);
-	    this.props.changeHandler(name, value);
-	}
-    },
-    initialise: function() {
-	this.fetchExpiries();
-    },
-    componentDidMount: function() {
-	this.initialise();
+    initRow: function(items) {
+	var colwidth=12/items.length;
+	return React.DOM.div({
+	    className: "row",
+	    children: items.map(function(item) {		
+		return this.initItem(item, colwidth)
+	    }.bind(this))
+	});
     },
     render: function() {
-	return React.createElement(MySelect, {
-	    label: "At",
-	    name: "expiry",
-	    options: this.formatExpiryOptions(this.state.options.expiry),
-	    value: this.state.expiry,
-	    changeHandler: this.changeHandler,
-	    blankStyle: this.props.blankStyle
-	});
+	return React.DOM.div({
+	    children: this.props.rows.map(function(row) {
+		return this.initRow(row);
+	    }.bind(this))
+	})
     }
 });
