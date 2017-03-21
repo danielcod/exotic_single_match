@@ -116,7 +116,8 @@ var MiniLeagueForm=React.createClass({
 				team: this.state.bet.team
 			    },
 			    changeHandler: this.teamChangeHandler,
-			    blankStyle: this.props.blankStyle
+			    blankStyle: this.props.blankStyle,
+			    detached: true
 			})
 		    })
 		}),		    
