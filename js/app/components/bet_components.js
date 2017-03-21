@@ -76,13 +76,29 @@ var TeamSelector=React.createClass({
 	    return 0;
 	}
     },
+    formatTeamLabel: function(team) {
+	if ((team.league==undefined) ||
+	    (team.name==undefined)) {
+	    return undefined;
+	} else {
+	    return team.name+" ("+team.league+")";
+	}
+    },
+    formatTeamValue: function(team) {
+	if ((team.league==undefined) ||
+	    (team.name==undefined)) {
+	    return undefined;
+	} else {
+	    return team.league+"/"+team.name;
+	}
+    },    
     formatTeamOptions: function(teams) {
 	return teams.sort(this.sortTeams).map(function(team) {
 	    return {
-		label: team.name+" ("+team.league+")",
-		value: team.league+"/"+team.name
+		label: this.formatTeamLabel(team),
+		value: this.formatTeamValue(team)
 	    }
-	});
+	}.bind(this));
     },
     changeHandler: function(name, value) {
 	var tokens=value.split("/");
@@ -105,7 +121,7 @@ var TeamSelector=React.createClass({
 	    label: this.props.detached ? "Team" : undefined,
 	    name: "team",
 	    options: this.formatTeamOptions(this.state.options.team),
-	    value: this.state.item.league+"/"+this.state.item.team,
+	    value: this.formatTeamValue(this.state.item),
 	    changeHandler: this.changeHandler,
 	    blankStyle: this.props.blankStyle
 	});
