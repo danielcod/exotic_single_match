@@ -99,50 +99,38 @@ var SeasonMatchBetForm=React.createClass({
 	this.initialise();
     },
     render: function() {
-	return React.DOM.div({
-	    children: [
-		React.DOM.div({
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: React.createElement(MySelect, {
-			    label: "Team",
-			    name: "team",
-			    options: this.formatTeamOptions(this.state.options.team),
-			    value: this.state.bet.league+"/"+this.state.bet.team,
-			    changeHandler: this.teamChangeHandler,
-			    blankStyle: this.props.blankStyle
-			})
+	return React.createElement(GridLayout, {
+	    rows: [
+		[
+		    React.createElement(MySelect, {
+			label: "Team",
+			name: "team",
+			options: this.formatTeamOptions(this.state.options.team),
+			value: this.state.bet.league+"/"+this.state.bet.team,
+			changeHandler: this.teamChangeHandler,
+			blankStyle: this.props.blankStyle
 		    })
-		}),
-		React.DOM.div({
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: React.createElement(MySelect, {
-			    label: "Versus",
-			    name: "versus",
-			    options: this.formatTeamOptions(this.state.options.team),
-			    value: this.state.bet.league+"/"+this.state.bet.team,
-			    changeHandler: this.teamChangeHandler,
-			    blankStyle: this.props.blankStyle
-			})
+		],
+		[
+		    React.createElement(MySelect, {
+			label: "Versus",
+			name: "versus",
+			options: this.formatTeamOptions(this.state.options.team),
+			value: this.state.bet.league+"/"+this.state.bet.team,
+			changeHandler: this.teamChangeHandler,
+			blankStyle: this.props.blankStyle
 		    })
-		}),
-		React.DOM.div({
-		    className: "row",
-		    children: React.DOM.div({
-			className: "col-xs-12",
-			children: React.createElement(ExpirySelector, {
-			    exoticsApi: this.props.exoticsApi,
-			    expiry: this.state.bet.expiry,
-			    changeHandler: this.changeHandler,
-			    blankStyle: this.props.blankStyle
-			})
+		],
+		[
+		    React.createElement(ExpirySelector, {
+			exoticsApi: this.props.exoticsApi,
+			expiry: this.state.bet.expiry,
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle
 		    })
-		})
+		]
 	    ]
-	})
+	});
     }
 });
 
