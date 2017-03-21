@@ -101,16 +101,14 @@ var TeamSelector=React.createClass({
 	this.initialise();
     },
     render: function() {
-	return React.createElement(
-	    MySelect, {
-		label: this.props.detached ? "Team" : undefined,
-		name: "team",
-		options: this.formatTeamOptions(this.state.options.team),
-		value: this.state.item.league+"/"+this.state.item.team,
-		changeHandler: this.changeHandler,
-		blankStyle: this.props.blankStyle
-	    }
-	);
+	return React.createElement(MySelect, {
+	    label: this.props.detached ? "Team" : undefined,
+	    name: "team",
+	    options: this.formatTeamOptions(this.state.options.team),
+	    value: this.state.item.league+"/"+this.state.item.team,
+	    changeHandler: this.changeHandler,
+	    blankStyle: this.props.blankStyle
+	});
     }
 });
 
