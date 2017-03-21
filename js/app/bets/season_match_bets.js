@@ -23,12 +23,29 @@ var SeasonMatchBetForm=React.createClass({
 	    return (team.team==teamname) && (team.versus!=teamname);
 	})
     },
+    formatVersusLabel: function(team) {
+	if ((team.league==undefined) ||
+	    (team.versus==undefined)) {
+	    return undefined;
+	} else {
+	    return team.versus+" ("+team.league+")";
+	}
+    },
+    formatVersusValue: function(team) {
+	if ((team.league==undefined) ||
+	    (team.versus==undefined)) {
+	    return undefined;
+	} else {
+	    return team.league+"/"+team.versus;
+	}
+    },    
     formatVersusOptions: function(teams) {
 	return teams.map(function(team) {
 	    return {
-		value: team.versus
+		label: this.formatVersusLabel(team),
+		value: this.formatVersusValue(team)
 	    }
-	});
+	}.bind(this));
     },
     hasVersus: function(teamname, versusname) {
 	var versus=this.state.options.versus.filter(function(versus) {
@@ -92,7 +109,10 @@ var SeasonMatchBetForm=React.createClass({
 		    label: "Versus",
 		    name: "versus",
 		    options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.bet.team)),
-		    value: this.state.bet.versus, // change
+		    value: this.formatVersusValue({
+			league: this.state.bet.league,
+			versus: this.state.bet.versus
+		    }),
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle
 		}),
