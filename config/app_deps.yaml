@@ -7,6 +7,7 @@
 - js/app/services.js
 - js/app/components/form_components.js
 - js/app/components/bet_components.js
+- js/app/components/bet_components2.js
 - js/app/components/paginator.js
 - js/app/components/utils.js
 - js/app/bets/mini_leagues.js
