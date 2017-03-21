@@ -36,7 +36,7 @@ var SingleTeamOutrightForm=React.createClass({
 	});
 	return payoffs.length!=0;
     },
-    leagueTeamChangeHandler: function(struct) {
+    teamChangeHandler: function(struct) {
 	if ((this.state.bet.league!=struct.league) ||
 	    (this.state.bet.team!=struct.team)) {
 	    var state=this.state;
@@ -90,7 +90,7 @@ var SingleTeamOutrightForm=React.createClass({
 				league: this.state.bet.league,
 				team: this.state.bet.team
 			    },
-			    changeHandler: this.leagueTeamChangeHandler,
+			    changeHandler: this.teamChangeHandler,
 			    blankStyle: this.props.blankStyle
 			})
 		    })

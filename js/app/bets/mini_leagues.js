@@ -27,7 +27,7 @@ var MiniLeagueForm=React.createClass({
 	    bet: this.initBet(deepCopy(this.props.bet))
 	};
     },
-    leagueTeamChangeHandler: function(struct) {
+    teamChangeHandler: function(struct) {
 	if ((this.state.bet.league!=struct.league) ||
 	    (this.state.bet.team!=struct.team)) {
 	    var state=this.state;
@@ -115,7 +115,7 @@ var MiniLeagueForm=React.createClass({
 				league: this.state.bet.league,
 				team: this.state.bet.team
 			    },
-			    changeHandler: this.leagueTeamChangeHandler,
+			    changeHandler: this.teamChangeHandler,
 			    blankStyle: this.props.blankStyle
 			})
 		    })
