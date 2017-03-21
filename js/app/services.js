@@ -63,9 +63,6 @@ var ExoticsAPI=function(errHandler, debug) {
 	}
 	this.httpGet(url, handler);
     };
-    this.fetchLeagues=function(handler) {
-	this.httpGet("/app/leagues", handler);
-    };
     this.fetchTeams=function(handler) {
 	var url="/app/blobs?key=teams";
 	this.httpGet(url, handler);
