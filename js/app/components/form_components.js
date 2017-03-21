@@ -7,17 +7,13 @@ var MySelect=React.createClass({
     getInitialState: function() {
 	return {
 	    options: this.props.options,
-	    value: this.props.value,
-	    debug: this.props.debug || false
+	    value: this.props.value
 	}
     },
     componentWillReceiveProps: function(nextProps) {
 	// options
 	if (JSON.stringify(this.state.options)!=
 	    JSON.stringify(nextProps.options)) {
-	    if (this.state.debug) {
-		console.log("resetting "+this.props.name+" options from "+JSON.stringify(this.state.options)+" to "+JSON.stringify(nextProps.options));
-	    }
 	    var state=this.state;
 	    state.options=nextProps.options;
 	    var selectedItems=state.options.filter(function(option) {
@@ -30,9 +26,6 @@ var MySelect=React.createClass({
 	}
 	// value
 	if (this.state.value!=nextProps.value) {
-	    if (this.state.debug) {
-		console.log("resetting "+this.props.name+" value from "+this.state.value+" to "+nextProps.value);
-	    }
 	    var state=this.state;
 	    state.value=nextProps.value;
 	    this.setState(state);
