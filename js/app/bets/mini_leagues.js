@@ -115,6 +115,13 @@ var MiniLeagueForm=React.createClass({
 		    blankStyle: this.props.blankStyle,
 		    label: "Team"
 		}),
+		React.createElement(TeamSelectorTable, {
+		    items: this.state.bet.versus,
+		    exoticsApi: this.props.exoticsApi,
+		    blankStyle: this.props.blankStyle,
+		    changeHandler: this.versusChangeHandler,
+		    label: "Versus"
+		}),
 		[
 		    React.createElement(MySelect, {
 			label: "Position",
@@ -130,14 +137,7 @@ var MiniLeagueForm=React.createClass({
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle
 		    })
-		],
-		React.createElement(TeamSelectorTable, {
-		    items: this.state.bet.versus,
-		    exoticsApi: this.props.exoticsApi,
-		    blankStyle: this.props.blankStyle,
-		    changeHandler: this.versusChangeHandler,
-		    label: "Versus"
-		})
+		]
 	    ]
 	})
     }
