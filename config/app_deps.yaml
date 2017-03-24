@@ -8,6 +8,7 @@
 - js/app/components/forms.js
 - js/app/components/selectors.js
 - js/app/components/selector_table.js
+- js/app/components/layouts.js
 - js/app/components/paginator.js
 - js/app/bets/mini_leagues.js
 - js/app/bets/season_match_bets.js
