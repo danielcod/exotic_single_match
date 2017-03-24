@@ -110,6 +110,14 @@ var TeamSelector=React.createClass({
 	this.setState(state);
 	this.props.changeHandler(state.item);
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (JSON.stringify(this.state.item)!=
+	    JSON.stringify(nextProps.item)) {
+	    var state=this.state;
+	    state.item=nextProps.item;
+	    this.setState(state);
+	}
+    },
     initialise: function() {
 	this.fetchTeams();
     },
