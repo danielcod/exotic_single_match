@@ -136,7 +136,7 @@ var TeamSelector=React.createClass({
     }
 });
 
-var TeamSelectorRow=React.createClass({
+var SelectorRow=React.createClass({
     getInitialState: function() {
 	return {
 	    item: this.props.item
@@ -169,7 +169,7 @@ var TeamSelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: React.createElement(TeamSelector, {
+		    children: React.createElement(this.props.selectorClass, {
 			exoticsApi: this.props.exoticsApi,
 			item: this.state.item,
 			changeHandler: this.changeHandler,
@@ -258,7 +258,8 @@ var TeamSelectorTable=React.createClass({
 		    },
 		    children: React.DOM.tbody({
 			children: this.state.items.map(function(item) {
-			    return React.createElement(TeamSelectorRow, {
+			    return React.createElement(SelectorRow, {
+				selectorClass: TeamSelector,
 				item: item,
 				exoticsApi: this.props.exoticsApi,
 				blankStyle: this.props.blankStyle,
