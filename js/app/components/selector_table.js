@@ -1,3 +1,5 @@
+// SelectorRow/Table should explicitly pass by value to avoid unpleasant hard-to-debug errors
+
 var SelectorRow=React.createClass({
     getInitialState: function() {
 	return {

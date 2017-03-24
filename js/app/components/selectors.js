@@ -1,3 +1,5 @@
+// NB any selectors which take an item and/or are used within the context of a table should be careful to pass items by value and not by reference
+
 var ExpirySelector=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
@@ -60,7 +62,7 @@ var TeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    item: JSON.parse(JSON.stringify(this.props.item))
+	    item: JSON.parse(JSON.stringify(this.props.item)) // NB value not reference
 	};
     },
     fetchTeams: function() {
