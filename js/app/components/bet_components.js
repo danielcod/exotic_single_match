@@ -152,13 +152,8 @@ var TeamSelectorRow=React.createClass({
 	    this.props.changeHandler(this.props.item.id, struct);
 	}
     },
-    addHandler: function() {
-	this.props.addHandler(this.props.item.id);
-    },
     deleteHandler: function() {
-	if (!this.props.item.disabled) {
-	    this.props.deleteHandler(this.props.item.id);
-	}
+	this.props.deleteHandler(this.props.item.id);
     },
     componentWillReceiveProps: function(nextProps) {
 	if (JSON.stringify(this.state.item)!=
@@ -184,20 +179,11 @@ var TeamSelectorRow=React.createClass({
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
-			className: "btn btn-"+(this.props.item.disabled ? "default" : "secondary"),
+			className: "btn btn-secondary",
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			}),
 			onClick: this.deleteHandler
-		    })
-		}),
-		React.DOM.td({
-		    children: React.DOM.a({
-			className: "btn btn-secondary",
-			children: React.DOM.i({
-			    className: "glyphicon glyphicon-plus-sign"
-			}),
-			onClick: this.addHandler
 		    })
 		})
 	    ]
@@ -216,7 +202,6 @@ var TeamSelectorTable=React.createClass({
 	for (var i=0; i < items.length; i++) {
 	    var item=items[i];
 	    item.id=this.uuid();
-	    item.disabled=(i==0);
 	}
 	return items;
     },
@@ -225,19 +210,12 @@ var TeamSelectorTable=React.createClass({
 	    items: this.initItems(this.props.items)
 	}
     },
-    addHandler: function(id) { // id currently not used
+    addHandler: function() { // id currently not used
 	var state=this.state;
-	var items=[]
-	for (var i=0; i < state.items.length; i++) {
-	    var item=state.items[i];
-	    items.push(item);
-	    if (item.id==id) {
-		items.push({
-		    id: this.uuid(),
-		    disabled: false
-		});
-	    }
-	}
+	var items=state.items;
+	items.push({
+	    id: this.uuid()
+	});
 	state.items=items;
 	this.setState(state);
 	this.props.changeHandler(state.items);
@@ -263,41 +241,46 @@ var TeamSelectorTable=React.createClass({
 	this.setState(state);
 	this.props.changeHandler(state.items);
     },    
-    renderTable: function() {
-	return React.DOM.table({
-	    className: "table",
-	    // if you wrap in a form, form will provide its own margins
-	    style: (this.props.label!=undefined) ? {
-		"margin-top": "0px",
-		"margin-bottom": "0px"
-	    } : {},
-	    children: React.DOM.tbody({
-		children: this.state.items.map(function(item) {
-		    return React.createElement(TeamSelectorRow, {
-			item: item,
-			exoticsApi: this.props.exoticsApi,
-			blankStyle: this.props.blankStyle,
-			addHandler: this.addHandler,
-			changeHandler: this.changeHandler,
-			deleteHandler: this.deleteHandler
-		    });
-		}.bind(this))
-	    })
-	});
-    },
-    renderForm: function() {
+    render: function() {
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
 		React.DOM.label({
 		    children: this.props.label
 		}),
-		this.renderTable()
+		React.DOM.table({
+		    className: "table",
+		    style: {
+			"margin-top": "0px",
+			"margin-bottom": "0px"
+		    },
+		    children: React.DOM.tbody({
+			children: this.state.items.map(function(item) {
+			    return React.createElement(TeamSelectorRow, {
+				item: item,
+				exoticsApi: this.props.exoticsApi,
+				blankStyle: this.props.blankStyle,
+				changeHandler: this.changeHandler,
+				deleteHandler: this.deleteHandler
+			    });
+			}.bind(this))
+		    })
+		}),
+		React.DOM.div({
+		    className: "text-center",
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			style: {
+			    "margin-top": "10px"
+			},
+			onClick: function() {
+			    this.addHandler();
+			}.bind(this),
+			children: "Add Team"
+		    })
+		})
 	    ]
 	});		
-    },
-    render: function() {
-	return (this.props.label!=undefined) ? this.renderForm() : this.renderTable();
     }
 });
 
