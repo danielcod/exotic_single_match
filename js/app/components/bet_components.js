@@ -233,13 +233,15 @@ var TeamSelectorTable=React.createClass({
 	this.props.changeHandler(state.items);
     },
     deleteHandler: function(id) {
-	var state=this.state;
-	var items=state.items.filter(function(item) {
-	    return item.id!=id;
-	});
-	state.items=items;
-	this.setState(state);
-	this.props.changeHandler(state.items);
+	if (this.state.items.length > 1) {
+	    var state=this.state;
+	    var items=state.items.filter(function(item) {
+		return item.id!=id;
+	    });
+	    state.items=items;
+	    this.setState(state);
+	    this.props.changeHandler(state.items);
+	}
     },    
     render: function() {
 	return React.DOM.div({
