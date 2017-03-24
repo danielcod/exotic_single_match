@@ -33,7 +33,7 @@ var MySelect=React.createClass({
     },
     renderSelect: function() {
 	return React.DOM.select({
-	    className: "form-control",
+	    className: this.props.className || "form-control",
 	    value: this.state.value,
 	    style: (this.state.value==undefined) ? this.props.blankStyle : {},
 	    onChange: function(event) {
