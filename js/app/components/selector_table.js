@@ -81,7 +81,7 @@ var SelectorTable=React.createClass({
 	    items: this.initItems(JSON.parse(JSON.stringify(this.props.items))) // value not reference
 	}
     },
-    addHandler: function() { // id currently not used
+    addHandler: function() { 
 	var state=this.state;
 	var items=state.items;
 	items.push({
