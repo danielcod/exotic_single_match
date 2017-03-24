@@ -98,7 +98,7 @@ var SeasonMatchBetForm=React.createClass({
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
-		    detached: true
+		    label: "Team"
 		}),
 		React.createElement(MySelect, {
 		    label: "Versus",

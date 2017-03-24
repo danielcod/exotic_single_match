@@ -118,7 +118,7 @@ var TeamSelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
-	    label: this.props.detached ? "Team" : undefined,
+	    label: this.props.label,
 	    name: "team",
 	    options: this.formatTeamOptions(this.state.options.team),
 	    value: this.formatTeamValue(this.state.item),
@@ -192,8 +192,7 @@ var TeamSelectorRow=React.createClass({
 			    team: this.state.item.team
 			},
 			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			detached: false
+			blankStyle: this.props.blankStyle
 		    })
 		}),		
 		React.DOM.td({
