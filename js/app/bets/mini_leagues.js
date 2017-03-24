@@ -115,7 +115,8 @@ var MiniLeagueForm=React.createClass({
 		    blankStyle: this.props.blankStyle,
 		    label: "Team"
 		}),
-		React.createElement(TeamSelectorTable, {
+		React.createElement(SelectorTable, {
+		    selectorClass: TeamSelector,
 		    items: this.state.bet.versus,
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,

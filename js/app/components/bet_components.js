@@ -190,7 +190,7 @@ var SelectorRow=React.createClass({
     }
 });
 
-var TeamSelectorTable=React.createClass({
+var SelectorTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
@@ -259,7 +259,7 @@ var TeamSelectorTable=React.createClass({
 		    children: React.DOM.tbody({
 			children: this.state.items.map(function(item) {
 			    return React.createElement(SelectorRow, {
-				selectorClass: TeamSelector,
+				selectorClass: this.props.selectorClass,
 				item: item,
 				exoticsApi: this.props.exoticsApi,
 				blankStyle: this.props.blankStyle,
