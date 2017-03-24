@@ -164,15 +164,6 @@ var TeamSelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: React.DOM.a({
-			className: "btn btn-secondary",
-			children: React.DOM.i({
-			    className: "glyphicon glyphicon-plus-sign"
-			}),
-			onClick: this.addHandler
-		    })
-		}),
-		React.DOM.td({
 		    children: React.createElement(TeamSelector, {
 			exoticsApi: this.props.exoticsApi,
 			item: {
@@ -190,6 +181,15 @@ var TeamSelectorRow=React.createClass({
 			    className: "glyphicon glyphicon-remove"
 			}),
 			onClick: this.deleteHandler
+		    })
+		}),
+		React.DOM.td({
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-plus-sign"
+			}),
+			onClick: this.addHandler
 		    })
 		})
 	    ]
