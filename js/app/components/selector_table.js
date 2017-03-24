@@ -31,6 +31,10 @@ var SelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
+		    style: {
+			"margin-left": "0px",
+			"padding-left": "0px"
+		    },
 		    children: React.createElement(this.props.selectorClass, {
 			exoticsApi: this.props.exoticsApi,
 			item: this.state.item,
@@ -39,6 +43,10 @@ var SelectorRow=React.createClass({
 		    })
 		}),		
 		React.DOM.td({
+		    style: {
+			"margin-right": "0px",
+			"padding-right": "0px"
+		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
