@@ -143,11 +143,13 @@ var TeamSelectorRow=React.createClass({
 	};
     },
     changeHandler: function(struct) {
-	if ((this.state.item.league!=struct.league) ||
-	    (this.state.item.team!=struct.team)) {
+	if (JSON.stringify(this.state.item)!=JSON.stringify(struct)) {
 	    var state=this.state;
-	    state.item.league=struct.league;
-	    state.item.team=struct.team;
+	    for (var attr in struct) {
+		if (struct[attr]!=state.item[attr]) {
+		    state.item[attr]=struct[attr]
+		}
+	    }
 	    this.setState(state);
 	    this.props.changeHandler(this.props.item.id, struct);
 	}
@@ -169,10 +171,7 @@ var TeamSelectorRow=React.createClass({
 		React.DOM.td({
 		    children: React.createElement(TeamSelector, {
 			exoticsApi: this.props.exoticsApi,
-			item: {
-			    league: this.state.item.league,
-			    team: this.state.item.team
-			},
+			item: this.state.item,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle
 		    })
