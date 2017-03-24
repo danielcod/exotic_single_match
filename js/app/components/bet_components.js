@@ -225,8 +225,9 @@ var TeamSelectorTable=React.createClass({
 	for (var i=0; i < state.items.length; i++) {
 	    var item=state.items[i];
 	    if (item.id==id) {
-		item.league=struct.league;
-		item.team=struct.team;
+		for (attr in struct) {
+		    item[attr]=struct[attr];
+		}
 	    }
 	}
 	this.setState(state);
