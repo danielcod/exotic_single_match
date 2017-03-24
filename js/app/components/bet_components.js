@@ -278,7 +278,7 @@ var TeamSelectorTable=React.createClass({
 			onClick: function() {
 			    this.addHandler();
 			}.bind(this),
-			children: "Add Team"
+			children: this.props.addLabel
 		    })
 		})
 	    ]

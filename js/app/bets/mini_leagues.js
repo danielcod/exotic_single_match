@@ -120,7 +120,8 @@ var MiniLeagueForm=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,
 		    changeHandler: this.versusChangeHandler,
-		    label: "Versus"
+		    label: "Versus",
+		    addLabel: "Add Team"
 		}),
 		[
 		    React.createElement(MySelect, {
