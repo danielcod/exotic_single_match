@@ -60,7 +60,7 @@ var TeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    item: this.props.item
+	    item: JSON.parse(JSON.stringify(this.props.item))
 	};
     },
     fetchTeams: function() {

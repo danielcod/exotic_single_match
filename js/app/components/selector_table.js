@@ -1,7 +1,7 @@
 var SelectorRow=React.createClass({
     getInitialState: function() {
 	return {
-	    item: this.props.item
+	    item: JSON.parse(JSON.stringify(this.props.item)) // value not reference
 	};
     },
     changeHandler: function(struct) {
@@ -76,7 +76,7 @@ var SelectorTable=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    items: this.initItems(this.props.items)
+	    items: this.initItems(JSON.parse(JSON.stringify(this.props.items))) // value not reference
 	}
     },
     addHandler: function() { // id currently not used
