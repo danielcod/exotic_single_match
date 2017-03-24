@@ -31,42 +31,48 @@ var MySelect=React.createClass({
 	    this.setState(state);
 	}
     },
-    render: function() {
+    renderSelect: function() {
+	return React.DOM.select({
+	    className: "form-control",
+	    value: this.state.value,
+	    style: (this.state.value==undefined) ? this.props.blankStyle : {},
+	    onChange: function(event) {
+		var value=event.target.value;
+		var state=this.state
+		state.value=value;
+		this.setState(state);
+		this.props.changeHandler(this.props.name, value);
+	    }.bind(this),
+	    children: [
+		React.DOM.option({
+		    value: undefined, 
+		    disabled: this.state.value!=undefined,
+		    selected: this.state.value==undefined,
+		    children: "Select"
+		}),
+		this.state.options.map(function(option) {
+		    return React.DOM.option({
+			value: option.value,
+			selected: option.value==this.state.value,
+			children: option.label || option.value
+		    })
+		}.bind(this))
+	    ]
+	});
+    },
+    renderForm: function() {
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
-		(this.props.label!=undefined) ? React.DOM.label({
+		React.DOM.label({
 		    children: this.props.label
-		}) : undefined,
-		React.DOM.select({
-		    className: "form-control",
-		    value: this.state.value,
-		    style: (this.state.value==undefined) ? this.props.blankStyle : {},
-		    onChange: function(event) {
-			var value=event.target.value;
-			var state=this.state
-			state.value=value;
-			this.setState(state);
-			this.props.changeHandler(this.props.name, value);
-		    }.bind(this),
-		    children: [
-			React.DOM.option({
-			    value: undefined, 
-			    disabled: this.state.value!=undefined,
-			    selected: this.state.value==undefined,
-			    children: "Select"
-			}),
-			this.state.options.map(function(option) {
-			    return React.DOM.option({
-				value: option.value,
-				selected: option.value==this.state.value,
-				children: option.label || option.value
-			    })
-			}.bind(this))
-		    ]
-		})
+		}),
+		this.renderSelect()
 	    ]
 	});		
+    },
+    render: function() {
+	return (this.props.label!=undefined) ? this.renderForm() : this.renderSelect();
     }
 });
 
