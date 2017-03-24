@@ -254,10 +254,15 @@ var TeamSelectorTable=React.createClass({
 	state.items=items;
 	this.setState(state);
 	this.props.changeHandler(state.items);
-    },
-    render: function() {
+    },    
+    renderTable: function() {
 	return React.DOM.table({
 	    className: "table",
+	    // if you wrap in a form, form will provide its own margins
+	    style: (this.props.label!=undefined) ? {
+		"margin-top": "0px",
+		"margin-bottom": "0px"
+	    } : {},
 	    children: React.DOM.tbody({
 		children: this.state.items.map(function(item) {
 		    return React.createElement(TeamSelectorRow, {
@@ -271,6 +276,20 @@ var TeamSelectorTable=React.createClass({
 		}.bind(this))
 	    })
 	});
+    },
+    renderForm: function() {
+	return React.DOM.div({
+	    className: "form-group",
+	    children: [
+		React.DOM.label({
+		    children: this.props.label
+		}),
+		this.renderTable()
+	    ]
+	});		
+    },
+    render: function() {
+	return (this.props.label!=undefined) ? this.renderForm() : this.renderTable();
     }
 });
 

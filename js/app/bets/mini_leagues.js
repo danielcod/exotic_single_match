@@ -131,20 +131,12 @@ var MiniLeagueForm=React.createClass({
 			blankStyle: this.props.blankStyle
 		    })
 		],
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.label({
-			style: {
-			    "margin-top": "12px"
-			},
-			children: "Versus"
-		    })
-		}),
 		React.createElement(TeamSelectorTable, {
 		    items: this.state.bet.versus,
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,
-		    changeHandler: this.versusChangeHandler
+		    changeHandler: this.versusChangeHandler,
+		    label: "Versus"
 		})
 	    ]
 	})
