@@ -88,7 +88,6 @@ var BrowseBetsTable=React.createClass({
 	return {
 	    bet: undefined,
 	    tab: this.props.tab,
-	    team: this.props.team,
 	    bets: []
 	};
     },
@@ -99,7 +98,7 @@ var BrowseBetsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listBets(this.props.tab, this.props.team, undefined, this.listBetsHandler);
+	this.props.exoticsApi.listBets(this.props.tab, undefined, undefined, this.listBetsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -108,13 +107,9 @@ var BrowseBetsTable=React.createClass({
 	    state.tab=nextProps.tab;
 	    updated=true;
 	}
-	if (nextProps.team!=this.props.team) {
-	    state.team=nextProps.team;
-	    updated=true;
-	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.listBets(this.state.tab, this.state.team, undefined, this.listBetsHandler);
+	    this.props.exoticsApi.listBets(this.state.tab, undefined, undefined, this.listBetsHandler);
 	}
     },
     handleClicked: function(bet) {
@@ -199,11 +194,6 @@ var BrowseBetsPanel=React.createClass({
     handleCreateBet: function() {
 	this.props.stepChangeHandler(1, undefined);
     },
-    handleTeamChanged: function(value) {
-	var state=this.state;
-	state.team=value;
-	this.setState(state);
-    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -243,7 +233,9 @@ var BrowseBetsPanel=React.createClass({
 			    children: [
 				React.createElement(BrowseBetsTeamSelect, {
 				    teams: [this.state.defaultTeam].concat(this.formatTeamOptions(this.state.teams)),
-				    changeHandler: this.handleTeamChanged
+				    changeHandler: function(value) {
+					console.log(value)
+				    }
 				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
