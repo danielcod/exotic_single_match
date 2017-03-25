@@ -53,15 +53,15 @@ var ProductSelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
+	    changeHandler: this.changeHandler,
 	    options: this.formatProductOptions(this.state.options.product),
 	    value: this.state.product,
-	    changeHandler: this.changeHandler,
+	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
-	    name: this.props.name || "product",
-	    label: this.props.label,
+	    className: this.props.className,
 	    defaultLabel: this.props.defaultLabel,
-	    blankStyle: this.props.blankStyle,
-	    className: this.props.className
+	    label: this.props.label,
+	    name: this.props.name || "product"
 	});
     }
 });
@@ -145,13 +145,14 @@ var TeamSelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
+	    changeHandler: this.changeHandler,
 	    options: this.formatTeamOptions(this.state.options.team),
 	    value: this.formatTeamValue(this.state.item),
-	    changeHandler: this.changeHandler,
+	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
-	    label: this.props.label,
-	    defaultLabel: this.props.defaultLabel,
 	    className: this.props.className,
+	    defaultLabel: this.props.defaultLabel,
+	    label: this.props.label,
 	    name: this.props.name || "team"
 	});
     }
@@ -196,12 +197,15 @@ var ExpirySelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
+	    changeHandler: this.changeHandler,
 	    options: this.formatExpiryOptions(this.state.options.expiry),
 	    value: this.state.expiry,
-	    changeHandler: this.changeHandler,
+	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
-	    name: this.props.name || "expiry",
-	    label: this.props.label || "At"
+	    className: this.props.className,
+	    defaultLabel: this.props.defaultLabel,
+	    label: this.props.label || "At",
+	    name: this.props.name || "expiry"
 	});
     }
 });
