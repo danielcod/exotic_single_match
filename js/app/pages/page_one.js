@@ -176,42 +176,38 @@ var BrowseBetsPanel=React.createClass({
 			clickHandler: this.handleTabClicked
 		    })
 		}),
-		React.DOM.form({
-		    children: React.DOM.div({
-			className: "row row_filters",
-			children: React.DOM.div({
-			    className: "col-xs-12",
-			    children: [
-				React.createElement(TeamSelector, {
-				    exoticsApi: this.props.exoticsApi,
-				    className: "form-control input-sm btn-secondary",
-				    item: {},
-				    defaultOption: {
-					label: "All Teams",
-				    },
-				    changeHandler: function(struct) {
-					console.log(JSON.stringify(struct));
-				    }
-				}),
-				React.createElement(ProductSelector, {
-				    exoticsApi: this.props.exoticsApi,
-				    className: "form-control input-sm btn-secondary",
-				    item: {},
-				    defaultOption: {
-					label: "All Exotics"
-				    },
-				    changeHandler: function(name, value) {
-					console.log(name+"="+value);
-				    }
-				}),
-				React.DOM.a({
-				    className: "btn btn-sm btn-primary pull-right",
-				    onClick: this.handleCreateBet,
-				    children: "Build My Own"
-				})
-			    ]
-			})
-		    })
+		React.createElement(GridLayout, {
+		    rows: [
+			[
+			    React.createElement(TeamSelector, {
+				exoticsApi: this.props.exoticsApi,
+				className: "form-control input-sm btn-secondary",
+				item: {},
+				defaultOption: {
+				    label: "All Teams",
+				},
+				changeHandler: function(struct) {
+				    console.log(JSON.stringify(struct));
+				}
+			    }),
+			    React.createElement(ProductSelector, {
+				exoticsApi: this.props.exoticsApi,
+				className: "form-control input-sm btn-secondary",
+				item: {},
+				defaultOption: {
+				    label: "All Exotics"
+				},
+				changeHandler: function(name, value) {
+				    console.log(name+"="+value);
+				}
+			    }),
+			    React.DOM.a({
+				className: "btn btn-sm btn-primary pull-right",
+				onClick: this.handleCreateBet,
+				children: "Build My Own"
+			    })
+			]
+		    ]
 		}),
 		React.createElement(BrowseBetsTable, {
 		    exoticsApi: this.props.exoticsApi,
