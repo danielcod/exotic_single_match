@@ -28,13 +28,15 @@ var GridLayout=React.createClass({
 var InlineList=React.createClass({
     render: function() {
 	return React.DOM.ul({
+	    style: this.props.style || {},
 	    className: "list-inline",
 	    children: this.props.items.map(function(item) {
 		return React.DOM.li({
+		    className: item.right ? "pull-right" : undefined,
 		    style: {
-			width: "100px"
+			width: item.width+"px"
 		    },
-		    children: item
+		    children: item.item
 		});
 	    })
 	});

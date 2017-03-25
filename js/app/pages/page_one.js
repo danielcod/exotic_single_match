@@ -161,34 +161,47 @@ var BrowseBetsPanel=React.createClass({
 		}),
 		React.createElement(InlineList, {
 		    items: [
-			React.createElement(TeamSelector, {
-			    exoticsApi: this.props.exoticsApi,
-			    className: "form-control input-sm btn-secondary",
-			    item: {},
-			    defaultOption: {
-				label: "All Teams",
-			    },
-			    changeHandler: function(struct) {
-				console.log(JSON.stringify(struct));
-			    }
-			}),
-			React.createElement(ProductSelector, {
-			    exoticsApi: this.props.exoticsApi,
-			    className: "form-control input-sm btn-secondary",
-			    item: {},
-			    defaultOption: {
-				label: "All Exotics"
-			    },
-			    changeHandler: function(name, value) {
-				console.log(name+"="+value);
-			    }
-			}),
-			React.DOM.a({
-			    className: "btn btn-sm btn-primary",
-			    onClick: this.handleCreateBet,
-			    children: "Build My Own"
-			})
-		    ]
+			{
+			    item: React.createElement(TeamSelector, {
+				exoticsApi: this.props.exoticsApi,
+				className: "form-control input-sm btn-secondary",
+				item: {},
+				defaultOption: {
+				    label: "All Teams",
+				},
+				changeHandler: function(struct) {
+				    console.log(JSON.stringify(struct));
+				}
+			    }),
+			    width: 100
+			},
+			{
+			    item: React.createElement(ProductSelector, {
+				exoticsApi: this.props.exoticsApi,
+				className: "form-control input-sm btn-secondary",
+				item: {},
+				defaultOption: {
+				    label: "All Exotics"
+				},
+				changeHandler: function(name, value) {
+				    console.log(name+"="+value);
+				}
+			    }),
+			    width: 100
+			},
+			{
+			    item: React.DOM.a({
+				className: "btn btn-sm btn-primary",
+				onClick: this.handleCreateBet,
+				children: "Build My Own"
+			    }),
+			    width: 100,
+			    right: true
+			}
+		    ],
+		    style: {
+			"margin-right": "7px"
+		    }
 		}),
 		React.createElement(BrowseBetsTable, {
 		    exoticsApi: this.props.exoticsApi,
