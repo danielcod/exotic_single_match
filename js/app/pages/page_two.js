@@ -1,38 +1,3 @@
-var EditBetSelect=React.createClass({
-    getInitialState: function() {
-	return {
-	    value: this.props.value
-	}
-    },
-    render: function() {
-	return React.DOM.div({
-	    className: "form-group",
-	    children: [
-		React.DOM.label({
-		    children: "Bet Type"
-		}),
-		React.DOM.select({
-		    className: "form-control btn-primary input-lg",
-		    value: this.state.value,
-		    onChange: function(event) {
-			var value=event.target.value;
-			var state=this.state
-			state.value=value;
-			this.setState(state);
-			this.props.changeHandler(value);
-		    }.bind(this),
-		    children: this.props.options.map(function(option) {
-			return React.DOM.option({
-			    value: option.type,
-			    children: option.label || option.type
-			})
-		    })
-		})
-	    ]
-	});
-    }	
-});
-
 var EditBetForm=React.createClass({
     initBet: function(bet) {	
 	return (bet!=undefined) ? bet : {
@@ -62,7 +27,7 @@ var EditBetForm=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.fetchProducts(this.productsHandler);
     },
-    productChangeHandler: function(value) {
+    productChangeHandler: function(name, value) {
 	var state=this.state;
 	state.bet={
 	    type: value
@@ -98,9 +63,10 @@ var EditBetForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(EditBetSelect, {
-		    options: this.state.products,
-		    value: this.state.bet.type,
+		React.createElement(ProductSelector, {
+		    exoticsApi: this.props.exoticsApi,
+		    className: "form-control btn-primary input-lg",
+		    product: this.state.bet,
 		    changeHandler: this.productChangeHandler
 		}),
 		React.DOM.p({

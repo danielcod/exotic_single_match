@@ -29,11 +29,25 @@ var ProductSelector=React.createClass({
 	    return 0;
 	}
     },
+    formatProductLabel: function(product) {
+	if (product==undefined) {
+	    return undefined;
+	} else {
+	    return product.label;
+	}
+    },
+    formatProductValue: function(product) {
+	if (product==undefined) {
+	    return undefined;
+	} else {
+	    return product.type;
+	}
+    },
     formatProductOptions: function(products) {
 	return products.sort(this.sortProducts).map(function(product) {
 	    return {
-		label: product.label,
-		value: product.type
+		label: this.formatProductLabel(product),
+		value: this.formatProductValue(product)
 	    }
 	}.bind(this));
     },
@@ -55,11 +69,11 @@ var ProductSelector=React.createClass({
 	return React.createElement(MySelect, {
 	    changeHandler: this.changeHandler,
 	    options: this.formatProductOptions(this.state.options.product),
-	    value: this.state.product,
+	    value: this.formatProductValue(this.state.product),
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    className: this.props.className,
-	    defaultLabel: this.props.defaultLabel || "Select",
+	    // defaultLabel: this.props.defaultLabel || "Select",
 	    label: this.props.label,
 	    name: this.props.name || "product"
 	});
