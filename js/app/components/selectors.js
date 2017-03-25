@@ -39,12 +39,12 @@ var ExpirySelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
-	    label: "At",
-	    name: "expiry",
 	    options: this.formatExpiryOptions(this.state.options.expiry),
 	    value: this.state.expiry,
 	    changeHandler: this.changeHandler,
-	    blankStyle: this.props.blankStyle
+	    blankStyle: this.props.blankStyle,
+	    name: this.props.name || "expiry",
+	    label: this.props.label || "At"
 	});
     }
 });
