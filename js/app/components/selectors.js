@@ -20,6 +20,15 @@ var ProductSelector=React.createClass({
 	var handler=this.initOptionsHandler("product");
 	this.props.exoticsApi.fetchProducts(handler);
     },
+    sortProducts: function(item0, item1) {
+	if (item0.type < item1.type) {
+	    return -1;
+	} else if (item0.type > item1.type) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+    },
     formatProductOptions: function(products) {
 	return products.sort(this.sortProducts).map(function(product) {
 	    return {

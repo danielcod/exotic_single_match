@@ -196,8 +196,8 @@ var BrowseBetsPanel=React.createClass({
 				    className: "form-control input-sm btn-secondary",
 				    item: {},
 				    defaultLabel: "All Exotics",
-				    changeHandler: function(struct) {
-					console.log(JSON.stringify(struct));
+				    changeHandler: function(name, value) {
+					console.log(name+"="+value);
 				    }
 				}),
 				React.DOM.a({
