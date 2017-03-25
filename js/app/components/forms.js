@@ -48,7 +48,7 @@ var MySelect=React.createClass({
 		    value: undefined, 
 		    disabled: this.state.value!=undefined,
 		    selected: this.state.value==undefined,
-		    children: "Select"
+		    children: this.props.defaultLabel || "Select"
 		}),
 		this.state.options.map(function(option) {
 		    return React.DOM.option({
