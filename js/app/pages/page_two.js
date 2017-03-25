@@ -10,18 +10,9 @@ var EditBetForm=React.createClass({
 	    products: []
 	}
     },
-    sortProducts: function(item0, item1) {
-	if (item0.label < item1.label) {
-	    return -1;
-	} else if (item0.label > item1.label) {
-	    return 1;
-	} else {
-	    return 0;
-	}
-    },
     productsHandler: function(struct) {
 	var state=this.state;	
-	state.products=struct.sort(this.sortProducts);
+	state.products=struct;
 	this.setState(state);
     },
     componentDidMount: function() {
