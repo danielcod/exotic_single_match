@@ -1,3 +1,5 @@
+
+
 var GridLayout=React.createClass({
     initItem: function(item, colwidth) {
 	return React.DOM.div({
@@ -20,5 +22,21 @@ var GridLayout=React.createClass({
 		return this.initRow(row);
 	    }.bind(this))
 	})
+    }
+});
+
+var InlineList=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    className: "list-inline",
+	    children: this.props.items.map(function(item) {
+		return React.DOM.li({
+		    style: {
+			width: "100px"
+		    },
+		    children: item
+		});
+	    })
+	});
     }
 });
