@@ -1,9 +1,7 @@
-// SelectorRow/Table should explicitly pass by value to avoid unpleasant hard-to-debug errors
-
 var SelectorRow=React.createClass({
     getInitialState: function() {
 	return {
-	    item: JSON.parse(JSON.stringify(this.props.item)) // value not reference
+	    item: this.props.item
 	};
     },
     changeHandler: function(struct) {
@@ -78,7 +76,7 @@ var SelectorTable=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    items: this.initItems(JSON.parse(JSON.stringify(this.props.items))) // value not reference
+	    items: this.initItems(this.props.items)
 	}
     },
     addHandler: function() { 

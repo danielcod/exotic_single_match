@@ -1,4 +1,4 @@
-// NB any selectors which take an item and/or are used within the context of a table should be careful to pass items by value and not by reference
+// selectors which have objects for core values behave badly when embedded in table unless those objects are copied by value and not by reference
 
 var ProductSelector=React.createClass({
     initOptionsHandler: function(name) {
@@ -93,7 +93,7 @@ var TeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    item: JSON.parse(JSON.stringify(this.props.item)) // NB value not reference
+	    item: JSON.parse(JSON.stringify(this.props.item)) // *** NB ***
 	};
     },
     fetchTeams: function() {
