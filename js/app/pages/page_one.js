@@ -186,7 +186,9 @@ var BrowseBetsPanel=React.createClass({
 				    exoticsApi: this.props.exoticsApi,
 				    className: "form-control input-sm btn-secondary",
 				    item: {},
-				    defaultLabel: "All Teams",
+				    defaultOption: {
+					label: "All Teams",
+				    },
 				    changeHandler: function(struct) {
 					console.log(JSON.stringify(struct));
 				    }
@@ -195,7 +197,9 @@ var BrowseBetsPanel=React.createClass({
 				    exoticsApi: this.props.exoticsApi,
 				    className: "form-control input-sm btn-secondary",
 				    item: {},
-				    defaultLabel: "All Exotics",
+				    defaultOption: {
+					label: "All Exotics"
+				    },
 				    changeHandler: function(name, value) {
 					console.log(name+"="+value);
 				    }

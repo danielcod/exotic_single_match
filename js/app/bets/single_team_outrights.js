@@ -88,7 +88,10 @@ var SingleTeamOutrightForm=React.createClass({
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
-		    label: "Team"
+		    label: "Team",
+		    defaultOption: {
+			label: "Select"
+		    }
 		}),
 		[
 		    React.createElement(MySelect, {
@@ -98,13 +101,18 @@ var SingleTeamOutrightForm=React.createClass({
                         value: this.state.bet.payoff,
                         changeHandler: this.changeHandler,
                         blankStyle: this.props.blankStyle,
-			defaultLabel: "Select"
+			defaultOption: {
+			    label: "Select"
+			}
                     }),
 		    React.createElement(ExpirySelector, {
                         exoticsApi: this.props.exoticsApi,
                         expiry: this.state.bet.expiry,
                         changeHandler: this.changeHandler,
-                        blankStyle: this.props.blankStyle
+                        blankStyle: this.props.blankStyle,
+			defaultOption: {
+			    label: "Select"
+			}
                     })
 		]
 	    ]

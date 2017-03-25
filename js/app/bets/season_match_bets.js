@@ -98,7 +98,10 @@ var SeasonMatchBetForm=React.createClass({
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
-		    label: "Team"
+		    label: "Team",
+		    defaultOption: {
+			label: "Select"
+		    }
 		}),
 		React.createElement(MySelect, {
 		    label: "Versus",
@@ -107,13 +110,18 @@ var SeasonMatchBetForm=React.createClass({
 		    value: this.state.bet.versus,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
-		    defaultLabel: "Select"
+		    defaultOption: {
+			label: "Select"
+		    }
 		}),
 		React.createElement(ExpirySelector, {
 		    exoticsApi: this.props.exoticsApi,
 		    expiry: this.state.bet.expiry,
 		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle
+		    blankStyle: this.props.blankStyle,
+		    defaultOption: {
+			label: "Select"
+		    }
 		})
 	    ]
 	});	

@@ -39,7 +39,8 @@ var SelectorRow=React.createClass({
 			exoticsApi: this.props.exoticsApi,
 			item: this.state.item,
 			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
+			blankStyle: this.props.blankStyle,
+			defaultOption: this.props.defaultOption
 		    })
 		}),		
 		React.DOM.td({
@@ -133,6 +134,7 @@ var SelectorTable=React.createClass({
 				item: item,
 				exoticsApi: this.props.exoticsApi,
 				blankStyle: this.props.blankStyle,
+				defaultOption: this.props.defaultOption,
 				changeHandler: this.changeHandler,
 				deleteHandler: this.deleteHandler
 			    });

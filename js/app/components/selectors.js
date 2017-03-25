@@ -73,7 +73,7 @@ var ProductSelector=React.createClass({
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    className: this.props.className,
-	    // defaultLabel: this.props.defaultLabel || "Select",
+	    defaultOption: this.props.defaultOption,
 	    label: this.props.label,
 	    name: this.props.name || "product"
 	});
@@ -165,7 +165,7 @@ var TeamSelector=React.createClass({
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    className: this.props.className,
-	    defaultLabel: this.props.defaultLabel || "Select",
+	    defaultOption: this.props.defaultOption,
 	    label: this.props.label,
 	    name: this.props.name || "team"
 	});
@@ -217,7 +217,7 @@ var ExpirySelector=React.createClass({
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    className: this.props.className,
-	    defaultLabel: this.props.defaultLabel || "Select",
+	    defaultOption: this.props.defaultOption,
 	    label: this.props.label || "At",
 	    name: this.props.name || "expiry"
 	});
