@@ -1,4 +1,4 @@
-import os, re
+import os, re, yaml
 
 # AppEngineHome="~/packages/google_appengine-1.9.40"
 
@@ -73,3 +73,14 @@ def refactor_src(pat, rep, root): # pattern, replacement, root
 def install_sdc(version="0.1"):
     os.system("sudo rm -r lib/sport_data_client*")
     os.system("pip install -t lib ../sport_data_client/dist/sport_data_client-%s.zip" % version)
+
+def compress_js(destfilename="tmp/exotics-engine.js"):    
+    deps=[dep for dep in yaml.load(file("config/app_deps.yaml").read())
+            if dep.startswith("js/app")]
+    dest=file(destfilename, 'w')
+    dest.write("\n".join([file(filename).read()
+                          for filename in deps]))
+    dest.close()
+    os.system("yui-compressor %s -o %s" % (destfilename,
+                                           destfilename.replace(".js", ".min.js")))
+    
