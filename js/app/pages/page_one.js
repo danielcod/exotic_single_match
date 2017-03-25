@@ -15,26 +15,6 @@ var BrowseBetsTabs=React.createClass({
     }
 });
 
-var BrowseBetsTeamSelect=React.createClass({
-    render: function() {
-	return React.DOM.select({
-	    className: "form-control input-sm btn-secondary",
-	    style: {
-		"margin-right": "5px"
-	    },
-	    onChange: function(event) {
-		var value=event.target.value;
-		this.props.changeHandler(value);
-	    }.bind(this),
-	    children: this.props.teams.map(function(team) {
-		return React.DOM.option({
-		    children: team.label || team.value
-		});
-	    })
-	});
-    }
-});
-
 var BrowseBetsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
@@ -137,41 +117,12 @@ var BrowseBetsPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    tab: "popular",
-	    defaultTeam: {
-		label: "All Teams",
-		value: "All"
-	    },
-	    team: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5,
 	    teams: []
 	}
-    },
-    sortTeams: function(item0, item1) {
-	if (item0.team < item1.team) {
-	    return -1;
-	} else if (item0.team > item1.team) {
-	    return 1;
-	} else {
-	    return 0;
-	}
-    },
-    fetchTeamsHandler: function(teams) {
-	var state=this.state;
-	state.teams=teams.sort(this.sortTeams);
-	this.setState(state);
-    },
-    formatTeamOptions: function(teams) {
-	return teams.map(function(team) {
-	    return {
-		value: team.team
-	    }
-	});
-    },
-    componentDidMount: function() {
-	this.props.exoticsApi.fetchTeams(this.fetchTeamsHandler);
     },
     handleStepClicked: function(bet) {
 	this.props.stepChangeHandler(1, bet);
@@ -231,10 +182,13 @@ var BrowseBetsPanel=React.createClass({
 			children: React.DOM.div({
 			    className: "col-xs-12",
 			    children: [
-				React.createElement(BrowseBetsTeamSelect, {
-				    teams: [this.state.defaultTeam].concat(this.formatTeamOptions(this.state.teams)),
-				    changeHandler: function(value) {
-					console.log(value)
+				React.createElement(TeamSelector, {
+				    exoticsApi: this.props.exoticsApi,
+				    className: "form-control input-sm btn-secondary",
+				    item: {},
+				    defaultLabel: "All Teams",
+				    changeHandler: function(struct) {
+					console.log(JSON.stringify(struct));
 				    }
 				}),
 				React.DOM.a({

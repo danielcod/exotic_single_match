@@ -128,12 +128,14 @@ var TeamSelector=React.createClass({
     },
     render: function() {
 	return React.createElement(MySelect, {
-	    label: this.props.label,
-	    name: "team",
 	    options: this.formatTeamOptions(this.state.options.team),
 	    value: this.formatTeamValue(this.state.item),
 	    changeHandler: this.changeHandler,
-	    blankStyle: this.props.blankStyle
+	    blankStyle: this.props.blankStyle,
+	    label: this.props.label,
+	    defaultLabel: this.props.defaultLabel,
+	    className: this.props.className,
+	    name: this.props.name || "team"
 	});
     }
 });
