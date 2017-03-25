@@ -1,3 +1,5 @@
+// note that product loading is duplicated here; is loaded once by ProductSelector, but is then loaded separately for product form rendering; shouldn't matter because of API services cache
+
 var EditBetForm=React.createClass({
     initBet: function(bet) {	
 	return (bet!=undefined) ? bet : {
