@@ -35,23 +35,6 @@ var BrowseBetsTeamSelect=React.createClass({
     }
 });
 
-var BrowseBetsProductSelect=React.createClass({
-    render: function() {
-	return React.DOM.select({
-	    className: "form-control input-sm btn-secondary",
-	    onChange: function(event) {
-		var value=event.target.value;
-		this.props.changeHandler(value);
-	    }.bind(this),
-	    children: this.props.products.map(function(product) {
-		return React.DOM.option({
-		    children: product.label || product.value
-		});
-	    })
-	})
-    }
-});
-
 var BrowseBetsRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
@@ -106,7 +89,6 @@ var BrowseBetsTable=React.createClass({
 	    bet: undefined,
 	    tab: this.props.tab,
 	    team: this.props.team,
-	    product: this.props.product,
 	    bets: []
 	};
     },
@@ -117,7 +99,7 @@ var BrowseBetsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listBets(this.props.tab, this.props.team, this.props.product, this.listBetsHandler);
+	this.props.exoticsApi.listBets(this.props.tab, this.props.team, undefined, this.listBetsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -130,13 +112,9 @@ var BrowseBetsTable=React.createClass({
 	    state.team=nextProps.team;
 	    updated=true;
 	}
-	if (nextProps.product!=this.props.product) {
-	    state.product=nextProps.product;
-	    updated=true;
-	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.listBets(this.state.tab, this.state.team, this.state.product, this.listBetsHandler);
+	    this.props.exoticsApi.listBets(this.state.tab, this.state.team, undefined, this.listBetsHandler);
 	}
     },
     handleClicked: function(bet) {
@@ -169,17 +147,11 @@ var BrowseBetsPanel=React.createClass({
 		value: "All"
 	    },
 	    team: "All",
-	    defaultProduct: {
-		label: "All Exotics",
-		value: "All"
-	    },
-	    product: "All",
 	    nRows: 5,
 	    nItems: undefined,
 	    rowOffset: 0,
 	    paginatorLength: 5,
-	    teams: [],
-	    products: []
+	    teams: []
 	}
     },
     sortTeams: function(item0, item1) {
@@ -203,30 +175,8 @@ var BrowseBetsPanel=React.createClass({
 	    }
 	});
     },
-    sortProducts: function(item0, item1) {
-	if (item0.label < item1.label) {
-	    return -1;
-	} else if (item0.label > item1.label) {
-	    return 1;
-	} else {
-	    return 0;
-	}
-    },
-    fetchProductsHandler: function(products) {
-	var state=this.state;
-	state.products=products.sort(this.sortProducts);
-	this.setState(state);
-    },
-    formatProductOptions: function(products) {
-	return products.map(function(product) {
-	    return {		
-		value: product.label
-	    }
-	});
-    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchTeams(this.fetchTeamsHandler);
-	this.props.exoticsApi.fetchProducts(this.fetchProductsHandler);
     },
     handleStepClicked: function(bet) {
 	this.props.stepChangeHandler(1, bet);
@@ -252,11 +202,6 @@ var BrowseBetsPanel=React.createClass({
     handleTeamChanged: function(value) {
 	var state=this.state;
 	state.team=value;
-	this.setState(state);
-    },
-    handleProductChanged: function(value) {
-	var state=this.state;
-	state.product=value;
 	this.setState(state);
     },
     render: function() {
@@ -300,10 +245,6 @@ var BrowseBetsPanel=React.createClass({
 				    teams: [this.state.defaultTeam].concat(this.formatTeamOptions(this.state.teams)),
 				    changeHandler: this.handleTeamChanged
 				}),
-				React.createElement(BrowseBetsProductSelect, {
-				    products: [this.state.defaultProduct].concat(this.formatProductOptions(this.state.products)),
-				    changeHandler: this.handleProductChanged
-				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
 				    onClick: this.handleCreateBet,
@@ -320,8 +261,7 @@ var BrowseBetsPanel=React.createClass({
 		    rowOffset: this.state.rowOffset,
 		    nRows: this.state.nRows,
 		    tab: this.state.tab,
-		    team: this.state.team,
-		    product: this.state.product
+		    team: this.state.team
 		}),
 		(this.state.nItems!=undefined) ? React.DOM.div({
 		    className: "text-center",
