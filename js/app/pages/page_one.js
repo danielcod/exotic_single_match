@@ -191,6 +191,15 @@ var BrowseBetsPanel=React.createClass({
 					console.log(JSON.stringify(struct));
 				    }
 				}),
+				React.createElement(ProductSelector, {
+				    exoticsApi: this.props.exoticsApi,
+				    className: "form-control input-sm btn-secondary",
+				    item: {},
+				    defaultLabel: "All Exotics",
+				    changeHandler: function(struct) {
+					console.log(JSON.stringify(struct));
+				    }
+				}),
 				React.DOM.a({
 				    className: "btn btn-sm btn-primary pull-right",
 				    onClick: this.handleCreateBet,
