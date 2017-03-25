@@ -131,7 +131,8 @@ var MiniLeagueForm=React.createClass({
 			options: this.state.options.payoff,
 			value: this.state.bet.payoff,
 			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle
+			blankStyle: this.props.blankStyle,
+			defaultLabel: "Select"
 		    }),
 		    React.createElement(ExpirySelector, {
 			exoticsApi: this.props.exoticsApi,

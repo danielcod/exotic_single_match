@@ -106,7 +106,8 @@ var SeasonMatchBetForm=React.createClass({
 		    options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.bet.team)),
 		    value: this.state.bet.versus,
 		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle
+		    blankStyle: this.props.blankStyle,
+		    defaultLabel: "Select"
 		}),
 		React.createElement(ExpirySelector, {
 		    exoticsApi: this.props.exoticsApi,

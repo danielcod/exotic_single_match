@@ -44,12 +44,12 @@ var MySelect=React.createClass({
 		this.props.changeHandler(this.props.name, value);
 	    }.bind(this),
 	    children: [
-		React.DOM.option({
+		(this.props.defaultLabel!=undefined) ? React.DOM.option({
 		    value: undefined, 
 		    disabled: this.state.value!=undefined,
 		    selected: this.state.value==undefined,
-		    children: this.props.defaultLabel || "Select"
-		}),
+		    children: this.props.defaultLabel
+		}) : undefined,
 		this.state.options.map(function(option) {
 		    return React.DOM.option({
 			value: option.value,

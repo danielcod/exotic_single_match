@@ -97,7 +97,8 @@ var SingleTeamOutrightForm=React.createClass({
                         options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.team)),
                         value: this.state.bet.payoff,
                         changeHandler: this.changeHandler,
-                        blankStyle: this.props.blankStyle
+                        blankStyle: this.props.blankStyle,
+			defaultLabel: "Select"
                     }),
 		    React.createElement(ExpirySelector, {
                         exoticsApi: this.props.exoticsApi,
