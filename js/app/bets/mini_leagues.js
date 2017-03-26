@@ -17,7 +17,7 @@ var MiniLeagueForm=React.createClass({
 	    options: {
 		payoff: [
 		    {
-			value: "Top"
+			value: "Winner"
 		    },
 		    {
 			value: "Bottom"
@@ -132,7 +132,7 @@ var MiniLeagueForm=React.createClass({
 		}),
 		[
 		    React.createElement(MySelect, {
-			label: "Position",
+			label: "Winner/Bottom",
 			name: "payoff",
 			options: this.state.options.payoff,
 			value: this.state.bet.payoff,
