@@ -74,13 +74,16 @@ def install_sdc(version="0.1"):
     os.system("sudo rm -r lib/sport_data_client*")
     os.system("pip install -t lib ../sport_data_client/dist/sport_data_client-%s.zip" % version)
 
-def compress_js(destfilename="tmp/exotics-engine.js"):    
-    deps=[dep for dep in yaml.load(file("config/app_deps.yaml").read())
-            if dep.startswith("js/app")]
-    dest=file(destfilename, 'w')
-    dest.write("\n".join([file(filename).read()
-                          for filename in deps]))
+def compress_js(filename="exotics-engine.js",
+                depsfile="config/app_deps.yaml"):
+    deps=[dep for dep in yaml.load(file(depsfile).read())
+          if dep.startswith("js/app")]
+    tmppath="tmp/%s "% filename
+    dest=file(tmppath, 'w')
+    dest.write("\n".join([file(dep).read()
+                          for deps in deps]))
     dest.close()
-    os.system("yui-compressor %s -o %s" % (destfilename,
-                                           destfilename.replace(".js", ".min.js")))
+    destpath="js/app/%s" % filename.replace(".js", ".min.js")
+    os.system("yui-compressor %s -o %s" % (tmppath, destpath))
+
     
