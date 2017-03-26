@@ -65,9 +65,11 @@ var EditBetForm=React.createClass({
 		React.DOM.p({
 		    className: "help-block",
 		    children: (this.state.products.length > 0) ? React.DOM.i({
-			children: this.state.products.filter(function(bet) {
-			    return bet.type==this.state.bet.type
-			}.bind(this))[0]["description"]
+			dangerouslySetInnerHTML: {
+			    "__html": this.state.products.filter(function(bet) {
+				return bet.type==this.state.bet.type
+			    }.bind(this))[0]["description"]
+			}
 		    }) : undefined
 		}),
 		(this.state.products.length!=0) ? React.createElement(this.loadProductForm(this.state.bet.type), {
