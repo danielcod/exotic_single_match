@@ -114,7 +114,7 @@ class SingleTeamOutrightBet(db.Model):
                 return payoff
         return {"selection": self.team, 
                 "market": "%s at %s" % (format_payoff(self.payoff).capitalize(),
-                                        format_date(self.expiry)),
+                                        self.expiry),
                 "group": {"label": "Outright",
                           "level": "red"}}
     

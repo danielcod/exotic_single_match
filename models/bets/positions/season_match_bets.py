@@ -98,7 +98,7 @@ class SeasonMatchBet(db.Model):
     def description(self):
         return {"selection": self.team, 
                 "market": "To be above %s at %s" % (self.versus,
-                                                    format_date(self.expiry)),
+                                                    self.expiry),
                 "group": {"label": "SMB",
                           "level": "orange"}}
     

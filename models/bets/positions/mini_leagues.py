@@ -49,7 +49,7 @@ class MiniLeagueBet(db.Model):
                 "market": marketstr % (self.payoff.lower(),
                                        ", ".join([item["team"]
                                                   for item in json_loads(self.versus)]),                                       
-                                       format_date(self.expiry)),
+                                       self.expiry),
                 "group": {"label": "Mini-League",
                           "level": "green"}}
     
