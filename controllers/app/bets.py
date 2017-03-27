@@ -12,36 +12,9 @@ from helpers.price_helpers import format_price
     
 class ListHandler(webapp2.RequestHandler):
 
-    def load_bets_db(self):
-        bets=[]
-        bets+=SingleTeamOutrightBet.find_all()
-        bets+=SeasonMatchBet.find_all()
-        bets+=MiniLeagueBet.find_all()
-        return [bet.to_json()
-                for bet in bets]
-
-    def load_bets_memcache(self):
-        resp=memcache.get("bets")
-        if resp in ['', None, []]:
-            return None
-        return json_loads(resp)
-
-    def save_bets_memcache(self, bets, age=60):
-        memcache.set("bets", json_dumps(bets), age)
-    
-    def load_bets(self):
-        bets=self.load_bets_memcache()
-        if bets!=None:
-            logging.info("Serving bets from memcache")
-            return bets
-        logging.info("Loading bets from DB")
-        bets=self.load_bets_db()
-        self.save_bets_memcache(bets)
-        return bets
-            
     @emit_json_memcache(MemcacheAge)
     def get(self):
-        return self.load_bets()
+        return []
 
 class PriceHandler(webapp2.RequestHandler):
 
