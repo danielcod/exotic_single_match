@@ -23,8 +23,12 @@ class MiniLeagueHandler(webapp2.RequestHandler):
     @validate_query({'n': '\\d+'})
     @task
     def post(self):
-        logging.info("mini_league")
-    
+        items=[]
+        keyname="bets/samples/mini_league"
+        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        logging.info("Saved %i mini_league" % len(items))
+
+        
 class SeasonMatchBetHandler(webapp2.RequestHandler):
 
     @validate_query({'n': '\\d+'})
@@ -33,6 +37,7 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name("bets/smb_versus")
         teams=json_loads(blob.text)
         n=int(self.request.get("n"))
+        items=[]
         for i in range(n):
             j=int(random.random()*len(teams))
             team=teams[j]
@@ -42,8 +47,11 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
                                versus=team["versus"],
                                expiry=EndOfSeason,
                                price=price)
-            logging.info(bet.to_json())
-
+            items.append(bet.to_json())
+        keyname="bets/samples/season_match_bet"
+        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        logging.info("Saved %i season_match_bet" % len(items))
+        
 class SingleTeamOutrightHandler(webapp2.RequestHandler):
 
     @validate_query({'n': '\\d+'})
@@ -52,6 +60,7 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name("bets/outright_payoffs")
         payoffs=json_loads(blob.text)
         n=int(self.request.get("n"))
+        items=[]
         for i in range(n):
             j=int(random.random()*len(payoffs))
             payoff=payoffs[j]
@@ -61,7 +70,10 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
                                       payoff=payoff["payoff"],
                                       expiry=EndOfSeason,
                                       price=price)
-            logging.info(bet.to_json())
+            items.append(bet.to_json())
+        keyname="bets/samples/single_team_outright"
+        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        logging.info("Saved %i single_team_outright" % len(items))
 
 class ReduceHandler(webapp2.RequestHandler):
 
