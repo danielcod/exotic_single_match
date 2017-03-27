@@ -42,4 +42,10 @@ def fetch_fixtures(leaguenames):
                                    for fixture in Fixture.find_all(leaguename)]]
     return fixtures
 
-
+def add_id(fn):
+    def wrapped_fn(self):
+        resp=fn(self)
+        if self.is_saved():
+            resp["id"]=self.key().id()
+        return resp
+    return wrapped_fn

@@ -31,9 +31,9 @@ class MiniLeagueBet(db.Model):
         import random
         return 0.1+0.8*random.random()
 
+    @add_id
     def to_json(self):
         return {"type": "mini_league",
-                "id": self.key().id(),
                 "league": self.league,
                 "team": self.team,
                 "payoff": self.payoff,

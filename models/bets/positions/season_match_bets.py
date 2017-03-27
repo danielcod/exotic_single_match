@@ -84,9 +84,9 @@ class SeasonMatchBet(db.Model):
         payoff=parse_payoff(self.Payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
+    @add_id
     def to_json(self):
         return {"type": "season_match_bet",
-                "id": self.key().id(),
                 "league": self.league,
                 "team": self.team,
                 "versus": self.versus,

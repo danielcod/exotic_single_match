@@ -85,9 +85,9 @@ class SingleTeamOutrightBet(db.Model):
         payoff=parse_payoff(self.payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
+    @add_id
     def to_json(self):
         return {"type": "single_team_outright",
-                "id": self.key().id(),
                 "league": self.league,
                 "team": self.team,
                 "payoff": self.payoff,
