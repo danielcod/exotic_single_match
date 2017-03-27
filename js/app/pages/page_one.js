@@ -54,14 +54,14 @@ var BrowseBetsTable=React.createClass({
 	    bets: []
 	};
     },
-    listBetsHandler: function(struct) {
+    betsHandler: function(struct) {
 	var state=this.state;
 	state.bets=struct;
 	this.setState(state);
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.listBets(this.props.tab, undefined, undefined, this.listBetsHandler);
+	this.props.exoticsApi.fetchBlob("bets/samples", this.betsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -72,7 +72,7 @@ var BrowseBetsTable=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.listBets(this.state.tab, undefined, undefined, this.listBetsHandler);
+	    this.props.exoticsApi.fetchBlob("bets/samples", this.betsHandler);
 	}
     },
     handleClicked: function(bet) {

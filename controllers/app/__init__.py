@@ -8,7 +8,9 @@ Leagues=yaml.load(file("config/leagues.yaml").read())
 
 Dev, Prod = "dev", "prod"
 
-DefaultMode=Prod
+# DefaultMode=Prod
+
+DefaultMode=Dev 
 
 class IndexHandler(webapp2.RequestHandler):
 

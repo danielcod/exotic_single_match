@@ -52,17 +52,6 @@ var ExoticsAPI=function(errHandler, debug) {
     this.fetchProducts=function(handler) {
 	this.httpGet("/app/products", handler);
     };
-    this.listBets=function(group, team, type, handler) {
-	var url="/app/bets/list?";
-	url+="group="+group+"&";
-	if (team!=undefined) {
-	    url+="team="+team+"&";
-	}
-	if (type!=undefined) {
-	    url+="type="+type+"&";
-	}
-	this.httpGet(url, handler);
-    };
     this.fetchTeams=function(handler) {
 	var url="/app/blobs?key=teams";
 	this.httpGet(url, handler);
