@@ -1,8 +1,8 @@
-from tasks.blobs import *
+from tasks.blobs.bets import *
 
 from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
 
-# curl "http://localhost:8080/tasks/blobs/bets/outright_payoffs?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/blobs/bets/outright_payoffs"
 
 class IndexHandler(webapp2.RequestHandler):
 

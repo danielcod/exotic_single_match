@@ -1,8 +1,8 @@
-from tasks.blobs import *
+from tasks.blobs.bets import *
 
 from models.bets.positions.season_match_bets import SeasonMatchBet
 
-# curl "http://localhost:8080/tasks/blobs/bets/smb_versus?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/blobs/bets/smb_versus"
 
 class IndexHandler(webapp2.RequestHandler):
 
