@@ -47,12 +47,12 @@ handlers:
   script: tasks.bets.init.season_match_bets.app
 - url: /tasks/bets/init/single_team_outrights.*
   script: tasks.bets.init.single_team_outrights.app
+- url: /tasks/blobs/bets/outright_payoffs.*
+  script: tasks.blobs.bets.outright_payoffs.app
+- url: /tasks/blobs/bets/smb_versus.*
+  script: tasks.blobs.bets.smb_versus.app
 - url: /tasks/blobs/matches.*
   script: tasks.blobs.matches.app
-- url: /tasks/blobs/outright_payoffs.*
-  script: tasks.blobs.outright_payoffs.app
-- url: /tasks/blobs/smb_versus.*
-  script: tasks.blobs.smb_versus.app
 - url: /tasks/blobs/teams.*
   script: tasks.blobs.teams.app
 - url: /tasks/quant/bbc_fixtures.*

@@ -1,8 +1,8 @@
 from tasks.blobs import *
 
-from models.bets.positions.season_match_bets import SeasonMatchBet
+from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
 
-# curl "http://localhost:8080/tasks/blobs/smb_versus?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/blobs/bets/outright_payoffs?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -13,12 +13,12 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/blobs/smb_versus/map",
+        [taskqueue.add(url="/tasks/blobs/bets/outright_payoffs/map",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
-        taskqueue.add(url="/tasks/blobs/smb_versus/reduce",
+        taskqueue.add(url="/tasks/blobs/bets/outright_payoffs/reduce",
                       params={"leagues": ",".join(leaguenames)},
                       queue_name=QueueName)
         logging.info("Reduce task added")
@@ -29,12 +29,12 @@ class MapHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")
-        items=SeasonMatchBet.filter_atm_versus(leaguename)
+        items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         for item in items:
             item.pop("probability") # don't pass probabilities to client
-        keyname="smb_versus/%s" % leaguename
+        keyname="outright_payoffs/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
-        logging.info("Filtered %i %s SMB versus" % (len(items), keyname))
+        logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):
 
@@ -44,19 +44,21 @@ class ReduceHandler(webapp2.RequestHandler):
         leaguenames=self.request.get("leagues").split(",")
         items=[]
         for leaguename in leaguenames:
-            keyname="smb_versus/%s" % leaguename
+            keyname="outright_payoffs/%s" % leaguename
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
                 continue
             items+=json_loads(resp)
-        logging.info("Total %i SMB versus" % len(items))
-        Blob(key_name="smb_versus",
+        logging.info("Total %i outright payoffs" % len(items))
+        Blob(key_name="outright_payoffs",
              text=json_dumps(items),
              timestamp=datetime.datetime.now()).put()
-        logging.info("Saved to /smb_versus")
+        logging.info("Saved to /outright_payoffs")
                 
-Routing=[('/tasks/blobs/smb_versus/reduce', ReduceHandler),
-         ('/tasks/blobs/smb_versus/map', MapHandler),
-         ('/tasks/blobs/smb_versus', IndexHandler)]
+Routing=[('/tasks/blobs/bets/outright_payoffs/reduce', ReduceHandler),
+         ('/tasks/blobs/bets/outright_payoffs/map', MapHandler),
+         ('/tasks/blobs/bets/outright_payoffs', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
+
+
