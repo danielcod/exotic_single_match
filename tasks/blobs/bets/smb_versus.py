@@ -32,7 +32,7 @@ class MapHandler(webapp2.RequestHandler):
         items=SeasonMatchBet.filter_atm_versus(leaguename)
         for item in items:
             item.pop("probability") # don't pass probabilities to client
-        keyname="smb_versus/%s" % leaguename
+        keyname="bets/smb_versus/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s SMB versus" % (len(items), keyname))
 
@@ -44,16 +44,16 @@ class ReduceHandler(webapp2.RequestHandler):
         leaguenames=self.request.get("leagues").split(",")
         items=[]
         for leaguename in leaguenames:
-            keyname="smb_versus/%s" % leaguename
+            keyname="bets/smb_versus/%s" % leaguename
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
                 continue
             items+=json_loads(resp)
         logging.info("Total %i SMB versus" % len(items))
-        Blob(key_name="smb_versus",
+        Blob(key_name="bets/smb_versus",
              text=json_dumps(items),
              timestamp=datetime.datetime.now()).put()
-        logging.info("Saved to /smb_versus")
+        logging.info("Saved to /bets/smb_versus")
                 
 Routing=[('/tasks/blobs/bets/smb_versus/reduce', ReduceHandler),
          ('/tasks/blobs/bets/smb_versus/map', MapHandler),

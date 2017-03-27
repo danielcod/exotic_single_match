@@ -16,7 +16,7 @@ var SeasonMatchBetForm=React.createClass({
     },
     fetchVersus: function() {
 	var handler=this.initOptionsHandler("versus");
-	this.props.exoticsApi.fetchBlob("smb_versus", handler);
+	this.props.exoticsApi.fetchBlob("bets/smb_versus", handler);
     },
     filterVersus: function(teams, teamname) {
 	return teams.filter(function(team) {

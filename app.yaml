@@ -43,10 +43,6 @@ handlers:
 - url: /app.*
   script: controllers.app.app
 # TASKS
-- url: /tasks/bets/init/season_match_bets.*
-  script: tasks.bets.init.season_match_bets.app
-- url: /tasks/bets/init/single_team_outrights.*
-  script: tasks.bets.init.single_team_outrights.app
 - url: /tasks/blobs/bets/outright_payoffs.*
   script: tasks.blobs.bets.outright_payoffs.app
 - url: /tasks/blobs/bets/smb_versus.*
