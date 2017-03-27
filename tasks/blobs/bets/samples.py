@@ -37,10 +37,11 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
             j=int(random.random()*len(teams))
             team=teams[j]
             price=format_price(team["probability"])
-            logging.info("%s/%s/%s/%s" % (team["league"],
-                                          team["team"],
-                                          team["versus"],
-                                          price))
+            logging.info("%s/%s/%s/%s/%s" % (team["league"],
+                                             team["team"],
+                                             team["versus"],
+                                             EndOfSeason,
+                                             price))
     
 class SingleTeamOutrightHandler(webapp2.RequestHandler):
 
@@ -54,10 +55,11 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
             j=int(random.random()*len(payoffs))
             payoff=payoffs[j]
             price=format_price(payoff["probability"])
-            logging.info("%s/%s/%s/%s" % (payoff["league"],
-                                          payoff["team"],
-                                          payoff["payoff"],
-                                          price))
+            logging.info("%s/%s/%s/%s/%s" % (payoff["league"],
+                                             payoff["team"],
+                                             payoff["payoff"],
+                                             EndOfSeason,
+                                             price))
 
 class ReduceHandler(webapp2.RequestHandler):
 

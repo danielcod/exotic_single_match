@@ -6,6 +6,14 @@ from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
 
 Products=yaml.load(file("config/products.yaml").read())
 
+def end_of_season(today):
+    if today.month < 7:
+        return datetime.date(today.year, 6, 30)
+    else:
+        return datetime.date(today.year+1, 6, 30)
+
+EndOfSeason=end_of_season(datetime.date.today())
+
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
 def format_price(probability):

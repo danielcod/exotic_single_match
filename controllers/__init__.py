@@ -10,6 +10,14 @@ MemcacheAge=60*60 # keep it long to avoid calling DB all the time
 
 All="All"
 
+def end_of_season(today):
+    if today.month < 7:
+        return datetime.date(today.year, 6, 30)
+    else:
+        return datetime.date(today.year+1, 6, 30)
+
+EndOfSeason=end_of_season(datetime.date.today())
+
 def render_error(self, msg):
     self.response.set_status(400)
     self.response.headers['Content-Type']='text/plain' 
