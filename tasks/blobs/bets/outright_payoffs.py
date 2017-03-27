@@ -28,8 +28,6 @@ class MapHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
-        for item in items:
-            item.pop("probability") # don't pass probabilities to client
         keyname="bets/outright_payoffs/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))

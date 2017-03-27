@@ -28,8 +28,6 @@ class MapHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         items=SeasonMatchBet.filter_atm_versus(leaguename)
-        for item in items:
-            item.pop("probability") # don't pass probabilities to client
         keyname="bets/smb_versus/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s SMB versus" % (len(items), keyname))
