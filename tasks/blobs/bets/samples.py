@@ -30,7 +30,17 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
     @validate_query({'n': '\\d+'})
     @task
     def post(self):
-        logging.info("season_match_bet")
+        blob=Blob.get_by_key_name("bets/smb_versus")
+        teams=json_loads(blob.text)
+        n=int(self.request.get("n"))
+        for i in range(n):
+            j=int(random.random()*len(teams))
+            team=teams[j]
+            price=format_price(team["probability"])
+            logging.info("%s/%s/%s/%s" % (team["league"],
+                                          team["team"],
+                                          team["versus"],
+                                          price))
     
 class SingleTeamOutrightHandler(webapp2.RequestHandler):
 
