@@ -28,7 +28,8 @@ class MapHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         items=[{"league": leaguename,
-                "match": match["name"]}
+                "match": match["name"],
+                "kickoff": match["kickoff"]}
                for match in yc_lite.get_upcoming_matches(leaguename)]
         keyname="matches/%s" % leaguename
         memcache.add(keyname, json_dumps(items), MemcacheAge)
