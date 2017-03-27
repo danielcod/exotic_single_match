@@ -60,4 +60,14 @@ def parse_payoff(payoff, n):
     else:
         raise RuntimeError("'%s' not recognised as payoff" % payoff)
 
+def cardinal_suffix(i):
+    if (1==(i % 10) and i!=11):
+        return "st"
+    elif (2==(i % 10) and i!=12):
+        return "nd"
+    elif (3==(i % 10) and i!=13):
+        return "rd"
+    else:
+        return "th"
+
     
