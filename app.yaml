@@ -47,6 +47,8 @@ handlers:
   script: tasks.blobs.bets.outright_payoffs.app
 - url: /tasks/blobs/bets/smb_versus.*
   script: tasks.blobs.bets.smb_versus.app
+- url: /tasks/blobs/match_teams.*
+  script: tasks.blobs.match_teams.app
 - url: /tasks/blobs/matches.*
   script: tasks.blobs.matches.app
 - url: /tasks/blobs/teams.*
