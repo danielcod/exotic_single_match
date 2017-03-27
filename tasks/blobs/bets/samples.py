@@ -79,7 +79,18 @@ class ReduceHandler(webapp2.RequestHandler):
 
     @task
     def post(self):
-        logging.info("reduce")
+        items=[]
+        for product in Products:
+            keyname="bets/samples/%s" % product["type"]
+            resp=memcache.get(keyname)
+            if resp in ['', None, []]:
+                continue
+            items+=json_loads(resp)
+        logging.info("Total %i samples" % len(items))
+        Blob(key_name="bets/samples",
+             text=json_dumps(items),
+             timestamp=datetime.datetime.now()).put()
+        logging.info("Saved to /bets/samples")
                     
 Routing=[('/tasks/blobs/bets/samples/reduce', ReduceHandler),
          ('/tasks/blobs/bets/samples/mini_league', MiniLeagueHandler),
