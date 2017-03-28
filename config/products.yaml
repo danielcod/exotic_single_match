@@ -13,3 +13,8 @@
   description: "Construct your own virtual mini league of teams from different countries and divisions!<br/><br/><b>Note that a mini- league starts all teams from today on zero points and does not use current league position!</b>"
   form: "MiniLeagueForm"
   class: "MiniLeagueBet"
+- label: "Exotic Acca"
+  type: "exotic_acca"
+  description: "Not a feckin clue"
+  form: "ExoticAccaForm"
+  class: "ExoticAccaBet"

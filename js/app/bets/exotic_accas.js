@@ -39,7 +39,7 @@ var ExoticAccaForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
-	return true;
+	return false;
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {

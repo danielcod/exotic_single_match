@@ -3,6 +3,7 @@ from controllers.app import *
 from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
 from models.bets.positions.season_match_bets import SeasonMatchBet
 from models.bets.positions.mini_leagues import MiniLeagueBet
+from models.bets.goals.exotic_accas import ExoticAccaBet
 
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
