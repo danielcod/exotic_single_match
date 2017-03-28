@@ -6,18 +6,6 @@ MinFilterProb, MaxFilterProb = 0.01, 0.99
 
 Paths, Seed = 1000, 13
 
-def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
-    teamnames=[team["name"]
-               for team in teams]
-    def filterfn(fixtures):
-        matchteamnames=fixtures["name"].split(" vs ")
-        return ((matchteamnames[0] in teamnames or
-                 matchteamnames[1] in teamnames) and
-                fixture["date"] > startdate and
-                fixture["date"] <= expirydate)
-    return [fixture for fixture in fixtures
-            if filterfn(fixture)]
-
 def sumproduct(X, Y):
     return sum([x*y for x, y in zip(X, Y)])
 
