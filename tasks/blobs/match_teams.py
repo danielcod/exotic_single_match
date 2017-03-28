@@ -49,7 +49,7 @@ class MapHandler(webapp2.RequestHandler):
                      "home_away": "away",
                      "kickoff": match["kickoff"]}]
         keyname="match_teams/%s" % leaguename
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s match_teams" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):

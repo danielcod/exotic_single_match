@@ -25,7 +25,7 @@ class MiniLeagueHandler(webapp2.RequestHandler):
     def post(self):
         items=[]
         keyname="bets/samples/mini_league"
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Saved %i mini_league" % len(items))
 
         
@@ -49,7 +49,7 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
                                price=price)
             items.append(bet.to_json())
         keyname="bets/samples/season_match_bet"
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Saved %i season_match_bet" % len(items))
         
 class SingleTeamOutrightHandler(webapp2.RequestHandler):
@@ -72,7 +72,7 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
                                       price=price)
             items.append(bet.to_json())
         keyname="bets/samples/single_team_outright"
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Saved %i single_team_outright" % len(items))
 
 class ReduceHandler(webapp2.RequestHandler):

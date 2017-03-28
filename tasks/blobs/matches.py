@@ -39,7 +39,7 @@ class MapHandler(webapp2.RequestHandler):
                for match in yc_lite.get_upcoming_matches(leaguename)
                if match["kickoff"].date() <= cutoff]
         keyname="matches/%s" % leaguename
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s matches" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):

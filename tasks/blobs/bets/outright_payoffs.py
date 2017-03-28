@@ -29,7 +29,7 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         keyname="bets/outright_payoffs/%s" % leaguename
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):

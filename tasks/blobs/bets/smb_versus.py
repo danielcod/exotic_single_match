@@ -29,7 +29,7 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         items=SeasonMatchBet.filter_atm_versus(leaguename)
         keyname="bets/smb_versus/%s" % leaguename
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s SMB versus" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):

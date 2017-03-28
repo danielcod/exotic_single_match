@@ -31,7 +31,7 @@ class MapHandler(webapp2.RequestHandler):
                 "team": team["name"]}
                for team in yc_lite.get_teams(leaguename)]
         keyname="teams/%s" % leaguename
-        memcache.add(keyname, json_dumps(items), MemcacheAge)
+        memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s teams" % (len(items), keyname))
 
 class ReduceHandler(webapp2.RequestHandler):
