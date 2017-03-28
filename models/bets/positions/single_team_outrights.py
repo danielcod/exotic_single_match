@@ -17,16 +17,6 @@ class SingleTeamOutrightBet(db.Model):
                                      team=params["team"],
                                      payoff=params["payoff"],
                                      expiry=params["expiry"])
-
-    
-    @classmethod
-    def find_all(self, leaguename=None, teamname=None):
-        query=SingleTeamOutrightBet.all()
-        if leaguename:
-            query.filter("league = ", leaguename)
-        if teamname:
-            query.filter("team = ", teamname)
-        return fetch_models_db(query)
     
     @classmethod
     def init_payoffs(self, leaguename):

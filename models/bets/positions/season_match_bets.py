@@ -18,15 +18,6 @@ class SeasonMatchBet(db.Model):
                               versus=params["versus"],
                               expiry=params["expiry"])
     
-    @classmethod
-    def find_all(self, leaguename=None, teamname=None):
-        query=SeasonMatchBet.all()
-        if leaguename:
-            query.filter("league = ", leaguename)
-        if teamname:
-            query.filter("team = ", teamname)            
-        return fetch_models_db(query)
-
     """
     - this is a quick heuristic calculation 
     - not 100% correct as assumes the two distibutions are independant
