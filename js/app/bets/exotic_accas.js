@@ -58,7 +58,7 @@ var ExoticAccaForm=React.createClass({
 	return React.createElement(GridLayout, {
 	    rows: [
 		React.createElement(SelectorTable, {
-		    selectorClass: TeamSelector,
+		    selectorClass: MatchTeamSelector,
 		    items: this.state.bet.teams,
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,

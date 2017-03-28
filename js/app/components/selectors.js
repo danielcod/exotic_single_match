@@ -193,8 +193,8 @@ var MatchTeamSelector=React.createClass({
 	this.props.exoticsApi.fetchBlob("match_teams", handler);
     },
     sortTeams: function(item0, item1) {
-	var value0=item0.team+"/"+item0.date;
-	var value1=item1.team+"/"+item1.date;
+	var value0=item0.team+"/"+item0.kickoff;
+	var value1=item1.team+"/"+item1.kickoff;
 	if (value0 < value1) {
 	    return -1;
 	} else if (value0 > value1) {
@@ -208,7 +208,7 @@ var MatchTeamSelector=React.createClass({
 	    (team.team==undefined)) {
 	    return undefined;
 	} else {
-	    return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.date+"]";
+	    return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.kickoff+"]";
 	}
     },
     formatTeamValue: function(team) {
@@ -287,8 +287,8 @@ var MatchSelector=React.createClass({
 	this.props.exoticsApi.fetchBlob("matches", handler);
     },
     sortMatches: function(item0, item1) {
-	var value0=item0.match+"/"+item0.date;
-	var value1=item1.match+"/"+item1.date;
+	var value0=item0.match+"/"+item0.kickoff;
+	var value1=item1.match+"/"+item1.kickoff;
 	if (value0 < value1) {
 	    return -1;
 	} else if (value0 > value1) {
@@ -302,7 +302,7 @@ var MatchSelector=React.createClass({
 	    (match.match==undefined)) {
 	    return undefined;
 	} else {
-	    return match.match+" ("+match.league+") ["+match.date+"]";
+	    return match.match+" ("+match.league+") ["+match.kickoff+"]";
 	}
     },
     formatMatchValue: function(match) {
