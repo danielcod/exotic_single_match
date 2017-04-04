@@ -208,7 +208,8 @@ var MatchTeamSelector=React.createClass({
 	    (team.team==undefined)) {
 	    return undefined;
 	} else {
-	    return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.kickoff+"]";
+	    // return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.kickoff+"]";
+	    return team.team+" (vs "+team.versus+")";
 	}
     },
     formatTeamValue: function(team) {
@@ -302,7 +303,8 @@ var MatchSelector=React.createClass({
 	    (match.match==undefined)) {
 	    return undefined;
 	} else {
-	    return match.match+" ("+match.league+") ["+match.kickoff+"]";
+	    // return match.match+" ("+match.league+") ["+match.kickoff+"]";
+	    return match.match+" ("+match.league+")";
 	}
     },
     formatMatchValue: function(match) {
