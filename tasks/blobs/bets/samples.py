@@ -40,13 +40,10 @@ class MiniLeagueHandler(webapp2.RequestHandler):
     @validate_query({'n': '\\d+'})
     @task
     def post(self,
-             leaguenames=["ENG.1",
-                          "FRA.1"
-                          "GER.1",                                
-                          "ITA.1",
-                          "SPA.1"],
              cutoff=4,
              size=4):
+        leaguenames=[leaguename for leaguename in Leagues.keys()
+                     if leaguename.endswith(".1")]
         allteams=self.load_teams(leaguenames, cutoff)
         bets=[]
         n=int(self.request.get("n"))
