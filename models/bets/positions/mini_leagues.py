@@ -59,7 +59,7 @@ class MiniLeagueBet(db.Model):
                                                   for item in json_loads(self.versus)]),                                       
                                        self.expiry),
                 "group": {"label": "Mini-League",
-                          "level": "green"}}
+                          "level": "teal"}}
     
 
 
