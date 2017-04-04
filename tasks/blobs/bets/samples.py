@@ -72,7 +72,7 @@ class MiniLeagueHandler(webapp2.RequestHandler):
             """
             need to calculate price here as there's no pre- calculated surface from which you can borrow probability
             """
-            bet.price=format_price(0.1+random.random()*0.8) # TEMP
+            bet.price=format_price(bet.calc_probability())
             bets.append(bet.to_json())
         keyname="bets/samples/mini_league"
         memcache.set(keyname, json_dumps(bets), MemcacheAge)
@@ -90,6 +90,9 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
         for i in range(n):
             j=int(random.random()*len(teams))
             team=teams[j]
+            """
+            borrow price from pre- calculated smb_versus probability
+            """
             price=format_price(team["probability"])
             bet=SeasonMatchBet(league=team["league"],
                                team=team["team"],
@@ -113,6 +116,9 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
         for i in range(n):
             j=int(random.random()*len(payoffs))
             payoff=payoffs[j]
+            """
+            borrow price from pre- calculated outright_payoff probability
+            """
             price=format_price(payoff["probability"])
             bet=SingleTeamOutrightBet(league=payoff["league"],
                                       team=payoff["team"],
