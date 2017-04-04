@@ -17,10 +17,27 @@ class MiniLeagueBet(db.Model):
                              payoff=params["payoff"],
                              expiry=params["expiry"],
                              versus=json_dumps(params["versus"]))
+
+    """
+    NB mini_league pricing starts from today / all teams start on zero points
+    """
     
     def calc_probability(self, paths=Paths, seed=Seed):
-        import random
-        return 0.1+0.8*random.random()
+        teams, fixtures, results = [], [], []
+        for team in [{"league": self.league,
+                      "team": self.team}]+json_loads(self.versus):
+            teams.append({"name": team["team"],
+                          "points": 0,
+                          "goal_diff": 0})
+            fixtures=[fixture for fixture in fetch_fixtures(team["league"])
+                      if (fixture["date"] > Today and
+                          fixture["date"] <= self.expiry and
+                          team["team"] in fixture["name"])]
+        if fixtures==[]:
+            raise RuntimeError("No fixtures found")
+        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        payoff=parse_payoff(self.payoff, len(teams))
+        return sumproduct(payoff, pp[self.team])
 
     @add_id
     def to_json(self):
