@@ -63,14 +63,18 @@ var ExoticAccaForm=React.createClass({
     },
     teamsChangeHandler: function(items) {
 	var state=this.state;
-	state.bet.teams=items.map(function(item) {
+	var teams=items.map(function(item) {
 	    return {
 		league: item.league,
 		team: item.team
 	    };
 	});
+	state.bet.teams=teams;
+	if ((state.bet.nTeams!=undefined) &&
+	    (state.bet.nTeams > teams.length)) {
+	    state.bet.nTeams=undefined;
+	}
 	this.setState(state);
-	// check if teams.length is an nTeans option; otherwise reset nTeams
 	this.updatePrice(this.state.bet);
     },
     initNTeamsOptions: function(teams, condition) {
