@@ -103,6 +103,9 @@ var EditBetPanel=React.createClass({
 	state.price=price;
 	this.setState(state);
     },
+    deepCopy: function(struct) {
+	return JSON.parse(JSON.stringify(struct));
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -130,7 +133,7 @@ var EditBetPanel=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
 		    priceChangeHandler: this.priceChangeHandler,
-		    bet: this.props.bet
+		    bet: this.deepCopy(this.props.bet) // don't want original bet to be updated; create a copy
 		}),
 		React.DOM.div({
 		    className: "text-center",
