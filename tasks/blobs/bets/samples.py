@@ -2,6 +2,17 @@ from tasks.blobs.bets import *
 
 import random
 
+def load_teams(leaguenames, cutoff):
+    teams=[]
+    for leaguename in leaguenames:
+        teams+=sorted(yc_lite.get_teams(leaguename),
+                      key=lambda x: -x["expected_season_points"])[:cutoff]
+    return teams
+
+def pop_random_team(teams):
+    i=int(random.random()*len(teams))
+    return teams.pop(i)        
+
 # curl "http://localhost:8080/tasks/blobs/bets/samples?n=1"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -30,21 +41,10 @@ class ExoticAccaHandler(webapp2.RequestHandler):
 
 class MiniLeagueHandler(webapp2.RequestHandler):
 
-    def load_teams(self, leaguenames, cutoff):
-        teams=[]
-        for leaguename in leaguenames:
-            teams+=sorted(yc_lite.get_teams(leaguename),
-                          key=lambda x: -x["expected_season_points"])[:cutoff]
-        return teams
-
-    def pop_random_team(self, teams):
-        i=int(random.random()*len(teams))
-        return teams.pop(i)        
-
     def init_versus(self, teams, n):
         versus=[]
         for i in range(n):
-            team=self.pop_random_team(teams)
+            team=pop_random_team(teams)
             versus.append({"league": team["league"],
                            "team": team["name"]})
         return versus
@@ -57,12 +57,12 @@ class MiniLeagueHandler(webapp2.RequestHandler):
     def post(self, cutoff=4, size=4):
         leaguenames=[leaguename for leaguename in Leagues.keys()
                      if leaguename.endswith(".1")]
-        allteams=self.load_teams(leaguenames, cutoff)
+        allteams=load_teams(leaguenames, cutoff)
         bets=[]
         n=int(self.request.get("n"))
         for i in range(n):
             teams=list(allteams)
-            team=self.pop_random_team(teams)
+            team=pop_random_team(teams)
             bet=MiniLeagueBet()
             bet.league=team["league"]
             bet.team=team["name"]
