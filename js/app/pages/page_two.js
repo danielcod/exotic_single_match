@@ -104,6 +104,9 @@ var EditBetPanel=React.createClass({
 	this.setState(state);
     },
     deepCopy: function(struct) {
+	if (struct==undefined) {
+	    return struct;
+	}
 	return JSON.parse(JSON.stringify(struct));
     },
     render: function() {
