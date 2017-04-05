@@ -5,16 +5,14 @@ var SelectorRow=React.createClass({
 	};
     },
     changeHandler: function(struct) {
-	if (JSON.stringify(this.state.item)!=JSON.stringify(struct)) {
-	    var state=this.state;
-	    for (var attr in struct) {
-		if (struct[attr]!=state.item[attr]) {
-		    state.item[attr]=struct[attr]
-		}
+	var state=this.state;
+	for (var attr in struct) {
+	    if (struct[attr]!=state.item[attr]) {
+		state.item[attr]=struct[attr]
 	    }
-	    this.setState(state);
-	    this.props.changeHandler(this.props.item.id, struct);
 	}
+	this.setState(state);
+	this.props.changeHandler(this.props.item.id, struct);
     },
     deleteHandler: function() {
 	this.props.deleteHandler(this.props.item.id);
