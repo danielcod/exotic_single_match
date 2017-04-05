@@ -99,9 +99,15 @@ var ExoticAccaForm=React.createClass({
 	// check if teams.length is an nTeans option; otherwise reset nTeams
 	this.updatePrice(this.state.bet);
     },
-    initNTeamsOptions: function(teams) {
+    initNTeamsOptions: function(teams, condition) {
 	var options=[];
 	for (var i=0; i < teams.length; i++) {
+	    if ((condition==">") && (i==(teams.length-1))) {
+		continue;
+	    }
+	    if ((condition=="<") && (i==0)) {
+		continue;
+	    }
 	    var suffix=(i==0) ? "Team" : "Teams";
 	    var option={
 		label: (i+1)+" "+suffix,
@@ -165,7 +171,7 @@ var ExoticAccaForm=React.createClass({
 		    React.createElement(MySelect, {
 			label: "Teams",
 			name: "nTeams",
-			options: this.initNTeamsOptions(this.state.bet.teams),
+			options: this.initNTeamsOptions(this.state.bet.teams, this.state.bet.teamsCondition),
 			value: this.state.bet.nTeams,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
