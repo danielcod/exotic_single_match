@@ -21,16 +21,6 @@ def format_price(probability):
     else:
         return "%.1f" % price
 
-"""
-- this should be replaced by series of tasks generating interesting blobs
-"""
-    
-class ListHandler(webapp2.RequestHandler):
-
-    @emit_json_memcache(MemcacheAge)
-    def get(self):
-        return []
-
 class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
@@ -48,8 +38,7 @@ class PriceHandler(webapp2.RequestHandler):
         return {"price": format_price(probability),
                 "description": bet.description}
 
-Routing=[('/app/bets/list', ListHandler),
-         ('/app/bets/price', PriceHandler)]
+Routing=[('/app/bets/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
