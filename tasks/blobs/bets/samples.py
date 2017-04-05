@@ -2,12 +2,16 @@ from tasks.blobs.bets import *
 
 import random
 
-def load_teams(leaguenames, cutoff):
+def load_top_teams(cutoff=4):
+    leaguenames=[leaguename for leaguename in Leagues.keys()
+                 if leaguename.endswith(".1")]    
     teams=[]
     for leaguename in leaguenames:
         teams+=sorted(yc_lite.get_teams(leaguename),
                       key=lambda x: -x["expected_season_points"])[:cutoff]
     return teams
+
+TopTeams=load_top_teams()
 
 def pop_random_team(teams):
     i=int(random.random()*len(teams))
@@ -55,13 +59,10 @@ class MiniLeagueHandler(webapp2.RequestHandler):
     @validate_query({'n': '\\d+'})
     @task
     def post(self, cutoff=4, size=4):
-        leaguenames=[leaguename for leaguename in Leagues.keys()
-                     if leaguename.endswith(".1")]
-        allteams=load_teams(leaguenames, cutoff)
         bets=[]
         n=int(self.request.get("n"))
         for i in range(n):
-            teams=list(allteams)
+            teams=list(TopTeams)
             team=pop_random_team(teams)
             bet=MiniLeagueBet()
             bet.league=team["league"]
