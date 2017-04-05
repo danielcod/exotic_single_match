@@ -91,9 +91,15 @@ var ExoticAccaForm=React.createClass({
 	}
 	return options;
     },
-    initNGoalsOptions: function(n) {
+    initNGoalsOptions: function(n, condition) {
 	var options=[];
-	for (var i=0; i < n; i++) {
+	for (var i=0; i < n+1; i++) {
+	    if ((condition==">") && (i==n)) {
+		continue;
+	    }
+	    if ((condition=="<") && (i==0)) {
+		continue;
+	    }
 	    var suffix=(i==1) ? "Goal" : "Goals";
 	    var option={
 		label: i+" "+suffix,
@@ -192,7 +198,7 @@ var ExoticAccaForm=React.createClass({
 		    React.createElement(MySelect, {
 			label: "Goals",
 			name: "nGoals",
-			options: this.initNGoalsOptions(10),
+			options: this.initNGoalsOptions(10, this.state.bet.goalsCondition),
 			value: this.state.bet.nGoals,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
