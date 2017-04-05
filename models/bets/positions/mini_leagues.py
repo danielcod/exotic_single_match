@@ -29,10 +29,10 @@ class MiniLeagueBet(db.Model):
             teams.append({"name": team["team"],
                           "points": 0,
                           "goal_diff": 0})
-            fixtures=[fixture for fixture in fetch_fixtures(team["league"])
-                      if (fixture["date"] > Today and
-                          fixture["date"] <= self.expiry and
-                          team["team"] in fixture["name"])]
+            fixtures+=[fixture for fixture in fetch_fixtures(team["league"])
+                       if (fixture["date"] > Today and
+                           fixture["date"] <= self.expiry and
+                           team["team"] in fixture["name"])]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
         pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
