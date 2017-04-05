@@ -47,7 +47,7 @@ class SingleTeamOutrightBet(db.Model):
                   if fixture["date"] > Today] # NB no expiry check
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
         payoffs=self.init_payoffs(leaguename)
         for payoff in payoffs:
             payoff["payoff"]=parse_payoff(payoff["name"], len(teams))
@@ -71,7 +71,7 @@ class SingleTeamOutrightBet(db.Model):
                       fixture["date"] <= self.expiry)]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 

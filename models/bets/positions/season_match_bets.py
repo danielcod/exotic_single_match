@@ -35,7 +35,7 @@ class SeasonMatchBet(db.Model):
                   if fixture["date"] > Today] # NB no expiry check
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
         def calc_probability(teamname, versusname):
             return sum([pp[teamname][i]*sum(pp[versusname][i:])
                         for i in range(len(pp))])
@@ -71,7 +71,7 @@ class SeasonMatchBet(db.Model):
                        (self.versus in fixture["name"])))]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.Payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 

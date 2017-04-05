@@ -1,6 +1,6 @@
 from models.bets import *
 
-import quant.yield_curve as simulator
+import quant.yield_curve as yc_simulator
 
 MinFilterProb, MaxFilterProb = 0.01, 0.99
 

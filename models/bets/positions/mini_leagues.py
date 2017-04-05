@@ -35,7 +35,7 @@ class MiniLeagueBet(db.Model):
                           team["team"] in fixture["name"])]
         if fixtures==[]:
             raise RuntimeError("No fixtures found")
-        pp=simulator.simulate(teams, results, fixtures, paths, seed)
+        pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
         payoff=parse_payoff(self.payoff, len(teams))
         return sumproduct(payoff, pp[self.team])
 
