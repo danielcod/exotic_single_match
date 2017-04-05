@@ -1,5 +1,3 @@
-
-
 var GridLayout=React.createClass({
     initItem: function(item, colwidth) {
 	return React.DOM.div({
