@@ -17,32 +17,41 @@ var ExoticAccaForm=React.createClass({
 	    options: {
 		goalsCondition: [
 		    {
-			value: "More Than"
+			label: "More Than",
+			value: ">"
 		    },
 		    {
-			value: "Exactly"
+			label: "Exactly",
+			value: "="
 		    },
 		    {
-			value: "Less Than"
+			label: "Less Than",
+			value: "<"
 		    }
 		],
 		nGoals: [
 		    {
+			label: "0 Goals",
 			value: 0
 		    },
 		    {
+			label: "1 Goal",
 			value: 1
 		    },
 		    {
+			label: "2 Goals",
 			value: 2
 		    },
 		    {
+			label: "3 Goals",
 			value: 3
 		    },
 		    {
+			label: "4 Goals",
 			value: 4
 		    },
 		    {
+			label: "5 Goals",
 			value: 5
 		    }
 		],
@@ -113,7 +122,7 @@ var ExoticAccaForm=React.createClass({
 			}
 		    }),
 		    React.createElement(MySelect, {
-			label: "Goals Number",
+			label: "Number of Goals",
 			name: "nGoals",
 			options: this.state.options.nGoals,
 			value: this.state.bet.nGoals,
