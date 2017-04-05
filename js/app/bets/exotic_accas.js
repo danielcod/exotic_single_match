@@ -132,6 +132,9 @@ var ExoticAccaForm=React.createClass({
 	if (this.state.bet[name]!=value) {
 	    var state=this.state;
 	    state.bet[name]=value;
+	    if (name=="result") {
+		state.bet.goalsCondition=undefined;
+	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
 	}
@@ -169,7 +172,7 @@ var ExoticAccaForm=React.createClass({
 		}),
 		[
 		    React.createElement(MySelect, {
-			label: "Condition",
+			label: "Teams Condition",
 			name: "teamsCondition",
 			options: this.state.options.teamsCondition,
 			value: this.state.bet.teamsCondition,
@@ -180,7 +183,7 @@ var ExoticAccaForm=React.createClass({
 			}
 		    }),
 		    React.createElement(MySelect, {
-			label: "Teams",
+			label: "Number of Teams",
 			name: "nTeams",
 			options: this.initNTeamsOptions(this.state.bet.teams, this.state.bet.teamsCondition),
 			value: this.state.bet.nTeams,
@@ -204,7 +207,7 @@ var ExoticAccaForm=React.createClass({
 		}),		
 		[
 		    React.createElement(MySelect, {
-			label: "Condition",
+			label: "Goals Condition",
 			name: "goalsCondition",
 			options: this.initGoalsConditionOptions(this.state.bet.result),
 			value: this.state.bet.goalsCondition,
@@ -215,7 +218,7 @@ var ExoticAccaForm=React.createClass({
 			}
 		    }),		
 		    React.createElement(MySelect, {
-			label: "Goals",
+			label: "Number of Goals",
 			name: "nGoals",
 			options: this.initNGoalsOptions(10, this.state.bet.goalsCondition),
 			value: this.state.bet.nGoals,
