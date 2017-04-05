@@ -93,7 +93,7 @@ var TeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    item: JSON.parse(JSON.stringify(this.props.item)) // *** NB ***
+	    item: this.props.item
 	};
     },
     fetchTeams: function() {
@@ -185,7 +185,7 @@ var MatchTeamSelector=React.createClass({
 	    options: {
 		team: [],
 	    },
-	    item: JSON.parse(JSON.stringify(this.props.item)) // *** NB ***
+	    item: this.props.item
 	};
     },
     fetchTeams: function() {
@@ -280,7 +280,7 @@ var MatchSelector=React.createClass({
 	    options: {
 		match: [],
 	    },
-	    item: JSON.parse(JSON.stringify(this.props.item)) // *** NB ***
+	    item: this.props.item
 	};
     },
     fetchMatches: function() {
