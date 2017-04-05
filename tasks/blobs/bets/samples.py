@@ -13,6 +13,8 @@ def load_top_teams(cutoff=4):
 
 TopTeams=load_top_teams()
 
+TopTeamNames=[team["name"] for team in TopTeams]
+
 def pop_random_team(teams):
     i=int(random.random()*len(teams))
     return teams.pop(i)        
@@ -85,7 +87,8 @@ class SeasonMatchBetHandler(webapp2.RequestHandler):
     @task
     def post(self):
         blob=Blob.get_by_key_name("bets/smb_versus")
-        teams=json_loads(blob.text)
+        teams=[team for team in json_loads(blob.text)
+               if team["team"] in TopTeamNames]
         n=int(self.request.get("n"))
         bets=[]
         for i in range(n):
@@ -111,7 +114,8 @@ class SingleTeamOutrightHandler(webapp2.RequestHandler):
     @task
     def post(self):
         blob=Blob.get_by_key_name("bets/outright_payoffs")
-        payoffs=json_loads(blob.text)
+        payoffs=[team for team in json_loads(blob.text)
+                 if team["team"] in TopTeamNames]
         n=int(self.request.get("n"))
         bets=[]
         for i in range(n):
