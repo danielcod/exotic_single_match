@@ -33,21 +33,26 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         window=int(self.request.get("window"))
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
-        items=[]
-        for match in yc_lite.get_upcoming_matches(leaguename):
+        teamnames, items = [], []
+        for match in sorted(yc_lite.get_upcoming_matches(leaguename),
+                            key=lambda x: x["kickoff"]):
             if match["kickoff"].date() <= cutoff:
                 continue
-            teamnames=match["name"].split(" vs ")
-            items+=[{"league": leaguename,
-                     "team": teamnames[0],
-                     "versus": teamnames[1],
-                     "home_away": "home",
-                     "kickoff": match["kickoff"]},
-                    {"league": leaguename,
-                     "team": teamnames[1],
-                     "versus": teamnames[0],
-                     "home_away": "away",
-                     "kickoff": match["kickoff"]}]
+            matchteamnames=match["name"].split(" vs ")
+            if matchteamnames[0] not in teamnames:
+                items.append({"league": leaguename,
+                              "team": matchteamnames[0],
+                              "versus": matchteamnames[1],
+                              "home_away": "home",
+                              "kickoff": match["kickoff"]})
+                teamnames.append(matchteamnames[0])
+            if matchteamnames[1] not in teamnames:
+                items.append({"league": leaguename,
+                              "team": matchteamnames[1],
+                              "versus": matchteamnames[0],
+                              "home_away": "away",
+                              "kickoff": match["kickoff"]})
+                teamnames.append(matchteamnames[1])
         keyname="match_teams/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s match_teams" % (len(items), keyname))
