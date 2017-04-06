@@ -144,7 +144,34 @@ var ExoticAccaForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
-	return false;
+	// check scalar fields
+	if ((bet.teams_condition==undefined) ||
+	    (bet.n_teams==undefined) ||
+	    (bet.result==undefined) ||
+	    (bet.goals_condition==undefined) || 
+	    (bet.n_goals==undefined)) {
+	    return false;
+	}
+	// check undefined teams fields
+	for (var i=0; i < bet.teams.length; i++) {
+	    var item=bet.teams[i];
+	    if ((item.league==undefined) ||
+		(item.team==undefined)) {
+		return false;
+	    }
+	}
+	// check unique team names
+	var teamnames=[];	
+	for (var i=0; i < bet.teams.length; i++) {
+	    var item=bet.teams[i];
+	    if (teamnames.indexOf(item.team)==-1) {
+		teamnames.push(item.team);
+	    }
+	}
+	if (teamnames.length!=(bet.teams.length)) {
+	    return false
+	}
+	return true;
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
