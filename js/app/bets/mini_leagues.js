@@ -64,10 +64,6 @@ var MiniLeagueForm=React.createClass({
 	    (bet.expiry==undefined)) {
 	    return false;
 	}
-	// check min versus length
-	if (bet.versus.length==0) {
-	    return false;
-	}
 	// check undefined versus fields
 	for (var i=0; i < bet.versus.length; i++) {
 	    var item=bet.versus[i];
