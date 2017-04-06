@@ -33,11 +33,18 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         window=int(self.request.get("window"))
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
-        items=[{"league": leaguename,
-                "match": match["name"],
-                "kickoff": match["kickoff"]}
-               for match in yc_lite.get_upcoming_matches(leaguename)
-               if match["kickoff"].date() <= cutoff]
+        teamnames, items = [], []
+        for match in sorted(yc_lite.get_upcoming_matches(leaguename),
+                            key=lambda x: x["kickoff"]):
+            if match["kickoff"].date() <= cutoff:
+                continue
+            matchteamnames=match["name"].split(" vs ")
+            if (matchteamnames[0] not in teamnames and
+                matchteamnames[1] not in teamnames):
+                items.append({"league": leaguename,
+                              "match": match["name"],
+                              "kickoff": match["kickoff"]})
+                teamnames+=matchteamnames
         keyname="matches/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s matches" % (len(items), keyname))
