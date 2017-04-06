@@ -80,12 +80,9 @@ var SeasonMatchBetForm=React.createClass({
 	    this.props.resetPriceHandler();
 	}
     },
-    initialise: function() {
+    componentDidMount: function() {
 	this.fetchVersus();
 	this.updatePrice(this.state.bet); 
-    },
-    componentDidMount: function() {
-	this.initialise();
     },
     render: function() {
 	return React.createElement(GridLayout, {

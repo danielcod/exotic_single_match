@@ -180,11 +180,8 @@ var ExoticAccaForm=React.createClass({
 	    this.props.resetPriceHandler();
 	}
     },
-    initialise: function() {
-	this.updatePrice(this.state.bet); 
-    },
     componentDidMount: function() {
-	this.initialise();
+	this.updatePrice(this.state.bet); 
     },
     render: function() {
 	return React.createElement(GridLayout, {
