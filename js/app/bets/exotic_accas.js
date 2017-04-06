@@ -175,7 +175,7 @@ var ExoticAccaForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("mini_league", bet)
+	    this.props.updatePriceHandler("exotic_acca", bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}
