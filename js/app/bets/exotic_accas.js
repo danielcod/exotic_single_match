@@ -15,20 +15,22 @@ var ExoticAccaForm=React.createClass({
     getInitialState: function() {
 	return {
 	    options: {
-		teamsCondition: [
-		    {
-			label: "More Than",
-			value: ">"
-		    },
-		    {
-			label: "Exactly",
-			value: "="
-		    },
-		    {
-			label: "Less Than",
-			value: "<"
-		    }
-		],
+		teams: {
+		    condition: [
+			{
+			    label: "More Than",
+			    value: ">"
+			},
+			{
+			    label: "Exactly",
+			    value: "="
+			},
+			{
+			    label: "Less Than",
+			    value: "<"
+			}
+		    ]
+		},
 		result: [
 		    {
 			label: "To Win",
@@ -43,27 +45,29 @@ var ExoticAccaForm=React.createClass({
 			value: "lose"
 		    }
 		],
-		goalsCondition: {
-		    win: [
-			{
-			    label: "By More Than",
-			    value: ">"
-			},
-			{
-			    label: "By Exactly",
-			    value: "="
-			},
-			{
-			    label: "By Less Than",
-			    value: "<"
-			}
-		    ],
-		    draw: [
-			{
-			    label: "With Exactly",
-			    value: "="
-			}
-		    ]
+		goals: {
+		    condition: {
+			win: [
+			    {
+				label: "By More Than",
+				value: ">"
+			    },
+			    {
+				label: "By Exactly",
+				value: "="
+			    },
+			    {
+				label: "By Less Than",
+				value: "<"
+			    }
+			],
+			draw: [
+			    {
+				label: "With Exactly",
+				value: "="
+			    }
+			]
+		    }
 		}
 	    },
 	    bet: this.initBet(this.props.bet)
@@ -78,9 +82,9 @@ var ExoticAccaForm=React.createClass({
 	    };
 	});
 	state.bet.teams=teams;
-	if ((state.bet.nTeams!=undefined) &&
-	    (state.bet.nTeams > teams.length)) {
-	    state.bet.nTeams=undefined;
+	if ((state.bet.n_teams!=undefined) &&
+	    (state.bet.n_teams > teams.length)) {
+	    state.bet.n_teams=undefined;
 	}
 	this.setState(state);
 	this.updatePrice(this.state.bet);
@@ -105,9 +109,9 @@ var ExoticAccaForm=React.createClass({
     },
     initGoalsConditionOptions: function(result) {
 	if (result=="draw") {
-	    return this.state.options.goalsCondition.draw;	    
+	    return this.state.options.goals.condition.draw;	    
 	} else {
-	    return this.state.options.goalsCondition.win;
+	    return this.state.options.goals.condition.win;
 	}
     },
     initNGoalsOptions: function(n, condition) {
@@ -133,7 +137,7 @@ var ExoticAccaForm=React.createClass({
 	    var state=this.state;
 	    state.bet[name]=value;
 	    if (name=="result") {
-		state.bet.goalsCondition=undefined;
+		state.bet.goals_condition=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -173,9 +177,9 @@ var ExoticAccaForm=React.createClass({
 		[
 		    React.createElement(MySelect, {
 			label: "Teams Condition",
-			name: "teamsCondition",
-			options: this.state.options.teamsCondition,
-			value: this.state.bet.teamsCondition,
+			name: "teams_condition",
+			options: this.state.options.teams.condition,
+			value: this.state.bet.teams_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -184,9 +188,9 @@ var ExoticAccaForm=React.createClass({
 		    }),
 		    React.createElement(MySelect, {
 			label: "Number of Teams",
-			name: "nTeams",
-			options: this.initNTeamsOptions(this.state.bet.teams, this.state.bet.teamsCondition),
-			value: this.state.bet.nTeams,
+			name: "n_teams",
+			options: this.initNTeamsOptions(this.state.bet.teams, this.state.bet.teams_condition),
+			value: this.state.bet.n_teams,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -208,9 +212,9 @@ var ExoticAccaForm=React.createClass({
 		[
 		    React.createElement(MySelect, {
 			label: "Goals Condition",
-			name: "goalsCondition",
+			name: "goals_condition",
 			options: this.initGoalsConditionOptions(this.state.bet.result),
-			value: this.state.bet.goalsCondition,
+			value: this.state.bet.goals_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -219,9 +223,9 @@ var ExoticAccaForm=React.createClass({
 		    }),		
 		    React.createElement(MySelect, {
 			label: "Number of Goals",
-			name: "nGoals",
-			options: this.initNGoalsOptions(10, this.state.bet.goalsCondition),
-			value: this.state.bet.nGoals,
+			name: "n_goals",
+			options: this.initNGoalsOptions(10, this.state.bet.goals_condition),
+			value: this.state.bet.n_goals,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
