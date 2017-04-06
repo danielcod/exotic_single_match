@@ -28,12 +28,12 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, struct):
         logging.info(struct) # TEMP
-        bettype, betparams = struct["type"], struct["bet"]
+        bettype=struct.pop("type")
         products=dict([(product["type"], eval(product["class"]))
                        for product in Products])
         if bettype not in products:
             raise RuntimeError("Product not found")
-        bet=products[bettype].from_json(betparams)
+        bet=products[bettype].from_json(struct)
         probability=bet.calc_probability()
         return {"price": format_price(probability),
                 "description": bet.description}

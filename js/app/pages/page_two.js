@@ -36,18 +36,12 @@ var EditBetForm=React.createClass({
 	}
 	return undefined;
     },
-    updatePrice: function(type, bet) {
+    updatePrice: function(bet) {
 	this.props.priceChangeHandler("[updating ..]");
-	this.props.exoticsApi.fetchPrice({
-	    type: type,
-	    bet: bet	    
-	}, function(struct) {
+	this.props.exoticsApi.fetchPrice(bet, function(struct) {
 	    this.props.priceChangeHandler(struct["price"]);
 	}.bind(this));
-	this.props.productChangeHandler({
-	    type: type,
-	    bet: bet
-	});
+	this.props.productChangeHandler(bet);
     },
     resetPrice: function() {
 	this.props.priceChangeHandler("[..]");

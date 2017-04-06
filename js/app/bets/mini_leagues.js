@@ -91,7 +91,7 @@ var MiniLeagueForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("mini_league", bet)
+	    this.props.updatePriceHandler(bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}

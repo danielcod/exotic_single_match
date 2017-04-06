@@ -75,7 +75,7 @@ var SeasonMatchBetForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("season_match_bet", bet)
+	    this.props.updatePriceHandler(bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}

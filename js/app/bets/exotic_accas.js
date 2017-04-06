@@ -175,7 +175,7 @@ var ExoticAccaForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("exotic_acca", bet)
+	    this.props.updatePriceHandler(bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}

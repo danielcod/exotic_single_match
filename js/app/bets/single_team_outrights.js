@@ -65,7 +65,7 @@ var SingleTeamOutrightForm=React.createClass({
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
-	    this.props.updatePriceHandler("single_team_outright", bet)
+	    this.props.updatePriceHandler(bet)
 	} else {
 	    this.props.resetPriceHandler();
 	}
