@@ -78,7 +78,9 @@ var ExoticAccaForm=React.createClass({
 	var teams=items.map(function(item) {
 	    return {
 		league: item.league,
-		team: item.team
+		team: item.team,
+		versus: item.versus,
+		home_away: item.home_away
 	    };
 	});
 	state.bet.teams=teams;

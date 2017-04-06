@@ -3,7 +3,7 @@
 var EditBetForm=React.createClass({
     initBet: function(bet) {	
 	return (bet!=undefined) ? bet : {
-	    "type":"season_match_bet"
+	    "type":"exotic_acca"
 	}
     },
     getInitialState: function() {
