@@ -1,4 +1,4 @@
-import random
+from random import Random
 
 GDDelta=1
 
@@ -40,7 +40,7 @@ def calc_league_table(teams, results):
             table[awayteamname]["played"]+=1
     return table.values()
 
-def simulate_points(leaguetable, remfixtures, paths):
+def simulate_points(leaguetable, remfixtures, paths, rand):
     sp=dict([(team["name"], 
               [{"points": team["points"],
                 "goal_diff": team["goal_diff"]}
@@ -50,7 +50,7 @@ def simulate_points(leaguetable, remfixtures, paths):
         for fixture in remfixtures:
             hometeamname, awayteamname = fixture["name"].split(" vs ")
             probs=fixture["probabilities"]
-            q=random.random()
+            q=rand.random()
             if q < probs[0]: # home win
                 if hometeamname in sp:
                     sp[hometeamname][i]["points"]+=3
@@ -70,7 +70,7 @@ def simulate_points(leaguetable, remfixtures, paths):
                     sp[hometeamname][i]["goal_diff"]-=GDDelta
     return sp
 
-def calc_position_probabilities(simpoints, paths):
+def calc_position_probabilities(simpoints, paths, rand):
     teamnames, n = sorted(simpoints.keys()), len(simpoints)
     pp=dict([(teamname, 
              [0 for i in range(n)])
@@ -78,7 +78,7 @@ def calc_position_probabilities(simpoints, paths):
     def nodevalue(item):
         nv=item["points"]
         nv+=item["goal_diff"]*GDMultiplier
-        nv+=random.uniform(-0.5, 0.5)*NoiseMultiplier
+        nv+=rand.uniform(-0.5, 0.5)*NoiseMultiplier
         return nv
     for i in range(paths):
         nodevalues=sorted([(key, nodevalue(item[i]))
@@ -94,14 +94,16 @@ def calc_position_probabilities(simpoints, paths):
 """
 
 def simulate(teams, results, remfixtures, paths, seed):
-    random.seed(seed)
+    rand=Random()
+    rand.seed(seed)
     leaguetable=sorted(calc_league_table(teams, results),
                        key=lambda x: x["name"])
     simpoints=simulate_points(leaguetable,
                               sorted(remfixtures,
                                      key=lambda x: x["name"]),
-                              paths)
-    return calc_position_probabilities(simpoints, paths)
+                              paths,
+                              rand)
+    return calc_position_probabilities(simpoints, paths, rand)
 
 if __name__=="__main__":
     try:
