@@ -74,7 +74,30 @@ class CSGrid(list):
             raise RuntimeError("No filter fn for '%s'" % selection)
         return self.sum(filterfn)
 
-    
+    def simulate(self, paths, seed):
+        def flatten(grid):
+            items, prob = [], 0
+            for i in range(len(grid)):
+                for j in range(len(grid)):
+                    prob+=self[i][j]
+                    item=[(i, j), prob]
+                    items.append(item)
+            items[-1][1]=1.0 # NB
+            return items
+        def simulate(items, rand):
+            startprob, endprob = 0, None
+            q=rand.random()
+            for item in items:
+                endprob=item[1]
+                if (q > startprob and
+                    q <= endprob):
+                    return item[0]
+                startprob=endprob
+        rand=Random()
+        rand.seed(seed)        
+        items=flatten(self)    
+        return [simulate(items, rand)
+                for i in range(paths)]
     
 if __name__=="__main__":
     try:
@@ -85,11 +108,7 @@ if __name__=="__main__":
         grid=CSGrid(lx, ly)
         for selection in MOSelections:        
             print "%s: %.5f" % (selection, grid.match_odds(selection))
-        """
-        lx, ly =  1.23533, 0.66517
-        grid=CSGrid(lx, ly)
-        print grid
-        """
+        print "samples: %s" % grid.simulate(3, 13)
     except RuntimeError, error:
         print "Error: %s" % str(error)
         
