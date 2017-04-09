@@ -71,18 +71,13 @@ class ExoticAccaBet(db.Model):
                 raise RuntimeError("%s is invalid goals condition" % self.goals_condition)
         return filterfn
 
-    """
-    - remove format_matchname once matchteam blob includes match name
-    """
-    
     def calc_probability(self, paths=Paths, seed=Seed):
-        def format_matchname(team):
-            if team["home_away"]=="home":
-                return "%s vs %s" % (team["team"], team["versus"])
-            else:
-                return "%s vs %s" % (team["versus"], team["team"])
+        import logging
+        logging.info("-----------------------")
+        logging.info(self.teams)
+        logging.info("-----------------------")
         matches=[Fixture.get_by_key_name("%s/%s" % (team["league"],
-                                                    format_matchname(team)))
+                                                    team["match"]))
                  for team in json.loads(self.teams)]
         samples=simulate_match_teams(matches, paths, seed)
         filterfn=self.bet_filterfn

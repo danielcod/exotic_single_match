@@ -1,6 +1,6 @@
 from models.bets.positions import *
 
-MinProb, MaxProb = 0.01, 0.99
+MinFilterProb, MaxFilterProb = 0.01, 0.99
 
 class SingleTeamOutrightBet(db.Model):
 

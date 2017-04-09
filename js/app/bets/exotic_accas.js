@@ -76,8 +76,15 @@ var ExoticAccaForm=React.createClass({
     teamsChangeHandler: function(items) {
 	var state=this.state;
 	var teams=items.map(function(item) {
+	    var match;
+	    if (item.home_away=="home") {
+		match=item.team+" vs "+item.versus;
+	    } else {
+		match=item.versus+" vs "+item.team;
+	    }
 	    return {
 		league: item.league,
+		match: match,
 		team: item.team,
 		versus: item.versus,
 		home_away: item.home_away
