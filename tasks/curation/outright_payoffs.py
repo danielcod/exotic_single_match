@@ -1,6 +1,6 @@
-from tasks.blobs.bets import *
+from tasks.curation import *
 
-# curl "http://localhost:8080/tasks/blobs/bets/outright_payoffs"
+# curl "http://localhost:8080/tasks/curation/outright_payoffs"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -11,12 +11,12 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/blobs/bets/outright_payoffs/map",
+        [taskqueue.add(url="/tasks/curation/outright_payoffs/map",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
-        taskqueue.add(url="/tasks/blobs/bets/outright_payoffs/reduce",
+        taskqueue.add(url="/tasks/curation/outright_payoffs/reduce",
                       params={"leagues": ",".join(leaguenames)},
                       queue_name=QueueName)
         logging.info("Reduce task added")
@@ -51,9 +51,9 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to /bets/outright_payoffs")
                 
-Routing=[('/tasks/blobs/bets/outright_payoffs/reduce', ReduceHandler),
-         ('/tasks/blobs/bets/outright_payoffs/map', MapHandler),
-         ('/tasks/blobs/bets/outright_payoffs', IndexHandler)]
+Routing=[('/tasks/curation/outright_payoffs/reduce', ReduceHandler),
+         ('/tasks/curation/outright_payoffs/map', MapHandler),
+         ('/tasks/curation/outright_payoffs', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

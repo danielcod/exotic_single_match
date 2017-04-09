@@ -1,6 +1,6 @@
-from tasks.blobs.bets import *
+from tasks.curation import *
 
-# curl "http://localhost:8080/tasks/blobs/bets/smb_versus"
+# curl "http://localhost:8080/tasks/curation/smb_versus"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -11,12 +11,12 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/blobs/bets/smb_versus/map",
+        [taskqueue.add(url="/tasks/curation/smb_versus/map",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
-        taskqueue.add(url="/tasks/blobs/bets/smb_versus/reduce",
+        taskqueue.add(url="/tasks/curation/smb_versus/reduce",
                       params={"leagues": ",".join(leaguenames)},
                       queue_name=QueueName)
         logging.info("Reduce task added")
@@ -51,8 +51,8 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to /bets/smb_versus")
                 
-Routing=[('/tasks/blobs/bets/smb_versus/reduce', ReduceHandler),
-         ('/tasks/blobs/bets/smb_versus/map', MapHandler),
-         ('/tasks/blobs/bets/smb_versus', IndexHandler)]
+Routing=[('/tasks/curation/smb_versus/reduce', ReduceHandler),
+         ('/tasks/curation/smb_versus/map', MapHandler),
+         ('/tasks/curation/smb_versus', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

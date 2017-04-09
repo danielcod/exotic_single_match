@@ -1,4 +1,4 @@
-from tasks.blobs.bets import *
+from tasks.curation import *
 
 import random
 
@@ -19,7 +19,7 @@ def pop_random_team(teams):
     i=int(random.random()*len(teams))
     return teams.pop(i)        
 
-# curl "http://localhost:8080/tasks/blobs/bets/samples?n=1"
+# curl "http://localhost:8080/tasks/curation/samples?n=1"
 
 class IndexHandler(webapp2.RequestHandler):
  
@@ -27,11 +27,11 @@ class IndexHandler(webapp2.RequestHandler):
     @task
     def get(self):         
         n=int(self.request.get("n"))
-        [taskqueue.add(url="/tasks/blobs/bets/samples/%s" % product["type"],
+        [taskqueue.add(url="/tasks/curation/samples/%s" % product["type"],
                        params={"n": n},
                        queue_name=QueueName)
          for product in Products]
-        taskqueue.add(url="/tasks/blobs/bets/samples/reduce",
+        taskqueue.add(url="/tasks/curation/samples/reduce",
                       queue_name=QueueName)
         logging.info("%s tasks started" % (1+len(Products)))
 
@@ -152,11 +152,11 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to /bets/samples")
         
-Routing=[('/tasks/blobs/bets/samples/reduce', ReduceHandler),
-         ('/tasks/blobs/bets/samples/exotic_acca', ExoticAccaHandler),
-         ('/tasks/blobs/bets/samples/mini_league', MiniLeagueHandler),
-         ('/tasks/blobs/bets/samples/season_match_bet', SeasonMatchBetHandler),
-         ('/tasks/blobs/bets/samples/single_team_outright', SingleTeamOutrightHandler),
-         ('/tasks/blobs/bets/samples', IndexHandler)]
+Routing=[('/tasks/curation/samples/reduce', ReduceHandler),
+         ('/tasks/curation/samples/exotic_acca', ExoticAccaHandler),
+         ('/tasks/curation/samples/mini_league', MiniLeagueHandler),
+         ('/tasks/curation/samples/season_match_bet', SeasonMatchBetHandler),
+         ('/tasks/curation/samples/single_team_outright', SingleTeamOutrightHandler),
+         ('/tasks/curation/samples', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
