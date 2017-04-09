@@ -2,8 +2,6 @@ from models.bets import *
 
 import quant.yield_curve as yc_simulator
 
-MinFilterProb, MaxFilterProb = 0.01, 0.99
-
 Paths, Seed = 1000, 13
 
 def sumproduct(X, Y):

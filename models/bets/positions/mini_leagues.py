@@ -1,5 +1,7 @@
 from models.bets.positions import *
 
+MinFilterProb, MaxFilterProb = 0.01, 0.99
+
 class MiniLeagueBet(db.Model):
 
     league=db.StringProperty()

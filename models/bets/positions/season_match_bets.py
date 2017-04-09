@@ -1,5 +1,7 @@
 from models.bets.positions import *
 
+MinFilterProb, MaxFilterProb = 0.01, 0.99
+
 class SeasonMatchBet(db.Model):
 
     Payoff="Winner"
