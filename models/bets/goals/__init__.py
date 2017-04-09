@@ -6,6 +6,8 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, LT, EQ = ">", "<", "="
 
+Paths, Seed = 1000, 13
+
 def simulate_matches(fixtures, paths, seed):
     items=[{} for i in range(paths)]
     for fixture in fixtures:

@@ -1,4 +1,4 @@
-from models.bets.positions import *
+from models.bets.goals import *
 
 class ExoticAccaBet(db.Model):
 
@@ -47,13 +47,14 @@ class ExoticAccaBet(db.Model):
                 raise RuntimeError("Bet result not found/recognised")
         return filterfn
 
+    @property
     def bet_filterfn(self):
         matchfilterfn=self.match_filterfn
         def bool_to_int(value):
             return 1 if value else 0
         def filterfn(scores):
-            outcomes=[matchfilterfn(scores[teamname])
-                      for teamname in self.teams]
+            outcomes=[matchfilterfn(scores[team["team"]])
+                      for team in json.loads(self.teams)]
             n=len([outcome for outcome in outcomes
                    if outcome])
             if self.goals_condition==GT:
@@ -65,12 +66,6 @@ class ExoticAccaBet(db.Model):
             else:
                 raise RuntimeError("%s is invalid goals condition" % self.goals_condition)
         return filterfn
-
-    """
-    - should probably be validating against match_teams blob
-    - blob=Blob.get_by_key_name("match_teams")
-    - allmatchteams=json_loads(blob.text)
-    """
 
     """
     - remove format_matchname once matchteam blob includes match name
@@ -85,11 +80,11 @@ class ExoticAccaBet(db.Model):
         matches=[Fixture.get_by_key_name("%s/%s" % (team["league"],
                                                     format_matchname(team)))
                  for team in json.loads(self.teams)]
-        import logging
-        logging.info(matches)
-        import random
-        return 0.1+0.8*random.random()
-
+        samples=simulate_match_teams(matches, paths, seed)
+        filterfn=self.bet_filterfn
+        return sum([filterfn(scores)
+                    for scores in samples])/float(paths)
+    
     @add_id
     def to_json(self):
         return {"type": "exotic_acca",
