@@ -7,8 +7,9 @@ cron:
 - url: "/tasks/quant/dc_poisson_means"
   schedule: "every 24 hours"
 # blobs
-- url: "/tasks/blobs/outright_payoffs"
+- url: "/tasks/curation/outright_payoffs"
   schedule: "every 24 hours"
-- url: "/tasks/blobs/smb_versus"
+- url: "/tasks/curation/smb_versus"
   schedule: "every 24 hours"
+
 

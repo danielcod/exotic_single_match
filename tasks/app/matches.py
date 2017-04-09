@@ -1,6 +1,6 @@
-from tasks.blobs import *
+from tasks.app import *
 
-# curl "http://localhost:8080/tasks/blobs/matches?window=7&leagues=ENG.1"
+# curl "http://localhost:8080/tasks/app/matches?window=7&leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -13,13 +13,13 @@ class IndexHandler(webapp2.RequestHandler):
         if leaguenames==[]:
             leaguenames=Leagues.keys()
         window=self.request.get("window")
-        [taskqueue.add(url="/tasks/blobs/matches/map",
+        [taskqueue.add(url="/tasks/app/matches/map",
                        params={"league": leaguename,
                                "window": window},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
-        taskqueue.add(url="/tasks/blobs/matches/reduce",
+        taskqueue.add(url="/tasks/app/matches/reduce",
                       params={"leagues": ",".join(leaguenames)},
                       queue_name=QueueName)
         logging.info("Reduce task added")
@@ -68,9 +68,9 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to /matches")
                 
-Routing=[('/tasks/blobs/matches/reduce', ReduceHandler),
-         ('/tasks/blobs/matches/map', MapHandler),
-         ('/tasks/blobs/matches', IndexHandler)]
+Routing=[('/tasks/app/matches/reduce', ReduceHandler),
+         ('/tasks/app/matches/map', MapHandler),
+         ('/tasks/app/matches', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

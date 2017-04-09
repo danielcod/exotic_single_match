@@ -43,12 +43,12 @@ handlers:
 - url: /app.*
   script: controllers.app.app
 # TASKS
-- url: /tasks/blobs/match_teams.*
-  script: tasks.blobs.match_teams.app
-- url: /tasks/blobs/matches.*
-  script: tasks.blobs.matches.app
-- url: /tasks/blobs/teams.*
-  script: tasks.blobs.teams.app
+- url: /tasks/app/match_teams.*
+  script: tasks.app.match_teams.app
+- url: /tasks/app/matches.*
+  script: tasks.app.matches.app
+- url: /tasks/app/teams.*
+  script: tasks.app.teams.app
 - url: /tasks/curation/outright_payoffs.*
   script: tasks.curation.outright_payoffs.app
 - url: /tasks/curation/samples.*
