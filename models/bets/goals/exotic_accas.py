@@ -29,6 +29,8 @@ class ExoticAccaBet(db.Model):
                     return score[0]-score[1] > self.n_goals
                 elif self.goals_condition==LT:
                     return score[0]-score[1] < self.n_goals
+                elif self.goals_condition==EQ:
+                    return score[0]==score[1]==self.n_goals
                 else:
                     raise RuntimeError(errmsg % (self.goals_condition, Win))
             elif self.result==Lose:
@@ -36,6 +38,8 @@ class ExoticAccaBet(db.Model):
                     return score[1]-score[0] > self.n_goals
                 elif self.goals_condition==LT:
                     return score[1]-score[0] < self.n_goals
+                elif self.goals_condition==EQ:
+                    return score[0]==score[1]==self.n_goals                    
                 else:
                     raise RuntimeError(errmsg % (self.goals_condition, Lose))
             elif self.result==Draw:
