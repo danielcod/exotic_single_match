@@ -67,6 +67,8 @@ class ExoticAccaBet(db.Model):
         return filterfn
     
     def calc_probability(self, paths=Paths, seed=Seed):
+        blob=Blob.get_by_key_name("match_teams")
+        allmatchteams=json_loads(blob.text)
         import random
         return 0.1+0.8*random.random()
 
