@@ -101,17 +101,17 @@ var ExoticAccaForm=React.createClass({
     },
     initNTeamsOptions: function(teams, condition) {
 	var options=[];
-	for (var i=0; i < teams.length; i++) {
-	    if ((condition==">") && (i==(teams.length-1))) {
+	for (var i=0; i < teams.length+1; i++) {
+	    if ((i==teams.length) && (condition==">")) {
 		continue;
 	    }
-	    if ((condition=="<") && (i==0)) {
+	    if ((i==0) && (condition=="<")) {
 		continue;
 	    }
-	    var suffix=(i==0) ? "Team" : "Teams";
+	    var suffix=(i==1) ? "Team" : "Teams";
 	    var option={
-		label: (i+1)+" "+suffix,
-		value: i+1
+		label: i+" "+suffix,
+		value: i
 	    };
 	    options.push(option);
 	}
@@ -126,11 +126,8 @@ var ExoticAccaForm=React.createClass({
     },
     initNGoalsOptions: function(n, condition) {
 	var options=[];
-	for (var i=0; i < n+1; i++) {
-	    if ((condition==">") && (i==n)) {
-		continue;
-	    }
-	    if ((condition=="<") && (i==0)) {
+	for (var i=1; i < n+1; i++) {	    	    
+	    if ((i==0) && (condition!="=")) {
 		continue;
 	    }
 	    var suffix=(i==1) ? "Goal" : "Goals";
