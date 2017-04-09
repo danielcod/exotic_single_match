@@ -99,5 +99,33 @@ class ExoticAccaBet(db.Model):
                 "group": {"label": "Exotic Acca",
                           "level": "blue"}}
     
+    @property
+    def description_win_lose(self):
+        marketstr="%s %i teams (from %s) to %s by %s %i goals"
+        return {"selection": None,
+                "market": marketstr % (Conditions[self.teams_condition].capitalize(),
+                                       self.n_teams,
+                                       ", ".join([item["team"]
+                                                  for item in json_loads(self.teams)]),
+                                       self.result,
+                                       Conditions[self.goals_condition],
+                                       self.n_goals),
+                "group": {"label": "Exotic Acca",
+                          "level": "sky"}}
 
+    @property
+    def description_draw(self):
+        marketstr="%s %i teams (from %s) to draw with exactly %i goals"
+        return {"selection": None,
+                "market": marketstr % (Conditions[self.teams_condition].capitalize(),
+                                       self.n_teams,
+                                       ", ".join([item["team"]
+                                                  for item in json_loads(self.teams)]),
+                                       self.n_goals),
+                "group": {"label": "Exotic Acca",
+                          "level": "sky"}}
+
+    @property
+    def description(self):
+        return self.description_draw if self.result=="draw" else self.description_win_lose
 

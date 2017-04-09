@@ -6,6 +6,12 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, LT, EQ = ">", "<", "="
 
+Conditions={
+    GT: "more than",
+    LT: "less than",
+    EQ: "exactly"
+}
+
 Paths, Seed = 1000, 13
 
 def simulate_matches(fixtures, paths, seed):
