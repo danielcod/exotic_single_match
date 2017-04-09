@@ -137,7 +137,12 @@ var ExoticAccaForm=React.createClass({
     changeHandler: function(name, value) {
 	if (this.state.bet[name]!=value) {
 	    var state=this.state;
-	    state.bet[name]=value;
+	    if ((name=="n_teams") ||
+		(name=="n_goals")) {
+		state.bet[name]=parseInt(value);
+	    } else {
+		state.bet[name]=value;
+	    }
 	    if (name=="result") {
 		state.bet.goals_condition=undefined;
 	    }
