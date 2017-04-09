@@ -101,27 +101,32 @@ class ExoticAccaBet(db.Model):
     
     @property
     def description_win_lose(self):
-        marketstr="%s %i teams (from %s) to %s by %s %i goals"
+        marketstr="%s %i %s (%s) to %s by %s %i %s"
         return {"selection": None,
                 "market": marketstr % (Conditions[self.teams_condition].capitalize(),
                                        self.n_teams,
+                                       "team" if self.n_teams==1 else "teams",
                                        ", ".join([item["team"]
                                                   for item in json_loads(self.teams)]),
                                        self.result,
                                        Conditions[self.goals_condition],
-                                       self.n_goals),
+                                       self.n_goals,
+                                       "goal" if self.n_goals==1 else "goals"),
                 "group": {"label": "Exotic Acca",
                           "level": "sky"}}
 
     @property
     def description_draw(self):
-        marketstr="%s %i teams (from %s) to draw with exactly %i goals"
+        marketstr="%s %i %s (%s) to %s with exactly %i %s"
         return {"selection": None,
                 "market": marketstr % (Conditions[self.teams_condition].capitalize(),
                                        self.n_teams,
+                                       "team" if self.n_teams==1 else "teams",
                                        ", ".join([item["team"]
                                                   for item in json_loads(self.teams)]),
-                                       self.n_goals),
+                                       self.result,
+                                       self.n_goals,
+                                       "goal" if self.n_goals==1 else "goals"),
                 "group": {"label": "Exotic Acca",
                           "level": "sky"}}
 
