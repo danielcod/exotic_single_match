@@ -73,23 +73,24 @@ var ExoticAccaForm=React.createClass({
 	    bet: this.initBet(this.props.bet)
 	};
     },
+    matchForTeam: function(item) {
+	if (item.home_away=="home") {
+	    return item.team+" vs "+item.versus;
+	} else {
+	    return item.versus+" vs "+item.team;
+	}
+    },
     teamsChangeHandler: function(items) {
 	var state=this.state;
 	var teams=items.map(function(item) {
-	    var match;
-	    if (item.home_away=="home") {
-		match=item.team+" vs "+item.versus;
-	    } else {
-		match=item.versus+" vs "+item.team;
-	    }
 	    return {
 		league: item.league,
-		match: match,
+		match: this.matchForTeam(item),
 		team: item.team,
 		versus: item.versus,
 		home_away: item.home_away
 	    };
-	});
+	}.bind(this));
 	state.bet.teams=teams;
 	if ((state.bet.n_teams!=undefined) &&
 	    (state.bet.n_teams > teams.length)) {

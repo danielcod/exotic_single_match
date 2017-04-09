@@ -72,10 +72,6 @@ class ExoticAccaBet(db.Model):
         return filterfn
 
     def calc_probability(self, paths=Paths, seed=Seed):
-        import logging
-        logging.info("-----------------------")
-        logging.info(self.teams)
-        logging.info("-----------------------")
         matches=[Fixture.get_by_key_name("%s/%s" % (team["league"],
                                                     team["match"]))
                  for team in json.loads(self.teams)]

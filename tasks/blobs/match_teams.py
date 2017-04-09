@@ -41,7 +41,6 @@ class MapHandler(webapp2.RequestHandler):
             matchteamnames=match["name"].split(" vs ")
             if matchteamnames[0] not in teamnames:
                 items.append({"league": leaguename,
-                              "match": match["name"],
                               "team": matchteamnames[0],
                               "versus": matchteamnames[1],
                               "home_away": "home",
@@ -49,7 +48,6 @@ class MapHandler(webapp2.RequestHandler):
                 teamnames.append(matchteamnames[0])
             if matchteamnames[1] not in teamnames:
                 items.append({"league": leaguename,
-                              "match": match["name"],
                               "team": matchteamnames[1],
                               "versus": matchteamnames[0],
                               "home_away": "away",
