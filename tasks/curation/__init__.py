@@ -1,4 +1,4 @@
-from tasks.blobs import *
+from tasks import *
 
 import apis.yc_lite_api as yc_lite
 

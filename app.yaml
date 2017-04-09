@@ -51,8 +51,16 @@ handlers:
   script: tasks.app.teams.app
 - url: /tasks/curation/outright_payoffs.*
   script: tasks.curation.outright_payoffs.app
-- url: /tasks/curation/samples.*
-  script: tasks.curation.samples.app
+- url: /tasks/curation/products/exotic_accas.*
+  script: tasks.curation.products.exotic_accas.app
+- url: /tasks/curation/products/mini_leagues.*
+  script: tasks.curation.products.mini_leagues.app
+- url: /tasks/curation/products/season_match_bets.*
+  script: tasks.curation.products.season_match_bets.app
+- url: /tasks/curation/products/single_team_outrights.*
+  script: tasks.curation.products.single_team_outrights.app
+- url: /tasks/curation/products.*
+  script: tasks.curation.products.app
 - url: /tasks/curation/smb_versus.*
   script: tasks.curation.smb_versus.app
 - url: /tasks/quant/bbc_fixtures.*
