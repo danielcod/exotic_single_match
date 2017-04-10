@@ -36,7 +36,7 @@ class MapHandler(webapp2.RequestHandler):
         teamnames, items = [], []
         for match in sorted(yc_lite.get_upcoming_matches(leaguename),
                             key=lambda x: x["kickoff"]):
-            if match["kickoff"].date() <= cutoff:
+            if match["kickoff"].date() > cutoff:
                 continue
             matchteamnames=match["name"].split(" vs ")
             if (matchteamnames[0] not in teamnames and
