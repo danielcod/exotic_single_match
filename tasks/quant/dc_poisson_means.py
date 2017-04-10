@@ -46,6 +46,7 @@ class FixtureHandler(webapp2.RequestHandler):
 
     @validate_query({"league": "\\D{3}\\.\\d",
                      "event": ".+"})
+    @task
     def post(self):
         leaguename=self.request.get("league")
         eventname=self.request.get("event")
