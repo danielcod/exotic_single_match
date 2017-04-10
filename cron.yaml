@@ -6,10 +6,19 @@ cron:
   schedule: "every 24 hours"
 - url: "/tasks/quant/dc_poisson_means"
   schedule: "every 24 hours"
-# blobs
+# app
+- url: "/tasks/app/match_teams"
+  schedule: "every 24 hours"
+- url: "/tasks/app/matches"
+  schedule: "every 24 hours"
+- url: "/tasks/app/teams"
+  schedule: "every 24 hours"
+# curation
 - url: "/tasks/curation/outright_payoffs"
   schedule: "every 24 hours"
 - url: "/tasks/curation/smb_versus"
+  schedule: "every 24 hours"
+- url: "/tasks/curation/products"
   schedule: "every 24 hours"
 
 
