@@ -42,6 +42,7 @@ var SingleTeamOutrightForm=React.createClass({
 	    var state=this.state;
 	    state.bet.league=struct.league;
 	    state.bet.team=struct.team;
+	    // try and preseve payoff value if possible
 	    if (!this.hasPayoff(struct.team, this.state.bet.payoff)) {
 		state.bet.payoff=undefined;
 	    }
