@@ -16,7 +16,7 @@ var TeamSelector=React.createClass({
     },
     fetchTeams: function() {
 	var handler=this.initOptionsHandler("team");
-	this.props.exoticsApi.fetchBlob("teams", handler);
+	this.props.exoticsApi.fetchBlob("app/teams", handler);
     },
     sortTeams: function(item0, item1) {
 	if (item0.team < item1.team) {

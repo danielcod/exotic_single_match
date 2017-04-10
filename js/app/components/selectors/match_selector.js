@@ -16,7 +16,7 @@ var MatchSelector=React.createClass({
     },
     fetchMatches: function() {
 	var handler=this.initOptionsHandler("match");
-	this.props.exoticsApi.fetchBlob("matches", handler);
+	this.props.exoticsApi.fetchBlob("app/matches", handler);
     },
     sortMatches: function(item0, item1) {
 	var value0=item0.match+"/"+item0.kickoff;

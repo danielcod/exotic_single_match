@@ -63,7 +63,7 @@ class ReduceHandler(webapp2.RequestHandler):
                 continue
             items+=json_loads(resp)
         logging.info("Total %i matches" % len(items))
-        Blob(key_name="matches",
+        Blob(key_name="app/matches",
              text=json_dumps(items),
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to /matches")

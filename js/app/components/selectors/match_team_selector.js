@@ -16,7 +16,7 @@ var MatchTeamSelector=React.createClass({
     },
     fetchTeams: function() {
 	var handler=this.initOptionsHandler("team");
-	this.props.exoticsApi.fetchBlob("match_teams", handler);
+	this.props.exoticsApi.fetchBlob("app/match_teams", handler);
     },
     sortTeams: function(item0, item1) {
 	var value0=item0.team+"/"+item0.kickoff;
