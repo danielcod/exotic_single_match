@@ -21,15 +21,15 @@ class IndexHandler(webapp2.RequestHandler):
             bet=ExoticAccaBet()
             bet.teams=json_dumps(self.init_matchteams(matchteams, size))
             bet.teams_condition=">"
-            bet.n_teams=1+int(2*random.random())
+            bet.n_teams=1
             bet.result="win"
             bet.goals_condition=">"
-            bet.n_goals=1+int(2*random.random())
+            bet.n_goals=1
             bet.price=format_price(bet.calc_probability())
             bets.append(bet.to_json())
-        keyname="products/samples/exotic_acca_bet"
+        keyname="products/samples/exotic_acca"
         memcache.set(keyname, json_dumps(bets), MemcacheAge)
-        logging.info("Saved %i exotic_acca_bet" % len(bets))
+        logging.info("Saved %i exotic_acca" % len(bets))
 
 Routing=[('/tasks/curation/products/exotic_accas', IndexHandler)]
 

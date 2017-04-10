@@ -9,7 +9,7 @@ var BrowseBetsRow=React.createClass({
 				this.props.bet.description.selection,
 				React.DOM.span({
 				    style: {
-					"margin-left": "10px"
+					"margin-left": (this.props.bet.description.selection!=undefined) ? "10px" : "0px"
 				    },
 				    className: "label label-"+this.props.bet.description.group.level,
 				    children: this.props.bet.description.group.label

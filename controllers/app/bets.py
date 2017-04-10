@@ -27,7 +27,7 @@ class PriceHandler(webapp2.RequestHandler):
     # @emit_json_memcache(MemcacheAge)
     @emit_json
     def post(self, struct):
-        logging.info(struct) # TEMP
+        # logging.info(struct) # TEMP
         bettype=struct.pop("type")
         products=dict([(product["type"], eval(product["class"]))
                        for product in Products])
