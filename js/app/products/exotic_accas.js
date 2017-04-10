@@ -148,8 +148,16 @@ var ExoticAccaForm=React.createClass({
 	    } else {
 		state.bet[name]=value;
 	    }
+	    // don't finesse resets; there are too many options, just blank out dependant fields
+	    if (name=="teams_condition") {
+		state.bet.n_teams=undefined;
+	    }
 	    if (name=="result") {
 		state.bet.goals_condition=undefined;
+		state.bet.n_goals=undefined;
+	    }
+	    if (name=="goals_condition") {
+		state.bet.n_goals=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
