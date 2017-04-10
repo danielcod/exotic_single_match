@@ -7,9 +7,9 @@ cron:
 - url: "/tasks/quant/dc_poisson_means"
   schedule: "every 24 hours"
 # app
-- url: "/tasks/app/match_teams"
+- url: "/tasks/app/match_teams?window=7"
   schedule: "every 24 hours"
-- url: "/tasks/app/matches"
+- url: "/tasks/app/matches?window=7"
   schedule: "every 24 hours"
 - url: "/tasks/app/teams"
   schedule: "every 24 hours"
@@ -18,7 +18,7 @@ cron:
   schedule: "every 24 hours"
 - url: "/tasks/curation/smb_versus"
   schedule: "every 24 hours"
-- url: "/tasks/curation/products"
+- url: "/tasks/curation/products?n=5"
   schedule: "every 24 hours"
 
 
