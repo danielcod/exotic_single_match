@@ -37,16 +37,17 @@ var MySelect=React.createClass({
 	    value: this.state.value,
 	    style: (this.state.value==undefined) ? this.props.blankStyle : {},
 	    onChange: function(event) {
-		var value=event.target.value;
-		var state=this.state
+		var value=(event.target.value!="") ? event.target.value : undefined;
+		var state=this.state;
 		state.value=value;
 		this.setState(state);
 		this.props.changeHandler(this.props.name, value);
 	    }.bind(this),
 	    children: [
 		(this.props.defaultOption!=undefined) ? React.DOM.option({
-		    value: this.props.defaultOption.value, 
+		    value: this.props.defaultOption.value || "",
 		    selected: this.state.value==this.props.defaultOption.value,
+		    disabled: this.props.defaultOption.disabled || true,
 		    children: this.props.defaultOption.label
 		}) : undefined,
 		this.state.options.map(function(option) {
