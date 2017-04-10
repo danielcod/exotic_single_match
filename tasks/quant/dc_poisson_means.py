@@ -2,7 +2,11 @@ from tasks.quant import *
 
 from quant.dixon_coles import CSGrid
 
-MaxError=0.001
+"""
+- MaxError 0.001 fails a small %age of matches
+"""
+
+MaxError=0.005
 
 # curl "http://localhost:8080/tasks/quant/dc_poisson_means?leagues=ENG.1"
 
