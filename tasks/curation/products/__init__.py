@@ -41,16 +41,16 @@ class ReduceHandler(webapp2.RequestHandler):
     def post(self):
         bets=[]
         for product in Products:
-            keyname="bets/samples/%s" % product["type"]
+            keyname="products/samples/%s" % product["type"]
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
                 continue
             bets+=json_loads(resp)
         logging.info("Total %i samples" % len(bets))
-        Blob(key_name="bets/samples",
+        Blob(key_name="products/samples",
              text=json_dumps(bets),
              timestamp=datetime.datetime.now()).put()
-        logging.info("Saved to /bets/samples")
+        logging.info("Saved to products/samples")
         
 Routing=[('/tasks/curation/products/reduce', ReduceHandler),
          ('/tasks/curation/products', IndexHandler)]

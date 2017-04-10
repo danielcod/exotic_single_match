@@ -6,7 +6,7 @@ class IndexHandler(webapp2.RequestHandler):
     @task
     def post(self):
         bets=[]
-        keyname="bets/samples/exotic_acca_bet"
+        keyname="products/samples/exotic_acca_bet"
         memcache.set(keyname, json_dumps(bets), MemcacheAge)
         logging.info("Saved %i exotic_acca_bet" % len(bets))
 

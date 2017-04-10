@@ -5,7 +5,7 @@ class IndexHandler(webapp2.RequestHandler):
     @validate_query({'n': '\\d+'})
     @task
     def post(self):
-        blob=Blob.get_by_key_name("bets/outright_payoffs")
+        blob=Blob.get_by_key_name("products/outright_payoffs")
         payoffs=[team for team in json_loads(blob.text)
                  if team["team"] in TopTeamNames]
         n=int(self.request.get("n"))
@@ -23,7 +23,7 @@ class IndexHandler(webapp2.RequestHandler):
                                       expiry=EndOfSeason,
                                       price=price)
             bets.append(bet.to_json())
-        keyname="bets/samples/single_team_outright"
+        keyname="products/samples/single_team_outright"
         memcache.set(keyname, json_dumps(bets), MemcacheAge)
         logging.info("Saved %i single_team_outright" % len(bets))
 

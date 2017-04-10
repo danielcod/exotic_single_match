@@ -28,7 +28,7 @@ class MapHandler(webapp2.RequestHandler):
     def post(self):
         leaguename=self.request.get("league")
         items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
-        keyname="bets/outright_payoffs/%s" % leaguename
+        keyname="products/outright_payoffs/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))
 
@@ -40,16 +40,16 @@ class ReduceHandler(webapp2.RequestHandler):
         leaguenames=self.request.get("leagues").split(",")
         items=[]
         for leaguename in leaguenames:
-            keyname="bets/outright_payoffs/%s" % leaguename
+            keyname="products/outright_payoffs/%s" % leaguename
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
                 continue
             items+=json_loads(resp)
         logging.info("Total %i outright payoffs" % len(items))
-        Blob(key_name="bets/outright_payoffs",
+        Blob(key_name="products/outright_payoffs",
              text=json_dumps(items),
              timestamp=datetime.datetime.now()).put()
-        logging.info("Saved to /bets/outright_payoffs")
+        logging.info("Saved to products/outright_payoffs")
                 
 Routing=[('/tasks/curation/outright_payoffs/reduce', ReduceHandler),
          ('/tasks/curation/outright_payoffs/map', MapHandler),

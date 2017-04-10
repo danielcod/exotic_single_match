@@ -16,7 +16,7 @@ var SingleTeamOutrightForm=React.createClass({
     },
     fetchPayoffs: function() {
 	var handler=this.initOptionsHandler("payoff");
-	this.props.exoticsApi.fetchBlob("bets/outright_payoffs", handler);
+	this.props.exoticsApi.fetchBlob("products/outright_payoffs", handler);
     },
     filterPayoffs: function(payoffs, teamname) {
 	return payoffs.filter(function(payoff) {

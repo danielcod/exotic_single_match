@@ -32,7 +32,7 @@ class IndexHandler(webapp2.RequestHandler):
             """
             bet.price=format_price(bet.calc_probability())
             bets.append(bet.to_json())
-        keyname="bets/samples/mini_league"
+        keyname="products/samples/mini_league"
         memcache.set(keyname, json_dumps(bets), MemcacheAge)
         logging.info("Saved %i mini_league" % len(bets))
         

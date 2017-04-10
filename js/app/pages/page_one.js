@@ -61,7 +61,7 @@ var BrowseBetsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob("bets/samples", this.betsHandler);
+	this.props.exoticsApi.fetchBlob("products/samples", this.betsHandler);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
@@ -72,7 +72,7 @@ var BrowseBetsTable=React.createClass({
 	}
 	if (updated) {
 	    this.setState(state);
-	    this.props.exoticsApi.fetchBlob("bets/samples", this.betsHandler);
+	    this.props.exoticsApi.fetchBlob("products/samples", this.betsHandler);
 	}
     },
     handleClicked: function(bet) {
