@@ -61,14 +61,14 @@ class ExoticAccaBet(db.Model):
                       for team in json.loads(self.teams)]
             n=len([outcome for outcome in outcomes
                    if outcome])
-            if self.goals_condition==GT:
-                return bool_to_int(n > self.n_goals)
-            elif self.goals_condition==LT:
-                return bool_to_int(n < self.n_goals)
-            elif self.goals_condition==EQ:
-                return bool_to_int(n==self.n_goals)
+            if self.teams_condition==GT:
+                return bool_to_int(n > self.n_teams)
+            elif self.teams_condition==LT:
+                return bool_to_int(n < self.n_teams)
+            elif self.teams_condition==EQ:
+                return bool_to_int(n==self.n_teams)
             else:
-                raise RuntimeError("%s is invalid goals condition" % self.goals_condition)
+                raise RuntimeError("%s is invalid teams condition" % self.teams_condition)
         return filterfn
 
     def calc_probability(self, paths=Paths, seed=Seed):
