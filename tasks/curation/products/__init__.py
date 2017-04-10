@@ -19,7 +19,7 @@ def pop_random_team(teams):
     i=int(random.random()*len(teams))
     return teams.pop(i)        
 
-# curl "http://localhost:8080/tasks/curation/products?n=1"
+# curl "http://localhost:8080/tasks/curation/products?n=5"
 
 class IndexHandler(webapp2.RequestHandler):
  
@@ -37,6 +37,12 @@ class IndexHandler(webapp2.RequestHandler):
 
 class ReduceHandler(webapp2.RequestHandler):
 
+    def randomise_bet_order(self, bets):
+        import random
+        return [bet for bet, _ in sorted([(bet, random.random())
+                                          for bet in bets],
+                                         key=lambda x: x[-1])]
+            
     @task
     def post(self):
         bets=[]
@@ -45,10 +51,10 @@ class ReduceHandler(webapp2.RequestHandler):
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
                 continue
-            bets+=json_loads(resp)
+            bets+=json_loads(resp)            
         logging.info("Total %i samples" % len(bets))
         Blob(key_name="products/samples",
-             text=json_dumps(bets),
+             text=json_dumps(self.randomise_bet_order(bets)),
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to products/samples")
         
