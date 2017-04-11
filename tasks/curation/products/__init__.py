@@ -15,10 +15,6 @@ TopTeams=load_top_teams()
 
 TopTeamNames=[team["name"] for team in TopTeams]
 
-def pop_random_team(teams):
-    i=int(random.random()*len(teams))
-    return teams.pop(i)        
-
 # curl "http://localhost:8080/tasks/curation/products?n=5"
 
 class IndexHandler(webapp2.RequestHandler):

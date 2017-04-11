@@ -2,10 +2,14 @@ from tasks.curation.products import *
 
 class IndexHandler(webapp2.RequestHandler):
 
+    def pop_random_team(self, teams):
+        i=int(random.random()*len(teams))
+        return teams.pop(i)   
+    
     def init_versus(self, teams, n):
         versus=[]
         for i in range(n):
-            team=pop_random_team(teams)
+            team=self.pop_random_team(teams)
             versus.append({"league": team["league"],
                            "team": team["name"]})
         return versus
@@ -20,7 +24,7 @@ class IndexHandler(webapp2.RequestHandler):
         n=int(self.request.get("n"))
         for i in range(n):
             teams=list(TopTeams)
-            team=pop_random_team(teams)
+            team=self.pop_random_team(teams)
             bet=MiniLeagueBet()
             bet.league=team["league"]
             bet.team=team["name"]
