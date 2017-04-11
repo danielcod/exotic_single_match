@@ -9,7 +9,8 @@ var EditBetForm=React.createClass({
     getInitialState: function() {
 	return {
 	    bet: this.initBet(this.props.bet),
-	    products: []
+	    products: [],
+	    price: "[..]"
 	}
     },
     productsHandler: function(struct) {
@@ -27,6 +28,11 @@ var EditBetForm=React.createClass({
 	}
 	this.setState(state);
     },
+    priceChangeHandler: function(price) {
+	var state=this.state;
+	state.price=price;
+	this.setState(state);
+    },
     loadProductForm: function(type) {
 	for(var i=0 ; i < this.state.products.length; i++) {
 	    var product=this.state.products[i];
@@ -37,24 +43,29 @@ var EditBetForm=React.createClass({
 	return undefined;
     },
     updatePrice: function(bet) {
-	this.props.priceChangeHandler("[updating ..]");
+	this.priceChangeHandler("[updating ..]");
 	this.props.exoticsApi.fetchPrice(bet, function(struct) {
-	    this.props.priceChangeHandler(struct["price"]);
+	    this.priceChangeHandler(struct["price"]);
 	}.bind(this));
 	this.props.productChangeHandler(bet);
     },
     resetPrice: function() {
-	this.props.priceChangeHandler("[..]");
+	this.priceChangeHandler("[..]");
 	this.props.productChangeHandler(undefined);
     },
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(ProductSelector, {
-		    exoticsApi: this.props.exoticsApi,
-		    className: "form-control btn-primary input-lg",
-		    product: this.state.bet,
-		    changeHandler: this.productChangeHandler
+		React.DOM.div({
+		    style: {
+			"margin-top": "20px"
+		    },		   
+		    children: React.createElement(ProductSelector, {
+			exoticsApi: this.props.exoticsApi,
+			className: "form-control btn-primary input-lg",
+			product: this.state.bet,
+			changeHandler: this.productChangeHandler
+		    })
 		}),
 		React.DOM.p({
 		    className: "help-block",
@@ -65,6 +76,19 @@ var EditBetForm=React.createClass({
 			    }.bind(this))[0]["description"]
 			}
 		    }) : undefined
+		}),
+		React.DOM.div({
+		    className: "form-group",
+		    children: React.DOM.h3({
+			className: "current-price text-center",
+			children: [
+			    "Current price: ",
+			    React.DOM.span({
+				id: "price",
+				children: this.state.price
+			    })					
+			]				    
+		    })
 		}),
 		(this.state.products.length!=0) ? React.createElement(this.loadProductForm(this.state.bet.type), {
 		    exoticsApi: this.props.exoticsApi,
@@ -83,18 +107,12 @@ var EditBetForm=React.createClass({
 var EditBetPanel=React.createClass({
     getInitialState: function() {
 	return {
-	    bet: this.props.bet,
-	    price: "[..]"
+	    bet: this.props.bet
 	}
     },
     productChangeHandler: function(struct) {
 	var state=this.state;
 	state.bet=struct;
-	this.setState(state);
-    },
-    priceChangeHandler: function(price) {
-	var state=this.state;
-	state.price=price;
 	this.setState(state);
     },
     deepCopy: function(struct) {
@@ -110,26 +128,9 @@ var EditBetPanel=React.createClass({
 		    steps: this.props.steps,
 		    currentStep: 1
 		}),
-		React.DOM.div({
-		    className: "form-group",
-		    children: React.DOM.h3({
-			className: "current-price text-center",
-			style: {
-			    margin: "20 0 10px"
-			},
-			children: [
-			    "Current price: ",
-			    React.DOM.span({
-				id: "price",
-				children: this.state.price
-			    })					
-			]				    
-		    })
-		}),
 		React.createElement(EditBetForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
-		    priceChangeHandler: this.priceChangeHandler,
 		    bet: this.deepCopy(this.props.bet) // don't want original bet to be updated; create a copy
 		}),
 		React.DOM.div({
