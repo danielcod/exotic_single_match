@@ -50,7 +50,9 @@ class ReduceHandler(webapp2.RequestHandler):
             keyname="products/samples/%s" % product["type"]
             resp=memcache.get(keyname)
             if resp in ['', None, []]:
+                logging.warning("Couldn't lookup %s from memcache" % keyname)
                 continue
+            logging.info("Looked up %s from memcache" % keyname)
             bets+=json_loads(resp)            
         logging.info("Total %i samples" % len(bets))
         Blob(key_name="products/samples",
