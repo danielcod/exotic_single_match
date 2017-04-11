@@ -33,7 +33,8 @@ var MatchTeamSelector=React.createClass({
 	if ((team.league==undefined) ||
 	    (team.team==undefined) ||
 	    (team.versus==undefined) ||
-	    (team.home_away==undefined)) {
+	    (team.home_away==undefined) ||
+	    (team.match==undefined)) {
 	    return undefined;
 	} else {
 	    // return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.kickoff+"]";
@@ -44,10 +45,11 @@ var MatchTeamSelector=React.createClass({
 	if ((team.league==undefined) ||
 	    (team.team==undefined) ||
 	    (team.versus==undefined) ||
-	    (team.home_away==undefined)) {
+	    (team.home_away==undefined) ||
+	    (team.match==undefined)) {
 	    return undefined;
 	} else {
-	    return team.league+"/"+team.team+"/"+team.versus+"/"+team.home_away;
+	    return team.league+"/"+team.team+"/"+team.versus+"/"+team.match+"/"+team.home_away;
 	}
     },    
     formatTeamOptions: function(teams) {
@@ -63,8 +65,9 @@ var MatchTeamSelector=React.createClass({
 	var state=this.state;
 	state.item.league=tokens[0];
 	state.item.team=tokens[1];
-	state.item.versus=tokens[2];
-	state.item.home_away=tokens[3];
+	state.item.versus=tokens[2];	
+	state.item.match=tokens[3];
+	state.item.home_away=tokens[4];
 	this.setState(state);
 	this.props.changeHandler(state.item);
     },
