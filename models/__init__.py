@@ -71,11 +71,11 @@ class Fixture(db.Model):
     dc_error=db.FloatProperty()
     
     @classmethod
-    def find_all(self, leaguename, cutoff=None, force=False):
+    def find_all(self, leaguename, cutoff=datetime.date.today(), force=False):
         query=Fixture.all()
         query.filter("league = ", leaguename)
         if cutoff:
-            query.filter("kickoff > ", cutoff)
+            query.filter("date > ", cutoff)
         if force:
             return fetch_models_db(query)
         else:
