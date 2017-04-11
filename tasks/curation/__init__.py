@@ -29,9 +29,7 @@ def format_price(probability):
         price=MinPrice
     else:
         price=1/float(probability)
-    if price < 2:
-        return "%.3f" % price
-    elif price < 5:
+    if price < 5:
         return "%.2f" % price
     else:
         return "%.1f" % price
