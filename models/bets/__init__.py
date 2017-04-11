@@ -29,6 +29,19 @@ def fetch_results(leaguenames):
                   for result in yc_lite.get_results(leaguename)]
     return results
 
+def validate_quant(fn):
+    def wrapped_fn(leaguenames):
+        fixtures=fn(leaguenames)
+        errors=[]
+        for fixture in fixtures:
+            if fixture["probabilities"] in ['', None, []]:
+                errors.append("%s/%s" % (fixture["league"], fixture["name"]))
+        if errors!=[]:
+            raise RuntimeError("Following fixtures are missing yc probabilities: %s" % ", ".join(errors))
+        return fixtures
+    return wrapped_fn
+
+@validate_quant
 def fetch_fixtures(leaguenames):
     if not isinstance(leaguenames, list):
         leaguenames=[leaguenames]

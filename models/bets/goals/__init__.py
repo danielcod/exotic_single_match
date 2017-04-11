@@ -14,6 +14,18 @@ Conditions={
 
 Paths, Seed = 1000, 13
 
+def validate_quant(fn):
+    def wrapped_fn(fixtures, *args, **kwargs):
+        errors=[]
+        for fixture in fixtures:
+            if fixture.dc_poisson_means in ['', None, []]:
+                errors.append("%s/%s" % (fixture.league, fixture.name))
+        if errors!=[]:
+            raise RuntimeError("Following fixtures are missing poisson means: %s" % ", ".join(errors))
+        return fn(fixtures, *args, **kwargs)
+    return fn
+
+@validate_quant
 def simulate_matches(fixtures, paths, seed):
     items=[{} for i in range(paths)]
     for fixture in fixtures:
@@ -22,6 +34,7 @@ def simulate_matches(fixtures, paths, seed):
             items[i][fixture.name]=score
     return items
 
+@validate_quant
 def simulate_match_teams(fixtures, paths, seed):
     items=[{} for i in range(paths)]
     for fixture in fixtures:
