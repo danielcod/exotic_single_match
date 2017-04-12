@@ -1,4 +1,4 @@
-from tasks.curation.products import *
+from tasks.curation.samples import *
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -31,6 +31,6 @@ class IndexHandler(webapp2.RequestHandler):
         memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
         logging.info("Saved exotic_acca/%i" % i)
 
-Routing=[('/tasks/curation/products/exotic_accas', IndexHandler)]
+Routing=[('/tasks/curation/samples/exotic_accas', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

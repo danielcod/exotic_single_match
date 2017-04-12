@@ -19,7 +19,7 @@ cron:
   schedule: "every 24 hours"
 - url: "/tasks/curation/smb_versus"
   schedule: "every 24 hours"
-- url: "/tasks/curation/products?n=5"
+- url: "/tasks/curation/samples?n=5"
   schedule: "every 24 hours"
 
 

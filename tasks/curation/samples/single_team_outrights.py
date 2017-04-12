@@ -1,4 +1,4 @@
-from tasks.curation.products import *
+from tasks.curation.samples import *
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -21,6 +21,6 @@ class IndexHandler(webapp2.RequestHandler):
         memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
         logging.info("Saved single_team_outright/%i" % i)
 
-Routing=[('/tasks/curation/products/single_team_outrights', IndexHandler)]
+Routing=[('/tasks/curation/samples/single_team_outrights', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

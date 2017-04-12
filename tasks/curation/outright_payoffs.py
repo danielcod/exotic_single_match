@@ -26,7 +26,7 @@ class MapHandler(webapp2.RequestHandler):
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task
     def post(self):
-        leaguename=self.request.get("league")
+        leaguename=self.request.get("league")        
         items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
         keyname="products/outright_payoffs/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)

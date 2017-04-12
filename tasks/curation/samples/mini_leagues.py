@@ -1,4 +1,4 @@
-from tasks.curation.products import *
+from tasks.curation.samples import *
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -34,6 +34,6 @@ class IndexHandler(webapp2.RequestHandler):
         memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
         logging.info("Saved mini_league/%i" % i)
         
-Routing=[('/tasks/curation/products/mini_leagues', IndexHandler)]
+Routing=[('/tasks/curation/samples/mini_leagues', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

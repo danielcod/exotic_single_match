@@ -15,7 +15,7 @@ TopTeams=load_top_teams()
 
 TopTeamNames=[team["name"] for team in TopTeams]
 
-# curl "http://localhost:8080/tasks/curation/products?n=5"
+# curl "http://localhost:8080/tasks/curation/samples?n=5"
 
 class IndexHandler(webapp2.RequestHandler):
  
@@ -23,12 +23,12 @@ class IndexHandler(webapp2.RequestHandler):
     @task
     def get(self):         
         n=int(self.request.get("n"))
-        [taskqueue.add(url="/tasks/curation/products/%ss" % product["type"], # NB note pluralisation
+        [taskqueue.add(url="/tasks/curation/samples/%ss" % product["type"], # NB note pluralisation
                        params={"i": i},
                        queue_name=QueueName)
          for product in Products
          for i in range(n)]
-        taskqueue.add(url="/tasks/curation/products/reduce",
+        taskqueue.add(url="/tasks/curation/samples/reduce",
                       params={"n": n},
                       queue_name=QueueName)
         logging.info("%s tasks started" % (1+len(Products)*n))
@@ -60,7 +60,7 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to products/samples")
         
-Routing=[('/tasks/curation/products/reduce', ReduceHandler),
-         ('/tasks/curation/products', IndexHandler)]
+Routing=[('/tasks/curation/samples/reduce', ReduceHandler),
+         ('/tasks/curation/samples', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
