@@ -67,10 +67,3 @@ def filter_fixtures(fixtures, teams, expirydate, startdate=Today):
     return [fixture for fixture in fixtures
             if filterfn(fixture)]
 
-def add_id(fn):
-    def wrapped_fn(self):
-        resp=fn(self)
-        if self.is_saved():
-            resp["id"]=self.key().id()
-        return resp
-    return wrapped_fn
