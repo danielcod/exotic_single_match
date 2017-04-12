@@ -21,13 +21,13 @@ class IndexHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name("app/match_teams")
         teams=[team for team in json_loads(blob.text)
                if team["team"] in TopTeamNames]
-        bet={"type": "exotic_acca",
-             "teams": self.init_teams(teams, size),
+        bet={"teams": self.init_teams(teams, size),
              "teams_condition": ">",
              "n_teams": 1,
              "result": "win",
              "goals_condition": ">",
              "n_goals": 1}
+        bet["type"]="exotic_acca"
         bet["price"]=calc_probability(bet)
         bet["description"]=description(bet)
         keyname="products/samples/exotic_acca/%s" % i

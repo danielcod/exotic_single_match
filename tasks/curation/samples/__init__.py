@@ -15,7 +15,7 @@ TopTeams=load_top_teams()
 
 TopTeamNames=[team["name"] for team in TopTeams]
 
-# curl "http://localhost:8080/tasks/curation/samples?n=5"
+# curl "http://localhost:8080/tasks/curation/samples?n=1"
 
 class IndexHandler(webapp2.RequestHandler):
  

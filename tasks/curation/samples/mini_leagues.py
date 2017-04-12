@@ -1,5 +1,7 @@
 from tasks.curation.samples import *
 
+from products.positions.mini_leagues import calc_probability, description
+
 class IndexHandler(webapp2.RequestHandler):
 
     def pop_random_team(self, teams):
@@ -23,15 +25,16 @@ class IndexHandler(webapp2.RequestHandler):
         i=int(self.request.get("i"))
         teams=list(TopTeams)
         team=self.pop_random_team(teams)
-        bet=MiniLeagueBet()
-        bet.league=team["league"]
-        bet.team=team["name"]
-        bet.versus=json_dumps(self.init_versus(teams, size-1))
-        bet.payoff=self.init_payoff()
-        bet.expiry=EndOfSeason
-        bet.price=format_price(bet.calc_probability())
+        bet={"league": team["league"],
+             "team": team["name"],
+             "versus": self.init_versus(teams, size-1),
+             "payoff": self.init_payoff(),
+             "expiry": EndOfSeason}
+        bet["type"]="mini_league"
+        bet["price"]=calc_probability(bet)
+        bet["description"]=description(bet)
         keyname="products/samples/mini_league/%i" % i
-        memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
+        memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved mini_league/%i" % i)
         
 Routing=[('/tasks/curation/samples/mini_leagues', IndexHandler)]
