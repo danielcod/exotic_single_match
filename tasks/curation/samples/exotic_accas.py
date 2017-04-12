@@ -1,5 +1,7 @@
 from tasks.curation.samples import *
 
+from products.goals.exotic_accas import calc_probability, description
+
 class IndexHandler(webapp2.RequestHandler):
 
     def pop_random_team(self, teams):
@@ -19,16 +21,17 @@ class IndexHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name("app/match_teams")
         teams=[team for team in json_loads(blob.text)
                if team["team"] in TopTeamNames]
-        bet=ExoticAccaBet()
-        bet.teams=json_dumps(self.init_teams(teams, size))
-        bet.teams_condition=">"
-        bet.n_teams=1
-        bet.result="win"
-        bet.goals_condition=">"
-        bet.n_goals=1
-        bet.price=format_price(bet.calc_probability())
+        bet={"type": "exotic_acca",
+             "teams": self.init_teams(teams, size),
+             "teams_condition": ">",
+             "n_teams": 1,
+             "result": "win",
+             "goals_condition": ">",
+             "n_goals": 1}
+        bet["price"]=calc_probability(bet)
+        bet["description"]=description(bet)
         keyname="products/samples/exotic_acca/%s" % i
-        memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
+        memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved exotic_acca/%i" % i)
 
 Routing=[('/tasks/curation/samples/exotic_accas', IndexHandler)]
