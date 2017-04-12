@@ -2,11 +2,6 @@ from tasks import *
 
 import apis.yc_lite_api as yc_lite
 
-from models.bets.goals.exotic_accas import ExoticAccaBet
-from models.bets.positions.mini_leagues import MiniLeagueBet
-from models.bets.positions.season_match_bets import SeasonMatchBet
-from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
-
 Leagues=dict([(league["name"], league)
               for league in yaml.load(file("config/leagues.yaml").read())])
 
