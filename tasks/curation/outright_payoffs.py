@@ -1,5 +1,7 @@
 from tasks.curation import *
 
+from products.positions.single_team_outrights import filter_atm_payoffs
+
 # curl "http://localhost:8080/tasks/curation/outright_payoffs"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -27,7 +29,7 @@ class MapHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")        
-        items=SingleTeamOutrightBet.filter_atm_payoffs(leaguename)
+        items=filter_atm_payoffs(leaguename)
         keyname="products/outright_payoffs/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s outright payoffs" % (len(items), keyname))

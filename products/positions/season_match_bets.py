@@ -11,7 +11,7 @@ Payoff="Winner"
 - but should be close
 """
     
-def filter_atm_versus(bet, leaguename,
+def filter_atm_versus(leaguename,
                       paths=Paths, seed=Seed,
                       minprob=MinFilterProb, maxprob=MaxFilterProb):
     teams=fetch_teams(leaguename)

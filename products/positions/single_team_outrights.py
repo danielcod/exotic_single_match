@@ -2,7 +2,7 @@ from products.positions import *
 
 MinFilterProb, MaxFilterProb = 0.01, 0.99
 
-def init_payoffs(bet, leaguename):
+def init_payoffs(leaguename):
     teams=fetch_teams(leaguename)
     names=[]
     names.append("Winner")
@@ -20,7 +20,7 @@ def init_payoffs(bet, leaguename):
     return [{"name": name}
             for name in names]
 
-def filter_atm_payoffs(bet, leaguename,
+def filter_atm_payoffs(leaguename,
                        paths=Paths, seed=Seed,
                        minprob=MinFilterProb, maxprob=MaxFilterProb):
     teams=fetch_teams(leaguename)
@@ -30,7 +30,7 @@ def filter_atm_payoffs(bet, leaguename,
     if fixtures==[]:
         raise RuntimeError("No fixtures found")
     pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
-    payoffs=init_payoffs(bet, leaguename)
+    payoffs=init_payoffs(leaguename)
     for payoff in payoffs:
         payoff["payoff"]=parse_payoff(payoff["name"], len(teams))
     items=[]
