@@ -1,5 +1,7 @@
 from tasks.curation import *
 
+from products.positions.season_match_bets import filter_atm_versus
+
 # curl "http://localhost:8080/tasks/curation/smb_versus"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -27,7 +29,7 @@ class MapHandler(webapp2.RequestHandler):
     @task
     def post(self):
         leaguename=self.request.get("league")
-        items=SeasonMatchBet.filter_atm_versus(leaguename)
+        items=filter_atm_versus(leaguename)
         keyname="products/smb_versus/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s SMB versus" % (len(items), keyname))
