@@ -1,4 +1,4 @@
-from tasks.quant import *
+from tasks.data import *
 
 import sport_data_client.services.event_matcher as event_matcher
 
@@ -16,7 +16,7 @@ BBC="BBC"
 def get_date_cutoff(leaguename):
     return DefaultDateCutoff
 
-# curl "http://localhost:8080/tasks/quant/bbc_fixtures?leagues=ENG.1"
+# curl "http://localhost:8080/tasks/data/bbc_fixtures?leagues=ENG.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -27,7 +27,7 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
-        [taskqueue.add(url="/tasks/quant/bbc_fixtures/league",
+        [taskqueue.add(url="/tasks/data/bbc_fixtures/league",
                        params={"league": leaguename},
                        queue_name=QueueName)
          for leaguename in leaguenames]
@@ -65,8 +65,8 @@ class LeagueHandler(webapp2.RequestHandler):
          for fixture in fixtures]
         logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
 
-Routing=[('/tasks/quant/bbc_fixtures/league', LeagueHandler),
-         ('/tasks/quant/bbc_fixtures', IndexHandler)]
+Routing=[('/tasks/data/bbc_fixtures/league', LeagueHandler),
+         ('/tasks/data/bbc_fixtures', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
