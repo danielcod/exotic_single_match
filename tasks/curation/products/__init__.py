@@ -24,12 +24,14 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):         
         n=int(self.request.get("n"))
         [taskqueue.add(url="/tasks/curation/products/%ss" % product["type"], # NB note pluralisation
-                       params={"n": n},
+                       params={"i": i},
                        queue_name=QueueName)
-         for product in Products]
+         for product in Products
+         for i in range(n)]
         taskqueue.add(url="/tasks/curation/products/reduce",
+                      params={"n": n},
                       queue_name=QueueName)
-        logging.info("%s tasks started" % (1+len(Products)))
+        logging.info("%s tasks started" % (1+len(Products)*n))
 
 class ReduceHandler(webapp2.RequestHandler):
 
@@ -38,18 +40,20 @@ class ReduceHandler(webapp2.RequestHandler):
         return [bet for bet, _ in sorted([(bet, random.random())
                                           for bet in bets],
                                          key=lambda x: x[-1])]
-            
+
+    @validate_query({"n": "\\d+"})
     @task
     def post(self):
+        n=int(self.request.get("n"))
         bets=[]
         for product in Products:
-            keyname="products/samples/%s" % product["type"]
-            resp=memcache.get(keyname)
-            if resp in ['', None, []]:
-                logging.warning("Couldn't lookup %s from memcache" % keyname)
-                continue
-            logging.info("Looked up %s from memcache" % keyname)
-            bets+=json_loads(resp)            
+            for i in range(n):
+                keyname="products/samples/%s/%i" % (product["type"], i)
+                resp=memcache.get(keyname)
+                if resp in ['', None, []]:
+                    logging.warning("Couldn't lookup %s from memcache" % keyname)
+                    continue
+                bets.append(json_loads(resp))
         logging.info("Total %i samples" % len(bets))
         Blob(key_name="products/samples",
              text=json_dumps(self.randomise_bet_order(bets)),
