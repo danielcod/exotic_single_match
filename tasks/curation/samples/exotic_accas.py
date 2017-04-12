@@ -28,7 +28,7 @@ class IndexHandler(webapp2.RequestHandler):
              "goals_condition": ">",
              "n_goals": 1}
         bet["type"]="exotic_acca"
-        bet["price"]=calc_probability(bet)
+        bet["price"]=format_price(calc_probability(bet))
         bet["description"]=description(bet)
         keyname="products/samples/exotic_acca/%s" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)

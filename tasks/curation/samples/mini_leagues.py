@@ -31,7 +31,7 @@ class IndexHandler(webapp2.RequestHandler):
              "payoff": self.init_payoff(),
              "expiry": EndOfSeason}
         bet["type"]="mini_league"
-        bet["price"]=calc_probability(bet)
+        bet["price"]=format_price(calc_probability(bet))
         bet["description"]=description(bet)
         keyname="products/samples/mini_league/%i" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)

@@ -1,5 +1,7 @@
 from tasks.curation.samples import *
 
+from products.positions.season_match_bets import calc_probability, description
+
 class IndexHandler(webapp2.RequestHandler):
 
     @validate_query({'i': '\\d+'})
@@ -11,14 +13,15 @@ class IndexHandler(webapp2.RequestHandler):
                if team["team"] in TopTeamNames]
         j=int(random.random()*len(teams))
         team=teams[j]
-        price=format_price(team["probability"])
-        bet=SeasonMatchBet(league=team["league"],
-                           team=team["team"],
-                           versus=team["versus"],
-                           expiry=EndOfSeason,
-                           price=price)
+        bet={"league": team["league"],
+             "team": team["team"],
+             "versus": team["versus"],
+             "expiry": EndOfSeason}
+        bet["type"]="season_match_bet"
+        bet["price"]=format_price(calc_probability(bet))
+        bet["description"]=description(bet)
         keyname="products/samples/season_match_bet/%i" % i
-        memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
+        memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved season_match_bet/%i" % i)
         
 Routing=[('/tasks/curation/samples/season_match_bets', IndexHandler)]
