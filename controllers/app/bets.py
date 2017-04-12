@@ -1,10 +1,5 @@
 from controllers.app import *
 
-from models.bets.positions.single_team_outrights import SingleTeamOutrightBet
-from models.bets.positions.season_match_bets import SeasonMatchBet
-from models.bets.positions.mini_leagues import MiniLeagueBet
-from models.bets.goals.exotic_accas import ExoticAccaBet
-
 MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
 
 def format_price(probability):
@@ -27,16 +22,17 @@ class PriceHandler(webapp2.RequestHandler):
     # @emit_json_memcache(MemcacheAge)
     @emit_json
     def post(self, struct):
-        # logging.info(struct) # TEMP
         bettype=struct.pop("type")
-        products=dict([(product["type"], eval(product["class"]))
+        products=dict([(product["type"], product["pkg"])
                        for product in Products])
         if bettype not in products:
             raise RuntimeError("Product not found")
-        bet=products[bettype].from_json(struct)
-        probability=bet.calc_probability()
-        return {"price": format_price(probability),
-                "description": bet.description}
+        try:
+            mod=__import__(products[bettype], fromlist=[""])
+        except ImportError:
+            raise RuntimeError("Error importing %s" % products[bettype])
+        return {"price": format_price(mod.calc_probability(struct)),
+                "description": mod.description(struct)}
 
 Routing=[('/app/bets/price', PriceHandler)]
 
