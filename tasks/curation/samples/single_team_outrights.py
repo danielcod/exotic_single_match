@@ -1,5 +1,7 @@
 from tasks.curation.samples import *
 
+from products.positions.single_team_outrights import calc_probability, description
+
 class IndexHandler(webapp2.RequestHandler):
 
     @validate_query({'i': '\\d+'})
@@ -11,14 +13,15 @@ class IndexHandler(webapp2.RequestHandler):
                  if team["team"] in TopTeamNames]
         j=int(random.random()*len(payoffs))
         payoff=payoffs[j]
-        price=format_price(payoff["probability"])
-        bet=SingleTeamOutrightBet(league=payoff["league"],
-                                  team=payoff["team"],
-                                  payoff=payoff["payoff"],
-                                  expiry=EndOfSeason,
-                                  price=price)
+        bet={"league": payoff["league"],
+             "team": payoff["team"],
+             "payoff": payoff["payoff"],
+             "expiry": EndOfSeason}
+        bet["type"]="single_team_outright"
+        bet["price"]=format_price(calc_probability(bet))
+        bet["description"]=description(bet)
         keyname="products/samples/single_team_outright/%i" % i
-        memcache.set(keyname, json_dumps(bet.to_json()), MemcacheAge)
+        memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved single_team_outright/%i" % i)
 
 Routing=[('/tasks/curation/samples/single_team_outrights', IndexHandler)]
