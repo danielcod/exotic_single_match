@@ -37,14 +37,14 @@ var SingleTeamOutrightForm=React.createClass({
 	return payoffs.length!=0;
     },
     teamChangeHandler: function(struct) {
-	if ((this.state.bet.league!=struct.league) ||
-	    (this.state.bet.team!=struct.team)) {
+	if ((this.state.bet.params.league!=struct.league) ||
+	    (this.state.bet.params.team!=struct.team)) {
 	    var state=this.state;
-	    state.bet.league=struct.league;
-	    state.bet.team=struct.team;
+	    state.bet.params.league=struct.league;
+	    state.bet.params.team=struct.team;
 	    // try and preseve payoff value if possible
-	    if (!this.hasPayoff(struct.team, this.state.bet.payoff)) {
-		state.bet.payoff=undefined;
+	    if (!this.hasPayoff(struct.team, this.state.bet.params.payoff)) {
+		state.bet.params.payoff=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -59,10 +59,10 @@ var SingleTeamOutrightForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
-	return ((bet.league!=undefined) &&
-		(bet.team!=undefined) &&
-		(bet.payoff!=undefined) &&
-		(bet.expiry!=undefined));
+	return ((bet.params.league!=undefined) &&
+		(bet.params.team!=undefined) &&
+		(bet.params.payoff!=undefined) &&
+		(bet.params.expiry!=undefined));
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
@@ -81,8 +81,8 @@ var SingleTeamOutrightForm=React.createClass({
 		React.createElement(TeamSelector, {
 		    exoticsApi: this.props.exoticsApi,
 		    item: {
-			league: this.state.bet.league,
-			team: this.state.bet.team
+			league: this.state.bet.params.league,
+			team: this.state.bet.params.team
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
@@ -95,8 +95,8 @@ var SingleTeamOutrightForm=React.createClass({
 		    React.createElement(MySelect, {
                         label: "Position",
                         name: "payoff",
-                        options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.team)),
-                        value: this.state.bet.payoff,
+                        options: this.formatPayoffOptions(this.filterPayoffs(this.state.options.payoff, this.state.bet.params.team)),
+                        value: this.state.bet.params.payoff,
                         changeHandler: this.changeHandler,
                         blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -105,7 +105,7 @@ var SingleTeamOutrightForm=React.createClass({
                     }),
 		    React.createElement(ExpirySelector, {
                         exoticsApi: this.props.exoticsApi,
-                        expiry: this.state.bet.expiry,
+                        expiry: this.state.bet.params.expiry,
                         changeHandler: this.changeHandler,
                         blankStyle: this.props.blankStyle,
 			defaultOption: {

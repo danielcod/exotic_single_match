@@ -46,14 +46,14 @@ var SeasonMatchBetForm=React.createClass({
 	return versus.length!=0;
     },
     teamChangeHandler: function(struct) {
-	if ((this.state.bet.league!=struct.league) ||
-	    (this.state.bet.team!=struct.team)) {
+	if ((this.state.bet.params.league!=struct.league) ||
+	    (this.state.bet.params.team!=struct.team)) {
 	    var state=this.state;
-	    state.bet.league=struct.league;
-	    state.bet.team=struct.team;
+	    state.bet.params.league=struct.league;
+	    state.bet.params.team=struct.team;
 	    // try and preserve versus value if possible
-	    if (!this.hasVersus(struct.team, state.bet.versus)) {
-		state.bet.versus=undefined;
+	    if (!this.hasVersus(struct.team, state.bet.params.versus)) {
+		state.bet.params.versus=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -68,11 +68,11 @@ var SeasonMatchBetForm=React.createClass({
 	}
     },
     isComplete: function(bet) {
-	return ((bet.league!=undefined) &&
-		(bet.team!=undefined) &&
-		(bet.versus!=undefined) &&
-		(bet.team!=bet.versus) &&
-		(bet.expiry!=undefined));
+	return ((bet.params.league!=undefined) &&
+		(bet.params.team!=undefined) &&
+		(bet.params.versus!=undefined) &&
+		(bet.params.team!=bet.params.versus) &&
+		(bet.params.expiry!=undefined));
     },
     updatePrice: function(bet) {
 	if (this.isComplete(bet)) {
@@ -91,8 +91,8 @@ var SeasonMatchBetForm=React.createClass({
 		React.createElement(TeamSelector, {
 		    exoticsApi: this.props.exoticsApi,
 		    item: {
-			league: this.state.bet.league,
-			team: this.state.bet.team
+			league: this.state.bet.params.league,
+			team: this.state.bet.params.team
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
@@ -104,8 +104,8 @@ var SeasonMatchBetForm=React.createClass({
 		React.createElement(MySelect, {
 		    label: "Versus",
 		    name: "versus",
-		    options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.bet.team)),
-		    value: this.state.bet.versus,
+		    options: this.formatVersusOptions(this.filterVersus(this.state.options.versus, this.state.bet.params.team)),
+		    value: this.state.bet.params.versus,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
@@ -114,7 +114,7 @@ var SeasonMatchBetForm=React.createClass({
 		}),
 		React.createElement(ExpirySelector, {
 		    exoticsApi: this.props.exoticsApi,
-		    expiry: this.state.bet.expiry,
+		    expiry: this.state.bet.params.expiry,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {

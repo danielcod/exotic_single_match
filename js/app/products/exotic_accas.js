@@ -7,8 +7,8 @@ var ExoticAccaForm=React.createClass({
 	}.bind(this);
     },
     initBet: function(bet) {
-	if (bet.teams==undefined) {
-	    bet.teams=[];
+	if (bet.params.teams==undefined) {
+	    bet.params.teams=[];
 	}
 	return bet;
     },
@@ -84,10 +84,10 @@ var ExoticAccaForm=React.createClass({
 		home_away: item.home_away
 	    };
 	}.bind(this));
-	state.bet.teams=teams;
-	if ((state.bet.n_teams!=undefined) &&
-	    (state.bet.n_teams > teams.length)) {
-	    state.bet.n_teams=undefined;
+	state.bet.params.teams=teams;
+	if ((state.bet.params.n_teams!=undefined) &&
+	    (state.bet.params.n_teams > teams.length)) {
+	    state.bet.params.n_teams=undefined;
 	}
 	this.setState(state);
 	this.updatePrice(this.state.bet);
@@ -143,14 +143,14 @@ var ExoticAccaForm=React.createClass({
 	    }
 	    // don't finesse resets; there are too many options, just blank out dependant fields
 	    if (name=="teams_condition") {
-		state.bet.n_teams=undefined;
+		state.bet.params.n_teams=undefined;
 	    }
 	    if (name=="result") {
-		state.bet.goals_condition=undefined;
-		state.bet.n_goals=undefined;
+		state.bet.params.goals_condition=undefined;
+		state.bet.params.n_goals=undefined;
 	    }
 	    if (name=="goals_condition") {
-		state.bet.n_goals=undefined;
+		state.bet.params.n_goals=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -158,16 +158,16 @@ var ExoticAccaForm=React.createClass({
     },
     isComplete: function(bet) {
 	// check scalar fields
-	if ((bet.teams_condition==undefined) ||
-	    (bet.n_teams==undefined) ||
-	    (bet.result==undefined) ||
-	    (bet.goals_condition==undefined) || 
-	    (bet.n_goals==undefined)) {
+	if ((bet.params.teams_condition==undefined) ||
+	    (bet.params.n_teams==undefined) ||
+	    (bet.params.result==undefined) ||
+	    (bet.params.goals_condition==undefined) || 
+	    (bet.params.n_goals==undefined)) {
 	    return false;
 	}
 	// check undefined teams fields
-	for (var i=0; i < bet.teams.length; i++) {
-	    var item=bet.teams[i];
+	for (var i=0; i < bet.params.teams.length; i++) {
+	    var item=bet.params.teams[i];
 	    if ((item.league==undefined) ||
 		(item.team==undefined)) {
 		return false;
@@ -175,13 +175,13 @@ var ExoticAccaForm=React.createClass({
 	}
 	// check unique team names
 	var teamnames=[];	
-	for (var i=0; i < bet.teams.length; i++) {
-	    var item=bet.teams[i];
+	for (var i=0; i < bet.params.teams.length; i++) {
+	    var item=bet.params.teams[i];
 	    if (teamnames.indexOf(item.team)==-1) {
 		teamnames.push(item.team);
 	    }
 	}
-	if (teamnames.length!=(bet.teams.length)) {
+	if (teamnames.length!=(bet.params.teams.length)) {
 	    return false
 	}
 	return true;
@@ -201,7 +201,7 @@ var ExoticAccaForm=React.createClass({
 	    rows: [
 		React.createElement(SelectorTable, {
 		    selectorClass: MatchTeamSelector,
-		    items: this.state.bet.teams,
+		    items: this.state.bet.params.teams,
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,
 		    changeHandler: this.teamsChangeHandler,
@@ -216,7 +216,7 @@ var ExoticAccaForm=React.createClass({
 			label: "Teams Condition",
 			name: "teams_condition",
 			options: this.state.options.teams.condition,
-			value: this.state.bet.teams_condition,
+			value: this.state.bet.params.teams_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -226,8 +226,8 @@ var ExoticAccaForm=React.createClass({
 		    React.createElement(MySelect, {
 			label: "Number of Teams",
 			name: "n_teams",
-			options: this.initNTeamsOptions(this.state.bet.teams, this.state.bet.teams_condition),
-			value: this.state.bet.n_teams,
+			options: this.initNTeamsOptions(this.state.bet.params.teams, this.state.bet.params.teams_condition),
+			value: this.state.bet.params.n_teams,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -239,7 +239,7 @@ var ExoticAccaForm=React.createClass({
 		    label: "Result",
 		    name: "result",
 		    options: this.state.options.result,
-		    value: this.state.bet.result,
+		    value: this.state.bet.params.result,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
@@ -250,8 +250,8 @@ var ExoticAccaForm=React.createClass({
 		    React.createElement(MySelect, {
 			label: "Goals Condition",
 			name: "goals_condition",
-			options: this.initGoalsConditionOptions(this.state.bet.result),
-			value: this.state.bet.goals_condition,
+			options: this.initGoalsConditionOptions(this.state.bet.params.result),
+			value: this.state.bet.params.goals_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -261,8 +261,8 @@ var ExoticAccaForm=React.createClass({
 		    React.createElement(MySelect, {
 			label: "Number of Goals",
 			name: "n_goals",
-			options: this.initNGoalsOptions(10, this.state.bet.result),
-			value: this.state.bet.n_goals,
+			options: this.initNGoalsOptions(10, this.state.bet.params.result),
+			value: this.state.bet.params.n_goals,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {

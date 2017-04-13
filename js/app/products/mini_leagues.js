@@ -7,8 +7,8 @@ var MiniLeagueForm=React.createClass({
 	}.bind(this);
     },
     initBet: function(bet) {
-	if (bet.versus==undefined) {
-	    bet.versus=[];
+	if (bet.params.versus==undefined) {
+	    bet.params.versus=[];
 	}
 	return bet;
     },
@@ -28,18 +28,18 @@ var MiniLeagueForm=React.createClass({
 	};
     },
     teamChangeHandler: function(struct) {
-	if ((this.state.bet.league!=struct.league) ||
-	    (this.state.bet.team!=struct.team)) {
+	if ((this.state.bet.params.league!=struct.league) ||
+	    (this.state.bet.params.team!=struct.team)) {
 	    var state=this.state;
-	    state.bet.league=struct.league;
-	    state.bet.team=struct.team;
+	    state.bet.params.league=struct.league;
+	    state.bet.params.team=struct.team;
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
 	}
     },
     versusChangeHandler: function(items) {
 	var state=this.state;
-	state.bet.versus=items.map(function(item) {
+	state.bet.params.versus=items.map(function(item) {
 	    return {
 		league: item.league,
 		team: item.team
@@ -58,29 +58,29 @@ var MiniLeagueForm=React.createClass({
     },
     isComplete: function(bet) {
 	// check scalar fields
-	if ((bet.league==undefined) ||
-	    (bet.team==undefined) ||
-	    (bet.payoff==undefined) ||
-	    (bet.expiry==undefined)) {
+	if ((bet.params.league==undefined) ||
+	    (bet.params.team==undefined) ||
+	    (bet.params.payoff==undefined) ||
+	    (bet.params.expiry==undefined)) {
 	    return false;
 	}
 	// check undefined versus fields
-	for (var i=0; i < bet.versus.length; i++) {
-	    var item=bet.versus[i];
+	for (var i=0; i < bet.params.versus.length; i++) {
+	    var item=bet.params.versus[i];
 	    if ((item.league==undefined) ||
 		(item.team==undefined)) {
 		return false;
 	    }
 	}
 	// check unique team names
-	var teamnames=[bet.team];	
-	for (var i=0; i < bet.versus.length; i++) {
-	    var item=bet.versus[i];
+	var teamnames=[bet.params.team];	
+	for (var i=0; i < bet.params.versus.length; i++) {
+	    var item=bet.params.versus[i];
 	    if (teamnames.indexOf(item.team)==-1) {
 		teamnames.push(item.team);
 	    }
 	}
-	if (teamnames.length!=(bet.versus.length+1)) {
+	if (teamnames.length!=(bet.params.versus.length+1)) {
 	    return false
 	}
 	return true;
@@ -101,8 +101,8 @@ var MiniLeagueForm=React.createClass({
 		React.createElement(TeamSelector, {
 		    exoticsApi: this.props.exoticsApi,
 		    item: {
-			league: this.state.bet.league,
-			team: this.state.bet.team
+			league: this.state.bet.params.league,
+			team: this.state.bet.params.team
 		    },
 		    changeHandler: this.teamChangeHandler,
 		    blankStyle: this.props.blankStyle,
@@ -113,7 +113,7 @@ var MiniLeagueForm=React.createClass({
 		}),
 		React.createElement(SelectorTable, {
 		    selectorClass: TeamSelector,
-		    items: this.state.bet.versus,
+		    items: this.state.bet.params.versus,
 		    exoticsApi: this.props.exoticsApi,
 		    blankStyle: this.props.blankStyle,
 		    changeHandler: this.versusChangeHandler,
@@ -128,7 +128,7 @@ var MiniLeagueForm=React.createClass({
 			label: "Winner/Bottom",
 			name: "payoff",
 			options: this.state.options.payoff,
-			value: this.state.bet.payoff,
+			value: this.state.bet.params.payoff,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -137,7 +137,7 @@ var MiniLeagueForm=React.createClass({
 		    }),
 		    React.createElement(ExpirySelector, {
 			exoticsApi: this.props.exoticsApi,
-			expiry: this.state.bet.expiry,
+			expiry: this.state.bet.params.expiry,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
