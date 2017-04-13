@@ -23,7 +23,7 @@ def validate_quant(fn):
         if errors!=[]:
             raise RuntimeError("Following fixtures are missing poisson means: %s" % ", ".join(errors))
         return fn(fixtures, *args, **kwargs)
-    return fn
+    return wrapped_fn
 
 @validate_quant
 def simulate_matches(fixtures, paths, seed):
@@ -45,3 +45,4 @@ def simulate_match_teams(fixtures, paths, seed):
             items[i][teamnames[1]]=(score[1], score[0])
     return items
 
+        
