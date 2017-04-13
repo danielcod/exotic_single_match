@@ -31,9 +31,9 @@ var EditBetForm=React.createClass({
     formatPrice: function(probability) {
 	return (1/Math.min(0.99, Math.max(0.01, probability))).toFixed(2);
     },
-    priceChangeHandler: function(probability) {
+    priceChangeHandler: function(price) {
 	var state=this.state;
-	state.price=this.formatPrice(probability);
+	state.price=price;
 	this.setState(state);
     },
     loadProductForm: function(type) {
@@ -48,7 +48,7 @@ var EditBetForm=React.createClass({
     updatePrice: function(bet) {
 	this.priceChangeHandler("[updating ..]");
 	this.props.exoticsApi.fetchPrice(bet, function(struct) {
-	    this.priceChangeHandler(struct["probability"]);
+	    this.priceChangeHandler(this.formatPrice(struct["probability"]));
 	}.bind(this));
 	this.props.productChangeHandler(bet);
     },
