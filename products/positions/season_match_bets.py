@@ -43,27 +43,27 @@ def filter_atm_versus(leaguename,
                 items.append(item)
     return items
 
-def calc_probability(bet, paths=Paths, seed=Seed):
-    teams=[team for team in fetch_teams(bet["league"])
-           if team["name"] in [bet["team"], bet["versus"]]]
-    results=[result for result in fetch_results(bet["league"])
-             if (bet["team"] in result["name"] or
-                 bet["versus"] in result["name"])]
-    fixtures=[fixture for fixture in fetch_fixtures(bet["league"])
+def calc_probability(params, paths=Paths, seed=Seed):
+    teams=[team for team in fetch_teams(params["league"])
+           if team["name"] in [params["team"], params["versus"]]]
+    results=[result for result in fetch_results(params["league"])
+             if (params["team"] in result["name"] or
+                 params["versus"] in result["name"])]
+    fixtures=[fixture for fixture in fetch_fixtures(params["league"])
               if ((fixture["date"] > Today) and
-                  (fixture["date"] <= bet["expiry"]) and
-                  ((bet["team"] in fixture["name"]) or
-                   (bet["versus"] in fixture["name"])))]
+                  (fixture["date"] <= params["expiry"]) and
+                  ((params["team"] in fixture["name"]) or
+                   (params["versus"] in fixture["name"])))]
     if fixtures==[]:
         raise RuntimeError("No fixtures found")
     pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
     payoff=parse_payoff(Payoff, len(teams))
-    return sumproduct(payoff, pp[bet["team"]])
+    return sumproduct(payoff, pp[params["team"]])
 
-def description(bet):
-    return {"selection": bet["team"], 
-            "market": "To be above %s at %s" % (bet["versus"],
-                                                bet["expiry"]),
+def description(params):
+    return {"selection": params["team"], 
+            "market": "To be above %s at %s" % (params["versus"],
+                                                params["expiry"]),
             "group": {"label": "SMB",
                       "level": "orange"}}
     

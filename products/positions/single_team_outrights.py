@@ -45,19 +45,19 @@ def filter_atm_payoffs(leaguename,
                 items.append(item)
     return items
     
-def calc_probability(bet, paths=Paths, seed=Seed):
-    teams=fetch_teams(bet["league"])
-    results=fetch_results(bet["league"])
-    fixtures=[fixture for fixture in fetch_fixtures(bet["league"])
+def calc_probability(params, paths=Paths, seed=Seed):
+    teams=fetch_teams(params["league"])
+    results=fetch_results(params["league"])
+    fixtures=[fixture for fixture in fetch_fixtures(params["league"])
               if (fixture["date"] > Today and
-                  fixture["date"] <= bet["expiry"])]
+                  fixture["date"] <= params["expiry"])]
     if fixtures==[]:
         raise RuntimeError("No fixtures found")
     pp=yc_simulator.simulate(teams, results, fixtures, paths, seed)
-    payoff=parse_payoff(bet["payoff"], len(teams))
-    return sumproduct(payoff, pp[bet["team"]])
+    payoff=parse_payoff(params["payoff"], len(teams))
+    return sumproduct(payoff, pp[params["team"]])
 
-def description(bet):
+def description(params):
     def format_payoff(payoff):
         if payoff=="Winner":
             return "top of the table"
@@ -73,9 +73,9 @@ def description(bet):
             return "in "+payoff.lower()
         else:
             return payoff
-    return {"selection": bet["team"], 
-            "market": "%s at %s" % (format_payoff(bet["payoff"]).capitalize(),
-                                    bet["expiry"]),
+    return {"selection": params["team"], 
+            "market": "%s at %s" % (format_payoff(params["payoff"]).capitalize(),
+                                    params["expiry"]),
             "group": {"label": "Outright",
                       "level": "red"}}
     
