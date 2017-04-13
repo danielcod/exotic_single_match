@@ -2,13 +2,14 @@ var PlaceBetPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    confirmMessage: undefined,
-	    bet: undefined,
+	    bet: this.props.bet,
 	    size: 2
 	};
     },
     showBetHandler: function(struct) {
 	var state=this.state;
-	state.bet=struct;
+	state.bet.price=struct.price;
+	state.bet.description=struct.description;
 	this.setState(state);
     },
     componentDidMount: function() {
@@ -118,7 +119,7 @@ var PlaceBetPanel=React.createClass({
 			    },
 			    children: "Cancel",
 			    onClick: function() {
-				this.props.stepChangeHandler(0, undefined);
+				this.props.stepChangeHandler(1, this.state.bet);
 			    }.bind(this)
 			}),
 			React.DOM.button({
