@@ -1,21 +1,5 @@
 from controllers.app import *
 
-MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
-
-def format_price(probability):
-    if probability < MinProb:
-        price=MaxPrice
-    elif probability > MaxProb:
-        price=MinPrice
-    else:
-        price=1/float(probability)
-    if price < 2:
-        return "%.3f" % price
-    elif price < 5:
-        return "%.2f" % price
-    else:
-        return "%.1f" % price
-
 class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
@@ -31,7 +15,7 @@ class PriceHandler(webapp2.RequestHandler):
             mod=__import__(products[type], fromlist=[""])
         except ImportError:
             raise RuntimeError("Error importing %s" % products[type])
-        return {"price": format_price(mod.calc_probability(params)),
+        return {"probability": mod.calc_probability(params),
                 "description": mod.description(params)}
 
 Routing=[('/app/bets/price', PriceHandler)]

@@ -19,7 +19,7 @@ class IndexHandler(webapp2.RequestHandler):
                 "expiry": EndOfSeason}
         bet={"type": "single_team_outright",
              "params": params,
-             "price": format_price(calc_probability(params)),
+             "probability": calc_probability(params),
              "description": description(params)}
         keyname="products/samples/single_team_outright/%i" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)

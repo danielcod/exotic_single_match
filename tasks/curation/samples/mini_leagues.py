@@ -32,7 +32,7 @@ class IndexHandler(webapp2.RequestHandler):
                 "expiry": EndOfSeason}
         bet={"type": "mini_league",
              "params": params,
-             "price": format_price(calc_probability(params)),
+             "probability": calc_probability(params),
              "description": description(params)}
         keyname="products/samples/mini_league/%i" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)

@@ -15,17 +15,3 @@ def end_of_season(today):
 
 EndOfSeason=end_of_season(datetime.date.today())
 
-MaxProb, MinProb, MinPrice, MaxPrice = 0.99, 0.01, 1.001, 100
-
-def format_price(probability):
-    if probability < MinProb:
-        price=MaxPrice
-    elif probability > MaxProb:
-        price=MinPrice
-    else:
-        price=1/float(probability)
-    if price < 5:
-        return "%.2f" % price
-    else:
-        return "%.1f" % price
-
