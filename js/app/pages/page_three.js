@@ -6,9 +6,12 @@ var PlaceBetPanel=React.createClass({
 	    size: 2
 	};
     },
+    formatPrice: function(probability) {
+	return (1/Math.min(0.99, Math.max(0.01, probability))).toFixed(2);
+    },
     showBetHandler: function(struct) {
 	var state=this.state;
-	state.bet.price=struct.price;
+	state.bet.probability=struct.probability;
 	state.bet.description=struct.description;
 	this.setState(state);
     },
@@ -50,7 +53,7 @@ var PlaceBetPanel=React.createClass({
 			    children: [
 				"Your price: ",
 				React.DOM.span({
-				    children: this.state.bet.price
+				    children: this.formatPrice(this.state.bet.probability)
 				})					
 			    ]				    
 			})
@@ -69,7 +72,7 @@ var PlaceBetPanel=React.createClass({
 				    children: "£"+this.state.size+" @ "
 				}),
 				React.DOM.span({
-				    children: this.state.bet.price
+				    children: this.formatPrice(this.state.bet.probability)
 				})
 			    ]
 			})

@@ -15,12 +15,7 @@ class IndexHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name(key)
         if not blob:
             raise RuntimeError("Blob not found")
-        items=json_loads(blob.text)
-        for item in items:
-            for attr in ["probability"]:
-                if attr in item:
-                    item.pop(attr)
-        return items
+        return json_loads(blob.text)
         
 Routing=[('/app/blobs', IndexHandler)]
 

@@ -1,4 +1,7 @@
 var BrowseBetsRow=React.createClass({
+    formatPrice: function(probability) {
+	return (1/Math.min(0.99, Math.max(0.01, probability))).toFixed(2);
+    },
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -27,7 +30,7 @@ var BrowseBetsRow=React.createClass({
 		    className: "text-center",			    
 		    children: React.DOM.span({
 			className: "price",
-			children: this.props.bet.price
+			children: this.formatPrice(this.props.bet.probability)
 		    })
 		}),
 		React.DOM.td({
