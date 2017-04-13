@@ -13,13 +13,14 @@ class IndexHandler(webapp2.RequestHandler):
                  if team["team"] in TopTeamNames]
         j=int(random.random()*len(payoffs))
         payoff=payoffs[j]
-        bet={"league": payoff["league"],
-             "team": payoff["team"],
-             "payoff": payoff["payoff"],
-             "expiry": EndOfSeason}
-        bet["type"]="single_team_outright"
-        bet["price"]=format_price(calc_probability(bet))
-        bet["description"]=description(bet)
+        params={"league": payoff["league"],
+                "team": payoff["team"],
+                "payoff": payoff["payoff"],
+                "expiry": EndOfSeason}
+        bet={"type": "single_team_outright",
+             "params": params,
+             "price": format_price(calc_probability(params)),
+             "description": description(params)}
         keyname="products/samples/single_team_outright/%i" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved single_team_outright/%i" % i)

@@ -25,14 +25,15 @@ class IndexHandler(webapp2.RequestHandler):
         i=int(self.request.get("i"))
         teams=list(TopTeams)
         team=self.pop_random_team(teams)
-        bet={"league": team["league"],
-             "team": team["name"],
-             "versus": self.init_versus(teams, size-1),
-             "payoff": self.init_payoff(),
-             "expiry": EndOfSeason}
-        bet["type"]="mini_league"
-        bet["price"]=format_price(calc_probability(bet))
-        bet["description"]=description(bet)
+        params={"league": team["league"],
+                "team": team["name"],
+                "versus": self.init_versus(teams, size-1),
+                "payoff": self.init_payoff(),
+                "expiry": EndOfSeason}
+        bet={"type": "mini_league",
+             "params": params,
+             "price": format_price(calc_probability(params)),
+             "description": description(params)}
         keyname="products/samples/mini_league/%i" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved mini_league/%i" % i)

@@ -21,15 +21,16 @@ class IndexHandler(webapp2.RequestHandler):
         blob=Blob.get_by_key_name("app/match_teams")
         teams=[team for team in json_loads(blob.text)
                if team["team"] in TopTeamNames]
-        bet={"teams": self.init_teams(teams, size),
-             "teams_condition": ">",
-             "n_teams": 1,
-             "result": "win",
-             "goals_condition": ">",
-             "n_goals": 1}
-        bet["type"]="exotic_acca"
-        bet["price"]=format_price(calc_probability(bet))
-        bet["description"]=description(bet)
+        params={"teams": self.init_teams(teams, size),
+                "teams_condition": ">",
+                "n_teams": 1,
+                "result": "win",
+                "goals_condition": ">",
+                "n_goals": 1}
+        bet={"type": "exotic_acca",
+             "params": params,
+             "price": format_price(calc_probability(params)),
+             "description": description(params)}
         keyname="products/samples/exotic_acca/%s" % i
         memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved exotic_acca/%i" % i)
