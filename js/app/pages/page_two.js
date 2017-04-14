@@ -3,7 +3,10 @@
 var EditBetForm=React.createClass({
     initBet: function(bet) {	
 	return (bet!=undefined) ? bet : {
-	    "type":"exotic_acca"
+	    type: "exotic_acca",
+	    params: {},
+	    probability: undefined,
+	    desciption: undefined
 	}
     },
     getInitialState: function() {
@@ -24,7 +27,10 @@ var EditBetForm=React.createClass({
     productChangeHandler: function(name, value) {
 	var state=this.state;
 	state.bet={
-	    type: value
+	    type: value,
+	    params: {},
+	    probability: undefined,
+	    description: undefined
 	}
 	this.setState(state);
     },

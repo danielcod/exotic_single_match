@@ -133,13 +133,13 @@ var ExoticAccaForm=React.createClass({
 	return options;
     },
     changeHandler: function(name, value) {
-	if (this.state.bet[name]!=value) {
+	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
 	    if ((name=="n_teams") ||
 		(name=="n_goals")) {
-		state.bet[name]=parseInt(value);
+		state.bet.params[name]=parseInt(value);
 	    } else {
-		state.bet[name]=value;
+		state.bet.params[name]=value;
 	    }
 	    // don't finesse resets; there are too many options, just blank out dependant fields
 	    if (name=="teams_condition") {

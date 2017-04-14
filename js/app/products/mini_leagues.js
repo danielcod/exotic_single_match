@@ -49,9 +49,9 @@ var MiniLeagueForm=React.createClass({
 	this.updatePrice(this.state.bet);
     },
     changeHandler: function(name, value) {
-	if (this.state.bet[name]!=value) {
+	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
-	    state.bet[name]=value;
+	    state.bet.params[name]=value;
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
 	}
