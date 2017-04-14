@@ -113,64 +113,6 @@ var ExoticAccaForm=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    options: {
-		teams: {
-		    condition: [
-			{
-			    label: "More Than",
-			    value: ">"
-			},
-			{
-			    label: "At Least",
-			    value: ">="
-			},
-			{
-			    label: "Exactly",
-			    value: "="
-			},
-			{
-			    label: "Less Than",
-			    value: "<"
-			},
-			{
-			    label: "At Most",
-			    value: "<="
-			}
-		    ]
-		},
-		goals: {
-		    condition: {
-			win: [
-			    {
-				label: "By More Than",
-				value: ">"
-			    },
-			    {
-				label: "By At Least",
-				value: ">="
-			    },
-			    {
-				label: "By Exactly",
-				value: "="
-			    },
-			    {
-				label: "By Less Than",
-				value: "<"
-			    },
-			    {
-				label: "By At Most",
-				value: "<="
-			    }
-			],
-			draw: [
-			    {
-				label: "With Exactly",
-				value: "="
-			    }
-			]
-		    }
-		}
-	    },
 	    bet: this.initBet(this.props.bet)
 	};
     },
@@ -212,13 +154,6 @@ var ExoticAccaForm=React.createClass({
 	    options.push(option);
 	}
 	return options;
-    },
-    initGoalsConditionOptions: function(result) {
-	if (result=="draw") {
-	    return this.state.options.goals.condition.draw;	    
-	} else {
-	    return this.state.options.goals.condition.win;
-	}
     },
     initNGoalsOptions: function(n, result) {
 	var options=[];
@@ -315,11 +250,10 @@ var ExoticAccaForm=React.createClass({
 		    }
 		}),
 		[
-		    React.createElement(MySelect, {
+		    React.createElement(ConditionSelector, {
 			label: "Teams Condition",
 			name: "teams_condition",
-			options: this.state.options.teams.condition,
-			value: this.state.bet.params.teams_condition,
+			condition: this.state.bet.params.teams_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
@@ -347,17 +281,16 @@ var ExoticAccaForm=React.createClass({
 		    }
 		}),
 		[
-		    React.createElement(MySelect, {
+		    React.createElement(ConditionSelector, {
 			label: "Goals Condition",
 			name: "goals_condition",
-			options: this.initGoalsConditionOptions(this.state.bet.params.result),
-			value: this.state.bet.params.goals_condition,
+			condition: this.state.bet.params.goals_condition,
 			changeHandler: this.changeHandler,
 			blankStyle: this.props.blankStyle,
 			defaultOption: {
 			    label: "Select"
 			}
-		    }),		
+		    }),
 		    React.createElement(MySelect, {
 			label: "Number of Goals",
 			name: "n_goals",
