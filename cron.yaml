@@ -1,8 +1,7 @@
 cron:
 # data
-# bbc fixtures currently override yc_probabilities/dc_poisson_means
-# - url: "/tasks/data/bbc_fixtures"
-#   schedule: "every 24 hours"
+- url: "/tasks/data/bbc_fixtures"
+  schedule: "every 24 hours"
 # quant
 - url: "/tasks/quant/yc_probabilities"
   schedule: "every 24 hours"
