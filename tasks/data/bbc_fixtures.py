@@ -35,14 +35,6 @@ class IndexHandler(webapp2.RequestHandler):
 
 class LeagueHandler(webapp2.RequestHandler):
 
-    def update_fixtures(self, leaguename, fixtures, matched):
-        timestamp=dst_adjust(datetime.datetime.utcnow())
-        for fixture in fixtures:
-            fixture["league"]=leaguename
-            fixture["name"]=matched[fixture["name"]]["value"]
-            fixture["key_name"]="%s/%s" % (fixture["league"],
-                                           fixture["name"])
-
     @validate_query({"league": "\\D{3}\\.\\d"})
     @task
     def post(self):
@@ -59,11 +51,24 @@ class LeagueHandler(webapp2.RequestHandler):
         if resp["unmatched"]!=[]:
             logging.warning("Couldn't match %s" % ", ".join(resp["unmatched"]))
         fixtures=[fixture for fixture in fixtures
-                if fixture["name"] in resp["matched"]]
-        self.update_fixtures(leaguename, fixtures, resp["matched"])
-        [Fixture(**fixture).put() 
-         for fixture in fixtures]
-        logging.info("Updated %i %s %s fixtures" % (len(fixtures), BBC, leaguename))
+                  if fixture["name"] in resp["matched"]]
+        created, updated = 0, 0
+        for fixture in fixtures:
+            keyname="%s/%s" % (leaguename,
+                               resp["matched"][fixture["name"]]["value"])
+            currentfixture=Fixture.get_by_key_name(keyname)
+            if currentfixture:
+                currentfixture.date=fixture["date"]
+                currentfixture.put()
+                updated+=1                
+            else:
+                fixture["league"]=leaguename
+                fixture["name"]=resp["matched"][fixture["name"]]["value"]
+                fixture["key_name"]="%s/%s" % (fixture["league"],
+                                               fixture["name"])
+                Fixture(**fixture).put()
+                created+=1
+        logging.info("Create %i / updated %i %s %s fixtures" % (created, updated, BBC, leaguename))
 
 Routing=[('/tasks/data/bbc_fixtures/league', LeagueHandler),
          ('/tasks/data/bbc_fixtures', IndexHandler)]
