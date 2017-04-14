@@ -4,7 +4,7 @@ from quant.dixon_coles import CSGrid
 
 Win, Lose, Draw = "win", "lose", "draw"
 
-GT, LT, EQ = ">", "<", "="
+GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
 Conditions={
     GT: "more than",

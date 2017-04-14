@@ -6,19 +6,27 @@ def match_filterfn(params):
         if params["result"]==Win:
             if params["goals_condition"]==GT:                
                 return score[0]-score[1] > params["n_goals"]
+            elif params["goals_condition"]==GTE:                
+                return score[0]-score[1] >= params["n_goals"]
             elif params["goals_condition"]==LT:
                 return score[0]-score[1] < params["n_goals"]
-            elif params["goals_condition"]==EQ:
+            elif params["goals_condition"]==LTE:
+                return score[0]-score[1] <= params["n_goals"]
+            elif params["goals_condition"]==EQ:                
                 return (score[0]-score[1])==params["n_goals"]
             else:
                 raise RuntimeError(errmsg % (params["goals_condition"], Win))
         elif params["result"]==Lose:
             if params["goals_condition"]==GT:
                 return score[1]-score[0] > params["n_goals"]
+            elif params["goals_condition"]==GTE:
+                return score[1]-score[0] >= params["n_goals"]
             elif params["goals_condition"]==LT:
                 return score[1]-score[0] < params["n_goals"]
+            elif params["goals_condition"]==LTE:
+                return score[1]-score[0] <= params["n_goals"]
             elif params["goals_condition"]==EQ:
-                return (score[1]-score[0])==params["n_goals"]                    
+                return (score[1]-score[0])==params["n_goals"]
             else:
                 raise RuntimeError(errmsg % (params["goals_condition"], Lose))
         elif params["result"]==Draw:
@@ -41,8 +49,12 @@ def params_filterfn(params):
                if outcome])
         if params["teams_condition"]==GT:
             return bool_to_int(n > params["n_teams"])
+        elif params["teams_condition"]==GTE:
+            return bool_to_int(n >= params["n_teams"])
         elif params["teams_condition"]==LT:
             return bool_to_int(n < params["n_teams"])
+        elif params["teams_condition"]==LTE:
+            return bool_to_int(n <= params["n_teams"])
         elif params["teams_condition"]==EQ:
             return bool_to_int(n==params["n_teams"])
         else:
