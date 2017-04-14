@@ -84,20 +84,6 @@ var ExoticAccaForm=React.createClass({
 			}
 		    ]
 		},
-		result: [
-		    {
-			label: "To Win",
-			value: "win"
-		    },
-		    {
-			label: "To Draw",
-			value: "draw"
-		    },
-		    {
-			label: "To Lose",
-			value: "lose"
-		    }
-		],
 		goals: {
 		    condition: {
 			win: [
@@ -298,17 +284,14 @@ var ExoticAccaForm=React.createClass({
 			}
 		    })
 		],
-		React.createElement(MySelect, {
-		    label: "Result",
-		    name: "result",
-		    options: this.state.options.result,
-		    value: this.state.bet.params.result,
+		React.createElement(ResultSelector, {
+		    result: this.state.bet.params.result,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
 			label: "Select"
 		    }
-		}),		
+		}),
 		[
 		    React.createElement(MySelect, {
 			label: "Goals Condition",
