@@ -111,10 +111,12 @@ var ExoticAccaForm=React.createClass({
     initNTeamsOptions: function(teams, condition) {
 	var options=[];
 	for (var i=0; i < teams.length+1; i++) {
-	    if ((i==teams.length) && (condition==">")) {
+	    if ((i==teams.length) &&
+		((condition==">") || (condition==">="))) {
 		continue;
 	    }
-	    if ((i==0) && (condition=="<")) {
+	    if ((i==0) &&
+		((condition=="<") || (condition=="<="))) {
 		continue;
 	    }
 	    var suffix=(i==1) ? "Team" : "Teams";
