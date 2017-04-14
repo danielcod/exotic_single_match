@@ -6,10 +6,12 @@
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components/forms.js
+- js/app/components/selectors/condition_selector.js
 - js/app/components/selectors/expiry_selector.js
 - js/app/components/selectors/match_selector.js
 - js/app/components/selectors/match_team_selector.js
 - js/app/components/selectors/product_selector.js
+- js/app/components/selectors/result_selector.js
 - js/app/components/selectors/team_selector.js
 - js/app/components/selector_table.js
 - js/app/components/layouts.js
