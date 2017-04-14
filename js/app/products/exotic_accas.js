@@ -22,12 +22,20 @@ var ExoticAccaForm=React.createClass({
 			    value: ">"
 			},
 			{
+			    label: "At Least",
+			    value: ">="
+			},
+			{
 			    label: "Exactly",
 			    value: "="
 			},
 			{
 			    label: "Less Than",
 			    value: "<"
+			},
+			{
+			    label: "At Most",
+			    value: "<="
 			}
 		    ]
 		},
@@ -53,12 +61,20 @@ var ExoticAccaForm=React.createClass({
 				value: ">"
 			    },
 			    {
+				label: "By At Least",
+				value: ">="
+			    },
+			    {
 				label: "By Exactly",
 				value: "="
 			    },
 			    {
 				label: "By Less Than",
 				value: "<"
+			    },
+			    {
+				label: "By At Most",
+				value: "<="
 			    }
 			],
 			draw: [

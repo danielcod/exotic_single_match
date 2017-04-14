@@ -8,7 +8,9 @@ GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
 Conditions={
     GT: "more than",
+    GTE: "at least",
     LT: "less than",
+    LTE: "at most",
     EQ: "exactly"
 }
 
