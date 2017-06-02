@@ -54,20 +54,6 @@ It is likely that authetication cookie will expire after a fixed time (probably 
 
 ### Guest Mode actions
 
-# Fetch Products
-
-There are a number of different TE product types; each has a different underlying structure and characteristics
-
-URL: GET /api/products/list
-
-returns [{"name": "Match Winners"}, {"name": "Match Losers"}]
-
-# Fetch Products
-
-URL: GET /api/products/show?product_name=#{product_name}
-
-returns @
-
 ### Bet Mode actions
 
 # Placing Bet
