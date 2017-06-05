@@ -7,9 +7,12 @@ var ExoticAccaForm=React.createClass({
 	}.bind(this);
     },
     initBet: function(bet) {
+	if (bet.params.result==undefined) {
+	    bet.params.result="win"; // TEMP
+	}
 	if (bet.params.teams==undefined) {
 	    bet.params.teams=[];
-	}
+	}	
 	return bet;
     },
     getInitialState: function() {
@@ -75,8 +78,7 @@ var ExoticAccaForm=React.createClass({
     isComplete: function(bet) {
 	// check scalar fields
 	if ((bet.params.teams_condition==undefined) ||
-	    (bet.params.n_teams==undefined) ||
-	    (bet.params.result==undefined)) {
+	    (bet.params.n_teams==undefined)) {
 	    return false;
 	}
 	// check undefined teams fields
@@ -147,15 +149,7 @@ var ExoticAccaForm=React.createClass({
 			    label: "Select"
 			}
 		    })
-		],
-		React.createElement(ResultSelector, {
-		    result: this.state.bet.params.result,
-		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle,
-		    defaultOption: {
-			label: "Select"
-		    }
-		})
+		]
 	    ]
 	})
     }
