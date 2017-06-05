@@ -24,9 +24,7 @@ class IndexHandler(webapp2.RequestHandler):
         params={"teams": self.init_teams(teams, size),
                 "teams_condition": ">",
                 "n_teams": 1,
-                "result": "win",
-                "goals_condition": ">",
-                "n_goals": 1}
+                "result": "win"}
         bet={"type": "exotic_acca",
              "params": params,
              "probability": calc_probability(params),
