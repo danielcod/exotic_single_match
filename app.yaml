@@ -49,20 +49,10 @@ handlers:
   script: tasks.app.matches.app
 - url: /tasks/app/teams.*
   script: tasks.app.teams.app
-- url: /tasks/curation/outright_payoffs.*
-  script: tasks.curation.outright_payoffs.app
 - url: /tasks/curation/samples/exotic_accas.*
   script: tasks.curation.samples.exotic_accas.app
-- url: /tasks/curation/samples/mini_leagues.*
-  script: tasks.curation.samples.mini_leagues.app
-- url: /tasks/curation/samples/season_match_bets.*
-  script: tasks.curation.samples.season_match_bets.app
-- url: /tasks/curation/samples/single_team_outrights.*
-  script: tasks.curation.samples.single_team_outrights.app
 - url: /tasks/curation/samples.*
   script: tasks.curation.samples.app
-- url: /tasks/curation/smb_versus.*
-  script: tasks.curation.smb_versus.app
 - url: /tasks/data/bbc_fixtures.*
   script: tasks.data.bbc_fixtures.app
 - url: /tasks/quant/dc_poisson_means.*

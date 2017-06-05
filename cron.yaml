@@ -15,10 +15,6 @@ cron:
 - url: "/tasks/app/teams"
   schedule: "every 24 hours"
 # curation
-- url: "/tasks/curation/outright_payoffs"
-  schedule: "every 24 hours"
-- url: "/tasks/curation/smb_versus"
-  schedule: "every 24 hours"
 - url: "/tasks/curation/samples?n=5"
   schedule: "every 24 hours"
 

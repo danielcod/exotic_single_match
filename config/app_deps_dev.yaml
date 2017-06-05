@@ -18,9 +18,6 @@
 - js/app/components/paginator.js
 - js/app/components/tabs.js
 - js/app/products/exotic_accas.js
-- js/app/products/mini_leagues.js
-- js/app/products/season_match_bets.js
-- js/app/products/single_team_outrights.js
 - js/app/pages/page_one.js
 - js/app/pages/page_two.js
 - js/app/pages/page_three.js
