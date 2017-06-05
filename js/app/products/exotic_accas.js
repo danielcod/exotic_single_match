@@ -56,26 +56,10 @@ var ExoticAccaForm=React.createClass({
 	}
 	return options;
     },
-    initNGoalsOptions: function(n, result) {
-	var options=[];
-	for (var i=0; i < n+1; i++) {	    	    
-	    if ((i==0) && (result!="draw")) {
-		continue;
-	    }
-	    var suffix=(i==1) ? "Goal" : "Goals";
-	    var option={
-		label: i+" "+suffix,
-		value: i
-	    }
-	    options.push(option);
-	}
-	return options;
-    },
     changeHandler: function(name, value) {
 	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
-	    if ((name=="n_teams") ||
-		(name=="n_goals")) {
+	    if (name=="n_teams") {
 		state.bet.params[name]=parseInt(value);
 	    } else {
 		state.bet.params[name]=value;
@@ -83,13 +67,6 @@ var ExoticAccaForm=React.createClass({
 	    // don't finesse resets; there are too many options, just blank out dependant fields
 	    if (name=="teams_condition") {
 		state.bet.params.n_teams=undefined;
-	    }
-	    if (name=="result") {
-		state.bet.params.goals_condition=undefined;
-		state.bet.params.n_goals=undefined;
-	    }
-	    if (name=="goals_condition") {
-		state.bet.params.n_goals=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -99,9 +76,7 @@ var ExoticAccaForm=React.createClass({
 	// check scalar fields
 	if ((bet.params.teams_condition==undefined) ||
 	    (bet.params.n_teams==undefined) ||
-	    (bet.params.result==undefined) ||
-	    (bet.params.goals_condition==undefined) || 
-	    (bet.params.n_goals==undefined)) {
+	    (bet.params.result==undefined)) {
 	    return false;
 	}
 	// check undefined teams fields
@@ -180,30 +155,7 @@ var ExoticAccaForm=React.createClass({
 		    defaultOption: {
 			label: "Select"
 		    }
-		}),
-		[
-		    React.createElement(ConditionSelector, {
-			label: "Goals Condition",
-			name: "goals_condition",
-			condition: this.state.bet.params.goals_condition,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			defaultOption: {
-			    label: "Select"
-			}
-		    }),
-		    React.createElement(MySelect, {
-			label: "Number of Goals",
-			name: "n_goals",
-			options: this.initNGoalsOptions(10, this.state.bet.params.result),
-			value: this.state.bet.params.n_goals,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			defaultOption: {
-			    label: "Select"
-			}
-		    })
-		]
+		})
 	    ]
 	})
     }

@@ -4,36 +4,11 @@ def match_filterfn(params):
     errmsg="'%s' is invalid goals condition for match '%s' status"
     def filterfn(score):
         if params["result"]==Win:
-            if params["goals_condition"]==GT:                
-                return score[0]-score[1] > params["n_goals"]
-            elif params["goals_condition"]==GTE:                
-                return score[0]-score[1] >= params["n_goals"]
-            elif params["goals_condition"]==LT:
-                return score[0]-score[1] < params["n_goals"]
-            elif params["goals_condition"]==LTE:
-                return score[0]-score[1] <= params["n_goals"]
-            elif params["goals_condition"]==EQ:                
-                return (score[0]-score[1])==params["n_goals"]
-            else:
-                raise RuntimeError(errmsg % (params["goals_condition"], Win))
+            return score[0] > score[1]
         elif params["result"]==Lose:
-            if params["goals_condition"]==GT:
-                return score[1]-score[0] > params["n_goals"]
-            elif params["goals_condition"]==GTE:
-                return score[1]-score[0] >= params["n_goals"]
-            elif params["goals_condition"]==LT:
-                return score[1]-score[0] < params["n_goals"]
-            elif params["goals_condition"]==LTE:
-                return score[1]-score[0] <= params["n_goals"]
-            elif params["goals_condition"]==EQ:
-                return (score[1]-score[0])==params["n_goals"]
-            else:
-                raise RuntimeError(errmsg % (params["goals_condition"], Lose))
+            return score[0] < score[1]
         elif params["result"]==Draw:
-            if params["goals_condition"]==EQ:
-                return score[0]==score[1]==params["n_goals"]
-            else:
-                raise RuntimeError(errmsg % (params["goals_condition"], Draw))
+            return score[0]==score[1]
         else:
             raise RuntimeError("Params result not found/recognised")
     return filterfn
@@ -77,31 +52,26 @@ def description(params):
                       "level": "blue"}}
 
 def description_win_lose(params):
-    marketstr="%s %i %s (%s) to %s by %s %i %s"
+    marketstr="%s %i %s (%s) to %s"
     return {"selection": None,
             "market": marketstr % (Conditions[params["teams_condition"]].capitalize(),
                                    params["n_teams"],
                                    "team" if params["n_teams"]==1 else "teams",
                                    ", ".join([item["team"]
                                               for item in params["teams"]]),
-                                   params["result"],
-                                   Conditions[params["goals_condition"]],
-                                       params["n_goals"],
-                                   "goal" if params["n_goals"]==1 else "goals"),
+                                   params["result"]),
             "group": {"label": "Exotic Acca",
                       "level": "sky"}}
 
 def description_draw(params):
-    marketstr="%s %i %s (%s) to %s with exactly %i %s"
+    marketstr="%s %i %s (%s) to %s"
     return {"selection": None,
             "market": marketstr % (Conditions[params["teams_condition"]].capitalize(),
-                                params["n_teams"],
+                                   params["n_teams"],
                                    "team" if params["n_teams"]==1 else "teams",
                                        ", ".join([item["team"]
                                                   for item in params["teams"]]),
-                                   params["result"],
-                                   params["n_goals"],
-                                   "goal" if params["n_goals"]==1 else "goals"),
+                                   params["result"]),
             "group": {"label": "Exotic Acca",
                       "level": "sky"}}
 
