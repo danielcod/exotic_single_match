@@ -1,4 +1,4 @@
-from products.goals import *
+from products import *
 
 def match_filterfn(params):
     errmsg="'%s' is invalid goals condition for match '%s' status"
