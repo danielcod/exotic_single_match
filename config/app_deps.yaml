@@ -11,7 +11,6 @@
 - js/app/components/team_selector.js
 - js/app/components/selector_table.js
 - js/app/components/paginator.js
-- js/app/components/tabs.js
 - js/app/products/exotic_accas.js
 - js/app/pages/page_one.js
 - js/app/pages/page_two.js

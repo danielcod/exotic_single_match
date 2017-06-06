@@ -16,6 +16,24 @@ var BrowseBetsInlineList=React.createClass({
     }
 });
 
+var BrowseBetsTabs=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    className: "nav nav-tabs",
+	    children: this.props.tabs.map(function(tab) {
+		return React.DOM.li({
+		    className: (tab.name==this.props.selected) ? "active" : "",
+		    onClick: this.props.clickHandler.bind(null, tab),
+		    children: React.DOM.a({
+			children: tab.label
+		    })
+		});				    
+	    }.bind(this))
+	});
+    }
+});
+
+
 var BrowseBetsRow=React.createClass({
     formatPrice: function(probability) {
 	return (1/Math.min(0.99, Math.max(0.01, probability))).toFixed(2);
@@ -157,7 +175,7 @@ var BrowseBetsPanel=React.createClass({
 		    currentStep: 0
 		}),
 		React.DOM.div({
-		    children: React.createElement(Tabs, {
+		    children: React.createElement(BrowseBetsTabs, {
 			tabs: [
 			    {
 				name: "popular",
