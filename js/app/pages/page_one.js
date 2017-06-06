@@ -1,3 +1,21 @@
+var BrowseBetsInlineList=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    style: this.props.style || {},
+	    className: "list-inline",
+	    children: this.props.items.map(function(item) {
+		return React.DOM.li({
+		    className: item.right ? "pull-right" : undefined,
+		    style: {
+			width: item.width+"px"
+		    },
+		    children: item.item
+		});
+	    })
+	});
+    }
+});
+
 var BrowseBetsRow=React.createClass({
     formatPrice: function(probability) {
 	return (1/Math.min(0.99, Math.max(0.01, probability))).toFixed(2);
@@ -162,7 +180,7 @@ var BrowseBetsPanel=React.createClass({
 			clickHandler: this.handleTabClicked
 		    })
 		}),
-		React.createElement(InlineList, {
+		React.createElement(BrowseBetsInlineList, {
 		    items: [
 			{
 			    item: React.createElement(TeamSelector, {
