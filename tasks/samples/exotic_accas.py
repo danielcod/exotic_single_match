@@ -1,6 +1,6 @@
-from tasks.curation.samples import *
+from tasks.samples import *
 
-from products.goals.exotic_accas import calc_probability, description
+from products.exotic_accas import calc_probability, description
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -33,6 +33,6 @@ class IndexHandler(webapp2.RequestHandler):
         memcache.set(keyname, json_dumps(bet), MemcacheAge)
         logging.info("Saved exotic_acca/%i" % i)
 
-Routing=[('/tasks/curation/samples/exotic_accas', IndexHandler)]
+Routing=[('/tasks/samples/exotic_accas', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)

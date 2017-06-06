@@ -1,6 +1,21 @@
-from tasks.curation import *
+from tasks import *
+
+import apis.yc_lite_api as yc_lite
 
 import random
+
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/leagues.yaml").read())])
+
+Products=yaml.load(file("config/products.yaml").read())
+
+def end_of_season(today):
+    if today.month < 7:
+        return datetime.date(today.year, 6, 30)
+    else:
+        return datetime.date(today.year+1, 6, 30)
+
+EndOfSeason=end_of_season(datetime.date.today())
 
 def load_top_teams(cutoff=4):
     leaguenames=[leaguename for leaguename in Leagues.keys()
@@ -15,7 +30,7 @@ TopTeams=load_top_teams()
 
 TopTeamNames=[team["name"] for team in TopTeams]
 
-# curl "http://localhost:8080/tasks/curation/samples?n=1"
+# curl "http://localhost:8080/tasks/samples?n=1"
 
 class IndexHandler(webapp2.RequestHandler):
  
@@ -23,12 +38,12 @@ class IndexHandler(webapp2.RequestHandler):
     @task
     def get(self):         
         n=int(self.request.get("n"))
-        [taskqueue.add(url="/tasks/curation/samples/%ss" % product["type"], # NB note pluralisation
+        [taskqueue.add(url="/tasks/samples/%ss" % product["type"], # NB note pluralisation
                        params={"i": i},
                        queue_name=QueueName)
          for product in Products
          for i in range(n)]
-        taskqueue.add(url="/tasks/curation/samples/reduce",
+        taskqueue.add(url="/tasks/samples/reduce",
                       params={"n": n},
                       queue_name=QueueName)
         logging.info("%s tasks started" % (1+len(Products)*n))
@@ -60,7 +75,7 @@ class ReduceHandler(webapp2.RequestHandler):
              timestamp=datetime.datetime.now()).put()
         logging.info("Saved to products/samples")
         
-Routing=[('/tasks/curation/samples/reduce', ReduceHandler),
-         ('/tasks/curation/samples', IndexHandler)]
+Routing=[('/tasks/samples/reduce', ReduceHandler),
+         ('/tasks/samples', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
