@@ -194,6 +194,22 @@ var ExoticAccaForm=React.createClass({
     render: function() {
 	return React.createElement(ExoticAccaGridLayout, {
 	    rows: [
+		React.DOM.ul({
+		    className: "nav nav-tabs",
+		    children: [
+			React.DOM.li({
+			    className: "active",
+			    children: React.DOM.a({
+				children: "One"
+			    })
+			}),
+			React.DOM.li({
+			    children: React.DOM.a({
+				children: "Two"
+			    })
+			})
+		    ]		    
+		}),
 		React.createElement(SelectorTable, {
 		    selectorClass: MatchTeamSelector,
 		    items: this.state.bet.params.teams,
