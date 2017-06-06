@@ -6,10 +6,10 @@
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components/forms.js
-- js/app/components/selectors/condition_selector.js
-- js/app/components/selectors/match_team_selector.js
-- js/app/components/selectors/product_selector.js
-- js/app/components/selectors/team_selector.js
+- js/app/components/condition_selector.js
+- js/app/components/match_team_selector.js
+- js/app/components/product_selector.js
+- js/app/components/team_selector.js
 - js/app/components/selector_table.js
 - js/app/components/layouts.js
 - js/app/components/paginator.js
