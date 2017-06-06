@@ -222,29 +222,27 @@ var ExoticAccaForm=React.createClass({
 			label: "Select"
 		    }
 		}),
-		[
-		    React.createElement(ExoticAccaConditionSelector, {
-			label: "Teams Condition",
-			name: "teams_condition",
-			condition: this.state.bet.params.teams_condition,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			defaultOption: {
-			    label: "Select"
-			}
-		    }),
-		    React.createElement(MySelect, {
-			label: "Number of Teams",
-			name: "n_teams",
-			options: this.initNTeamsOptions(this.state.bet.params.teams, this.state.bet.params.teams_condition),
-			value: this.state.bet.params.n_teams,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			defaultOption: {
-			    label: "Select"
-			}
-		    })
-		]
+		React.createElement(ExoticAccaConditionSelector, {
+		    label: "Teams Condition",
+		    name: "teams_condition",
+		    condition: this.state.bet.params.teams_condition,
+		    changeHandler: this.changeHandler,
+		    blankStyle: this.props.blankStyle,
+		    defaultOption: {
+			label: "Select"
+		    }
+		}),
+		React.createElement(MySelect, {
+		    label: "Number of Teams",
+		    name: "n_teams",
+		    options: this.initNTeamsOptions(this.state.bet.params.teams, this.state.bet.params.teams_condition),
+		    value: this.state.bet.params.n_teams,
+		    changeHandler: this.changeHandler,
+		    blankStyle: this.props.blankStyle,
+		    defaultOption: {
+			label: "Select"
+		    }
+		})
 	    ]
 	})
     }
