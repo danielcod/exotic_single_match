@@ -189,7 +189,14 @@ var ExoticAccaForm=React.createClass({
 	}
     },
     componentDidMount: function() {
-	this.updatePrice(this.state.bet); 
+	// update price
+	this.updatePrice(this.state.bet);
+	// configure slider
+	$('#slider').slider({
+	    formatter: function(value) {
+		return 'Current value: ' + value;
+	    }
+	});
     },
     render: function() {
 	return React.createElement(ExoticAccaGridLayout, {
@@ -242,6 +249,24 @@ var ExoticAccaForm=React.createClass({
 		    defaultOption: {
 			label: "Select"
 		    }
+		}),
+		React.DOM.div({
+		    style: {
+			"margin-top": "10px",
+			"margin-bottom": "10px"
+		    },
+		    children: React.DOM.input({
+			style: {
+			    width: "100%"
+			},
+			id: "slider",
+			type: "text",
+			"data-slider-id": 'ex1Slider',
+			"data-slider-min": 0,
+			"data-slider-max": 20,
+			"data-slider-step": 1,
+			"data-slider-value": 5
+		    })
 		})
 	    ]
 	})
