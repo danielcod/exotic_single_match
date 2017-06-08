@@ -258,7 +258,7 @@ var ExoticAccaForm=React.createClass({
 			this.setState(state);
 		    }.bind(this)
 		}),
-		React.createElement(ExoticAccaGridLayout, {
+		(this.state.selectedTab=="bet") ?React.createElement(ExoticAccaGridLayout, {
 		    rows: [
 			React.createElement(SelectorTable, {
 			    selectorClass: MatchTeamSelector,
@@ -288,7 +288,15 @@ var ExoticAccaForm=React.createClass({
 			    changeHandler: this.changeHandler
 			})
 		    ]
-		})
+		}) : undefined,
+		(this.state.selectedTab=="matches") ? React.DOM.h1({
+		    className: "text-center",
+		    style: {
+			"margin-top": "10px",
+			"margin-bottom": "10px"
+		    },
+		    children: "Hello World"
+		}) : undefined
 	    ]
 	})
     }
