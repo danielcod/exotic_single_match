@@ -208,12 +208,12 @@ var ExoticAccaForm=React.createClass({
 			React.DOM.li({
 			    className: "active",
 			    children: React.DOM.a({
-				children: "One"
+				children: "Bet"
 			    })
 			}),
 			React.DOM.li({
 			    children: React.DOM.a({
-				children: "Two"
+				children: "Matches"
 			    })
 			})
 		    ]		    
@@ -250,7 +250,7 @@ var ExoticAccaForm=React.createClass({
 		    defaultOption: {
 			label: "Select"
 		    }
-		}),		
+		}),
 		React.DOM.div({
 		    className: "form-group",
 		    children: [
