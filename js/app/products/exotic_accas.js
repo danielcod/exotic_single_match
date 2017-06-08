@@ -235,12 +235,11 @@ var ExoticAccaForm=React.createClass({
 	}
     },
     componentDidMount: function() {
-	// update price
 	this.updatePrice(this.state.bet);
     },
     render: function() {
-	return React.createElement(ExoticAccaGridLayout, {
-	    rows: [
+	return React.DOM.div({
+	    children: [
 		React.createElement(ExoticAccaTabs, {
 		    tabs: [
 			{
@@ -259,32 +258,36 @@ var ExoticAccaForm=React.createClass({
 			this.setState(state);
 		    }.bind(this)
 		}),
-		React.createElement(SelectorTable, {
-		    selectorClass: MatchTeamSelector,
-		    items: this.state.bet.params.teams,
-		    exoticsApi: this.props.exoticsApi,
-		    blankStyle: this.props.blankStyle,
-		    changeHandler: this.teamsChangeHandler,
-		    label: "Teams",
-		    addLabel: "Add Team",
-		    defaultOption: {
-			label: "Select"
-		    }
-		}),
-		React.createElement(ExoticAccaConditionSelector, {
-		    label: "Teams Condition",
-		    name: "teams_condition",
-		    condition: this.state.bet.params.teams_condition,
-		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle,
-		    defaultOption: {
-			label: "Select"
-		    }
-		}),
-		React.createElement(ExoticAccaNTeamsSlider, {
-		    min: this.state.slider.min,
-		    max: this.state.bet.params.teams.length,
-		    changeHandler: this.changeHandler
+		React.createElement(ExoticAccaGridLayout, {
+		    rows: [
+			React.createElement(SelectorTable, {
+			    selectorClass: MatchTeamSelector,
+			    items: this.state.bet.params.teams,
+			    exoticsApi: this.props.exoticsApi,
+			    blankStyle: this.props.blankStyle,
+			    changeHandler: this.teamsChangeHandler,
+			    label: "Teams",
+			    addLabel: "Add Team",
+			    defaultOption: {
+				label: "Select"
+			    }
+			}),
+			React.createElement(ExoticAccaConditionSelector, {
+			    label: "Teams Condition",
+			    name: "teams_condition",
+			    condition: this.state.bet.params.teams_condition,
+			    changeHandler: this.changeHandler,
+			    blankStyle: this.props.blankStyle,
+			    defaultOption: {
+				label: "Select"
+			    }
+			}),
+			React.createElement(ExoticAccaNTeamsSlider, {
+			    min: this.state.slider.min,
+			    max: this.state.bet.params.teams.length,
+			    changeHandler: this.changeHandler
+			})
+		    ]
 		})
 	    ]
 	})
