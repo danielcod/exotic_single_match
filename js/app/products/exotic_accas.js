@@ -122,28 +122,7 @@ var ExoticAccaForm=React.createClass({
 	this.setState(state);
 	this.updatePrice(this.state.bet);
     },
-    initNTeamsOptions: function(teams, condition) {
-	var options=[];
-	for (var i=0; i < teams.length+1; i++) {
-	    if ((i==teams.length) &&
-		((condition==">") || (condition==">="))) {
-		continue;
-	    }
-	    if ((i==0) &&
-		((condition=="<") || (condition=="<="))) {
-		continue;
-	    }
-	    var suffix=(i==1) ? "Team" : "Teams";
-	    var option={
-		label: i+" "+suffix,
-		value: i
-	    };
-	    options.push(option);
-	}
-	return options;
-    },
     changeHandler: function(name, value) {
-	console.log(name+"="+value);
 	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
 	    if (name=="n_teams") {
@@ -250,17 +229,6 @@ var ExoticAccaForm=React.createClass({
 		    label: "Teams Condition",
 		    name: "teams_condition",
 		    condition: this.state.bet.params.teams_condition,
-		    changeHandler: this.changeHandler,
-		    blankStyle: this.props.blankStyle,
-		    defaultOption: {
-			label: "Select"
-		    }
-		}),
-		React.createElement(MySelect, {
-		    label: "Number of Teams",
-		    name: "n_teams",
-		    options: this.initNTeamsOptions(this.state.bet.params.teams, this.state.bet.params.teams_condition),
-		    value: this.state.bet.params.n_teams,
 		    changeHandler: this.changeHandler,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
