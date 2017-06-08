@@ -196,8 +196,10 @@ var ExoticAccaForm=React.createClass({
 	    ticks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
 	    formatter: function(value) {
 		return value;
-	    }
-	});
+	    },
+	}).on("change", function(event, ui) {
+	    console.log($("#slider").data("slider").getValue());
+	});	
     },
     render: function() {
 	return React.createElement(ExoticAccaGridLayout, {
