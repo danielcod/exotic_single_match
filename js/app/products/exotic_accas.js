@@ -15,6 +15,269 @@ var ExoticAccaTabs=React.createClass({
     }
 });
 
+var ExoticAccaMatchTeamSelector=React.createClass({
+    initOptionsHandler: function(name) {
+	return function(struct) {
+	    var state=this.state;
+	    state.options[name]=struct;
+	    this.setState(state);	
+	}.bind(this);
+    },
+    getInitialState: function() {
+	return {
+	    options: {
+		team: [],
+	    },
+	    item: this.props.item
+	};
+    },
+    fetchTeams: function() {
+	var handler=this.initOptionsHandler("team");
+	this.props.exoticsApi.fetchBlob("app/match_teams", handler);
+    },
+    sortTeams: function(item0, item1) {
+	var value0=item0.team+"/"+item0.kickoff;
+	var value1=item1.team+"/"+item1.kickoff;
+	if (value0 < value1) {
+	    return -1;
+	} else if (value0 > value1) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+    },
+    formatTeamLabel: function(team) {
+	if ((team.league==undefined) ||
+	    (team.team==undefined) ||
+	    (team.versus==undefined) ||
+	    (team.home_away==undefined) ||
+	    (team.match==undefined)) {
+	    return undefined;
+	} else {
+	    // return team.team+" (vs "+team.versus+" :: "+team.league+") ["+team.kickoff+"]";
+	    return team.team+" (vs "+team.versus+")";
+	}
+    },
+    formatTeamValue: function(team) {
+	if ((team.league==undefined) ||
+	    (team.team==undefined) ||
+	    (team.versus==undefined) ||
+	    (team.home_away==undefined) ||
+	    (team.match==undefined)) {
+	    return undefined;
+	} else {
+	    return team.league+"/"+team.team+"/"+team.versus+"/"+team.match+"/"+team.home_away;
+	}
+    },    
+    formatTeamOptions: function(teams) {
+	return teams.sort(this.sortTeams).map(function(team) {
+	    return {
+		label: this.formatTeamLabel(team),
+		value: this.formatTeamValue(team)
+	    }
+	}.bind(this));
+    },
+    changeHandler: function(name, value) {
+	var tokens=value.split("/");
+	var state=this.state;
+	state.item.league=tokens[0];
+	state.item.team=tokens[1];
+	state.item.versus=tokens[2];	
+	state.item.match=tokens[3];
+	state.item.home_away=tokens[4];
+	this.setState(state);
+	this.props.changeHandler(state.item);
+    },
+    componentWillReceiveProps: function(nextProps) {
+	if (JSON.stringify(this.state.item)!=
+	    JSON.stringify(nextProps.item)) {
+	    var state=this.state;
+	    state.item=nextProps.item;
+	    this.setState(state);
+	}
+    },
+    initialise: function() {
+	this.fetchTeams();
+    },
+    componentDidMount: function() {
+	this.initialise();
+    },
+    render: function() {
+	return React.createElement(MySelect, {
+	    changeHandler: this.changeHandler,
+	    options: this.formatTeamOptions(this.state.options.team),
+	    value: this.formatTeamValue(this.state.item),
+	    // pass thru attributes
+	    blankStyle: this.props.blankStyle,
+	    className: this.props.className,
+	    defaultOption: this.props.defaultOption,
+	    label: this.props.label,
+	    name: this.props.name || "team"
+	});
+    }
+});
+
+var ExoticAccaSelectorRow=React.createClass({
+    getInitialState: function() {
+	return {
+	    item: this.props.item
+	};
+    },
+    changeHandler: function(struct) {
+	var state=this.state;
+	for (var attr in struct) {
+	    if (struct[attr]!=state.item[attr]) {
+		state.item[attr]=struct[attr]
+	    }
+	}
+	this.setState(state);
+	this.props.changeHandler(this.props.item.id, struct);
+    },
+    deleteHandler: function() {
+	this.props.deleteHandler(this.props.item.id);
+    },
+    componentWillReceiveProps: function(nextProps) {
+	if (JSON.stringify(this.state.item)!=
+	    JSON.stringify(nextProps.item)) {
+	    var state=this.state;
+	    state.item=nextProps.item;
+	    this.setState(state);
+	}
+    },
+    render: function() {
+	return React.DOM.tr({
+	    children: [
+		React.DOM.td({
+		    style: {
+			"margin-left": "0px",
+			"padding-left": "0px"
+		    },
+		    children: React.createElement(this.props.selectorClass, {
+			exoticsApi: this.props.exoticsApi,
+			item: this.state.item,
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle,
+			defaultOption: this.props.defaultOption
+		    })
+		}),		
+		React.DOM.td({
+		    style: {
+			"margin-right": "0px",
+			"padding-right": "0px"
+		    },
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-remove"
+			}),
+			onClick: this.deleteHandler
+		    })
+		})
+	    ]
+	})				    
+    }
+});
+
+var ExoticAccaSelectorTable=React.createClass({
+    uuid: function() {
+	return Math.round(Math.random()*1e16);
+    },
+    initItems: function(items) {
+	if (items.length==0) {
+	    items.push({});
+	}
+	for (var i=0; i < items.length; i++) {
+	    var item=items[i];
+	    item.id=this.uuid();
+	}
+	return items;
+    },
+    getInitialState: function() {
+	return {
+	    items: this.initItems(this.props.items)
+	}
+    },
+    addHandler: function() { 
+	var state=this.state;
+	var items=state.items;
+	items.push({
+	    id: this.uuid()
+	});
+	state.items=items;
+	this.setState(state);
+	this.props.changeHandler(state.items);
+    },
+    changeHandler: function(id, struct) {
+	var state=this.state;
+	for (var i=0; i < state.items.length; i++) {
+	    var item=state.items[i];
+	    if (item.id==id) {
+		for (attr in struct) {
+		    item[attr]=struct[attr];
+		}
+	    }
+	}
+	this.setState(state);
+	this.props.changeHandler(state.items);
+    },
+    deleteHandler: function(id) {
+	if (this.state.items.length > 1) {
+	    var state=this.state;
+	    var items=state.items.filter(function(item) {
+		return item.id!=id;
+	    });
+	    state.items=items;
+	    this.setState(state);
+	    this.props.changeHandler(state.items);
+	}
+    },    
+    render: function() {
+	return React.DOM.div({
+	    className: "form-group",
+	    children: [
+		React.DOM.label({
+		    children: this.props.label
+		}),
+		React.DOM.table({
+		    className: "table",
+		    style: {
+			"margin-top": "0px",
+			"margin-bottom": "0px"
+		    },
+		    children: React.DOM.tbody({
+			children: this.state.items.map(function(item) {
+			    return React.createElement(ExoticAccaSelectorRow, {
+				selectorClass: this.props.selectorClass,
+				item: item,
+				exoticsApi: this.props.exoticsApi,
+				blankStyle: this.props.blankStyle,
+				defaultOption: this.props.defaultOption,
+				changeHandler: this.changeHandler,
+				deleteHandler: this.deleteHandler
+			    });
+			}.bind(this))
+		    })
+		}),
+		React.DOM.div({
+		    className: "text-center",
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			style: {
+			    "margin-top": "10px"
+			},
+			onClick: function() {
+			    this.addHandler();
+			}.bind(this),
+			children: this.props.addLabel
+		    })
+		})
+	    ]
+	});		
+    }
+});
+
+
+
 var ExoticAccaConditionSelector=React.createClass({
     getInitialState: function() {
 	return {
@@ -260,8 +523,8 @@ var ExoticAccaForm=React.createClass({
 		}),
 		(this.state.selectedTab=="bet") ?React.createElement(ExoticAccaGridLayout, {
 		    rows: [
-			React.createElement(SelectorTable, {
-			    selectorClass: MatchTeamSelector,
+			React.createElement(ExoticAccaSelectorTable, {
+			    selectorClass: ExoticAccaMatchTeamSelector,
 			    items: this.state.bet.params.teams,
 			    exoticsApi: this.props.exoticsApi,
 			    blankStyle: this.props.blankStyle,
