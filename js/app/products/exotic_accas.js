@@ -98,8 +98,7 @@ var ExoticAccaForm=React.createClass({
 	return {
 	    bet: this.initBet(this.props.bet),
 	    slider: {
-		min: 1,
-		max: 10
+		min: 1
 	    }
 	};
     },
@@ -129,10 +128,6 @@ var ExoticAccaForm=React.createClass({
 		state.bet.params[name]=parseInt(value);
 	    } else {
 		state.bet.params[name]=value;
-	    }
-	    // don't finesse resets; there are too many options, just blank out dependant fields
-	    if (name=="teams_condition") {
-		state.bet.params.n_teams=undefined;
 	    }
 	    this.setState(state);
 	    this.updatePrice(this.state.bet);
@@ -178,7 +173,7 @@ var ExoticAccaForm=React.createClass({
 	// configure slider
 	var initSliderTicks=function() {
 	    var ticks=[];
-	    for (var i=this.state.slider.min; i <= this.state.slider.max; i++) {
+	    for (var i=this.state.slider.min; i <= this.state.bet.params.teams.length; i++) {
 		ticks.push(i);
 	    }
 	    return ticks;
@@ -254,7 +249,7 @@ var ExoticAccaForm=React.createClass({
 				type: "text",
 				// "data-slider-id": 'ex1Slider',
 				"data-slider-min": this.state.slider.min,
-				"data-slider-max": this.state.slider.max,
+				"data-slider-max": this.state.bet.params.teams.length,
 				"data-slider-step": 1,
 				"data-slider-value": this.state.slider.min
 			    })
