@@ -105,7 +105,7 @@ var ajaxErrHandler=function(xhr, ajaxOptions, thrownError) {
 
 var Main=function() {
     var app=React.createElement(App, {
-	exoticsApi: new ExoticsAPI(ajaxErrHandler, true),
+	exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
 	steps: [
 	    {
 		label: "Browse",

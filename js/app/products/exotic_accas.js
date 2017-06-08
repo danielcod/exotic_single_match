@@ -143,6 +143,7 @@ var ExoticAccaForm=React.createClass({
 	return options;
     },
     changeHandler: function(name, value) {
+	console.log(name+"="+value);
 	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
 	    if (name=="n_teams") {
@@ -209,8 +210,10 @@ var ExoticAccaForm=React.createClass({
 		return value;
 	    },
 	}).on("change", function(event, ui) {
-	    console.log($("#slider").data("slider").getValue());
-	});	
+	    // console.log(
+	    var value=parseInt($("#slider").data("slider").getValue());
+	    this.changeHandler("n_teams", value);
+	}.bind(this));	
     },
     render: function() {
 	return React.createElement(ExoticAccaGridLayout, {
