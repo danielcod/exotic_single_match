@@ -96,7 +96,11 @@ var ExoticAccaForm=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    bet: this.initBet(this.props.bet)
+	    bet: this.initBet(this.props.bet),
+	    slider: {
+		min: 1,
+		max: 10
+	    }
 	};
     },
     teamsChangeHandler: function(items) {
@@ -192,8 +196,15 @@ var ExoticAccaForm=React.createClass({
 	// update price
 	this.updatePrice(this.state.bet);
 	// configure slider
+	var initSliderTicks=function() {
+	    var ticks=[];
+	    for (var i=this.state.slider.min; i <= this.state.slider.max; i++) {
+		ticks.push(i);
+	    }
+	    return ticks;
+	}.bind(this);
 	$('#slider').slider({
-	    ticks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+	    ticks: initSliderTicks(),
 	    formatter: function(value) {
 		return value;
 	    },
@@ -270,11 +281,11 @@ var ExoticAccaForm=React.createClass({
 				},
 				id: "slider",
 				type: "text",
-				"data-slider-id": 'ex1Slider',
-				"data-slider-min": 1,
-				"data-slider-max": 5,
+				// "data-slider-id": 'ex1Slider',
+				"data-slider-min": this.state.slider.min,
+				"data-slider-max": this.state.slider.max,
 				"data-slider-step": 1,
-				"data-slider-value": 2
+				"data-slider-value": this.state.slider.min
 			    })
 			})
 		    ]
