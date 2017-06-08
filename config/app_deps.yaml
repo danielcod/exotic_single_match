@@ -8,9 +8,6 @@
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/components/forms.js
-- js/app/components/product_selector.js
-- js/app/components/team_selector.js
-- js/app/components/paginator.js
 - js/app/products/exotic_accas.js
 - js/app/pages/page_one.js
 - js/app/pages/page_two.js
