@@ -193,8 +193,9 @@ var ExoticAccaForm=React.createClass({
 	this.updatePrice(this.state.bet);
 	// configure slider
 	$('#slider').slider({
+	    ticks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
 	    formatter: function(value) {
-		return 'Current value: ' + value;
+		return value;
 	    }
 	});
     },
@@ -249,24 +250,32 @@ var ExoticAccaForm=React.createClass({
 		    defaultOption: {
 			label: "Select"
 		    }
-		}),
+		}),		
 		React.DOM.div({
-		    style: {
-			"margin-top": "10px",
-			"margin-bottom": "10px"
-		    },
-		    children: React.DOM.input({
-			style: {
-			    width: "100%"
-			},
-			id: "slider",
-			type: "text",
-			"data-slider-id": 'ex1Slider',
-			"data-slider-min": 0,
-			"data-slider-max": 20,
-			"data-slider-step": 1,
-			"data-slider-value": 5
-		    })
+		    className: "form-group",
+		    children: [
+			React.DOM.label({
+			    children: "Number of Teams"
+			}),
+			React.DOM.div({
+			    style: {
+				"margin-left": "10px",
+				"margin-right": "10px"
+			    },
+			    children: React.DOM.input({
+				style: {
+				    width: "100%"
+				},
+				id: "slider",
+				type: "text",
+				"data-slider-id": 'ex1Slider',
+				"data-slider-min": 1,
+				"data-slider-max": 5,
+				"data-slider-step": 1,
+				"data-slider-value": 2
+			    })
+			})
+		    ]
 		})
 	    ]
 	})
