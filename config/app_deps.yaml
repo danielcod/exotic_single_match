@@ -7,7 +7,7 @@
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
 - js/app/services.js
-- js/app/components/forms.js
+- js/app/forms.js
 - js/app/products/exotic_accas.js
 - js/app/pages/page_one.js
 - js/app/pages/page_two.js
