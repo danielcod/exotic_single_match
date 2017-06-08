@@ -1,3 +1,20 @@
+var ExoticAccaTabs=React.createClass({
+    render: function() {
+	return React.DOM.ul({
+	    className: "nav nav-tabs",
+	    children: this.props.tabs.map(function(tab) {
+		return React.DOM.li({
+		    className: (tab.name==this.props.selected) ? "active" : "",
+		    onClick: this.props.clickHandler.bind(null, tab),
+		    children: React.DOM.a({
+			children: tab.label
+		    })
+		});				    
+	    }.bind(this))
+	});
+    }
+});
+
 var ExoticAccaConditionSelector=React.createClass({
     getInitialState: function() {
 	return {
@@ -147,7 +164,8 @@ var ExoticAccaForm=React.createClass({
 	    bet: this.initBet(this.props.bet),
 	    slider: {
 		min: 1
-	    }
+	    },
+	    selectedTab: "bet"
 	};
     },
     teamsChangeHandler: function(items) {
@@ -223,21 +241,23 @@ var ExoticAccaForm=React.createClass({
     render: function() {
 	return React.createElement(ExoticAccaGridLayout, {
 	    rows: [
-		React.DOM.ul({
-		    className: "nav nav-tabs",
-		    children: [
-			React.DOM.li({
-			    className: "active",
-			    children: React.DOM.a({
-				children: "Bet"
-			    })
-			}),
-			React.DOM.li({
-			    children: React.DOM.a({
-				children: "Matches"
-			    })
-			})
-		    ]		    
+		React.createElement(ExoticAccaTabs, {
+		    tabs: [
+			{
+			    name: "bet",
+			    label: "Bet"
+			},
+			{
+			    name: "matches",
+			    label: "Matches"
+			}
+		    ],
+		    selected: this.state.selectedTab,
+		    clickHandler: function(tab) {
+			var state=this.state;
+			state.selectedTab=tab.name;
+			this.setState(state);
+		    }.bind(this)
 		}),
 		React.createElement(SelectorTable, {
 		    selectorClass: MatchTeamSelector,
