@@ -210,31 +210,6 @@ var ExoticAccaNTeamsSlider=React.createClass({
     }
 });
 
-var ExoticAccaGridLayout=React.createClass({
-    initItem: function(item, colwidth) {
-	return React.DOM.div({
-	    className: "col-xs-"+colwidth,
-	    children: item
-	});
-    },
-    initRow: function(row) {
-	var colwidth=12/row.length;
-	return React.DOM.div({
-	    className: "row",
-	    children: Array.isArray(row) ? row.map(function(item) {		
-		return this.initItem(item, colwidth)
-	    }.bind(this)) : this.initItem(row, 12)
-	});
-    },
-    render: function() {
-	return React.DOM.div({
-	    children: this.props.rows.map(function(row) {
-		return this.initRow(row);
-	    }.bind(this))
-	})
-    }
-});
-
 var ExoticAccaForm=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
@@ -351,31 +326,29 @@ var ExoticAccaForm=React.createClass({
 			this.setState(state);
 		    }.bind(this)
 		}),
-		(this.state.selectedTab=="bet") ?React.createElement(ExoticAccaGridLayout, {
-		    rows: [
-			React.createElement(ExoticAccaSelectorTable, {
-			    items: this.state.bet.params.teams,
-			    exoticsApi: this.props.exoticsApi,
-			    changeHandler: this.teamsChangeHandler,
-			    label: "Teams"
-			}),
-			React.createElement(ExoticAccaConditionSelector, {
-			    label: "Teams Condition",
-			    name: "teams_condition",
-			    value: this.state.bet.params.teams_condition,
-			    changeHandler: this.changeHandler,
-			    blankStyle: this.props.blankStyle,
-			    defaultOption: {
-				label: "Select"
-			    }
-			}),
-			React.createElement(ExoticAccaNTeamsSlider, {
-			    min: this.state.slider.min,
-			    max: this.state.bet.params.teams.length,
-			    changeHandler: this.changeHandler
-			})
-		    ]
-		}) : undefined,
+		(this.state.selectedTab=="bet") ? [
+		    React.createElement(ExoticAccaSelectorTable, {
+			items: this.state.bet.params.teams,
+			exoticsApi: this.props.exoticsApi,
+			changeHandler: this.teamsChangeHandler,
+			label: "Teams"
+		    }),
+		    React.createElement(ExoticAccaConditionSelector, {
+			label: "Teams Condition",
+			name: "teams_condition",
+			value: this.state.bet.params.teams_condition,
+			changeHandler: this.changeHandler,
+			blankStyle: this.props.blankStyle,
+			defaultOption: {
+			    label: "Select"
+			}
+		    }),
+		    React.createElement(ExoticAccaNTeamsSlider, {
+			min: this.state.slider.min,
+			max: this.state.bet.params.teams.length,
+			changeHandler: this.changeHandler
+		    })
+		] : [],
 		(this.state.selectedTab=="matches") ? React.DOM.h1({
 		    className: "text-center",
 		    style: {
