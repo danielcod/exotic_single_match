@@ -226,22 +226,9 @@ var ExoticAccaForm=React.createClass({
 	    matches: []
 	};
     },
-    teamsChangeHandler: function(items) {
+    teamsChangeHandler: function(teams) {
 	var state=this.state;
-	var teams=items.map(function(item) {
-	    return {
-		league: item.league,
-		team: item.team,
-		versus: item.versus,
-		match: item.match,
-		home_away: item.home_away
-	    };
-	}.bind(this));
 	state.bet.params.teams=teams;
-	if ((state.bet.params.n_teams!=undefined) &&
-	    (state.bet.params.n_teams > teams.length)) {
-	    state.bet.params.n_teams=undefined;
-	}
 	this.setState(state);
 	this.updatePrice(this.state.bet);
     },
