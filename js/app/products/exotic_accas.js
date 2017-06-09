@@ -155,7 +155,6 @@ var ExoticAccaConditionSelector=React.createClass({
 	    value: this.state.value,
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
-	    className: this.props.className,
 	    defaultOption: this.props.defaultOption,	    
 	    label: this.props.label || "Condition",
 	    name: this.props.name || "condition"
