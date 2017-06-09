@@ -111,37 +111,36 @@ var ExoticAccaSelectionTable=React.createClass({
     }
 });
 
+
+
+var ExoticAccaConditions=[
+    {
+	label: "More Than",
+	value: ">"
+    },
+    {
+	label: "At Least",
+	value: ">="
+    },
+    {
+	label: "Exactly",
+	value: "="
+    },
+    {
+	label: "Less Than",
+	value: "<"
+    },
+    {
+	label: "At Most",
+	value: "<="
+    }
+];
+
 var ExoticAccaConditionSelector=React.createClass({
-    getInitialState: function() {
-	return {
-	    options: [
-		{
-		    label: "More Than",
-		    value: ">"
-		},
-		{
-		    label: "At Least",
-		    value: ">="
-		},
-		{
-		    label: "Exactly",
-		    value: "="
-		},
-		{
-		    label: "Less Than",
-		    value: "<"
-		},
-		{
-		    label: "At Most",
-		    value: "<="
-		}
-	    ]
-	};
-    },    
     render: function() {
 	return React.createElement(MySelect, {
 	    changeHandler: this.props.changeHandler,
-	    options: this.state.options,
+	    options: ExoticAccaConditions,
 	    value: this.props.value,
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
