@@ -136,6 +136,11 @@ var ExoticAccaConditions=[
 ];
 
 var ExoticAccaNTeamsSlider=React.createClass({
+    getInitialState: function() {
+	return {
+	    value: 1
+	}
+    },
     componentDidMount: function() {
 	var initSliderTicks=function() {
 	    var ticks=[];
@@ -157,14 +162,18 @@ var ExoticAccaNTeamsSlider=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
+	    style: {
+		"margin-top": "20px",
+		"margin-bottom": "30px"
+	    },
 	    children: [
 		React.DOM.label({
 		    children: "Number of Teams"
 		}),
 		React.DOM.div({
 		    style: {
-			"margin-left": "10px",
-			"margin-right": "10px"
+			"margin-left": "20px",
+			"margin-right": "20px",
 		    },
 		    children: React.DOM.input({
 			style: {
@@ -174,7 +183,8 @@ var ExoticAccaNTeamsSlider=React.createClass({
 			type: "text",
 			"data-slider-min": this.props.min,
 			"data-slider-max": this.props.max,
-			"data-slider-step": 1
+			"data-slider-step": 1,
+			"data-slider-value": this.state.value
 		    })
 		})
 	    ]
