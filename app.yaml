@@ -41,8 +41,6 @@ handlers:
 - url: /app.*
   script: controllers.app.app
 # TASKS
-- url: /tasks/app/match_teams.*
-  script: tasks.app.match_teams.app
 - url: /tasks/app/matches.*
   script: tasks.app.matches.app
 - url: /tasks/app/teams.*
