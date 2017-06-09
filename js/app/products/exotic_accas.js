@@ -112,6 +112,20 @@ var ExoticAccaBetSelectionTable=React.createClass({
     }
 });
 
+var ExoticAccaMatchSelectionRow=React.createClass({
+    render: function() {
+    }
+});
+
+var ExoticAccaMatchSelectionTable=React.createClass({
+    render: function() {
+	return React.DOM.h1({
+	    className: "text-center",
+	    children: "Match Selector"
+	})
+    }
+});
+
 var ExoticAccaConditions=[
     {
 	label: "More Than",
@@ -307,13 +321,7 @@ var ExoticAccaForm=React.createClass({
 			changeHandler: this.teamsChangeHandler,
 			label: "Teams"
 		}) : undefined,
-		(this.state.selectedTab=="matches") ? React.DOM.h1({
-		    className: "text-center",
-		    style: {
-			"margin-top": "10px",
-			"margin-bottom": "20px"
-		    },
-		    children: "[Team Selector]"
+		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaMatchSelectionTable, {
 		}) : undefined,
 		React.createElement(MySelect, {
 		    label: "Teams Condition",
