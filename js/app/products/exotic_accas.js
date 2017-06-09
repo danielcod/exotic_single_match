@@ -292,7 +292,12 @@ var ExoticAccaForm=React.createClass({
 	}
     },
     componentDidMount: function() {
+	// update price
 	this.updatePrice(this.state.bet);
+	// load matches
+	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
+	    console.log(JSON.stringify(struct));
+	});	
     },
     render: function() {
 	return React.DOM.div({
