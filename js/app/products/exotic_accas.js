@@ -21,16 +21,6 @@ var ExoticAccaSelectorRow=React.createClass({
 	    item: this.props.item
 	};
     },
-    changeHandler: function(struct) {
-	var state=this.state;
-	for (var attr in struct) {
-	    if (struct[attr]!=state.item[attr]) {
-		state.item[attr]=struct[attr]
-	    }
-	}
-	this.setState(state);
-	this.props.changeHandler(this.props.item.id, struct);
-    },
     deleteHandler: function() {
 	this.props.deleteHandler(this.props.item.id);
     },
@@ -46,17 +36,9 @@ var ExoticAccaSelectorRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    style: {
-			"margin-left": "0px",
-			"padding-left": "0px"
-		    },
 		    children: this.state.item.team+" (vs "+this.state.item.versus+")"
 		}),		
 		React.DOM.td({
-		    style: {
-			"margin-right": "0px",
-			"padding-right": "0px"
-		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
