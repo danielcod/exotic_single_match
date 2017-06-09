@@ -193,13 +193,6 @@ var ExoticAccaNTeamsSlider=React.createClass({
 });
 
 var ExoticAccaForm=React.createClass({
-    initOptionsHandler: function(name) {
-	return function(struct) {
-	    var state=this.state;
-	    state.options[name]=struct;
-	    this.setState(state);	
-	}.bind(this);
-    },
     initBet: function(bet) {
 	if (bet.params.result==undefined) {
 	    bet.params.result="win"; // TEMP
