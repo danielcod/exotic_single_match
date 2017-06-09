@@ -137,7 +137,7 @@ var ExoticAccaConditionSelector=React.createClass({
 		    value: "<="
 		}
 	    ],
-	    condition: this.props.value
+	    value: this.props.value
 	};
     },    
     changeHandler: function(name, value) {
@@ -256,7 +256,6 @@ var ExoticAccaForm=React.createClass({
 	this.updatePrice(this.state.bet);
     },
     changeHandler: function(name, value) {
-	console.log(name+"="+value); // TEMP
 	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
 	    if (name=="n_teams") {
