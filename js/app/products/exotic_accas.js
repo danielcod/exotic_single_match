@@ -1,4 +1,4 @@
-var ExoticAccaTabs=React.createClass({
+var ExoticAccaSelectionTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -39,6 +39,7 @@ var ExoticAccaSelectionRow=React.createClass({
 		    children: this.state.item.team+" (vs "+this.state.item.versus+")"
 		}),		
 		React.DOM.td({
+		    className: "pull-right",
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -279,7 +280,7 @@ var ExoticAccaForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(ExoticAccaTabs, {
+		React.createElement(ExoticAccaSelectionTabs, {
 		    tabs: [
 			{
 			    name: "bet",
