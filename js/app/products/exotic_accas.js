@@ -112,6 +112,34 @@ var ExoticAccaBetSelectionTable=React.createClass({
     }
 });
 
+var ExoticAccaTeamSelectionCell=React.createClass({
+    getInitialState: function() {
+	return {
+	    selected: false
+	}
+    },
+    clickHandler: function() {
+	var state=this.state;
+	state.selected=!state.selected;
+	this.setState(state)
+    },
+    render: function() {
+	return React.DOM.td({
+	    children: this.state.selected ? React.DOM.span({
+		style: {
+		    "padding-top": "7px",
+		    "padding-bottom": "7px"
+		},
+		className: "label label-info",
+		children: React.DOM.b({
+		    children: this.props.value
+		})
+	    }) : this.props.value,
+	    onClick: this.clickHandler
+	})
+    }
+});
+
 var ExoticAccaMatchSelectionTable=React.createClass({
     initRow: function(item) {
 	var teamnames=item.match.split(" vs ")
@@ -121,14 +149,14 @@ var ExoticAccaMatchSelectionTable=React.createClass({
 		React.DOM.td({
 		    children: item.league
 		}),
-		React.DOM.td({
-		    children: teamnames[0]
+		React.createElement(ExoticAccaTeamSelectionCell, {
+		    value: teamnames[0]
 		}),
 		React.DOM.td({
 		    children: " vs "
 		}),
-		React.DOM.td({
-		    children: teamnames[1]
+		React.createElement(ExoticAccaTeamSelectionCell, {
+		    value: teamnames[1]
 		})
 	    ]
 	});
