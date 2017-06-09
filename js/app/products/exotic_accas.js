@@ -222,7 +222,8 @@ var ExoticAccaForm=React.createClass({
 	    slider: {
 		min: 1
 	    },
-	    selectedTab: "bet"
+	    selectedTab: "bet",
+	    matches: []
 	};
     },
     teamsChangeHandler: function(items) {
@@ -296,8 +297,10 @@ var ExoticAccaForm=React.createClass({
 	this.updatePrice(this.state.bet);
 	// load matches
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
-	    console.log(JSON.stringify(struct));
-	});	
+	    var state=this.state;
+	    state.matches=struct;
+	    this.setState(state);
+	}.bind(this));	
     },
     render: function() {
 	return React.DOM.div({
