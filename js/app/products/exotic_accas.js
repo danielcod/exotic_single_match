@@ -118,11 +118,27 @@ var ExoticAccaMatchSelectionRow=React.createClass({
 });
 
 var ExoticAccaMatchSelectionTable=React.createClass({
+    initRow: function(item) {
+	
+	return React.DOM.tr({
+	    children: item.match.split(" vs ").map(function(teamname) {
+		return React.DOM.td({
+		    className: "text-center",
+		    children: teamname
+		});
+	    })
+	});
+    },
     render: function() {
-	return React.DOM.h1({
-	    className: "text-center",
-	    children: "Match Selector"
-	})
+	console.log(JSON.stringify(this.props.matches));
+	return React.DOM.table({
+	    className: "table",
+	    children: React.DOM.tbody({
+		children: this.props.matches.map(function(match) {
+		    return this.initRow(match);
+		}.bind(this))
+	    })
+	});
     }
 });
 
@@ -317,6 +333,7 @@ var ExoticAccaForm=React.createClass({
 			label: "Teams"
 		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaMatchSelectionTable, {
+		    matches: this.state.matches.slice(0, 5) // TEMP
 		}) : undefined,
 		React.createElement(MySelect, {
 		    label: "Teams Condition",
