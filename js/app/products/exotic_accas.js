@@ -111,8 +111,6 @@ var ExoticAccaSelectionTable=React.createClass({
     }
 });
 
-
-
 var ExoticAccaConditions=[
     {
 	label: "More Than",
@@ -135,21 +133,6 @@ var ExoticAccaConditions=[
 	value: "<="
     }
 ];
-
-var ExoticAccaConditionSelector=React.createClass({
-    render: function() {
-	return React.createElement(MySelect, {
-	    changeHandler: this.props.changeHandler,
-	    options: ExoticAccaConditions,
-	    value: this.props.value,
-	    // pass thru attributes
-	    blankStyle: this.props.blankStyle,
-	    defaultOption: this.props.defaultOption,	    
-	    label: this.props.label || "Condition",
-	    name: this.props.name || "condition"
-	});
-    }
-});
 
 var ExoticAccaNTeamsSlider=React.createClass({
     componentDidMount: function() {
@@ -328,11 +311,12 @@ var ExoticAccaForm=React.createClass({
 		    },
 		    children: "[Team Selector]"
 		}) : undefined,
-		React.createElement(ExoticAccaConditionSelector, {
+		React.createElement(MySelect, {
 		    label: "Teams Condition",
 		    name: "teams_condition",
 		    value: this.state.bet.params.teams_condition,
 		    changeHandler: this.changeHandler,
+		    options: ExoticAccaConditions,
 		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
 			label: "Select"
