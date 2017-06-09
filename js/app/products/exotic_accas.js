@@ -89,16 +89,6 @@ var ExoticAccaSelectorTable=React.createClass({
 	    items: this.initItems(this.props.items)
 	}
     },
-    addHandler: function() { 
-	var state=this.state;
-	var items=state.items;
-	items.push({
-	    id: this.uuid()
-	});
-	state.items=items;
-	this.setState(state);
-	this.props.changeHandler(state.items);
-    },
     changeHandler: function(id, struct) {
 	var state=this.state;
 	for (var i=0; i < state.items.length; i++) {
@@ -148,19 +138,6 @@ var ExoticAccaSelectorTable=React.createClass({
 				deleteHandler: this.deleteHandler
 			    });
 			}.bind(this))
-		    })
-		}),
-		React.DOM.div({
-		    className: "text-center",
-		    children: React.DOM.a({
-			className: "btn btn-secondary",
-			style: {
-			    "margin-top": "10px"
-			},
-			onClick: function() {
-			    this.addHandler();
-			}.bind(this),
-			children: this.props.addLabel
 		    })
 		})
 	    ]
@@ -422,7 +399,6 @@ var ExoticAccaForm=React.createClass({
 			    blankStyle: this.props.blankStyle,
 			    changeHandler: this.teamsChangeHandler,
 			    label: "Teams",
-			    addLabel: "Add Team",
 			    defaultOption: {
 				label: "Select"
 			    }
