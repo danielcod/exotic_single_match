@@ -101,8 +101,6 @@ var ExoticAccaSelectorTable=React.createClass({
 				selectorClass: this.props.selectorClass,
 				item: item,
 				exoticsApi: this.props.exoticsApi,
-				blankStyle: this.props.blankStyle,
-				defaultOption: this.props.defaultOption,
 				deleteHandler: this.deleteHandler
 			    });
 			}.bind(this))
@@ -181,7 +179,6 @@ var ExoticAccaNTeamsSlider=React.createClass({
 		return value;
 	    },
 	}).on("change", function(event, ui) {
-	    // console.log(
 	    var value=parseInt($("#slider").data("slider").getValue());
 	    this.props.changeHandler("n_teams", value);
 	}.bind(this));	
@@ -358,15 +355,10 @@ var ExoticAccaForm=React.createClass({
 		(this.state.selectedTab=="bet") ?React.createElement(ExoticAccaGridLayout, {
 		    rows: [
 			React.createElement(ExoticAccaSelectorTable, {
-			    // selectorClass: ExoticAccaMatchTeamSelector,
 			    items: this.state.bet.params.teams,
 			    exoticsApi: this.props.exoticsApi,
-			    blankStyle: this.props.blankStyle,
 			    changeHandler: this.teamsChangeHandler,
-			    label: "Teams",
-			    defaultOption: {
-				label: "Select"
-			    }
+			    label: "Teams"
 			}),
 			React.createElement(ExoticAccaConditionSelector, {
 			    label: "Teams Condition",
