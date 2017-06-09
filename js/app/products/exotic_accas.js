@@ -117,31 +117,29 @@ var ExoticAccaSelectorTable=React.createClass({
 var ExoticAccaConditionSelector=React.createClass({
     getInitialState: function() {
 	return {
-	    options: {
-		condition: [
-		    {
-			label: "More Than",
-			value: ">"
-		    },
-		    {
-			label: "At Least",
-			value: ">="
-		    },
-		    {
-			label: "Exactly",
-			value: "="
-		    },
-		    {
-			label: "Less Than",
-			value: "<"
-		    },
-		    {
-			label: "At Most",
-			value: "<="
-		    }
-		]
-	    },
-	    condition: this.props.condition
+	    options: [
+		{
+		    label: "More Than",
+		    value: ">"
+		},
+		{
+		    label: "At Least",
+		    value: ">="
+		},
+		{
+		    label: "Exactly",
+		    value: "="
+		},
+		{
+		    label: "Less Than",
+		    value: "<"
+		},
+		{
+		    label: "At Most",
+		    value: "<="
+		}
+	    ],
+	    condition: this.props.value
 	};
     },    
     changeHandler: function(name, value) {
@@ -155,8 +153,8 @@ var ExoticAccaConditionSelector=React.createClass({
     render: function() {
 	return React.createElement(MySelect, {
 	    changeHandler: this.changeHandler,
-	    options: this.state.options.condition,
-	    value: this.state.condition,
+	    options: this.state.options,
+	    value: this.state.value,
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    className: this.props.className,
@@ -373,7 +371,7 @@ var ExoticAccaForm=React.createClass({
 			React.createElement(ExoticAccaConditionSelector, {
 			    label: "Teams Condition",
 			    name: "teams_condition",
-			    condition: this.state.bet.params.teams_condition,
+			    value: this.state.bet.params.teams_condition,
 			    changeHandler: this.changeHandler,
 			    blankStyle: this.props.blankStyle,
 			    defaultOption: {
