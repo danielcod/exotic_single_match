@@ -111,7 +111,6 @@ var ExoticAccaSelectionTable=React.createClass({
     }
 });
 
-
 var ExoticAccaConditionSelector=React.createClass({
     getInitialState: function() {
 	return {
@@ -136,23 +135,14 @@ var ExoticAccaConditionSelector=React.createClass({
 		    label: "At Most",
 		    value: "<="
 		}
-	    ],
-	    value: this.props.value
+	    ]
 	};
     },    
-    changeHandler: function(name, value) {
-	if (this.state[name]!=value) {
-	    var state=this.state;
-	    state[name]=value;
-	    this.setState(state);
-	    this.props.changeHandler(name, value);
-	}
-    },
     render: function() {
 	return React.createElement(MySelect, {
-	    changeHandler: this.changeHandler,
+	    changeHandler: this.props.changeHandler,
 	    options: this.state.options,
-	    value: this.state.value,
+	    value: this.props.value,
 	    // pass thru attributes
 	    blankStyle: this.props.blankStyle,
 	    defaultOption: this.props.defaultOption,	    
@@ -161,7 +151,6 @@ var ExoticAccaConditionSelector=React.createClass({
 	});
     }
 });
-
 
 var ExoticAccaNTeamsSlider=React.createClass({
     componentDidMount: function() {
@@ -256,6 +245,7 @@ var ExoticAccaForm=React.createClass({
 	this.updatePrice(this.state.bet);
     },
     changeHandler: function(name, value) {
+	console.log(name+" -> "+value);
 	if (this.state.bet.params[name]!=value) {
 	    var state=this.state;
 	    if (name=="n_teams") {
