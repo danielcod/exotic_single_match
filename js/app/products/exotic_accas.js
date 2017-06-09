@@ -15,7 +15,7 @@ var ExoticAccaTabs=React.createClass({
     }
 });
 
-var ExoticAccaSelectorRow=React.createClass({
+var ExoticAccaSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
 	    item: this.props.item
@@ -52,7 +52,7 @@ var ExoticAccaSelectorRow=React.createClass({
     }
 });
 
-var ExoticAccaSelectorTable=React.createClass({
+var ExoticAccaSelectionTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
@@ -97,7 +97,7 @@ var ExoticAccaSelectorTable=React.createClass({
 		    },
 		    children: React.DOM.tbody({
 			children: this.state.items.map(function(item) {
-			    return React.createElement(ExoticAccaSelectorRow, {
+			    return React.createElement(ExoticAccaSelectionRow, {
 				selectorClass: this.props.selectorClass,
 				item: item,
 				exoticsApi: this.props.exoticsApi,
@@ -327,7 +327,7 @@ var ExoticAccaForm=React.createClass({
 		    }.bind(this)
 		}),
 		(this.state.selectedTab=="bet") ? [
-		    React.createElement(ExoticAccaSelectorTable, {
+		    React.createElement(ExoticAccaSelectionTable, {
 			items: this.state.bet.params.teams,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: this.teamsChangeHandler,
