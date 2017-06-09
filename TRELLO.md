@@ -1,0 +1,4 @@
+- rename match.match as match.name
+- remove old blobs
+- add prices to matches and render
+- add league filter to matches selector
