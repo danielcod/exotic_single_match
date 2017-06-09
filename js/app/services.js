@@ -56,9 +56,6 @@ var ExoticsAPI=function(errHandler, debug) {
 	var url="/app/blobs?key="+key;
 	this.httpGet(url, handler);
     },
-    this.fetchExpiries=function(handler) {
-	this.httpGet("/app/expiries", handler);
-    };
     this.fetchPrice=function(struct, handler) {
 	this.httpPost("/app/bets/price", struct, handler);
     };
