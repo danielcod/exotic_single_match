@@ -71,19 +71,6 @@ var ExoticAccaSelectorTable=React.createClass({
 	    items: this.initItems(this.props.items)
 	}
     },
-    changeHandler: function(id, struct) {
-	var state=this.state;
-	for (var i=0; i < state.items.length; i++) {
-	    var item=state.items[i];
-	    if (item.id==id) {
-		for (attr in struct) {
-		    item[attr]=struct[attr];
-		}
-	    }
-	}
-	this.setState(state);
-	this.props.changeHandler(state.items);
-    },
     deleteHandler: function(id) {
 	if (this.state.items.length > 1) {
 	    var state=this.state;
@@ -116,7 +103,6 @@ var ExoticAccaSelectorTable=React.createClass({
 				exoticsApi: this.props.exoticsApi,
 				blankStyle: this.props.blankStyle,
 				defaultOption: this.props.defaultOption,
-				changeHandler: this.changeHandler,
 				deleteHandler: this.deleteHandler
 			    });
 			}.bind(this))
@@ -126,7 +112,6 @@ var ExoticAccaSelectorTable=React.createClass({
 	});		
     }
 });
-
 
 
 var ExoticAccaConditionSelector=React.createClass({
