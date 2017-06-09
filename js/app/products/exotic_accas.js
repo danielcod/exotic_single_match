@@ -312,11 +312,11 @@ var ExoticAccaForm=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "Bet"
+			    label: "Your Selections"
 			},
 			{
 			    name: "matches",
-			    label: "Matches"
+			    label: "Team Selector"
 			}
 		    ],
 		    selected: this.state.selectedTab,
@@ -326,37 +326,35 @@ var ExoticAccaForm=React.createClass({
 			this.setState(state);
 		    }.bind(this)
 		}),
-		(this.state.selectedTab=="bet") ? [
-		    React.createElement(ExoticAccaSelectionTable, {
+		(this.state.selectedTab=="bet") ? React.createElement(ExoticAccaSelectionTable, {
 			items: this.state.bet.params.teams,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: this.teamsChangeHandler,
 			label: "Teams"
-		    }),
-		    React.createElement(ExoticAccaConditionSelector, {
-			label: "Teams Condition",
-			name: "teams_condition",
-			value: this.state.bet.params.teams_condition,
-			changeHandler: this.changeHandler,
-			blankStyle: this.props.blankStyle,
-			defaultOption: {
-			    label: "Select"
-			}
-		    }),
-		    React.createElement(ExoticAccaNTeamsSlider, {
-			min: this.state.slider.min,
-			max: this.state.bet.params.teams.length,
-			changeHandler: this.changeHandler
-		    })
-		] : [],
+		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.DOM.h1({
 		    className: "text-center",
 		    style: {
 			"margin-top": "10px",
-			"margin-bottom": "10px"
+			"margin-bottom": "20px"
 		    },
-		    children: "Hello World"
-		}) : undefined
+		    children: "[Team Selector]"
+		}) : undefined,
+		React.createElement(ExoticAccaConditionSelector, {
+		    label: "Teams Condition",
+		    name: "teams_condition",
+		    value: this.state.bet.params.teams_condition,
+		    changeHandler: this.changeHandler,
+		    blankStyle: this.props.blankStyle,
+		    defaultOption: {
+			label: "Select"
+		    }
+		}),
+		React.createElement(ExoticAccaNTeamsSlider, {
+		    min: this.state.slider.min,
+		    max: this.state.bet.params.teams.length,
+		    changeHandler: this.changeHandler
+		})
 	    ]
 	})
     }
