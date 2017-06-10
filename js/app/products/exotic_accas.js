@@ -116,6 +116,21 @@ var ExoticAccaMatchSelectionPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
+		React.createElement(MySelect, {
+		    options: [
+			{
+			    value: "One",
+			},
+			{
+			    value: "Two",
+			}
+		    ],
+		    value: "Two",
+		    label: "League",
+		    changeHandler: function(name, value) {
+			console.log(name+"="+value);
+		    },		    
+		}),
 		React.createElement(ExoticAccaMatchSelectionTable, {
 		    matches: this.props.matches.slice(0, 5) // TEMP
 		})
