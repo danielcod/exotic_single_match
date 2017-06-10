@@ -112,33 +112,6 @@ var ExoticAccaBetSelectionTable=React.createClass({
     }
 });
 
-var ExoticAccaMatchSelectionPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(MySelect, {
-		    options: [
-			{
-			    value: "One",
-			},
-			{
-			    value: "Two",
-			}
-		    ],
-		    value: "Two",
-		    label: "League",
-		    changeHandler: function(name, value) {
-			console.log(name+"="+value);
-		    },		    
-		}),
-		React.createElement(ExoticAccaMatchSelectionTable, {
-		    matches: this.props.matches.slice(0, 5) // TEMP
-		})
-	    ]
-	});
-    }
-});
-
 var ExoticAccaTeamSelectionCell=React.createClass({
     getInitialState: function() {
 	return {
@@ -169,9 +142,6 @@ var ExoticAccaMatchSelectionTable=React.createClass({
 	return React.DOM.tr({
 	    className: "text-center",
 	    children: [
-		React.DOM.td({
-		    children: item.league
-		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
 		    value: teamnames[0]
 		}),
@@ -192,6 +162,49 @@ var ExoticAccaMatchSelectionTable=React.createClass({
 		    return this.initRow(match);
 		}.bind(this))
 	    })
+	});
+    }
+});
+
+var ExoticAccaMatchSelectionPanel=React.createClass({
+    filterLeagueNames: function(matches) {
+	var names=[];
+	for (var i=0; i < matches.length; i++) {
+	    var match=matches[i];
+	    if (names.indexOf(match.league)==-1) {
+		names.push(match.league);
+	    }
+	}
+	return names.sort();
+    },
+    getInitialState: function() {
+	return {
+	    leagues: this.filterLeagueNames(this.props.matches).map(function(name) {
+		return {
+		    name: name
+		};
+	    })
+	}
+    },
+    render: function() {
+	return React.DOM.div({
+	    children: [
+		React.createElement(MySelect, {
+		    options: this.state.leagues.map(function(league) {
+			return {
+			    value: league.name
+			};
+		    }),
+		    value: this.state.leagues[0].name,
+		    label: "League",
+		    changeHandler: function(name, value) {
+			console.log(name+"="+value);
+		    },		    
+		}),
+		React.createElement(ExoticAccaMatchSelectionTable, {
+		    matches: this.props.matches.slice(0, 5) // TEMP
+		})
+	    ]
 	});
     }
 });
