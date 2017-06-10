@@ -91,7 +91,7 @@ var ExoticAccaBetSelectionTable=React.createClass({
 		    children: this.props.label
 		}),
 		React.DOM.table({
-		    className: "table",
+		    className: "table table-condensed table-striped",
 		    style: {
 			"margin-top": "0px",
 			"margin-bottom": "0px"
@@ -123,6 +123,13 @@ var ExoticAccaTeamSelectionCell=React.createClass({
 	state.selected=!state.selected;
 	this.setState(state)
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (nextProps.value!=this.props.value) {
+	    var state=this.state;
+	    state.selected=false;
+	    this.setState(state);
+	}
+    },
     render: function() {
 	return React.DOM.td({
 	    children: this.state.selected ? React.DOM.span({
@@ -136,12 +143,75 @@ var ExoticAccaTeamSelectionCell=React.createClass({
     }
 });
 
+var ExoticAccaDateUtils={
+    formatMonth: function(date) {
+	var months=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	return months[date.getMonth()]; // NB JS months indexed at zero
+    },
+    formatDaySuffix: function(date) {
+	var day=date.getDate();
+	if ((day==1) || (day==21) || (day==31)) {
+	    return "st";
+	} else if ((day==2) || (day==22)) {
+	    return "nd";
+	} else if ((day==3) || (day==23)) {
+	    return "rd";
+	} else {
+	    return "th";
+	}
+    },
+    formatDate: function(date) {
+	var month=this.formatMonth(date);
+	var day=date.getDate();
+	var suffix=this.formatDaySuffix(date);
+	return month+" "+day+suffix;
+    },
+    formatMinutes: function(date) {
+	var minutes=date.getMinutes();
+	return (minutes < 10) ? '0'+minutes : minutes;
+    },
+    formatTime: function(date) {
+	return date.getHours()+":"+this.formatMinutes(date);
+    }
+};
+
+var ExoticAccaDateTimeCell=React.createClass({
+    render: function() {
+	var value=this.props.value;
+	var date=new Date(value);
+	var today=new Date();
+	var tmrw=new Date(today.getTime()+24*60*60*1000);
+	if ((date.getMonth()==today.getMonth()) &&
+	    (date.getDate()==today.getDate())) {
+	    return React.DOM.span({
+		className: "label label-warning",
+		children: "Today"+((this.props.col.type=="datetime") ? (" "+ExoticAccaDateUtils.formatTime(date)) : "")
+	    });
+	} else if ((date.getMonth()==tmrw.getMonth()) &&
+		   (date.getDate()==tmrw.getDate())) {
+	    return React.DOM.span({
+		className: "label label-info",
+		children: "Tomorrow"
+	    });
+	} else {
+	    return React.DOM.span({
+		children: ExoticAccaDateUtils.formatDate(date)
+	    });
+	}
+    }
+});
+
 var ExoticAccaMatchSelectionTable=React.createClass({
     initRow: function(item) {
 	var teamnames=item.match.split(" vs ")
 	return React.DOM.tr({
 	    className: "text-center",
 	    children: [
+		React.DOM.td({
+		    children: React.createElement(ExoticAccaDateTimeCell, {
+			value: item.kickoff
+		    })
+		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
 		    value: teamnames[0]
 		}),
@@ -156,7 +226,7 @@ var ExoticAccaMatchSelectionTable=React.createClass({
     },
     render: function() {
 	return React.DOM.table({
-	    className: "table",
+	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
 		    return this.initRow(match);
