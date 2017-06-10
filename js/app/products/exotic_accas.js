@@ -167,7 +167,7 @@ var ExoticAccaMatchSelectionTable=React.createClass({
 });
 
 var ExoticAccaMatchSelectionPanel=React.createClass({
-    filterLeagueNames: function(matches) {
+    filterLeagues: function(matches) {
 	var names=[];
 	for (var i=0; i < matches.length; i++) {
 	    var match=matches[i];
@@ -179,12 +179,15 @@ var ExoticAccaMatchSelectionPanel=React.createClass({
     },
     getInitialState: function() {
 	return {
-	    leagues: this.filterLeagueNames(this.props.matches).map(function(name) {
-		return {
-		    name: name
-		};
-	    })
+	    leagues: this.filterLeagues(this.props.matches),
+	    league: this.filterLeagues(this.props.matches)[0]
 	}
+    },
+    changeHandler: function(name, value) {
+	console.log(name+"="+value);
+	var state=this.state;
+	state.league=value;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.div({
@@ -192,17 +195,18 @@ var ExoticAccaMatchSelectionPanel=React.createClass({
 		React.createElement(MySelect, {
 		    options: this.state.leagues.map(function(league) {
 			return {
-			    value: league.name
+			    value: league
 			};
 		    }),
-		    value: this.state.leagues[0].name,
+		    value: this.state.league,
 		    label: "League",
-		    changeHandler: function(name, value) {
-			console.log(name+"="+value);
-		    },		    
+		    name: "league",
+		    changeHandler: this.changeHandler
 		}),
 		React.createElement(ExoticAccaMatchSelectionTable, {
-		    matches: this.props.matches.slice(0, 5) // TEMP
+		    matches: this.props.matches.filter(function(match) {
+			return match.league==this.state.league;
+		    }.bind(this))
 		})
 	    ]
 	});
