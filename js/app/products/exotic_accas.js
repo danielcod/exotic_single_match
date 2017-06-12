@@ -30,6 +30,32 @@ var ExoticAccaDateUtils={
     }
 };
 
+var ExoticAccaDateTimeCell=React.createClass({
+    render: function() {
+	var value=this.props.value;
+	var date=new Date(value);
+	var today=new Date();
+	var tmrw=new Date(today.getTime()+24*60*60*1000);
+	if ((date.getMonth()==today.getMonth()) &&
+	    (date.getDate()==today.getDate())) {
+	    return React.DOM.span({
+		className: "label label-warning",
+		children: "Today"+((this.props.col.type=="datetime") ? (" "+ExoticAccaDateUtils.formatTime(date)) : "")
+	    });
+	} else if ((date.getMonth()==tmrw.getMonth()) &&
+		   (date.getDate()==tmrw.getDate())) {
+	    return React.DOM.span({
+		className: "label label-info",
+		children: "Tomorrow"
+	    });
+	} else {
+	    return React.DOM.span({
+		children: ExoticAccaDateUtils.formatDate(date)
+	    });
+	}
+    }
+});
+
 var ExoticAccaSelectorTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -145,59 +171,15 @@ var ExoticAccaBetSelectionTable=React.createClass({
 });
 
 var ExoticAccaTeamSelectionCell=React.createClass({
-    getInitialState: function() {
-	return {
-	    selected: false
-	}
-    },
-    clickHandler: function() {
-	var state=this.state;
-	state.selected=!state.selected;
-	this.setState(state)
-    },
-    componentWillReceiveProps: function(nextProps) {
-	if (nextProps.value!=this.props.value) {
-	    var state=this.state;
-	    state.selected=false;
-	    this.setState(state);
-	}
-    },
     render: function() {
 	return React.DOM.td({
-	    children: this.state.selected ? React.DOM.span({
+	    children: this.props.selected ? React.DOM.span({
 		className: "label label-info",
 		children: React.DOM.b({
 		    children: this.props.value
 		})
-	    }) : this.props.value,
-	    onClick: this.clickHandler
+	    }) : this.props.value
 	});
-    }
-});
-
-var ExoticAccaDateTimeCell=React.createClass({
-    render: function() {
-	var value=this.props.value;
-	var date=new Date(value);
-	var today=new Date();
-	var tmrw=new Date(today.getTime()+24*60*60*1000);
-	if ((date.getMonth()==today.getMonth()) &&
-	    (date.getDate()==today.getDate())) {
-	    return React.DOM.span({
-		className: "label label-warning",
-		children: "Today"+((this.props.col.type=="datetime") ? (" "+ExoticAccaDateUtils.formatTime(date)) : "")
-	    });
-	} else if ((date.getMonth()==tmrw.getMonth()) &&
-		   (date.getDate()==tmrw.getDate())) {
-	    return React.DOM.span({
-		className: "label label-info",
-		children: "Tomorrow"
-	    });
-	} else {
-	    return React.DOM.span({
-		children: ExoticAccaDateUtils.formatDate(date)
-	    });
-	}
     }
 });
 
