@@ -203,6 +203,17 @@ var ExoticAccaMatchSelectionRow=React.createClass({
 	}
 	this.setState(state);
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (nextProps.match.match!=this.props.match.match) {
+	    var state=this.state;
+	    state.teamnames=nextProps.match.match.split(" vs ");
+	    state.selected={
+		home: false,
+		away: false
+	    }
+	    this.setState(state);
+	}
+    },
     render: function() {
 	return React.DOM.tr({
 	    className: "text-center",
