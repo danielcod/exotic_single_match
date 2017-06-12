@@ -178,7 +178,8 @@ var ExoticAccaTeamSelectionCell=React.createClass({
 		children: React.DOM.b({
 		    children: this.props.value
 		})
-	    }) : this.props.value
+	    }) : this.props.value,
+	    onClick: this.props.clickHandler
 	});
     }
 });
@@ -186,8 +187,21 @@ var ExoticAccaTeamSelectionCell=React.createClass({
 var ExoticAccaMatchSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
-	    teamnames: this.props.match.match.split(" vs ")
+	    teamnames: this.props.match.match.split(" vs "),
+	    selected: {
+		home: false,
+		away: false
+	    }
 	}
+    },
+    handleCellClicked: function(attr) {	
+	var state=this.state;
+	state.selected[attr]=!state.selected[attr];
+	var altAttr=(attr=="home") ? "away" : "home";
+	if (state.selected[altAttr]) {
+	    state.selected[altAttr]=false;
+	}
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.tr({
@@ -199,13 +213,21 @@ var ExoticAccaMatchSelectionRow=React.createClass({
 		    })
 		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
-		    value: this.state.teamnames[0]
+		    value: this.state.teamnames[0],
+		    selected: this.state.selected.home,
+		    clickHandler: function() {
+			this.handleCellClicked("home")
+		    }.bind(this)
 		}),
 		React.DOM.td({
 		    children: " vs "
 		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
-		    value: this.state.teamnames[1]
+		    value: this.state.teamnames[1],
+		    selected: this.state.selected.away,
+		    clickHandler: function() {
+			this.handleCellClicked("away")
+		    }.bind(this)
 		})
 	    ]
 	});
