@@ -184,7 +184,7 @@ var ExoticAccaTeamSelectionCell=React.createClass({
     }
 });
 
-var ExoticAccaMatchSelectionRow=React.createClass({
+var ExoticAccaTeamSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
 	    teamnames: this.props.match.match.split(" vs "),
@@ -245,13 +245,13 @@ var ExoticAccaMatchSelectionRow=React.createClass({
     }
 });
 
-var ExoticAccaMatchSelectionTable=React.createClass({
+var ExoticAccaTeamSelectionTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
-		    return React.createElement(ExoticAccaMatchSelectionRow, {
+		    return React.createElement(ExoticAccaTeamSelectionRow, {
 			match: match
 		    })
 		})
@@ -260,7 +260,52 @@ var ExoticAccaMatchSelectionTable=React.createClass({
     }
 });
 
-var ExoticAccaMatchSelectionPanel=React.createClass({
+var ExoticAccaTeamSelectionPaginator=React.createClass({
+    getInitialState: function() {
+	return {
+	    style: this.props.style || {
+		"margin-top": "10px",
+		"margin-bottom": "5px"
+	    },
+	    align: "text-center"
+	}
+    },
+    initPaginatorItems: function(tableData, nTableRows) {
+	var n=Math.floor(tableData.length/nTableRows);
+	if (0 != tableData.length % nTableRows) {
+	    n+=1;
+	}
+	var items=[];
+	for (var i=0; i < n; i++) {
+	    var item={
+		value: i,
+		label: i+1
+	    }
+	    items.push(item);
+	}
+	return items;
+    },
+    render: function() {
+	return React.DOM.div({
+	    className: this.state.align,
+	    children: React.DOM.ul({
+		style: this.state.style,
+		className: "pagination",
+		children: this.initPaginatorItems(this.props.data, this.props.config.rows).map(function(item) {
+		    return React.DOM.li({
+			className: (item.value==this.props.currentPage) ? "active" : "",
+			onClick: this.props.clickHandler.bind(null, item),
+			children: React.DOM.a({
+			    children: item.label
+			})
+		    })
+		}.bind(this))
+	    })
+	});
+    }
+});
+
+var ExoticAccaTeamSelectionPanel=React.createClass({
     filterLeagues: function(matches) {
 	var names=[];
 	for (var i=0; i < matches.length; i++) {
@@ -303,7 +348,7 @@ var ExoticAccaMatchSelectionPanel=React.createClass({
 			changeHandler: this.changeHandler
 		    })
 		}),
-		React.createElement(ExoticAccaMatchSelectionTable, {
+		React.createElement(ExoticAccaTeamSelectionTable, {
 		    matches: this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this))
@@ -503,7 +548,7 @@ var ExoticAccaForm=React.createClass({
 			changeHandler: this.teamsChangeHandler,
 			label: "Teams"
 		}) : undefined,
-		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaMatchSelectionPanel, {
+		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaTeamSelectionPanel, {
 		    matches: this.state.matches
 		}) : undefined,
 		React.createElement(MySelect, {
