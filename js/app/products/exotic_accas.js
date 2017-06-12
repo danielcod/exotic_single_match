@@ -262,13 +262,7 @@ var ExoticAccaTeamSelectionTable=React.createClass({
 
 var ExoticAccaTeamSelectionPaginator=React.createClass({
     getInitialState: function() {
-	return {
-	    style: this.props.style || {
-		"margin-top": "10px",
-		"margin-bottom": "5px"
-	    },
-	    align: "text-center"
-	}
+	return {};
     },
     initPaginatorItems: function(tableData, nTableRows) {
 	var n=Math.floor(tableData.length/nTableRows);
@@ -287,9 +281,8 @@ var ExoticAccaTeamSelectionPaginator=React.createClass({
     },
     render: function() {
 	return React.DOM.div({
-	    className: this.state.align,
+	    className: "text-center",
 	    children: React.DOM.ul({
-		style: this.state.style,
 		className: "pagination",
 		children: this.initPaginatorItems(this.props.data, this.props.config.rows).map(function(item) {
 		    return React.DOM.li({
@@ -319,7 +312,8 @@ var ExoticAccaTeamSelectionPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    leagues: this.filterLeagues(this.props.matches),
-	    league: this.filterLeagues(this.props.matches)[0]
+	    league: this.filterLeagues(this.props.matches)[0],
+	    currentPage: 0
 	}
     },
     changeHandler: function(name, value) {
@@ -327,6 +321,17 @@ var ExoticAccaTeamSelectionPanel=React.createClass({
 	var state=this.state;
 	state.league=value;
 	this.setState(state);
+    },
+    applyPaginatorWindow: function(items) {
+	var rows=this.props.paginator.rows;
+	var i=this.state.currentPage*rows;
+	var j=(this.state.currentPage+1)*rows;
+	return items.slice(i, j);
+    },
+    handlePaginatorClicked: function(item) {
+	var state=this.state;
+	state.currentPage=item.value;
+	this.setState(state);	
     },
     render: function() {
 	return React.DOM.div({
@@ -349,9 +354,17 @@ var ExoticAccaTeamSelectionPanel=React.createClass({
 		    })
 		}),
 		React.createElement(ExoticAccaTeamSelectionTable, {
-		    matches: this.props.matches.filter(function(match) {
+		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
-		    }.bind(this))
+		    }.bind(this)))
+		}),
+		React.createElement(ExoticAccaTeamSelectionPaginator, {
+		    config: this.props.paginator,
+		    data: this.props.matches.filter(function(match) {
+			return match.league==this.state.league;
+		    }.bind(this)),
+		    clickHandler: this.handlePaginatorClicked,
+		    currentPage: this.state.currentPage
 		})
 	    ]
 	});
@@ -549,7 +562,10 @@ var ExoticAccaForm=React.createClass({
 			label: "Teams"
 		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaTeamSelectionPanel, {
-		    matches: this.state.matches
+		    matches: this.state.matches,
+		    paginator: {
+			rows: 8
+		    }
 		}) : undefined,
 		React.createElement(MySelect, {
 		    label: "Teams Condition",
