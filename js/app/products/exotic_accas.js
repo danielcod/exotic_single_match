@@ -262,16 +262,22 @@ var ExoticAccaMatchSelectionPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(MySelect, {
-		    options: this.state.leagues.map(function(league) {
-			return {
-			    value: league
-			};
-		    }),
-		    value: this.state.league,
-		    label: "League",
-		    name: "league",
-		    changeHandler: this.changeHandler
+		React.DOM.div({
+		    style: {
+			"margin-left": "100px",
+			"margin-right": "100px"
+		    },
+		    children: React.createElement(MySelect, {
+			options: this.state.leagues.map(function(league) {
+			    return {
+				value: league
+			    };
+			}),
+			value: this.state.league,
+			label: "League",
+			name: "league",
+			changeHandler: this.changeHandler
+		    })
 		}),
 		React.createElement(ExoticAccaMatchSelectionTable, {
 		    matches: this.props.matches.filter(function(match) {
