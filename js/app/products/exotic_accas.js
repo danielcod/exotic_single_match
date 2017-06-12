@@ -201,36 +201,45 @@ var ExoticAccaDateTimeCell=React.createClass({
     }
 });
 
-var ExoticAccaMatchSelectionTable=React.createClass({
-    initRow: function(item) {
-	var teamnames=item.match.split(" vs ")
+var ExoticAccaMatchSelectionRow=React.createClass({
+    getInitialState: function() {
+	return {
+	    teamnames: this.props.match.match.split(" vs ")
+	}
+    },
+    render: function() {
 	return React.DOM.tr({
 	    className: "text-center",
 	    children: [
 		React.DOM.td({
 		    children: React.createElement(ExoticAccaDateTimeCell, {
-			value: item.kickoff
+			value: this.props.match.kickoff
 		    })
 		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
-		    value: teamnames[0]
+		    value: this.state.teamnames[0]
 		}),
 		React.DOM.td({
 		    children: " vs "
 		}),
 		React.createElement(ExoticAccaTeamSelectionCell, {
-		    value: teamnames[1]
+		    value: this.state.teamnames[1]
 		})
 	    ]
 	});
-    },
+    }
+});
+
+var ExoticAccaMatchSelectionTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
-		    return this.initRow(match);
-		}.bind(this))
+		    return React.createElement(ExoticAccaMatchSelectionRow, {
+			match: match
+		    })
+		})
 	    })
 	});
     }
