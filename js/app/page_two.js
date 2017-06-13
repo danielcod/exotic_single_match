@@ -450,38 +450,24 @@ var ExoticAccaNTeamsToggle=React.createClass({
 });
 
 var ExoticAccaForm=React.createClass({
-    initBet: function(bet) {
-	if (bet.params.result==undefined) {
-	    bet.params.result="win"; // TEMP
-	}
-	if (bet.params.teams==undefined) {
-	    bet.params.teams=[];
-	}	
-	return bet;
-    },
     getInitialState: function() {
 	return {
-	    bet: this.initBet(this.props.bet),
 	    selectedTab: "bet",
-	    matches: []
+	    bet: {
+		teams: []
+	    },
+	    matches: []	    
 	};
     },
     teamsChangeHandler: function(teams) {
 	var state=this.state;
-	state.bet.params.teams=teams;
+	state.bet.teams=teams;
 	this.setState(state);
     },
     changeHandler: function(name, value) {
-	console.log(name+" -> "+value);
-	if (this.state.bet.params[name]!=value) {
-	    var state=this.state;
-	    if (name=="n_teams") {
-		state.bet.params[name]=parseInt(value);
-	    } else {
-		state.bet.params[name]=value;
-	    }
-	    this.setState(state);
-	}
+	var state=this.state;
+	state.bet[name]=value;
+	this.setState(state);
     },
     componentDidMount: function() {
 	// load matches
@@ -513,7 +499,7 @@ var ExoticAccaForm=React.createClass({
 		    }.bind(this)
 		}),
 		(this.state.selectedTab=="bet") ? React.createElement(ExoticAccaBetSelectionTable, {
-			items: this.state.bet.params.teams,
+			items: this.state.bet.teams,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: this.teamsChangeHandler,
 			label: "Teams"
@@ -527,10 +513,9 @@ var ExoticAccaForm=React.createClass({
 		React.createElement(MySelect, {
 		    label: "Condition",
 		    name: "teams_condition",
-		    value: this.state.bet.params.teams_condition,
+		    value: this.state.bet.teams_condition,
 		    changeHandler: this.changeHandler,
 		    options: ExoticAccaConditions,
-		    blankStyle: this.props.blankStyle,
 		    defaultOption: {
 			label: "Select"
 		    }
@@ -543,28 +528,11 @@ var ExoticAccaForm=React.createClass({
 });
 
 var EditBetPanel=React.createClass({
-    initBet: function(bet) {	
-	return (bet!=undefined) ? bet : {
-	    type: "exotic_acca",
-	    params: {},
-	    probability: undefined,
-	    desciption: undefined
-	}
-    },
-    getInitialState: function() {
-	return {
-	    bet: this.initBet(this.props.bet)
-	}
-    },
     render: function() {
 	return React.DOM.div({
 	    children: [
 		React.createElement(ExoticAccaForm, {
-		    exoticsApi: this.props.exoticsApi,
-		    bet: this.state.bet,
-		    blankStyle: {
-			border: "3px solid #59a0df"
-		    }
+		    exoticsApi: this.props.exoticsApi
 		})
 	    ]
 	});
