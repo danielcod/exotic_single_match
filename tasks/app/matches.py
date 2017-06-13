@@ -1,6 +1,6 @@
 from tasks.app import *
 
-# curl "http://localhost:8080/tasks/app/matches?window=14&leagues=NOR.1"
+# curl "http://localhost:8080/tasks/app/matches?window=31"
 
 class IndexHandler(webapp2.RequestHandler):
 

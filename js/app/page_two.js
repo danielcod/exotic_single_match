@@ -592,17 +592,10 @@ var EditBetForm=React.createClass({
     getInitialState: function() {
 	return {
 	    bet: this.initBet(this.props.bet),
-	    products: [],
 	    price: "[..]"
 	}
     },
-    productsHandler: function(struct) {
-	var state=this.state;	
-	state.products=struct;
-	this.setState(state);
-    },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchProducts(this.productsHandler);
     },
     productChangeHandler: function(name, value) {
 	var state=this.state;
@@ -653,7 +646,7 @@ var EditBetForm=React.createClass({
 			]				    
 		    })
 		}),
-		(this.state.products.length!=0) ? React.createElement(ExoticAccaForm, {
+		React.createElement(ExoticAccaForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    bet: this.state.bet,
 		    blankStyle: {
@@ -661,7 +654,7 @@ var EditBetForm=React.createClass({
 		    },
 		    updatePriceHandler: this.updatePrice,
 		    resetPriceHandler: this.resetPrice
-		}) : undefined
+		})
 	    ]
 	});
     }
