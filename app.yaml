@@ -32,8 +32,6 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # APP
-- url: /app/bets.*
-  script: controllers.app.bets.app
 - url: /app/blobs.*
   script: controllers.app.blobs.app
 - url: /app.*

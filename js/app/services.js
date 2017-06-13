@@ -52,9 +52,6 @@ var ExoticsAPI=function(errHandler, debug) {
     this.fetchBlob=function(key, handler) {
 	var url="/app/blobs?key="+key;
 	this.httpGet(url, handler);
-    },
-    this.fetchPrice=function(struct, handler) {
-	this.httpPost("/app/bets/price", struct, handler);
     };
 };
 
