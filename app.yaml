@@ -43,10 +43,6 @@ handlers:
 # TASKS
 - url: /tasks/app/matches.*
   script: tasks.app.matches.app
-- url: /tasks/samples/exotic_accas.*
-  script: tasks.samples.exotic_accas.app
-- url: /tasks/samples.*
-  script: tasks.samples.app
 # ROOT
 - url: .*
   script: controllers.root.app 

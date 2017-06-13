@@ -275,7 +275,8 @@ var BrowseBetsTable=React.createClass({
 	this.props.dataLoadedHandler(struct.length);
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob("products/samples", this.betsHandler);
+	// this.props.exoticsApi.fetchBlob("products/samples", this.betsHandler);
+	this.betsHandler([]);
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
