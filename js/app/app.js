@@ -1,16 +1,4 @@
 var App=React.createClass({
-    getInitialState: function() {
-	return {
-	    step: 0,
-	    bet: undefined
-	}
-    },
-    stepChangeHandler: function(step, bet) {
-	var state=this.state;
-	state.step=step;
-	state.bet=bet;
-	this.setState(state);
-    },    
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -20,11 +8,8 @@ var App=React.createClass({
 			children: "Team Exotics"
 		    })
 		}),
-		React.createElement(this.props.steps[this.state.step].klass, {
-		    exoticsApi: this.props.exoticsApi,
-		    steps: this.props.steps,
-		    stepChangeHandler: this.stepChangeHandler,
-		    bet: this.state.bet
+		React.createElement(EditBetPanel, {
+		    exoticsApi: this.props.exoticsApi
 		}),
 		React.DOM.footer({
 		    className: "footer",
@@ -48,13 +33,7 @@ var ajaxErrHandler=function(xhr, ajaxOptions, thrownError) {
 
 var Main=function() {
     var app=React.createElement(App, {
-	exoticsApi: new ExoticsAPI(ajaxErrHandler, false),
-	steps: [
-	    {
-		label: "Edit",
-		klass: EditBetPanel
-	    }
-	]
+	exoticsApi: new ExoticsAPI(ajaxErrHandler, false)
     });
     var parent=$("div[id='app']")[0];
     ReactDOM.render(app, parent);
