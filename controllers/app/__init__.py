@@ -1,7 +1,5 @@
 from controllers import *
 
-Products=yaml.load(file("config/products.yaml").read())
-
 Leagues=yaml.load(file("config/leagues.yaml").read())
 
 Deps=yaml.load(file("config/app_deps.yaml").read())

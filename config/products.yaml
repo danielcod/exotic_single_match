@@ -1,5 +1,0 @@
-- label: "Exotic Acca"
-  type: "exotic_acca"
-  description: "An acca in which not every team has to win to get paid - <b>select how many teams you want to win or lose, and by how many goals!</b>"
-  form: "ExoticAccaForm"
-  pkg: "products.exotic_accas"

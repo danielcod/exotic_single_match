@@ -70,7 +70,3 @@ def refactor_src(pat, rep, root): # pattern, replacement, root
                     dest.close()
     refactor([root])
 
-def install_sdc(version="0.1"):
-    os.system("sudo rm -r lib/sport_data_client*")
-    os.system("pip install -t lib ../sport_data_client/dist/sport_data_client-%s.zip" % version)
-

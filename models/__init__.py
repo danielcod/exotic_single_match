@@ -61,27 +61,6 @@ def to_json(self, fields=[], extras=[]):
 
 db.Model.to_json=to_json # ** NB **
 
-class Fixture(db.Model):
-
-    league=db.StringProperty()
-    name=db.StringProperty() # "A vs B"
-    date=db.DateProperty()
-    yc_probabilities=db.ListProperty(item_type=float)
-    dc_poisson_means=db.ListProperty(item_type=float)
-    dc_error=db.FloatProperty()
-    
-    @classmethod
-    def find_all(self, leaguename, cutoff=datetime.date.today(), force=False):
-        query=Fixture.all()
-        query.filter("league = ", leaguename)
-        if cutoff:
-            query.filter("date > ", cutoff)
-        if force:
-            return fetch_models_db(query)
-        else:
-            memkey="events/%s/%s" % (leaguename, cutoff)
-            return fetch_models_memcache(Fixture, memkey, query)
-
 class Blob(db.Model):
 
     text=db.TextProperty()
