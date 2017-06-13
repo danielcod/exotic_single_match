@@ -1,5 +1,3 @@
-// note that product loading is duplicated here; is loaded once by ProductSelector, but is then loaded separately for product form rendering; shouldn't matter because of API services cache
-
 var EditBetProductSelector=React.createClass({
     initOptionsHandler: function(name) {
 	return function(struct) {
@@ -218,10 +216,6 @@ var EditBetPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(ProcessSteps, {
-		    steps: this.props.steps,
-		    currentStep: 1
-		}),
 		React.createElement(EditBetForm, {
 		    exoticsApi: this.props.exoticsApi,
 		    productChangeHandler: this.productChangeHandler,
@@ -234,17 +228,6 @@ var EditBetPanel=React.createClass({
 		    },
 		    children: [
 			React.DOM.button({
-			    className: "btn btn-secondary",
-			    style: {
-				width: "100px",
-				"margin-right": "3px"				
-			    },
-			    children: "Cancel",
-			    onClick: function() {
-				this.props.stepChangeHandler(0, undefined);
-			    }.bind(this)
-			}),
-			React.DOM.button({
 			    className: "btn btn-primary",
 			    style: {
 				width: "100px",
@@ -253,7 +236,8 @@ var EditBetPanel=React.createClass({
 			    children: "Next",
 			    onClick: function() {
 				if (this.state.bet!=undefined) {
-				    this.props.stepChangeHandler(2, this.state.bet);
+				    // this.props.stepChangeHandler(1, this.state.bet);
+				    console.log("next step!");
 				}
 			    }.bind(this)
 			})
