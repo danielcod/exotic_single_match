@@ -36,8 +36,6 @@ handlers:
   script: controllers.app.bets.app
 - url: /app/blobs.*
   script: controllers.app.blobs.app
-- url: /app/products.*
-  script: controllers.app.products.app
 - url: /app.*
   script: controllers.app.app
 # TASKS
