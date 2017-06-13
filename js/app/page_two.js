@@ -393,63 +393,6 @@ var ExoticAccaConditions=[
     }
 ];
 
-var ExoticAccaNTeamsSlider=React.createClass({
-    getInitialState: function() {
-	return {
-	    value: 1
-	}
-    },
-    componentDidMount: function() {
-	var initSliderTicks=function() {
-	    var ticks=[];
-	    for (var i=this.props.min; i <= this.props.max; i++) {
-		ticks.push(i);
-	    }
-	    return ticks;
-	}.bind(this);
-	$('#slider').slider({
-	    ticks: initSliderTicks(),
-	    formatter: function(value) {
-		return value;
-	    },
-	}).on("change", function(event, ui) {
-	    var value=parseInt($("#slider").data("slider").getValue());
-	    this.props.changeHandler("n_teams", value);
-	}.bind(this));	
-    },
-    render: function() {
-	return React.DOM.div({
-	    className: "form-group",
-	    style: {
-		"margin-top": "20px",
-		"margin-bottom": "30px"
-	    },
-	    children: [
-		React.DOM.label({
-		    children: "Number of Teams"
-		}),
-		React.DOM.div({
-		    style: {
-			"margin-left": "20px",
-			"margin-right": "20px",
-		    },
-		    children: React.DOM.input({
-			style: {
-			    width: "100%"
-			},
-			id: "slider",
-			type: "text",
-			"data-slider-min": this.props.min,
-			"data-slider-max": this.props.max,
-			"data-slider-step": 1,
-			"data-slider-value": this.state.value
-		    })
-		})
-	    ]
-	})	
-    }
-});
-
 var ExoticAccaNTeamsToggle=React.createClass({
     getInitialState: function() {
 	return {
@@ -519,9 +462,6 @@ var ExoticAccaForm=React.createClass({
     getInitialState: function() {
 	return {
 	    bet: this.initBet(this.props.bet),
-	    slider: {
-		min: 1
-	    },
 	    selectedTab: "bet",
 	    matches: []
 	};
@@ -633,13 +573,6 @@ var ExoticAccaForm=React.createClass({
 			label: "Select"
 		    }
 		}),
-		/*
-		React.createElement(ExoticAccaNTeamsSlider, {
-		    min: this.state.slider.min,
-		    max: this.state.bet.params.teams.length,
-		    changeHandler: this.changeHandler
-		}),
-		*/
 		React.createElement(ExoticAccaNTeamsToggle, {
 		})
 	    ]
