@@ -498,30 +498,32 @@ var ExoticAccaForm=React.createClass({
 			this.setState(state);
 		    }.bind(this)
 		}),
-		(this.state.selectedTab=="bet") ? React.createElement(ExoticAccaBetSelectionTable, {
+		(this.state.selectedTab=="bet") ? [
+		    React.createElement(ExoticAccaBetSelectionTable, {
 			items: this.state.bet.teams,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: this.teamsChangeHandler,
 			label: "Teams"
-		}) : undefined,
+		    }),
+		    React.createElement(MySelect, {
+			label: "Condition",
+			name: "teams_condition",
+			value: this.state.bet.teams_condition,
+			changeHandler: this.changeHandler,
+			options: ExoticAccaConditions,
+			defaultOption: {
+			    label: "Select"
+			}
+		    }),
+		    React.createElement(ExoticAccaNTeamsToggle, {
+		    })
+		]: [],
 		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaTeamSelectionPanel, {
 		    matches: this.state.matches,
 		    paginator: {
 			rows: 8
 		    }
-		}) : undefined,
-		React.createElement(MySelect, {
-		    label: "Condition",
-		    name: "teams_condition",
-		    value: this.state.bet.teams_condition,
-		    changeHandler: this.changeHandler,
-		    options: ExoticAccaConditions,
-		    defaultOption: {
-			label: "Select"
-		    }
-		}),
-		React.createElement(ExoticAccaNTeamsToggle, {
-		})
+		}) : undefined
 	    ]
 	})
     }
