@@ -76,31 +76,3 @@ var MySelect=React.createClass({
     }
 });
 
-var MyNumberInput=React.createClass({
-    getInitialState: function() {
-	return {
-	    value: this.props.value
-	};
-    },
-    render: function() {
-	return React.DOM.input({
-	    type: "number",
-	    min: this.props.min,
-	    max: this.props.max,
-	    value: this.state.value,
-	    className: "form-control text-center",
-	    onChange: function(event) {
-		var rawValue=event.target.value;
-		if ((rawValue!='') &&
-		    (rawValue!=undefined) &&
-		    (rawValue!=NaN)) {
-		    var parsedValue=parseInt(rawValue);
-		    var state=this.state;
-		    state.value=parsedValue;
-		    this.setState(state);
-		    this.props.changeHandler(parsedValue);
-		}
-	    }.bind(this)
-	});
-    }
-});
