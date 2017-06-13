@@ -44,7 +44,7 @@ class MapHandler(webapp2.RequestHandler):
             if (matchteamnames[0] not in teamnames and
                 matchteamnames[1] not in teamnames):
                 items.append({"league": leaguename,
-                              "match": match["name"],
+                              "name": match["name"],
                               "kickoff": match["kickoff"]})
                 teamnames+=matchteamnames
         keyname="matches/%s" % leaguename

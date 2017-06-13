@@ -183,7 +183,7 @@ var ExoticAccaTeamSelectionCell=React.createClass({
 var ExoticAccaTeamSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
-	    teamnames: this.props.match.match.split(" vs "),
+	    teamnames: this.props.match.name.split(" vs "),
 	    selected: {
 		home: false,
 		away: false
@@ -200,9 +200,9 @@ var ExoticAccaTeamSelectionRow=React.createClass({
 	this.setState(state);
     },
     componentWillReceiveProps: function(nextProps) {
-	if (nextProps.match.match!=this.props.match.match) {
+	if (nextProps.match.name!=this.props.match.name) {
 	    var state=this.state;
-	    state.teamnames=nextProps.match.match.split(" vs ");
+	    state.teamnames=nextProps.match.name.split(" vs ");
 	    state.selected={
 		home: false,
 		away: false
