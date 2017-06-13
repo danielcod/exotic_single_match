@@ -1,7 +1,5 @@
 from controllers import *
 
-import apis.yc_lite_api as yc_lite
-
 Products=yaml.load(file("config/products.yaml").read())
 
 Leagues=yaml.load(file("config/leagues.yaml").read())

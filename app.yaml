@@ -47,12 +47,6 @@ handlers:
   script: tasks.samples.exotic_accas.app
 - url: /tasks/samples.*
   script: tasks.samples.app
-- url: /tasks/data/bbc_fixtures.*
-  script: tasks.data.bbc_fixtures.app
-- url: /tasks/quant/dc_poisson_means.*
-  script: tasks.quant.dc_poisson_means.app
-- url: /tasks/quant/yc_probabilities.*
-  script: tasks.quant.yc_probabilities.app
 # ROOT
 - url: .*
   script: controllers.root.app 
