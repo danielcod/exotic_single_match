@@ -8,6 +8,5 @@
 - js/lib/react-dom.min.js
 - js/app/services.js
 - js/app/forms.js
-- js/app/products/exotic_accas.js
 - js/app/pages/page_two.js
 - js/app/app.js
