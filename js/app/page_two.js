@@ -483,33 +483,6 @@ var ExoticAccaForm=React.createClass({
 	    this.setState(state);
 	}
     },
-    isComplete: function(bet) {
-	// check scalar fields
-	if ((bet.params.teams_condition==undefined) ||
-	    (bet.params.n_teams==undefined)) {
-	    return false;
-	}
-	// check undefined teams fields
-	for (var i=0; i < bet.params.teams.length; i++) {
-	    var item=bet.params.teams[i];
-	    if ((item.league==undefined) ||
-		(item.team==undefined)) {
-		return false;
-	    }
-	}
-	// check unique team names
-	var teamnames=[];	
-	for (var i=0; i < bet.params.teams.length; i++) {
-	    var item=bet.params.teams[i];
-	    if (teamnames.indexOf(item.team)==-1) {
-		teamnames.push(item.team);
-	    }
-	}
-	if (teamnames.length!=(bet.params.teams.length)) {
-	    return false
-	}
-	return true;
-    },
     componentDidMount: function() {
 	// load matches
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
