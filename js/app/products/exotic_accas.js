@@ -97,7 +97,6 @@ var ExoticAccaBetSelectionRow=React.createClass({
 		    children: this.state.item.team+" (vs "+this.state.item.versus+")"
 		}),		
 		React.DOM.td({
-		    className: "pull-right",
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -451,6 +450,62 @@ var ExoticAccaNTeamsSlider=React.createClass({
     }
 });
 
+var ExoticAccaNTeamsToggle=React.createClass({
+    getInitialState: function() {
+	return {
+	    nTeams: 10,
+	    counter: 0
+	}
+    },
+    handleIncrement: function() {
+	var state=this.state;
+	if (state.counter < state.nTeams-1) {
+	    state.counter+=1;
+	    this.setState(state);
+	}	
+    },
+    handleDecrement: function() {
+	var state=this.state
+	if (state.counter > 0) {
+	    state.counter-=1;
+	    this.setState(state);
+	}
+    },
+    render: function() {
+	return React.DOM.ul({
+	    className: "list-inline text-center",
+	    style: {
+		"margin-bottom": "20px"
+	    },
+	    children: [
+		React.DOM.li({
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-arrow-down"
+			}),
+			onClick: this.handleDecrement
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.h4({
+			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.state.nTeams
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-arrow-up"
+			}),
+			onClick: this.handleIncrement
+		    })
+		})
+	    ]
+	});
+    }
+});
+
 var ExoticAccaForm=React.createClass({
     initBet: function(bet) {
 	if (bet.params.result==undefined) {
@@ -568,7 +623,7 @@ var ExoticAccaForm=React.createClass({
 		    }
 		}) : undefined,
 		React.createElement(MySelect, {
-		    label: "Teams Condition",
+		    label: "Condition",
 		    name: "teams_condition",
 		    value: this.state.bet.params.teams_condition,
 		    changeHandler: this.changeHandler,
@@ -578,10 +633,14 @@ var ExoticAccaForm=React.createClass({
 			label: "Select"
 		    }
 		}),
+		/*
 		React.createElement(ExoticAccaNTeamsSlider, {
 		    min: this.state.slider.min,
 		    max: this.state.bet.params.teams.length,
 		    changeHandler: this.changeHandler
+		}),
+		*/
+		React.createElement(ExoticAccaNTeamsToggle, {
 		})
 	    ]
 	})
