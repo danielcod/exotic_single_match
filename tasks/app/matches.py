@@ -1,6 +1,6 @@
 from tasks.app import *
 
-# curl "http://localhost:8080/tasks/app/matches?window=7&leagues=ENG.1"
+# curl "http://localhost:8080/tasks/app/matches?window=14&leagues=NOR.1"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -34,7 +34,9 @@ class MapHandler(webapp2.RequestHandler):
         window=int(self.request.get("window"))
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
         teamnames, items = [], []
-        for match in sorted(yc_lite.get_upcoming_matches(leaguename),
+        matches=ebadi.get_remaining_fixtures(leaguename,
+                                             Leagues[leaguename]["season"])
+        for match in sorted(matches,
                             key=lambda x: x["kickoff"]):
             if match["kickoff"].date() > cutoff:
                 continue

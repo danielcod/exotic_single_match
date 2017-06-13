@@ -1,7 +1,6 @@
-- name: ENG.1
-- name: ENG.2
-- name: ENG.3
-- name: ENG.4
-- name: FRA.1
-- name: GER.1
-- name: SPA.1
+- name: NOR.1
+  season: 2017
+  rounds: 1
+- name: SWE.1
+  season: 2017
+  rounds: 1
