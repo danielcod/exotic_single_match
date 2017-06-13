@@ -159,16 +159,6 @@ var EditBetForm=React.createClass({
 			changeHandler: this.productChangeHandler
 		    })
 		}),
-		React.DOM.p({
-		    className: "help-block",
-		    children: (this.state.products.length > 0) ? React.DOM.i({
-			dangerouslySetInnerHTML: {
-			    "__html": this.state.products.filter(function(bet) {
-				return bet.type==this.state.bet.type
-			    }.bind(this))[0]["description"]
-			}
-		    }) : undefined
-		}),
 		React.DOM.div({
 		    className: "form-group",
 		    children: React.DOM.h3({
