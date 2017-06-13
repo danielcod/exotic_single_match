@@ -569,7 +569,7 @@ var ExoticAccaForm=React.createClass({
     }
 });
 
-var EditBetForm=React.createClass({
+var EditBetPanel=React.createClass({
     initBet: function(bet) {	
 	return (bet!=undefined) ? bet : {
 	    type: "exotic_acca",
@@ -598,15 +598,3 @@ var EditBetForm=React.createClass({
     }
 });
 
-var EditBetPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(EditBetForm, {
-		    exoticsApi: this.props.exoticsApi,
-		    bet: this.props.bet
-		})
-	    ]
-	});
-    }
-});
