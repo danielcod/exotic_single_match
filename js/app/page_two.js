@@ -115,9 +115,6 @@ var ExoticAccaBetSelectionTable=React.createClass({
 	return Math.round(Math.random()*1e16);
     },
     initItems: function(items) {
-	if (items.length==0) {
-	    items.push({});
-	}
 	for (var i=0; i < items.length; i++) {
 	    var item=items[i];
 	    item.id=this.uuid();
