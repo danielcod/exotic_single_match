@@ -165,7 +165,16 @@ var BetProductPanel=React.createClass({
 	this.setState(state);
     },
     formatSelection: function(selection) {
-	return selection.match.name;
+	var teamnames=selection.match.name.split(" vs ");
+	var teamname, versus;
+	if (selection.attr=="home") {
+	    teamname=teamnames[0];
+	    versus=teamnames[1];
+	} else {
+	    teamname=teamnames[1];
+	    versus=teamnames[0];
+	}
+	return teamname+" (vs "+versus+")";
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
