@@ -195,15 +195,21 @@ var BetProductPanel=React.createClass({
 			exoticsApi: this.props.exoticsApi,
 			label: "Selections"
 		    }),
-		    React.createElement(MySelect, {
-			label: "Condition",
-			name: "teams_condition",
-			value: this.state.bet.teams_condition,
-			changeHandler: this.handleBetAttrChanged,
-			options: BetConditions,
-			defaultOption: {
-			    label: "Select"
-			}
+		    React.DOM.div({
+			style: {
+			    "margin-left": "30px",
+			    "margin-right": "30px"
+			},
+			children: React.createElement(MySelect, {
+			    label: "Condition",
+			    name: "teams_condition",
+			    value: this.state.bet.teams_condition,
+			    changeHandler: this.handleBetAttrChanged,
+			    options: BetConditions,
+			    defaultOption: {
+				label: "Select"
+			    }
+			})
 		    }),
 		    React.createElement(BetNSelectionsToggle, {
 			nSelections: this.state.bet.selections.length
