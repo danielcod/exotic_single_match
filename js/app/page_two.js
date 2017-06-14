@@ -196,6 +196,22 @@ var BetProductPanel=React.createClass({
 	    }
 	}
     },
+    handleTabClicked: function(tab) {
+	var state=this.state;
+	state.selectedTab=tab.name;
+	this.setState(state);
+    },
+    handleSelectionsChanged: function(selections) {
+	console.log(JSON.stringify(selections));
+    },
+    handleBetAttrChanged: function(name, value) {
+	console.log(name+"="+value);
+    },
+    handleMatchSelected: function(match, attr) {
+	var state=this.state;
+	state.bet.selections.push(match);
+	this.setState(state);
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
@@ -210,7 +226,7 @@ var BetProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "Your Selections"
+			    label: "Your Bet"
 			},
 			{
 			    name: "matches",
@@ -218,28 +234,20 @@ var BetProductPanel=React.createClass({
 			}
 		    ],
 		    selected: this.state.selectedTab,
-		    clickHandler: function(tab) {
-			var state=this.state;
-			state.selectedTab=tab.name;
-			this.setState(state);
-		    }.bind(this)
+		    clickHandler: this.handleTabClicked
 		}),
 		(this.state.selectedTab=="bet") ? [
 		    React.createElement(BetSelectionTable, {
 			selections: this.state.bet.selections,
 			exoticsApi: this.props.exoticsApi,
-			changeHandler: function(selections) {
-			    console.log(JSON.stringify(selections));
-			}.bind(this),
+			changeHandler: this.handleSelectionsChanged,
 			label: "Selections"
 		    }),
 		    React.createElement(MySelect, {
 			label: "Condition",
 			name: "teams_condition",
 			value: this.state.bet.teams_condition,
-			changeHandler: function(name, value) {
-			    console.log(name+"="+value);
-			},
+			changeHandler: this.handleBetAttrChanged,
 			options: BetConditions,
 			defaultOption: {
 			    label: "Select"
@@ -251,11 +259,7 @@ var BetProductPanel=React.createClass({
 		]: [],
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.state.matches,
-		    clickHandler: function(match, attr) {
-			var state=this.state;
-			state.bet.selections.push(match);
-			this.setState(state);
-		    }.bind(this),
+		    clickHandler: this.handleMatchSelected,
 		    paginator: {
 			rows: 8
 		    }
