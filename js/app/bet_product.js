@@ -126,6 +126,7 @@ var BetNSelectionsToggle=React.createClass({
 		}),
 		React.DOM.li({
 		    children: React.DOM.h4({
+			className: "text-muted",
 			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.props.nSelections
 		    })
 		}),
@@ -166,11 +167,11 @@ var BetProductPanel=React.createClass({
 	state.bet.selections.push(selection);
 	this.setState(state);
     },
-    handleSelectionRemoved: function(selected) {
-	var formattedSelection=this.formatSelection(selected);
+    handleSelectionRemoved: function(selection) {
+	var formattedSelection=this.formatSelection(selection);
 	var state=this.state;
 	var modSelections=state.bet.selections.filter(function(selection) {
-	    return !(this.formatSelection(selection)==formattedSelection);
+	    return this.formatSelection(selection)!=formattedSelection;
 	}.bind(this));
 	state.bet.selections=modSelections;
 	this.setState(state);
