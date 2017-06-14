@@ -59,7 +59,7 @@ var BetSelectionRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: this.state.item.team+" (vs "+this.state.item.versus+")"
+		    children: this.state.item.name
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
@@ -197,11 +197,6 @@ var BetProductPanel=React.createClass({
 	    }
 	}
     },
-    changeHandler: function(name, value) {
-	var state=this.state;
-	state.bet[name]=value;
-	this.setState(state);
-    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
@@ -235,7 +230,7 @@ var BetProductPanel=React.createClass({
 			items: this.state.bet.selections,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: function(selections) {
-			    this.changeHandler("selections", selections);
+			    console.log(JSON.stringify(selections));
 			}.bind(this),
 			label: "Selections"
 		    }),
@@ -243,7 +238,9 @@ var BetProductPanel=React.createClass({
 			label: "Condition",
 			name: "teams_condition",
 			value: this.state.bet.teams_condition,
-			changeHandler: this.changeHandler,
+			changeHandler: function(name, value) {
+			    console.log(name+"="+value);
+			},
 			options: BetConditions,
 			defaultOption: {
 			    label: "Select"
@@ -254,6 +251,11 @@ var BetProductPanel=React.createClass({
 		]: [],
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.state.matches,
+		    clickHandler: function(match, attr) {
+			var state=this.state;
+			state.bet.selections.push(match);
+			this.setState(state);
+		    }.bind(this),
 		    paginator: {
 			rows: 8
 		    }

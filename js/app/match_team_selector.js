@@ -30,6 +30,7 @@ var MatchTeamSelectionRow=React.createClass({
 	    state.selected[altAttr]=false;
 	}
 	this.setState(state);
+	this.props.clickHandler(this.props.match, attr);
     },
     componentWillReceiveProps: function(nextProps) {
 	if (nextProps.match.name!=this.props.match.name) {
@@ -80,9 +81,10 @@ var MatchTeamSelectionTable=React.createClass({
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
 		    return React.createElement(MatchTeamSelectionRow, {
-			match: match
+			match: match,
+			clickHandler: this.props.clickHandler
 		    })
-		})
+		}.bind(this))
 	    })
 	});
     }
@@ -184,7 +186,8 @@ var MatchTeamSelectionPanel=React.createClass({
 		React.createElement(MatchTeamSelectionTable, {
 		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
-		    }.bind(this)))
+		    }.bind(this))),
+		    clickHandler: this.props.clickHandler
 		}),
 		React.createElement(MatchTeamSelectionPaginator, {
 		    config: this.props.paginator,
