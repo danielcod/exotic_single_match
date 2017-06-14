@@ -56,7 +56,30 @@ var DateTimeCell=React.createClass({
     }
 });
 
-var SelectorTabs=React.createClass({
+var BetConditions=[
+    {
+	label: "More Than",
+	value: ">"
+    },
+    {
+	label: "At Least",
+	value: ">="
+    },
+    {
+	label: "Exactly",
+	value: "="
+    },
+    {
+	label: "Less Than",
+	value: "<"
+    },
+    {
+	label: "At Most",
+	value: "<="
+    }
+];
+
+var BetSelectorTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -166,231 +189,7 @@ var BetSelectionTable=React.createClass({
     }
 });
 
-var TeamSelectionCell=React.createClass({
-    render: function() {
-	return React.DOM.td({
-	    children: this.props.selected ? React.DOM.span({
-		className: "label label-info",
-		children: React.DOM.b({
-		    children: this.props.value
-		})
-	    }) : this.props.value,
-	    onClick: this.props.clickHandler
-	});
-    }
-});
-
-var TeamSelectionRow=React.createClass({
-    getInitialState: function() {
-	return {
-	    teamnames: this.props.match.name.split(" vs "),
-	    selected: {
-		home: false,
-		away: false
-	    }
-	}
-    },
-    handleCellClicked: function(attr) {	
-	var state=this.state;
-	state.selected[attr]=!state.selected[attr];
-	var altAttr=(attr=="home") ? "away" : "home";
-	if (state.selected[altAttr]) {
-	    state.selected[altAttr]=false;
-	}
-	this.setState(state);
-    },
-    componentWillReceiveProps: function(nextProps) {
-	if (nextProps.match.name!=this.props.match.name) {
-	    var state=this.state;
-	    state.teamnames=nextProps.match.name.split(" vs ");
-	    state.selected={
-		home: false,
-		away: false
-	    }
-	    this.setState(state);
-	}
-    },
-    render: function() {
-	return React.DOM.tr({
-	    className: "text-center",
-	    children: [
-		React.DOM.td({
-		    children: React.createElement(DateTimeCell, {
-			value: this.props.match.kickoff
-		    })
-		}),
-		React.createElement(TeamSelectionCell, {
-		    value: this.state.teamnames[0],
-		    selected: this.state.selected.home,
-		    clickHandler: function() {
-			this.handleCellClicked("home")
-		    }.bind(this)
-		}),
-		React.DOM.td({
-		    children: " vs "
-		}),
-		React.createElement(TeamSelectionCell, {
-		    value: this.state.teamnames[1],
-		    selected: this.state.selected.away,
-		    clickHandler: function() {
-			this.handleCellClicked("away")
-		    }.bind(this)
-		})
-	    ]
-	});
-    }
-});
-
-var TeamSelectionTable=React.createClass({
-    render: function() {
-	return React.DOM.table({
-	    className: "table table-condensed table-striped",
-	    children: React.DOM.tbody({
-		children: this.props.matches.map(function(match) {
-		    return React.createElement(TeamSelectionRow, {
-			match: match
-		    })
-		})
-	    })
-	});
-    }
-});
-
-var TeamSelectionPaginator=React.createClass({
-    getInitialState: function() {
-	return {};
-    },
-    initPaginatorItems: function(tableData, nTableRows) {
-	var n=Math.floor(tableData.length/nTableRows);
-	if (0 != tableData.length % nTableRows) {
-	    n+=1;
-	}
-	var items=[];
-	for (var i=0; i < n; i++) {
-	    var item={
-		value: i,
-		label: i+1
-	    }
-	    items.push(item);
-	}
-	return items;
-    },
-    render: function() {
-	return React.DOM.div({
-	    className: "text-center",
-	    children: React.DOM.ul({
-		className: "pagination",
-		children: this.initPaginatorItems(this.props.data, this.props.config.rows).map(function(item) {
-		    return React.DOM.li({
-			className: (item.value==this.props.currentPage) ? "active" : "",
-			onClick: this.props.clickHandler.bind(null, item),
-			children: React.DOM.a({
-			    children: item.label
-			})
-		    })
-		}.bind(this))
-	    })
-	});
-    }
-});
-
-var TeamSelectionPanel=React.createClass({
-    filterLeagues: function(matches) {
-	var names=[];
-	for (var i=0; i < matches.length; i++) {
-	    var match=matches[i];
-	    if (names.indexOf(match.league)==-1) {
-		names.push(match.league);
-	    }
-	}
-	return names.sort();
-    },
-    getInitialState: function() {
-	return {
-	    leagues: this.filterLeagues(this.props.matches),
-	    league: this.filterLeagues(this.props.matches)[0],
-	    currentPage: 0
-	}
-    },
-    changeHandler: function(name, value) {
-	console.log(name+"="+value);
-	var state=this.state;
-	state.league=value;
-	this.setState(state);
-    },
-    applyPaginatorWindow: function(items) {
-	var rows=this.props.paginator.rows;
-	var i=this.state.currentPage*rows;
-	var j=(this.state.currentPage+1)*rows;
-	return items.slice(i, j);
-    },
-    handlePaginatorClicked: function(item) {
-	var state=this.state;
-	state.currentPage=item.value;
-	this.setState(state);	
-    },
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.DOM.div({
-		    style: {
-			"margin-left": "100px",
-			"margin-right": "100px"
-		    },
-		    children: React.createElement(MySelect, {
-			options: this.state.leagues.map(function(league) {
-			    return {
-				value: league
-			    };
-			}),
-			value: this.state.league,
-			label: "League",
-			name: "league",
-			changeHandler: this.changeHandler
-		    })
-		}),
-		React.createElement(TeamSelectionTable, {
-		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
-			return match.league==this.state.league;
-		    }.bind(this)))
-		}),
-		React.createElement(TeamSelectionPaginator, {
-		    config: this.props.paginator,
-		    data: this.props.matches.filter(function(match) {
-			return match.league==this.state.league;
-		    }.bind(this)),
-		    clickHandler: this.handlePaginatorClicked,
-		    currentPage: this.state.currentPage
-		})
-	    ]
-	});
-    }
-});
-
-var Conditions=[
-    {
-	label: "More Than",
-	value: ">"
-    },
-    {
-	label: "At Least",
-	value: ">="
-    },
-    {
-	label: "Exactly",
-	value: "="
-    },
-    {
-	label: "Less Than",
-	value: "<"
-    },
-    {
-	label: "At Most",
-	value: "<="
-    }
-];
-
-var NTeamsToggle=React.createClass({
+var BetNTeamsToggle=React.createClass({
     getInitialState: function() {
 	return {
 	    nTeams: 10,
@@ -446,7 +245,7 @@ var NTeamsToggle=React.createClass({
     }
 });
 
-var BetForm=React.createClass({
+var ProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
@@ -467,7 +266,6 @@ var BetForm=React.createClass({
 	this.setState(state);
     },
     componentDidMount: function() {
-	// load matches
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
 	    state.matches=struct;
@@ -477,7 +275,7 @@ var BetForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(SelectorTabs, {
+		React.createElement(BetSelectorTabs, {
 		    tabs: [
 			{
 			    name: "bet",
@@ -507,15 +305,15 @@ var BetForm=React.createClass({
 			name: "teams_condition",
 			value: this.state.bet.teams_condition,
 			changeHandler: this.changeHandler,
-			options: Conditions,
+			options: BetConditions,
 			defaultOption: {
 			    label: "Select"
 			}
 		    }),
-		    React.createElement(NTeamsToggle, {
+		    React.createElement(BetNTeamsToggle, {
 		    })
 		]: [],
-		(this.state.selectedTab=="matches") ? React.createElement(TeamSelectionPanel, {
+		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.state.matches,
 		    paginator: {
 			rows: 8
