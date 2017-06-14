@@ -1,4 +1,4 @@
-var ExoticAccaDateUtils={
+var DateUtils={
     formatMonth: function(date) {
 	var months=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	return months[date.getMonth()]; // NB JS months indexed at zero
@@ -30,7 +30,7 @@ var ExoticAccaDateUtils={
     }
 };
 
-var ExoticAccaDateTimeCell=React.createClass({
+var DateTimeCell=React.createClass({
     render: function() {
 	var value=this.props.value;
 	var date=new Date(value);
@@ -40,7 +40,7 @@ var ExoticAccaDateTimeCell=React.createClass({
 	    (date.getDate()==today.getDate())) {
 	    return React.DOM.span({
 		className: "label label-warning",
-		children: "Today"+((this.props.col.type=="datetime") ? (" "+ExoticAccaDateUtils.formatTime(date)) : "")
+		children: "Today"+((this.props.col.type=="datetime") ? (" "+DateUtils.formatTime(date)) : "")
 	    });
 	} else if ((date.getMonth()==tmrw.getMonth()) &&
 		   (date.getDate()==tmrw.getDate())) {
@@ -50,13 +50,13 @@ var ExoticAccaDateTimeCell=React.createClass({
 	    });
 	} else {
 	    return React.DOM.span({
-		children: ExoticAccaDateUtils.formatDate(date)
+		children: DateUtils.formatDate(date)
 	    });
 	}
     }
 });
 
-var ExoticAccaSelectorTabs=React.createClass({
+var SelectorTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -73,7 +73,7 @@ var ExoticAccaSelectorTabs=React.createClass({
     }
 });
 
-var ExoticAccaBetSelectionRow=React.createClass({
+var BetSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
 	    item: this.props.item
@@ -110,7 +110,7 @@ var ExoticAccaBetSelectionRow=React.createClass({
     }
 });
 
-var ExoticAccaBetSelectionTable=React.createClass({
+var BetSelectionTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
@@ -152,7 +152,7 @@ var ExoticAccaBetSelectionTable=React.createClass({
 		    },
 		    children: React.DOM.tbody({
 			children: this.state.items.map(function(item) {
-			    return React.createElement(ExoticAccaBetSelectionRow, {
+			    return React.createElement(BetSelectionRow, {
 				selectorClass: this.props.selectorClass,
 				item: item,
 				exoticsApi: this.props.exoticsApi,
@@ -166,7 +166,7 @@ var ExoticAccaBetSelectionTable=React.createClass({
     }
 });
 
-var ExoticAccaTeamSelectionCell=React.createClass({
+var TeamSelectionCell=React.createClass({
     render: function() {
 	return React.DOM.td({
 	    children: this.props.selected ? React.DOM.span({
@@ -180,7 +180,7 @@ var ExoticAccaTeamSelectionCell=React.createClass({
     }
 });
 
-var ExoticAccaTeamSelectionRow=React.createClass({
+var TeamSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
 	    teamnames: this.props.match.name.split(" vs "),
@@ -215,11 +215,11 @@ var ExoticAccaTeamSelectionRow=React.createClass({
 	    className: "text-center",
 	    children: [
 		React.DOM.td({
-		    children: React.createElement(ExoticAccaDateTimeCell, {
+		    children: React.createElement(DateTimeCell, {
 			value: this.props.match.kickoff
 		    })
 		}),
-		React.createElement(ExoticAccaTeamSelectionCell, {
+		React.createElement(TeamSelectionCell, {
 		    value: this.state.teamnames[0],
 		    selected: this.state.selected.home,
 		    clickHandler: function() {
@@ -229,7 +229,7 @@ var ExoticAccaTeamSelectionRow=React.createClass({
 		React.DOM.td({
 		    children: " vs "
 		}),
-		React.createElement(ExoticAccaTeamSelectionCell, {
+		React.createElement(TeamSelectionCell, {
 		    value: this.state.teamnames[1],
 		    selected: this.state.selected.away,
 		    clickHandler: function() {
@@ -241,13 +241,13 @@ var ExoticAccaTeamSelectionRow=React.createClass({
     }
 });
 
-var ExoticAccaTeamSelectionTable=React.createClass({
+var TeamSelectionTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
-		    return React.createElement(ExoticAccaTeamSelectionRow, {
+		    return React.createElement(TeamSelectionRow, {
 			match: match
 		    })
 		})
@@ -256,7 +256,7 @@ var ExoticAccaTeamSelectionTable=React.createClass({
     }
 });
 
-var ExoticAccaTeamSelectionPaginator=React.createClass({
+var TeamSelectionPaginator=React.createClass({
     getInitialState: function() {
 	return {};
     },
@@ -294,7 +294,7 @@ var ExoticAccaTeamSelectionPaginator=React.createClass({
     }
 });
 
-var ExoticAccaTeamSelectionPanel=React.createClass({
+var TeamSelectionPanel=React.createClass({
     filterLeagues: function(matches) {
 	var names=[];
 	for (var i=0; i < matches.length; i++) {
@@ -349,12 +349,12 @@ var ExoticAccaTeamSelectionPanel=React.createClass({
 			changeHandler: this.changeHandler
 		    })
 		}),
-		React.createElement(ExoticAccaTeamSelectionTable, {
+		React.createElement(TeamSelectionTable, {
 		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this)))
 		}),
-		React.createElement(ExoticAccaTeamSelectionPaginator, {
+		React.createElement(TeamSelectionPaginator, {
 		    config: this.props.paginator,
 		    data: this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
@@ -367,7 +367,7 @@ var ExoticAccaTeamSelectionPanel=React.createClass({
     }
 });
 
-var ExoticAccaConditions=[
+var Conditions=[
     {
 	label: "More Than",
 	value: ">"
@@ -390,7 +390,7 @@ var ExoticAccaConditions=[
     }
 ];
 
-var ExoticAccaNTeamsToggle=React.createClass({
+var NTeamsToggle=React.createClass({
     getInitialState: function() {
 	return {
 	    nTeams: 10,
@@ -446,7 +446,7 @@ var ExoticAccaNTeamsToggle=React.createClass({
     }
 });
 
-var ExoticAccaBetForm=React.createClass({
+var BetForm=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
@@ -477,7 +477,7 @@ var ExoticAccaBetForm=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(ExoticAccaSelectorTabs, {
+		React.createElement(SelectorTabs, {
 		    tabs: [
 			{
 			    name: "bet",
@@ -496,7 +496,7 @@ var ExoticAccaBetForm=React.createClass({
 		    }.bind(this)
 		}),
 		(this.state.selectedTab=="bet") ? [
-		    React.createElement(ExoticAccaBetSelectionTable, {
+		    React.createElement(BetSelectionTable, {
 			items: this.state.bet.teams,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: this.teamsChangeHandler,
@@ -507,15 +507,15 @@ var ExoticAccaBetForm=React.createClass({
 			name: "teams_condition",
 			value: this.state.bet.teams_condition,
 			changeHandler: this.changeHandler,
-			options: ExoticAccaConditions,
+			options: Conditions,
 			defaultOption: {
 			    label: "Select"
 			}
 		    }),
-		    React.createElement(ExoticAccaNTeamsToggle, {
+		    React.createElement(NTeamsToggle, {
 		    })
 		]: [],
-		(this.state.selectedTab=="matches") ? React.createElement(ExoticAccaTeamSelectionPanel, {
+		(this.state.selectedTab=="matches") ? React.createElement(TeamSelectionPanel, {
 		    matches: this.state.matches,
 		    paginator: {
 			rows: 8

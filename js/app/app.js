@@ -8,7 +8,7 @@ var App=React.createClass({
 			children: "Team Exotics"
 		    })
 		}),
-		React.createElement(ExoticAccaBetForm, {
+		React.createElement(BetForm, {
 		    exoticsApi: this.props.exoticsApi
 		}),
 		React.DOM.footer({
