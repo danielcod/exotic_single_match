@@ -166,8 +166,14 @@ var BetProductPanel=React.createClass({
 	state.bet.selections.push(selection);
 	this.setState(state);
     },
-    handleSelectionRemoved: function(selection) {
-	console.log(JSON.stringify(selection));
+    handleSelectionRemoved: function(selected) {
+	var formattedSelection=this.formatSelection(selected);
+	var state=this.state;
+	var modSelections=state.bet.selections.filter(function(selection) {
+	    return !(this.formatSelection(selection)==formattedSelection);
+	}.bind(this));
+	state.bet.selections=modSelections;
+	this.setState(state);
     },
     formatSelection: function(selection) {
 	var teamnames=selection.match.name.split(" vs ");
