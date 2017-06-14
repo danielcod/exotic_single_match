@@ -43,7 +43,7 @@ var BetSelectionRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: this.props.selection.name
+		    children: this.props.selection.match.name
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
@@ -160,9 +160,9 @@ var BetProductPanel=React.createClass({
     handleBetAttrChanged: function(name, value) {
 	console.log(name+"="+value);
     },
-    handleMatchSelected: function(match, attr) {
+    handleMatchSelected: function(selection) {
 	var state=this.state;
-	state.bet.selections.push(match);
+	state.bet.selections.push(selection);
 	this.setState(state);
     },
     componentDidMount: function() {
