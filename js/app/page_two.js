@@ -44,9 +44,6 @@ var BetSelectionRow=React.createClass({
 	    selection: this.props.selection
 	};
     },
-    deleteHandler: function() {
-	this.props.deleteHandler(this.props.selection.id);
-    },
     componentWillReceiveProps: function(nextProps) {
 	if (JSON.stringify(this.state.selection)!=
 	    JSON.stringify(nextProps.selection)) {
@@ -66,8 +63,7 @@ var BetSelectionRow=React.createClass({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
-			}),
-			onClick: this.deleteHandler
+			})
 		    })
 		})
 	    ]
@@ -76,32 +72,6 @@ var BetSelectionRow=React.createClass({
 });
 
 var BetSelectionTable=React.createClass({
-    uuid: function() {
-	return Math.round(Math.random()*1e16);
-    },
-    initSelections: function(selections) {
-	for (var i=0; i < selections.length; i++) {
-	    var selection=selections[i];
-	    selection.id=this.uuid();
-	}
-	return selections;
-    },
-    getInitialState: function() {
-	return {
-	    selections: this.initSelections(this.props.selections)
-	}
-    },
-    deleteHandler: function(id) {
-	if (this.state.selections.length > 1) {
-	    var state=this.state;
-	    var selections=state.selections.filter(function(selection) {
-		return selection.id!=id;
-	    });
-	    state.selections=selections;
-	    this.setState(state);
-	    this.props.changeHandler(state.selections);
-	}
-    },    
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -116,12 +86,11 @@ var BetSelectionTable=React.createClass({
 			"margin-bottom": "0px"
 		    },
 		    children: React.DOM.tbody({
-			children: this.state.selections.map(function(selection) {
+			children: this.props.selections.map(function(selection) {
 			    return React.createElement(BetSelectionRow, {
 				selectorClass: this.props.selectorClass,
 				selection: selection,
-				exoticsApi: this.props.exoticsApi,
-				deleteHandler: this.deleteHandler
+				exoticsApi: this.props.exoticsApi
 			    });
 			}.bind(this))
 		    })
@@ -201,9 +170,6 @@ var BetProductPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handleSelectionsChanged: function(selections) {
-	console.log(JSON.stringify(selections));
-    },
     handleBetAttrChanged: function(name, value) {
 	console.log(name+"="+value);
     },
@@ -240,7 +206,6 @@ var BetProductPanel=React.createClass({
 		    React.createElement(BetSelectionTable, {
 			selections: this.state.bet.selections,
 			exoticsApi: this.props.exoticsApi,
-			changeHandler: this.handleSelectionsChanged,
 			label: "Selections"
 		    }),
 		    React.createElement(MySelect, {
