@@ -134,13 +134,12 @@ var BetSelectionTable=React.createClass({
 var BetNSelectionsToggle=React.createClass({
     getInitialState: function() {
 	return {
-	    nSelections: 10,
 	    counter: 0
 	}
     },
     handleIncrement: function() {
 	var state=this.state;
-	if (state.counter < state.nSelections-1) {
+	if (state.counter < this.props.nSelections-1) {
 	    state.counter+=1;
 	    this.setState(state);
 	}	
@@ -170,7 +169,7 @@ var BetNSelectionsToggle=React.createClass({
 		}),
 		React.DOM.li({
 		    children: React.DOM.h4({
-			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.state.nSelections
+			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.props.nSelections
 		    })
 		}),
 		React.DOM.li({
@@ -247,6 +246,7 @@ var BetProductPanel=React.createClass({
 			}
 		    }),
 		    React.createElement(BetNSelectionsToggle, {
+			nSelections: this.state.bet.selections.length
 		    })
 		]: [],
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
