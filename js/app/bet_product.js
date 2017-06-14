@@ -190,7 +190,7 @@ var BetProductPanel=React.createClass({
 		    clickHandler: this.handleTabClicked
 		}),
 		(this.state.selectedTab=="bet") ? React.DOM.div({
-		    children: [
+		    children: (this.state.bet.selections.length!=0) ? [
 			React.createElement(BetSelectionTable, {
 			    selections: this.state.bet.selections,
 			    exoticsApi: this.props.exoticsApi,
@@ -215,7 +215,14 @@ var BetProductPanel=React.createClass({
 			React.createElement(BetNSelectionsToggle, {
 			    nSelections: this.state.bet.selections.length
 			})
-		    ]
+		    ] : React.DOM.h4({
+			className: "text-center text-muted",
+			style: {
+			    "margin-left": "50px",
+			    "margin-right": "50px"
+			},
+			children: "No selections made yet; use the Team Selector tab"
+		    })
 		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.state.matches,
