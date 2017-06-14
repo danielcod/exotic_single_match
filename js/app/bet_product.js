@@ -130,7 +130,7 @@ var BetNSelectionsToggle=React.createClass({
 		React.DOM.li({
 		    children: React.DOM.h4({
 			className: "text-muted",
-			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.state.nSelections==1) ? '' : 's')
+			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
 		    })
 		}),
 		React.DOM.li({
@@ -234,13 +234,14 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Selections"
 			}),
-			React.DOM.hr({
-			    style: {
-				"border-color": "#666"
-			    }
-			}),
 			React.createElement(BetNSelectionsToggle, {
 			    nSelections: this.state.bet.selections.length
+			}),
+			React.DOM.h4({
+			    className: "text-muted text-center",
+			    children: React.DOM.i({
+				children: "To Win"
+			    })
 			})
 		    ] : React.DOM.h4({
 			className: "text-center text-muted",
