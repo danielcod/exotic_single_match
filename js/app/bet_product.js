@@ -51,7 +51,8 @@ var BetSelectionRow=React.createClass({
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-remove"
 			})
-		    })
+		    }),
+		    onClick: this.props.clickHandler.bind(null, this.props.selection)
 		})
 	    ]
 	})				    
@@ -76,6 +77,7 @@ var BetSelectionTable=React.createClass({
 			children: this.props.selections.map(function(selection) {
 			    return React.createElement(BetSelectionRow, {
 				formatter: this.props.formatter,
+				clickHandler: this.props.clickHandler,
 				selection: selection
 			    });
 			}.bind(this))
@@ -164,6 +166,9 @@ var BetProductPanel=React.createClass({
 	state.bet.selections.push(selection);
 	this.setState(state);
     },
+    handleSelectionRemoved: function(selection) {
+	console.log(JSON.stringify(selection));
+    },
     formatSelection: function(selection) {
 	var teamnames=selection.match.name.split(" vs ");
 	var teamname, versus;
@@ -204,6 +209,7 @@ var BetProductPanel=React.createClass({
 		    children: (this.state.bet.selections.length!=0) ? [
 			React.createElement(BetSelectionTable, {
 			    formatter: this.formatSelection,
+			    clickHandler: this.handleSelectionRemoved,
 			    selections: this.state.bet.selections,
 			    label: "Selections"
 			}),
