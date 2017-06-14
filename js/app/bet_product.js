@@ -43,7 +43,7 @@ var BetSelectionRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: this.props.selection.match.name
+		    children: this.props.formatter(this.props.selection)
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
@@ -75,8 +75,8 @@ var BetSelectionTable=React.createClass({
 		    children: React.DOM.tbody({
 			children: this.props.selections.map(function(selection) {
 			    return React.createElement(BetSelectionRow, {
-				selection: selection,
-				exoticsApi: this.props.exoticsApi
+				formatter: this.props.formatter,
+				selection: selection
 			    });
 			}.bind(this))
 		    })
@@ -164,6 +164,9 @@ var BetProductPanel=React.createClass({
 	state.bet.selections.push(selection);
 	this.setState(state);
     },
+    formatSelection: function(selection) {
+	return selection.match.name;
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
@@ -191,8 +194,8 @@ var BetProductPanel=React.createClass({
 		(this.state.selectedTab=="bet") ? React.DOM.div({
 		    children: (this.state.bet.selections.length!=0) ? [
 			React.createElement(BetSelectionTable, {
+			    formatter: this.formatSelection,
 			    selections: this.state.bet.selections,
-			    exoticsApi: this.props.exoticsApi,
 			    label: "Selections"
 			}),
 			React.DOM.div({
