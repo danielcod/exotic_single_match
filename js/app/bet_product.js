@@ -167,13 +167,11 @@ var BetProductPanel=React.createClass({
 	state.bet.selections.push(selection);
 	this.setState(state);
     },
-    handleSelectionRemoved: function(selection) {
-	var formattedSelection=this.formatSelection(selection);
+    handleSelectionRemoved: function(removed) {
 	var state=this.state;
-	var modSelections=state.bet.selections.filter(function(selection) {
-	    return this.formatSelection(selection)!=formattedSelection;
+	state.bet.selections=state.bet.selections.filter(function(selection) {
+	    return this.formatSelection(selection)!=this.formatSelection(removed);
 	}.bind(this));
-	state.bet.selections=modSelections;
 	this.setState(state);
     },
     formatSelection: function(selection) {
