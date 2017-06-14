@@ -41,17 +41,17 @@ var BetPanelTabs=React.createClass({
 var BetSelectionRow=React.createClass({
     getInitialState: function() {
 	return {
-	    item: this.props.item
+	    selection: this.props.selection
 	};
     },
     deleteHandler: function() {
-	this.props.deleteHandler(this.props.item.id);
+	this.props.deleteHandler(this.props.selection.id);
     },
     componentWillReceiveProps: function(nextProps) {
-	if (JSON.stringify(this.state.item)!=
-	    JSON.stringify(nextProps.item)) {
+	if (JSON.stringify(this.state.selection)!=
+	    JSON.stringify(nextProps.selection)) {
 	    var state=this.state;
-	    state.item=nextProps.item;
+	    state.selection=nextProps.selection;
 	    this.setState(state);
 	}
     },
@@ -59,7 +59,7 @@ var BetSelectionRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: this.state.item.name
+		    children: this.state.selection.name
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
@@ -79,27 +79,27 @@ var BetSelectionTable=React.createClass({
     uuid: function() {
 	return Math.round(Math.random()*1e16);
     },
-    initItems: function(items) {
-	for (var i=0; i < items.length; i++) {
-	    var item=items[i];
-	    item.id=this.uuid();
+    initSelections: function(selections) {
+	for (var i=0; i < selections.length; i++) {
+	    var selection=selections[i];
+	    selection.id=this.uuid();
 	}
-	return items;
+	return selections;
     },
     getInitialState: function() {
 	return {
-	    items: this.initItems(this.props.items)
+	    selections: this.initSelections(this.props.selections)
 	}
     },
     deleteHandler: function(id) {
-	if (this.state.items.length > 1) {
+	if (this.state.selections.length > 1) {
 	    var state=this.state;
-	    var items=state.items.filter(function(item) {
-		return item.id!=id;
+	    var selections=state.selections.filter(function(selection) {
+		return selection.id!=id;
 	    });
-	    state.items=items;
+	    state.selections=selections;
 	    this.setState(state);
-	    this.props.changeHandler(state.items);
+	    this.props.changeHandler(state.selections);
 	}
     },    
     render: function() {
@@ -116,10 +116,10 @@ var BetSelectionTable=React.createClass({
 			"margin-bottom": "0px"
 		    },
 		    children: React.DOM.tbody({
-			children: this.state.items.map(function(item) {
+			children: this.state.selections.map(function(selection) {
 			    return React.createElement(BetSelectionRow, {
 				selectorClass: this.props.selectorClass,
-				item: item,
+				selection: selection,
 				exoticsApi: this.props.exoticsApi,
 				deleteHandler: this.deleteHandler
 			    });
@@ -227,7 +227,7 @@ var BetProductPanel=React.createClass({
 		}),
 		(this.state.selectedTab=="bet") ? [
 		    React.createElement(BetSelectionTable, {
-			items: this.state.bet.selections,
+			selections: this.state.bet.selections,
 			exoticsApi: this.props.exoticsApi,
 			changeHandler: function(selections) {
 			    console.log(JSON.stringify(selections));
