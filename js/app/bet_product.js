@@ -75,7 +75,6 @@ var BetSelectionTable=React.createClass({
 		    children: React.DOM.tbody({
 			children: this.props.selections.map(function(selection) {
 			    return React.createElement(BetSelectionRow, {
-				selectorClass: this.props.selectorClass,
 				selection: selection,
 				exoticsApi: this.props.exoticsApi
 			    });
