@@ -159,9 +159,6 @@ var BetProductPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handleBetAttrChanged: function(name, value) {
-	console.log(name+"="+value);
-    },
     handleMatchSelected: function(selection) {
 	var state=this.state;
 	var formattedSelection=this.formatSelection(selection);
@@ -233,8 +230,9 @@ var BetProductPanel=React.createClass({
 			    children: React.createElement(MySelect, {
 				label: "Condition",
 				name: "teams_condition",
-				value: this.state.bet.teams_condition,
-				changeHandler: this.handleBetAttrChanged,
+				changeHandler: function(name, value) {
+				    console.log(name+"="+value);
+				},
 				options: BetConditions,
 				defaultOption: {
 				    label: "Select"
