@@ -446,7 +446,7 @@ var ExoticAccaNTeamsToggle=React.createClass({
     }
 });
 
-var ExoticAccaForm=React.createClass({
+var ExoticAccaBetForm=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
@@ -523,18 +523,6 @@ var ExoticAccaForm=React.createClass({
 		}) : undefined
 	    ]
 	})
-    }
-});
-
-var EditBetPanel=React.createClass({
-    render: function() {
-	return React.DOM.div({
-	    children: [
-		React.createElement(ExoticAccaForm, {
-		    exoticsApi: this.props.exoticsApi
-		})
-	    ]
-	});
     }
 });
 
