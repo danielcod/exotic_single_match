@@ -189,32 +189,34 @@ var BetProductPanel=React.createClass({
 		    selected: this.state.selectedTab,
 		    clickHandler: this.handleTabClicked
 		}),
-		(this.state.selectedTab=="bet") ? [
-		    React.createElement(BetSelectionTable, {
-			selections: this.state.bet.selections,
-			exoticsApi: this.props.exoticsApi,
-			label: "Selections"
-		    }),
-		    React.DOM.div({
-			style: {
-			    "margin-left": "30px",
-			    "margin-right": "30px"
-			},
-			children: React.createElement(MySelect, {
-			    label: "Condition",
-			    name: "teams_condition",
-			    value: this.state.bet.teams_condition,
-			    changeHandler: this.handleBetAttrChanged,
-			    options: BetConditions,
-			    defaultOption: {
-				label: "Select"
-			    }
+		(this.state.selectedTab=="bet") ? React.DOM.div({
+		    children: [
+			React.createElement(BetSelectionTable, {
+			    selections: this.state.bet.selections,
+			    exoticsApi: this.props.exoticsApi,
+			    label: "Selections"
+			}),
+			React.DOM.div({
+			    style: {
+				"margin-left": "30px",
+				"margin-right": "30px"
+			    },
+			    children: React.createElement(MySelect, {
+				label: "Condition",
+				name: "teams_condition",
+				value: this.state.bet.teams_condition,
+				changeHandler: this.handleBetAttrChanged,
+				options: BetConditions,
+				defaultOption: {
+				    label: "Select"
+				}
+			    })
+			}),
+			React.createElement(BetNSelectionsToggle, {
+			    nSelections: this.state.bet.selections.length
 			})
-		    }),
-		    React.createElement(BetNSelectionsToggle, {
-			nSelections: this.state.bet.selections.length
-		    })
-		]: [],
+		    ]
+		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.state.matches,
 		    clickHandler: this.handleMatchSelected,
