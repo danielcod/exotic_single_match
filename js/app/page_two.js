@@ -131,16 +131,16 @@ var BetSelectionTable=React.createClass({
     }
 });
 
-var BetNTeamsToggle=React.createClass({
+var BetNSelectionsToggle=React.createClass({
     getInitialState: function() {
 	return {
-	    nTeams: 10,
+	    nSelections: 10,
 	    counter: 0
 	}
     },
     handleIncrement: function() {
 	var state=this.state;
-	if (state.counter < state.nTeams-1) {
+	if (state.counter < state.nSelections-1) {
 	    state.counter+=1;
 	    this.setState(state);
 	}	
@@ -170,7 +170,7 @@ var BetNTeamsToggle=React.createClass({
 		}),
 		React.DOM.li({
 		    children: React.DOM.h4({
-			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.state.nTeams
+			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.state.nSelections
 		    })
 		}),
 		React.DOM.li({
@@ -191,16 +191,11 @@ var BetProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
+	    matches: [],
 	    bet: {
-		teams: []
-	    },
-	    matches: []	    
-	};
-    },
-    teamsChangeHandler: function(teams) {
-	var state=this.state;
-	state.bet.teams=teams;
-	this.setState(state);
+		selections: []
+	    }
+	}
     },
     changeHandler: function(name, value) {
 	var state=this.state;
@@ -237,10 +232,12 @@ var BetProductPanel=React.createClass({
 		}),
 		(this.state.selectedTab=="bet") ? [
 		    React.createElement(BetSelectionTable, {
-			items: this.state.bet.teams,
+			items: this.state.bet.selections,
 			exoticsApi: this.props.exoticsApi,
-			changeHandler: this.teamsChangeHandler,
-			label: "Teams"
+			changeHandler: function(selections) {
+			    this.changeHandler("selections", selections);
+			}.bind(this),
+			label: "Selections"
 		    }),
 		    React.createElement(MySelect, {
 			label: "Condition",
@@ -252,7 +249,7 @@ var BetProductPanel=React.createClass({
 			    label: "Select"
 			}
 		    }),
-		    React.createElement(BetNTeamsToggle, {
+		    React.createElement(BetNSelectionsToggle, {
 		    })
 		]: [],
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
