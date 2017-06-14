@@ -21,7 +21,7 @@ var BetConditions=[
     }
 ];
 
-var BetSelectorTabs=React.createClass({
+var BetPanelTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -217,7 +217,7 @@ var BetProductPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(BetSelectorTabs, {
+		React.createElement(BetPanelTabs, {
 		    tabs: [
 			{
 			    name: "bet",
