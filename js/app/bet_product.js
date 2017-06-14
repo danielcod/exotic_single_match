@@ -116,18 +116,21 @@ var BetNSelectionsToggle=React.createClass({
 	    },
 	    children: [
 		React.DOM.li({
-		    children: React.DOM.a({
-			className: "btn btn-secondary",
-			children: React.DOM.i({
-			    className: "glyphicon glyphicon-arrow-down"
-			}),
-			onClick: this.handleDecrement
+		    children: React.createElement(MySelect, {
+			name: "teams_condition",
+			changeHandler: function(name, value) {
+			    console.log(name+"="+value);
+			},
+			options: BetConditions,
+			defaultOption: {
+			    label: "Select"
+			}
 		    })
 		}),
 		React.DOM.li({
 		    children: React.DOM.h4({
 			className: "text-muted",
-			children: (1+this.state.counter)+" team"+((this.state.counter==0) ? '' : 's')+" out of "+this.props.nSelections
+			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.state.nSelections==1) ? '' : 's')
 		    })
 		}),
 		React.DOM.li({
@@ -137,6 +140,15 @@ var BetNSelectionsToggle=React.createClass({
 			    className: "glyphicon glyphicon-arrow-up"
 			}),
 			onClick: this.handleIncrement
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.a({
+			className: "btn btn-secondary",
+			children: React.DOM.i({
+			    className: "glyphicon glyphicon-arrow-down"
+			}),
+			onClick: this.handleDecrement
 		    })
 		})
 	    ]
@@ -222,22 +234,10 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Selections"
 			}),
-			React.DOM.div({
+			React.DOM.hr({
 			    style: {
-				"margin-left": "30px",
-				"margin-right": "30px"
-			    },
-			    children: React.createElement(MySelect, {
-				label: "Condition",
-				name: "teams_condition",
-				changeHandler: function(name, value) {
-				    console.log(name+"="+value);
-				},
-				options: BetConditions,
-				defaultOption: {
-				    label: "Select"
-				}
-			    })
+				"border-color": "#666"
+			    }
 			}),
 			React.createElement(BetNSelectionsToggle, {
 			    nSelections: this.state.bet.selections.length
