@@ -39,24 +39,11 @@ var BetPanelTabs=React.createClass({
 });
 
 var BetSelectionRow=React.createClass({
-    getInitialState: function() {
-	return {
-	    selection: this.props.selection
-	};
-    },
-    componentWillReceiveProps: function(nextProps) {
-	if (JSON.stringify(this.state.selection)!=
-	    JSON.stringify(nextProps.selection)) {
-	    var state=this.state;
-	    state.selection=nextProps.selection;
-	    this.setState(state);
-	}
-    },
     render: function() {
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
-		    children: this.state.selection.name
+		    children: this.props.selection.name
 		}),		
 		React.DOM.td({
 		    children: React.DOM.a({
