@@ -40,8 +40,8 @@ var MatchTeamSelectionRow=React.createClass({
 	    var state=this.state;
 	    state.teamnames=nextProps.match.name.split(" vs ");
 	    state.selected={
-		home: false,
-		away: false
+		home: nextProps.match.selected=="home",
+		away: nextProps.match.selected=="away"
 	    }
 	    this.setState(state);
 	}
