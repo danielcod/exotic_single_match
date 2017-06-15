@@ -73,7 +73,7 @@ var BetNSelectionsToggle=React.createClass({
     },
     handleIncrement: function() {
 	var state=this.state;
-	if (state.counter < this.props.nSelections-1) {
+	if (state.counter < this.props.nSelections) {
 	    state.counter+=1;
 	    this.setState(state);
 	}	
@@ -103,7 +103,7 @@ var BetNSelectionsToggle=React.createClass({
 		    children: React.DOM.h4({
 			className: "text-muted",
 			children: React.DOM.i({
-			    children: (1+this.state.counter)+" out of "+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
+			    children: this.state.counter+" out of "+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
 			})
 		    })
 		}),
