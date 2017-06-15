@@ -236,7 +236,7 @@ var BetProductPanel=React.createClass({
 			    formatter: this.formatSelection,
 			    clickHandler: this.handleSelectionRemoved,
 			    selections: this.state.bet.selections,
-			    label: "Selections"
+			    label: "Teams"
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "Teams Condition",
@@ -248,9 +248,12 @@ var BetProductPanel=React.createClass({
 				options: BetConditions
 			    })
 			}),
-			React.createElement(BetNSelectionsToggle, {
-			    nSelections: this.state.bet.selections.length
-			}),
+			React.createElement(MyFormComponent, {
+			    label: "Number of Teams",
+			    component: React.createElement(BetNSelectionsToggle, {
+				nSelections: this.state.bet.selections.length
+			    })
+			})
 		    ] : React.DOM.h4({
 			className: "text-center text-muted",
 			style: {
