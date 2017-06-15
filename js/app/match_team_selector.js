@@ -17,8 +17,8 @@ var MatchTeamSelectionRow=React.createClass({
 	return {
 	    teamnames: this.props.match.name.split(" vs "),
 	    selected: {
-		home: false,
-		away: false
+		home: this.props.match.selected=="home",
+		away: this.props.match.selected=="away"
 	    }
 	}
     },
