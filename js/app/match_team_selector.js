@@ -30,10 +30,17 @@ var MatchTeamSelectionRow=React.createClass({
 	    state.selected[altAttr]=false;
 	}
 	this.setState(state);
-	this.props.clickHandler({
-	    match: this.props.match,
-	    attr: attr
-	});
+	if (state.selected[attr]==true) {
+	    this.props.clickHandler.add({
+		match: this.props.match,
+		attr: attr
+	    });
+	} else {
+	    this.props.clickHandler.remove({
+		match: this.props.match,
+		attr: attr
+	    });
+	}
     },
     componentWillReceiveProps: function(nextProps) {
 	if (nextProps.match.name!=this.props.match.name) {

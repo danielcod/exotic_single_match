@@ -266,7 +266,10 @@ var BetProductPanel=React.createClass({
 		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
 		    matches: this.formatMatches(this.state.matches),
-		    clickHandler: this.handleMatchSelected,
+		    clickHandler: {
+			add: this.handleMatchSelected,
+			remove: this.handleSelectionRemoved
+		    },
 		    paginator: {
 			rows: 8
 		    }
