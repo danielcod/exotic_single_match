@@ -7,8 +7,8 @@
 - js/lib/react.min.js
 - js/lib/react-dom.min.js
 - js/app/services.js
-- js/app/forms.js
 - js/app/date_utils.js
+- js/app/form_utils.js
 - js/app/match_team_selector.js
 - js/app/bet_product.js
 - js/app/app.js
