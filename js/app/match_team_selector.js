@@ -181,7 +181,7 @@ var MatchTeamSelectionPanel=React.createClass({
 			"margin-left": "100px",
 			"margin-right": "100px"
 		    },
-		    children: React.createElement(MySelect, {
+		    children: React.createElement(MyLabelledSelect, {
 			options: this.state.leagues.map(function(league) {
 			    return {
 				value: league

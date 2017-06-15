@@ -1,5 +1,5 @@
 var MySelect=React.createClass({
-    renderSelect: function() {
+    render: function() {
 	return React.DOM.select({
 	    className: "form-control",
 	    onChange: function(event) {
@@ -14,20 +14,20 @@ var MySelect=React.createClass({
 		}.bind(this))
 	    ]
 	});
-    },
-    renderForm: function() {
+    }
+});
+
+var MyLabelledSelect=React.createClass({
+    render: function() {
 	return React.DOM.div({
 	    className: "form-group",
 	    children: [
 		React.DOM.label({
 		    children: this.props.label
 		}),
-		this.renderSelect()
+		React.createElement(MySelect, this.props)
 	    ]
 	});		
-    },
-    render: function() {
-	return (this.props.label!=undefined) ? this.renderForm() : this.renderSelect();
     }
 });
 
