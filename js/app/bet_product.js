@@ -116,27 +116,18 @@ var BetNSelectionsToggle=React.createClass({
 	    },
 	    children: [
 		React.DOM.li({
-		    children: React.createElement(MySelect, {
-			name: "teams_condition",
-			changeHandler: function(name, value) {
-			    console.log(name+"="+value);
-			},
-			options: BetConditions
-		    })
-		}),
-		React.DOM.li({
-		    children: React.DOM.h4({
-			className: "text-muted",
-			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
-		    })
-		}),
-		React.DOM.li({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-arrow-up"
 			}),
 			onClick: this.handleIncrement
+		    })
+		}),
+		React.DOM.li({
+		    children: React.DOM.h4({
+			className: "text-muted",
+			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
 		    })
 		}),
 		React.DOM.li({
@@ -243,15 +234,17 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Selections"
 			}),
+			React.createElement(MyLabelledSelect, {
+			    label: "Condition",
+			    name: "teams_condition",
+			    changeHandler: function(name, value) {
+				console.log(name+"="+value);
+			    },
+			    options: BetConditions
+			}),
 			React.createElement(BetNSelectionsToggle, {
 			    nSelections: this.state.bet.selections.length
 			}),
-			React.DOM.h4({
-			    className: "text-muted text-center",
-			    children: React.DOM.i({
-				children: "To Win"
-			    })
-			})
 		    ] : React.DOM.h4({
 			className: "text-center text-muted",
 			style: {
