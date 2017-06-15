@@ -173,20 +173,17 @@ var BetProductPanel=React.createClass({
     },
     handleMatchSelected: function(selection) {
 	var state=this.state;
-	var formattedSelection=this.formatSelection(selection);
-	var existingSelections=state.bet.selections.filter(function(selection) {
-	    return this.formatSelection(selection)==formattedSelection;
-	}.bind(this));
-	if (existingSelections.length==0) {
-	    state.bet.selections.push(selection);
-	    this.setState(state);
-	}
+	state.bet.selections=state.bet.selections.filter(function(sel) {
+	    return sel.match.name!=selection.match.name;
+	});
+	state.bet.selections.push(selection);
+	this.setState(state);
     },
     handleSelectionRemoved: function(selection) {
 	var state=this.state;
 	var formattedSelection=this.formatSelection(selection);
-	state.bet.selections=state.bet.selections.filter(function(selection) {
-	    return this.formatSelection(selection)!=formattedSelection;
+	state.bet.selections=state.bet.selections.filter(function(sel) {
+	    return this.formatSelection(sel)!=formattedSelection;
 	}.bind(this));
 	this.setState(state);
     },
