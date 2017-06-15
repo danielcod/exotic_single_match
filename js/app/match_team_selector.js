@@ -187,7 +187,6 @@ var MatchTeamSelectionPanel=React.createClass({
 				value: league
 			    };
 			}),
-			value: this.state.league,
 			label: "League",
 			name: "league",
 			changeHandler: this.changeHandler
