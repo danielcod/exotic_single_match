@@ -117,15 +117,17 @@ var BetNSelectionsToggle=React.createClass({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-arrow-up"
+			    className: "glyphicon glyphicon-arrow-down"
 			}),
-			onClick: this.handleIncrement
+			onClick: this.handleDecrement
 		    })
 		}),
 		React.DOM.li({
 		    children: React.DOM.h4({
 			className: "text-muted",
-			children: (1+this.state.counter)+"/"+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
+			children: React.DOM.i({
+			    children: (1+this.state.counter)+" out of "+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
+			})
 		    })
 		}),
 		React.DOM.li({
@@ -136,9 +138,9 @@ var BetNSelectionsToggle=React.createClass({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-arrow-down"
+			    className: "glyphicon glyphicon-arrow-up"
 			}),
-			onClick: this.handleDecrement
+			onClick: this.handleIncrement
 		    })
 		})
 	    ]
