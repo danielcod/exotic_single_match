@@ -1,26 +1,3 @@
-var BetConditions=[
-    {
-	label: "More Than",
-	value: ">"
-    },
-    {
-	label: "At Least",
-	value: ">="
-    },
-    {
-	label: "Exactly",
-	value: "="
-    },
-    {
-	label: "Less Than",
-	value: "<"
-    },
-    {
-	label: "At Most",
-	value: "<="
-    }
-];
-
 var BetPanelTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
@@ -262,7 +239,28 @@ var BetProductPanel=React.createClass({
 				    changeHandler: function(name, value) {
 					console.log(name+"="+value);
 				    },
-				    options: BetConditions
+				    options: [
+					{
+					    label: "More Than",
+					    value: ">"
+					},
+					{
+					    label: "At Least",
+					    value: ">="
+					},
+					{
+					    label: "Exactly",
+					    value: "="
+					},
+					{
+					    label: "Less Than",
+					    value: "<"
+					},
+					{
+					    label: "At Most",
+					    value: "<="
+					}
+				    ]
 				})
 			    }),
 			    React.createElement(MyFormComponent, {
