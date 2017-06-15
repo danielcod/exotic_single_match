@@ -200,6 +200,18 @@ var BetProductPanel=React.createClass({
 	return teamname+" (vs "+versus+")";
     },
     formatMatches: function(matches) {
+	// initialise selected
+	var selected={};
+	for (var i=0; i < this.state.bet.selections.length; i++) {
+	    var selection=this.state.bet.selections[i];
+	    selected[selection.match.name]=selection.attr;
+	}
+	// update selected params
+	var matches=JSON.parse(JSON.stringify(matches));
+	for (var i=0; i < matches.length; i++) {
+	    var match=matches[i];
+	    match.selected=selected[match.name];
+	}
 	return matches;
     },
     componentDidMount: function() {
