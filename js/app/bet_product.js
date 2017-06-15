@@ -121,10 +121,7 @@ var BetNSelectionsToggle=React.createClass({
 			changeHandler: function(name, value) {
 			    console.log(name+"="+value);
 			},
-			options: BetConditions,
-			defaultOption: {
-			    label: "Select"
-			}
+			options: BetConditions
 		    })
 		}),
 		React.DOM.li({

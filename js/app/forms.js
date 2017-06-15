@@ -1,39 +1,12 @@
-/*
-  blank option must have option '', then be converted to undefined
-  if you set value=undefined, will use label/child text as value
-*/
-
 var MySelect=React.createClass({
     getInitialState: function() {
 	return {
-	    options: this.props.options,
 	    value: this.props.value
-	}
-    },
-    componentWillReceiveProps: function(nextProps) {
-	// options
-	if (JSON.stringify(this.state.options)!=
-	    JSON.stringify(nextProps.options)) {
-	    var state=this.state;
-	    state.options=nextProps.options;
-	    var selectedItems=state.options.filter(function(option) {
-		return option.value==this.state.value;
-	    }.bind(this));
-	    if (selectedItems.length==0) {
-		state.value=undefined;
-	    }
-	    this.setState(state);
-	}
-	// value
-	if (this.state.value!=nextProps.value) {
-	    var state=this.state;
-	    state.value=nextProps.value;
-	    this.setState(state);
 	}
     },
     renderSelect: function() {
 	return React.DOM.select({
-	    className: this.props.className || "form-control",
+	    className: "form-control",
 	    value: this.state.value,
 	    style: (this.state.value==undefined) ? this.props.blankStyle : {},
 	    onChange: function(event) {
@@ -44,13 +17,7 @@ var MySelect=React.createClass({
 		this.props.changeHandler(this.props.name, value);
 	    }.bind(this),
 	    children: [
-		(this.props.defaultOption!=undefined) ? React.DOM.option({
-		    value: this.props.defaultOption.value || "",
-		    selected: this.state.value==this.props.defaultOption.value,
-		    disabled: this.props.defaultOption.disabled || true,
-		    children: this.props.defaultOption.label
-		}) : undefined,
-		this.state.options.map(function(option) {
+		this.props.options.map(function(option) {
 		    return React.DOM.option({
 			value: option.value,
 			selected: option.value==this.state.value,
