@@ -232,6 +232,22 @@ var BetProductPanel=React.createClass({
 		}),
 		(this.state.selectedTab=="bet") ? React.DOM.div({
 		    children: (this.state.bet.selections.length!=0) ? [
+			React.DOM.div({
+			    className: "form-group",
+			    children: React.DOM.h3({
+				className: "current-price text-center",
+				children: [
+				    React.DOM.span({
+					children: React.DOM.i({
+					    children: [
+						"Price: ",
+						"1.234"
+					    ]
+					})
+				    })
+				]
+			    })
+			}),
 			React.createElement(BetSelectionTable, {
 			    formatter: this.formatSelection,
 			    clickHandler: this.handleSelectionRemoved,
