@@ -199,6 +199,9 @@ var BetProductPanel=React.createClass({
 	}
 	return teamname+" (vs "+versus+")";
     },
+    formatMatches: function(matches) {
+	return matches;
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
@@ -250,7 +253,7 @@ var BetProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
-		    matches: this.state.matches,
+		    matches: this.formatMatches(this.state.matches),
 		    clickHandler: this.handleMatchSelected,
 		    paginator: {
 			rows: 8
