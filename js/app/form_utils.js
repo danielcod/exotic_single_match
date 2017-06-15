@@ -17,7 +17,7 @@ var MySelect=React.createClass({
     }
 });
 
-var MyLabelledSelect=React.createClass({
+var MyFormComponent=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    className: "form-group",
@@ -25,7 +25,7 @@ var MyLabelledSelect=React.createClass({
 		React.DOM.label({
 		    children: this.props.label
 		}),
-		React.createElement(MySelect, this.props)
+		this.props.component
 	    ]
 	});		
     }

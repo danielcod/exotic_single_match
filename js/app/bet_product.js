@@ -234,13 +234,15 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Selections"
 			}),
-			React.createElement(MyLabelledSelect, {
+			React.createElement(MyFormComponent, {
 			    label: "Condition",
-			    name: "teams_condition",
-			    changeHandler: function(name, value) {
-				console.log(name+"="+value);
-			    },
-			    options: BetConditions
+			    component: React.createElement(MySelect, {
+				name: "teams_condition",
+				changeHandler: function(name, value) {
+				    console.log(name+"="+value);
+				},
+				options: BetConditions
+			    })
 			}),
 			React.createElement(BetNSelectionsToggle, {
 			    nSelections: this.state.bet.selections.length

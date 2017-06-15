@@ -181,15 +181,17 @@ var MatchTeamSelectionPanel=React.createClass({
 			"margin-left": "100px",
 			"margin-right": "100px"
 		    },
-		    children: React.createElement(MyLabelledSelect, {
-			options: this.state.leagues.map(function(league) {
-			    return {
-				value: league
-			    };
-			}),
+		    children: React.createElement(MyFormComponent, {
 			label: "League",
-			name: "league",
-			changeHandler: this.changeHandler
+			component: React.createElement(MySelect, {
+			    options: this.state.leagues.map(function(league) {
+				return {
+				    value: league
+				};
+			    }),
+			    name: "league",
+			    changeHandler: this.changeHandler
+			})
 		    })
 		}),
 		React.createElement(MatchTeamSelectionTable, {
