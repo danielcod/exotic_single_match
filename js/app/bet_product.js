@@ -111,11 +111,9 @@ var BetNSelectionsToggle=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "list-inline text-center",
-	    style: {
-		"margin-bottom": "20px"
-	    },
 	    children: [
 		React.DOM.li({
+		    className: "pull-left",
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -131,6 +129,10 @@ var BetNSelectionsToggle=React.createClass({
 		    })
 		}),
 		React.DOM.li({
+		    className: "pull-right",
+		    style: {
+			"margin-right": "-5px",
+		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -235,7 +237,7 @@ var BetProductPanel=React.createClass({
 			    label: "Selections"
 			}),
 			React.createElement(MyFormComponent, {
-			    label: "Condition",
+			    label: "Teams Condition",
 			    component: React.createElement(MySelect, {
 				name: "teams_condition",
 				changeHandler: function(name, value) {
