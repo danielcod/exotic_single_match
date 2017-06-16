@@ -1,4 +1,4 @@
-var BetPanelTabs=React.createClass({
+var AccaPanelTabs=React.createClass({
     render: function() {
 	return React.DOM.ul({
 	    className: "nav nav-tabs",
@@ -18,7 +18,7 @@ var BetPanelTabs=React.createClass({
     }
 });
 
-var BetLegRow=React.createClass({
+var AccaLegRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -47,7 +47,7 @@ var BetLegRow=React.createClass({
     }
 });
 
-var BetLegTable=React.createClass({
+var AccaLegTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped  text-center",
@@ -57,7 +57,7 @@ var BetLegTable=React.createClass({
 	    },
 	    children: React.DOM.tbody({
 		children: this.props.legs.map(function(leg) {
-		    return React.createElement(BetLegRow, {
+		    return React.createElement(AccaLegRow, {
 			formatter: this.props.formatter,
 			clickHandler: this.props.clickHandler,
 			leg: leg
@@ -68,7 +68,7 @@ var BetLegTable=React.createClass({
     }
 });
 
-var BetNLegsToggle=React.createClass({
+var AccaNLegsToggle=React.createClass({
     getInitialState: function() {
 	return {
 	    counter: 1
@@ -129,7 +129,7 @@ var BetNLegsToggle=React.createClass({
     }
 });
 
-var BetNGoalsSlider=React.createClass({
+var AccaNGoalsSlider=React.createClass({
     componentDidMount: function() {
 	var initSliderTicks=function() {
 	    var ticks=[];
@@ -181,7 +181,7 @@ var BetNGoalsSlider=React.createClass({
     }
 });
 
-var BetProductPanel=React.createClass({
+var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
@@ -261,7 +261,7 @@ var BetProductPanel=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    children: [
-		React.createElement(BetPanelTabs, {
+		React.createElement(AccaPanelTabs, {
 		    tabs: [
 			{
 			    name: "bet",
@@ -293,7 +293,7 @@ var BetProductPanel=React.createClass({
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "Teams",
-			    component: React.createElement(BetLegTable, {
+			    component: React.createElement(AccaLegTable, {
 				formatter: this.formatLeg,
 				clickHandler: this.handleLegRemoved,
 				legs: this.sortLegs(this.state.bet.legs),
@@ -302,7 +302,7 @@ var BetProductPanel=React.createClass({
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
-			    component: React.createElement(BetNGoalsSlider, {
+			    component: React.createElement(AccaNGoalsSlider, {
 				min: 1,
 				max: 4,
 				value: 1,
@@ -313,7 +313,7 @@ var BetProductPanel=React.createClass({
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
-			    component: React.createElement(BetNLegsToggle, {
+			    component: React.createElement(AccaNLegsToggle, {
 				nLegs: this.state.bet.legs.length
 			    })
 			}),
