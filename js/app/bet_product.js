@@ -271,30 +271,41 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Teams"
 			}),
-			(this.state.bet.selections.length > 1) ? [
-			    React.DOM.hr({
-				style: {
-				    "border-color": "#555"
+			React.DOM.hr({
+			    style: {
+				"border-color": "#555"
+			    }
+			}),
+			React.createElement(MyFormComponent, {
+			    label: "To Win By At Least",
+			    component: React.createElement(BetNGoalsSlider, {
+				min: 1,
+				max: 5,
+				value: 1,
+				changeHandler: function(name, value) {
+				    console.log(name+"="+value);
 				}
-			    }),
-			    React.createElement(MyFormComponent, {
-				label: "To Win By At Least",
-				component: React.createElement(BetNGoalsSlider, {
-				    min: 1,
-				    max: 5,
-				    value: 1,
-				    changeHandler: function(name, value) {
-					console.log(name+"="+value);
-				    }
-				})
-			    }),
-			    React.createElement(MyFormComponent, {
-				label: "How many teams need to win ?",
-				component: React.createElement(BetNSelectionsToggle, {
-				    nSelections: this.state.bet.selections.length
-				})
-			    }),
-			] : []
+			    })
+			}),
+			React.createElement(MyFormComponent, {
+			    label: "How many teams need to win ?",
+			    component: React.createElement(BetNSelectionsToggle, {
+				nSelections: this.state.bet.selections.length
+			    })
+			}),
+			React.DOM.div({
+			    className: "text-center",
+			    style: {
+				"margin-bottom": "20px"
+			    },
+			    children: React.DOM.button({
+				className: "btn btn-primary",
+				children: "Place Bet",
+				onClick: function() {
+				    console.log("[placebet]");
+				}
+			    })
+			})
 		    ] : React.DOM.h4({
 			className: "text-center text-muted",
 			style: {
