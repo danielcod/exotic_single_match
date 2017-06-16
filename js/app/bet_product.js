@@ -242,7 +242,7 @@ var BetProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "Your Exotic Acca"
+			    label: "My Exotic Acca"
 			},
 			{
 			    name: "matches",
