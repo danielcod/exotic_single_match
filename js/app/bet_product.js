@@ -140,8 +140,8 @@ var BetNGoalsSlider=React.createClass({
 	    ticks: initSliderTicks(),
 	    ticks_labels: initSliderTickLabels(),
 	    formatter: function(value) {
-		return value+" goals"
-	    },
+		return value+"+";
+	    }
 	}).on("change", function(event, ui) {
 	    var value=parseInt($("#slider").data("slider").getValue());
 	    this.props.changeHandler("n_teams", value);
@@ -240,7 +240,7 @@ var BetProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "Your Bet"
+			    label: "Your Exotic Acca"
 			},
 			{
 			    name: "matches",
@@ -291,7 +291,7 @@ var BetProductPanel=React.createClass({
 			    })
 			}),
 			React.createElement(MyFormComponent, {
-			    label: "How many teams need to win ?",
+			    label: "How many selections need to win ?",
 			    component: React.createElement(BetNSelectionsToggle, {
 				nSelections: this.state.bet.selections.length
 			    })
