@@ -232,39 +232,13 @@ var BetProductPanel=React.createClass({
 			    label: "Teams"
 			}),
 			(this.state.bet.selections.length > 1) ? [
-			    React.createElement(MyFormComponent, {
-				label: "Teams Condition",
-				component: React.createElement(MySelect, {
-				    name: "teams_condition",
-				    changeHandler: function(name, value) {
-					console.log(name+"="+value);
-				    },
-				    options: [
-					{
-					    label: "More Than",
-					    value: ">"
-					},
-					{
-					    label: "At Least",
-					    value: ">="
-					},
-					{
-					    label: "Exactly",
-					    value: "="
-					},
-					{
-					    label: "Less Than",
-					    value: "<"
-					},
-					{
-					    label: "At Most",
-					    value: "<="
-					}
-				    ]
-				})
+			    React.DOM.hr({
+				style: {
+				    "border-color": "#555"
+				}
 			    }),
 			    React.createElement(MyFormComponent, {
-				label: "Number of Teams",
+				label: "How many teams need to win ?",
 				component: React.createElement(BetNSelectionsToggle, {
 				    nSelections: this.state.bet.selections.length
 				})
