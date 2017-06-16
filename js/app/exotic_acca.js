@@ -151,10 +151,7 @@ var AccaNGoalsSlider=React.createClass({
 	}.bind(this);
 	$('#slider').slider({
 	    ticks: initSliderTicks(),
-	    ticks_labels: initSliderTickLabels(),
-	    formatter: function(value) {
-		return value+"+";
-	    }
+	    ticks_labels: initSliderTickLabels()
 	}).on("change", function(event, ui) {
 	    var value=parseInt($("#slider").data("slider").getValue());
 	    this.props.changeHandler("n_teams", value);
@@ -172,6 +169,7 @@ var AccaNGoalsSlider=React.createClass({
 		},
 		id: "slider",
 		type: "text",
+		"data-slider-tooltip": "hide",
 		"data-slider-min": this.props.min,
 		"data-slider-max": this.props.max,
 		"data-slider-value": this.props.value,
@@ -196,19 +194,18 @@ var AccaProductPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handleLegAdded: function(leg) {
+    handleLegAdded: function(newleg) {
 	var state=this.state;
 	state.bet.legs=state.bet.legs.filter(function(sel) {
-	    return sel.match.name!=leg.match.name;
+	    return sel.match.name!=newleg.match.name;
 	});
-	state.bet.legs.push(leg);
+	state.bet.legs.push(newleg);
 	this.setState(state);
     },
-    handleLegRemoved: function(leg) {
+    handleLegRemoved: function(oldleg) {
 	var state=this.state;
-	var formattedLeg=this.formatLeg(leg);
 	state.bet.legs=state.bet.legs.filter(function(sel) {
-	    return this.formatLeg(sel)!=formattedLeg;
+	    return this.formatLeg(sel)!=this.formatLeg(oldleg);
 	}.bind(this));
 	this.setState(state);
     },
