@@ -23,6 +23,10 @@ var MyFormComponent=React.createClass({
 	    className: "form-group",
 	    children: [
 		React.DOM.label({
+		    style: {
+			width: "100%"
+		    },
+		    className: "text-center",
 		    children: this.props.label
 		}),
 		this.props.component

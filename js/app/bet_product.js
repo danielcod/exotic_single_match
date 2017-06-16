@@ -68,7 +68,7 @@ var BetSelectionTable=React.createClass({
 var BetNSelectionsToggle=React.createClass({
     getInitialState: function() {
 	return {
-	    counter: 0
+	    counter: 1
 	}
     },
     handleIncrement: function() {
@@ -80,7 +80,7 @@ var BetNSelectionsToggle=React.createClass({
     },
     handleDecrement: function() {
 	var state=this.state
-	if (state.counter > 0) {
+	if (state.counter > 1) {
 	    state.counter-=1;
 	    this.setState(state);
 	}
@@ -90,7 +90,6 @@ var BetNSelectionsToggle=React.createClass({
 	    className: "list-inline text-center",
 	    children: [
 		React.DOM.li({
-		    className: "pull-left",
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -103,15 +102,11 @@ var BetNSelectionsToggle=React.createClass({
 		    children: React.DOM.h4({
 			className: "text-muted",
 			children: React.DOM.i({
-			    children: this.state.counter+" out of "+this.props.nSelections+" team"+((this.props.nSelections==1) ? '' : 's')
+			    children: this.state.counter+"+ (of "+this.props.nSelections+")"
 			})
 		    })
 		}),
 		React.DOM.li({
-		    className: "pull-right",
-		    style: {
-			"margin-right": "-5px",
-		    },
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
@@ -134,8 +129,16 @@ var BetNGoalsSlider=React.createClass({
 	    }
 	    return ticks;
 	}.bind(this);
+	var initSliderTickLabels=function() {
+	    var labels=[];
+	    for (var i=this.props.min; i <= this.props.max; i++) {
+		labels.push(i+"+");
+	    }
+	    return labels;
+	}.bind(this);
 	$('#slider').slider({
 	    ticks: initSliderTicks(),
+	    ticks_labels: initSliderTickLabels(),
 	    formatter: function(value) {
 		return value+" goals"
 	    },
@@ -258,7 +261,7 @@ var BetProductPanel=React.createClass({
 					children: React.DOM.i({
 					    children: [
 						"Price: ",
-						"1.234"
+						"1.23"
 					    ]
 					})
 				    })
