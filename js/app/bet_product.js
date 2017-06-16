@@ -228,6 +228,18 @@ var BetProductPanel=React.createClass({
 	}
 	return matches;
     },
+    sortSelections: function(selections) {
+	var sortFn=function(i0, i1) {	    
+	    if (i0.match.kickoff < i1.match.kickoff) {
+		return -1;
+	    } else if (i0.match.kickoff > i1.match.kickoff) {
+		return 1;
+	    } else {
+		return 0;
+	    }
+	}
+	return selections.sort(sortFn);
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
@@ -272,7 +284,7 @@ var BetProductPanel=React.createClass({
 			    component: React.createElement(BetSelectionTable, {
 				formatter: this.formatSelection,
 				clickHandler: this.handleSelectionRemoved,
-				selections: this.state.bet.selections,
+				selections: this.sortSelections(this.state.bet.selections),
 				label: "Teams"
 			    })
 			}),
