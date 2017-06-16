@@ -312,7 +312,7 @@ var BetProductPanel=React.createClass({
 			    })
 			}),
 			React.createElement(MyFormComponent, {
-			    label: "How many selections need to win ?",
+			    label: "How many legs need to win ?",
 			    component: React.createElement(BetNSelectionsToggle, {
 				nSelections: this.state.bet.selections.length
 			    })
