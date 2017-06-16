@@ -130,7 +130,11 @@ var BetNGoalsSlider=React.createClass({
 	var initSliderTickLabels=function() {
 	    var labels=[];
 	    for (var i=this.props.min; i <= this.props.max; i++) {
-		labels.push(i+"+");
+		if (i==this.props.min) {
+		    labels.push("Just Win");
+		} else {
+		    labels.push(i+"+ Goals");
+		}
 	    }
 	    return labels;
 	}.bind(this);
@@ -148,8 +152,8 @@ var BetNGoalsSlider=React.createClass({
     render: function() {
 	return React.DOM.div({
 	    style: {
-		"margin-left": "10px",
-		"margin-right": "10px"
+		"margin-left": "30px",
+		"margin-right": "30px"
 	    },
 	    children: React.DOM.input({
 		style: {
@@ -275,18 +279,11 @@ var BetProductPanel=React.createClass({
 				label: "Teams"
 			    })
 			}),
-			/*
-			React.DOM.hr({
-			    style: {
-				"border-color": "#555"
-			    }
-			}),
-			*/
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
 			    component: React.createElement(BetNGoalsSlider, {
 				min: 1,
-				max: 5,
+				max: 4,
 				value: 1,
 				changeHandler: function(name, value) {
 				    console.log(name+"="+value);
