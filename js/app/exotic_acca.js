@@ -196,20 +196,20 @@ var AccaProductPanel=React.createClass({
     },
     handleLegAdded: function(newleg) {
 	var state=this.state;
-	state.bet.legs=state.bet.legs.filter(function(sel) {
-	    return sel.match.name!=newleg.match.name;
+	state.bet.legs=state.bet.legs.filter(function(leg) {
+	    return leg.match.name!=newleg.match.name;
 	});
 	state.bet.legs.push(newleg);
 	this.setState(state);
     },
     handleLegRemoved: function(oldleg) {
 	var state=this.state;
-	state.bet.legs=state.bet.legs.filter(function(sel) {
-	    return this.formatLeg(sel)!=this.formatLeg(oldleg);
+	state.bet.legs=state.bet.legs.filter(function(leg) {
+	    return this.formatMatchTeam(leg)!=this.formatMatchTeam(oldleg);
 	}.bind(this));
 	this.setState(state);
     },
-    formatLeg: function(leg) {
+    formatMatchTeam: function(leg) {
 	var teamnames=leg.match.name.split(" vs ");
 	var teamname, versus;
 	if (leg.attr=="home") {
@@ -221,7 +221,7 @@ var AccaProductPanel=React.createClass({
 	}
 	return teamname+" (vs "+versus+")";
     },
-    formatMatches: function(legs) {
+    formatSelections: function(legs) {
 	// initialise selected
 	var selected={};
 	for (var i=0; i < this.state.bet.legs.length; i++) {
@@ -291,7 +291,7 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "Teams",
 			    component: React.createElement(AccaLegTable, {
-				formatter: this.formatLeg,
+				formatter: this.formatMatchTeam,
 				clickHandler: this.handleLegRemoved,
 				legs: this.sortLegs(this.state.bet.legs),
 				label: "Teams"
@@ -342,7 +342,7 @@ var AccaProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(MatchTeamPanel, {
-		    matches: this.formatMatches(this.state.legs),
+		    matches: this.formatSelections(this.state.legs),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
