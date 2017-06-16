@@ -142,7 +142,7 @@ var BetNGoalsSlider=React.createClass({
 	    var labels=[];
 	    for (var i=this.props.min; i <= this.props.max; i++) {
 		if (i==this.props.min) {
-		    labels.push("Just Win");
+		    labels.push("(Just Win)");
 		} else {
 		    labels.push(i+"+ Goals");
 		}
