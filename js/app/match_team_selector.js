@@ -1,4 +1,4 @@
-var MatchTeamSelectionCell=React.createClass({
+var MatchTeamCell=React.createClass({
     render: function() {
 	return React.DOM.td({
 	    children: this.props.selected ? React.DOM.span({
@@ -12,7 +12,7 @@ var MatchTeamSelectionCell=React.createClass({
     }
 });
 
-var MatchTeamSelectionRow=React.createClass({
+var MatchTeamRow=React.createClass({
     getInitialState: function() {
 	return {
 	    teamnames: this.props.match.name.split(" vs "),
@@ -62,7 +62,7 @@ var MatchTeamSelectionRow=React.createClass({
 			value: this.props.match.kickoff
 		    })
 		}),
-		React.createElement(MatchTeamSelectionCell, {
+		React.createElement(MatchTeamCell, {
 		    value: this.state.teamnames[0],
 		    selected: this.state.selected.home,
 		    clickHandler: function() {
@@ -72,7 +72,7 @@ var MatchTeamSelectionRow=React.createClass({
 		React.DOM.td({
 		    children: " vs "
 		}),
-		React.createElement(MatchTeamSelectionCell, {
+		React.createElement(MatchTeamCell, {
 		    value: this.state.teamnames[1],
 		    selected: this.state.selected.away,
 		    clickHandler: function() {
@@ -84,13 +84,13 @@ var MatchTeamSelectionRow=React.createClass({
     }
 });
 
-var MatchTeamSelectionTable=React.createClass({
+var MatchTeamTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
 		children: this.props.matches.map(function(match) {
-		    return React.createElement(MatchTeamSelectionRow, {
+		    return React.createElement(MatchTeamRow, {
 			match: match,
 			clickHandler: this.props.clickHandler
 		    })
@@ -100,7 +100,7 @@ var MatchTeamSelectionTable=React.createClass({
     }
 });
 
-var MatchTeamSelectionPaginator=React.createClass({
+var MatchTeamPaginator=React.createClass({
     getInitialState: function() {
 	return {};
     },
@@ -138,7 +138,7 @@ var MatchTeamSelectionPaginator=React.createClass({
     }
 });
 
-var MatchTeamSelectionPanel=React.createClass({
+var MatchTeamPanel=React.createClass({
     filterLeagues: function(matches) {
 	var names=[];
 	for (var i=0; i < matches.length; i++) {
@@ -194,13 +194,13 @@ var MatchTeamSelectionPanel=React.createClass({
 			})
 		    })
 		}),
-		React.createElement(MatchTeamSelectionTable, {
+		React.createElement(MatchTeamTable, {
 		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this))),
 		    clickHandler: this.props.clickHandler
 		}),
-		React.createElement(MatchTeamSelectionPaginator, {
+		React.createElement(MatchTeamPaginator, {
 		    config: this.props.paginator,
 		    data: this.props.matches.filter(function(match) {
 			return match.league==this.state.league;

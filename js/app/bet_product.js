@@ -18,17 +18,17 @@ var BetPanelTabs=React.createClass({
     }
 });
 
-var BetSelectionRow=React.createClass({
+var BetLegRow=React.createClass({
     render: function() {
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
 		    children: React.createElement(DateTimeCell, {
-			value: this.props.selection.match.kickoff
+			value: this.props.leg.match.kickoff
 		    })
 		}),
 		React.DOM.td({
-		    children: this.props.formatter(this.props.selection)
+		    children: this.props.formatter(this.props.leg)
 		}),
 		React.DOM.td({
 		    children: 4.56
@@ -40,14 +40,14 @@ var BetSelectionRow=React.createClass({
 			    className: "glyphicon glyphicon-remove"
 			})
 		    }),
-		    onClick: this.props.clickHandler.bind(null, this.props.selection)
+		    onClick: this.props.clickHandler.bind(null, this.props.leg)
 		})
 	    ]
 	})				    
     }
 });
 
-var BetSelectionTable=React.createClass({
+var BetLegTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped  text-center",
@@ -56,11 +56,11 @@ var BetSelectionTable=React.createClass({
 		"margin-bottom": "0px"
 	    },
 	    children: React.DOM.tbody({
-		children: this.props.selections.map(function(selection) {
-		    return React.createElement(BetSelectionRow, {
+		children: this.props.legs.map(function(leg) {
+		    return React.createElement(BetLegRow, {
 			formatter: this.props.formatter,
 			clickHandler: this.props.clickHandler,
-			selection: selection
+			leg: leg
 		    });
 		}.bind(this))
 	    })
@@ -68,7 +68,7 @@ var BetSelectionTable=React.createClass({
     }
 });
 
-var BetNSelectionsToggle=React.createClass({
+var BetNLegsToggle=React.createClass({
     getInitialState: function() {
 	return {
 	    counter: 1
@@ -76,7 +76,7 @@ var BetNSelectionsToggle=React.createClass({
     },
     handleIncrement: function() {
 	var state=this.state;
-	if (state.counter < this.props.nSelections) {
+	if (state.counter < this.props.nLegs) {
 	    state.counter+=1;
 	    this.setState(state);
 	}	
@@ -90,7 +90,7 @@ var BetNSelectionsToggle=React.createClass({
     },
     componentWillReceiveProps: function(nextProps) {
 	var state=this.state;
-	state.counter=Math.min(state.counter, nextProps.nSelections);
+	state.counter=Math.min(state.counter, nextProps.nLegs);
 	this.setState(state);
     },
     render: function() {
@@ -112,7 +112,7 @@ var BetNSelectionsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.state.counter+((this.state.counter < this.props.nSelections) ? "+" : "")+" (of "+this.props.nSelections+")"
+			children: this.state.counter+((this.state.counter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
 		    })
 		}),
 		React.DOM.li({
@@ -187,7 +187,7 @@ var BetProductPanel=React.createClass({
 	    selectedTab: "bet",
 	    matches: [],
 	    bet: {
-		selections: []
+		legs: []
 	    }
 	}
     },
@@ -196,26 +196,26 @@ var BetProductPanel=React.createClass({
 	state.selectedTab=tab.name;
 	this.setState(state);
     },
-    handleMatchSelected: function(selection) {
+    handleLegAdded: function(leg) {
 	var state=this.state;
-	state.bet.selections=state.bet.selections.filter(function(sel) {
-	    return sel.match.name!=selection.match.name;
+	state.bet.legs=state.bet.legs.filter(function(sel) {
+	    return sel.match.name!=leg.match.name;
 	});
-	state.bet.selections.push(selection);
+	state.bet.legs.push(leg);
 	this.setState(state);
     },
-    handleSelectionRemoved: function(selection) {
+    handleLegRemoved: function(leg) {
 	var state=this.state;
-	var formattedSelection=this.formatSelection(selection);
-	state.bet.selections=state.bet.selections.filter(function(sel) {
-	    return this.formatSelection(sel)!=formattedSelection;
+	var formattedLeg=this.formatLeg(leg);
+	state.bet.legs=state.bet.legs.filter(function(sel) {
+	    return this.formatLeg(sel)!=formattedLeg;
 	}.bind(this));
 	this.setState(state);
     },
-    formatSelection: function(selection) {
-	var teamnames=selection.match.name.split(" vs ");
+    formatLeg: function(leg) {
+	var teamnames=leg.match.name.split(" vs ");
 	var teamname, versus;
-	if (selection.attr=="home") {
+	if (leg.attr=="home") {
 	    teamname=teamnames[0];
 	    versus=teamnames[1];
 	} else {
@@ -227,9 +227,9 @@ var BetProductPanel=React.createClass({
     formatMatches: function(matches) {
 	// initialise selected
 	var selected={};
-	for (var i=0; i < this.state.bet.selections.length; i++) {
-	    var selection=this.state.bet.selections[i];
-	    selected[selection.match.name]=selection.attr;
+	for (var i=0; i < this.state.bet.legs.length; i++) {
+	    var leg=this.state.bet.legs[i];
+	    selected[leg.match.name]=leg.attr;
 	}
 	// update selected params
 	var matches=JSON.parse(JSON.stringify(matches));
@@ -239,7 +239,7 @@ var BetProductPanel=React.createClass({
 	}
 	return matches;
     },
-    sortSelections: function(selections) {
+    sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
 	    if (i0.match.kickoff < i1.match.kickoff) {
 		return -1;
@@ -249,7 +249,7 @@ var BetProductPanel=React.createClass({
 		return 0;
 	    }
 	}
-	return selections.sort(sortFn);
+	return legs.sort(sortFn);
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
@@ -277,7 +277,7 @@ var BetProductPanel=React.createClass({
 		    clickHandler: this.handleTabClicked
 		}),
 		(this.state.selectedTab=="bet") ? React.DOM.div({
-		    children: (this.state.bet.selections.length!=0) ? [
+		    children: (this.state.bet.legs.length!=0) ? [
 			React.DOM.div({
 			    className: "form-group",
 			    children: React.DOM.h3({
@@ -293,10 +293,10 @@ var BetProductPanel=React.createClass({
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "Teams",
-			    component: React.createElement(BetSelectionTable, {
-				formatter: this.formatSelection,
-				clickHandler: this.handleSelectionRemoved,
-				selections: this.sortSelections(this.state.bet.selections),
+			    component: React.createElement(BetLegTable, {
+				formatter: this.formatLeg,
+				clickHandler: this.handleLegRemoved,
+				legs: this.sortLegs(this.state.bet.legs),
 				label: "Teams"
 			    })
 			}),
@@ -313,8 +313,8 @@ var BetProductPanel=React.createClass({
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
-			    component: React.createElement(BetNSelectionsToggle, {
-				nSelections: this.state.bet.selections.length
+			    component: React.createElement(BetNLegsToggle, {
+				nLegs: this.state.bet.legs.length
 			    })
 			}),
 			React.DOM.hr({
@@ -341,14 +341,14 @@ var BetProductPanel=React.createClass({
 			    "margin-left": "50px",
 			    "margin-right": "50px"
 			},
-			children: "No selections made yet; use the Team Selector tab"
+			children: "No legs made yet; use the Team Selector tab"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamSelectionPanel, {
+		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamPanel, {
 		    matches: this.formatMatches(this.state.matches),
 		    clickHandler: {
-			add: this.handleMatchSelected,
-			remove: this.handleSelectionRemoved
+			add: this.handleLegAdded,
+			remove: this.handleLegRemoved
 		    },
 		    paginator: {
 			rows: 8
