@@ -125,6 +125,46 @@ var BetNSelectionsToggle=React.createClass({
     }
 });
 
+var BetNGoalsSlider=React.createClass({
+    componentDidMount: function() {
+	var initSliderTicks=function() {
+	    var ticks=[];
+	    for (var i=this.props.min; i <= this.props.max; i++) {
+		ticks.push(i);
+	    }
+	    return ticks;
+	}.bind(this);
+	$('#slider').slider({
+	    ticks: initSliderTicks(),
+	    formatter: function(value) {
+		return value+" goals"
+	    },
+	}).on("change", function(event, ui) {
+	    var value=parseInt($("#slider").data("slider").getValue());
+	    this.props.changeHandler("n_teams", value);
+	}.bind(this));	
+    },
+    render: function() {
+	return React.DOM.div({
+	    style: {
+		"margin-left": "10px",
+		"margin-right": "10px"
+	    },
+	    children: React.DOM.input({
+		style: {
+		    width: "100%"
+		},
+		id: "slider",
+		type: "text",
+		"data-slider-min": this.props.min,
+		"data-slider-max": this.props.max,
+		"data-slider-value": this.props.value,
+		"data-slider-step": 1
+	    })
+	});
+    }
+});
+
 var BetProductPanel=React.createClass({
     getInitialState: function() {
 	return {
@@ -238,11 +278,22 @@ var BetProductPanel=React.createClass({
 				}
 			    }),
 			    React.createElement(MyFormComponent, {
+				label: "To Win By At Least",
+				component: React.createElement(BetNGoalsSlider, {
+				    min: 1,
+				    max: 5,
+				    value: 1,
+				    changeHandler: function(name, value) {
+					console.log(name+"="+value);
+				    }
+				})
+			    }),
+			    React.createElement(MyFormComponent, {
 				label: "How many teams need to win ?",
 				component: React.createElement(BetNSelectionsToggle, {
 				    nSelections: this.state.bet.selections.length
 				})
-			    })
+			    }),
 			] : []
 		    ] : React.DOM.h4({
 			className: "text-center text-muted",
