@@ -274,11 +274,13 @@ var BetProductPanel=React.createClass({
 			    selections: this.state.bet.selections,
 			    label: "Teams"
 			}),
+			/*
 			React.DOM.hr({
 			    style: {
 				"border-color": "#555"
 			    }
 			}),
+			*/
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
 			    component: React.createElement(BetNGoalsSlider, {
@@ -295,6 +297,11 @@ var BetProductPanel=React.createClass({
 			    component: React.createElement(BetNSelectionsToggle, {
 				nSelections: this.state.bet.selections.length
 			    })
+			}),
+			React.DOM.hr({
+			    style: {
+				"border-color": "#555"
+			    }
 			}),
 			React.DOM.div({
 			    className: "text-center",
