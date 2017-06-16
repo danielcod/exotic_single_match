@@ -7,9 +7,12 @@ var BetPanelTabs=React.createClass({
 		    className: (tab.name==this.props.selected) ? "active" : "",
 		    onClick: this.props.clickHandler.bind(null, tab),
 		    children: React.DOM.a({
-			children: tab.label
+			children: (tab.color!=undefined) ? React.DOM.span({
+			    className: "label label-"+tab.color,
+			    children: tab.label
+			}) : tab.label
 		    })
-		});				    
+		});			    
 	    }.bind(this))
 	});
     }
@@ -254,7 +257,8 @@ var BetProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "My Exotic Acca"
+			    label: "My Exotic Acca",
+			    color: "teal"
 			},
 			{
 			    name: "matches",
