@@ -9,6 +9,6 @@
 - js/app/services.js
 - js/app/date_utils.js
 - js/app/form_utils.js
-- js/app/match_team_selector.js
+- js/app/match_teams.js
 - js/app/exotic_acca.js
 - js/app/app.js
