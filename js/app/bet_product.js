@@ -259,15 +259,12 @@ var BetProductPanel=React.createClass({
 			    children: React.DOM.h3({
 				className: "current-price text-center",
 				children: [
+				    "Current price: ",
 				    React.DOM.span({
-					children: React.DOM.i({
-					    children: [
-						"Price: ",
-						"1.23"
-					    ]
-					})
-				    })
-				]
+					id: "price",
+					children: "1.23"
+				    })					
+				]				    
 			    })
 			}),
 			React.createElement(MyFormComponent, {
