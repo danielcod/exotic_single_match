@@ -104,6 +104,9 @@ var BetNSelectionsToggle=React.createClass({
 		React.DOM.li({
 		    children: React.DOM.h4({
 			className: "text-muted",
+			style: {
+			    color: "#AAA"
+			},
 			children: this.state.counter+((this.state.counter < this.props.nSelections) ? "+" : "")+" (of "+this.props.nSelections+")"
 		    })
 		}),
