@@ -185,7 +185,7 @@ var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    matches: [],
+	    legs: [],
 	    bet: {
 		legs: []
 	    }
@@ -224,7 +224,7 @@ var AccaProductPanel=React.createClass({
 	}
 	return teamname+" (vs "+versus+")";
     },
-    formatMatches: function(matches) {
+    formatMatches: function(legs) {
 	// initialise selected
 	var selected={};
 	for (var i=0; i < this.state.bet.legs.length; i++) {
@@ -232,12 +232,12 @@ var AccaProductPanel=React.createClass({
 	    selected[leg.match.name]=leg.attr;
 	}
 	// update selected params
-	var matches=JSON.parse(JSON.stringify(matches));
-	for (var i=0; i < matches.length; i++) {
-	    var match=matches[i];
+	var legs=JSON.parse(JSON.stringify(legs));
+	for (var i=0; i < legs.length; i++) {
+	    var match=legs[i];
 	    match.selected=selected[match.name];
 	}
-	return matches;
+	return legs;
     },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
@@ -254,7 +254,7 @@ var AccaProductPanel=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
-	    state.matches=struct;
+	    state.legs=struct;
 	    this.setState(state);
 	}.bind(this));	
     },
@@ -269,7 +269,7 @@ var AccaProductPanel=React.createClass({
 			    color: "teal"
 			},
 			{
-			    name: "matches",
+			    name: "legs",
 			    label: "Team Selector"
 			}
 		    ],
@@ -341,11 +341,11 @@ var AccaProductPanel=React.createClass({
 			    "margin-left": "50px",
 			    "margin-right": "50px"
 			},
-			children: "No legs made yet; use the Team Selector tab"
+			children: "No legs added yet; use the Team Selector tab"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="matches") ? React.createElement(MatchTeamPanel, {
-		    matches: this.formatMatches(this.state.matches),
+		(this.state.selectedTab=="legs") ? React.createElement(MatchTeamPanel, {
+		    matches: this.formatMatches(this.state.legs),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
