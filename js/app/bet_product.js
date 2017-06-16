@@ -20,8 +20,16 @@ var BetSelectionRow=React.createClass({
 	return React.DOM.tr({
 	    children: [
 		React.DOM.td({
+		    children: React.createElement(DateTimeCell, {
+			value: this.props.selection.match.kickoff
+		    })
+		}),
+		React.DOM.td({
 		    children: this.props.formatter(this.props.selection)
-		}),		
+		}),
+		React.DOM.td({
+		    children: 4.56
+		}),
 		React.DOM.td({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
@@ -38,30 +46,22 @@ var BetSelectionRow=React.createClass({
 
 var BetSelectionTable=React.createClass({
     render: function() {
-	return React.DOM.div({
-	    className: "form-group",
-	    children: [
-		React.DOM.label({
-		    children: this.props.label
-		}),
-		React.DOM.table({
-		    className: "table table-condensed table-striped",
-		    style: {
-			"margin-top": "0px",
-			"margin-bottom": "0px"
-		    },
-		    children: React.DOM.tbody({
-			children: this.props.selections.map(function(selection) {
-			    return React.createElement(BetSelectionRow, {
-				formatter: this.props.formatter,
-				clickHandler: this.props.clickHandler,
-				selection: selection
-			    });
-			}.bind(this))
-		    })
-		})
-	    ]
-	});		
+	return React.DOM.table({
+	    className: "table table-condensed table-striped  text-center",
+	    style: {
+		"margin-top": "0px",
+		"margin-bottom": "0px"
+	    },
+	    children: React.DOM.tbody({
+		children: this.props.selections.map(function(selection) {
+		    return React.createElement(BetSelectionRow, {
+			formatter: this.props.formatter,
+			clickHandler: this.props.clickHandler,
+			selection: selection
+		    });
+		}.bind(this))
+	    })
+	});
     }
 });
 
@@ -93,7 +93,7 @@ var BetNSelectionsToggle=React.createClass({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-arrow-down"
+			    className: "glyphicon glyphicon-minus-sign"
 			}),
 			onClick: this.handleDecrement
 		    })
@@ -101,16 +101,14 @@ var BetNSelectionsToggle=React.createClass({
 		React.DOM.li({
 		    children: React.DOM.h4({
 			className: "text-muted",
-			children: React.DOM.i({
-			    children: this.state.counter+"+ (of "+this.props.nSelections+")"
-			})
+			children: this.state.counter+"+ (of "+this.props.nSelections+")"
 		    })
 		}),
 		React.DOM.li({
 		    children: React.DOM.a({
 			className: "btn btn-secondary",
 			children: React.DOM.i({
-			    className: "glyphicon glyphicon-arrow-up"
+			    className: "glyphicon glyphicon-plus-sign"
 			}),
 			onClick: this.handleIncrement
 		    })
@@ -268,11 +266,14 @@ var BetProductPanel=React.createClass({
 				]
 			    })
 			}),
-			React.createElement(BetSelectionTable, {
-			    formatter: this.formatSelection,
-			    clickHandler: this.handleSelectionRemoved,
-			    selections: this.state.bet.selections,
-			    label: "Teams"
+			React.createElement(MyFormComponent, {
+			    label: "Teams",
+			    component: React.createElement(BetSelectionTable, {
+				formatter: this.formatSelection,
+				clickHandler: this.handleSelectionRemoved,
+				selections: this.state.bet.selections,
+				label: "Teams"
+			    })
 			}),
 			/*
 			React.DOM.hr({
