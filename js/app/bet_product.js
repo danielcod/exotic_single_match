@@ -88,6 +88,11 @@ var BetNSelectionsToggle=React.createClass({
 	    this.setState(state);
 	}
     },
+    componentWillReceiveProps: function(nextProps) {
+	var state=this.state;
+	state.counter=Math.min(state.counter, nextProps.nSelections);
+	this.setState(state);
+    },
     render: function() {
 	return React.DOM.ul({
 	    className: "list-inline text-center",
