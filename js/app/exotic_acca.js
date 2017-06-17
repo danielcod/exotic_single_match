@@ -222,18 +222,6 @@ var AccaProductPanel=React.createClass({
 	state.counter=Math.min(state.counter, state.bet.legs.length); // NB
 	this.setState(state);
     },
-    formatMatchTeam: function(leg) {
-	var teamnames=leg.match.name.split(" vs ");
-	var teamname, versus;
-	if (leg.attr=="home") {
-	    teamname=teamnames[0];
-	    versus=teamnames[1];
-	} else {
-	    teamname=teamnames[1];
-	    versus=teamnames[0];
-	}
-	return teamname+" (vs "+versus+")";
-    },
     formatSelections: function(legs) {
 	// initialise selected
 	var selected={};
@@ -249,6 +237,18 @@ var AccaProductPanel=React.createClass({
 	}
 	return legs;
     },
+    formatMatchTeam: function(leg) {
+	var teamnames=leg.match.name.split(" vs ");
+	var teamname, versus;
+	if (leg.attr=="home") {
+	    teamname=teamnames[0];
+	    versus=teamnames[1];
+	} else {
+	    teamname=teamnames[1];
+	    versus=teamnames[0];
+	}
+	return teamname+" (vs "+versus+")";
+    },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
 	    if (i0.match.kickoff < i1.match.kickoff) {
@@ -256,9 +256,15 @@ var AccaProductPanel=React.createClass({
 	    } else if (i0.match.kickoff > i1.match.kickoff) {
 		return 1;
 	    } else {
-		return 0;
+		if (this.formatMatchTeam(i0) < this.formatMatchTeam(i1)) {
+		    return -1
+		} else if (this.formatMatchTeam(i0) > this.formatMatchTeam(i1)) {
+		    return 1
+		} else {
+		    return 0;
+		}
 	    }
-	}
+	}.bind(this);
 	return legs.sort(sortFn);
     },
     componentDidMount: function() {
