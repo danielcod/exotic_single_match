@@ -2,7 +2,7 @@ var MatchTeamCell=React.createClass({
     render: function() {
 	return React.DOM.td({
 	    children: this.props.selected ? React.DOM.span({
-		className: "label label-info",
+		className: "label label-red",
 		children: React.DOM.b({
 		    children: this.props.value
 		})
@@ -59,7 +59,10 @@ var MatchTeamRow=React.createClass({
 	    children: [
 		React.DOM.td({
 		    children: React.createElement(DateTimeCell, {
-			value: this.props.match.kickoff
+			value: this.props.match.kickoff,
+			col: {
+			    type: "datetime"
+			}
 		    })
 		}),
 		React.createElement(MatchTeamCell, {

@@ -24,7 +24,10 @@ var AccaLegRow=React.createClass({
 	    children: [
 		React.DOM.td({
 		    children: React.createElement(DateTimeCell, {
-			value: this.props.leg.match.kickoff
+			value: this.props.leg.match.kickoff,
+			col: {
+			    type: "datetime"
+			}
 		    })
 		}),
 		React.DOM.td({
