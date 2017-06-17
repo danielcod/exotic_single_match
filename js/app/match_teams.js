@@ -217,14 +217,14 @@ var MatchTeamPanel=React.createClass({
 		    matches: this.applyPaginatorWindow(this.filterMatches(this.props.matches)),
 		    clickHandler: this.props.clickHandler
 		}),
-		React.createElement(MyPaginator, {
+		(this.filterMatches(this.props.matches).length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
 		    config: this.props.paginator,
 		    data: this.props.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this)),
 		    clickHandler: this.handlePaginatorClicked,
 		    currentPage: this.state.currentPage
-		})
+		}) : undefined
 	    ]
 	});
     }
