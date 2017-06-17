@@ -334,7 +334,7 @@ var AccaProductPanel=React.createClass({
 		React.DOM.p({
 		    className: "help-block",
 		    children: React.DOM.i({
-			children: "Here's some bollox about what an Exotic Acca is, what it does, how to lose money on it etc"
+			children: "An Exotic Acca is like a traditional acca; but not all teams have to win for it to payout, so you don't have to select all the favourites; and you can add a goals condition to improve the price!"
 		    })
 		}),
 		React.createElement(AccaPanelTabs, {
