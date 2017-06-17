@@ -186,7 +186,7 @@ var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    legs: [],
+	    selections: [],
 	    bet: {
 		legs: []
 	    }
@@ -254,7 +254,7 @@ var AccaProductPanel=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
-	    state.legs=struct;
+	    state.selections=struct;
 	    this.setState(state);
 	}.bind(this));	
     },
@@ -345,7 +345,7 @@ var AccaProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(MatchTeamPanel, {
-		    matches: this.formatSelections(this.state.legs),
+		    matches: this.formatSelections(this.state.selections),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
