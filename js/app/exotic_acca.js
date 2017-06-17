@@ -257,7 +257,7 @@ var AccaProductPanel=React.createClass({
 	return legs.sort(sortFn);
     },
     applyPaginatorWindow: function(items) {
-	var rows=this.props.paginator.rows;
+	var rows=this.props.config.paginator.rows;
 	var i=this.state.currentPage*rows;
 	var j=(this.state.currentPage+1)*rows;
 	return items.slice(i, j);
@@ -268,7 +268,7 @@ var AccaProductPanel=React.createClass({
 	this.setState(state);	
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob(this.props.selections.blob, function(struct) {
+	this.props.exoticsApi.fetchBlob(this.props.config.selections.blob, function(struct) {
 	    var state=this.state;
 	    state.selections=struct;
 	    this.setState(state);
@@ -315,8 +315,8 @@ var AccaProductPanel=React.createClass({
 				label: "Teams"
 			    })
 			}),
-			(this.state.bet.legs.length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
-			    config: this.props.paginator,
+			(this.state.bet.legs.length > this.props.config.paginator.rows) ? React.createElement(MyPaginator, {
+			    config: this.props.config.paginator,
 			    data: this.state.bet.legs,
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
@@ -326,7 +326,7 @@ var AccaProductPanel=React.createClass({
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalsSlider",
 				min: 1,
-				max: this.props.params.nGoalsMax,
+				max: this.props.config.params.nGoalsMax,
 				value: this.state.slider,
 				changeHandler: this.handleSliderChanged
 			    })
@@ -369,13 +369,13 @@ var AccaProductPanel=React.createClass({
 			children: "No legs added yet; use the Team Selector tab"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.selections.klass, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
 		    matches: this.formatSelections(this.state.selections),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
 		    },
-		    paginator: this.props.paginator
+		    paginator: this.props.config.paginator
 		}) : undefined
 	    ]
 	})
