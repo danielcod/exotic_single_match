@@ -225,6 +225,25 @@ var AccaProductPanel=React.createClass({
 	}
 	this.updatePrice();
     },
+    formatPrice: function(value) {
+	if (value < 2) {
+	    // return value.toFixed(3);
+	    return value.toFixed(2);
+	} else if (value < 10) {
+	    return value.toFixed(2);
+	} else if (value < 100) {
+	    return value.toFixed(1);
+	} else {
+	    return Math.floor(value);
+	}
+    },
+    formatCurrentPrice: function(price) {
+	if (price==undefined) {
+	    return "[...]";
+	} else {
+	    return this.formatPrice(price);
+	}
+    },
     updatePrice: function() {
 	console.log("updating price");
     },
@@ -336,7 +355,7 @@ var AccaProductPanel=React.createClass({
 				    "Current price: ",
 				    React.DOM.span({
 					id: "price",
-					children: "1.23"
+					children: this.formatCurrentPrice(this.state.price)
 				    })					
 				]				    
 			    })
