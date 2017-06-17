@@ -167,8 +167,20 @@ var AccaProductPanel=React.createClass({
 		legs: []
 	    },
 	    counter: 1,
-	    slider: 1
+	    slider: 1,
+	    currentPage: 0
 	}
+    },
+    applyPaginatorWindow: function(items) {
+	var rows=this.props.paginator.rows;
+	var i=this.state.currentPage*rows;
+	var j=(this.state.currentPage+1)*rows;
+	return items.slice(i, j);
+    },
+    handlePaginatorClicked: function(item) {
+	var state=this.state;
+	state.currentPage=item.value;
+	this.setState(state);	
     },
     handleIncrement: function() {
 	var state=this.state;
@@ -294,10 +306,16 @@ var AccaProductPanel=React.createClass({
 			    component: React.createElement(AccaLegTable, {
 				formatter: this.formatMatchTeam,
 				clickHandler: this.handleLegRemoved,
-				legs: this.sortLegs(this.state.bet.legs),
+				legs: this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs)),
 				label: "Teams"
 			    })
 			}),
+			(this.state.bet.legs.length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
+			    config: this.props.paginator,
+			    data: this.state.bet.legs,
+			    clickHandler: this.handlePaginatorClicked,
+			    currentPage: this.state.currentPage
+			}) : undefined,
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {

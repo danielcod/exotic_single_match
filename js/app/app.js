@@ -9,7 +9,10 @@ var App=React.createClass({
 		    })
 		}),
 		React.createElement(AccaProductPanel, {
-		    exoticsApi: this.props.exoticsApi
+		    exoticsApi: this.props.exoticsApi,
+		    paginator: {
+			rows: 5
+		    }
 		}),
 		React.DOM.footer({
 		    className: "footer",
