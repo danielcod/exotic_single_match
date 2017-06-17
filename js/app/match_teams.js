@@ -187,6 +187,11 @@ var MatchTeamPanel=React.createClass({
 	state.currentPage=item.value;
 	this.setState(state);	
     },
+    filterMatches: function(matches) {
+	return matches.filter(function(match) {
+	    return match.league==this.state.league;
+	}.bind(this))
+    },
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -209,9 +214,7 @@ var MatchTeamPanel=React.createClass({
 		    })
 		}),
 		React.createElement(MatchTeamTable, {
-		    matches: this.applyPaginatorWindow(this.props.matches.filter(function(match) {
-			return match.league==this.state.league;
-		    }.bind(this))),
+		    matches: this.applyPaginatorWindow(this.filterMatches(this.props.matches)),
 		    clickHandler: this.props.clickHandler
 		}),
 		React.createElement(MyPaginator, {
