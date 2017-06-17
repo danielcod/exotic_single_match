@@ -7,10 +7,7 @@ var AccaPanelTabs=React.createClass({
 		    className: (tab.name==this.props.selected) ? "active" : "",
 		    onClick: this.props.clickHandler.bind(null, tab),
 		    children: React.DOM.a({
-			children: (tab.color!=undefined) ? React.DOM.span({
-			    className: "label label-"+tab.color,
-			    children: tab.label
-			}) : tab.label
+			children: tab.label
 		    })
 		});			    
 	    }.bind(this))
@@ -103,7 +100,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.props.teamsCounter+((this.props.teamsCounter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
+			children: this.props.legCounter+((this.props.legCounter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
 		    })
 		}),
 		React.DOM.li({
@@ -178,28 +175,28 @@ var AccaProductPanel=React.createClass({
 	    bet: {
 		legs: []
 	    },
-	    teamsCounter: 1,
-	    goalsSlider: 1,
+	    legCounter: 1,
+	    goalSlider: 1,
 	    currentPage: 0
 	}
     },
     incrementTeamsCounter: function() {
 	var state=this.state;
-	if (state.teamsCounter < state.bet.legs.length) {
-	    state.teamsCounter+=1;
+	if (state.legCounter < state.bet.legs.length) {
+	    state.legCounter+=1;
 	    this.setState(state);
 	}	
     },
     decrementTeamsCounter: function() {
 	var state=this.state
-	if (state.teamsCounter > 1) {
-	    state.teamsCounter-=1;
+	if (state.legCounter > 1) {
+	    state.legCounter-=1;
 	    this.setState(state);
 	}
     },
     handleGoalsSliderChanged: function(value) {
 	var state=this.state;
-	state.goalsSlider=value;
+	state.goalSlider=value;
 	this.setState(state);
     },
     handleTabClicked: function(tab) {
@@ -220,7 +217,7 @@ var AccaProductPanel=React.createClass({
 	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return leg.selection.description!=oldleg.selection.description;
 	});
-	state.teamsCounter=Math.min(state.teamsCounter, state.bet.legs.length); // NB
+	state.legCounter=Math.min(state.legCounter, state.bet.legs.length); // NB
 	this.setState(state);
     },
     formatSelections: function(legs) {
@@ -281,12 +278,11 @@ var AccaProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "My Exotic Acca",
-			    color: "teal"
+			    label: "My Acca"
 			},
 			{
 			    name: "legs",
-			    label: "Team Selector"
+			    label: "Leg Selector"
 			}
 		    ],
 		    selected: this.state.selectedTab,
@@ -324,17 +320,17 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {
-				id: "goalsSlider",
+				id: "goalSlider",
 				min: 1,
 				max: this.props.config.params.nGoalsMax,
-				value: this.state.goalsSlider,
+				value: this.state.goalSlider,
 				changeHandler: this.handleGoalsSliderChanged
 			    })
 			}),
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {
-				teamsCounter: this.state.teamsCounter,
+				legCounter: this.state.legCounter,
 				nLegs: this.state.bet.legs.length,
 				clickHandlers: {
 				    increment: this.incrementTeamsCounter,
@@ -366,7 +362,7 @@ var AccaProductPanel=React.createClass({
 			    "margin-left": "50px",
 			    "margin-right": "50px"
 			},
-			children: "No legs added yet; use the Team Selector tab"
+			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
