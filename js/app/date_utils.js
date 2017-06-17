@@ -40,7 +40,7 @@ var DateTimeCell=React.createClass({
 	    (date.getDate()==today.getDate())) {
 	    return React.DOM.span({
 		className: "label label-warning",
-		children: "Today"+((this.props.col.type=="datetime") ? (" "+DateUtils.formatTime(date)) : "")
+		children: "Today"+((this.props.type=="datetime") ? (" "+DateUtils.formatTime(date)) : "")
 	    });
 	} else if ((date.getMonth()==tmrw.getMonth()) &&
 		   (date.getDate()==tmrw.getDate())) {
