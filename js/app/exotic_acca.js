@@ -179,7 +179,7 @@ var AccaProductPanel=React.createClass({
 		legs: []
 	    },
 	    teamsCounter: 1,
-	    slider: 1,
+	    goalsSlider: 1,
 	    currentPage: 0
 	}
     },
@@ -197,9 +197,9 @@ var AccaProductPanel=React.createClass({
 	    this.setState(state);
 	}
     },
-    handleSliderChanged: function(value) {
+    handleGoalsSliderChanged: function(value) {
 	var state=this.state;
-	state.slider=value;
+	state.goalsSlider=value;
 	this.setState(state);
     },
     handleTabClicked: function(tab) {
@@ -327,8 +327,8 @@ var AccaProductPanel=React.createClass({
 				id: "goalsSlider",
 				min: 1,
 				max: this.props.config.params.nGoalsMax,
-				value: this.state.slider,
-				changeHandler: this.handleSliderChanged
+				value: this.state.goalsSlider,
+				changeHandler: this.handleGoalsSliderChanged
 			    })
 			}),
 			React.createElement(MyFormComponent, {
