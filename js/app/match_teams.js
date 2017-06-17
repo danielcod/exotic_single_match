@@ -1,4 +1,4 @@
-var MatchTeamCell=React.createClass({
+var MatchTeamToggleCell=React.createClass({
     render: function() {
 	return React.DOM.td({
 	    children: this.props.selected ? React.DOM.span({
@@ -11,6 +11,10 @@ var MatchTeamCell=React.createClass({
 	});
     }
 });
+
+/*
+  price display currently commented out because not enough width in window; need to use team short codes for this to work
+*/
 
 var MatchTeamRow=React.createClass({
     getInitialState: function() {
@@ -33,6 +37,18 @@ var MatchTeamRow=React.createClass({
 	    versus=teamnames[0];
 	}
 	return teamname+" (vs "+versus+")";
+    },
+    formatPrice: function(value) {
+	if (value < 2) {
+	    // return value.toFixed(3);
+	    return value.toFixed(2);
+	} else if (value < 10) {
+	    return value.toFixed(2);
+	} else if (value < 100) {
+	    return value.toFixed(1);
+	} else {
+	    return Math.floor(value);
+	}
     },
     handleCellClicked: function(attr) {	
 	// update state
@@ -77,17 +93,29 @@ var MatchTeamRow=React.createClass({
 			type: "datetime"
 		    })
 		}),
-		React.createElement(MatchTeamCell, {
+		React.createElement(MatchTeamToggleCell, {
 		    value: this.state.teamnames[0],
 		    selected: this.state.selected.home,
 		    clickHandler: function() {
 			this.handleCellClicked("home")
 		    }.bind(this)
 		}),
+		/*
+		React.DOM.td({
+		    className: "text-muted",
+		    children: this.formatPrice(this.props.match.prices[0])
+		}),
+		*/
 		React.DOM.td({
 		    children: " vs "
 		}),
-		React.createElement(MatchTeamCell, {
+		/*
+		React.DOM.td({
+		    className: "text-muted",
+		    children: this.formatPrice(this.props.match.prices[2])
+		}),
+		*/
+		React.createElement(MatchTeamToggleCell, {
 		    value: this.state.teamnames[1],
 		    selected: this.state.selected.away,
 		    clickHandler: function() {
