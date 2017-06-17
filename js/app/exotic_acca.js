@@ -72,30 +72,6 @@ var AccaLegTable=React.createClass({
 });
 
 var AccaNLegsToggle=React.createClass({
-    getInitialState: function() {
-	return {
-	    counter: 1
-	}
-    },
-    handleIncrement: function() {
-	var state=this.state;
-	if (state.counter < this.props.nLegs) {
-	    state.counter+=1;
-	    this.setState(state);
-	}	
-    },
-    handleDecrement: function() {
-	var state=this.state
-	if (state.counter > 1) {
-	    state.counter-=1;
-	    this.setState(state);
-	}
-    },
-    componentWillReceiveProps: function(nextProps) {
-	var state=this.state;
-	state.counter=Math.min(state.counter, nextProps.nLegs);
-	this.setState(state);
-    },
     render: function() {
 	return React.DOM.ul({
 	    className: "list-inline text-center",
@@ -106,7 +82,7 @@ var AccaNLegsToggle=React.createClass({
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-minus-sign"
 			}),
-			onClick: this.handleDecrement
+			onClick: this.props.clickHandlers.decrement
 		    })
 		}),
 		React.DOM.li({
@@ -115,7 +91,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.state.counter+((this.state.counter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
+			children: this.props.counter+((this.props.counter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
 		    })
 		}),
 		React.DOM.li({
@@ -124,7 +100,7 @@ var AccaNLegsToggle=React.createClass({
 			children: React.DOM.i({
 			    className: "glyphicon glyphicon-plus-sign"
 			}),
-			onClick: this.handleIncrement
+			onClick: this.props.clickHandlers.increment
 		    })
 		})
 	    ]
@@ -189,7 +165,22 @@ var AccaProductPanel=React.createClass({
 	    selections: [],
 	    bet: {
 		legs: []
-	    }
+	    },
+	    counter: 1
+	}
+    },
+    handleIncrement: function() {
+	var state=this.state;
+	if (state.counter < state.bet.legs.length) {
+	    state.counter+=1;
+	    this.setState(state);
+	}	
+    },
+    handleDecrement: function() {
+	var state=this.state
+	if (state.counter > 1) {
+	    state.counter-=1;
+	    this.setState(state);
 	}
     },
     handleTabClicked: function(tab) {
@@ -210,6 +201,7 @@ var AccaProductPanel=React.createClass({
 	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return this.formatMatchTeam(leg)!=this.formatMatchTeam(oldleg);
 	}.bind(this));
+	state.counter=Math.min(state.counter, state.bet.legs.length); // NB
 	this.setState(state);
     },
     formatMatchTeam: function(leg) {
@@ -314,7 +306,12 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {
-				nLegs: this.state.bet.legs.length
+				counter: this.state.counter,
+				nLegs: this.state.bet.legs.length,
+				clickHandlers: {
+				    increment: this.handleIncrement,
+				    decrement: this.handleDecrement
+				}
 			    })
 			}),
 			React.DOM.hr({
