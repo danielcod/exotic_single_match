@@ -171,14 +171,14 @@ var AccaProductPanel=React.createClass({
 	    currentPage: 0
 	}
     },
-    handleIncrement: function() {
+    handleCounterIncremented: function() {
 	var state=this.state;
 	if (state.counter < state.bet.legs.length) {
 	    state.counter+=1;
 	    this.setState(state);
 	}	
     },
-    handleDecrement: function() {
+    handleCounterDecremented: function() {
 	var state=this.state
 	if (state.counter > 1) {
 	    state.counter-=1;
@@ -338,8 +338,8 @@ var AccaProductPanel=React.createClass({
 				counter: this.state.counter,
 				nLegs: this.state.bet.legs.length,
 				clickHandlers: {
-				    increment: this.handleIncrement,
-				    decrement: this.handleDecrement
+				    increment: this.handleCounterIncremented,
+				    decrement: this.handleCounterDecremented
 				}
 			    })
 			}),
