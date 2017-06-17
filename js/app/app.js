@@ -11,7 +11,7 @@ var App=React.createClass({
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    paginator: {
-			rows: 5
+			rows: 8
 		    },
 		    nGoalsMax: 4
 		}),

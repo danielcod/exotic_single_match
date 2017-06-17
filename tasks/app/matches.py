@@ -1,6 +1,6 @@
 from tasks.app import *
 
-# curl "http://localhost:8080/tasks/app/matches?window=31"
+# curl "http://localhost:8080/tasks/app/matches?window=30"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -33,20 +33,15 @@ class MapHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         window=int(self.request.get("window"))
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
-        teamnames, items = [], []
-        matches=ebadi.get_remaining_fixtures(leaguename,
-                                             Leagues[leaguename]["season"])
-        for match in sorted(matches,
-                            key=lambda x: x["kickoff"]):
-            if match["kickoff"].date() > cutoff:
-                continue
-            matchteamnames=match["name"].split(" vs ")
-            if (matchteamnames[0] not in teamnames and
-                matchteamnames[1] not in teamnames):
-                items.append({"league": leaguename,
-                              "name": match["name"],
-                              "kickoff": match["kickoff"]})
-                teamnames+=matchteamnames
+        items=sorted([{"league": leaguename,
+                       "name": match["name"],
+                       "kickoff": match["kickoff"]}
+                      for match in ebadi.get_remaining_fixtures(leaguename,
+                                                                Leagues[leaguename]["season"])
+                      if ("kickoff" in match and
+                          match["kickoff"]!=None and
+                          match["kickoff"].date() <= cutoff)],
+                     key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
         keyname="matches/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
         logging.info("Filtered %i %s matches" % (len(items), keyname))
