@@ -245,7 +245,13 @@ var AccaProductPanel=React.createClass({
 	}
     },
     updatePrice: function() {
-	console.log("updating price");
+	var state=this.state;
+	state.price=undefined;
+	this.setState(state);
+	setTimeout(function() {
+	    state.price=1/(0.1+0.8*Math.random());
+	    this.setState(state)
+	}.bind(this), 500);
     },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
