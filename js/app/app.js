@@ -13,7 +13,9 @@ var App=React.createClass({
 		    paginator: {
 			rows: 8
 		    },
-		    nGoalsMax: 4
+		    params: {
+			nGoalsMax: 4
+		    }
 		}),
 		React.DOM.footer({
 		    className: "footer",
