@@ -133,7 +133,7 @@ var AccaNGoalsSlider=React.createClass({
 	    ticks_labels: initSliderTickLabels()
 	}).on("change", function(event, ui) {
 	    var value=parseInt($("#slider").data("slider").getValue());
-	    this.props.changeHandler("n_teams", value);
+	    this.props.changeHandler(value);
 	}.bind(this));	
     },
     render: function() {
@@ -166,7 +166,8 @@ var AccaProductPanel=React.createClass({
 	    bet: {
 		legs: []
 	    },
-	    counter: 1
+	    counter: 1,
+	    slider: 1
 	}
     },
     handleIncrement: function() {
@@ -182,6 +183,11 @@ var AccaProductPanel=React.createClass({
 	    state.counter-=1;
 	    this.setState(state);
 	}
+    },
+    handleSliderChanged: function(value) {
+	var state=this.state;
+	state.slider=value;
+	this.setState(state);
     },
     handleTabClicked: function(tab) {
 	var state=this.state;
@@ -297,10 +303,8 @@ var AccaProductPanel=React.createClass({
 			    component: React.createElement(AccaNGoalsSlider, {
 				min: 1,
 				max: 4,
-				value: 1,
-				changeHandler: function(name, value) {
-				    console.log(name+"="+value);
-				}
+				value: this.state.slider,
+				changeHandler: this.handleSliderChanged
 			    })
 			}),
 			React.createElement(MyFormComponent, {
