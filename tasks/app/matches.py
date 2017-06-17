@@ -24,6 +24,17 @@ class IndexHandler(webapp2.RequestHandler):
                       queue_name=QueueName)
         logging.info("Reduce task added")
 
+def filter_best_1x2_prices(prices):
+    best={}
+    for price in prices:
+        for attr in ["1", "x", "2"]:
+            best.setdefault(attr, 1.0)
+            value=price["price_%s" % attr]
+            if value > best[attr]:
+                best[attr]=value
+    return [best[attr]
+            for attr in ["1", "x", "2"]]
+        
 class MapHandler(webapp2.RequestHandler):
 
     @validate_query({"league": "\\D{3}\\.\\d",
@@ -35,12 +46,15 @@ class MapHandler(webapp2.RequestHandler):
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
         items=sorted([{"league": leaguename,
                        "name": match["name"],
-                       "kickoff": match["kickoff"]}
+                       "kickoff": match["kickoff"],
+                       "prices": filter_best_1x2_prices(match["pre_event_1x2_prices"])}
                       for match in ebadi.get_remaining_fixtures(leaguename,
                                                                 Leagues[leaguename]["season"])
                       if ("kickoff" in match and
                           match["kickoff"]!=None and
-                          match["kickoff"].date() <= cutoff)],
+                          match["kickoff"].date() <= cutoff and
+                          "pre_event_1x2_prices" in match and
+                          match["pre_event_1x2_prices"] not in [[], None])],
                      key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
         keyname="matches/%s" % leaguename
         memcache.set(keyname, json_dumps(items), MemcacheAge)
