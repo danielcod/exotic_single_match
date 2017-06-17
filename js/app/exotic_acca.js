@@ -375,9 +375,7 @@ var AccaProductPanel=React.createClass({
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
 		    },
-		    paginator: {
-			rows: 8
-		    }
+		    paginator: this.props.paginator
 		}) : undefined
 	    ]
 	})
