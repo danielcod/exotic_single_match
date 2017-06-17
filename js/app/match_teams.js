@@ -169,8 +169,7 @@ var MatchTeamPanel=React.createClass({
 	    currentPage: 0
 	}
     },
-    changeHandler: function(name, value) {
-	console.log(name+"="+value);
+    handleLeagueChanged: function(name, value) {
 	var state=this.state;
 	state.league=value;
 	state.currentPage=0; // NB
@@ -209,7 +208,7 @@ var MatchTeamPanel=React.createClass({
 				};
 			    }),
 			    name: "league",
-			    changeHandler: this.changeHandler
+			    changeHandler: this.handleLeagueChanged
 			})
 		    })
 		}),

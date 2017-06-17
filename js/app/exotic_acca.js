@@ -180,25 +180,6 @@ var AccaProductPanel=React.createClass({
 	    currentPage: 0
 	}
     },
-    incrementTeamsCounter: function() {
-	var state=this.state;
-	if (state.legCounter < state.bet.legs.length) {
-	    state.legCounter+=1;
-	    this.setState(state);
-	}	
-    },
-    decrementTeamsCounter: function() {
-	var state=this.state
-	if (state.legCounter > 1) {
-	    state.legCounter-=1;
-	    this.setState(state);
-	}
-    },
-    handleGoalsSliderChanged: function(value) {
-	var state=this.state;
-	state.goalSlider=value;
-	this.setState(state);
-    },
     handleTabClicked: function(tab) {
 	var state=this.state;
 	state.selectedTab=tab.name;
@@ -211,6 +192,7 @@ var AccaProductPanel=React.createClass({
 	});
 	state.bet.legs.push(newleg);
 	this.setState(state);
+	this.updatePrice();
     },
     handleLegRemoved: function(oldleg) {
 	var state=this.state;
@@ -219,21 +201,32 @@ var AccaProductPanel=React.createClass({
 	});
 	state.legCounter=Math.min(state.legCounter, state.bet.legs.length); // NB
 	this.setState(state);
+	this.updatePrice();
     },
-    formatSelections: function(legs) {
-	// initialise selected
-	var selected={};
-	for (var i=0; i < this.state.bet.legs.length; i++) {
-	    var leg=this.state.bet.legs[i];
-	    selected[leg.match.name]=leg.attr;
+    handleGoalsSliderChanged: function(value) {
+	var state=this.state;
+	state.goalSlider=value;
+	this.setState(state);
+	this.updatePrice();
+    },
+    incrementTeamsCounter: function() {
+	var state=this.state;
+	if (state.legCounter < state.bet.legs.length) {
+	    state.legCounter+=1;
+	    this.setState(state);
 	}
-	// update selected params
-	var legs=JSON.parse(JSON.stringify(legs));
-	for (var i=0; i < legs.length; i++) {
-	    var match=legs[i];
-	    match.selected=selected[match.name];
+	this.updatePrice();
+    },
+    decrementTeamsCounter: function() {
+	var state=this.state
+	if (state.legCounter > 1) {
+	    state.legCounter-=1;
+	    this.setState(state);
 	}
-	return legs;
+	this.updatePrice();
+    },
+    updatePrice: function() {
+	console.log("updating price");
     },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
@@ -271,14 +264,59 @@ var AccaProductPanel=React.createClass({
 	    this.setState(state);
 	}.bind(this));	
     },
+    // START TEMP CODE; NEEDS TO BE ABSTRACTED
+    formatSelections: function(legs) {
+	// initialise selected
+	var selected={};
+	for (var i=0; i < this.state.bet.legs.length; i++) {
+	    var leg=this.state.bet.legs[i];
+	    selected[leg.match.name]=leg.attr;
+	}
+	// update selected params
+	var legs=JSON.parse(JSON.stringify(legs));
+	for (var i=0; i < legs.length; i++) {
+	    var match=legs[i];
+	    match.selected=selected[match.name];
+	}
+	return legs;
+    },
+    // END TEMP CODE
     render: function() {
 	return React.DOM.div({
 	    children: [
+		React.DOM.div({
+		    style: {
+			"margin-top": "20px",
+			"margin-left": "75px",
+			"margin-right": "75px"
+		    },
+		    children: React.createElement(MyFormComponent, {
+			label: "Product",			
+			component: React.createElement(MySelect, {
+			    className: "form-control btn-primary input-lg",
+			    options: [
+				{
+				    value: "Exotic Acca"
+				}
+			    ],
+			    name: "product",
+			    changeHandler: function(name, value) {
+				console.log(name+"="+value);
+			    }
+			})
+		    })
+		}),
+		React.DOM.p({
+		    className: "help-block",
+		    children: React.DOM.i({
+			children: "Here's some bollox about what an Exotic Acca is, what it does, how to lose money on it etc"
+		    })
+		}),
 		React.createElement(AccaPanelTabs, {
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "My Acca"
+			    label: "My Bet"
 			},
 			{
 			    name: "legs",
@@ -352,7 +390,7 @@ var AccaProductPanel=React.createClass({
 				className: "btn btn-primary",
 				children: "Place Bet",
 				onClick: function() {
-				    console.log("[placebet]");
+				    console.log("placing bet");
 				}
 			    })
 			})
