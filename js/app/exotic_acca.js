@@ -326,7 +326,7 @@ var AccaProductPanel=React.createClass({
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {
 				min: 1,
-				max: 4,
+				max: this.props.nGoalsMax,
 				value: this.state.slider,
 				changeHandler: this.handleSliderChanged
 			    })

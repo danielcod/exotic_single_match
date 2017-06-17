@@ -12,7 +12,8 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    paginator: {
 			rows: 5
-		    }
+		    },
+		    nGoalsMax: 4
 		}),
 		React.DOM.footer({
 		    className: "footer",
