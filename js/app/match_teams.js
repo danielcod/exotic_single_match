@@ -103,17 +103,24 @@ var MatchTeamRow=React.createClass({
 		}),
 		/*
 		React.DOM.td({
-		    className: "text-muted",
-		    children: this.formatPrice(this.props.match.prices[0])
+		    children: React.DOM.span({
+			className: "text-muted",
+			children: this.formatPrice(this.props.match.prices[0])
+		    })
 		}),
 		*/
 		React.DOM.td({
-		    children: " vs "
+		    children: React.DOM.span({
+			className: "text-muted",			
+			children: " vs "
+		    })
 		}),
 		/*
 		React.DOM.td({
-		    className: "text-muted",
-		    children: this.formatPrice(this.props.match.prices[2])
+		    children: React.DOM.span({
+			className: "text-muted",
+			children: this.formatPrice(this.props.match.prices[2])
+		    })
 		}),
 		*/
 		React.createElement(MatchTeamToggleCell, {
