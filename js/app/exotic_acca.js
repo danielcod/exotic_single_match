@@ -103,7 +103,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.props.counter+((this.props.counter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
+			children: this.props.teamsCounter+((this.props.teamsCounter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
 		    })
 		}),
 		React.DOM.li({
@@ -178,22 +178,22 @@ var AccaProductPanel=React.createClass({
 	    bet: {
 		legs: []
 	    },
-	    counter: 1,
+	    teamsCounter: 1,
 	    slider: 1,
 	    currentPage: 0
 	}
     },
-    handleCounterIncremented: function() {
+    incrementTeamsCounter: function() {
 	var state=this.state;
-	if (state.counter < state.bet.legs.length) {
-	    state.counter+=1;
+	if (state.teamsCounter < state.bet.legs.length) {
+	    state.teamsCounter+=1;
 	    this.setState(state);
 	}	
     },
-    handleCounterDecremented: function() {
+    decrementTeamsCounter: function() {
 	var state=this.state
-	if (state.counter > 1) {
-	    state.counter-=1;
+	if (state.teamsCounter > 1) {
+	    state.teamsCounter-=1;
 	    this.setState(state);
 	}
     },
@@ -220,7 +220,7 @@ var AccaProductPanel=React.createClass({
 	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return leg.selection.description!=oldleg.selection.description;
 	});
-	state.counter=Math.min(state.counter, state.bet.legs.length); // NB
+	state.teamsCounter=Math.min(state.teamsCounter, state.bet.legs.length); // NB
 	this.setState(state);
     },
     formatSelections: function(legs) {
@@ -334,11 +334,11 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {
-				counter: this.state.counter,
+				teamsCounter: this.state.teamsCounter,
 				nLegs: this.state.bet.legs.length,
 				clickHandlers: {
-				    increment: this.handleCounterIncremented,
-				    decrement: this.handleCounterDecremented
+				    increment: this.incrementTeamsCounter,
+				    decrement: this.decrementTeamsCounter
 				}
 			    })
 			}),
