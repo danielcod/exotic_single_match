@@ -128,11 +128,11 @@ var AccaNGoalsSlider=React.createClass({
 	    }
 	    return labels;
 	}.bind(this);
-	$('#slider').slider({
+	$('#'+this.props.id).slider({
 	    ticks: initSliderTicks(),
 	    ticks_labels: initSliderTickLabels()
 	}).on("change", function(event, ui) {
-	    var value=parseInt($("#slider").data("slider").getValue());
+	    var value=parseInt($("#"+this.props.id).data("slider").getValue());
 	    this.props.changeHandler(value);
 	}.bind(this));	
     },
@@ -146,7 +146,7 @@ var AccaNGoalsSlider=React.createClass({
 		style: {
 		    width: "100%"
 		},
-		id: "slider",
+		id: this.props.id,
 		type: "text",
 		"data-slider-tooltip": "hide",
 		"data-slider-min": this.props.min,
@@ -325,6 +325,7 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {
+				id: "goalsSlider",
 				min: 1,
 				max: this.props.nGoalsMax,
 				value: this.state.slider,
