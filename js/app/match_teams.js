@@ -22,7 +22,20 @@ var MatchTeamRow=React.createClass({
 	    }
 	}
     },
+    formatDescription: function(match, attr) {
+	var teamnames=match.name.split(" vs ");
+	var teamname, versus;
+	if (attr=="home") {
+	    teamname=teamnames[0];
+	    versus=teamnames[1];
+	} else {
+	    teamname=teamnames[1];
+	    versus=teamnames[0];
+	}
+	return teamname+" (vs "+versus+")";
+    },
     handleCellClicked: function(attr) {	
+	// update state
 	var state=this.state;
 	state.selected[attr]=!state.selected[attr];
 	var altAttr=(attr=="home") ? "away" : "home";
@@ -30,16 +43,17 @@ var MatchTeamRow=React.createClass({
 	    state.selected[altAttr]=false;
 	}
 	this.setState(state);
+	// pass leg
+	var leg={
+	    match: this.props.match,
+	    selection: {
+		description: this.formatDescription(this.props.match, attr)
+	    }
+	};
 	if (state.selected[attr]==true) {
-	    this.props.clickHandler.add({
-		match: this.props.match,
-		attr: attr
-	    });
+	    this.props.clickHandler.add(leg);
 	} else {
-	    this.props.clickHandler.remove({
-		match: this.props.match,
-		attr: attr
-	    });
+	    this.props.clickHandler.remove(leg);
 	}
     },
     componentWillReceiveProps: function(nextProps) {

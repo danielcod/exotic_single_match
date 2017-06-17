@@ -31,7 +31,7 @@ var AccaLegRow=React.createClass({
 		    })
 		}),
 		React.DOM.td({
-		    children: this.props.formatter(this.props.leg)
+		    children: this.props.leg.selection.description
 		}),
 		React.DOM.td({
 		    children: 4.56
@@ -61,7 +61,6 @@ var AccaLegTable=React.createClass({
 	    children: React.DOM.tbody({
 		children: this.props.legs.map(function(leg) {
 		    return React.createElement(AccaLegRow, {
-			formatter: this.props.formatter,
 			clickHandler: this.props.clickHandler,
 			leg: leg
 		    });
@@ -206,8 +205,8 @@ var AccaProductPanel=React.createClass({
     handleLegRemoved: function(oldleg) {
 	var state=this.state;
 	state.bet.legs=state.bet.legs.filter(function(leg) {
-	    return this.formatMatchTeam(leg)!=this.formatMatchTeam(oldleg);
-	}.bind(this));
+	    return leg.selection.description!=oldleg.selection.description;
+	});
 	state.counter=Math.min(state.counter, state.bet.legs.length); // NB
 	this.setState(state);
     },
@@ -226,18 +225,6 @@ var AccaProductPanel=React.createClass({
 	}
 	return legs;
     },
-    formatMatchTeam: function(leg) {
-	var teamnames=leg.match.name.split(" vs ");
-	var teamname, versus;
-	if (leg.attr=="home") {
-	    teamname=teamnames[0];
-	    versus=teamnames[1];
-	} else {
-	    teamname=teamnames[1];
-	    versus=teamnames[0];
-	}
-	return teamname+" (vs "+versus+")";
-    },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    
 	    if (i0.match.kickoff < i1.match.kickoff) {
@@ -245,9 +232,9 @@ var AccaProductPanel=React.createClass({
 	    } else if (i0.match.kickoff > i1.match.kickoff) {
 		return 1;
 	    } else {
-		if (this.formatMatchTeam(i0) < this.formatMatchTeam(i1)) {
+		if (i0.selection.description < i1.selection.description) {
 		    return -1
-		} else if (this.formatMatchTeam(i0) > this.formatMatchTeam(i1)) {
+		} else if (i0.selection.description > i1.selection.description) {
 		    return 1
 		} else {
 		    return 0;
@@ -310,7 +297,6 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "Teams",
 			    component: React.createElement(AccaLegTable, {
-				formatter: this.formatMatchTeam,
 				clickHandler: this.handleLegRemoved,
 				legs: this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs)),
 				label: "Teams"
