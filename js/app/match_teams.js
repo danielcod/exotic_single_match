@@ -125,6 +125,7 @@ var MatchTeamPanel=React.createClass({
 	console.log(name+"="+value);
 	var state=this.state;
 	state.league=value;
+	state.currentPage=0; // NB
 	this.setState(state);
     },
     applyPaginatorWindow: function(items) {
