@@ -171,17 +171,6 @@ var AccaProductPanel=React.createClass({
 	    currentPage: 0
 	}
     },
-    applyPaginatorWindow: function(items) {
-	var rows=this.props.paginator.rows;
-	var i=this.state.currentPage*rows;
-	var j=(this.state.currentPage+1)*rows;
-	return items.slice(i, j);
-    },
-    handlePaginatorClicked: function(item) {
-	var state=this.state;
-	state.currentPage=item.value;
-	this.setState(state);	
-    },
     handleIncrement: function() {
 	var state=this.state;
 	if (state.counter < state.bet.legs.length) {
@@ -266,6 +255,17 @@ var AccaProductPanel=React.createClass({
 	    }
 	}.bind(this);
 	return legs.sort(sortFn);
+    },
+    applyPaginatorWindow: function(items) {
+	var rows=this.props.paginator.rows;
+	var i=this.state.currentPage*rows;
+	var j=(this.state.currentPage+1)*rows;
+	return items.slice(i, j);
+    },
+    handlePaginatorClicked: function(item) {
+	var state=this.state;
+	state.currentPage=item.value;
+	this.setState(state);	
     },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
