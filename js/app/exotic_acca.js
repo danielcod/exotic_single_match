@@ -19,6 +19,18 @@ var AccaPanelTabs=React.createClass({
 });
 
 var AccaLegRow=React.createClass({
+    formatPrice: function(value) {
+	if (value < 2) {
+	    // return value.toFixed(3);
+	    return value.toFixed(2);
+	} else if (value < 10) {
+	    return value.toFixed(2);
+	} else if (value < 100) {
+	    return value.toFixed(1);
+	} else {
+	    return Math.floor(value);
+	}
+    },
     render: function() {
 	return React.DOM.tr({
 	    children: [
@@ -32,7 +44,10 @@ var AccaLegRow=React.createClass({
 		    children: this.props.leg.selection.description
 		}),
 		React.DOM.td({
-		    children: 4.56
+		    children: React.DOM.span({
+			className: "text-muted",
+			children: this.formatPrice(this.props.leg.selection.price)
+		    })
 		}),
 		React.DOM.td({
 		    children: React.DOM.a({
