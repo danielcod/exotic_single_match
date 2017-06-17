@@ -1,7 +1,7 @@
 var MySelect=React.createClass({
     render: function() {
 	return React.DOM.select({
-	    className: "form-control",
+	    className: this.props.className || "form-control",
 	    onChange: function(event) {
 		this.props.changeHandler(this.props.name, event.target.value);
 	    }.bind(this),
