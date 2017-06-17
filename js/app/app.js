@@ -10,11 +10,15 @@ var App=React.createClass({
 		}),
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
-		    paginator: {
-			rows: 8
+		    selections: {
+			blob: "app/matches",
+			klass: MatchTeamPanel
 		    },
 		    params: {
 			nGoalsMax: 4
+		    },
+		    paginator: {
+			rows: 8
 		    }
 		}),
 		React.DOM.footer({

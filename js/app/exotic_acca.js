@@ -268,7 +268,7 @@ var AccaProductPanel=React.createClass({
 	this.setState(state);	
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
+	this.props.exoticsApi.fetchBlob(this.props.selections.blob, function(struct) {
 	    var state=this.state;
 	    state.selections=struct;
 	    this.setState(state);
@@ -369,7 +369,7 @@ var AccaProductPanel=React.createClass({
 			children: "No legs added yet; use the Team Selector tab"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(MatchTeamPanel, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.selections.klass, {
 		    matches: this.formatSelections(this.state.selections),
 		    clickHandler: {
 			add: this.handleLegAdded,
