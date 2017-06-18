@@ -1,15 +1,19 @@
 from controllers.app import *
 
-# curl -X POST "http://localhost:8080/app/bets/price" -d "{\"foo\":\"bar\"}"
+import quant.exotic_acca as exotic_acca
 
 class PriceHandler(webapp2.RequestHandler):
 
     @parse_json_body
     @emit_json
-    def post(self, struct):
-        logging.info(struct)
-        import random
-        price=1/float(0.1+random.random()*0.8)
+    def post(self, bet, limit=0.005):
+        logging.info(bet)
+        bet["resultCondition"]=exotic_acca.Win
+        bet["legsCondition"]=exotic_acca.GTE
+        bet["goalsCondition"]=exotic_acca.GTE
+        allmatches=Blob.fetch("app/matches")                
+        prob=max(limit, exotic_acca.calc_probability(bet, allmatches))
+        price=1/float(max(limit, prob))
         return {"price": price}
         
 Routing=[('/app/bets/price', PriceHandler)]
