@@ -244,28 +244,30 @@ var AccaProductPanel=React.createClass({
 	}
     },
     updatePrice: function() {
-	// blank price, set price request id
-	var state=this.state;
-	state.price=undefined;
-	var priceId=Math.round(Math.random()*1e10);
-	state.priceId=priceId;
-	this.setState(state);
-	// fetch new price
-	setTimeout(function() {
-	    var struct={
-		legs: this.state.legs,
-		nLegs: this.state.nLegs,
-		nGoals: this.state.nGoals,
-		bust: Math.round(Math.random()*1e10)
-	    };
-	    this.props.exoticsApi.fetchPrice(struct, function(struct) {
-		var state=this.state;
-		if (state.priceId==priceId) {
-		    state.price=struct.price;
-		    this.setState(state);
-		}
-	    }.bind(this));
-	}.bind(this), 500);
+	if (this.state.legs.length > 0) {
+	    // blank price, set price request id
+	    var state=this.state;
+	    state.price=undefined;
+	    var priceId=Math.round(Math.random()*1e10);
+	    state.priceId=priceId;
+	    this.setState(state);
+	    // fetch new price
+	    setTimeout(function() {
+		var struct={
+		    legs: this.state.legs,
+		    nLegs: this.state.nLegs,
+		    nGoals: this.state.nGoals,
+		    bust: Math.round(Math.random()*1e10)
+		};
+		this.props.exoticsApi.fetchPrice(struct, function(struct) {
+		    var state=this.state;
+		    if (state.priceId==priceId) {
+			state.price=struct.price;
+			this.setState(state);
+		    }
+		}.bind(this));
+	    }.bind(this), 500);
+	}
     },
     sortLegs: function(legs) {
 	var sortFn=function(i0, i1) {	    

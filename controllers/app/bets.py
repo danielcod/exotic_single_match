@@ -7,12 +7,13 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, bet, limit=0.005):
-        logging.info(bet)
+        logging.info("Bet: %s" % bet)
         bet["resultCondition"]=exotic_acca.Win
         bet["legsCondition"]=exotic_acca.GTE
         bet["goalsCondition"]=exotic_acca.GTE
-        allmatches=Blob.fetch("app/matches")                
-        prob=max(limit, exotic_acca.calc_probability(bet, allmatches))
+        matches=Blob.fetch("app/matches")                
+        prob=exotic_acca.calc_probability(bet, matches)
+        logging.info("Probability: %.5f" % prob)
         price=1/float(max(limit, prob))
         return {"price": price}
         
