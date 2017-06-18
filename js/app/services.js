@@ -49,8 +49,8 @@ var ExoticsAPI=function(errHandler, debug) {
 	    handler(this.cache[key]);
 	}
     };
-    this.fetchBlob=function(key, handler) {
-	var url="/app/blobs?key="+key;
+    this.fetchMatches=function(handler) {
+	var url="/app/matches";
 	this.httpGet(url, handler);
     };
     this.fetchPrice=function(body, handler) {

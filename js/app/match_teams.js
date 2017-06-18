@@ -223,7 +223,7 @@ var MatchTeamPanel=React.createClass({
 	}
     },
     componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
+	this.props.exoticsApi.fetchMatches(function(struct) {
 	    var state=this.state;
 	    var cutoff=new Date();
 	    state.matches=struct.filter(function(match) {
