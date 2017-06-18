@@ -172,7 +172,7 @@ SampleBet={u'legs': [{u'price': 3.2285714934472356, u'match': {u'1x2_prices': [2
 
 if __name__=="__main__":
     from helpers.json_helpers import json_loads
-    allmatches=json_loads(file("dev/matches.json").read())
+    allmatches=json_loads(file("quant/fixtures/matches.json").read())
     import copy
     bet=copy.deepcopy(SampleBet)
     bet["resultCondition"]=Win
