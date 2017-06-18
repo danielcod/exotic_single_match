@@ -105,6 +105,15 @@ def calc_probability(params, paths=Paths, seed=Seed):
     filterfn=params_filterfn(params)
     return sum([filterfn(scores)
                 for scores in samples])/float(paths)
-    
+
+import datetime 
+
+SampleBet={u'nLegs': 3, u'nGoals': 2, u'bust': 4509327226, u'legs': [{u'selection': {u'description': u'Brann (vs Sarpsborg 08)', u'price': 3.2285714934472356, u'attr': u'away'}, u'match': {u'selected': u'away', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0), u'name': u'Sarpsborg 08 vs Brann', u'1x2_prices': [2.2599999427795407, 4.035714366809044, 3.2285714934472356], u'league': u'NOR.1'}}, {u'selection': {u'description': u'Odds Ballklubb (vs Aalesund)', u'price': 2.809085650912273, u'attr': u'away'}, u'match': {u'selected': u'away', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0), u'name': u'Aalesund vs Odds Ballklubb', u'1x2_prices': [2.5389812514941075, 3.9975451629071794, 2.809085650912273], u'league': u'NOR.1'}}, {u'selection': {u'description': u'Rosenborg (vs Sogndal)', u'price': 1.3839999914169312, u'attr': u'home'}, u'match': {u'selected': u'home', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0), u'name': u'Rosenborg vs Sogndal', u'1x2_prices': [1.3839999914169312, 6.487500104773792, 8.10937513096724], u'league': u'NOR.1'}}, {u'selection': {u'description': u'Stabaek (vs Kristiansund BK)', u'price': 1.9882478779977166, u'attr': u'home'}, u'match': {u'selected': u'home', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0), u'name': u'Stabaek vs Kristiansund BK', u'1x2_prices': [1.9882478779977166, 4.191441521012668, 3.8690227453691866], u'league': u'NOR.1'}}]}
+
 if __name__=="__main__":
-    pass
+    from helpers.json_helpers import json_loads
+    matches=json_loads(file("dev/matches.json").read())
+    print matches
+    
+    
+
