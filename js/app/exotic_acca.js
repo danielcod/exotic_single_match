@@ -204,25 +204,27 @@ var AccaProductPanel=React.createClass({
     },
     handleGoalsSliderChanged: function(value) {
 	var state=this.state;
-	state.goalSlider=value;
-	this.setState(state);
-	this.updatePrice();
+	if (value!=state.goalSlider) {
+	    state.goalSlider=value;
+	    this.setState(state);
+	    this.updatePrice();
+	}
     },
     incrementTeamsCounter: function() {
 	var state=this.state;
 	if (state.legCounter < state.bet.legs.length) {
 	    state.legCounter+=1;
 	    this.setState(state);
+	    this.updatePrice();
 	}
-	this.updatePrice();
     },
     decrementTeamsCounter: function() {
 	var state=this.state
 	if (state.legCounter > 1) {
 	    state.legCounter-=1;
 	    this.setState(state);
+	    this.updatePrice();
 	}
-	this.updatePrice();
     },
     formatPrice: function(value) {
 	if (value < 2) {
