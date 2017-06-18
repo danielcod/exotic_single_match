@@ -38,12 +38,12 @@ var AccaLegRow=React.createClass({
 		    })
 		}),
 		React.DOM.td({
-		    children: this.props.leg.selection.description
+		    children: this.props.leg.description
 		}),
 		React.DOM.td({
 		    children: React.DOM.span({
 			className: "text-muted",
-			children: this.formatPrice(this.props.leg.selection.price)
+			children: this.formatPrice(this.props.leg.price)
 		    })
 		}),
 		React.DOM.td({
@@ -194,7 +194,7 @@ var AccaProductPanel=React.createClass({
     handleLegRemoved: function(oldleg) {
 	var state=this.state;
 	state.legs=state.legs.filter(function(leg) {
-	    return leg.selection.description!=oldleg.selection.description;
+	    return leg.description!=oldleg.description;
 	});
 	state.nLegs=Math.min(state.nLegs, state.legs.length); // NB
 	this.setState(state);
@@ -274,9 +274,9 @@ var AccaProductPanel=React.createClass({
 	    } else if (i0.match.kickoff > i1.match.kickoff) {
 		return 1;
 	    } else {
-		if (i0.selection.description < i1.selection.description) {
+		if (i0.description < i1.description) {
 		    return -1
-		} else if (i0.selection.description > i1.selection.description) {
+		} else if (i0.description > i1.description) {
 		    return 1
 		} else {
 		    return 0;

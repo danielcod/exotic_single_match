@@ -65,9 +65,9 @@ var MatchTeamRow=React.createClass({
 	    selection: {
 		team: this.props.match.name.split(" vs ")[(homeAway=="home") ? 0 : 1],
 		homeAway: homeAway,
-		description: this.formatDescription(this.props.match, homeAway),
-		price: this.props.match["1x2_prices"][(homeAway=="home") ? 0 : 2]
-	    }
+	    },
+	    description: this.formatDescription(this.props.match, homeAway),
+	    price: this.props.match["1x2_prices"][(homeAway=="home") ? 0 : 2]
 	};
 	if (state.selected[homeAway]==true) {
 	    this.props.clickHandler.add(leg);
