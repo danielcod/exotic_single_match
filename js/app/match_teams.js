@@ -207,10 +207,25 @@ var MatchTeamPanel=React.createClass({
 	    return match.league==this.state.league;
 	}.bind(this))
     },
+    matchSorter: function(m0, m1) {	    
+	if (m0.kickoff < m1.kickoff) {
+	    return -1;
+	} else if (m0.kickoff > m1.kickoff) {
+	    return 1;
+	} else {
+	    if (m0.name < m1.name) {
+		return -1
+	    } else if (m0.name > m1.name) {
+		return 1
+	    } else {
+		return 0;
+	    }
+	}
+    },
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
-	    state.matches=struct;
+	    state.matches=struct.sort(this.matchSorter);
 	    state.leagues=this.filterLeagues(state.matches);
 	    state.league=state.leagues[0];
 	    this.setState(state);
