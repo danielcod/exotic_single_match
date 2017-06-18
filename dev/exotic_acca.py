@@ -86,7 +86,7 @@ def simulate_match_teams(fixtures, paths, seed):
         # grid=CSGrid(*tuple(fixture.dc_poisson_means))
         grid=CSGrid(fixture["dc_grid"])
         for i, score in enumerate(grid.simulate(paths, seed)):
-            teamnames=fixture.name.split(" vs ")
+            teamnames=fixture["name"].split(" vs ")
             items[i][teamnames[0]]=(score[0], score[1])
             items[i][teamnames[1]]=(score[1], score[0])
     return items
@@ -135,11 +135,8 @@ def bool_to_int(value):
 def bet_filterfn(bet):
     legfilterfn=leg_filterfn(bet)
     def filterfn(scores):
-        """
-        this needs to change to iterate over existing leg structure and information thereby provided
-        """        
-        outcomes=[legfilterfn(scores[team["team"]])
-                  for team in bet["teams"]]
+        outcomes=[legfilterfn(scores[leg["selection"]["team"]])
+                  for leg in bet["legs"]]
         n=len([outcome for outcome in outcomes
                if outcome])
         if bet["legsCondition"]==GT:
@@ -156,13 +153,14 @@ def bet_filterfn(bet):
             raise RuntimeError("%s is invalid legs condition" % bet["legsCondition"])
     return filterfn
 
-def calc_probability(bet, paths=Paths, seed=Seed):
-    """
-    this needs to change to filter matches from list of supplied matches
-    """
-    matches=[Fixture.get_by_key_name("%s/%s" % (team["league"],
-                                                team["match"]))
-             for team in bet["teams"]]
+def calc_probability(bet, allmatches, paths=Paths, seed=Seed):
+    allmatches=dict([(match["name"], match)
+                     for match in allmatches])
+    matches=[]
+    for leg in bet["legs"]:
+        if leg["match"]["name"] not in allmatches:
+            raise RuntimeError("%s not found" % leg["match"]["name"])
+        matches.append(allmatches[leg["match"]["name"]])
     samples=simulate_match_teams(matches, paths, seed)
     filterfn=bet_filterfn(bet)
     return sum([filterfn(sample)
@@ -174,13 +172,13 @@ SampleBet={u'legs': [{u'price': 3.2285714934472356, u'match': {u'1x2_prices': [2
 
 if __name__=="__main__":
     from helpers.json_helpers import json_loads
-    matches=json_loads(file("dev/matches.json").read())
+    allmatches=json_loads(file("dev/matches.json").read())
     import copy
     bet=copy.deepcopy(SampleBet)
     bet["resultCondition"]=Win
     bet["legsCondition"]=GTE
     bet["goalsCondition"]=GTE
-    print bet
+    print calc_probability(bet, allmatches)
     
     
 
