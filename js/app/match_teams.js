@@ -225,7 +225,10 @@ var MatchTeamPanel=React.createClass({
     componentDidMount: function() {
 	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
 	    var state=this.state;
-	    state.matches=struct.sort(this.matchSorter);
+	    var cutoff=new Date();
+	    state.matches=struct.filter(function(match) {
+		return new Date(match.kickoff) > cutoff;
+	    }).sort(this.matchSorter);
 	    state.leagues=this.filterLeagues(state.matches);
 	    state.league=state.leagues[0];
 	    this.setState(state);
