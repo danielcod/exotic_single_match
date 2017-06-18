@@ -173,7 +173,7 @@ var AccaProductPanel=React.createClass({
 	    selectedTab: "bet",
 	    legs: [],
 	    nLegs: 1,
-	    goalSlider: 1,
+	    nGoals: 1,
 	    currentPage: 0
 	}
     },
@@ -202,8 +202,8 @@ var AccaProductPanel=React.createClass({
     },
     handleGoalsSliderChanged: function(value) {
 	var state=this.state;
-	if (value!=state.goalSlider) {
-	    state.goalSlider=value;
+	if (value!=state.nGoals) {
+	    state.nGoals=value;
 	    this.setState(state);
 	    this.updatePrice();
 	}
@@ -373,7 +373,7 @@ var AccaProductPanel=React.createClass({
 				id: "goalSlider",
 				min: 1,
 				max: this.props.config.product.params.nGoalsMax,
-				value: this.state.goalSlider,
+				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged
 			    })
 			}),
