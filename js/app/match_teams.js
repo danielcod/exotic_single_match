@@ -63,6 +63,7 @@ var MatchTeamRow=React.createClass({
 	var leg={
 	    match: this.props.match,
 	    selection: {
+		team: this.props.match.name.split(" vs ")[(homeAway=="home") ? 0 : 1],
 		homeAway: homeAway,
 		description: this.formatDescription(this.props.match, homeAway),
 		price: this.props.match["1x2_prices"][(homeAway=="home") ? 0 : 2]
