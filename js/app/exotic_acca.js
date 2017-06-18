@@ -289,7 +289,7 @@ var AccaProductPanel=React.createClass({
 	    this.setState(state);
 	}.bind(this));	
     },
-    formatSelections: function(selections, legs) {
+    addLegState: function(selections, legs) {
 	// initialise selected
 	var selected={};
 	for (var i=0; i < legs.length; i++) {
@@ -427,7 +427,7 @@ var AccaProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
-		    matches: this.formatSelections(this.state.selections, this.state.bet.legs),
+		    matches: this.addLegState(this.state.selections, this.state.bet.legs),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
