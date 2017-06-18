@@ -26,10 +26,10 @@ var MatchTeamRow=React.createClass({
 	    }
 	}
     },
-    formatDescription: function(match, attr) {
+    formatDescription: function(match, homeAway) {
 	var teamnames=match.name.split(" vs ");
 	var teamname, versus;
-	if (attr=="home") {
+	if (homeAway=="home") {
 	    teamname=teamnames[0];
 	    versus=teamnames[1];
 	} else {
@@ -50,25 +50,25 @@ var MatchTeamRow=React.createClass({
 	    return Math.floor(value);
 	}
     },
-    handleCellClicked: function(attr) {	
+    handleCellClicked: function(homeAway) {	
 	// update state
 	var state=this.state;
-	state.selected[attr]=!state.selected[attr];
-	var altAttr=(attr=="home") ? "away" : "home";
-	if (state.selected[altAttr]) {
-	    state.selected[altAttr]=false;
+	state.selected[homeAway]=!state.selected[homeAway];
+	var altHomeAway=(homeAway=="home") ? "away" : "home";
+	if (state.selected[altHomeAway]) {
+	    state.selected[altHomeAway]=false;
 	}
 	this.setState(state);
 	// pass leg
 	var leg={
 	    match: this.props.match,
 	    selection: {
-		attr: attr,
-		description: this.formatDescription(this.props.match, attr),
-		price: this.props.match["1x2_prices"][(attr=="home") ? 0 : 2]
+		homeAway: homeAway,
+		description: this.formatDescription(this.props.match, homeAway),
+		price: this.props.match["1x2_prices"][(homeAway=="home") ? 0 : 2]
 	    }
 	};
-	if (state.selected[attr]==true) {
+	if (state.selected[homeAway]==true) {
 	    this.props.clickHandler.add(leg);
 	} else {
 	    this.props.clickHandler.remove(leg);
@@ -142,7 +142,7 @@ var MatchTeamTable=React.createClass({
 	var selected={};
 	for (var i=0; i < legs.length; i++) {
 	    var leg=legs[i];
-	    selected[leg.match.name]=leg.selection.attr;
+	    selected[leg.match.name]=leg.selection.homeAway;
 	}
 	// update selected params
 	for (var i=0; i < matches.length; i++) {
