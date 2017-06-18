@@ -196,7 +196,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.min(state.nLegs, state.legs.length); // NB
+	state.nLegs=Math.max(1, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
