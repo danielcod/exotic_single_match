@@ -66,3 +66,9 @@ class Blob(db.Model):
     text=db.TextProperty()
     timestamp=db.DateTimeProperty()
 
+    @classmethod
+    def fetch(self, key):
+        blob=Blob.get_by_key_name(key)
+        if not blob:
+            raise RuntimeError("%s not found" % key)
+        return json_loads(blob.text)
