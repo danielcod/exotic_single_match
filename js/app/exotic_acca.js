@@ -289,12 +289,11 @@ var AccaProductPanel=React.createClass({
 	    this.setState(state);
 	}.bind(this));	
     },
-    // START TEMP CODE; NEEDS TO BE ABSTRACTED
-    formatSelections: function(selections) {
+    formatSelections: function(selections, legs) {
 	// initialise selected
 	var selected={};
-	for (var i=0; i < this.state.bet.legs.length; i++) {
-	    var leg=this.state.bet.legs[i];
+	for (var i=0; i < legs.length; i++) {
+	    var leg=legs[i];
 	    selected[leg.match.name]=leg.selection.attr;
 	}
 	// update selected params
@@ -428,7 +427,7 @@ var AccaProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
-		    matches: this.formatSelections(this.state.selections),
+		    matches: this.formatSelections(this.state.selections, this.state.bet.legs),
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
