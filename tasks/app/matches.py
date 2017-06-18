@@ -31,7 +31,16 @@ def filter_best_1x2_prices(prices):
                 best[attr]=value
     return [best[attr]
             for attr in ["1", "x", "2"]]
-        
+
+def normalise_1x2_prices(prices):
+    probs=[1/float(price)
+           for price in prices]
+    overround=sum(probs)
+    normprobs=[prob/float(overround)
+               for prob in probs]
+    return [1/float(prob)
+            for prob in normprobs]
+
 class MapHandler(webapp2.RequestHandler):
 
     @validate_query({"league": "\\D{3}\\.\\d"})
@@ -41,7 +50,7 @@ class MapHandler(webapp2.RequestHandler):
         items=sorted([{"league": leaguename,
                        "name": match["name"],
                        "kickoff": match["kickoff"],
-                       "prices": filter_best_1x2_prices(match["pre_event_1x2_prices"])}
+                       "1x2_prices": normalise_1x2_prices(filter_best_1x2_prices(match["pre_event_1x2_prices"]))}
                       for match in ebadi.get_remaining_fixtures(leaguename,
                                                                 Leagues[leaguename]["season"])
                       if ("pre_event_1x2_prices" in match and
