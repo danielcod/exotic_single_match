@@ -11,8 +11,7 @@ var App=React.createClass({
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
-			selections: {
-			    blob: "app/matches",
+			product: {
 			    klass: MatchTeamPanel
 			},
 			params: {

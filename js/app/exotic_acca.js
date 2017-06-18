@@ -171,7 +171,6 @@ var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    selections: [],
 	    bet: {
 		legs: []
 	    },
@@ -281,13 +280,6 @@ var AccaProductPanel=React.createClass({
 	var state=this.state;
 	state.currentPage=item.value;
 	this.setState(state);	
-    },
-    componentDidMount: function() {
-	this.props.exoticsApi.fetchBlob(this.props.config.selections.blob, function(struct) {
-	    var state=this.state;
-	    state.selections=struct;
-	    this.setState(state);
-	}.bind(this));	
     },
     render: function() {
 	return React.DOM.div({
@@ -411,8 +403,8 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
-		    matches: this.state.selections,
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.product.klass, {
+		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.bet.legs,
 		    clickHandler: {
 			add: this.handleLegAdded,

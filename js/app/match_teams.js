@@ -167,20 +167,11 @@ var MatchTeamTable=React.createClass({
 });
 
 var MatchTeamPanel=React.createClass({
-    filterLeagues: function(matches) {
-	var names=[];
-	for (var i=0; i < matches.length; i++) {
-	    var match=matches[i];
-	    if (names.indexOf(match.league)==-1) {
-		names.push(match.league);
-	    }
-	}
-	return names.sort();
-    },
     getInitialState: function() {
 	return {
-	    leagues: this.filterLeagues(this.props.matches),
-	    league: this.filterLeagues(this.props.matches)[0],
+	    matches: [],
+	    leagues: [],
+	    league: undefined,
 	    currentPage: 0
 	}
     },
@@ -201,14 +192,33 @@ var MatchTeamPanel=React.createClass({
 	state.currentPage=item.value;
 	this.setState(state);	
     },
+    filterLeagues: function(matches) {
+	var names=[];
+	for (var i=0; i < matches.length; i++) {
+	    var match=matches[i];
+	    if (names.indexOf(match.league)==-1) {
+		names.push(match.league);
+	    }
+	}
+	return names.sort();
+    },
     filterMatches: function(matches) {
 	return matches.filter(function(match) {
 	    return match.league==this.state.league;
 	}.bind(this))
     },
+    componentDidMount: function() {
+	this.props.exoticsApi.fetchBlob("app/matches", function(struct) {
+	    var state=this.state;
+	    state.matches=struct;
+	    state.leagues=this.filterLeagues(state.matches);
+	    state.league=state.leagues[0];
+	    this.setState(state);
+	}.bind(this));	
+    },
     render: function() {
 	return React.DOM.div({
-	    children: [
+	    children: (this.state.league!=undefined)  ? [
 		React.DOM.div({
 		    style: {
 			"margin-left": "100px",
@@ -228,19 +238,19 @@ var MatchTeamPanel=React.createClass({
 		    })
 		}),
 		React.createElement(MatchTeamTable, {
-		    matches: this.applyPaginatorWindow(this.filterMatches(this.props.matches)),
+		    matches: this.applyPaginatorWindow(this.filterMatches(this.state.matches)),
 		    legs: this.props.legs,
 		    clickHandler: this.props.clickHandler
 		}),
-		(this.filterMatches(this.props.matches).length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
+		(this.filterMatches(this.state.matches).length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
 		    config: this.props.paginator,
-		    data: this.props.matches.filter(function(match) {
+		    data: this.state.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this)),
 		    clickHandler: this.handlePaginatorClicked,
 		    currentPage: this.state.currentPage
 		}) : undefined
-	    ]
+	    ] : []
 	});
     }
 });
