@@ -1,6 +1,6 @@
 from tasks.app import *
 
-# curl "http://localhost:8080/tasks/app/matches"
+# curl "http://localhost:8080/tasks/app/matches?window=30"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -11,8 +11,10 @@ class IndexHandler(webapp2.RequestHandler):
                      if leaguename in Leagues.keys()]
         if leaguenames==[]:
             leaguenames=Leagues.keys()
+        window=self.request.get("window")
         [taskqueue.add(url="/tasks/app/matches/map",
-                       params={"league": leaguename},
+                       params={"league": leaguename,
+                               "window": window},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
@@ -43,17 +45,23 @@ def normalise_1x2_prices(prices):
 
 class MapHandler(webapp2.RequestHandler):
 
-    @validate_query({"league": "\\D{3}\\.\\d"})
+    @validate_query({"league": "^\\D{3}\\.\\d$",
+                     "window": "^\\d+$"})
     @task
     def post(self):
         leaguename=self.request.get("league")
+        window=int(self.request.get("window"))
+        cutoff=datetime.date.today()+datetime.timedelta(days=window)
         items=sorted([{"league": leaguename,
                        "name": match["name"],
                        "kickoff": match["kickoff"],
                        "1x2_prices": normalise_1x2_prices(filter_best_1x2_prices(match["pre_event_1x2_prices"]))}
                       for match in ebadi.get_remaining_fixtures(leaguename,
                                                                 Leagues[leaguename]["season"])
-                      if ("pre_event_1x2_prices" in match and
+                      if ("kickoff" in match and
+                          match["kickoff"] not in [[], None] and
+                          match["kickoff"].date() <= cutoff and
+                          "pre_event_1x2_prices" in match and
                           match["pre_event_1x2_prices"] not in [[], None])],
                      key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
         keyname="matches/%s" % leaguename
