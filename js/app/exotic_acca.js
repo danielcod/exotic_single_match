@@ -100,7 +100,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.props.legCounter+((this.props.legCounter < this.props.nLegs) ? "+" : "")+" (of "+this.props.nLegs+")"
+			children: this.props.legCounter+((this.props.legCounter < this.props.legs.length) ? "+" : "")+" (of "+this.props.legs.length+")"
 		    })
 		}),
 		React.DOM.li({
@@ -381,7 +381,7 @@ var AccaProductPanel=React.createClass({
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {
 				legCounter: this.state.legCounter,
-				nLegs: this.state.legs.length,
+				legs: this.state.legs,
 				clickHandlers: {
 				    increment: this.incrementTeamsCounter,
 				    decrement: this.decrementTeamsCounter
