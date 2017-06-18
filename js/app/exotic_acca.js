@@ -252,10 +252,13 @@ var AccaProductPanel=React.createClass({
 	this.setState(state);
 	// fetch new price
 	setTimeout(function() {
-	    var payload={
+	    var struct={
+		legs: this.state.legs,
+		nLegs: this.state.nLegs,
+		nGoals: this.state.nGoals,
 		bust: Math.round(Math.random()*1e10)
 	    };
-	    this.props.exoticsApi.fetchPrice(payload, function(struct) {
+	    this.props.exoticsApi.fetchPrice(struct, function(struct) {
 		var state=this.state;
 		if (state.priceId==priceId) {
 		    state.price=struct.price;
