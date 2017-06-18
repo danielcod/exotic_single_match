@@ -360,7 +360,7 @@ var AccaProductPanel=React.createClass({
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
 				min: 1,
-				max: this.props.config.params.nGoalsMax,
+				max: this.props.config.product.params.nGoalsMax,
 				value: this.state.goalSlider,
 				changeHandler: this.handleGoalsSliderChanged
 			    })

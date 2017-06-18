@@ -12,10 +12,10 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
 			product: {
-			    klass: MatchTeamPanel
-			},
-			params: {
-			    nGoalsMax: 4
+			    klass: MatchTeamPanel,
+			    params: {
+				nGoalsMax: 4
+			    }
 			},
 			paginator: {
 			    rows: 8
