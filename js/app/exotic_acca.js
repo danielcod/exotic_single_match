@@ -254,7 +254,9 @@ var AccaProductPanel=React.createClass({
 	this.setState(state);
 	// fetch new price
 	setTimeout(function() {
-	    var payload="bust="+Math.round(Math.random()*1e10);
+	    var payload={
+		bust: Math.round(Math.random()*1e10)
+	    };
 	    this.props.exoticsApi.fetchPrice(payload, function(struct) {
 		var state=this.state;
 		if (state.priceId==priceId) {
