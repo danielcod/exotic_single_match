@@ -295,7 +295,7 @@ var AccaProductPanel=React.createClass({
 	var selected={};
 	for (var i=0; i < this.state.bet.legs.length; i++) {
 	    var leg=this.state.bet.legs[i];
-	    selected[leg.match.name]=leg.attr;
+	    selected[leg.match.name]=leg.selection.attr;
 	}
 	// update selected params
 	var legs=JSON.parse(JSON.stringify(legs));

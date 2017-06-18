@@ -63,8 +63,9 @@ var MatchTeamRow=React.createClass({
 	var leg={
 	    match: this.props.match,
 	    selection: {
+		attr: attr,
 		description: this.formatDescription(this.props.match, attr),
-		price: this.props.match.prices[(attr=="home") ? 0 : 2]
+		price: this.props.match.prices[(attr=="home") ? 0 : 2]		
 	    }
 	};
 	if (state.selected[attr]==true) {
