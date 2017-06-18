@@ -100,7 +100,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.props.legCounter+((this.props.legCounter < this.props.legs.length) ? "+" : "")+" (of "+this.props.legs.length+")"
+			children: this.props.nLegs+((this.props.nLegs < this.props.legs.length) ? "+" : "")+" (of "+this.props.legs.length+")"
 		    })
 		}),
 		React.DOM.li({
@@ -172,7 +172,7 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    legCounter: 1,
+	    nLegs: 1,
 	    goalSlider: 1,
 	    currentPage: 0
 	}
@@ -196,7 +196,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.selection.description!=oldleg.selection.description;
 	});
-	state.legCounter=Math.min(state.legCounter, state.legs.length); // NB
+	state.nLegs=Math.min(state.nLegs, state.legs.length); // NB
 	this.setState(state);
 	this.updatePrice();
     },
@@ -208,18 +208,18 @@ var AccaProductPanel=React.createClass({
 	    this.updatePrice();
 	}
     },
-    incrementTeamsCounter: function() {
+    incrementNLegs: function() {
 	var state=this.state;
-	if (state.legCounter < state.legs.length) {
-	    state.legCounter+=1;
+	if (state.nLegs < state.legs.length) {
+	    state.nLegs+=1;
 	    this.setState(state);
 	    this.updatePrice();
 	}
     },
-    decrementTeamsCounter: function() {
+    decrementNLegs: function() {
 	var state=this.state
-	if (state.legCounter > 1) {
-	    state.legCounter-=1;
+	if (state.nLegs > 1) {
+	    state.nLegs-=1;
 	    this.setState(state);
 	    this.updatePrice();
 	}
@@ -380,11 +380,11 @@ var AccaProductPanel=React.createClass({
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {
-				legCounter: this.state.legCounter,
+				nLegs: this.state.nLegs,
 				legs: this.state.legs,
 				clickHandlers: {
-				    increment: this.incrementTeamsCounter,
-				    decrement: this.decrementTeamsCounter
+				    increment: this.incrementNLegs,
+				    decrement: this.decrementNLegs
 				}
 			    })
 			}),
