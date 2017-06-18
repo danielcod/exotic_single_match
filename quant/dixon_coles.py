@@ -106,6 +106,7 @@ if __name__=="__main__":
         print "ly: %.5f" % ly
         print "err: %.5f" % err
         grid=CSGrid(lx, ly)
+        print grid
         for selection in MOSelections:        
             print "%s: %.5f" % (selection, grid.match_odds(selection))
         print "samples: %s" % grid.simulate(3, 13)

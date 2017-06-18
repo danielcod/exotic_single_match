@@ -1,5 +1,7 @@
 from tasks.app import *
 
+from quant.dixon_coles import CSGrid
+
 # curl "http://localhost:8080/tasks/app/matches?window=30"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -43,6 +45,13 @@ def normalise_1x2_prices(prices):
     return [1/float(prob)
             for prob in normprobs]
 
+"""
+- NB not spawning one task per DC calculation because
+  - DC calculation is relatively fast
+  - finite number of matches per league assuming window is < 30 days
+- should really do rho calculation but O/U 2.5 prices not currently available via Elisey API
+"""
+
 class MapHandler(webapp2.RequestHandler):
 
     @validate_query({"league": "^\\D{3}\\.\\d$",
@@ -64,6 +73,15 @@ class MapHandler(webapp2.RequestHandler):
                           "pre_event_1x2_prices" in match and
                           match["pre_event_1x2_prices"] not in [[], None])],
                      key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
+        formatstr="%s/%s :: lx -> %.5f, ly -> %.5f, err -> %.5f"
+        for match in matches:
+            probs=[1/float(price)
+                   for price in match["1x2_prices"]]
+            lx, ly, err = CSGrid.solve(probs)
+            logging.info(formatstr % (match["league"],
+                                      match["name"],
+                                      lx, ly, err))
+            match["dc_grid"]=CSGrid(lx, ly)
         keyname="matches/%s" % leaguename
         memcache.set(keyname, json_dumps(matches), MemcacheAge)
         logging.info("Filtered %i %s matches" % (len(matches), keyname))
