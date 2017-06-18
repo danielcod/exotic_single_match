@@ -4,13 +4,10 @@ from controllers.app import *
 
 class PriceHandler(webapp2.RequestHandler):
 
+    @parse_json_body
     @emit_json
-    def post(self):
-        try:
-            struct=json.loads(self.request.body)
-            logging.info(struct)
-        except:
-            raise RuntimeError("Error parsing JSON body")
+    def post(self, struct):
+        logging.info(struct)
         import random
         price=1/float(0.1+random.random()*0.8)
         return {"price": price}
