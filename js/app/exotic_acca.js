@@ -244,12 +244,19 @@ var AccaProductPanel=React.createClass({
 	}
     },
     updatePrice: function() {
+	// blank price
 	var state=this.state;
 	state.price=undefined;
 	this.setState(state);
+	// fetch new price
 	setTimeout(function() {
-	    state.price=1/(0.1+0.8*Math.random());
-	    this.setState(state)
+	    var payload="bust="+Math.round(Math.random()*1e10);
+	    this.props.exoticsApi.fetchPrice(payload, function(struct) {
+		console.log(JSON.stringify(struct));
+		var state=this.state;	    
+		state.price=struct.price;
+		this.setState(state);
+	    }.bind(this));
 	}.bind(this), 500);
     },
     sortLegs: function(legs) {
