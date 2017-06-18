@@ -137,11 +137,25 @@ var MatchTeamRow=React.createClass({
 });
 
 var MatchTeamTable=React.createClass({
+    addLegState: function(matches, legs) {
+	// initialise selected
+	var selected={};
+	for (var i=0; i < legs.length; i++) {
+	    var leg=legs[i];
+	    selected[leg.match.name]=leg.selection.attr;
+	}
+	// update selected params
+	for (var i=0; i < matches.length; i++) {
+	    var match=matches[i];
+	    match.selected=selected[match.name];
+	}
+	return matches;
+    },
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
 	    children: React.DOM.tbody({
-		children: this.props.matches.map(function(match) {
+		children: this.addLegState(this.props.matches, this.props.legs).map(function(match) {
 		    return React.createElement(MatchTeamRow, {
 			match: match,
 			clickHandler: this.props.clickHandler
@@ -215,6 +229,7 @@ var MatchTeamPanel=React.createClass({
 		}),
 		React.createElement(MatchTeamTable, {
 		    matches: this.applyPaginatorWindow(this.filterMatches(this.props.matches)),
+		    legs: this.props.legs,
 		    clickHandler: this.props.clickHandler
 		}),
 		(this.filterMatches(this.props.matches).length > this.props.paginator.rows) ? React.createElement(MyPaginator, {

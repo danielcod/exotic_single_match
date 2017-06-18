@@ -289,21 +289,6 @@ var AccaProductPanel=React.createClass({
 	    this.setState(state);
 	}.bind(this));	
     },
-    addLegState: function(selections, legs) {
-	// initialise selected
-	var selected={};
-	for (var i=0; i < legs.length; i++) {
-	    var leg=legs[i];
-	    selected[leg.match.name]=leg.selection.attr;
-	}
-	// update selected params
-	for (var i=0; i < selections.length; i++) {
-	    var selection=selections[i];
-	    selection.selected=selected[selection.name];
-	}
-	return selections;
-    },
-    // END TEMP CODE
     render: function() {
 	return React.DOM.div({
 	    children: [
@@ -427,7 +412,8 @@ var AccaProductPanel=React.createClass({
 		    })
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.selections.klass, {
-		    matches: this.addLegState(this.state.selections, this.state.bet.legs),
+		    matches: this.state.selections,
+		    legs: this.state.bet.legs,
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
