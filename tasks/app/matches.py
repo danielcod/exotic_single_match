@@ -81,7 +81,7 @@ class MapHandler(webapp2.RequestHandler):
             logging.info(formatstr % (match["league"],
                                       match["name"],
                                       lx, ly, err))
-            match["dc_grid"]=CSGrid(lx, ly)
+            match["dc_grid"]=CSGrid.from_poisson(lx, ly)
         keyname="matches/%s" % leaguename
         memcache.set(keyname, json_dumps(matches), MemcacheAge)
         logging.info("Filtered %i %s matches" % (len(matches), keyname))

@@ -1,12 +1,4 @@
-# from quant.dixon_coles import CSGrid
-
-# START TEMP CODE
-
-from random import Random
-
-import math
-
-# END TEMP CODE
+from quant.dixon_coles import CSGrid
 
 Win, Lose, Draw = "win", "lose", "draw"
 
@@ -22,68 +14,9 @@ Conditions={
 
 Paths, Seed = 1000, 13
 
-"""
-- using a custom copy of CSGrid because existing version in quant/dixon_coles.py only accepts poisson means as constructor args
-"""
-
-class CSGrid(list):
-
-    """
-    def __init__(self, lx, ly, n=N):
-        list.__init__(self, [[poisson(lx, i)*poisson(ly, j)
-                              for j in range(n)]
-                             for i in range(n)])
-    """
-
-    def __init__(self, values):
-        list.__init__(self, values)
-
-    def sum(self, filterfn):
-        return sum([self[i][j]                    
-                    for i in range(len(self))
-                    for j in range(len(self))
-                    if filterfn(i, j)])
-
-    def match_odds(self, selection):
-        if selection==HomeWin:
-            filterfn=lambda i, j: i > j
-        elif selection==Draw:
-            filterfn=lambda i, j: i==j
-        elif selection==AwayWin:
-            filterfn=lambda i, j: i < j
-        else:
-            raise RuntimeError("No filter fn for '%s'" % selection)
-        return self.sum(filterfn)
-    
-    def simulate(self, paths, seed):
-        def flatten(grid):
-            items, prob = [], 0
-            for i in range(len(grid)):
-                for j in range(len(grid)):
-                    prob+=self[i][j]
-                    item=[(i, j), prob]
-                    items.append(item)
-            items[-1][1]=1.0 # NB
-            return items
-        def simulate(items, rand):
-            startprob, endprob = 0, None
-            q=rand.random()
-            for item in items:
-                endprob=item[1]
-                if (q > startprob and
-                    q <= endprob):
-                    return item[0]
-                startprob=endprob
-        rand=Random()
-        rand.seed(seed)        
-        items=flatten(self)    
-        return [simulate(items, rand)
-                for i in range(paths)]
-
 def simulate_match_teams(fixtures, paths, seed):
     items=[{} for i in range(paths)]
     for fixture in fixtures:
-        # grid=CSGrid(*tuple(fixture.dc_poisson_means))
         grid=CSGrid(fixture["dc_grid"])
         for i, score in enumerate(grid.simulate(paths, seed)):
             teamnames=fixture["name"].split(" vs ")

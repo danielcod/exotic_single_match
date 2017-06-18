@@ -43,7 +43,7 @@ class CSGrid(list):
             factor, j = ((generations-i)/float(generations))**2, i%2
             q=factor*rand.gauss(0, 1)
             l[j]+=q
-            grid=CSGrid(l[0], l[1], n)
+            grid=CSGrid.from_poisson(l[0], l[1], n)
             err=rms_error([grid.match_odds(selection)
                            for selection in MOSelections], probs)
             if err < besterr:
@@ -51,11 +51,12 @@ class CSGrid(list):
             else:
                 l[j]-=q
         return l[0], l[1], besterr
-    
-    def __init__(self, lx, ly, n=N):
-        list.__init__(self, [[poisson(lx, i)*poisson(ly, j)
-                              for j in range(n)]
-                             for i in range(n)])
+
+    @classmethod
+    def from_poisson(self, lx, ly, n=N):
+        return CSGrid([[poisson(lx, i)*poisson(ly, j)
+                        for j in range(n)]
+                       for i in range(n)])
 
     def sum(self, filterfn):
         return sum([self[i][j]                    
@@ -105,7 +106,7 @@ if __name__=="__main__":
         print "lx: %.5f" % lx
         print "ly: %.5f" % ly
         print "err: %.5f" % err
-        grid=CSGrid(lx, ly)
+        grid=CSGrid.from_poisson(lx, ly)
         print grid
         for selection in MOSelections:        
             print "%s: %.5f" % (selection, grid.match_odds(selection))
