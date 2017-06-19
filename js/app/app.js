@@ -15,7 +15,8 @@ var App=React.createClass({
 			    klass: MatchTeamPanel,
 			    params: {
 				nGoalsMin: 1,
-				nGoalsMax: 4
+				nGoalsMax: 4,
+				nLegsMin: 1
 			    }
 			},
 			paginator: {
