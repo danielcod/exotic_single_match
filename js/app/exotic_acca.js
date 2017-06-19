@@ -173,7 +173,7 @@ var AccaProductPanel=React.createClass({
 	    selectedTab: "bet",
 	    legs: [],
 	    nLegs: 1,
-	    nGoals: 1,
+	    nGoals: this.props.config.product.params.nGoalsMin,
 	    currentPage: 0
 	}
     },
@@ -359,11 +359,10 @@ var AccaProductPanel=React.createClass({
 			    })
 			}),
 			React.createElement(MyFormComponent, {
-			    label: "Teams",
+			    label: "Legs",
 			    component: React.createElement(AccaLegTable, {
 				clickHandler: this.handleLegRemoved,
-				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs)),
-				label: "Teams"
+				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs))
 			    })
 			}),
 			(this.state.legs.length > this.props.config.paginator.rows) ? React.createElement(MyPaginator, {
@@ -376,7 +375,7 @@ var AccaProductPanel=React.createClass({
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: 1,
+				min: this.props.config.product.params.nGoalsMin,
 				max: this.props.config.product.params.nGoalsMax,
 				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged

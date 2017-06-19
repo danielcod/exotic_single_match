@@ -14,6 +14,7 @@ var App=React.createClass({
 			product: {
 			    klass: MatchTeamPanel,
 			    params: {
+				nGoalsMin: 1,
 				nGoalsMax: 4
 			    }
 			},
