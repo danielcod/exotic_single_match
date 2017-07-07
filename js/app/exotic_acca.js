@@ -181,7 +181,7 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.params.nLegsMin,
+	    nLegs: this.props.config.minLegs,
 	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minGoals : 0,
 	    currentPage: 0
 	}
@@ -205,7 +205,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.config.params.nLegsMin, Math.min(state.nLegs, state.legs.length)); // NB
+	state.nLegs=Math.max(this.props.config.minLegs, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },

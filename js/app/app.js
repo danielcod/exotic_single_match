@@ -17,9 +17,7 @@ var App=React.createClass({
 			    minGoals: 1,
 			    maxGoals: 4
 			},
-			params: {
-			    nLegsMin: 1
-			},
+			minLegs: 1,
 			paginator: {
 			    rows: 8
 			}
