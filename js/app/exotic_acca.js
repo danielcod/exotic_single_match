@@ -292,7 +292,7 @@ var AccaProductPanel=React.createClass({
 	return legs.sort(sortFn);
     },
     applyPaginatorWindow: function(items) {
-	var rows=this.props.config.paginator.rows;
+	var rows=this.props.config.betLegsPaginator.rows;
 	var i=this.state.currentPage*rows;
 	var j=(this.state.currentPage+1)*rows;
 	return items.slice(i, j);
@@ -370,8 +370,8 @@ var AccaProductPanel=React.createClass({
 				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs))
 			    })
 			}),
-			(this.state.legs.length > this.props.config.paginator.rows) ? React.createElement(MyPaginator, {
-			    config: this.props.config.paginator,
+			(this.state.legs.length > this.props.config.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
+			    config: this.props.config.betLegsPaginator,
 			    data: this.state.legs,
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
@@ -427,14 +427,14 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.legSrcPanel, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.legsPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.legs,
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
 		    },
-		    paginator: this.props.config.paginator
+		    paginator: this.props.config.legsPaginator
 		}) : undefined
 	    ]
 	})

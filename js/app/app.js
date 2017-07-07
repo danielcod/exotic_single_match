@@ -11,7 +11,10 @@ var App=React.createClass({
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
-			legSrcPanel: MatchTeamPanel,
+			legsPanel: MatchTeamPanel,
+			legsPaginator: {
+			    rows: 8
+			},
 			betGoalsSlider: {
 			    label: "To Win By At Least",
 			    tickLabeller: function(minval, maxval) {
@@ -35,7 +38,7 @@ var App=React.createClass({
 			    },			    
 			    minVal: 1
 			},
-			paginator: {
+			betLegsPaginator: {
 			    rows: 8
 			}
 		    }
