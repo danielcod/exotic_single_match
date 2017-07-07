@@ -2,6 +2,10 @@ from tasks.app import *
 
 from quant.dixon_coles import CSGrid
 
+QueueName="quant"
+
+ReduceNTries=10
+
 # curl "http://localhost:8080/tasks/app/matches?window=30"
 
 class IndexHandler(webapp2.RequestHandler):
@@ -21,7 +25,8 @@ class IndexHandler(webapp2.RequestHandler):
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
         taskqueue.add(url="/tasks/app/matches/reduce",
-                      params={"leagues": ",".join(leaguenames)},
+                      params={"leagues": ",".join(leaguenames),
+                              "count": 0},
                       queue_name=QueueName)
         logging.info("Reduce task added")
 
@@ -88,10 +93,15 @@ class MapHandler(webapp2.RequestHandler):
 
 class ReduceHandler(webapp2.RequestHandler):
 
-    @validate_query({"leagues": "(\\D{3}\\.\\d\\,)*(\\D{3}\\.\\d)"})
-    @task
-    def post(self):
-        leaguenames=self.request.get("leagues").split(",")
+    def is_completed(self, leaguenames):
+        for leaguename in leaguenames:
+            keyname="matches/%s" % leaguename
+            resp=memcache.get(keyname)
+            if resp in ['', None, []]:
+                return False
+        return True
+    
+    def filter_matches(self, leaguenames):
         matches=[]
         for leaguename in leaguenames:
             keyname="matches/%s" % leaguename
@@ -99,11 +109,30 @@ class ReduceHandler(webapp2.RequestHandler):
             if resp in ['', None, []]:
                 continue
             matches+=json_loads(resp)
-        logging.info("Total %i matches" % len(matches))
-        Blob(key_name="app/matches",
-             text=json_dumps(matches),
-             timestamp=datetime.datetime.now()).put()
-        logging.info("Saved to /matches")
+        return matches
+    
+    @validate_query({"leagues": "^(\\D{3}\\.\\d\\,)*(\\D{3}\\.\\d)$",
+                     "count": "^\\d+$"})
+    @task
+    def post(self):
+        leaguenames=self.request.get("leagues").split(",")
+        count=int(self.request.get("count"))
+        if self.is_completed(leaguenames):
+            matches=self.filter_matches(leaguenames)
+            logging.info("Total %i matches" % len(matches))
+            Blob(key_name="app/matches",
+                 text=json_dumps(matches),
+                 timestamp=datetime.datetime.now()).put()
+            logging.info("Simulations complete; saved to /matches")
+        else:
+            if count < ReduceNTries:
+                logging.info("Simulations not completed; spawning retry %i/%i" % (count+1, ReduceNTries))
+                taskqueue.add(url="/tasks/app/matches/reduce",
+                              params={"leagues": ",".join(leaguenames),
+                                      "count": count+1},
+                              queue_name=QueueName)
+            else:
+                logging.warning("Simulations  not completed; exiting")
                 
 Routing=[('/tasks/app/matches/reduce', ReduceHandler),
          ('/tasks/app/matches/map', MapHandler),
