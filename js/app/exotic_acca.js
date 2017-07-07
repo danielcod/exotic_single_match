@@ -128,17 +128,17 @@ var AccaNLegsToggle=React.createClass({
 
 var AccaNGoalsSlider=React.createClass({
     componentDidMount: function() {
-	var initSliderTicks=function() {
+	var initSliderTicks=function(minval, maxval) {
 	    var ticks=[];
-	    for (var i=this.props.min; i <= this.props.max; i++) {
+	    for (var i=minval; i <= maxval; i++) {
 		ticks.push(i);
 	    }
 	    return ticks;
 	}.bind(this);
-	var initSliderTickLabels=function() {
+	var initSliderTickLabels=function(minval, maxval) {
 	    var labels=[];
-	    for (var i=this.props.min; i <= this.props.max; i++) {
-		if (i==this.props.min) {
+	    for (var i=minval; i <= maxval; i++) {
+		if (i==minval) {
 		    labels.push("(Just Win)");
 		} else {
 		    labels.push(i+"+ Goals");
@@ -147,8 +147,8 @@ var AccaNGoalsSlider=React.createClass({
 	    return labels;
 	}.bind(this);
 	$('#'+this.props.id).slider({
-	    ticks: initSliderTicks(),
-	    ticks_labels: initSliderTickLabels()
+	    ticks: initSliderTicks(this.props.min, this.props.max),
+	    ticks_labels: initSliderTickLabels(this.props.min, this.props.max)
 	}).on("change", function(event, ui) {
 	    var value=parseInt($("#"+this.props.id).data("slider").getValue());
 	    this.props.changeHandler(value);
