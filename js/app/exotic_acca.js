@@ -176,8 +176,8 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.legsToggle.minVal,
-	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minVal : 0,
+	    nLegs: this.props.config.betLegsToggle.minVal,
+	    nGoals: this.props.config.betGoalsSlider ? this.props.config.betGoalsSlider.minVal : 0,
 	    currentPage: 0
 	}
     },
@@ -200,7 +200,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.config.legsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
+	state.nLegs=Math.max(this.props.config.betLegsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
@@ -376,13 +376,13 @@ var AccaProductPanel=React.createClass({
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
 			}) : undefined,
-			this.props.config.goalsSlider ? React.createElement(MyFormComponent, {
-			    label: this.props.config.goalsSlider.label,
+			this.props.config.betGoalsSlider ? React.createElement(MyFormComponent, {
+			    label: this.props.config.betGoalsSlider.label,
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.config.goalsSlider.minVal,
-				max: this.props.config.goalsSlider.maxVal,
-				tickLabeller: this.props.config.goalsSlider.tickLabeller,
+				min: this.props.config.betGoalsSlider.minVal,
+				max: this.props.config.betGoalsSlider.maxVal,
+				tickLabeller: this.props.config.betGoalsSlider.tickLabeller,
 				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged,
 				
