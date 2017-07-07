@@ -429,7 +429,7 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.klass, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.legPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.legs,
 		    clickHandler: {
