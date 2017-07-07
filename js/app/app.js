@@ -30,6 +30,9 @@ var App=React.createClass({
 			},
 			betLegsToggle: {
 			    label: "How many legs need to win ?",
+			    textFormatter: function(val, maxval) {
+				return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
+			    },			    
 			    minVal: 1
 			},
 			paginator: {
