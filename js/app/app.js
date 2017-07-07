@@ -11,7 +11,7 @@ var App=React.createClass({
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
-			legPanel: MatchTeamPanel,
+			legSrcPanel: MatchTeamPanel,
 			legsToggle: {
 			    minVal: 1
 			},
