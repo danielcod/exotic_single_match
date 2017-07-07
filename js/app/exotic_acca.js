@@ -90,6 +90,9 @@ var AccaLegTable=React.createClass({
 });
 
 var AccaNLegsToggle=React.createClass({
+    textFormatter: function(val, maxval) {
+	return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")"
+    },
     render: function() {
 	return React.DOM.ul({
 	    className: "list-inline text-center",
@@ -109,7 +112,7 @@ var AccaNLegsToggle=React.createClass({
 			style: {
 			    color: "#AAA"
 			},
-			children: this.props.nLegs+((this.props.nLegs < this.props.legs.length) ? "+" : "")+" (of "+this.props.legs.length+")"
+			children: this.textFormatter(this.props.nLegs, this.props.legs.length)
 		    })
 		}),
 		React.DOM.li({
