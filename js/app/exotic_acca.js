@@ -135,20 +135,10 @@ var AccaNGoalsSlider=React.createClass({
 	    }
 	    return ticks;
 	}.bind(this);
-	var initSliderTickLabels=function(minval, maxval) {
-	    var labels=[];
-	    for (var i=minval; i <= maxval; i++) {
-		if (i==minval) {
-		    labels.push("(Just Win)");
-		} else {
-		    labels.push(i+"+ Goals");
-		}
-	    }
-	    return labels;
-	}.bind(this);
 	$('#'+this.props.id).slider({
 	    ticks: initSliderTicks(this.props.min, this.props.max),
-	    ticks_labels: initSliderTickLabels(this.props.min, this.props.max)
+	    ticks_labels: this.props.tickLabeller(this.props.min,
+						  this.props.max)
 	}).on("change", function(event, ui) {
 	    var value=parseInt($("#"+this.props.id).data("slider").getValue());
 	    this.props.changeHandler(value);
@@ -182,7 +172,7 @@ var AccaProductPanel=React.createClass({
 	    selectedTab: "bet",
 	    legs: [],
 	    nLegs: this.props.config.minLegs,
-	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minGoals : 0,
+	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minVal : 0,
 	    currentPage: 0
 	}
     },
@@ -385,10 +375,12 @@ var AccaProductPanel=React.createClass({
 			    label: this.props.config.goalsSlider.label,
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.config.goalsSlider.minGoals,
-				max: this.props.config.goalsSlider.maxGoals,
+				min: this.props.config.goalsSlider.minVal,
+				max: this.props.config.goalsSlider.maxVal,
+				tickLabeller: this.props.config.goalsSlider.tickLabeller,
 				value: this.state.nGoals,
-				changeHandler: this.handleGoalsSliderChanged
+				changeHandler: this.handleGoalsSliderChanged,
+				
 			    })
 			}) : undefined,
 			React.createElement(MyFormComponent, {

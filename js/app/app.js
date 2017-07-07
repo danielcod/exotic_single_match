@@ -14,8 +14,19 @@ var App=React.createClass({
 			legPanel: MatchTeamPanel,
 			goalsSlider: {
 			    label: "To Win By At Least",
-			    minGoals: 1,
-			    maxGoals: 4
+			    tickLabeller: function(minval, maxval) {
+				var labels=[];
+				for (var i=minval; i <= maxval; i++) {
+				    if (i==minval) {
+					labels.push("(Just Win)");
+				    } else {
+					labels.push(i+"+ Goals");
+				    }
+				}
+				return labels;
+			    },
+			    minVal: 1,
+			    maxVal: 4,
 			},
 			minLegs: 1,
 			paginator: {
