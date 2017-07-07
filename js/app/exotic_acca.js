@@ -182,7 +182,7 @@ var AccaProductPanel=React.createClass({
 	    selectedTab: "bet",
 	    legs: [],
 	    nLegs: this.props.config.params.nLegsMin,
-	    nGoals: this.props.config.params.nGoalsMin,
+	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minGoals : 0,
 	    currentPage: 0
 	}
     },
@@ -381,16 +381,16 @@ var AccaProductPanel=React.createClass({
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
 			}) : undefined,
-			React.createElement(MyFormComponent, {
-			    label: "To Win By At Least",
+			this.props.config.goalsSlider ? React.createElement(MyFormComponent, {
+			    label: this.props.config.goalsSlider.label,
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.config.params.nGoalsMin,
-				max: this.props.config.params.nGoalsMax,
+				min: this.props.config.goalsSlider.minGoals,
+				max: this.props.config.goalsSlider.maxGoals,
 				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged
 			    })
-			}),
+			}) : undefined,
 			React.createElement(MyFormComponent, {
 			    label: "How many legs need to win ?",
 			    component: React.createElement(AccaNLegsToggle, {

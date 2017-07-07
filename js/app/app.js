@@ -12,9 +12,12 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
 			legPanel: MatchTeamPanel,
+			goalsSlider: {
+			    label: "To Win By At Least",
+			    minGoals: 1,
+			    maxGoals: 4
+			},
 			params: {
-			    nGoalsMin: 1,
-			    nGoalsMax: 4,
 			    nLegsMin: 1
 			},
 			paginator: {
