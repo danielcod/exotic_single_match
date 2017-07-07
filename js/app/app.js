@@ -12,9 +12,6 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
 			legSrcPanel: MatchTeamPanel,
-			betLegsToggle: {
-			    minVal: 1
-			},
 			betGoalsSlider: {
 			    label: "To Win By At Least",
 			    tickLabeller: function(minval, maxval) {
@@ -30,6 +27,10 @@ var App=React.createClass({
 			    },
 			    minVal: 1,
 			    maxVal: 4,
+			},
+			betLegsToggle: {
+			    label: "How many legs need to win ?",
+			    minVal: 1
 			},
 			paginator: {
 			    rows: 8

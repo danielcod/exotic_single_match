@@ -176,7 +176,7 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.betLegsToggle.minVal,
+	    nLegs: this.props.config.betLegsToggle ? this.props.config.betLegsToggle.minVal : 1,
 	    nGoals: this.props.config.betGoalsSlider ? this.props.config.betGoalsSlider.minVal : 0,
 	    currentPage: 0
 	}
@@ -388,8 +388,8 @@ var AccaProductPanel=React.createClass({
 				
 			    })
 			}) : undefined,
-			React.createElement(MyFormComponent, {
-			    label: "How many legs need to win ?",
+			this.props.config.betLegsToggle ? React.createElement(MyFormComponent, {
+			    label: this.props.config.betLegsToggle.label,
 			    component: React.createElement(AccaNLegsToggle, {
 				nLegs: this.state.nLegs,
 				legs: this.state.legs,
@@ -398,7 +398,7 @@ var AccaProductPanel=React.createClass({
 				    decrement: this.decrementNLegs
 				}
 			    })
-			}),
+			}) : undefined,
 			React.DOM.hr({
 			    style: {
 				"border-color": "#555"
