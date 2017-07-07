@@ -1,3 +1,6 @@
+- name: ENG.1
+  season: "2017/2018"
+  rounds: 1
 - name: NOR.1
   season: 2017
   rounds: 1
