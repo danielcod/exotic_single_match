@@ -7,7 +7,16 @@ var AccaPanelTabs=React.createClass({
 		    className: (tab.name==this.props.selected) ? "active" : "",
 		    onClick: this.props.clickHandler.bind(null, tab),
 		    children: React.DOM.a({
-			children: tab.label
+			children: [
+			    tab.label,
+			    (tab.name=="bet") ? React.DOM.span({
+				className: "badge",
+				style: {
+				    "margin-left": "10px"
+				},
+				children: this.props.legs.length
+			    }) : undefined
+			]
 		    })
 		});			    
 	    }.bind(this))
@@ -341,7 +350,8 @@ var AccaProductPanel=React.createClass({
 			}
 		    ],
 		    selected: this.state.selectedTab,
-		    clickHandler: this.handleTabClicked
+		    clickHandler: this.handleTabClicked,
+		    legs: this.state.legs
 		}),
 		(this.state.selectedTab=="bet") ? React.DOM.div({
 		    children: (this.state.legs.length!=0) ? [
