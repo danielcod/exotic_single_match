@@ -166,12 +166,17 @@ var AccaNGoalsSlider=React.createClass({
     }
 });
 
+/*
+  nLegs is the state value for NLegsToggle
+  nGoals is the state value for NGoalsSlider
+*/
+
 var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.minLegs,
+	    nLegs: this.props.config.legsToggle.minVal,
 	    nGoals: this.props.config.goalsSlider ? this.props.config.goalsSlider.minVal : 0,
 	    currentPage: 0
 	}
@@ -195,7 +200,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.config.minLegs, Math.min(state.nLegs, state.legs.length)); // NB
+	state.nLegs=Math.max(this.props.config.legsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
