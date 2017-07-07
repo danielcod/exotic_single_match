@@ -181,8 +181,8 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.product.params.nLegsMin,
-	    nGoals: this.props.config.product.params.nGoalsMin,
+	    nLegs: this.props.config.params.nLegsMin,
+	    nGoals: this.props.config.params.nGoalsMin,
 	    currentPage: 0
 	}
     },
@@ -205,7 +205,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.config.product.params.nLegsMin, Math.min(state.nLegs, state.legs.length)); // NB
+	state.nLegs=Math.max(this.props.config.params.nLegsMin, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
@@ -385,8 +385,8 @@ var AccaProductPanel=React.createClass({
 			    label: "To Win By At Least",
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.config.product.params.nGoalsMin,
-				max: this.props.config.product.params.nGoalsMax,
+				min: this.props.config.params.nGoalsMin,
+				max: this.props.config.params.nGoalsMax,
 				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged
 			    })
@@ -429,7 +429,7 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.product.klass, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.klass, {
 		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.legs,
 		    clickHandler: {

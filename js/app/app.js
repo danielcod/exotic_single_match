@@ -11,13 +11,11 @@ var App=React.createClass({
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    config: {
-			product: {
-			    klass: MatchTeamPanel,
-			    params: {
-				nGoalsMin: 1,
-				nGoalsMax: 4,
-				nLegsMin: 1
-			    }
+			klass: MatchTeamPanel,
+			params: {
+			    nGoalsMin: 1,
+			    nGoalsMax: 4,
+			    nLegsMin: 1
 			},
 			paginator: {
 			    rows: 8
