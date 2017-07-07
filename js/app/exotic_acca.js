@@ -258,6 +258,7 @@ var AccaProductPanel=React.createClass({
 	    // fetch new price
 	    setTimeout(function() {
 		var struct={
+		    name: this.props.config.productName,
 		    legs: this.state.legs,
 		    nLegs: this.state.nLegs,
 		    nGoals: this.state.nGoals,

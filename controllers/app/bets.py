@@ -9,6 +9,7 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, bet, limit=0.005):
+        logging.info(bet)
         bet["resultCondition"]=exotic_acca.Win
         bet["legsCondition"]=exotic_acca.GTE
         bet["goalsCondition"]=exotic_acca.GTE
