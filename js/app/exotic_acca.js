@@ -191,6 +191,7 @@ var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
+	    product: this.props.product,
 	    bet: this.initBet(this.props.product)
 	}
     },
@@ -213,7 +214,7 @@ var AccaProductPanel=React.createClass({
 	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.bet.nLegs=Math.max(this.props.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
+	state.bet.nLegs=Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
@@ -271,7 +272,7 @@ var AccaProductPanel=React.createClass({
 	    // fetch new price
 	    setTimeout(function() {
 		var struct={
-		    name: this.props.product.name,
+		    name: this.state.product.name,
 		    legs: this.state.bet.legs,
 		    nLegs: this.state.bet.nLegs,
 		    nGoals: this.state.bet.nGoals,
@@ -390,22 +391,22 @@ var AccaProductPanel=React.createClass({
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.bet.currentPage
 			}) : undefined,
-			this.props.product.betGoalsSlider ? React.createElement(MyFormComponent, {
-			    label: this.props.product.betGoalsSlider.label,
+			this.state.product.betGoalsSlider ? React.createElement(MyFormComponent, {
+			    label: this.state.product.betGoalsSlider.label,
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.product.betGoalsSlider.minVal,
-				max: this.props.product.betGoalsSlider.maxVal,
-				tickLabeller: this.props.product.betGoalsSlider.tickLabeller,
+				min: this.state.product.betGoalsSlider.minVal,
+				max: this.state.product.betGoalsSlider.maxVal,
+				tickLabeller: this.state.product.betGoalsSlider.tickLabeller,
 				value: this.state.bet.nGoals,
 				changeHandler: this.handleGoalsSliderChanged,
 				
 			    })
 			}) : undefined,
-			this.props.product.betLegsToggle ? React.createElement(MyFormComponent, {
-			    label: this.props.product.betLegsToggle.label,
+			this.state.product.betLegsToggle ? React.createElement(MyFormComponent, {
+			    label: this.state.product.betLegsToggle.label,
 			    component: React.createElement(AccaNLegsToggle, {
-				textFormatter: this.props.product.betLegsToggle.textFormatter,
+				textFormatter: this.state.product.betLegsToggle.textFormatter,
 				nLegs: this.state.bet.nLegs,
 				legs: this.state.bet.legs,
 				clickHandlers: {
@@ -441,7 +442,7 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.product.legsPanel, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.state.product.legsPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.bet.legs,
 		    clickHandler: {
