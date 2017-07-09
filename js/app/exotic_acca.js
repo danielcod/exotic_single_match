@@ -172,24 +172,26 @@ var AccaNGoalsSlider=React.createClass({
 */
 
 var AccaProductPanel=React.createClass({
-    initNLegs: function(product) {
-	var toggle=product.betLegsToggle;
-	return toggle ? toggle.minVal : 1;
+    initBet: function(product) {
+	var initNLegs=function(product) {
+	    var toggle=product.betLegsToggle;
+	    return toggle ? toggle.minVal : 1;
+	};
+	var initNGoals=function(product) {
+	    var slider=product.betGoalsSlider;
+	    return slider ? slider.minVal : 0;
+	};
+	return {
+	    legs: [],
+	    nLegs: initNLegs(product),
+	    nGoals: initNGoals(product),
+	    currentPage: 0
+	}
     },
-    initNGoals: function(product) {
-	var slider=product.betGoalsSlider;
-	return slider ? slider.minVal : 0;
-    },
-    
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    bet: {
-		legs: [],
-		nLegs: this.initNLegs(this.props.product),
-		nGoals: this.initNGoals(this.props.product),
-		currentPage: 0
-	    }
+	    bet: this.initBet(this.props.product)
 	}
     },
     handleTabClicked: function(tab) {
