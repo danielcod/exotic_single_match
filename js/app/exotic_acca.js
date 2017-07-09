@@ -176,8 +176,8 @@ var AccaProductPanel=React.createClass({
 	return {
 	    selectedTab: "bet",
 	    legs: [],
-	    nLegs: this.props.config.betLegsToggle ? this.props.config.betLegsToggle.minVal : 1,
-	    nGoals: this.props.config.betGoalsSlider ? this.props.config.betGoalsSlider.minVal : 0,
+	    nLegs: this.props.product.betLegsToggle ? this.props.product.betLegsToggle.minVal : 1,
+	    nGoals: this.props.product.betGoalsSlider ? this.props.product.betGoalsSlider.minVal : 0,
 	    currentPage: 0
 	}
     },
@@ -200,7 +200,7 @@ var AccaProductPanel=React.createClass({
 	state.legs=state.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.config.betLegsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
+	state.nLegs=Math.max(this.props.product.betLegsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
@@ -258,7 +258,7 @@ var AccaProductPanel=React.createClass({
 	    // fetch new price
 	    setTimeout(function() {
 		var struct={
-		    name: this.props.config.productName,
+		    name: this.props.product.name,
 		    legs: this.state.legs,
 		    nLegs: this.state.nLegs,
 		    nGoals: this.state.nGoals,
@@ -293,7 +293,7 @@ var AccaProductPanel=React.createClass({
 	return legs.sort(sortFn);
     },
     applyPaginatorWindow: function(items) {
-	var rows=this.props.config.betLegsPaginator.rows;
+	var rows=this.props.product.betLegsPaginator.rows;
 	var i=this.state.currentPage*rows;
 	var j=(this.state.currentPage+1)*rows;
 	return items.slice(i, j);
@@ -371,28 +371,28 @@ var AccaProductPanel=React.createClass({
 				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs))
 			    })
 			}),
-			(this.state.legs.length > this.props.config.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
-			    config: this.props.config.betLegsPaginator,
+			(this.state.legs.length > this.props.product.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
+			    product: this.props.product.betLegsPaginator,
 			    data: this.state.legs,
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
 			}) : undefined,
-			this.props.config.betGoalsSlider ? React.createElement(MyFormComponent, {
-			    label: this.props.config.betGoalsSlider.label,
+			this.props.product.betGoalsSlider ? React.createElement(MyFormComponent, {
+			    label: this.props.product.betGoalsSlider.label,
 			    component: React.createElement(AccaNGoalsSlider, {
 				id: "goalSlider",
-				min: this.props.config.betGoalsSlider.minVal,
-				max: this.props.config.betGoalsSlider.maxVal,
-				tickLabeller: this.props.config.betGoalsSlider.tickLabeller,
+				min: this.props.product.betGoalsSlider.minVal,
+				max: this.props.product.betGoalsSlider.maxVal,
+				tickLabeller: this.props.product.betGoalsSlider.tickLabeller,
 				value: this.state.nGoals,
 				changeHandler: this.handleGoalsSliderChanged,
 				
 			    })
 			}) : undefined,
-			this.props.config.betLegsToggle ? React.createElement(MyFormComponent, {
-			    label: this.props.config.betLegsToggle.label,
+			this.props.product.betLegsToggle ? React.createElement(MyFormComponent, {
+			    label: this.props.product.betLegsToggle.label,
 			    component: React.createElement(AccaNLegsToggle, {
-				textFormatter: this.props.config.betLegsToggle.textFormatter,
+				textFormatter: this.props.product.betLegsToggle.textFormatter,
 				nLegs: this.state.nLegs,
 				legs: this.state.legs,
 				clickHandlers: {
@@ -428,14 +428,14 @@ var AccaProductPanel=React.createClass({
 			children: "Use the Leg Selector tab to add some selections"
 		    })
 		}) : undefined,
-		(this.state.selectedTab=="legs") ? React.createElement(this.props.config.legsPanel, {
+		(this.state.selectedTab=="legs") ? React.createElement(this.props.product.legsPanel, {
 		    exoticsApi: this.props.exoticsApi,
 		    legs: this.state.legs,
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
 		    },
-		    paginator: this.props.config.legsPaginator
+		    paginator: this.props.product.legsPaginator
 		}) : undefined
 	    ]
 	})

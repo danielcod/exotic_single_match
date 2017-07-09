@@ -262,7 +262,7 @@ var MatchTeamPanel=React.createClass({
 		    clickHandler: this.props.clickHandler
 		}),
 		(this.filterMatches(this.state.matches).length > this.props.paginator.rows) ? React.createElement(MyPaginator, {
-		    config: this.props.paginator,
+		    product: this.props.paginator,
 		    data: this.state.matches.filter(function(match) {
 			return match.league==this.state.league;
 		    }.bind(this)),

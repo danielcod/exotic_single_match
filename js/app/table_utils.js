@@ -22,7 +22,7 @@ var MyPaginator=React.createClass({
 	    className: "text-center",
 	    children: React.DOM.ul({
 		className: "pagination",
-		children: this.initPaginatorItems(this.props.data, this.props.config.rows).map(function(item) {
+		children: this.initPaginatorItems(this.props.data, this.props.product.rows).map(function(item) {
 		    return React.DOM.li({
 			className: (item.value==this.props.currentPage) ? "active" : "",
 			onClick: this.props.clickHandler.bind(null, item),

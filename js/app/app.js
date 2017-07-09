@@ -10,8 +10,8 @@ var App=React.createClass({
 		}),
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
-		    config: {
-			productName: "exotic_acca_winner",
+		    product: {
+			name: "exotic_acca_winner",
 			legsPanel: MatchTeamPanel,
 			legsPaginator: {
 			    rows: 8
