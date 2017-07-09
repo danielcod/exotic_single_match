@@ -330,11 +330,12 @@ var AccaProductPanel=React.createClass({
 			label: "Product",			
 			component: React.createElement(MySelect, {
 			    className: "form-control btn-primary input-lg",
-			    options: [
-				{
-				    value: "Exotic Acca"
+			    options: this.props.products.map(function(product) {
+				return {
+				    label: product.label,
+				    value: product.name
 				}
-			    ],
+			    }),
 			    name: "product",
 			    changeHandler: function(name, value) {
 				console.log(name+"="+value);
