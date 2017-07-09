@@ -12,7 +12,9 @@ var App=React.createClass({
 		    exoticsApi: this.props.exoticsApi,
 		    products: [
 			{
+			    label: "Exotic Acca",
 			    name: "exotic_acca_winner",
+			    description:  "An Exotic Acca is like a traditional acca; but not all teams have to win for it to payout, so you don't have to select all the favourites; and you can add a goals condition to improve the price!",
 			    legsPanel: MatchTeamPanel,
 			    betGoalsSlider: {
 				label: "To Win By At Least",
