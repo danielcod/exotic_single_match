@@ -323,8 +323,8 @@ var AccaProductPanel=React.createClass({
 		React.DOM.div({
 		    style: {
 			"margin-top": "20px",
-			"margin-left": "75px",
-			"margin-right": "75px"
+			"margin-left": "50px",
+			"margin-right": "50px"
 		    },
 		    children: React.createElement(MyFormComponent, {
 			label: "Product",			
