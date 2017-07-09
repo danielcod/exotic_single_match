@@ -39,6 +39,35 @@ var App=React.createClass({
 				},			    
 				minVal: 1
 			    }
+			},
+			{
+			    label: "Exotic Acca Loser",
+			    name: "exotic_acca_loser",
+			    description:  "An Exotic Acca Loser is like an Exotic Acca Winner, but in reverse! This time you're picking a set of teams you expect to lose, and not all teams have to lose for you to win.",
+			    legsPanel: MatchTeamPanel,
+			    betGoalsSlider: {
+				label: "To Lose By At Least",
+				tickLabeller: function(minval, maxval) {
+				    var labels=[];
+				    for (var i=minval; i <= maxval; i++) {
+					if (i==minval) {
+					    labels.push("(Just Lose)");
+					} else {
+					    labels.push(i+"+ Goals");
+					}
+				    }
+				    return labels;
+				},
+				minVal: 1,
+				maxVal: 4,
+			    },
+			    betLegsToggle: {
+				label: "How many legs need to lose ?",
+				textFormatter: function(val, maxval) {
+				    return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				},			    
+				minVal: 1
+			    }
 			}
 		    ],
 		    legsPaginator: {
