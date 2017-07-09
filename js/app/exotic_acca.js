@@ -293,7 +293,7 @@ var AccaProductPanel=React.createClass({
 	return legs.sort(sortFn);
     },
     applyPaginatorWindow: function(items) {
-	var rows=this.props.product.betLegsPaginator.rows;
+	var rows=this.props.betLegsPaginator.rows;
 	var i=this.state.currentPage*rows;
 	var j=(this.state.currentPage+1)*rows;
 	return items.slice(i, j);
@@ -371,8 +371,8 @@ var AccaProductPanel=React.createClass({
 				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs))
 			    })
 			}),
-			(this.state.legs.length > this.props.product.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
-			    product: this.props.product.betLegsPaginator,
+			(this.state.legs.length > this.props.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
+			    product: this.props.betLegsPaginator,
 			    data: this.state.legs,
 			    clickHandler: this.handlePaginatorClicked,
 			    currentPage: this.state.currentPage
@@ -435,7 +435,7 @@ var AccaProductPanel=React.createClass({
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
 		    },
-		    paginator: this.props.product.legsPaginator
+		    paginator: this.props.legsPaginator
 		}) : undefined
 	    ]
 	})

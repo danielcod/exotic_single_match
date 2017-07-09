@@ -13,9 +13,6 @@ var App=React.createClass({
 		    product: {
 			name: "exotic_acca_winner",
 			legsPanel: MatchTeamPanel,
-			legsPaginator: {
-			    rows: 8
-			},
 			betGoalsSlider: {
 			    label: "To Win By At Least",
 			    tickLabeller: function(minval, maxval) {
@@ -38,10 +35,13 @@ var App=React.createClass({
 				return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
 			    },			    
 			    minVal: 1
-			},
-			betLegsPaginator: {
-			    rows: 8
 			}
+		    },
+		    legsPaginator: {
+			rows: 8
+		    },
+		    betLegsPaginator: {
+			rows: 8
 		    }
 		}),
 		React.DOM.footer({
