@@ -10,33 +10,35 @@ var App=React.createClass({
 		}),
 		React.createElement(AccaProductPanel, {
 		    exoticsApi: this.props.exoticsApi,
-		    product: {
-			name: "exotic_acca_winner",
-			legsPanel: MatchTeamPanel,
-			betGoalsSlider: {
-			    label: "To Win By At Least",
-			    tickLabeller: function(minval, maxval) {
-				var labels=[];
-				for (var i=minval; i <= maxval; i++) {
-				    if (i==minval) {
-					labels.push("(Just Win)");
-				    } else {
-					labels.push(i+"+ Goals");
+		    products: [
+			{
+			    name: "exotic_acca_winner",
+			    legsPanel: MatchTeamPanel,
+			    betGoalsSlider: {
+				label: "To Win By At Least",
+				tickLabeller: function(minval, maxval) {
+				    var labels=[];
+				    for (var i=minval; i <= maxval; i++) {
+					if (i==minval) {
+					    labels.push("(Just Win)");
+					} else {
+					    labels.push(i+"+ Goals");
+					}
 				    }
-				}
-				return labels;
+				    return labels;
+				},
+				minVal: 1,
+				maxVal: 4,
 			    },
-			    minVal: 1,
-			    maxVal: 4,
-			},
-			betLegsToggle: {
-			    label: "How many legs need to win ?",
-			    textFormatter: function(val, maxval) {
-				return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
-			    },			    
-			    minVal: 1
+			    betLegsToggle: {
+				label: "How many legs need to win ?",
+				textFormatter: function(val, maxval) {
+				    return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				},			    
+				minVal: 1
+			    }
 			}
-		    },
+		    ],
 		    legsPaginator: {
 			rows: 8
 		    },

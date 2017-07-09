@@ -191,8 +191,8 @@ var AccaProductPanel=React.createClass({
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    product: this.props.product,
-	    bet: this.initBet(this.props.product)
+	    product: this.props.products[0],
+	    bet: this.initBet(this.props.products[0])
 	}
     },
     handleTabClicked: function(tab) {
