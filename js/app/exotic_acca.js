@@ -180,13 +180,16 @@ var AccaProductPanel=React.createClass({
 	var slider=product.betGoalsSlider;
 	return slider ? slider.minVal : 0;
     },
+    
     getInitialState: function() {
 	return {
 	    selectedTab: "bet",
-	    legs: [],
-	    nLegs: this.initNLegs(this.props.product),
-	    nGoals: this.initNGoals(this.props.product),
-	    currentPage: 0
+	    bet: {
+		legs: [],
+		nLegs: this.initNLegs(this.props.product),
+		nGoals: this.initNGoals(this.props.product),
+		currentPage: 0
+	    }
 	}
     },
     handleTabClicked: function(tab) {
@@ -196,42 +199,42 @@ var AccaProductPanel=React.createClass({
     },
     handleLegAdded: function(newleg) {
 	var state=this.state;
-	state.legs=state.legs.filter(function(leg) {
+	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return leg.match.name!=newleg.match.name;
 	});
-	state.legs.push(newleg);
+	state.bet.legs.push(newleg);
 	this.setState(state);
 	this.updatePrice();
     },
     handleLegRemoved: function(oldleg) {
 	var state=this.state;
-	state.legs=state.legs.filter(function(leg) {
+	state.bet.legs=state.bet.legs.filter(function(leg) {
 	    return leg.description!=oldleg.description;
 	});
-	state.nLegs=Math.max(this.props.product.betLegsToggle.minVal, Math.min(state.nLegs, state.legs.length)); // NB
+	state.bet.nLegs=Math.max(this.props.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
 	this.setState(state);
 	this.updatePrice();
     },
     handleGoalsSliderChanged: function(value) {
 	var state=this.state;
-	if (value!=state.nGoals) {
-	    state.nGoals=value;
+	if (value!=state.bet.nGoals) {
+	    state.bet.nGoals=value;
 	    this.setState(state);
 	    this.updatePrice();
 	}
     },
     incrementNLegs: function() {
 	var state=this.state;
-	if (state.nLegs < state.legs.length) {
-	    state.nLegs+=1;
+	if (state.bet.nLegs < state.bet.legs.length) {
+	    state.bet.nLegs+=1;
 	    this.setState(state);
 	    this.updatePrice();
 	}
     },
     decrementNLegs: function() {
 	var state=this.state
-	if (state.nLegs > 1) {
-	    state.nLegs-=1;
+	if (state.bet.nLegs > 1) {
+	    state.bet.nLegs-=1;
 	    this.setState(state);
 	    this.updatePrice();
 	}
@@ -256,7 +259,7 @@ var AccaProductPanel=React.createClass({
 	}
     },
     updatePrice: function() {
-	if (this.state.legs.length > 0) {
+	if (this.state.bet.legs.length > 0) {
 	    // blank price, set price request id
 	    var state=this.state;
 	    state.price=undefined;
@@ -267,9 +270,9 @@ var AccaProductPanel=React.createClass({
 	    setTimeout(function() {
 		var struct={
 		    name: this.props.product.name,
-		    legs: this.state.legs,
-		    nLegs: this.state.nLegs,
-		    nGoals: this.state.nGoals,
+		    legs: this.state.bet.legs,
+		    nLegs: this.state.bet.nLegs,
+		    nGoals: this.state.bet.nGoals,
 		    bust: Math.round(Math.random()*1e10)
 		};
 		this.props.exoticsApi.fetchPrice(struct, function(struct) {
@@ -302,13 +305,13 @@ var AccaProductPanel=React.createClass({
     },
     applyPaginatorWindow: function(items) {
 	var rows=this.props.betLegsPaginator.rows;
-	var i=this.state.currentPage*rows;
-	var j=(this.state.currentPage+1)*rows;
+	var i=this.state.bet.currentPage*rows;
+	var j=(this.state.bet.currentPage+1)*rows;
 	return items.slice(i, j);
     },
     handlePaginatorClicked: function(item) {
 	var state=this.state;
-	state.currentPage=item.value;
+	state.bet.currentPage=item.value;
 	this.setState(state);	
     },
     render: function() {
@@ -355,10 +358,10 @@ var AccaProductPanel=React.createClass({
 		    ],
 		    selected: this.state.selectedTab,
 		    clickHandler: this.handleTabClicked,
-		    legs: this.state.legs
+		    legs: this.state.bet.legs
 		}),
 		(this.state.selectedTab=="bet") ? React.DOM.div({
-		    children: (this.state.legs.length!=0) ? [
+		    children: (this.state.bet.legs.length!=0) ? [
 			React.DOM.div({
 			    className: "form-group",
 			    children: React.DOM.h3({
@@ -376,14 +379,14 @@ var AccaProductPanel=React.createClass({
 			    label: "Legs",
 			    component: React.createElement(AccaLegTable, {
 				clickHandler: this.handleLegRemoved,
-				legs: this.applyPaginatorWindow(this.sortLegs(this.state.legs))
+				legs: this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))
 			    })
 			}),
-			(this.state.legs.length > this.props.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
+			(this.state.bet.legs.length > this.props.betLegsPaginator.rows) ? React.createElement(MyPaginator, {
 			    product: this.props.betLegsPaginator,
-			    data: this.state.legs,
+			    data: this.state.bet.legs,
 			    clickHandler: this.handlePaginatorClicked,
-			    currentPage: this.state.currentPage
+			    currentPage: this.state.bet.currentPage
 			}) : undefined,
 			this.props.product.betGoalsSlider ? React.createElement(MyFormComponent, {
 			    label: this.props.product.betGoalsSlider.label,
@@ -392,7 +395,7 @@ var AccaProductPanel=React.createClass({
 				min: this.props.product.betGoalsSlider.minVal,
 				max: this.props.product.betGoalsSlider.maxVal,
 				tickLabeller: this.props.product.betGoalsSlider.tickLabeller,
-				value: this.state.nGoals,
+				value: this.state.bet.nGoals,
 				changeHandler: this.handleGoalsSliderChanged,
 				
 			    })
@@ -401,8 +404,8 @@ var AccaProductPanel=React.createClass({
 			    label: this.props.product.betLegsToggle.label,
 			    component: React.createElement(AccaNLegsToggle, {
 				textFormatter: this.props.product.betLegsToggle.textFormatter,
-				nLegs: this.state.nLegs,
-				legs: this.state.legs,
+				nLegs: this.state.bet.nLegs,
+				legs: this.state.bet.legs,
 				clickHandlers: {
 				    increment: this.incrementNLegs,
 				    decrement: this.decrementNLegs
@@ -438,7 +441,7 @@ var AccaProductPanel=React.createClass({
 		}) : undefined,
 		(this.state.selectedTab=="legs") ? React.createElement(this.props.product.legsPanel, {
 		    exoticsApi: this.props.exoticsApi,
-		    legs: this.state.legs,
+		    legs: this.state.bet.legs,
 		    clickHandler: {
 			add: this.handleLegAdded,
 			remove: this.handleLegRemoved
