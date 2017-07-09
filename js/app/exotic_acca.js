@@ -195,6 +195,16 @@ var AccaProductPanel=React.createClass({
 	    bet: this.initBet(this.props.products[0])
 	}
     },
+    handleProductChanged: function(name, value) {
+	var state=this.state;
+	var product=this.props.products.filter(function(product) {
+	    return product.name==value;
+	})[0];
+	var state=this.state;
+	state.product=product;
+	state.bet=this.initBet(product);
+	this.setState(state);
+    },
     handleTabClicked: function(tab) {
 	var state=this.state;
 	state.selectedTab=tab.name;
@@ -337,9 +347,7 @@ var AccaProductPanel=React.createClass({
 				}
 			    }),
 			    name: "product",
-			    changeHandler: function(name, value) {
-				console.log(name+"="+value);
-			    }
+			    changeHandler: this.handleProductChanged
 			})
 		    })
 		}),
