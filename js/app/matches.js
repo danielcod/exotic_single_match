@@ -48,6 +48,13 @@ var MatchRow=React.createClass({
 	    this.props.clickHandler.remove(leg);
 	}
     },
+    componentWillReceiveProps: function(nextProps) {
+	if (nextProps.match.name!=this.props.match.name) {
+	    var state=this.state;
+	    state.selected=nextProps.match.selected;
+	    this.setState(state);
+	}
+    },
     formatPrice: function(value) {
 	if (value < 2) {
 	    // return value.toFixed(3);
@@ -88,7 +95,17 @@ var MatchRow=React.createClass({
 
 var MatchTable=React.createClass({
     addLegState: function(matches, legs) {
-	// add code to add selected values to matches
+	// initialise selected
+	var selected={};
+	for (var i=0; i < legs.length; i++) {
+	    var leg=legs[i];
+	    selected[leg.match.name]=true;
+	}
+	// update selected params
+	for (var i=0; i < matches.length; i++) {
+	    var match=matches[i];
+	    match.selected=selected[match.name];
+	}
 	return matches;
     },
     render: function() {
