@@ -17,6 +17,7 @@ Timeout=30
 """
 
 def rpc_get(url, maxtries=5, wait=1):
+    print url
     args={"method": "GET",
           "url": url,
           "headers": {"Accept": "application/json"},
