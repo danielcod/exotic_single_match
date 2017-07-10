@@ -88,7 +88,7 @@ var App=React.createClass({
 				    return labels;
 				},
 				minVal: 0,
-				maxVal: 4,
+				maxVal: 3,
 			    },
 			    betLegsToggle: {
 				label: "How many legs need to draw ?",
