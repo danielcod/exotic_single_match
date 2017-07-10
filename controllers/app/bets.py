@@ -16,8 +16,8 @@ class PriceHandler(webapp2.RequestHandler):
             bet["goalsCondition"]=exotic_acca.GTE
         elif bet["name"]==ExoticAccaLoser:
             bet["resultCondition"]=exotic_acca.Lose
-            bet["legsCondition"]=exotic_acca.LTE
-            bet["goalsCondition"]=exotic_acca.LTE
+            bet["legsCondition"]=exotic_acca.GTE
+            bet["goalsCondition"]=exotic_acca.GTE
             
     @parse_json_body
     @emit_json
