@@ -107,7 +107,7 @@ var MatchTeamRow=React.createClass({
 		React.DOM.td({
 		    children: React.DOM.span({
 			className: "text-muted",
-			children: this.formatPrice(this.props.match.prices[0])
+			children: this.formatPrice(this.props.match["1x2_prices"][0])
 		    })
 		}),
 		*/
@@ -121,7 +121,7 @@ var MatchTeamRow=React.createClass({
 		React.DOM.td({
 		    children: React.DOM.span({
 			className: "text-muted",
-			children: this.formatPrice(this.props.match.prices[2])
+			children: this.formatPrice(this.props.match["1x2_prices"][2])
 		    })
 		}),
 		*/
