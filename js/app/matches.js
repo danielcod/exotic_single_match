@@ -15,7 +15,7 @@ var MatchToggleCell=React.createClass({
 var MatchRow=React.createClass({
     getInitialState: function() {
 	return {
-	    selected: false // NB needs to be changed to reflect leg match state
+	    selected: this.props.match.selected==true
 	}
     },
     handleCellClicked: function() {
