@@ -361,7 +361,7 @@ var AccaProductPanel=React.createClass({
 		    tabs: [
 			{
 			    name: "bet",
-			    label: "My Bet"
+			    label: "Your Bet"
 			},
 			{
 			    name: "legs",
