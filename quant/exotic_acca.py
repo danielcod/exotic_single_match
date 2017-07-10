@@ -54,8 +54,17 @@ def leg_filterfn(bet):
             else:
                 raise RuntimeError(errmsg % (bet["goalsCondition"], Lose))
         elif bet["resultCondition"]==Draw:
-            if bet["goalsCondition"]==EQ:
-                return score[0]==score[1]==bet["nGoals"]
+
+            if bet["goalsCondition"]==GT:
+                return (score[0]==score[1]) and (score[0] > bet["nGoals"])
+            elif bet["goalsCondition"]==GTE:
+                return (score[0]==score[1]) and (score[0] >= bet["nGoals"])
+            elif bet["goalsCondition"]==LT:
+                return (score[0]==score[1]) and (score[0] < bet["nGoals"])
+            elif bet["goalsCondition"]==LTE:
+                return (score[0]==score[1]) and (score[0] <= bet["nGoals"])
+            elif bet["goalsCondition"]==EQ:
+                return (score[0]==score[1]) and (score[0] == bet["nGoals"])
             else:
                 raise RuntimeError(errmsg % (bet["goalsCondition"], Draw))
         else:

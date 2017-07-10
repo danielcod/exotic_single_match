@@ -23,6 +23,30 @@ var MatchRow=React.createClass({
 	var state=this.state;
 	state.selected=!state.selected;
 	this.setState(state);
+	// pass leg
+	var leg={
+	    match: this.props.match,
+	    selection: {
+		// START HACK
+		/* 
+		   this is a hack designed to make Exotic Acca Draws work
+		   problem is that quant pricing requires a team, but in this case you have a match
+		   quick workaround is to force a team in this case; prob of one team drawing is the same as the prop of the other team drawing in a given match (???)
+		   this won't work for other match- based payoffs!
+		   real solution is to fix quant pricing to allow draws to be priced off matches rather than teams
+		*/
+		team: this.props.match.name.split(" vs ")[0],
+		// END HACK
+		name: this.props.match.name
+	    },
+	    description: this.props.match.name,
+	    price: this.props.match["1x2_prices"][1]
+	};
+	if (state.selected) {
+	    this.props.clickHandler.add(leg);
+	} else {
+	    this.props.clickHandler.remove(leg);
+	}
     },
     formatPrice: function(value) {
 	if (value < 2) {

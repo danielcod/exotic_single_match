@@ -6,6 +6,7 @@ Seed, Paths = 13, 5000
 
 ExoticAccaWinner="exotic_acca_winner"
 ExoticAccaLoser="exotic_acca_loser"
+ExoticAccaDraws="exotic_acca_draws"
 
 class PriceHandler(webapp2.RequestHandler):
 
@@ -16,6 +17,10 @@ class PriceHandler(webapp2.RequestHandler):
             bet["goalsCondition"]=exotic_acca.GTE
         elif bet["name"]==ExoticAccaLoser:
             bet["resultCondition"]=exotic_acca.Lose
+            bet["legsCondition"]=exotic_acca.GTE
+            bet["goalsCondition"]=exotic_acca.GTE
+        elif bet["name"]==ExoticAccaDraws:
+            bet["resultCondition"]=exotic_acca.Draw
             bet["legsCondition"]=exotic_acca.GTE
             bet["goalsCondition"]=exotic_acca.GTE
             
