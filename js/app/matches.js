@@ -13,8 +13,16 @@ var MatchToggleCell=React.createClass({
 });
 
 var MatchRow=React.createClass({
+    getInitialState: function() {
+	return {
+	    selected: false // NB needs to be changed to reflect leg match state
+	}
+    },
     handleCellClicked: function() {
-	console.log("click");
+	// update state
+	var state=this.state;
+	state.selected=!state.selected;
+	this.setState(state);
     },
     render: function() {
 	return React.DOM.tr({
@@ -28,6 +36,7 @@ var MatchRow=React.createClass({
 		}),
 		React.createElement(MatchTeamToggleCell, {
 		    value: this.props.match.name,
+		    selected: this.state.selected,
 		    clickHandler: this.handleCellClicked
 		}),
 	    ]
