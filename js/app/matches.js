@@ -24,6 +24,18 @@ var MatchRow=React.createClass({
 	state.selected=!state.selected;
 	this.setState(state);
     },
+    formatPrice: function(value) {
+	if (value < 2) {
+	    // return value.toFixed(3);
+	    return value.toFixed(2);
+	} else if (value < 10) {
+	    return value.toFixed(2);
+	} else if (value < 100) {
+	    return value.toFixed(1);
+	} else {
+	    return Math.floor(value);
+	}
+    },
     render: function() {
 	return React.DOM.tr({
 	    className: "text-center",
@@ -38,6 +50,12 @@ var MatchRow=React.createClass({
 		    value: this.props.match.name,
 		    selected: this.state.selected,
 		    clickHandler: this.handleCellClicked
+		}),
+		React.DOM.td({
+		    children: React.DOM.span({
+			className: "text-muted",
+			children: this.formatPrice(this.props.match["1x2_prices"][1])
+		    })
 		}),
 	    ]
 	});
