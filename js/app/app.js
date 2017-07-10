@@ -68,6 +68,35 @@ var App=React.createClass({
 				},			    
 				minVal: 1
 			    }
+			},
+			{
+			    label: "Exotic Acca Draws",
+			    name: "exotic_acca_draws",
+			    description:  "An Exotic Acca Draws bet allows you to bet on the number of draws in an Acca; once again, not all of them have to come in and you can improve the price by specifying the number of goals in each game",
+			    legsPanel: MatchPanel,
+			    betGoalsSlider: {
+				label: "To Draw With At Least",
+				tickLabeller: function(minval, maxval) {
+				    var labels=[];
+				    for (var i=minval; i <= maxval; i++) {
+					if (i==minval) {
+					    labels.push("(Just Draw)");
+					} else {
+					    labels.push(i+"+ Goals");
+					}
+				    }
+				    return labels;
+				},
+				minVal: 0,
+				maxVal: 4,
+			    },
+			    betLegsToggle: {
+				label: "How many legs need to draw ?",
+				textFormatter: function(val, maxval) {
+				    return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				},			    
+				minVal: 1
+			    }
 			}
 		    ],
 		    legsPaginator: {
