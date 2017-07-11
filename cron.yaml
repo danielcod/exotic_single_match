@@ -1,1 +1,4 @@
-cron: []
+cron:
+- url: "/tasks/app/matches?window=14"
+  schedule: "every 3 hours"
+
