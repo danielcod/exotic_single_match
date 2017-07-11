@@ -2,7 +2,7 @@ import time, urllib, yaml
 
 Endpoints=yaml.load("""
 dev: localhost:8080
-prod: iosport-iocurve.appspot.com
+prod: iosport-exotics-engine.appspot.com
 """)
 
 if __name__=="__main__":
