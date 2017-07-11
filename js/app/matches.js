@@ -1,12 +1,10 @@
 var MatchToggleCell=React.createClass({
     render: function() {
 	return React.DOM.td({
-	    children: this.props.selected ? React.DOM.span({
-		className: "label label-red",
-		children: React.DOM.b({
-		    children: this.props.value
-		})
-	    }) : this.props.value,
+	    style: {
+		"background-color": (this.props.selected ? "#ec644b" : ""),
+	    },
+	    children: this.props.value,
 	    onClick: this.props.clickHandler
 	});
     }
@@ -72,20 +70,38 @@ var MatchRow=React.createClass({
 	    className: "text-center",
 	    children: [
 		React.DOM.td({
-		    children: React.createElement(DateTimeCell, {
-			value: this.props.match.kickoff,
-			type: "datetime"
+		    children: [
+			React.DOM.span({
+			    children: this.props.match.name
+			}),
+			React.DOM.br({}),
+			React.createElement(DateTimeCell, {
+			    value: this.props.match.kickoff,
+			    type: "datetime"
+			})
+		    ]
+		}),
+		React.DOM.td({
+		    children: React.DOM.span({
+			// className: "text-muted",
+			style: {
+			    color: "#777"
+			},
+			children: this.formatPrice(this.props.match["1x2_prices"][0])
 		    })
 		}),
 		React.createElement(MatchTeamToggleCell, {
-		    value: this.props.match.name,
+		    value: this.formatPrice(this.props.match["1x2_prices"][1]),
 		    selected: this.state.selected,
 		    clickHandler: this.handleCellClicked
 		}),
 		React.DOM.td({
 		    children: React.DOM.span({
-			className: "text-muted",
-			children: this.formatPrice(this.props.match["1x2_prices"][1])
+			// className: "text-muted",
+			style: {
+			    color: "#777"
+			},
+			children: this.formatPrice(this.props.match["1x2_prices"][2])
 		    })
 		}),
 	    ]
@@ -111,14 +127,27 @@ var MatchTable=React.createClass({
     render: function() {
 	return React.DOM.table({
 	    className: "table table-condensed table-striped",
-	    children: React.DOM.tbody({
-		children: this.addLegState(this.props.matches, this.props.legs).map(function(match) {
-		    return React.createElement(MatchRow, {
-			match: match,
-			clickHandler: this.props.clickHandler
+	    children: [
+		React.DOM.thead({
+		    children: ["", "1", "X", "2"].map(function(label) {
+			return React.DOM.th({
+			    className: "text-center",
+			    style: {
+				"padding-bottom": "5px"
+			    },
+			    children: label
+			})
 		    })
-		}.bind(this))
-	    })
+		}),
+		React.DOM.tbody({
+		    children: this.addLegState(this.props.matches, this.props.legs).map(function(match) {
+			return React.createElement(MatchRow, {
+			    match: match,
+			    clickHandler: this.props.clickHandler
+			})
+		    }.bind(this))
+		})
+	    ]
 	});
     }
 });
