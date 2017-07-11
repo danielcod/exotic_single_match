@@ -8,6 +8,9 @@ ApiKey="AIzaSyAUCQTKkAEJ7CufQyr4yvrmxLaJRSOmsZg"
 
 Bookmakers=yaml.load("""
 - bet365
+- Pinnacle
+- Marathonbet
+- Unibet
 """)
 
 Timeout=30 
