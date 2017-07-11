@@ -132,7 +132,7 @@ class ReduceHandler(webapp2.RequestHandler):
                                       "count": count+1},
                               queue_name=QueueName)
             else:
-                logging.warning("Simulations  not completed; exiting")
+                logging.warning("Simulations not completed; exiting")
                 
 Routing=[('/tasks/app/matches/reduce', ReduceHandler),
          ('/tasks/app/matches/map', MapHandler),

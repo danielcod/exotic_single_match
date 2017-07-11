@@ -1,12 +1,10 @@
 var MatchTeamToggleCell=React.createClass({
     render: function() {
 	return React.DOM.td({
-	    children: this.props.selected ? React.DOM.span({
-		className: "label label-red",
-		children: React.DOM.b({
-		    children: this.props.value
-		})
-	    }) : this.props.value,
+	    style: {
+		"background-color": (this.props.selected ? "#ec644b" : ""),
+	    },
+	    children: this.props.value,
 	    onClick: this.props.clickHandler
 	});
     }
@@ -91,42 +89,35 @@ var MatchTeamRow=React.createClass({
 	    className: "text-center",
 	    children: [
 		React.DOM.td({
-		    children: React.createElement(DateTimeCell, {
-			value: this.props.match.kickoff,
-			type: "datetime"
-		    })
+		    children: [
+			React.DOM.span({
+			    children: this.props.match.name
+			}),
+			React.DOM.br({}),
+			React.createElement(DateTimeCell, {
+			    value: this.props.match.kickoff,
+			    type: "datetime"
+			})
+		    ]
 		}),
 		React.createElement(MatchTeamToggleCell, {
-		    value: this.state.teamnames[0],
+		    value: this.formatPrice(this.props.match["1x2_prices"][0]),
 		    selected: this.state.selected.home,
 		    clickHandler: function() {
 			this.handleCellClicked("home")
 		    }.bind(this)
 		}),
-		/*
 		React.DOM.td({
 		    children: React.DOM.span({
-			className: "text-muted",
-			children: this.formatPrice(this.props.match["1x2_prices"][0])
+			// className: "text-muted",
+			style: {
+			    color: "#777"
+			},
+			children: this.formatPrice(this.props.match["1x2_prices"][1])
 		    })
 		}),
-		*/
-		React.DOM.td({
-		    children: React.DOM.span({
-			className: "text-muted",			
-			children: " vs "
-		    })
-		}),
-		/*
-		React.DOM.td({
-		    children: React.DOM.span({
-			className: "text-muted",
-			children: this.formatPrice(this.props.match["1x2_prices"][2])
-		    })
-		}),
-		*/
 		React.createElement(MatchTeamToggleCell, {
-		    value: this.state.teamnames[1],
+		    value: this.formatPrice(this.props.match["1x2_prices"][2]),
 		    selected: this.state.selected.away,
 		    clickHandler: function() {
 			this.handleCellClicked("away")
@@ -154,15 +145,28 @@ var MatchTeamTable=React.createClass({
     },
     render: function() {
 	return React.DOM.table({
-	    className: "table table-condensed table-striped",
-	    children: React.DOM.tbody({
-		children: this.addLegState(this.props.matches, this.props.legs).map(function(match) {
-		    return React.createElement(MatchTeamRow, {
-			match: match,
-			clickHandler: this.props.clickHandler
+	    className: "table table-condensed table-striped table-bordered",
+	    children: [
+		React.DOM.thead({
+		    children: ["", "1", "X", "2"].map(function(label) {
+			return React.DOM.th({
+			    className: "text-center",
+			    style: {
+				"padding-bottom": "5px"
+			    },
+			    children: label
+			})
 		    })
-		}.bind(this))
-	    })
+		}),
+		React.DOM.tbody({
+		    children: this.addLegState(this.props.matches, this.props.legs).map(function(match) {
+			return React.createElement(MatchTeamRow, {
+			    match: match,
+			    clickHandler: this.props.clickHandler
+			})
+		    }.bind(this))
+		})
+	    ]
 	});
     }
 });
