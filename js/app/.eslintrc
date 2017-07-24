@@ -1,0 +1,77 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "plugins": [
+    "react"                          // https://github.com/yannickcr/eslint-plugin-react
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Strict mode
+    "strict": "off",
+    // Code style
+    "quotes": [
+      0, "single", "avoid-escape"    // http://eslint.org/docs/rules/quotes
+    ],
+    "camelcase": [2, {               // http://eslint.org/docs/rules/camelcase
+      "properties": "always"
+    }],
+    "comma-spacing": [2, {           // http://eslint.org/docs/rules/comma-spacing
+      "before": false,
+      "after": true
+    }],
+    "comma-style": [2, "last"],      // http://eslint.org/docs/rules/comma-style
+    "eol-last": 0,                   // http://eslint.org/docs/rules/eol-last
+    "func-names": 1,                 // http://eslint.org/docs/rules/func-names
+    "key-spacing": [1, {             // http://eslint.org/docs/rules/key-spacing
+      "beforeColon": false,
+      "afterColon": true
+    }],
+    "new-cap": [2, {                 // http://eslint.org/docs/rules/new-cap
+      "newIsCap": false,
+      "capIsNew": false
+    }],
+    "no-multiple-empty-lines": [2, { // http://eslint.org/docs/rules/no-multiple-empty-lines
+      "max": 2
+    }],
+    "no-nested-ternary": 0,          // http://eslint.org/docs/rules/no-nested-ternary
+    "no-new-object": 0,              // http://eslint.org/docs/rules/no-new-object
+    "no-spaced-func": 0,             // http://eslint.org/docs/rules/no-spaced-func
+    "no-extra-parens": [0, "functions"], // http://eslint.org/docs/rules/no-extra-parens
+    "no-underscore-dangle": 0,       // http://eslint.org/docs/rules/no-underscore-dangle
+    "one-var": [0, "never"],         // http://eslint.org/docs/rules/one-var
+    "padded-blocks": [0, "never"],   // http://eslint.org/docs/rules/padded-blocks
+    "semi": [0, "always"],           // http://eslint.org/docs/rules/semi
+    "semi-spacing": [0, {            // http://eslint.org/docs/rules/semi-spacing
+      "before": false,
+      "after": true
+    }],
+    "keyword-spacing": 0,            // http://eslint.org/docs/rules/keyword-spacing
+    "space-before-blocks": 0,        // http://eslint.org/docs/rules/space-before-blocks
+    "space-before-function-paren": [0, "never"], // http://eslint.org/docs/rules/space-before-function-paren
+    "space-infix-ops": 0,            // http://eslint.org/docs/rules/space-infix-ops
+    "spaced-comment": 0,             // http://eslint.org/docs/rules/spaced-comment
+
+    //react specific
+    "react/jsx-no-bind": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/require-default-props": 0,
+    "react/prop-types": 0,
+    "react/forbid-prop-types": 0,
+    "react/no-unused-prop-types": 0,
+    "react/prefer-stateless-function": 0,
+    "react/self-closing-comp": 0,
+    "jsx-a11y/no-static-element-interactions" : 0,
+
+    "space-in-parens": 0,
+    //Keeping below till idea supports these codestyles
+    "object-curly-spacing": 0
+  }
+}

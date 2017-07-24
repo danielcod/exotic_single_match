@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>{{ title }}</title>
     <script type="text/javascript" src="../js/lib/head.load.min.js"></script>
+    <script type="text/javascript">
+        head.load([ '../css/lib/bootstrap.min.css',
+                    '../css/lib/bootstrap-slider.min.css',
+                    '../css/app/theme.min.css',
+                    '../css/app/exotics_engine.css',
+                    '../js/build/bundle.js']);
+    </script>
   </head>
   <body>
     <div id="app" class="container">
     </div>
-    <script type="text/javascript">
-      head.js({{ deps|safe }});
-      head(function() {Main(); });
-    </script>
+   <!--<script type="text/javascript" src="../js/build/bundle.js"></script>-->
   </body>
 </html>
 
