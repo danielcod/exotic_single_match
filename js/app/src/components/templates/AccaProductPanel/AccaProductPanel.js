@@ -30,7 +30,7 @@ export default class AccaProductPanel extends React.PureComponent{
     componentWillMount(){
         const bet = this.initBet(this.props.products[0]);
         this.setState({
-            selectedTab: "bet",
+            selectedTab: "legs",
             product: this.props.products[0],
             bet: bet,
             legs: bet.legs
@@ -202,7 +202,7 @@ export default class AccaProductPanel extends React.PureComponent{
             <div>
                 <div style={{ marginTop: '20px', marginLeft: '50px', marginRight: "50px" }}>
                     <MyFormComponent
-                        label= "Product"
+                        label= "Choose your Exotic Acca Type"
                         component={ <MySelect
                                         className="form-control btn-primary input-lg"
                                         options= {this.props.products.map(function(product) {
@@ -255,7 +255,7 @@ export default class AccaProductPanel extends React.PureComponent{
                                                 </h3>
                                             </div>
                                         <MyFormComponent
-                                            label= "Legs"
+                                            label= "Your Exotic Acca Legs"
                                             component= { <AccaLegTable
                                                             clickHandler= {this.handleLegRemoved}
                                                             legs= {this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
