@@ -90,7 +90,7 @@ export default class MatchTeamRow extends React.PureComponent {
             <tr className= "text-center">
                 <td>
                     <span className='match-name'>
-                        {this.props.match.name}
+                        {this.props.match.name} 
                     </span>
                     <br/>
                     <DateTimeCell
@@ -106,7 +106,7 @@ export default class MatchTeamRow extends React.PureComponent {
                 />
                 <td>
                     <span style={{color: '#777'}}>
-                        {this.formatPrice(this.props.match["1x2_prices"][1])}
+                        {this.formatPrice(this.props.match["1x2_prices"][1])} 111
                     </span>
                 </td>
                  <MatchTeamToggleCell 

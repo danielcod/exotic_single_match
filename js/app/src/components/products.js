@@ -23,7 +23,7 @@ export const products = [
 			    betLegsToggle: {
 				label: "How many legs need to win ?",
 				textFormatter: function(val, maxval) {
-				    return ((maxval/2)+1) + ((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				    return Math.ceil((maxval/2)+1) + ((val < maxval) ? "+" : "")+" (of "+maxval+")";
 				},			    
 				minVal: 1
 			    }
@@ -52,7 +52,7 @@ export const products = [
 			    betLegsToggle: {
 				label: "To Lose By At Least",
 				textFormatter: function(val, maxval) {
-				    return ((maxval/2)+1) +((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				    return Math.ceil((maxval/2)+1) +((val < maxval) ? "+" : "")+" (of "+maxval+")";
 				},			    
 				minVal: 1
 			    }
@@ -81,7 +81,7 @@ export const products = [
 			    betLegsToggle: {
 				label: "How many legs need to draw ?",
 				textFormatter: function(val, maxval) {
-				    return ((maxval/2)+1) +((val < maxval) ? "+" : "")+" (of "+maxval+")";
+				    return Math.ceil((maxval/2)+1) +((val < maxval) ? "+" : "")+" (of "+maxval+")";
 				},			    
 				minVal: 1
 			    }
