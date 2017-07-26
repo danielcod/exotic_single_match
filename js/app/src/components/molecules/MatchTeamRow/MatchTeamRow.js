@@ -87,8 +87,8 @@ export default class MatchTeamRow extends React.PureComponent {
     }
     render() {
         return (
-            <tr className= "text-center">
-                <td>
+            <tr className= "text-center match">
+                <td >
                     <span className='match-name'>
                         {this.props.match.name} 
                     </span>

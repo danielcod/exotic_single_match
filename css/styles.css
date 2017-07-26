@@ -12,7 +12,20 @@ tr td .match-name{
 	font-size: 10px;
 }
 
+.match td div span{
+	font-size: 10px;
+}
+
+
 .league option{
+	font-size: 10px;
+}
+
+.leg-row .leg-row-date span{
+	font-size: 10px;
+}
+
+.leg-row .leg-row-descr{
 	font-size: 10px;
 }
 
