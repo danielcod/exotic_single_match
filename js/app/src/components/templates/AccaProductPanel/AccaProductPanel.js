@@ -269,20 +269,7 @@ export default class AccaProductPanel extends React.PureComponent{
                                                     clickHandler={ this.handlePaginatorClicked}
                                                     currentPage= {this.state.bet.currentPage}
                                                 />
-                                        : null}
-
-                                        {this.state.product.betGoalsSlider ?
-                                            <MyFormComponent
-                                                label= {this.state.product.betGoalsSlider.label}
-                                                component= {<AccaNGoalsSlider
-                                                                id= "goalSlider"
-                                                                min= {this.state.product.betGoalsSlider.minVal}
-                                                                max= {this.state.product.betGoalsSlider.maxVal}
-                                                                tickLabeller={ this.state.product.betGoalsSlider.tickLabeller}
-                                                                value={ this.state.bet.nGoals}
-                                                                changeHandler={ this.handleGoalsSliderChanged}
-                                                            />}
-                                            /> : null}
+                                        : null}                                    
 
                                         {this.state.product.betLegsToggle ?
                                             <MyFormComponent
@@ -298,6 +285,19 @@ export default class AccaProductPanel extends React.PureComponent{
 
                                             /> 
                                             : null}
+
+                                            {this.state.product.betGoalsSlider ?
+                                            <MyFormComponent
+                                                label= {this.state.product.betGoalsSlider.label}
+                                                component= {<AccaNGoalsSlider
+                                                                id= "goalSlider"
+                                                                min= {this.state.product.betGoalsSlider.minVal}
+                                                                max= {this.state.product.betGoalsSlider.maxVal}
+                                                                tickLabeller={ this.state.product.betGoalsSlider.tickLabeller}
+                                                                value={ this.state.bet.nGoals}
+                                                                changeHandler={ this.handleGoalsSliderChanged}
+                                                            />}
+                                            /> : null}
 
                                         <hr   style= {{borderColor: "#555"}}/>
                                         <div  className= "text-center"  style= {{marginBottom: "20px"}}>

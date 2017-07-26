@@ -10,7 +10,8 @@ export default class MySelect extends React.PureComponent{
     }
     render() {
         return(
-            <select 
+            <select
+                style={this.props.name === 'league' ? {paddingLeft: '26%', backgroundColor: '#d99c41' } : {}} 
                 className= {this.props.className || "form-control"}
                 onChange= {this.changeSelect}>
                 {

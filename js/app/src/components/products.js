@@ -5,7 +5,7 @@ export const products = [
 			    description:  "An Exotic Acca Winner is like a traditional acca; but not all teams have to win for it to payout, so you don't have to select all the favourites; and you can add a goals condition to improve the price!",
 			    legsPanel: 'MatchTeamPanel',
 			    betGoalsSlider: {
-				label: "How many legs need to win ?", 
+				label: "To Win By At Least",
 				tickLabeller: function(minval, maxval) {
 				    var labels=[];	
 				    for (var i=minval; i <= maxval; i++) {
@@ -21,7 +21,7 @@ export const products = [
 				maxVal: 4,
 			    },
 			    betLegsToggle: {
-				label: "To Win By At Least",
+				label: "How many legs need to win ?",
 				textFormatter: function(val, maxval) {
 				    return  val+((val < maxval) ? "+" : "")+" (of "+maxval+")";
 				},			    
