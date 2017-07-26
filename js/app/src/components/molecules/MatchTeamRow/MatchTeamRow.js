@@ -105,8 +105,8 @@ export default class MatchTeamRow extends React.PureComponent {
                     place="home"
                 />
                 <td>
-                    <span style={{color: '#777'}}>
-                        {this.formatPrice(this.props.match["1x2_prices"][1])} 111
+                    <span style={{color: '#777'}} className = "round-cell">
+                        {this.formatPrice(this.props.match["1x2_prices"][1])}
                     </span>
                 </td>
                  <MatchTeamToggleCell 
