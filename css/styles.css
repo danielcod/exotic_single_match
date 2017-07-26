@@ -11,3 +11,8 @@ div .form-group #league-name {
 tr td .match-name{
 	font-size: 10px;
 }
+
+.league option{
+	font-size: 10px;
+}
+

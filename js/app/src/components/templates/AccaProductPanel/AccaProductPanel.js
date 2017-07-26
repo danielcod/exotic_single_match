@@ -228,12 +228,12 @@ export default class AccaProductPanel extends React.PureComponent{
                 <AccaPanelTabs
                     tabs = { [
                             {
-                                name: "bet",
-                                label: "Your Bet"
-                            },
-                            {
                                 name: "legs",
                                 label: "Leg Selector"
+                            },
+                            {
+                                name: "bet",
+                                label: "Your Bet"
                             }
                     ] }
                     selected= {this.state.selectedTab}
