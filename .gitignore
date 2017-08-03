@@ -2,4 +2,4 @@ tmp
 *.pyc
 js/app/node_modules
 .idea/
-node_modules/*.*
+npm-debug.log
