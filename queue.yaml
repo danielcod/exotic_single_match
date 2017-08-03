@@ -1,0 +1,8 @@
+queue:
+- name: default
+  rate: 0.1/s
+  bucket_size: 1
+- name: quant
+  rate: 0.1/s
+  bucket_size: 1
+
