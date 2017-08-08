@@ -1,23 +1,20 @@
 import React from 'react';
-import AccaProductPanel from '../../templates/AccaProductPanel';
-import * as data from '../../products';
+import AppStage from './AppStage';
 
 export default class App extends React.PureComponent {
-    render(){
-        return(
+
+    render() {
+        return (
             <div>
                 <div className="header clearfix">
                     <h1>Team Exotics</h1>
                 </div>
-                <AccaProductPanel
-                    exoticsApi={ this.props.exoticsApi }
-                    products = { data.products }
-                    legsPaginator= {{ rows: 8 }}
-		            betLegsPaginator= {{ rows: 8 }}
+                <AppStage
+                    exoticsApi={this.props.exoticsApi}
                 />
                 <footer className="footer">
                     Powered by
-                    <img  className= "img-responsive"  src= "img/iosport.png" alt= "ioSport"/>
+                    <img className="img-responsive" src="img/iosport.png" alt="ioSport"/>
                 </footer>
             </div>
         )

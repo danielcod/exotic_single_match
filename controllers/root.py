@@ -5,7 +5,7 @@ class IndexHandler(webapp2.RequestHandler):
     def get(self):
         self.redirect("/app")
 
-Routing=[('/', IndexHandler)]
+Routing = [('/', IndexHandler)]
 
-app=webapp2.WSGIApplication(Routing)
+app = webapp2.WSGIApplication(Routing)
 

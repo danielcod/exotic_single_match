@@ -4,7 +4,7 @@ from controllers.app import *
 
 class IndexHandler(webapp2.RequestHandler):
 
-    # @emit_json_memcache(MemcacheAge)
+    #@emit_json_memcache(MemcacheAge)
     @emit_json
     def get(self):
         self.response.headers['Content-Type'] = 'application/json'
@@ -17,7 +17,7 @@ class IndexHandler(webapp2.RequestHandler):
             match.pop("dc_grid")
         return matches
 
-Routing=[('/app/matches', IndexHandler)]
+Routing = [('/app/matches', IndexHandler)]
 
-app=webapp2.WSGIApplication(Routing, debug=True)
+app = webapp2.WSGIApplication(Routing, debug=True)
 

@@ -23,6 +23,7 @@ skip_files:
 - ^tmp
 - ^\.git/.*$
 - ^\.idea/.*$
+- ^js/app/node_modules
 
 handlers:
 # STATIC

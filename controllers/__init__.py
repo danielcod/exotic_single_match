@@ -36,7 +36,7 @@ def render_json(self, struct):
 def render_template(self, path, tv):
     from google.appengine.ext.webapp import template
     self.response.set_status(200)
-    self.response.headers['Content-Type']='text/html' 
+    self.response.headers['Content-Type'] = 'text/html'
     self.response.out.write(template.render(path, tv))
 
 def validate_query(config):

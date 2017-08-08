@@ -55,7 +55,17 @@ export default class AccaProductPanel extends React.PureComponent{
     }   
 
     handleTabClicked(tab) {        
+        if (tab.name == "bet") {
+            this.props.clickHandler("Bet");
+        } else {
+            this.props.clickHandler("Edit");
+        }
         this.setState({selectedTab: tab.name});
+
+    }
+
+    handleCancel(){
+         this.props.clickHandler("Browse");
     }
 
     handleLegAdded(newleg) {
@@ -198,6 +208,7 @@ export default class AccaProductPanel extends React.PureComponent{
         this.setState({product, bet, legs: bet.legs});           
     }
     render() {
+
         return (
             <div>
                 <div style={{ marginTop: '20px', marginLeft: '50px', marginRight: "50px" }}>
@@ -303,6 +314,10 @@ export default class AccaProductPanel extends React.PureComponent{
                                         <div  className= "text-center"  style= {{marginBottom: "20px"}}>
                                             <button
                                                 className="btn btn-primary"
+                                                onClick={()=>  this.handleCancel()}
+                                                style={{marginRight: "10px"}}>Cancel</button>
+                                            <button
+                                                className="btn btn-primary"
                                                 onClick={()=>  console.log("placing bet")}>Place Bet</button>
                                         </div>
                                     </div> :
@@ -314,7 +329,6 @@ export default class AccaProductPanel extends React.PureComponent{
                         </div> : null
                 }
                 {
-                    
                     (this.state.selectedTab == "legs") ? 
                         this.state.product.legsPanel === 'MatchPanel' ?
                             <MatchPanel
@@ -340,6 +354,5 @@ export default class AccaProductPanel extends React.PureComponent{
                 }
             </div>
         )
-
     }
 }

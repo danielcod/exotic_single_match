@@ -6,6 +6,7 @@ export default class AccaNGoalsSlider extends React.PureComponent{
     constructor(props){
         super(props);
         bindAll(this, ['changeHandler'])
+        console.log(this.initSliderTicks(this.props.min, this.props.max));
     }
 
     initSliderTicks (minval, maxval)     {
