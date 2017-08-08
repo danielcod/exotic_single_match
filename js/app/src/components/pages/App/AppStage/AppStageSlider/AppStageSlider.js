@@ -24,8 +24,8 @@ export default class AppStageSlider extends React.PureComponent {
                     min={1}
                     ticks_labels={this.props.tickLabels}
                     ticks={this.initSliderTicks(1, this.props.tickLabels.length)}
-                    tooltip={'hide'}
-                />
+                    tooltip="hide"
+                    disabled="disabled" />
             </div>
         )
     }

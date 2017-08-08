@@ -46,3 +46,31 @@ tr td .match-name{
 .bet-slider-container .slider.slider-horizontal{
 	width: 100%;
 }
+.app-stage-slider-container .slider.slider-horizontal .slider-track {
+	height: 8px;
+	margin-top: 1px;
+	background: #575763;
+}
+.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
+	background: #675545;
+	box-shadow: none;
+}
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick {
+	background: #575763;
+	width: 30px;
+	height: 30px;
+}
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick.in-selection {
+	background: #d99c41;
+	border: 8px solid #675545
+}
+.app-stage-slider-container .slider.slider-horizontal .slider-handle {
+	background: #d99c41;
+	width: 30px;
+	height: 30px;
+	border: 8px solid #675545
+}
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-label-container {
+	margin-top: 30px;
+	padding-left: 5px;
+}
