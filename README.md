@@ -24,3 +24,5 @@ Success! The app is now created. Please use `gcloud app deploy` to deploy your f
 
 'fab deploy' still works; but looks like new 'gcloud app deploy' wants you to remove app name from app.yaml :-/
 
+run
+python2.7 /home/incode2015/google-cloud-sdk/platform/google_appengine/dev_appserver.py  .

@@ -1,0 +1,4 @@
+appengine==1.8.0.2
+beautifulsoup4==4.6.0
+google==1.9.3
+urlfetch==1.0.2

@@ -1,2 +1,6 @@
 tmp
 *.pyc
+.idea
+js/app/node_modules
+venv_exotic/
+sdk
