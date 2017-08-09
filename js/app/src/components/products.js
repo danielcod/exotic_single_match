@@ -87,3 +87,18 @@ export const products = [
 			    }
 			}
 		]
+	export const matchProducts =[
+		{
+			label: "Exotic Match 1",
+			name: "exotic_match_1"
+		},
+		{
+			label: "Exotic Match 2",
+			name: "exotic_match_2"
+		},
+		{
+			label: "Exotic Match 3",
+			name: "exotic_match_3"
+		},
+	]
+export const matchComponents = ['Match Result', 'Corners', 'Team Cards', 'Player Cards', 'Goalscorers', 'BTTS & O/U]'];

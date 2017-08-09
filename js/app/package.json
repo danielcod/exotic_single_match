@@ -1,5 +1,5 @@
 {
-  "name": "imapura-frontend-public",
+  "name": "ioSport",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,6 +20,7 @@
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-sanfona": "^0.2.3",
     "serve-favicon": "^2.4.3",
     "superagent": "^3.5.2",
     "superagent-jsonp": "^0.1.1",

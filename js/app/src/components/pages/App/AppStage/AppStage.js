@@ -3,6 +3,7 @@ import {bindAll} from 'lodash';
 import AppStageSlider from './AppStageSlider';
 import AppTab from './AppTab';
 import AccaProductPanel from '../../../templates/AccaProductPanel';
+import AccaMatchProductPanel from '../../../templates/AccaMatchProductPanel';
 import * as data from '../../../products';
 
 export default class AppStage extends React.PureComponent {
@@ -30,8 +31,7 @@ export default class AppStage extends React.PureComponent {
     handleStageChanged(stage) {
         this.setState({currentStage: stage});
     }
-
-    render() {
+    render() {       
         return (
             <div>
                 <AppStageSlider
@@ -60,13 +60,13 @@ export default class AppStage extends React.PureComponent {
                                 clickHandler={this.handleTabClicked}
                             />
                             {
-                                (this.state.selectedTab == "exotic") &&
+                                (this.state.selectedTab == "exotic" || this.state.selectedTab == "match") &&
                                     <button
                                         className="btn btn-primary"
                                         onClick={() => this.handleStageChanged("Edit")}
                                         style= {{float: "right"}}>Build My Own
                                     </button>
-                            }
+                            }                            
                         </div>
                 }
                 {
@@ -84,6 +84,20 @@ export default class AppStage extends React.PureComponent {
                             }
                         </div>
                 }
+                 {
+                    (this.state.selectedTab == "match") &&
+                        <div>
+                            {
+                                (this.state.currentStage == "Edit" || this.state.currentStage == "Bet") &&
+                                    <AccaMatchProductPanel
+                                        exoticsApi={this.props.exoticsApi}
+                                        products={data.matchProducts}       
+                                        clickHandler={this.handleStageChanged}    
+                                    />
+                            }
+                        </div>
+                }
+                
             </div>
         )
     }
