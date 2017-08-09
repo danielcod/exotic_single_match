@@ -6,31 +6,44 @@ threadsafe: false
 libraries:
 - name: yaml
   version: latest
+
 skip_files:
 - ^(.*/)?app\.yaml
 - ^(.*/)?app\.yml
 - ^(.*/)?index\.yaml
 - ^(.*/)?index\.yml
-- ^(.*/)?#.*#
-- ^(.*/)?.*~
-- ^(.*/)?.*\.py[co]
-- ^(.*/)?.*/RCS/.*
-- ^(.*/)?\..*
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
 - ^dev
 - ^fabfile.py
 - ^README
 - ^tmp
+- ^\.git/.*$
+- ^\.idea/.*$
+- ^js/app/node_modules
+
 handlers:
 # STATIC
 - url: /css
   static_dir: css
+  http_headers:
+    Access-Control-Allow-Origin: '*'
 - url: /img
   static_dir: img
+  http_headers:
+    Access-Control-Allow-Origin: '*'
 - url: /js
   static_dir: js
+  http_headers:
+    Access-Control-Allow-Origin: '*'
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
+  http_headers:
+    Access-Control-Allow-Origin: '*'
 # APP
 - url: /app/bets.*
   script: controllers.app.bets.app

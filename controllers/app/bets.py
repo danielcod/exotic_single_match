@@ -27,6 +27,12 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, bet, limit=0.005):
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
+        self.response.headers[
+            'Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE'
+
         self.update_bet(bet)
         matches=Blob.fetch("app/matches")
         prob=exotic_acca.calc_probability(bet,

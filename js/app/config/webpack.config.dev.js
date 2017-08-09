@@ -26,7 +26,7 @@ var languages = {
 
 // @remove-on-eject-begin
 // `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
-var path = require('path');
+// var path = require('path');
 // @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -43,7 +43,13 @@ const NODE_ENV = /development|production/ig.test(process.env.NODE_ENV)
   ? process.env.NODE_ENV.toLowerCase()
   : 'development';
 const AUTOPREFIXER_BROWSERS = ['last 2 versions', 'not ie < 11', 'safari >= 4'];
+
+if (!process.env.PWD) {
+    process.env.PWD = process.cwd();
+}
+
 const PWD = process.env.PWD;
+
 const DEBUG = NODE_ENV === 'development';
 
 const CSS_LOADER_OPTIONS = {

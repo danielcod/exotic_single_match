@@ -87,10 +87,10 @@ export default class MatchTeamRow extends React.PureComponent {
     }
     render() {
         return (
-            <tr className= "text-center">
-                <td>
-                    <span>
-                        {this.props.match.name}
+            <tr className= "text-center match">
+                <td >
+                    <span className='match-name'>
+                        {this.props.match.name} 
                     </span>
                     <br/>
                     <DateTimeCell
@@ -105,7 +105,7 @@ export default class MatchTeamRow extends React.PureComponent {
                     place="home"
                 />
                 <td>
-                    <span style={{color: '#777'}}>
+                    <span style={{color: '#777'}} className = "round-cell">
                         {this.formatPrice(this.props.match["1x2_prices"][1])}
                     </span>
                 </td>

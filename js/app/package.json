@@ -12,6 +12,7 @@
     "eslint-plugin-sort-class-members": "^1.1.1",
     "jquery": "^2.2.4",
     "lodash": "^4.17.4",
+    "path": "^0.12.7",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",

@@ -64,6 +64,9 @@ const NODE_ENV = /development|production/ig.test(process.env.NODE_ENV)
   ? process.env.NODE_ENV.toLowerCase()
   : 'development';
 const AUTOPREFIXER_BROWSERS = ['last 2 versions', 'not ie < 11', 'safari >= 4'];
+if (!process.env.PWD) {
+    process.env.PWD = process.cwd();
+}
 const PWD = process.env.PWD;
 const DEBUG = NODE_ENV === 'development';
 

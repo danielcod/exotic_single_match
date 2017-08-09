@@ -17,13 +17,13 @@ export default class AccaLegRow extends React.PureComponent{
     }
     render(){
         return(
-            <tr>
-                <td>
+            <tr className = "leg-row">
+                <td className = "leg-row-date">
                     <DateTimeCell 
                         value = {this.props.leg.match.kickoff}
                         type= "datetime"/>
                 </td>
-                <td>
+                <td className = "leg-row-descr">
                     {this.props.leg.description}
                 </td>
                 <td>

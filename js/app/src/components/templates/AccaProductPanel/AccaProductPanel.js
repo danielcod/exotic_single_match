@@ -30,7 +30,7 @@ export default class AccaProductPanel extends React.PureComponent{
     componentWillMount(){
         const bet = this.initBet(this.props.products[0]);
         this.setState({
-            selectedTab: "bet",
+            selectedTab: "legs",
             product: this.props.products[0],
             bet: bet,
             legs: bet.legs
@@ -55,7 +55,17 @@ export default class AccaProductPanel extends React.PureComponent{
     }   
 
     handleTabClicked(tab) {        
+        if (tab.name == "bet") {
+            this.props.clickHandler("Bet");
+        } else {
+            this.props.clickHandler("Edit");
+        }
         this.setState({selectedTab: tab.name});
+
+    }
+
+    handleCancel(){
+         this.props.clickHandler("Browse");
     }
 
     handleLegAdded(newleg) {
@@ -198,11 +208,12 @@ export default class AccaProductPanel extends React.PureComponent{
         this.setState({product, bet, legs: bet.legs});           
     }
     render() {
+
         return (
             <div>
                 <div style={{ marginTop: '20px', marginLeft: '50px', marginRight: "50px" }}>
                     <MyFormComponent
-                        label= "Product"
+                        label= "Choose your Exotic Acca Type"
                         component={ <MySelect
                                         className="form-control btn-primary input-lg"
                                         options= {this.props.products.map(function(product) {
@@ -228,12 +239,12 @@ export default class AccaProductPanel extends React.PureComponent{
                 <AccaPanelTabs
                     tabs = { [
                             {
-                                name: "bet",
-                                label: "Your Bet"
-                            },
-                            {
                                 name: "legs",
                                 label: "Leg Selector"
+                            },
+                            {
+                                name: "bet",
+                                label: "Your Bet"
                             }
                     ] }
                     selected= {this.state.selectedTab}
@@ -255,7 +266,7 @@ export default class AccaProductPanel extends React.PureComponent{
                                                 </h3>
                                             </div>
                                         <MyFormComponent
-                                            label= "Legs"
+                                            label= "Your Exotic Acca Legs"
                                             component= { <AccaLegTable
                                                             clickHandler= {this.handleLegRemoved}
                                                             legs= {this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
@@ -269,20 +280,7 @@ export default class AccaProductPanel extends React.PureComponent{
                                                     clickHandler={ this.handlePaginatorClicked}
                                                     currentPage= {this.state.bet.currentPage}
                                                 />
-                                        : null}
-
-                                        {this.state.product.betGoalsSlider ?
-                                            <MyFormComponent
-                                                label= {this.state.product.betGoalsSlider.label}
-                                                component= {<AccaNGoalsSlider
-                                                                id= "goalSlider"
-                                                                min= {this.state.product.betGoalsSlider.minVal}
-                                                                max= {this.state.product.betGoalsSlider.maxVal}
-                                                                tickLabeller={ this.state.product.betGoalsSlider.tickLabeller}
-                                                                value={ this.state.bet.nGoals}
-                                                                changeHandler={ this.handleGoalsSliderChanged}
-                                                            />}
-                                            /> : null}
+                                        : null}                                    
 
                                         {this.state.product.betLegsToggle ?
                                             <MyFormComponent
@@ -299,8 +297,25 @@ export default class AccaProductPanel extends React.PureComponent{
                                             /> 
                                             : null}
 
+                                            {this.state.product.betGoalsSlider ?
+                                            <MyFormComponent
+                                                label= {this.state.product.betGoalsSlider.label}
+                                                component= {<AccaNGoalsSlider
+                                                                id= "goalSlider"
+                                                                min= {this.state.product.betGoalsSlider.minVal}
+                                                                max= {this.state.product.betGoalsSlider.maxVal}
+                                                                tickLabeller={ this.state.product.betGoalsSlider.tickLabeller}
+                                                                value={ this.state.bet.nGoals}
+                                                                changeHandler={ this.handleGoalsSliderChanged}
+                                                            />}
+                                            /> : null}
+
                                         <hr   style= {{borderColor: "#555"}}/>
                                         <div  className= "text-center"  style= {{marginBottom: "20px"}}>
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={()=>  this.handleCancel()}
+                                                style={{marginRight: "10px"}}>Cancel</button>
                                             <button
                                                 className="btn btn-primary"
                                                 onClick={()=>  console.log("placing bet")}>Place Bet</button>
@@ -314,7 +329,6 @@ export default class AccaProductPanel extends React.PureComponent{
                         </div> : null
                 }
                 {
-                    
                     (this.state.selectedTab == "legs") ? 
                         this.state.product.legsPanel === 'MatchPanel' ?
                             <MatchPanel
@@ -340,6 +354,5 @@ export default class AccaProductPanel extends React.PureComponent{
                 }
             </div>
         )
-
     }
 }

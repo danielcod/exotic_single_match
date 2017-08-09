@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import * as s from  './struct';
+import request from 'superagent';
 const struct = s.struct;
 const structPost = s.postStruct;
 
@@ -41,18 +42,20 @@ export class ExoticsAPI {
             if (this.debug) {
                 console.log("Fetching "+key);
             }
-            $.ajax({
-                url: url,
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(payload),
-                dataType: "json",
-                success: function(struct) {
-                    this.cache[key]=struct;
-                    handler(struct);
-                }.bind(this),
-                error: this.errHandler
-            });
+
+            console.log(payload);
+
+            var that = this;
+
+             request
+               .post(url)
+               .send(JSON.stringify(payload))
+               .set('Accept', 'application/json')
+               .end(function(err, res){
+                   that.cache[key]=struct;
+                   handler(res.body);
+               });
+
         } else {
             if (this.debug) {
                 console.log("Serving "+key+" from cache");
@@ -61,11 +64,18 @@ export class ExoticsAPI {
         }
     };
     fetchMatches=function(handler) {
-	    var url="/app/matches";
+        var url="/app/matches";
+        if( process.env.NODE_ENV == 'development') {
+            url="http://127.0.0.1:8080/app/matches";
+        }
+
 	    this.httpGet(url, handler);
     };
     fetchPrice=function(body, handler) {
 	    var url="/app/bets/price";
+        if( process.env.NODE_ENV == 'development') {
+            url="http://127.0.0.1:8080/app/bets/price";
+        }
 	    this.httpPost(url, body, handler);
     }
 };

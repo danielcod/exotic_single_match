@@ -6,6 +6,7 @@ export default class AccaNGoalsSlider extends React.PureComponent{
     constructor(props){
         super(props);
         bindAll(this, ['changeHandler'])
+        console.log(this.initSliderTicks(this.props.min, this.props.max));
     }
 
     initSliderTicks (minval, maxval)     {
@@ -21,16 +22,16 @@ export default class AccaNGoalsSlider extends React.PureComponent{
     }
     render () {
 	return (
-        <ReactBootstrapSlider
-            style={{marginLeft: '30px', marginRight: "30px", width: '100%'}}
-            value={this.props.value}
-            change={this.changeHandler}                        
-            max={this.props.max}
-            min={this.props.min}
-            ticks_labels = {this.props.tickLabeller(this.props.min, this.props.max)}
-            ticks={this.initSliderTicks(this.props.min, this.props.max)}
+        <div className="bet-slider-container">
+            <ReactBootstrapSlider
+                value={this.props.value}
+                change={this.changeHandler}
+                max={this.props.max}
+                min={this.props.min}
+                ticks_labels = {this.props.tickLabeller(this.props.min, this.props.max)}
+                ticks={this.initSliderTicks(this.props.min, this.props.max)}
             />
-        
+        </div>
 	    )
     }
 }
