@@ -402,3 +402,29 @@ league: "FIN.1",
 ];
 
 export const postStruct =  {'nGoals': 2, 'legs': [{'price': 1.4214046822742474, 'description': 'Arsenal (vs Leicester City)', 'match': {'1x2_prices': [1.4214046822742474, 5.279503105590062, 9.340659340659338], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 11, 18, 45), 'name': 'Arsenal vs Leicester City'}, 'selection': {'homeAway': 'home', 'team': 'Arsenal'}}, {'price': 19.288056206088992, 'description': 'Burnley (vs Chelsea)', 'match': {'1x2_prices': [1.2384962406015037, 7.106125970664366, 19.288056206088992], 'selected': 'away', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Chelsea vs Burnley'}, 'selection': {'homeAway': 'away', 'team': 'Burnley'}}, {'price': 1.85744793880153, 'description': 'Crystal Palace (vs Huddersfield Town)', 'match': {'1x2_prices': [1.85744793880153, 3.6742959226565777, 5.277994143042599], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Crystal Palace vs Huddersfield Town'}, 'selection': {'homeAway': 'home', 'team': 'Crystal Palace'}}], 'nLegs': 1, 'name': 'exotic_acca_winner', 'bust': 3074431325}
+export const MatchResultStruct = [
+    {
+        name: "Full Match",        
+        '1x2_prices': [
+            1.4214046822742474,
+            5.279503105590062,
+            9.340659340659338
+        ]
+    },
+    {
+        name: "Both Halves",        
+        '1x2_prices': [
+            1.3534778681120145,
+            5.8006194347657765,
+            11.265413533834588
+        ]
+    },
+    {
+        name: "Either Half",        
+        '1x2_prices': [
+            3.8456478405315617,
+            3.551389826348408,
+            2.1815680361854506
+        ]
+    }
+]

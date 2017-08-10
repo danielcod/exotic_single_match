@@ -4,6 +4,7 @@ import * as DU from '../../date_utils';
 export default class DateTimeCell extends React.PureComponent{
     render(){
         const value=this.props.value;
+        if (!value ) return null;
 	    const date=new Date(value);
 	    const today=new Date();
         let result = [];
@@ -23,6 +24,7 @@ export default class DateTimeCell extends React.PureComponent{
                         {DU.DateUtils.formatDate(date)}
                     </span>)            
         }
+        
         return <div>{result}</div>;
     }
 }

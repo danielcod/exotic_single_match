@@ -90,8 +90,7 @@ export default class AppStage extends React.PureComponent {
                             {
                                 (this.state.currentStage == "Edit" || this.state.currentStage == "Bet") &&
                                     <AccaMatchProductPanel
-                                        exoticsApi={this.props.exoticsApi}
-                                        products={data.matchProducts}       
+                                        exoticsApi={this.props.exoticsApi}                                              
                                         clickHandler={this.handleStageChanged}    
                                     />
                             }

@@ -3,23 +3,38 @@ import { bindAll } from 'lodash';
 import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaPanelTabs from '../../organisms/AccaPanelTabs';
+import MatchResult from '../../organisms/MatchResult';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import classnames from 'classnames';
+import s from './index.mod.scss';
+import * as str from  '../../struct';
 
-export default class AccaProductPanel extends React.PureComponent{
+export default class AccaMatchProductPanel extends React.PureComponent{
     constructor(props){
         super(props);
         this.state={
-            product: {},
+            matches: [],
+            match: {},
             selectedTab: "legs",
-            legs: {}
+            legs: []
         }
-        bindAll(this, ['handleProductChanged', 'handleTabClicked']);
+        bindAll(this, ['handleMatchChanged', 'handleTabClicked']);
     }
-    componentWillMount(){        
-        this.setState({            
-            product: this.props.products[0]   
-        })
+    componentWillMount(){      
+        this.props.exoticsApi.fetchMatches(function(struct) {
+            let {matches, leagues} = this.state;
+            const cutoff=new Date();
+            matches=struct.filter(function(match) {
+                return new Date(match.kickoff) > cutoff;
+            }).sort(this.matchSorter);
+            
+            this.setState({
+                matches: matches,
+                match: matches[0]
+            });
+        }.bind(this));	          
     }
     handleTabClicked(tab) {        
         if (tab.name == "bet") {
@@ -30,28 +45,50 @@ export default class AccaProductPanel extends React.PureComponent{
         this.setState({selectedTab: tab.name});
 
     }
-    handleProductChanged(name, value) {  
-        const product = this.props.products.filter(function(product) {
+    handleMatchChanged(name, value) {  
+        const match = this.state.matches.filter(function(product) {
             return product.name==value;
         })[0];         
-        this.setState({product});           
+        this.setState({match});           
+    }
+     handleLegAdded(newleg) {
+          console.log('handleLegAdded', newleg)
+        /*var state=this.state;
+        state.bet.legs=state.bet.legs.filter(function(leg) {
+            return leg.match.name!=newleg.match.name;
+        });
+        state.bet.legs.push(newleg);
+        this.setState({bet: state.bet, legs: state.bet.legs});
+        this.updatePrice();*/
+    }
+
+    handleLegRemoved(oldleg) {
+         console.log('handleLegRemoved', oldleg)
+        /*var state=this.state;
+        state.bet.legs=state.bet.legs.filter(function(leg) {
+            return leg.description!=oldleg.description;
+        });
+        state.bet.nLegs=Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
+        this.setState({bet: state.bet, legs: state.bet.legs});
+        this.updatePrice();*/
     }
      render() {
+         const {matches, match, legs} = this.state;
         return (
             <div>
                 <MyFormComponent
                         label= "Choose your Match Exotics"
                         component={ <MySelect
                                         className="form-control btn-primary input-lg"
-                                        options= {this.props.products.map(function(product) {
+                                        options= {matches.map(function(product) {
                                                         return {
                                                             label: product.label,
                                                             value: product.name
                                                         }
                                                     })
                                                 }
-                                        name= "product"
-                                        changeHandler= {this.handleProductChanged}
+                                        name= "match"
+                                        changeHandler= {this.handleMatchChanged}
 
 
                                     />
@@ -79,13 +116,25 @@ export default class AccaProductPanel extends React.PureComponent{
                         </div>
                         :
                         <Accordion>
-                            {data.matchComponents.map((item) => {
+                            {data.matchComponents.map((item, index) => {
                                 return (
-                                    <AccordionItem 
-                                        title={`Item ${ item }`} slug={item} key={item}
-                                        onClick={this.clickAccordionItem}>
-                                        <div>
-                                            {item}                                            
+                                    <AccordionItem  
+                                        title={ item } slug={item} key={item}>
+                                        <div>                                                                                    
+                                            {index ===  0 ? 
+                                            <MatchResult 
+                                                matches={str.MatchResultStruct}
+                                                match={match}
+                                                legs={legs}
+                                                clickHandler = {{
+                                                    add: this.handleLegAdded,
+                                                    remove: this.handleLegRemoved
+                                                }}/> : null}  
+                                            {index ===  1 ? <p>{item}</p> : null} 
+                                            {index ===  2 ? <p>{item}</p> : null} 
+                                            {index ===  3 ? <p>{item}</p> : null} 
+                                            {index ===  4 ? <p>{item}</p> : null} 
+                                            {index ===  5 ? <p>{item}</p> : null} 
                                         </div>
                                     </AccordionItem>
                                 );
