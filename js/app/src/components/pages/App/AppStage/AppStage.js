@@ -7,19 +7,30 @@ import * as data from '../../../products';
 
 export default class AppStage extends React.PureComponent {
 
+    appStage = [
+        {name: "browse", label: "Browse"},
+        {name: "edit", label: "Edit"},
+        {name: "bet", label: "Bet"}
+    ];
+    appTab = [
+        {name: "match", label: "Match Exotics"},
+        {name: "exotic", label: "Exotic Accas"},
+        {name: "bets", label: "Your Bets"}
+    ];
+
     constructor(props) {
         super(props);
         this.state = {
             currentStage: "",
             selectedTab: ""
-        }
-        bindAll(this, ['handleTabClicked', 'handleStageChanged']);
+        };
+        bindAll(this, ['handleTabClicked', 'handleStageChanged', 'getTabContent']);
     }
 
     componentWillMount() {
         this.setState({
             selectedTab: "match",
-            currentStage: "Browse"
+            currentStage: "browse"
         })
     }
 
@@ -31,59 +42,44 @@ export default class AppStage extends React.PureComponent {
         this.setState({currentStage: stage});
     }
 
+    getTabContent() {
+        switch (this.state.selectedTab) {
+            case "match":
+                return (
+                    <div style={{textAlign: "center"}}>Coming soon</div>
+                )
+            case "exotic":
+                return (
+                    <AccaProductPanel
+                        exoticsApi={this.props.exoticsApi}
+                        products={data.products}
+                        legsPaginator={{rows: 8}}
+                        betLegsPaginator={{rows: 8}}
+                        clickHandler={this.handleStageChanged}
+                    />
+                )
+            case "bets":
+                return (
+                    <div style={{textAlign: "center"}}>Coming soon</div>
+                )
+        }
+    }
+
     render() {
+        const tabContent = this.getTabContent();
         return (
             <div>
                 <AppStageSlider
-                    tickLabels={['Browse', 'Edit', 'Bet']}
+                    ticks={this.appStage}
                     currentStage={this.state.currentStage}
                 />
-                {
-                    (this.state.currentStage == "Browse") &&
-                        <div>
-                            <AppTab
-                                tabs={[
-                                    {
-                                        name: "match",
-                                        label: "Match Exotics"
-                                    },
-                                    {
-                                        name: "exotic",
-                                        label: "Exotic Accas"
-                                    },
-                                    {
-                                        name: "bets",
-                                        label: "Your Bets"
-                                    }
-                                ]}
-                                selected={this.state.selectedTab}
-                                clickHandler={this.handleTabClicked}
-                            />
-                            {
-                                (this.state.selectedTab == "exotic") &&
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => this.handleStageChanged("Edit")}
-                                        style= {{float: "right"}}>Build My Own
-                                    </button>
-                            }
-                        </div>
-                }
-                {
-                    (this.state.selectedTab == "exotic") &&
-                        <div>
-                            {
-                                (this.state.currentStage == "Edit" || this.state.currentStage == "Bet") &&
-                                    <AccaProductPanel
-                                        exoticsApi={this.props.exoticsApi}
-                                        products={data.products}
-                                        legsPaginator={{rows: 8}}
-                                        betLegsPaginator={{rows: 8}}
-                                        clickHandler={this.handleStageChanged}
-                                    />
-                            }
-                        </div>
-                }
+                <AppTab
+                    tabs={this.appTab}
+                    selected={this.state.selectedTab}
+                    clickHandler={this.handleTabClicked}
+                    currentStage={this.state.currentStage}
+                />
+                {tabContent}
             </div>
         )
     }

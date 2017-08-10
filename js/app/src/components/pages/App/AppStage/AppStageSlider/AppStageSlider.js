@@ -19,13 +19,13 @@ export default class AppStageSlider extends React.PureComponent {
         return (
             <div className="app-stage-slider-container">
                 <ReactBootstrapSlider
-                    value={this.props.tickLabels.indexOf(this.props.currentStage) + 1}
-                    max={this.props.tickLabels.length}
+                    value={this.props.ticks.map(function (o) {return o.name;}).indexOf(this.props.currentStage) + 1}
+                    max={this.props.ticks.length}
                     min={1}
-                    ticks_labels={this.props.tickLabels}
-                    ticks={this.initSliderTicks(1, this.props.tickLabels.length)}
+                    ticks_labels={this.props.ticks.map(function (o) {return o.label;})}
+                    ticks={this.initSliderTicks(1, this.props.ticks.length)}
                     tooltip="hide"
-                    disabled="disabled" />
+                    disabled="disabled"/>
             </div>
         )
     }

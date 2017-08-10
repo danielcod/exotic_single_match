@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindAll } from 'lodash';
+import {bindAll} from 'lodash';
 import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaLegTable from '../../organisms/AccaLegTable';
@@ -13,37 +13,38 @@ import MatchPanel from '../../organisms/MatchPanel';
  nLegs is the state value for NLegsToggle
  nGoals is the state value for NGoalsSlider
  */
-export default class AccaProductPanel extends React.PureComponent{
-    constructor(props){
+export default class AccaProductPanel extends React.PureComponent {
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
+            accaProductPanelState: "",
             selectedTab: "",
             product: {},
             bet: {},
-            legs: {}
-        }
-        bindAll(this, ['initBet',  'handleProductChanged', 'handleTabClicked',
-                        'handleLegAdded',  'handleLegRemoved', 'handleGoalsSliderChanged',
-                        'incrementNLegs', 'decrementNLegs', 'formatPrice', 'formatCurrentPrice',
-                        'updatePrice', 'sortLegs', 'applyPaginatorWindow', 'handlePaginatorClicked']);
+            legs: {},
+            stake: ""
+        };
+        bindAll(this, ['initBet', 'handleProductChanged', 'handleTabClicked', 'handleLegAdded',
+            'handleLegRemoved', 'handleGoalsSliderChanged', 'incrementNLegs', 'decrementNLegs',
+            'formatPrice', 'formatCurrentPrice', 'updatePrice', 'sortLegs', 'applyPaginatorWindow',
+            'handlePaginatorClicked', 'handleCancel', 'handleAccaProductPanelStateChanged',
+            'getAccaProductPanelContent', 'getLegSelectorTabContent', 'getYourBetTabContent',
+            'handleStakeChanged', 'placedBetTextFormatter', 'placedBetGoalFormatter', 'getCurrentTimeFormatter']);
     }
-    componentWillMount(){
-        const bet = this.initBet(this.props.products[0]);
-        this.setState({
-            selectedTab: "legs",
-            product: this.props.products[0],
-            bet: bet,
-            legs: bet.legs
 
+    componentWillMount() {
+        this.setState({
+            accaProductPanelState: "list"
         })
     }
+
     initBet(product) {
-        var initNLegs=function(product) {
-            var toggle=product.betLegsToggle;
+        var initNLegs = function (product) {
+            var toggle = product.betLegsToggle;
             return toggle ? toggle.minVal : 1;
         };
-        var initNGoals=function(product) {
-            var slider=product.betGoalsSlider;
+        var initNGoals = function (product) {
+            var slider = product.betGoalsSlider;
             return slider ? slider.minVal : 0;
         };
         return {
@@ -52,26 +53,38 @@ export default class AccaProductPanel extends React.PureComponent{
             nGoals: initNGoals(product),
             currentPage: 0
         }
-    }   
-
-    handleTabClicked(tab) {        
-        if (tab.name == "bet") {
-            this.props.clickHandler("Bet");
-        } else {
-            this.props.clickHandler("Edit");
-        }
-        this.setState({selectedTab: tab.name});
-
     }
 
-    handleCancel(){
-         this.props.clickHandler("Browse");
+    handleTabClicked(tab) {
+        this.setState({selectedTab: tab.name});
+    }
+
+    handleCancel() {
+        this.setState({accaProductPanelState: "list"});
+        this.props.clickHandler("browse");
+    }
+
+    handleAccaProductPanelStateChanged(accaProductPanelState) {
+        this.setState({accaProductPanelState: accaProductPanelState});
+        if (accaProductPanelState == "custom") {
+            const bet = this.initBet(this.props.products[0]);
+            this.setState({
+                selectedTab: "legs",
+                product: this.props.products[0],
+                bet: bet,
+                legs: bet.legs,
+                stake: "10.00"
+            });
+            this.props.clickHandler("edit");
+        } else if (accaProductPanelState == "place") {
+            this.props.clickHandler("bet");
+        }
     }
 
     handleLegAdded(newleg) {
-        var state=this.state;
-        state.bet.legs=state.bet.legs.filter(function(leg) {
-            return leg.match.name!=newleg.match.name;
+        var state = this.state;
+        state.bet.legs = state.bet.legs.filter(function (leg) {
+            return leg.match.name != newleg.match.name;
         });
         state.bet.legs.push(newleg);
         this.setState({bet: state.bet, legs: state.bet.legs});
@@ -79,39 +92,58 @@ export default class AccaProductPanel extends React.PureComponent{
     }
 
     handleLegRemoved(oldleg) {
-        
-        var state=this.state;
-        state.bet.legs=state.bet.legs.filter(function(leg) {
-            return leg.description!=oldleg.description;
+
+        var state = this.state;
+        state.bet.legs = state.bet.legs.filter(function (leg) {
+            return leg.description != oldleg.description;
         });
-        state.bet.nLegs=Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
+        state.bet.nLegs = Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
         this.setState({bet: state.bet, legs: state.bet.legs});
         this.updatePrice();
     }
 
     handleGoalsSliderChanged(value) {
-        var state=this.state;
-        if (value!=state.bet.nGoals) {
-            state.bet.nGoals=value;
-            this.setState( state.bet );
+        var state = this.state;
+        if (value != state.bet.nGoals) {
+            state.bet.nGoals = value;
+            this.setState(state.bet);
             this.updatePrice();
         }
     }
 
+    handlePaginatorClicked(item) {
+        var state = this.state;
+        state.bet.currentPage = item.value;
+        this.setState({bet: state.bet});
+    }
+
+    handleProductChanged(name, value) {
+        const product = this.props.products.filter(function (product) {
+            return product.name == value;
+        })[0];
+        console.log(product);
+        const bet = this.initBet(product);
+        this.setState({product, bet, legs: bet.legs});
+    }
+
+    handleStakeChanged(e) {
+        this.setState({stake: e.target.value});
+    }
+
     incrementNLegs() {
-        var state=this.state;
+        var state = this.state;
         if (state.bet.nLegs < state.bet.legs.length) {
-            state.bet.nLegs+=1;
-            this.setState( state.bet);
+            state.bet.nLegs += 1;
+            this.setState(state.bet);
             this.updatePrice();
         }
     }
 
     decrementNLegs() {
-        var state=this.state
+        var state = this.state
         if (state.bet.nLegs > 1) {
-            state.bet.nLegs-=1;
-            this.setState( state.bet );
+            state.bet.nLegs -= 1;
+            this.setState(state.bet);
             this.updatePrice();
         }
     }
@@ -120,7 +152,7 @@ export default class AccaProductPanel extends React.PureComponent{
         let result = 0;
         if (value < 2) {
             // return value.toFixed(3);
-            result =  value.toFixed(2);
+            result = value.toFixed(2);
         } else if (value < 10) {
             result = value.toFixed(2);
         } else if (value < 100) {
@@ -132,7 +164,7 @@ export default class AccaProductPanel extends React.PureComponent{
     }
 
     formatCurrentPrice(price) {
-        if (price==undefined) {
+        if (price == undefined) {
             return "[...]";
         } else {
             return this.formatPrice(price);
@@ -142,27 +174,27 @@ export default class AccaProductPanel extends React.PureComponent{
     updatePrice() {
         if (this.state.bet.legs.length > 0) {
             // blank price, set price request id
-            var state=this.state;
-            state.price=undefined;
-            var priceId=Math.round(Math.random()*1e10);
-            state.priceId=priceId;
+            var state = this.state;
+            state.price = undefined;
+            var priceId = Math.round(Math.random() * 1e10);
+            state.priceId = priceId;
             this.setState({priceId: state.priceId});
-            
+
             // fetch new price
-            setTimeout(function() {
-                var struct={
+            setTimeout(function () {
+                var struct = {
                     name: this.state.product.name,
                     legs: this.state.bet.legs,
                     nLegs: this.state.bet.nLegs,
                     nGoals: this.state.bet.nGoals,
-                    bust: Math.round(Math.random()*1e10)
+                    bust: Math.round(Math.random() * 1e10)
                 };
-                this.props.exoticsApi.fetchPrice(struct, function(struct) {                    
+                this.props.exoticsApi.fetchPrice(struct, function (struct) {
                     let state = this.state;
-                    if (state.priceId==priceId) {
+                    if (state.priceId == priceId) {
                         const price = struct.price;
-			            this.setState({ price });
-                        
+                        this.setState({price});
+
                     }
                 }.bind(this));
             }.bind(this), 500);
@@ -170,7 +202,7 @@ export default class AccaProductPanel extends React.PureComponent{
     }
 
     sortLegs(legs) {
-        var sortFn=function(i0, i1) {
+        var sortFn = function (i0, i1) {
             if (i0.match.kickoff < i1.match.kickoff) {
                 return -1;
             } else if (i0.match.kickoff > i1.match.kickoff) {
@@ -188,170 +220,281 @@ export default class AccaProductPanel extends React.PureComponent{
         return legs.sort(sortFn);
     }
 
+    placedBetTextFormatter() {
+        return Math.ceil((this.state.bet.legs.length / 2) + 1) + ((this.state.bet.nLegs < this.state.bet.legs.length) ? "+" : "") + " of " + this.state.bet.legs.length
+    }
+
+    placedBetGoalFormatter() {
+        switch (this.state.product.name) {
+            case "exotic_acca_winner":
+                return this.state.bet.nGoals == 1 ? "To just win" : "To win by " + this.state.bet.nGoals + "+ goals"
+            case "exotic_acca_loser":
+                return this.state.bet.nGoals == 1 ? "To just lose" : "To lose by " + this.state.bet.nGoals + "+ goals"
+            case "exotic_acca_draws":
+                return this.state.bet.nGoals == 1 ? "To just draw" : "To draw by " + this.state.bet.nGoals + "+ goals"
+        }
+    }
+
     applyPaginatorWindow(items) {
-        var rows=this.props.betLegsPaginator.rows;
-        var i=this.state.bet.currentPage*rows;
-        var j=(this.state.bet.currentPage+1)*rows;
+        var rows = this.props.betLegsPaginator.rows;
+        var i = this.state.bet.currentPage * rows;
+        var j = (this.state.bet.currentPage + 1) * rows;
         return items.slice(i, j);
     }
 
-    handlePaginatorClicked(item) {
-        var state=this.state;
-        state.bet.currentPage=item.value;
-        this.setState({bet: state.bet});
+    getCurrentTimeFormatter() {
+        var dt = new Date();
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var month = monthNames[dt.getMonth()];
+        var day = dt.getDate().toString();
+        var hour = dt.getHours().toString();
+        var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
+        var mid = dt.getHours() >= 12 ? "pm" : "am";
+        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>Th</sup>{" " + month}</span>
     }
-    handleProductChanged(name, value) {  
-        const product=this.props.products.filter(function(product) {
-            return product.name==value;
-        })[0];         
-        const bet=this.initBet(product);        
-        this.setState({product, bet, legs: bet.legs});           
-    }
-    render() {
 
+    getLegSelectorTabContent() {
+        if (this.state.product.legsPanel === 'MatchPanel') {
+            return (
+                <MatchPanel
+                    exoticsApi={this.props.exoticsApi}
+                    legs={this.state.bet.legs}
+                    paginator={this.props.legsPaginator}
+                    clickHandler={{
+                        add: this.handleLegAdded,
+                        remove: this.handleLegRemoved
+                    }}
+                />)
+        } else {
+            return (
+                <MatchTeamPanel
+                    exoticsApi={this.props.exoticsApi}
+                    legs={this.state.bet.legs}
+                    paginator={this.props.legsPaginator}
+                    clickHandler={{
+                        add: this.handleLegAdded,
+                        remove: this.handleLegRemoved
+                    }}
+                />)
+        }
+    }
+
+    getYourBetTabContent() {
         return (
             <div>
-                <div style={{ marginTop: '20px', marginLeft: '50px', marginRight: "50px" }}>
-                    <MyFormComponent
-                        label= "Choose your Exotic Acca Type"
-                        component={ <MySelect
-                                        className="form-control btn-primary input-lg"
-                                        options= {this.props.products.map(function(product) {
-                                                        return {
-                                                            label: product.label,
-                                                            value: product.name
-                                                        }
-                                                    })
-                                                }
-                                        name= "product"
-                                        changeHandler= {this.handleProductChanged}
-
+                {
+                    (this.state.bet.legs.length != 0) ?
+                        <div>
+                            <div className="form-group">
+                                <h3 className="current-price text-center">Current price:
+                                    <span id="price">{this.formatCurrentPrice(this.state.price)}</span>
+                                </h3>
+                            </div>
+                            <MyFormComponent
+                                label="Your Exotic Acca Legs"
+                                component={
+                                    <AccaLegTable
+                                        clickHandler={this.handleLegRemoved}
+                                        legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
+                                        accaProductPanelState={this.state.accaProductPanelState}
+                                    />}
+                            />
+                            {
+                                (this.state.bet.legs.length > this.props.betLegsPaginator.rows) ?
+                                    <MyPaginator
+                                        product={this.props.betLegsPaginator}
+                                        data={this.state.bet.legs}
+                                        clickHandler={this.handlePaginatorClicked}
+                                        currentPage={this.state.bet.currentPage}
+                                    />
+                                    : null
+                            }
+                            {
+                                this.state.product.betLegsToggle ?
+                                    <MyFormComponent
+                                        label={this.state.product.betLegsToggle.label}
+                                        component={<AccaNLegsToggle
+                                            textFormatter={this.state.product.betLegsToggle.textFormatter}
+                                            nLegs={this.state.bet.nLegs}
+                                            legs={this.state.bet.legs}
+                                            clickHandlers={{
+                                                increment: this.incrementNLegs,
+                                                decrement: this.decrementNLegs
+                                            }}/>}
 
                                     />
-                                }
-                    />
-                </div>
-                <p className= "help-block">
-                    <i>
-                        {this.state.product.description}
-                    </i>
-                </p>
-                <AccaPanelTabs
-                    tabs = { [
-                            {
-                                name: "legs",
-                                label: "Leg Selector"
-                            },
-                            {
-                                name: "bet",
-                                label: "Your Bet"
+                                    : null
                             }
-                    ] }
-                    selected= {this.state.selectedTab}
-                    clickHandler =  {this.handleTabClicked}
-                    legs= { this.state.legs }
-                />
-                {
-                    (this.state.selectedTab=="bet") ?
-                        <div>
                             {
-                                (this.state.bet.legs.length!=0) ?
-                                   <div>
-                                        <div className= "form-group">
-                                                <h3 className= "current-price text-center">
-                                                    Current price:
-                                                    <span id= "price">
-                                                        { this.formatCurrentPrice(this.state.price)}
-                                                    </span>
-                                                </h3>
-                                            </div>
-                                        <MyFormComponent
-                                            label= "Your Exotic Acca Legs"
-                                            component= { <AccaLegTable
-                                                            clickHandler= {this.handleLegRemoved}
-                                                            legs= {this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
-                                                            />
-                                                        }
-                                        />
-                                        {(this.state.bet.legs.length > this.props.betLegsPaginator.rows) ?
-                                                <MyPaginator
-                                                    product= {this.props.betLegsPaginator}
-                                                    data= {this.state.bet.legs}
-                                                    clickHandler={ this.handlePaginatorClicked}
-                                                    currentPage= {this.state.bet.currentPage}
-                                                />
-                                        : null}                                    
-
-                                        {this.state.product.betLegsToggle ?
-                                            <MyFormComponent
-                                                label= {this.state.product.betLegsToggle.label}
-                                                component={<AccaNLegsToggle
-                                                                textFormatter={this.state.product.betLegsToggle.textFormatter}
-                                                                nLegs= {this.state.bet.nLegs}
-                                                                legs= {this.state.bet.legs}
-                                                                clickHandlers={ {
-                                                                    increment: this.incrementNLegs,
-                                                                    decrement: this.decrementNLegs
-                                                                }}/>}
-
-                                            /> 
-                                            : null}
-
-                                            {this.state.product.betGoalsSlider ?
-                                            <MyFormComponent
-                                                label= {this.state.product.betGoalsSlider.label}
-                                                component= {<AccaNGoalsSlider
-                                                                id= "goalSlider"
-                                                                min= {this.state.product.betGoalsSlider.minVal}
-                                                                max= {this.state.product.betGoalsSlider.maxVal}
-                                                                tickLabeller={ this.state.product.betGoalsSlider.tickLabeller}
-                                                                value={ this.state.bet.nGoals}
-                                                                changeHandler={ this.handleGoalsSliderChanged}
-                                                            />}
-                                            /> : null}
-
-                                        <hr   style= {{borderColor: "#555"}}/>
-                                        <div  className= "text-center"  style= {{marginBottom: "20px"}}>
-                                            <button
-                                                className="btn btn-primary"
-                                                onClick={()=>  this.handleCancel()}
-                                                style={{marginRight: "10px"}}>Cancel</button>
-                                            <button
-                                                className="btn btn-primary"
-                                                onClick={()=>  console.log("placing bet")}>Place Bet</button>
-                                        </div>
-                                    </div> :
-                                    <h4  className= "text-center text-muted"
-                                        style= {{marginLeft: '50px', marginRight: "50px"}}>
-                                        Use the Leg Selector tab to add some selections
-                                    </h4>
+                                this.state.product.betGoalsSlider ?
+                                    <MyFormComponent
+                                        label={this.state.product.betGoalsSlider.label}
+                                        component={
+                                            <AccaNGoalsSlider
+                                                id="goalSlider"
+                                                min={this.state.product.betGoalsSlider.minVal}
+                                                max={this.state.product.betGoalsSlider.maxVal}
+                                                tickLabeller={this.state.product.betGoalsSlider.tickLabeller}
+                                                value={this.state.bet.nGoals}
+                                                changeHandler={this.handleGoalsSliderChanged}
+                                            />}
+                                    /> : null
                             }
-                        </div> : null
+                            <hr style={{borderColor: "#555"}}/>
+                            <div className="bet-submit-btns">
+                                <button
+                                    className="btn btn-primary bet-cancel-btn"
+                                    onClick={() => this.handleCancel()}>Cancel
+                                </button>
+                                <div className="stake">
+                                    <span className="stake-label">Your Stake</span>
+                                    <span className="stake-symbol">€</span>
+                                    <input type="number" name="stake-value" className="stake-value"
+                                           defaultValue={this.state.stake}
+                                           onChange={(e) => {
+                                               this.handleStakeChanged(e)
+                                           }}/>
+                                </div>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => this.handleAccaProductPanelStateChanged("place")}>Place Bet
+                                </button>
+                            </div>
+                        </div> :
+                        <h4 className="text-center text-muted"
+                            style={{marginLeft: '50px', marginRight: "50px"}}>
+                            Use the Leg Selector tab to add some selections
+                        </h4>
                 }
-                {
-                    (this.state.selectedTab == "legs") ? 
-                        this.state.product.legsPanel === 'MatchPanel' ?
-                            <MatchPanel
-                                exoticsApi= { this.props.exoticsApi }
-                                legs= { this.state.bet.legs }
-                                paginator= { this.props.legsPaginator }
-                                clickHandler= {{
-                                    add: this.handleLegAdded,
-                                    remove: this.handleLegRemoved
-                                }}
+            </div>
+        )
+    }
+
+    getAccaProductPanelContent() {
+        switch (this.state.accaProductPanelState) {
+            case "list":
+                return (
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => this.handleAccaProductPanelStateChanged("custom")}
+                        style={{float: "right"}}>Build My Own
+                    </button>
+                )
+            case "edit":
+                return (
+                    <div></div>
+                )
+            case "custom":
+                return (
+                    <div>
+                        <div style={{marginTop: '20px', marginLeft: '50px', marginRight: "50px"}}>
+                            <MyFormComponent
+                                label="Choose your Exotic Acca Type"
+                                component={
+                                    <MySelect
+                                        className="form-control btn-primary input-lg"
+                                        options={this.props.products.map(function (product) {
+                                            return {label: product.label, value: product.name}
+                                        })}
+                                        name="product"
+                                        changeHandler={this.handleProductChanged}
+                                    />}
                             />
-                            :
-                            <MatchTeamPanel 
-                                exoticsApi= { this.props.exoticsApi }
-                                legs= { this.state.bet.legs }
-                                paginator= { this.props.legsPaginator }
-                                clickHandler= {{
-                                    add: this.handleLegAdded,
-                                    remove: this.handleLegRemoved
-                                }}
+                        </div>
+                        <p className="help-block">
+                            <i>{this.state.product.description}</i>
+                        </p>
+                        <AccaPanelTabs
+                            tabs={[
+                                {name: "legs", label: "Leg Selector"},
+                                {name: "bet", label: "Your Bet"}
+                            ]}
+                            selected={this.state.selectedTab}
+                            clickHandler={this.handleTabClicked}
+                            legs={this.state.legs}
+                        />
+
+                        {/* When "Leg Selector" tab is clicked */}
+                        {
+                            (this.state.selectedTab == "legs") ? this.getLegSelectorTabContent() : null
+                        }
+
+                        {/* When "Your Bet" tab is clicked */}
+                        {
+                            (this.state.selectedTab == "bet") ? this.getYourBetTabContent() : null
+                        }
+
+                    </div>
+                )
+            case "place":
+                return (
+                    <div className="bet-confirm-container">
+                        <div className="form-group main-menu-container">
+                            <button
+                                className="btn btn-primary main-menu-btn"
+                                onClick={() => this.handleCancel()}>MAIN MENU
+                            </button>
+                        </div>
+                        <div className="form-group">
+                            <h3 className="bet-placed-text">
+                                <span className="glyphicon glyphicon-ok"></span>Your bet has been placed!
+                            </h3>
+                        </div>
+                        <div className="form-group">
+                            <h3 className="bet-placed-product">
+                                {this.state.product.label}
+                            </h3>
+                        </div>
+                        <div className="form-group bet-goal">
+                            {
+                                this.state.product.betLegsToggle ?
+                                    <span>{this.placedBetTextFormatter()}</span>
+                                    : null
+                            }
+                            {
+                                this.state.product.betGoalsSlider ?
+                                    <span>{this.placedBetGoalFormatter()}</span>
+                                    : null
+                            }
+                        </div>
+                        <div className="form-group">
+                            <h3 className="bet-placed-price">
+                                €{this.state.stake} @ <span>{this.formatCurrentPrice(this.state.price)}</span>
+                            </h3>
+                        </div>
+                        <div className="form-group bet-placed-result">
+                            <span>To win € {this.formatCurrentPrice(this.state.stake * (this.state.price - 1))}</span>
+                            <span>Result = ?</span>
+                        </div>
+                        <div className="form-group bet-legs">
+                            <MyFormComponent
+                                label="Your Exotic Acca Legs"
+                                component={
+                                    <AccaLegTable
+                                        clickHandler={this.handleLegRemoved}
+                                        legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
+                                        accaProductPanelState={this.state.accaProductPanelState}
+                                    />}
                             />
-                        : null                     
-                }
+                        </div>
+                        <a className="site-url" href="http://www.URLtoinset.com">www.URLtoinset.com</a>
+                        {this.getCurrentTimeFormatter()}
+                    </div>
+                )
+        }
+    }
+
+    render() {
+        console.log(this.formatCurrentPrice(this.state.price - 1))
+        const AccaProductPanelContent = this.getAccaProductPanelContent();
+        return (
+            <div>
+                {AccaProductPanelContent}
             </div>
         )
     }
