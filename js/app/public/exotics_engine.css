@@ -102,24 +102,23 @@ tr td .match-name {
 /* Style for bet confirm page */
 .bet-confirm-container {
     text-align: center;
+    padding-top: 10px;
 }
 
-.bet-confirm-container .main-menu-container {
-    margin: 0 -15px 20px;
-    padding: 15px 0 15px 0;
-    background: #575763;
+.bet-confirm-container h3 {
+    margin: 10px 0 10px 0;
 }
 
-.bet-confirm-container .main-menu-btn {
-    padding: 7px 40px;
+.bet-confirm-container h3,
+.bet-confirm-container span {
+    color: hsla(0, 0%, 100%, .5);
 }
 
 .bet-confirm-container .bet-placed-text {
-    font-size: 14px;
     padding: 15px 0;
     background: #3a3a45;
     border-top: 2px solid #3c763d;
-    color: hsla(0, 0%, 100%, .5);
+    font-size: 16px;
 }
 
 .bet-confirm-container .bet-placed-text span {
@@ -128,51 +127,61 @@ tr td .match-name {
 }
 
 .bet-confirm-container .bet-placed-product {
-    font-size: 17px;
+    color: #fff;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.bet-confirm-container .bet-goal span {
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.bet-confirm-container .bet-legs {
 }
 
 .bet-confirm-container .bet-placed-price {
-    font-size: 17px !important;
     padding: 15px 0;
     border-top: 1px solid #d99c41;
     border-bottom: 1px solid #d99c41;
+    color: #fff;
+    font-size: 16px;
 }
 
 .bet-confirm-container .bet-placed-price span {
     color: #d99c41;
 }
 
-.bet-confirm-container .bet-legs {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.bet-confirm-container .bet-goal span {
-    display: inline-block;
-    width: 100%;
-    font-size: 17px;
-    color: hsla(0, 0%, 100%, .5);
-    margin-top: 5px;
-}
-
 .bet-confirm-container .bet-placed-result span {
-    font-size: 17px;
     display: inline-block;
     width: 100%;
-    color: hsla(0, 0%, 100%, .5);
     margin-top: 5px;
+    font-size: 16px;
 }
 
 .bet-confirm-container .site-url,
 .bet-confirm-container .bet-saved-date {
     display: inline-block;
     width: 100%;
-    font-size: 17px;
     margin-top: 5px;
+    font-size: 14px;
 }
 
-.bet-confirm-container .bet-saved-date {
-    color: hsla(0, 0%, 100%, .5);
+.bet-confirm-container .bet-placed-result {
+    margin-bottom: 30px;
+}
+
+.bet-confirm-container .main-menu-container {
+    margin: 30px -15px 20px;
+    padding: 15px 0 15px 0;
+    background: #575763;
+}
+
+.bet-confirm-container .main-menu-btn {
+    padding: 7px 40px;
 }
 
 /* Style for staging slider */

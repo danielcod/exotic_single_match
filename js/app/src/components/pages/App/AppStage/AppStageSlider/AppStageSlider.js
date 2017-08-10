@@ -5,6 +5,9 @@ export default class AppStageSlider extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.state = {
+            disabled: ""
+        }
     }
 
     initSliderTicks(minval, maxval) {
@@ -15,17 +18,26 @@ export default class AppStageSlider extends React.PureComponent {
         return ticks;
     };
 
+    componentDidMount() {
+        this.setState({
+            disabled: "disabled"
+        })
+    }
+
     render() {
+        const {ticks, currentStage} = this.props;
+        const sliderTicks = this.initSliderTicks(1, ticks.length);
         return (
             <div className="app-stage-slider-container">
                 <ReactBootstrapSlider
-                    value={this.props.ticks.map(function (o) {return o.name;}).indexOf(this.props.currentStage) + 1}
-                    max={this.props.ticks.length}
+                    value={ticks.map(function (o) {return o.name;}).indexOf(currentStage) + 1}
+                    max={ticks.length}
                     min={1}
-                    ticks_labels={this.props.ticks.map(function (o) {return o.label;})}
-                    ticks={this.initSliderTicks(1, this.props.ticks.length)}
+                    ticks_labels={ticks.map(function (o) {return o.label;})}
+                    ticks={sliderTicks}
                     tooltip="hide"
-                    disabled="disabled"/>
+                    disabled={this.state.disabled}
+                />
             </div>
         )
     }

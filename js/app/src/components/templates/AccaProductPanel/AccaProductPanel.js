@@ -434,12 +434,6 @@ export default class AccaProductPanel extends React.PureComponent {
             case "place":
                 return (
                     <div className="bet-confirm-container">
-                        <div className="form-group main-menu-container">
-                            <button
-                                className="btn btn-primary main-menu-btn"
-                                onClick={() => this.handleCancel()}>MAIN MENU
-                            </button>
-                        </div>
                         <div className="form-group">
                             <h3 className="bet-placed-text">
                                 <span className="glyphicon glyphicon-ok"></span>Your bet has been placed!
@@ -450,40 +444,52 @@ export default class AccaProductPanel extends React.PureComponent {
                                 {this.state.product.label}
                             </h3>
                         </div>
-                        <div className="form-group bet-goal">
-                            {
-                                this.state.product.betLegsToggle ?
-                                    <span>{this.placedBetTextFormatter()}</span>
-                                    : null
-                            }
-                            {
-                                this.state.product.betGoalsSlider ?
-                                    <span>{this.placedBetGoalFormatter()}</span>
-                                    : null
-                            }
+                        <div className="form-group">
+                            <div className="bet-goal">
+                                {
+                                    this.state.product.betLegsToggle ?
+                                        <span>{this.placedBetTextFormatter()}</span>
+                                        : null
+                                }
+                                {
+                                    this.state.product.betGoalsSlider ?
+                                        <span>{this.placedBetGoalFormatter()}</span>
+                                        : null
+                                }
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="bet-legs">
+                                <AccaLegTable
+                                    clickHandler={this.handleLegRemoved}
+                                    legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
+                                    accaProductPanelState={this.state.accaProductPanelState}
+                                />
+                            </div>
                         </div>
                         <div className="form-group">
                             <h3 className="bet-placed-price">
                                 €{this.state.stake} @ <span>{this.formatCurrentPrice(this.state.price)}</span>
                             </h3>
                         </div>
-                        <div className="form-group bet-placed-result">
-                            <span>To win € {this.formatCurrentPrice(this.state.stake * (this.state.price - 1))}</span>
-                            <span>Result = ?</span>
+                        <div className="form-group">
+                            <div className="bet-placed-result">
+                                <span>To win € {this.formatCurrentPrice(this.state.stake * (this.state.price - 1))}</span>
+                                <span>Result = ?</span>
+                            </div>
                         </div>
-                        <div className="form-group bet-legs">
-                            <MyFormComponent
-                                label="Your Exotic Acca Legs"
-                                component={
-                                    <AccaLegTable
-                                        clickHandler={this.handleLegRemoved}
-                                        legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
-                                        accaProductPanelState={this.state.accaProductPanelState}
-                                    />}
-                            />
+                        <div className="form-group">
+                            <a className="site-url" href="http://www.URLtoinset.com">www.URLtoinset.com</a>
+                            {this.getCurrentTimeFormatter()}
                         </div>
-                        <a className="site-url" href="http://www.URLtoinset.com">www.URLtoinset.com</a>
-                        {this.getCurrentTimeFormatter()}
+                        <div className="form-group">
+                            <div className="main-menu-container">
+                                <button
+                                    className="btn btn-primary main-menu-btn"
+                                    onClick={() => this.handleCancel()}>MAIN MENU
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )
         }
