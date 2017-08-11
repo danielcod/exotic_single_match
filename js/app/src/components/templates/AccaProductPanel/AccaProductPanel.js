@@ -17,6 +17,7 @@ export default class AccaProductPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            accaProductHelp: false,
             accaProductPanelState: "",
             selectedTab: "",
             product: {},
@@ -392,7 +393,7 @@ export default class AccaProductPanel extends React.PureComponent {
             case "custom":
                 return (
                     <div>
-                        <div style={{marginTop: '20px', marginLeft: '50px', marginRight: "50px"}}>
+                        <div className="product-select">
                             <MyFormComponent
                                 label="Choose your Exotic Acca Type"
                                 component={
@@ -405,10 +406,18 @@ export default class AccaProductPanel extends React.PureComponent {
                                         changeHandler={this.handleProductChanged}
                                     />}
                             />
+                            <a className="product-help-btn" onClick={() => this.setState({accaProductHelp: !this.state.accaProductHelp})}>
+                                <span className="glyphicon glyphicon-info-sign glyph-background">
+                                    <span className="inner"></span>
+                                </span>
+                            </a>
                         </div>
-                        <p className="help-block">
-                            <i>{this.state.product.description}</i>
-                        </p>
+                        {
+                            this.state.accaProductHelp ?
+                                <p className="help-block">
+                                    <i>{this.state.product.description}</i>
+                                </p> : null
+                        }
                         <AccaPanelTabs
                             tabs={[
                                 {name: "legs", label: "Leg Selector"},
@@ -496,7 +505,6 @@ export default class AccaProductPanel extends React.PureComponent {
     }
 
     render() {
-        console.log(this.formatCurrentPrice(this.state.price - 1))
         const AccaProductPanelContent = this.getAccaProductPanelContent();
         return (
             <div>
