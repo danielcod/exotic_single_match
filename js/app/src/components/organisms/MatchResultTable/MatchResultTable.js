@@ -6,11 +6,16 @@ export default class MatchResultTable extends React.PureComponent{
     constructor(props){
         super(props);
         this.state={           
-            selected: []
-        }
+            selected: this.props.selected
+        }        
         bindAll(this, ['choicePrice']);
     }
+    componentWillReceiveProps(props){
+        const selected = props.selected;
+        this.setState({selected});        
+    }
     choicePrice(id, key){
+        this.props.clickHandler(id, key);
         this.setState({selected: [id, key]})
     }
     formatPrice(value) {
@@ -28,7 +33,7 @@ export default class MatchResultTable extends React.PureComponent{
     render() {
         const {matches} = this.props;
 	    return (
-            <table className= "table table-condensed table-striped table-bordered">
+            <table className= "table table-condensed table-striped table-not-bordered">
                 <thead>
                     <tr>
                         {

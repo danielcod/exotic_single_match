@@ -18,9 +18,21 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             matches: [],
             match: {},
             selectedTab: "legs",
-            legs: []
+            legs: [],
+            matchResult: this.initMatchResult(),
+            sanfonaActiveItems: []
+            
         }
-        bindAll(this, ['handleMatchChanged', 'handleTabClicked']);
+        bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'onChangeRange', 
+                        'onTableClick', 'changeText', 'changeBlock']);
+    }
+    initMatchResult(){
+        return {
+                range: [1, 5],
+                tableSelectedItem: [0, 1],
+                text: ' ',
+                showSlider: true
+        }
     }
     componentWillMount(){      
         this.props.exoticsApi.fetchMatches(function(struct) {
@@ -48,32 +60,26 @@ export default class AccaMatchProductPanel extends React.PureComponent{
     handleMatchChanged(name, value) {  
         const match = this.state.matches.filter(function(product) {
             return product.name==value;
-        })[0];         
-        this.setState({match});           
+        })[0];
+        const matchResult = this.initMatchResult();   
+        this.setState({match, matchResult});           
     }
-     handleLegAdded(newleg) {
-          console.log('handleLegAdded', newleg)
-        /*var state=this.state;
-        state.bet.legs=state.bet.legs.filter(function(leg) {
-            return leg.match.name!=newleg.match.name;
-        });
-        state.bet.legs.push(newleg);
-        this.setState({bet: state.bet, legs: state.bet.legs});
-        this.updatePrice();*/
+    onChangeRange(range){
+        this.state.matchResult.range = range;
     }
-
-    handleLegRemoved(oldleg) {
-         console.log('handleLegRemoved', oldleg)
-        /*var state=this.state;
-        state.bet.legs=state.bet.legs.filter(function(leg) {
-            return leg.description!=oldleg.description;
-        });
-        state.bet.nLegs=Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
-        this.setState({bet: state.bet, legs: state.bet.legs});
-        this.updatePrice();*/
+    onTableClick(i, y, showSlider){
+        this.state.matchResult.tableSelectedItem = [i, y];
+        this.state.matchResult.showSlider = showSlider;
+    }
+    changeText(text){
+        this.state.matchResult.text = text;
+    }
+    changeBlock(value){
+        const sanfonaActiveItems = [value.activeItems[0]];
+        this.setState({sanfonaActiveItems});
     }
      render() {
-         const {matches, match, legs} = this.state;
+         const {matches, match, legs, sanfonaActiveItems} = this.state;
         return (
             <div>
                 <MyFormComponent
@@ -115,21 +121,23 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                             not
                         </div>
                         :
-                        <Accordion>
+                        <Accordion onChange={this.changeBlock} allowMultiple={true} activeItems={sanfonaActiveItems}>
                             {data.matchComponents.map((item, index) => {
                                 return (
                                     <AccordionItem  
-                                        title={ item } slug={item} key={item}>
+                                        title={ item }  key={item}
+                                        >
                                         <div>                                                                                    
                                             {index ===  0 ? 
                                             <MatchResult 
                                                 matches={str.MatchResultStruct}
                                                 match={match}
                                                 legs={legs}
-                                                clickHandler = {{
-                                                    add: this.handleLegAdded,
-                                                    remove: this.handleLegRemoved
-                                                }}/> : null}  
+                                                onChangeRange={this.onChangeRange}
+                                                onTableClick={this.onTableClick}
+                                                matchResult={this.state.matchResult} 
+                                                changeText={this.changeText}                                               
+                                                /> : null}  
                                             {index ===  1 ? <p>{item}</p> : null} 
                                             {index ===  2 ? <p>{item}</p> : null} 
                                             {index ===  3 ? <p>{item}</p> : null} 

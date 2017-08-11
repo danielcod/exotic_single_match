@@ -109,3 +109,63 @@ tr td .match-name{
 	padding: 20px;
 	position: relative;
 }
+.react-sanfona-item-expanded .react-sanfona-item-title{
+	background-color: #59a0df;
+}
+.rc-slider-track{
+	background-color: #81bfde;
+	height: 10px;
+    top: 2px;
+}
+
+.rc-slider-rail{
+	height: 10px;
+    top: 2px;
+}
+.rc-slider-handle{
+	background-color: #59a0df;
+    width: 20px;
+    height: 20px;
+    border: none;
+    margin-left: -9px;
+    margin-top: -9px;
+}
+
+.rc-slider-dot{
+	width: 20px;
+    height: 20px;
+    bottom: -7px;
+    border: none;
+    margin-left: -9px
+}
+.rc-slider-dot:first-child {
+    margin-left: -9px;
+}
+.rc-slider-dot:last-child{
+	margin-left: -9px;
+}
+.rc-slider-dot-active{
+	
+	background-color: #81bfde ;
+}
+.rc-slider-mark-text-active{
+	color: #999;
+}
+.rc-slider-mark{
+	margin-top: 4px;
+    font-size: 16px;
+}
+.table-not-bordered{
+	margin: 0px 0 40px 0;
+}
+.table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
+	    border: 0;
+}
+.table-not-bordered .match-name{
+	font-size: 14px;
+}
+.result-text{
+	min-height: 24px;
+	margin-top: 44px;
+	text-align: center;
+}
