@@ -1,12 +1,16 @@
 import React from 'react';
 
-export default class MatchToggleCell extends React.PureComponent{
-    render(){
+export default class MatchToggleCell extends React.PureComponent {
+    render() {
         return (
-            <td style={{ backgroundColor: (this.props.selected ? "#ec644b" : "") }}
-            onClick= {this.props.clickHandler} >
-            {this.props.value}
-        </td>
-        )        
+            <td className="round-cell"
+                onClick={this.props.clickHandler}>
+                <button type="button"
+                        className="btn round-cell-btn"
+                        style={{backgroundColor: (this.props.selected ? "#ec644b" : "")}}>
+                    {this.props.value}
+                </button>
+            </td>
+        )
     }
 }
