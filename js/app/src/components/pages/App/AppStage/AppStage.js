@@ -46,13 +46,11 @@ export default class AppStage extends React.PureComponent {
     getTabContent() {
         switch (this.state.selectedTab) {
             case "match":
-                return (
-                    <div style={{textAlign: "center"}}>
-                        <AccaMatchProductPanel 
-                            exoticsApi={this.props.exoticsApi}                                               
-                            clickHandler={this.handleStageChanged}     
-                        /> 
-                    </div>
+                return (                    
+                    <AccaMatchProductPanel 
+                        exoticsApi={this.props.exoticsApi}                                               
+                        clickHandler={this.handleStageChanged}     
+                    />                     
                 )
             case "exotic":
                 return (

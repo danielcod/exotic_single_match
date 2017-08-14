@@ -27,14 +27,15 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             
         }
         bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'onChangeRange', 
-                        'onTableClick', 'changeText', 'changeBlock']);
+                        'onTableClick', 'changeText', 'changeBlock', 'handleBuidMyOwn']);
     }
     initMatchResult(){
         return {
                 range: [1, 5],
                 tableSelectedItem: [0, 1],
                 text: ' ',
-                showSlider: true
+                showSlider: true,
+                buildMyOwn: false
         }
     }
     componentWillMount(){      
@@ -52,11 +53,11 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         }.bind(this));	          
     }
     handleTabClicked(tab) {        
-        if (tab.name == "bet") {
+        /*if (tab.name == "bet") {
             this.props.clickHandler("Bet");
         } else {
             this.props.clickHandler("Edit");
-        }
+        }*/
         this.setState({selectedTab: tab.name});
 
     }
@@ -81,7 +82,11 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         const sanfonaActiveItems = value.activeItems;
         this.setState({sanfonaActiveItems});
     }
-    
+    handleBuidMyOwn(){
+        const buildMyOwn = !this.state.buildMyOwn;
+        this.setState({buildMyOwn});
+        this.props.clickHandler("edit");
+    }
      render() {
          const {matches, match, legs, sanfonaActiveItems} = this.state;
          const renderAngle = (index, title)=>{
@@ -108,76 +113,85 @@ export default class AccaMatchProductPanel extends React.PureComponent{
          }
         return (
             <div>
-                <MyFormComponent                        
-                        label= "Choose your Match Exotics"
-                        component={ <MySelect
-                                        className="form-control btn-primary input-lg"
-                                        options= {matches.map(function(product) {
-                                                        return {
-                                                            label: product.label,
-                                                            value: product.name
-                                                        }
-                                                    })
-                                                }
-                                        name= "match"
-                                        changeHandler= {this.handleMatchChanged}
-
-
-                                    />
-                                }
-                    />
-                     <AccaPanelTabs
-                        tabs = { [
-                                {
-                                    name: "legs",
-                                    label: "Leg Selector"
-                                },
-                                {
-                                    name: "bet",
-                                    label: "Your Bet"
-                                }
-                        ] }
-                        selected= {this.state.selectedTab}
-                        clickHandler =  {this.handleTabClicked}
-                        legs= { this.state.legs }
-                    />
-                    {
-                    (this.state.selectedTab==="bet") ?
-                        <div>
-                            not
-                        </div>
+                { !this.state.buildMyOwn ?
+                    <button className="btn btn-primary" style={{float: 'right'}}
+                        onClick={this.handleBuidMyOwn}
+                        >Build My Own</button>
                         :
-                        <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
-                            {data.matchComponents.map((item, index) => {
-                               /*<h3 aria-controls="react-sanfona-item-body-d44c695b-0a31-4760-ae28-9d53628ee887" class="react-sanfona-item-title" id="react-safona-item-title-d44c695b-0a31-4760-ae28-9d53628ee887" style="cursor: pointer; margin: 0px;">Match Result</h3>*/
-                                return (
-                                   
-                                        <AccordionItem  
-                                            title={ renderAngle(index, item)}  key={item}
-                                            >
-                                            <div>                                                                                    
-                                                {index ===  0 ? 
-                                                <MatchResult 
-                                                    matches={str.MatchResultStruct}
-                                                    match={match}
-                                                    legs={legs}
-                                                    onChangeRange={this.onChangeRange}
-                                                    onTableClick={this.onTableClick}
-                                                    matchResult={this.state.matchResult} 
-                                                    changeText={this.changeText}                                               
-                                                    /> : null}  
-                                                {index ===  1 ? <p>{item}</p> : null} 
-                                                {index ===  2 ? <p>{item}</p> : null} 
-                                                {index ===  3 ? <p>{item}</p> : null} 
-                                                {index ===  4 ? <p>{item}</p> : null} 
-                                                {index ===  5 ? <p>{item}</p> : null} 
-                                            </div>           
-                                        </AccordionItem>
-                                );
-                            })}
-                        </Accordion>
-                    }
-            </div>
+                        <div>
+                            <MyFormComponent                        
+                            label= "Choose your Match Exotics"
+                            component={ <MySelect
+                                            className="form-control btn-primary input-lg"
+                                            options= {matches.map(function(product) {
+                                                            return {
+                                                                label: product.label,
+                                                                value: product.name
+                                                            }
+                                                        })
+                                                    }
+                                            name= "match"
+                                            changeHandler= {this.handleMatchChanged}
+
+
+                                        />
+                                    }
+                            />
+                            <AccaPanelTabs
+                                tabs = { [
+                                        {
+                                            name: "legs",
+                                            label: "Leg Selector"
+                                        },
+                                        {
+                                            name: "bet",
+                                            label: "Your Bet"
+                                        }
+                                ] }
+                                selected= {this.state.selectedTab}
+                                clickHandler =  {this.handleTabClicked}
+                                legs= { this.state.legs }
+                            />
+                            {
+                            (this.state.selectedTab==="bet") ?
+                                <div>
+                                    not
+                                </div>
+                                :
+                                <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
+                                    {data.matchComponents.map((item, index) => {                               
+                                        return (
+                                        
+                                                <AccordionItem  
+                                                    title={ renderAngle(index, item)}  key={item}
+                                                    >
+                                                    <div>                                                                                    
+                                                        {index ===  0 ? 
+                                                        <MatchResult 
+                                                            matches={str.MatchResultStruct}
+                                                            match={match}
+                                                            legs={legs}
+                                                            onChangeRange={this.onChangeRange}
+                                                            onTableClick={this.onTableClick}
+                                                            matchResult={this.state.matchResult} 
+                                                            changeText={this.changeText}                                               
+                                                            /> : null}  
+                                                        {index ===  1 ? <p>{item}</p> : null} 
+                                                        {index ===  2 ? <p>{item}</p> : null} 
+                                                        {index ===  3 ? <p>{item}</p> : null} 
+                                                        {index ===  4 ? <p>{item}</p> : null} 
+                                                        {index ===  5 ? <p>{item}</p> : null} 
+                                                    </div>           
+                                                </AccordionItem>
+                                        );
+                                    })}
+                                </Accordion>
+                            }
+                        </div>                       
+            
+                }
+                
+               </div>
         )
      }
 }
