@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindAll } from 'lodash';
 import MatchResultTable from '../MatchResultTable';
-import * as constant from  '../../../constant';
+import * as constant from  '../../constant';
 import Slider from 'rc-slider';
 const Range = Slider.Range;
 
@@ -40,6 +40,7 @@ export default class MatchResult extends React.PureComponent {
         setTimeout(()=> this.formatDynamicText(), 0) ;
     }
     formatDynamicText(){
+        if (!this.props.match) return;
         const comands = this.props.match.name.split(' vs ');
         const winnComandId = this.state.selectedItem[1];
         const resultTimeId = this.state.selectedItem[0];
@@ -60,20 +61,23 @@ export default class MatchResult extends React.PureComponent {
             case constant.SELCTED_FIRST:
                 selectedTime = constant.FULL_MATCH.toLowerCase();
                 break;
-            case constant.SELCTED_THREE:
+            case constant.SELCTED_TWO:
                 selectedTime = constant.BOTH_HALVES.toLowerCase();
                 break;
-            case constant.SELCTED_TWO:
+            case constant.SELCTED_THREE:
                selectedTime = constant.EITHER_HALF.toLowerCase();
                 break;
         }
         if (winnComandId != constant.SELCTED_TWO){
             if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
             else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-        }
-        
-        infoText = comand + ' ' + selectedTime + ' ' + scores;
-        console.log(infoText)
+            infoText = comand + ' ' + selectedTime + ' ' + scores;
+        }else{
+            infoText = selectedTime + ' ' + comand;
+            infoText = infoText.split('');
+            infoText[0] = infoText[0].toUpperCase();
+            infoText =  infoText.join('');
+        }        
         this.setState({infoText});
         this.props.changeText(infoText);
     }
@@ -102,7 +106,7 @@ export default class MatchResult extends React.PureComponent {
                 <div className='result-text' >{this.state.infoText}</div>    
                 <div className= "form-group">
                     <h3 className= "current-price text-center">
-                        Current price:
+                        Match Result Price:
                         <span id= "price">
                             { this.state.price }
                         </span>

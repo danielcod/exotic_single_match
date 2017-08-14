@@ -1,0 +1,13 @@
+.sanfona {
+    
+    color: #945450;
+}
+.b-angle{
+    position: relative;
+    bottom: 18px;
+    left: 90%;
+}
+.b-angle >  svg{
+    width: 20px;
+    height: 20px;
+}

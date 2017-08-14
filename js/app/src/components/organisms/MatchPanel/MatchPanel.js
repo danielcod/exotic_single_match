@@ -4,6 +4,7 @@ import MyFormComponent from '../../atoms/MyFormComponent';
 import MySelect from '../../atoms/MySelect';
 import MatchTable from '../MatchTable';
 import MyPaginator from '../../molecules/MyPaginator';
+import {matchSorter} from '../../utils';
 
 export default class MatchPanel extends React.PureComponent {
     constructor(props){
@@ -43,29 +44,15 @@ export default class MatchPanel extends React.PureComponent {
         return matches.filter(function(match) {
             return match.league==this.state.league;
         }.bind(this));
-    }
-    matchSorter(m0, m1) {	    
-        if (m0.kickoff < m1.kickoff) {
-            return -1;
-        } else if (m0.kickoff > m1.kickoff) {
-            return 1;
-        } else {
-            if (m0.name < m1.name) {
-            return -1
-            } else if (m0.name > m1.name) {
-            return 1
-            } else {
-            return 0;
-            }
-        }
-    }
+    }   
+    
     componentDidMount() {
         this.props.exoticsApi.fetchMatches(function(struct) {
             let {matches, leagues} = this.state;
             const cutoff=new Date();
             matches=struct.filter(function(match) {
                 return new Date(match.kickoff) > cutoff;
-            }).sort(this.matchSorter);
+            }).sort(matchSorter);
             leagues = this.filterLeagues(matches);
             this.setState({
                 league: leagues[0],

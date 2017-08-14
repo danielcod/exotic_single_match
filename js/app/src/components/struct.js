@@ -1,7 +1,7 @@
 export const struct = [
 {
 name: "Arsenal vs Leicester City",
-kickoff: "2017-08-11 18:45:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.4214046822742474,
@@ -11,7 +11,7 @@ league: "ENG.1",
 },
 {
 name: "Watford vs Liverpool",
-kickoff: "2017-08-12 11:30:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 6.2859840232389255,
@@ -21,7 +21,7 @@ league: "ENG.1",
 },
 {
 name: "Chelsea vs Burnley",
-kickoff: "2017-08-12 14:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.2384962406015037,
@@ -31,7 +31,7 @@ league: "ENG.1",
 },
 {
 name: "Crystal Palace vs Huddersfield Town",
-kickoff: "2017-08-12 14:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.85744793880153,
@@ -41,7 +41,7 @@ league: "ENG.1",
 },
 {
 name: "Everton vs Stoke City",
-kickoff: "2017-08-12 14:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.7362244897959185,
@@ -51,7 +51,7 @@ league: "ENG.1",
 },
 {
 name: "Southampton vs Swansea City",
-kickoff: "2017-08-12 14:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.7973130494912575,
@@ -61,7 +61,7 @@ league: "ENG.1",
 },
 {
 name: "West Bromwich Albion vs AFC Bournemouth",
-kickoff: "2017-08-12 14:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 2.3344544881227662,
@@ -71,7 +71,7 @@ league: "ENG.1",
 },
 {
 name: "Brighton & Hove Albion vs Manchester City",
-kickoff: "2017-08-12 16:30:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 10.627926421404682,
@@ -81,7 +81,7 @@ league: "ENG.1",
 },
 {
 name: "Newcastle United vs Tottenham Hotspur",
-kickoff: "2017-08-13 12:30:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 4.617581187010079,
@@ -91,7 +91,7 @@ league: "ENG.1",
 },
 {
 name: "Manchester United vs West Ham United",
-kickoff: "2017-08-13 15:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
 1.352651515151515,
@@ -101,7 +101,7 @@ league: "ENG.1",
 },
 {
 name: "Tromsoe vs Odds Ballklubb",
-kickoff: "2017-07-09 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 3.064423076923077,
@@ -111,7 +111,7 @@ league: "NOR.1",
 },
 {
 name: "Rosenborg vs Kristiansund BK",
-kickoff: "2017-08-05 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 1.27523694070972,
@@ -121,7 +121,7 @@ league: "NOR.1",
 },
 {
 name: "Odds Ballklubb vs Sogndal",
-kickoff: "2017-08-06 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 1.6390774949740166,
@@ -131,7 +131,7 @@ league: "NOR.1",
 },
 {
 name: "Sarpsborg 08 vs FK Haugesund",
-kickoff: "2017-08-06 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 1.76739879414298,
@@ -141,7 +141,7 @@ league: "NOR.1",
 },
 {
 name: "Stabaek vs Sandefjord",
-kickoff: "2017-08-06 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 1.780011290282993,
@@ -151,7 +151,7 @@ league: "NOR.1",
 },
 {
 name: "Tromsoe vs Molde",
-kickoff: "2017-08-06 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 3.418782091271174,
@@ -161,7 +161,7 @@ league: "NOR.1",
 },
 {
 name: "Viking vs Lillestroem",
-kickoff: "2017-08-06 16:00:00",
+kickoff: "2017-12-11 18:45:00",
 league: "NOR.1",
 '1x2_prices': [
 2.9365925281418237,

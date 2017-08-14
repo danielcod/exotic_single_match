@@ -8,7 +8,9 @@ import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import classnames from 'classnames';
-import s from './index.mod.scss';
+import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
+import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
+import s from './index.css';
 import * as str from  '../../struct';
 
 export default class AccaMatchProductPanel extends React.PureComponent{
@@ -38,10 +40,10 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.props.exoticsApi.fetchMatches(function(struct) {
             let {matches, leagues} = this.state;
             const cutoff=new Date();
+            
             matches=struct.filter(function(match) {
                 return new Date(match.kickoff) > cutoff;
-            }).sort(this.matchSorter);
-            
+            }).sort(matchSorter);
             this.setState({
                 matches: matches,
                 match: matches[0]
@@ -75,14 +77,37 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.state.matchResult.text = text;
     }
     changeBlock(value){
-        const sanfonaActiveItems = [value.activeItems[0]];
+        const sanfonaActiveItems = value.activeItems;
         this.setState({sanfonaActiveItems});
     }
+    
      render() {
          const {matches, match, legs, sanfonaActiveItems} = this.state;
+         const renderAngle = (index, title)=>{
+            let opened = false;
+            for (let i=0; i< sanfonaActiveItems.length; i++){
+                if (sanfonaActiveItems[i] === index){
+                    opened = true;
+                }
+            }                 
+            return ((opened) ? 
+                                <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                    {title}
+                                    <div className={s['b-angle']}>
+                                        <FaAngleDoubleUp/>
+                                    </div>  
+                                </h3>
+                                :
+                                <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                   {title}
+                                    <div className={s['b-angle']}>
+                                        <FaAngleDoubleDown/>
+                                    </div>
+                                </h3>);            
+         }
         return (
             <div>
-                <MyFormComponent
+                <MyFormComponent                        
                         label= "Choose your Match Exotics"
                         component={ <MySelect
                                         className="form-control btn-primary input-lg"
@@ -121,30 +146,32 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                             not
                         </div>
                         :
-                        <Accordion onChange={this.changeBlock} allowMultiple={true} activeItems={sanfonaActiveItems}>
+                        <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
                             {data.matchComponents.map((item, index) => {
+                               /*<h3 aria-controls="react-sanfona-item-body-d44c695b-0a31-4760-ae28-9d53628ee887" class="react-sanfona-item-title" id="react-safona-item-title-d44c695b-0a31-4760-ae28-9d53628ee887" style="cursor: pointer; margin: 0px;">Match Result</h3>*/
                                 return (
-                                    <AccordionItem  
-                                        title={ item }  key={item}
-                                        >
-                                        <div>                                                                                    
-                                            {index ===  0 ? 
-                                            <MatchResult 
-                                                matches={str.MatchResultStruct}
-                                                match={match}
-                                                legs={legs}
-                                                onChangeRange={this.onChangeRange}
-                                                onTableClick={this.onTableClick}
-                                                matchResult={this.state.matchResult} 
-                                                changeText={this.changeText}                                               
-                                                /> : null}  
-                                            {index ===  1 ? <p>{item}</p> : null} 
-                                            {index ===  2 ? <p>{item}</p> : null} 
-                                            {index ===  3 ? <p>{item}</p> : null} 
-                                            {index ===  4 ? <p>{item}</p> : null} 
-                                            {index ===  5 ? <p>{item}</p> : null} 
-                                        </div>
-                                    </AccordionItem>
+                                   
+                                        <AccordionItem  
+                                            title={ renderAngle(index, item)}  key={item}
+                                            >
+                                            <div>                                                                                    
+                                                {index ===  0 ? 
+                                                <MatchResult 
+                                                    matches={str.MatchResultStruct}
+                                                    match={match}
+                                                    legs={legs}
+                                                    onChangeRange={this.onChangeRange}
+                                                    onTableClick={this.onTableClick}
+                                                    matchResult={this.state.matchResult} 
+                                                    changeText={this.changeText}                                               
+                                                    /> : null}  
+                                                {index ===  1 ? <p>{item}</p> : null} 
+                                                {index ===  2 ? <p>{item}</p> : null} 
+                                                {index ===  3 ? <p>{item}</p> : null} 
+                                                {index ===  4 ? <p>{item}</p> : null} 
+                                                {index ===  5 ? <p>{item}</p> : null} 
+                                            </div>           
+                                        </AccordionItem>
                                 );
                             })}
                         </Accordion>
