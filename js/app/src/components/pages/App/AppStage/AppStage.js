@@ -3,7 +3,9 @@ import {bindAll} from 'lodash';
 import AppStageSlider from './AppStageSlider';
 import AppTab from './AppTab';
 import AccaProductPanel from '../../../templates/AccaProductPanel';
+import MyBetPanel from '../../../templates/MyBetPanel';
 import * as data from '../../../products';
+import * as bet from '../../../bet';
 
 export default class AppStage extends React.PureComponent {
 
@@ -60,7 +62,10 @@ export default class AppStage extends React.PureComponent {
                 )
             case "bets":
                 return (
-                    <div style={{textAlign: "center"}}>Coming soon</div>
+                    <MyBetPanel
+                        mybets={bet.bets}
+                        clickHandler={this.handleStageChanged}
+                    />
                 )
         }
     }

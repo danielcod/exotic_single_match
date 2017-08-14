@@ -122,7 +122,6 @@ export default class AccaProductPanel extends React.PureComponent {
         const product = this.props.products.filter(function (product) {
             return product.name == value;
         })[0];
-        console.log(product);
         const bet = this.initBet(product);
         this.setState({product, bet, legs: bet.legs});
     }
