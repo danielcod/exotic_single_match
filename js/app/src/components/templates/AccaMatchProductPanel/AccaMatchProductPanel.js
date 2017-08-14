@@ -4,6 +4,7 @@ import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaPanelTabs from '../../organisms/AccaPanelTabs';
 import MatchResult from '../../organisms/MatchResult';
+import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
