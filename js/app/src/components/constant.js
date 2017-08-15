@@ -6,3 +6,8 @@ export const TO_WINN= 'to win';
 export const SELCTED_FIRST = 0;
 export const SELCTED_TWO = 1;
 export const SELCTED_THREE = 2;
+export const HOME_TEAM = 'Home Team';
+export const AWAY_TEAM= 'Away Team';
+export const BOTH_TEAM = 'Both Teams';
+export const MATCH_TOTAL = 'Match Total';
+

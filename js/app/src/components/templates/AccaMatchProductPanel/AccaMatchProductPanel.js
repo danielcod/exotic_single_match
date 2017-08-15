@@ -4,6 +4,7 @@ import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaPanelTabs from '../../organisms/AccaPanelTabs';
 import MatchResult from '../../organisms/MatchResult';
+import CornersPanel from '../../organisms/CornersPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -176,7 +177,9 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                             matchResult={this.state.matchResult} 
                                                             changeText={this.changeText}                                               
                                                             /> : null}  
-                                                        {index ===  1 ? <p>{item}</p> : null} 
+                                                        {index ===  1 ?
+                                                            <CornersPanel/>
+                                                             : null} 
                                                         {index ===  2 ? <p>{item}</p> : null} 
                                                         {index ===  3 ? <p>{item}</p> : null} 
                                                         {index ===  4 ? <p>{item}</p> : null} 

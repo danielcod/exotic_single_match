@@ -1,0 +1,10 @@
+.cornersTable{
+    font-size: 14px
+}
+.cornersTable .item{
+    border: 1px solid;
+    text-align: center;
+    border-color: white;
+    cursor: pointer;
+    padding: 10px;
+}

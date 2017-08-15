@@ -102,3 +102,4 @@ export const products = [
 		},
 	]
 export const matchComponents = ['Match Result', 'Corners', 'Team Cards', 'Player Cards', 'Goalscorers', 'BTTS & O/U]'];
+export const cornersComponents = ['Home Team', 'Away Team', 'Both Teams', 'Match Total'];
