@@ -32,7 +32,8 @@ export default class AccaLegRow extends React.PureComponent {
                         {this.formatPrice(this.props.leg.price)}
                     </span>
                 </td>
-                {this.props.accaProductPanelState !== "place" ?
+                {
+                    this.props.accaProductPanelState == "custom" ?
                     <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
                         <a className="btn btn-secondary">
                             <i className="glyphicon glyphicon-remove"></i>
