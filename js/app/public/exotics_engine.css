@@ -351,6 +351,7 @@ tr td .match-name {
 	min-height: 24px;
 	margin-top: 44px;
 	text-align: center;
+    font-size: 16px;
 }
 /* APP Your Bets Tab */
 #my-bet-tabs {

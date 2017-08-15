@@ -4,6 +4,7 @@ import MatchResultTable from '../MatchResultTable';
 import * as constant from  '../../constant';
 import Slider from 'rc-slider';
 const Range = Slider.Range;
+import * as s from './index.css'
 
 export default class MatchResult extends React.PureComponent {
     constructor(props){
@@ -107,7 +108,7 @@ export default class MatchResult extends React.PureComponent {
                 <div className= "form-group">
                     <h3 className= "current-price text-center">
                         Match Result Price:
-                        <span id= "price">
+                        <span className={s['price']} id= "price">
                             { this.state.price }
                         </span>
                     </h3>

@@ -1,66 +1,110 @@
 import React from 'react';
-import ReactBootstrapSlider from 'react-bootstrap-slider';
 import { bindAll } from 'lodash';
-import Switch from '../../atoms/Switch'
+import MyBetTab from '../../templates/MyBetPanel/MyBetTab';
+import CornersToogle from '../../molecules/CornersToggle';
 import * as constant from  '../../constant';
 import * as data from '../../products';
 import * as struct from  '../../struct';
 import s from './index.css';
+import classNames from 'classnames';
 
 export default class CornersPanel extends React.PureComponent {
         constructor(props){
         super(props);
         this.state={
-            switchChecked: false,
-            sliderOptions: struct.cornersStruct[0]
+            selectedTab: "over",
+            sliderOptions: struct.cornersStruct[0],
+            toogleValue: struct.cornersStruct[0].value,           
+            myBetTab : [
+                {name: "over", label: "OVER"},
+                {name: "under", label: "UNDER"}
+            ],
+            selectedBetTab: null,
+            textValue: '',
+            price: 6.5
         }
-        bindAll(this, ['switchHandle', 'clickGrid', 'changeSlider']);
+        bindAll(this, ['handleTabClicked', 'clickGrid', 'decrementValue', 
+                        'incrementValue', 'handleCancel', 'formatText', 'changeStateByTab']);
     }
-    switchHandle(){
-        this.setState( { switchChecked: !this.state.switchChecked } );
-        setTimeout(()=>{console.log(this.state.switchChecked)}, 0)
+     handleCancel(){
+        this.setState({
+            selectedTab: "over",
+            sliderOptions: struct.cornersStruct[0],
+            toogleValue: struct.cornersStruct[0].value,                       
+            textValue: '',
+            selectedBetTab: null
+        })
+    }
+    changeStateByTab(pos){
+         this.setState({
+            selectedTab: "over",
+            sliderOptions: struct.cornersStruct[pos],
+            toogleValue: struct.cornersStruct[pos].value,                       
+            textValue: '',
+            selectedBetTab: pos
+        })
+    }
+    handleTabClicked(tab) {
+        this.setState({selectedTab: tab.name});
+        setTimeout(()=>this.formatText(), 0); 
     }
     clickGrid(event){
         const gridName = event.target.innerText;
-        let sliderOptions = {};
+        let position;
         if (!gridName) return;
         switch(gridName){
             case constant.HOME_TEAM:
-                sliderOptions = struct.cornersStruct[0];
+                position = 0;                
                 break;
             case constant.AWAY_TEAM:
-                sliderOptions = struct.cornersStruct[1];
+                position = 1;
                 break;
             case constant.BOTH_TEAM:
-                sliderOptions = struct.cornersStruct[2];
+                position = 2;
                 break;                
             case constant.MATCH_TOTAL:
-                sliderOptions = struct.cornersStruct[3];
+                position = 3;
                 break;
-        }
-        this.setState({sliderOptions})
-        setTimeout(()=>console.log(this.state.sliderOptions), 0) 
+        }        
+        this.changeStateByTab(position)
+        setTimeout(()=>this.formatText(), 0); 
     }
-    changeSlider(){
+    decrementValue() {        
+        const {sliderOptions} = this.state;
+        let toogleValue = this.state.toogleValue - sliderOptions.step;
+        if (toogleValue < sliderOptions.min) toogleValue = this.state.toogleValue;
+        this.setState({toogleValue});        
+        setTimeout(()=>this.formatText(), 0); 
+    }
+    incrementValue() {          
+       const {sliderOptions} = this.state;
+        let toogleValue = this.state.toogleValue + sliderOptions.step;
+        if (toogleValue > sliderOptions.max) toogleValue = this.state.toogleValue;
+        this.setState({toogleValue});
+        setTimeout(()=>this.formatText(), 0); 
 
     }
-    initSliderTicks(minval, maxval) {
-        var ticks = [];
-        for (var i = minval; i <= maxval; i++) {
-            ticks.push(i);
-        }
-        return ticks;
-    };
+   formatText(){
+       let textValue = '';
+       const {selectedBetTab, toogleValue, selectedTab} = this.state;
+       if (selectedBetTab === null || selectedBetTab === undefined) return;
+       textValue = data.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';       
+       this.setState({textValue})
+   }
     render(){
+        const toogleValue = this.state.toogleValue + ' Corners';
         return(
             <div>
                 <table className={s['cornersTable']}>
                     <tbody>
                         <tr>
                             {
-                                data.cornersComponents.map((value, key)=>{
+                                data.cornersComponents.map((value, key)=>{                                                                     
                                     return(
-                                        <td  key={key} className={s['item']}
+                                        <td  key={key} 
+                                            className={(this.state.selectedBetTab === key) ? 
+                                                classNames(s['item'], s['selected-bet-tab']) 
+                                                : classNames(s['item'])}
                                             onClick={this.clickGrid}>
                                             <span >
                                                 {value} 
@@ -72,25 +116,40 @@ export default class CornersPanel extends React.PureComponent {
                         </tr>
                     </tbody>
                 </table>
-                <Switch
-                    leftLabel = 'OVER'
-                    rightLabel = 'UNDER'
-                    switchHandle={this.switchHandle}
+                <div className={s['wrap-mybettab']}>
+                    <MyBetTab
+                        tabs={this.state.myBetTab}
+                        selected={this.state.selectedTab}
+                        clickHandler={this.handleTabClicked}
                     />
-                 <div className="bet-slider-container">
-                    <ReactBootstrapSlider
-                        value={5.5}
-                        change={this.changeSlider}
-                        max={this.state.sliderOptions.max}
-                        min={this.state.sliderOptions.min}
-                        step={1}
-                        ticks={this.initSliderTicks(this.state.sliderOptions.min, this.state.sliderOptions.max)}
-                    />
-                    {/*
-                    this.state.sliderOptions.increments
-                    ticks_labels={this.props.tickLabeller(this.props.min, this.props.max)}
-                        ticks={this.initSliderTicks(this.props.min, this.props.max)}*/}
+                </div>
+                
+                 <div className={s["corners-slider-container"]}>
+                     <CornersToogle
+                        value={toogleValue}
+                        clickHandlers={{
+                            increment: this.incrementValue,
+                            decrement: this.decrementValue
+                        }}/>
+                </div>
+                <div className= "form-group">
+                    <h3 className= "current-price text-center">
+                        Selection Price: 
+                        <span className={s['price']} id= "price">
+                            { this.state.price }
+                        </span>
+                    </h3>
                 </div>   
+                <div
+                    className={s['show-text']}>
+                    {this.state.textValue}
+                </div>
+                <div className={classNames("bet-submit-btns", s['btn-group'])}>
+                    <button
+                        className="btn btn-primary bet-cancel-btn"
+                        onClick={() => this.handleCancel()}>Clear Selections
+                    </button>
+                </div>
             </div>
         )
     }

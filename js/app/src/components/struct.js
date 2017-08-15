@@ -432,25 +432,25 @@ export const cornersStruct = [
     {
         min: 0.5,
         max: 10.5,
-        increments: 1,
-        default : 4.5
+        step: 1,
+        value : 4.5
     },
     {
         min: 0.5,
         max: 10.5,
-        increments: 1,
-        default : 3.5 
+        step: 1,
+        value : 3.5 
     },
     {
         min: 0.5,
         max: 10.5,
-        increments: 1,
-        default : 4.5
+        step: 1,
+        value : 4.5
     },
     {
         min: 0.5,
         max: 20.5,
-        increments: 1,
-        default : 8.5
+        step: 1,
+        value : 8.5
     }
 ]
