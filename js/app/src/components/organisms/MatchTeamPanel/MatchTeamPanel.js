@@ -63,7 +63,6 @@ export default class MatchTeamPanel extends React.PureComponent{
     }
 
     componentDidMount() {
-        console.log(this.props.exoticsApi.fetchMatches())
 	    this.props.exoticsApi.fetchMatches(function(struct) {
             let {matches, leagues} = this.state;
             const cutoff=new Date();

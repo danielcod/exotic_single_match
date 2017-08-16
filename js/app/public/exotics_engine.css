@@ -258,6 +258,76 @@ tr td .match-name {
     padding-left: 5px;
 }
 
+/* Exotic Acca Tab */
+.acca-panel-list-header {
+    margin-bottom: 30px;
+}
+
+.acca-panel-list-header select {
+    font-size: 13px;
+    width: 100px;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 7px 0 7px 7px;
+    height: 35px;
+    background: #59a0df;
+    border-color: #5598d4;
+    color: #fff;
+}
+
+.acca-panel-list-header button {
+    height: 35px;
+    padding: 7px 10px;
+    color: #fff;
+    font-size: 13px;
+}
+
+.acca-panel-list-content .leg-row:last-child {
+    border-bottom: 1px solid #575763;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.acca-panel-list-content .leg-row span {
+    color: #fff;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr span {
+    display: inline-block;
+    float: left;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr div span:first-child {
+    margin-right: 20px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr div span:last-child {
+    font-size: 13px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .label {
+    font-size: 10px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .winners {
+    background-color: #EC644B;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .losers {
+    background-color: #1F8DC4;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .draws {
+    background-color: #d99c41;
+}
+
+.acca-panel-list-content .leg-row .leg-row-price {
+    font-size: 17px;
+}
+
 /* APP Your Bets Tab */
 #my-bet-tabs {
     width: 200px;
@@ -330,12 +400,15 @@ tr td .match-name {
 }
 
 #my-bet-list .panel-group .panel .panel-collapse {
-   background: #575763;
+    background: #575763;
 }
 
 #my-bet-list .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
+
+
+
 
 
 

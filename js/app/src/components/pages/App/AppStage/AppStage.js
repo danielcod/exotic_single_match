@@ -6,9 +6,9 @@ import AccaProductPanel from '../../../templates/AccaProductPanel';
 import MyBetPanel from '../../../templates/MyBetPanel';
 import * as data from '../../../products';
 import * as bet from '../../../bet';
+import * as list from '../../../list';
 
 export default class AppStage extends React.PureComponent {
-
     appStage = [
         {name: "browse", label: "Browse"},
         {name: "edit", label: "Edit"},
@@ -23,17 +23,10 @@ export default class AppStage extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            currentStage: "",
-            selectedTab: ""
+            currentStage: "browse",
+            selectedTab: "match",
         };
         bindAll(this, ['handleTabClicked', 'handleStageChanged', 'getTabContent']);
-    }
-
-    componentWillMount() {
-        this.setState({
-            selectedTab: "match",
-            currentStage: "browse"
-        })
     }
 
     handleTabClicked(tab) {
@@ -41,7 +34,9 @@ export default class AppStage extends React.PureComponent {
     }
 
     handleStageChanged(stage) {
-        this.setState({currentStage: stage});
+        this.setState({
+            currentStage: stage
+        });
     }
 
     getTabContent() {
@@ -57,6 +52,7 @@ export default class AppStage extends React.PureComponent {
                         products={data.products}
                         legsPaginator={{rows: 8}}
                         betLegsPaginator={{rows: 8}}
+                        list={list.items}
                         clickHandler={this.handleStageChanged}
                     />
                 )
