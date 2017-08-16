@@ -1,10 +1,11 @@
 import React from 'react';
-import { bindAll } from 'lodash';
+import { bindAll, eq } from 'lodash';
 import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaPanelTabs from '../../organisms/AccaPanelTabs';
 import MatchResult from '../../organisms/MatchResult';
 import CornersPanel from '../../organisms/CornersPanel';
+import TeamCardsPanel from '../../organisms/TeamCardsPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -27,7 +28,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             sanfonaActiveItems: [],            
             
         }
-        bindAll(this, ['handleMatchChanged', 'handleTabClicked',  
+        bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
                          'changeBlock', 'handleBuidMyOwn', 'betResultMatch']);
     }
 
@@ -71,6 +72,14 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             return bet;   
         });
         if (changed === false)   bets.push(nBet);
+        this.setState({bets});
+        setTimeout(()=> console.log(this.state.bets), 0)
+    }
+    delBetfromBetsList(oldBet){
+        let {bets} = this.state;
+        bets = bets.filter(bet=>{
+            return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.name, oldBet.match.name));
+        });
         this.setState({bets});
         setTimeout(()=> console.log(this.state.bets), 0)
     }
@@ -164,22 +173,32 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                     >
                                                     <div>                                                                                    
                                                         {index ===  0 ? 
-                                                        <MatchResult 
-                                                            matches={str.MatchResultStruct}
-                                                            match={match}
-                                                            legs={legs}
-                                                            betResultMatch={this.betResultMatch}                                                            
-                                                            bets={this.state.bets}                                                                                                            
-                                                            /> : null}  
+                                                            <MatchResult 
+                                                                matches={str.MatchResultStruct}
+                                                                match={match}
+                                                                legs={legs}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delBetfromBetsList}                                                                                                      
+                                                                /> : null}  
                                                         {index ===  1 ?
                                                             <CornersPanel
                                                                 matches={str.MatchResultStruct}
                                                                 match={match}
                                                                 betResultMatch={this.betResultMatch}                                                            
                                                                 bets={this.state.bets}
+                                                                delBetfromBetsList={this.delBetfromBetsList}
                                                                 />
                                                              : null} 
-                                                        {index ===  2 ? <p>{item}</p> : null} 
+                                                        {index ===  2 ? 
+                                                            <TeamCardsPanel
+                                                                matches={str.MatchResultStruct}
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delBetfromBetsList}
+                                                            /> 
+                                                            : null} 
                                                         {index ===  3 ? <p>{item}</p> : null} 
                                                         {index ===  4 ? <p>{item}</p> : null} 
                                                         {index ===  5 ? <p>{item}</p> : null} 
