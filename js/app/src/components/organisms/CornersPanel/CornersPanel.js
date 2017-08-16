@@ -15,7 +15,7 @@ export default class CornersPanel extends React.PureComponent {
         super(props);
         bindAll(this, ['handleTabClicked', 'clickGrid', 'decrementValue', 
                         'incrementValue', 'handleCancel', 'formatText', 
-                        'changeStateByTab', 'setToParrenState']);
+                        'changeStateByTab', 'setToParrenState', 'handleCancel']);
         let bet = this.getCurrentBet(this.props); 
         if (isEmpty(bet)) bet = this.initMatchResult();
         this.state={
@@ -79,13 +79,9 @@ export default class CornersPanel extends React.PureComponent {
         return currentBet;
     }
      handleCancel(){
-        this.setState({
-            selectedTab: "over",
-            sliderOptions: struct.cornersStruct[0],
-            toogleValue: struct.cornersStruct[0].value,                       
-            textValue: '',
-            selectedBetTab: null
-        })
+         const props = this.props;
+         const bet  = this.getCurrentBet(props);
+         this.props.delBetfromBetsList(bet);        
     }
     changeStateByTab(pos){
          this.setState({

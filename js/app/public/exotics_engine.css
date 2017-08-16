@@ -348,10 +348,12 @@ tr td .match-name {
 	font-size: 14px;
 }
 .result-text{
-	min-height: 24px;
+	min-height: 44px;
 	margin-top: 44px;
 	text-align: center;
     font-size: 16px;
+    font-weight: 600;
+    color: #fff;
 }
 /* APP Your Bets Tab */
 #my-bet-tabs {
