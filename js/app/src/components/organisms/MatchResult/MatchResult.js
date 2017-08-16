@@ -6,6 +6,7 @@ import * as products from  '../../products';
 const productsName = products.matchComponents[0];
 import Slider from 'rc-slider';
 const Range = Slider.Range;
+import classNames from 'classnames';
 import * as s from './index.css'
 
 export default class MatchResult extends React.PureComponent {
@@ -23,7 +24,7 @@ export default class MatchResult extends React.PureComponent {
             
         }
         bindAll(this, ['onChange', 'clickHandler', 'formatDynamicText',
-                            'getCurrentBet', 'setToParrenState']);    
+                        'handleCancel', 'getCurrentBet', 'setToParrenState']);    
     }
     getCurrentBet(props){
         const {bets, match} = props;
@@ -34,6 +35,11 @@ export default class MatchResult extends React.PureComponent {
             }
         });
         return currentBet;
+    }
+    handleCancel(){
+         const props = this.props;
+         const bet  = this.getCurrentBet(props);
+         this.props.delBetfromBetsList(bet);        
     }
     initMatchResult(){
         return {
@@ -169,7 +175,12 @@ export default class MatchResult extends React.PureComponent {
                         </h3>                    
                     }    
                 </div>
-                
+                <div className={classNames("bet-submit-btns", s['btn-group'])}>
+                    <button
+                        className="btn btn-primary bet-cancel-btn"
+                        onClick={() => this.handleCancel()}>Clear Selections
+                    </button>
+                </div>
             </div>
         );    
     }
