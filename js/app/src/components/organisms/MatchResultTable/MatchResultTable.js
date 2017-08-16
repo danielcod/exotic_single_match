@@ -7,7 +7,7 @@ export default class MatchResultTable extends React.PureComponent{
         super(props);
         this.state={           
             selected: this.props.selected
-        }        
+        }       
         bindAll(this, ['choicePrice']);
     }
     componentWillReceiveProps(props){

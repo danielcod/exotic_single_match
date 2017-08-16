@@ -22,23 +22,15 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             matches: [],
             match: {},
             selectedTab: "legs",
-            legs: [],
-            matchResult: this.initMatchResult(),
-            sanfonaActiveItems: []
+            legs: [],           
+            bets: [],
+            sanfonaActiveItems: [],            
             
         }
-        bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'onChangeRange', 
-                        'onTableClick', 'changeText', 'changeBlock', 'handleBuidMyOwn']);
+        bindAll(this, ['handleMatchChanged', 'handleTabClicked',  
+                         'changeBlock', 'handleBuidMyOwn', 'betResultMatch']);
     }
-    initMatchResult(){
-        return {
-                range: [1, 5],
-                tableSelectedItem: [0, 1],
-                text: ' ',
-                showSlider: true,
-                buildMyOwn: false
-        }
-    }
+
     componentWillMount(){      
         this.props.exoticsApi.fetchMatches(function(struct) {
             let {matches, leagues} = this.state;
@@ -65,23 +57,27 @@ export default class AccaMatchProductPanel extends React.PureComponent{
     handleMatchChanged(name, value) {  
         const match = this.state.matches.filter(function(product) {
             return product.name==value;
-        })[0];
-        const matchResult = this.initMatchResult();   
-        this.setState({match, matchResult});           
+        })[0];   
+        this.setState({match});           
     }
-    onChangeRange(range){
-        this.state.matchResult.range = range;
+    betResultMatch(nBet){
+        let {bets} = this.state;
+        let changed = false;
+        bets = bets.map(bet=>{     
+            if (bet.name === nBet.name && bet.match.name === nBet.match.name){
+                bet.options = nBet.options;
+                changed = true;                
+            }
+            return bet;   
+        });
+        if (changed === false)   bets.push(nBet);
+        this.setState({bets});
+        setTimeout(()=> console.log(this.state.bets), 0)
     }
-    onTableClick(i, y, showSlider){
-        this.state.matchResult.tableSelectedItem = [i, y];
-        this.state.matchResult.showSlider = showSlider;
-    }
-    changeText(text){
-        this.state.matchResult.text = text;
-    }
+   
     changeBlock(value){
         const sanfonaActiveItems = value.activeItems;
-        this.setState({sanfonaActiveItems});
+        this.setState({ sanfonaActiveItems });
     }
     handleBuidMyOwn(){
         const buildMyOwn = !this.state.buildMyOwn;
@@ -172,13 +168,16 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                             matches={str.MatchResultStruct}
                                                             match={match}
                                                             legs={legs}
-                                                            onChangeRange={this.onChangeRange}
-                                                            onTableClick={this.onTableClick}
-                                                            matchResult={this.state.matchResult} 
-                                                            changeText={this.changeText}                                               
+                                                            betResultMatch={this.betResultMatch}                                                            
+                                                            bets={this.state.bets}                                                                                                            
                                                             /> : null}  
                                                         {index ===  1 ?
-                                                            <CornersPanel/>
+                                                            <CornersPanel
+                                                                matches={str.MatchResultStruct}
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                />
                                                              : null} 
                                                         {index ===  2 ? <p>{item}</p> : null} 
                                                         {index ===  3 ? <p>{item}</p> : null} 

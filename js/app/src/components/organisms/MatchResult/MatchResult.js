@@ -1,7 +1,9 @@
 import React from 'react';
-import { bindAll } from 'lodash';
+import { bindAll, isEmpty } from 'lodash';
 import MatchResultTable from '../MatchResultTable';
 import * as constant from  '../../constant';
+import * as products from  '../../products';
+const productsName = products.matchComponents[0];
 import Slider from 'rc-slider';
 const Range = Slider.Range;
 import * as s from './index.css'
@@ -9,39 +11,68 @@ import * as s from './index.css'
 export default class MatchResult extends React.PureComponent {
     constructor(props){
         super(props);
+        let bet = this.getCurrentBet(this.props); 
+        if (isEmpty(bet)) bet = this.initMatchResult();
         this.state={
-            value: this.props.matchResult.range,
-            infoText: this.props.matchResult.text,
-            selectedItem: this.props.matchResult.tableSelectedItem,
-            showSlider: this.props.matchResult.showSlider,
+            value :  bet.options.range,
+            infoText : bet.options.text,
+            selectedItem :  bet.options.tableSelectedItem,
+            showSlider : bet.options.showSlider,
+            changes : bet.options.selectedMatchResult,
             price: 17.3,
             
         }
-        bindAll(this, ['onChange', 'clickHandler', 'formatDynamicText']);
+        bindAll(this, ['onChange', 'clickHandler', 'formatDynamicText',
+                            'getCurrentBet', 'setToParrenState']);    
+    }
+    getCurrentBet(props){
+        const {bets, match} = props;
+        let currentBet = {};
+        bets.map(bet=>{            
+            if (bet.name ===  productsName && bet.match.name === match.name){
+                currentBet = bet;
+            }
+        });
+        return currentBet;
+    }
+    initMatchResult(){
+        return {
+            name: productsName,
+            options:{
+                range: [1, 5],
+                selectedItem: [],
+                text: ' ',
+                showSlider: true,
+                buildMyOwn: false,
+                changes: false
+        }}
     }
     onChange(value){
-        this.setState({ value });
-        this.props.onChangeRange(value);
+        this.setState({ value });       
         setTimeout(()=> this.formatDynamicText(), 0) ;
     }
     componentWillReceiveProps(props){
-        const   value =  props.matchResult.range,
-                infoText = props.matchResult.text,
-                selectedItem =  props.matchResult.tableSelectedItem,
-                showSlider = props.matchResult.showSlider;
-        this.setState({ value, infoText, selectedItem, showSlider});        
+       
+        let bet = this.getCurrentBet(props);
+        if (isEmpty(bet)) bet = this.initMatchResult();
+        const   value =  bet.options.range,
+                infoText = bet.options.text,
+                selectedItem =  bet.options.tableSelectedItem,
+                showSlider = bet.options.showSlider,
+                changes= bet.options.selectedMatchResult;
+                
+        this.setState({  value, infoText, selectedItem, showSlider, changes});      
     }
     
     clickHandler(id, key){
         let showSlider = true;
         if (key === constant.SELCTED_TWO) showSlider = false;
         const selectedItem =  [id, key];
-        this.setState({ selectedItem, showSlider });
-        this.props.onTableClick(id, key, showSlider);
+        this.setState({ selectedItem, showSlider });        
         setTimeout(()=> this.formatDynamicText(), 0) ;
     }
     formatDynamicText(){
-        if (!this.props.match) return;
+        if (!this.props.match || !this.state.selectedItem) return;
         const comands = this.props.match.name.split(' vs ');
         const winnComandId = this.state.selectedItem[1];
         const resultTimeId = this.state.selectedItem[0];
@@ -79,19 +110,36 @@ export default class MatchResult extends React.PureComponent {
             infoText[0] = infoText[0].toUpperCase();
             infoText =  infoText.join('');
         }        
-        this.setState({infoText});
-        this.props.changeText(infoText);
+        this.setState({infoText, changes: true});
+        setTimeout(()=>this.setToParrenState(), 0) ;
+        
     }
-   
+   setToParrenState(){
+       
+       const { infoText, value, selectedItem, showSlider, changes, price} = this.state;
+       const bet = {
+           name: productsName,
+           match: this.props.match,
+           options:{
+                range: value,
+                text: infoText,
+                tableSelectedItem: selectedItem,
+                showSlider,
+                selectedMatchResult: changes,
+                price
+           }           
+       }
+       this.props.betResultMatch(bet);
+   }
     render(){
-        const  {value} = this.state;       
+        const  {value} = this.state;  
         const marks = {
             1: '1',
             2: '2',
             3: '3',
             4: '4',
             5: '5+'
-        }       
+        }     
         return(
             <div>
                 <MatchResultTable
@@ -99,19 +147,27 @@ export default class MatchResult extends React.PureComponent {
                             legs= {this.props.legs}
                             clickHandler = {this.clickHandler}
                             selected={this.state.selectedItem}/>
-                { this.state.showSlider ?                    
-                    <Range dots step={1} defaultValue={this.state.value}  marks={marks} min={1} max={5} onChange={this.onChange}/>
-                    : null
-                }
-               
+                <div className={s['wrap-slider']}>
+                    { this.state.showSlider ?                    
+                        <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>
+                        : null
+                    }
+                </div>
                 <div className='result-text' >{this.state.infoText}</div>    
                 <div className= "form-group">
-                    <h3 className= "current-price text-center">
-                        Match Result Price:
-                        <span className={s['price']} id= "price">
-                            { this.state.price }
-                        </span>
-                    </h3>
+                     {
+                        (!this.state.changes) ? 
+                        <h3 className= "current-price text-center">
+                           No Selections
+                        </h3>
+                        :
+                        <h3 className= "current-price text-center">
+                            Match Result Price:
+                            <span className={s['price']} id= "price">
+                                { this.state.price }
+                            </span>
+                        </h3>                    
+                    }    
                 </div>
                 
             </div>

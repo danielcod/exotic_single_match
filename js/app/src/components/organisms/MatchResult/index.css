@@ -1,3 +1,6 @@
 .price{
     padding: 0 8px;
 }
+.wrap-slider{
+    min-height: 16px;
+}
