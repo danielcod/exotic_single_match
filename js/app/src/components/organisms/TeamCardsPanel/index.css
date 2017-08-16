@@ -1,0 +1,32 @@
+.cornersTable{
+    font-size: 14px
+}
+.cornersTable .item{
+    border: 1px solid;
+    text-align: center;
+    border-color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+.wrap-mybettab{
+    margin-top: 30px; 
+    margin-bottom: 30px; 
+}
+.price{
+    padding: 0 8px;
+}
+.btn-group{
+    margin-top: 16px;
+    margin-bottom: 10px;
+}
+.selected-bet-tab{
+    background-color: #59a0df;
+}
+.show-text{
+    text-align: center;
+    font-size: 16px;
+    min-height: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 24px;
+}

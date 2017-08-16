@@ -454,3 +454,29 @@ export const cornersStruct = [
         value : 8.5
     }
 ]
+export const cornersTeamStruct = [
+    {
+        min: 10,
+        max: 100,
+        step: 10,
+        value : 20
+    },
+    {
+       min: 10,
+        max: 100,
+        step: 10,
+        value : 30
+    },
+    {
+        min: 10,
+        max: 100,
+        step: 10,
+        value : 30
+    },
+    {
+        min: 10,
+        max: 200,
+        step: 10,
+        value : 50
+    }
+]
