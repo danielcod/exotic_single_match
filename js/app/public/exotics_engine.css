@@ -1,3 +1,7 @@
+#app .nav-tabs {
+    padding-top: 10px;
+}
+
 ul li a .badge {
     background-color: #59a0df;
 }
@@ -217,7 +221,7 @@ tr td .match-name {
 
 /* Style for staging slider */
 .app-stage-slider-container {
-    margin: 30px 40px 30px 40px;
+    margin: 15px 40px 25px 40px;
 }
 
 .app-stage-slider-container .slider.slider-horizontal {
