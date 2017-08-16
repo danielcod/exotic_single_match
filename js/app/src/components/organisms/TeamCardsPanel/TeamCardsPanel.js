@@ -135,19 +135,22 @@ export default class TeamCardsPanel extends React.PureComponent {
     }
    formatText(){
        let textValue = '';
+       debugger
        const {selectedBetTab, toogleValue, selectedTab} = this.state;
        if (selectedBetTab === null || selectedBetTab === undefined) return;
        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO){
             const comands = this.props.match.name.split(' vs ');
             textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
+       }else if(selectedBetTab === constant.SELCTED_FOUR){
+            textValue = constant.TOTAL_BOOKING_POINTS + ' ' + selectedTab + ' ' + toogleValue + ' cards';   
        }else{
-            textValue = data.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';       
+            textValue = data.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' cards';       
        }       
        this.setState({textValue});
        setTimeout(()=>this.setToParrenState(), 0) ;
    }
     render(){
-        const toogleValue = this.state.toogleValue + ' Corners';
+        const toogleValue = this.state.toogleValue + ' Cards';
         return(
             <div>
                 <table className={s['cornersTable']}>
