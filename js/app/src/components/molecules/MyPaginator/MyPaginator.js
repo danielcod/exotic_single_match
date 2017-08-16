@@ -22,7 +22,7 @@ export default class MyPaginator extends React.PureComponent{
 
     render() {
         return (
-            <div className= "text-center">
+            <div className= "text-center paginator">
                 <ul className = "pagination">
                     {
                         this.initPaginatorItems(this.props.data, this.props.product.rows).map(function(item, key) {

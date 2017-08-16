@@ -328,6 +328,10 @@ tr td .match-name {
     font-size: 17px;
 }
 
+.acca-panel-list-content .paginator{
+    margin-top: 30px;
+}
+
 /* APP Your Bets Tab */
 #my-bet-tabs {
     width: 200px;

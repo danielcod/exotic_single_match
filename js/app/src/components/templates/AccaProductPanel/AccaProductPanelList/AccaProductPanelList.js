@@ -1,6 +1,5 @@
 import React from 'react';
 import {bindAll} from 'lodash';
-import MyFormComponent from '../../../atoms/MyFormComponent';
 import MySelect from '../../../atoms/MySelect';
 import AccaProductLegTable from '../AccaProductLegTable';
 import MyPaginator from '../../../molecules/MyPaginator';
@@ -29,7 +28,8 @@ export default class AccaProductPanelList extends React.PureComponent {
             currentPage: 0
         };
         bindAll(this, ['getTeamType', 'filterLegs', 'handleProductChanged',
-            'handleTeamChanged', 'handleLegEdited', 'applyPaginatorWindow', 'getAccaProductPanelListContent'
+            'handleTeamChanged', 'handleLegEdited', 'handlePaginatorClicked',
+            'applyPaginatorWindow', 'getAccaProductPanelListContent'
         ]);
     }
 
@@ -64,9 +64,6 @@ export default class AccaProductPanelList extends React.PureComponent {
         var selectedProductType = this.accaProductType.filter(function (type) {
             return type.name === value;
         })[0].label;
-        var bets = this.bet.filter(function (item) {
-            return item.betType === selectedProductType
-        });
         this.setState({
             selectedProductType: selectedProductType,
             currentPage: 0
@@ -93,6 +90,10 @@ export default class AccaProductPanelList extends React.PureComponent {
         this.setState({bet: state.bet, legs: state.bet.legs});
 
         */
+    }
+
+    handlePaginatorClicked(item) {
+        this.setState({currentPage: item.value});
     }
 
     applyPaginatorWindow(items) {
@@ -152,6 +153,16 @@ export default class AccaProductPanelList extends React.PureComponent {
                         clickHandler={this.handleLegEdited}
                         legs={this.applyPaginatorWindow(this.sortLegs(this.filterLegs()))}
                     />
+                    {
+                        this.filterLegs().length > this.props.legsPaginator.rows ?
+                            <MyPaginator
+                                clickHandler={this.handlePaginatorClicked}
+                                currentPage={this.state.currentPage}
+                                product={this.props.legsPaginator}
+                                data={this.sortLegs(this.filterLegs())}
+                            />
+                            : null
+                    }
                 </div>
             </div>
         )
