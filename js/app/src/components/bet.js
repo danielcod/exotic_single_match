@@ -41,7 +41,7 @@ export const bets = [
     },
     {
         betName: "Exotics Acca",
-        betType: "Pick Losers",
+        betType: "Losers",
         legsPanel: "MatchTeamPanel",
         betLeague: "ENG.1",
         betLegs: [

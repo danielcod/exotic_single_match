@@ -17,10 +17,6 @@ export default class MyBetPanel extends React.PureComponent {
         bindAll(this, ['handleTabClicked', 'getTabContent', 'getBetsFromTab']);
     }
 
-    componentWillMount() {
-
-    }
-
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
     }

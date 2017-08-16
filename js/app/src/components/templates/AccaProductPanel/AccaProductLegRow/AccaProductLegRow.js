@@ -39,8 +39,7 @@ export default class AccaProductLegRow extends React.PureComponent {
             <tr className="leg-row">
                 <td className="leg-row-descr">
                     <div>
-                        <span
-                            className={"label " + this.props.leg.betType.toLowerCase()}>{this.props.leg.betType}</span>
+                        <span className={"label " + this.props.leg.betType.toLowerCase()}>{this.props.leg.betType}</span>
                         <span>{this.props.leg.betLeague}</span>
                     </div>
                     <span style={{marginTop: "5px"}}>

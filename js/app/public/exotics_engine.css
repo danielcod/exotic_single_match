@@ -407,6 +407,27 @@ tr td .match-name {
     text-decoration: none;
 }
 
+#my-bet-list .panel-group .panel .panel-heading .label {
+    margin-top: 5px;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .winners {
+    background-color: #EC644B;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .losers {
+    background-color: #1F8DC4;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .draws {
+    background-color: #d99c41;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .glyph-background {
+    top: 3px;
+    margin-right: 10px;
+}
+
 #my-bet-list .panel-group .panel .panel-collapse {
     background: #575763;
 }
