@@ -3,6 +3,7 @@ import {bindAll} from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Panel from 'react-bootstrap/lib/Panel';
 import AccaLegTable from '../../../organisms/AccaLegTable';
+import * as DU from '../../../date_utils';
 
 export default class MyBetList extends React.PureComponent {
     constructor(props) {
@@ -23,7 +24,6 @@ export default class MyBetList extends React.PureComponent {
                 activeKey: ""
             });
         }
-        console.log("call");
     }
 
     getHeader(bet, expanded) {
@@ -138,7 +138,7 @@ export default class MyBetList extends React.PureComponent {
         var hour = dt.getHours().toString();
         var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
         var mid = dt.getHours() >= 12 ? "pm" : "am";
-        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>Th</sup>{" " + month}</span>
+        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
     }
 
     getBetDetail(bet) {
@@ -190,14 +190,12 @@ export default class MyBetList extends React.PureComponent {
     }
 
     _setExpandedState() {
-        console.log("expanded");
         this.setState({
             panelExpanded: true
         })
     }
 
     _setCollapsedState(test) {
-        console.log("collapsed");
         this.setState({
             panelExpanded: false
         })

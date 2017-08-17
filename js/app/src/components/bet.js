@@ -36,7 +36,7 @@ export const bets = [
             legs: 3,
             nGoals: 1
         },
-        betTime: "2017-08-12 11:38:00",
+        betTime: "2017-08-21 11:38:00",
         betStake: 10,
     },
     {

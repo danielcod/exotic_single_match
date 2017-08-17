@@ -9,6 +9,7 @@ import MatchPanel from '../../../organisms/MatchPanel';
 import AccaNLegsToggle from '../../../organisms/AccaNLegsToggle';
 import AccaLegTable from '../../../organisms/AccaLegTable';
 import MyPaginator from '../../../molecules/MyPaginator';
+import * as DU from '../../../date_utils';
 /*
  nLegs is the state value for NLegsToggle
  nGoals is the state value for NGoalsSlider
@@ -141,7 +142,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
         var hour = dt.getHours().toString();
         var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
         var mid = dt.getHours() >= 12 ? "pm" : "am";
-        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>Th</sup>{" " + month}</span>
+        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
     }
 
     placedBetTextFormatter() {

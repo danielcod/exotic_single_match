@@ -27,5 +27,8 @@ export const DateUtils={
     },
     formatTime: function(date) {
 		return date.getHours()+":"+this.formatMinutes(date);
-    }
+    },
+	formatRemainedDays: function(currentDate, futureDate) {
+    	return Math.round((futureDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000));
+	}
 };

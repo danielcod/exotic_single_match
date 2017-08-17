@@ -1,5 +1,6 @@
 #app .nav-tabs {
     padding-top: 10px;
+    margin-bottom: 20px;
 }
 
 ul li a .badge {
@@ -7,8 +8,20 @@ ul li a .badge {
 }
 
 /*Table in Your Bet Tab*/
-tr td .match-name {
-    font-size: 10px;
+tr td div span.match-name {
+    font-size: 12px;
+}
+
+tr td div span.today {
+    background: #1F8DC4;
+    min-width: 40px;
+    padding: 3px 0;
+}
+
+tr td div span.future {
+    background: #EC644B;
+    min-width: 40px;
+    padding: 3px 0;
 }
 
 .match td div span {
@@ -19,7 +32,130 @@ tr td .match-name {
     font-size: 10px;
 }
 
-/*Table in Lag Selector Tab*/
+/*
+ * Staging slider at the top of page
+*/
+.app-stage-slider-container {
+    margin: 15px 40px 25px 40px;
+}
+
+.app-stage-slider-container .slider.slider-horizontal {
+    width: 100%;
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-track {
+    height: 8px;
+    margin-top: 1px;
+    background: #575763;
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
+    background: #675545;
+    box-shadow: none;
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick {
+    background: #575763;
+    width: 30px;
+    height: 30px;
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick.in-selection {
+    background: #d99c41;
+    border: 8px solid #675545
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-handle {
+    background: #d99c41;
+    width: 30px;
+    height: 30px;
+    border: 8px solid #675545
+}
+
+.app-stage-slider-container .slider.slider-horizontal .slider-tick-label-container {
+    margin-top: 30px;
+    padding-left: 5px;
+}
+
+/*
+ * "Exotic Acca" Page
+ */
+.acca-panel-list-header {
+    margin-bottom: 30px;
+}
+
+.acca-panel-list-header select {
+    font-size: 13px;
+    width: 100px;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 7px 0 7px 7px;
+    height: 35px;
+    background: #59a0df;
+    border-color: #5598d4;
+    color: #fff;
+}
+
+.acca-panel-list-header button {
+    height: 35px;
+    padding: 7px 10px;
+    color: #fff;
+    font-size: 13px;
+}
+
+.acca-panel-list-content .leg-row:last-child {
+    border-bottom: 1px solid #575763;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.acca-panel-list-content .leg-row span {
+    color: #fff;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr span {
+    display: inline-block;
+    float: left;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr div span:first-child {
+    margin-right: 20px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr div span:last-child {
+    font-size: 13px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .label {
+    font-size: 10px;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .winners {
+    background-color: #EC644B;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .losers {
+    background-color: #1F8DC4;
+}
+
+.acca-panel-list-content .leg-row .leg-row-descr .draws {
+    background-color: #d99c41;
+}
+
+.acca-panel-list-content .leg-row .leg-row-price {
+    font-size: 17px;
+}
+
+.acca-panel-list-content .paginator {
+    margin-top: 30px;
+}
+
+/*
+ *  "Exotic Accas" Menu -> "Leg Selector" Page
+ */
 .leg-row .leg-row-date span {
     font-size: 10px;
 }
@@ -38,6 +174,8 @@ tr td .match-name {
     border-radius: 3px !important;
     outline: none;
     width: 40px !important;
+    height: 30px !important;
+    line-height: 29px !important;
 }
 
 .round-cell .round-cell-btn:focus {
@@ -80,7 +218,9 @@ tr td .match-name {
     z-index: -1;
 }
 
-/* Style for Your Bet tab */
+/*
+ * "Exotic Accas" -> "Your Bet" Page
+ */
 .bet-submit-btns {
     text-align: center;
     margin-bottom: 20px;
@@ -134,7 +274,9 @@ tr td .match-name {
     width: 100%;
 }
 
-/* Style for bet confirm page */
+/*
+ * "Exotic Accas" -> "bet place confirm" page
+ */
 .bet-confirm-container {
     text-align: center;
     padding-top: 10px;
@@ -219,124 +361,9 @@ tr td .match-name {
     padding: 7px 40px;
 }
 
-/* Style for staging slider */
-.app-stage-slider-container {
-    margin: 15px 40px 25px 40px;
-}
-
-.app-stage-slider-container .slider.slider-horizontal {
-    width: 100%;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track {
-    height: 8px;
-    margin-top: 1px;
-    background: #575763;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
-    background: #675545;
-    box-shadow: none;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick {
-    background: #575763;
-    width: 30px;
-    height: 30px;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick.in-selection {
-    background: #d99c41;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-handle {
-    background: #d99c41;
-    width: 30px;
-    height: 30px;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-label-container {
-    margin-top: 30px;
-    padding-left: 5px;
-}
-
-/* Exotic Acca Tab */
-.acca-panel-list-header {
-    margin-bottom: 30px;
-}
-
-.acca-panel-list-header select {
-    font-size: 13px;
-    width: 100px;
-    display: inline-block;
-    margin-right: 5px;
-    padding: 7px 0 7px 7px;
-    height: 35px;
-    background: #59a0df;
-    border-color: #5598d4;
-    color: #fff;
-}
-
-.acca-panel-list-header button {
-    height: 35px;
-    padding: 7px 10px;
-    color: #fff;
-    font-size: 13px;
-}
-
-.acca-panel-list-content .leg-row:last-child {
-    border-bottom: 1px solid #575763;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.acca-panel-list-content .leg-row span {
-    color: #fff;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr span {
-    display: inline-block;
-    float: left;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr div span:first-child {
-    margin-right: 20px;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr div span:last-child {
-    font-size: 13px;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .label {
-    font-size: 10px;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .winners {
-    background-color: #EC644B;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .losers {
-    background-color: #1F8DC4;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .draws {
-    background-color: #d99c41;
-}
-
-.acca-panel-list-content .leg-row .leg-row-price {
-    font-size: 17px;
-}
-
-.acca-panel-list-content .paginator{
-    margin-top: 30px;
-}
-
-/* APP Your Bets Tab */
+/*
+ *  "Your Bets" Page
+ */
 #my-bet-tabs {
     width: 200px;
     margin: 0 auto;

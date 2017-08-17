@@ -25,7 +25,7 @@ export default class MatchTable extends React.PureComponent {
                 <thead>
                     <tr>
                         {
-                            ["", "1", "X", "2"].map(function(label, key) {
+                            ["Fixture", "1", "X", "2"].map(function(label, key) {
                                 return (
                                     <th key={key} className= "text-center" style={{paddingBottom: "5px"}}>
                                         {label}
