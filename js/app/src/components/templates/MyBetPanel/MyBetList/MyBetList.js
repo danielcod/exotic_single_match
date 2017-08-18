@@ -94,6 +94,7 @@ export default class MyBetList extends React.PureComponent {
                 match: {
                     kickoff: bet.betLegs[index].kickoff,
                     league: bet.betLeague,
+                    name: bet.betLegs[index].name
                 },
                 price: bet.betLegs[index].price
             }
@@ -171,7 +172,7 @@ export default class MyBetList extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <div className="bet-placed-result">
-                        <span>To win € {this.formatCurrentPrice(bet.betStake * (bet.betPrice - 1))}</span>
+                        <span>To win € {this.formatCurrentPrice(bet.betStake * bet.betPrice )}</span>
                         <span>Result = {bet.betResult}</span>
                     </div>
                 </div>

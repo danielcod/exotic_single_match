@@ -20,7 +20,7 @@ export default class DateTimeCellCustom extends React.PureComponent {
                     </span>)
         } else {
             result = (<span className="label future">
-                        {"+" + DU.DateUtils.formatRemainedDays(today, date) + "d"}
+                        {DU.DateUtils.formatRemainedDays(today, date)}
                     </span>)
         }
         return <div

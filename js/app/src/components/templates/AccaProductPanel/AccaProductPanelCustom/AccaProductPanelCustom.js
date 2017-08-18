@@ -55,7 +55,9 @@ export default class AccaProductPanelCustom extends React.PureComponent {
     handleStateChanged(accaProductPanelCustomState) {
         this.setState({accaProductPanelCustomState: accaProductPanelCustomState});
         if (accaProductPanelCustomState == "place") {
-            this.props.clickHandler("place", accaProductPanelCustomState);
+            this.props.clickHandler("place");
+        } else if(accaProductPanelCustomState == "select") {
+            this.props.clickHandler("custom");
         }
     }
 
@@ -452,7 +454,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                         </div>
                         <div className="form-group">
                             <div className="bet-placed-result">
-                                <span>To win € {this.formatCurrentPrice(this.state.stake * (this.state.price - 1))}</span>
+                                <span>To win € {this.formatCurrentPrice(this.state.stake * this.state.price)}</span>
                                 <span>Result = ?</span>
                             </div>
                         </div>
@@ -462,6 +464,10 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                         </div>
                         <div className="form-group">
                             <div className="main-menu-container">
+                                <button
+                                    className="btn btn-primary main-menu-btn"
+                                    onClick={() => this.handleStateChanged("select")}>KEEP SELECTIONS
+                                </button>
                                 <button
                                     className="btn btn-primary main-menu-btn"
                                     onClick={() => this.props.clickHandler("list")}>MAIN MENU

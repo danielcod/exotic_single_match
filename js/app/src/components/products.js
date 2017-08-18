@@ -1,6 +1,6 @@
 export const products = [
 			{
-			    label: "Exotics Acca – Winners",
+			    label: "Exotic Acca – Winners",
 			    name: "exotic_acca_winner",
 			    description:  "An Exotic Acca Winner is like a traditional acca; but not all teams have to win for it to payout, so you don't have to select all the favourites; and you can add a goals condition to improve the price!",
 			    legsPanel: 'MatchTeamPanel',

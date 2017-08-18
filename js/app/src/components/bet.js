@@ -5,9 +5,9 @@ export const bets = [
         legsPanel: "MatchTeamPanel",
         betLeague: "ENG.1",
         betLegs: [
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.87, result: "?"},
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.37, result: "?"},
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.37, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-19 11:38:00", price: 6.87, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-19 11:38:00", price: 6.37, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-19 11:38:00", price: 6.37, result: "?"},
         ],
         betPrice: 1.72,
         betResult: "?",
@@ -16,7 +16,7 @@ export const bets = [
             legs: 3,
             nGoals: 3
         },
-        betTime: "2017-08-10 10:30:00",
+        betTime: "2017-08-19 10:30:00",
         betStake: 10,
     },
     {
@@ -25,9 +25,9 @@ export const bets = [
         legsPanel: "MatchTeamPanel",
         betLeague: "ENG.1",
         betLegs: [
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.37, result: "?"},
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.37, result: "?"},
-            {name: "Swansea City (vs Manchester United)", kickoff: "2017-08-12 11:38:00", price: 6.37, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-18 11:38:00", price: 6.37, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-18 11:38:00", price: 6.37, result: "?"},
+            {name: "Swansea City vs Manchester United", kickoff: "2017-08-18 11:38:00", price: 6.37, result: "?"},
         ],
         betPrice: 1.72,
         betResult: "?",
@@ -76,7 +76,7 @@ export const bets = [
             legs: 3,
             nGoals: 2
         },
-        betTime: "2017-08-12 11:38:00",
+        betTime: "2017-08-25 11:38:00",
         betStake: 10,
     },
     {
@@ -96,7 +96,7 @@ export const bets = [
             legs: 3,
             nGoals: 2
         },
-        betTime: "2017-08-12 11:38:00",
+        betTime: "2017-08-27 11:38:00",
         betStake: 10,
     },
     {
@@ -116,7 +116,7 @@ export const bets = [
             legs: 3,
             nGoals: 2
         },
-        betTime: "2017-08-12 11:38:00",
+        betTime: "2017-08-18 11:38:00",
         betStake: 10,
     }
 ]

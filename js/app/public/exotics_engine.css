@@ -16,12 +16,15 @@ tr td div span.today {
     background: #1F8DC4;
     min-width: 40px;
     padding: 3px 0;
+    color: #fff;
 }
 
 tr td div span.future {
-    background: #EC644B;
+    /*background: #EC644B;*/
+    background: #1F8DC4;
     min-width: 40px;
     padding: 3px 0;
+    color: #fff;
 }
 
 .match td div span {
@@ -157,6 +160,17 @@ tr td div span.future {
 
 .acca-panel-list-content .paginator {
     margin-top: 30px;
+}
+
+.main-menu-container {
+    margin: 0 -15px 20px;
+    padding: 15px 0 15px 0;
+    background: #575763;
+    text-align: center;
+}
+
+.main-menu-btn {
+    padding: 7px 40px;
 }
 
 /*
@@ -357,15 +371,13 @@ tr td div span.future {
     margin-bottom: 30px;
 }
 
-.main-menu-container {
-    margin: 0 -15px 20px;
-    padding: 15px 0 15px 0;
-    background: #575763;
-    text-align: center;
+.bet-confirm-container .main-menu-btn:first-child {
+    margin-right: 15px;
 }
 
-.main-menu-btn {
-    padding: 7px 40px;
+.bet-confirm-container .main-menu-btn {
+    padding: 7px 0;
+    width: 150px;
 }
 
 /*
