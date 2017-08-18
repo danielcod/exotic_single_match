@@ -13,3 +13,28 @@ export function matchSorter(m0, m1) {
             }
         }
     }
+  export function formatPrice(value) {
+        if (!value) return null;
+        if(typeof value === "string") value = parseFloat(value);
+        if (value < 2) {
+            // return value.toFixed(3);
+            return value.toFixed(2);
+        } else if (value < 10) {
+            return value.toFixed(2);
+        } else if (value < 100) {
+            return value.toFixed(1);
+        } else {
+            return Math.floor(value);
+        }
+    }
+    export function getCurrentBet(props, matchComponents){
+        const {bets, match} = props;
+        let currentBet = {};
+        bets.map(bet=>{            
+            if (bet.name === matchComponents && bet.match.name === match.name){
+                currentBet = bet;
+            }
+        });
+        return currentBet;
+    }
+    

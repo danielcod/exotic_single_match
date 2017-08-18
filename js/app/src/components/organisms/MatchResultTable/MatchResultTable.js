@@ -1,5 +1,6 @@
 import React from 'react';
 import MatchPriceCell from '../../atoms/MatchPriceCell';
+import {formatPrice} from  '../../utils';
 import {bindAll, isEqual} from 'lodash';
 
 export default class MatchResultTable extends React.PureComponent{
@@ -18,18 +19,7 @@ export default class MatchResultTable extends React.PureComponent{
         this.props.clickHandler(id, key);
         this.setState({selected: [id, key]})
     }
-    formatPrice(value) {
-        if (value < 2) {
-            // return value.toFixed(3);
-            return value.toFixed(2);
-        } else if (value < 10) {
-            return value.toFixed(2);
-        } else if (value < 100) {
-            return value.toFixed(1);
-        } else {
-            return Math.floor(value);
-        }
-    }
+    
     render() {
         const {matches} = this.props;
 	    return (
@@ -63,7 +53,7 @@ export default class MatchResultTable extends React.PureComponent{
                                             return(
                                                 <MatchPriceCell 
                                                     key={key}
-                                                    value={this.formatPrice(value)}
+                                                    value={formatPrice(value)}
                                                     selected={selected}
                                                     clickHandler={()=>this.choicePrice(id, key)}                                        
                                             />

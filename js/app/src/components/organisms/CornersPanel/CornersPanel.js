@@ -5,7 +5,6 @@ import CornersToogle from '../../molecules/CornersToggle';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
 const productsName = products.matchComponents[1];
-import * as data from '../../products';
 import * as struct from  '../../struct';
 import s from './index.css';
 import classNames from 'classnames';
@@ -141,7 +140,7 @@ export default class CornersPanel extends React.PureComponent {
             const comands = this.props.match.name.split(' vs ');
             textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
        }else{
-            textValue = data.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';       
+            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';       
        }       
        this.setState({textValue});
        setTimeout(()=>this.setToParrenState(), 0) ;
@@ -154,7 +153,7 @@ export default class CornersPanel extends React.PureComponent {
                     <tbody>
                         <tr>
                             {
-                                data.cornersComponents.map((value, key)=>{                                                                     
+                                products.cornersComponents.map((value, key)=>{                                                                     
                                     return(
                                         <td  key={key} 
                                             className={(this.state.selectedBetTab === key) ? 

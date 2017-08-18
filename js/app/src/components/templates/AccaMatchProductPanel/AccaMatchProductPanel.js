@@ -6,6 +6,7 @@ import AccaPanelTabs from '../../organisms/AccaPanelTabs';
 import MatchResult from '../../organisms/MatchResult';
 import CornersPanel from '../../organisms/CornersPanel';
 import TeamCardsPanel from '../../organisms/TeamCardsPanel';
+import GoalScorersPanel from '../../organisms/GoalScorersPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -82,6 +83,9 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         });
         this.setState({bets});
         setTimeout(()=> console.log(this.state.bets), 0)
+    }
+    delTeamBetfromBetsList(){
+        console.log('delTeamBetfromBetsList');
     }
    
     changeBlock(value){
@@ -200,7 +204,13 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                             /> 
                                                             : null} 
                                                         {index ===  3 ? <p>{item}</p> : null} 
-                                                        {index ===  4 ? <p>{item}</p> : null} 
+                                                        {index ===  4 ? 
+                                                            <GoalScorersPanel 
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delTeamBetfromBetsList}
+                                                            /> : null} 
                                                         {index ===  5 ? <p>{item}</p> : null} 
                                                     </div>           
                                                 </AccordionItem>

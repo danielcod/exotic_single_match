@@ -1,6 +1,10 @@
 export const struct = [
 {
 name: "Arsenal vs Leicester City",
+squads:[
+    [{name: "Ospina", price: "00.934719957198948"}, {name: "Cech", price: "10.6034022307619233"}, {name: "Debuchy", price: "20.04135392477149202"}, {name: "Gibbs", price: "30.4053624797603441"}, {name: "Mertesacker", price: "40.3252153316173909"}, {name: "Gabriel", price: "50.4761669136687383"}, {name: "Koscielny", price: "60.18302736351054438"}, {name: "Holding", price: "70.36406169693427204"}, {name: "Monreal", price: "80.41993066548296243"}, {name: "Mustafi", price: "90.4299890227276766"}, {name: "Chambers", price: "100.5737876348179722"}, {name: "Bellerin", price: "110.2785807671026741"}, {name: "Jenkinson", price: "120.49872442382885285"}, {name: "Kolasinac", price: "130.6317567342082224"}, {name: "Ramsey", price: "140.7725477349988237"}, {name: "Wilshere", price: "150.38513913846240055"}],
+    [{name: "Schmeichel", price: "00.7906078622456969"}, {name: "Hamer", price: "10.0021565289868124005"}, {name: "Jakupovic", price: "20.01043966032641519"}, {name: "Maguire", price: "30.41173274530148185"}, {name: "Chilwell", price: "40.8113992970190582"}, {name: "Morgan", price: "50.253316329595793"}, {name: "Huth", price: "60.403182985795139"}, {name: "Simpson", price: "70.9565450925280303"}, {name: "Fuchs", price: "80.2027733672578571"}, {name: "Benalouane", price: "90.36637483330573906"}, {name: "Drinkwater", price: "100.5013678544036388"}, {name: "James", price: "110.1374846657731772"}, {name: "King", price: "120.9298440544466733"}, {name: "Albrighton", price: "130.5657457536505255"}, {name: "Amartey", price: "140.8017141759448403"}, {name: "Gray", price: "150.2880831902611485"}]
+], 
 kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
@@ -11,6 +15,10 @@ league: "ENG.1",
 },
 {
 name: "Watford vs Liverpool",
+squads: [
+    [{name: "Gomes ", price: "00.7797898879919003"}, {name: "Pantilimon ", price: "10.176827813818502"}, {name: "Arlauskis ", price: "20.2775225767593572"}, {name: "Bachmann", price: "30.9850671739523762"}, {name: "Janmaat", price: "40.8389693253815147"}, {name: "Britos ", price: "50.04202870392871727"}, {name: "Kaboul", price: "60.39868952962541204"}, {name: "Prödl ", price: "70.3219875050281966"}, {name: "Mariappa", price: "80.7001759663074445"}, {name: "Cathcart", price: "90.26597557688544304"}, {name: "Femenía", price: "100.7733508712211383"}, {name: "Holebas ", price: "110.6866627105305938"}, {name: "Dja Djédjé", price: "120.06506921098287988"}, {name: "Kabasele ", price: "130.03154293806374997"}, {name: "Hoban ", price: "140.37186187920909464"}, {name: "Amrabat ", price: "150.5985700780921084"}],
+    [{name: "Loris", price: "00.1292567768276669"}, {name: "Simon", price: "10.42423688003002025"}, {name: "Adam", price: "20.12027022892612038"}, {name: "Danny", price: "30.338485549532058"}, {name: "Nathaniel", price: "40.5635729237847884"}, {name: "Mamadou", price: "50.04346624673256394"}, {name: "Dejan", price: "60.11033137379486035"}, {name: "Joe", price: "70.14764382872336967"}, {name: "Ragnar", price: "80.672916010660753"}, {name: "Alberto", price: "90.5319235343268949"}, {name: "Andy", price: "100.6942645543840043"}, {name: "Joel", price: "110.15003176456239098"}, {name: "Jon", price: "120.9728907908531219"}, {name: "Trent", price: "130.9915523716636176"}, {name: "Georginio", price: "140.12536872951433775"}, {name: "James", price: "150.6679442580191017"}, ]
+],
 kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
 '1x2_prices': [
@@ -19,7 +27,7 @@ league: "ENG.1",
 1.6424667931688806
 ]
 },
-{
+/*{
 name: "Chelsea vs Burnley",
 kickoff: "2017-12-11 18:45:00",
 league: "ENG.1",
@@ -398,7 +406,7 @@ league: "FIN.1",
 5.8006194347657765,
 11.265413533834588
 ]
-}
+}*/
 ];
 
 export const postStruct =  {'nGoals': 2, 'legs': [{'price': 1.4214046822742474, 'description': 'Arsenal (vs Leicester City)', 'match': {'1x2_prices': [1.4214046822742474, 5.279503105590062, 9.340659340659338], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 11, 18, 45), 'name': 'Arsenal vs Leicester City'}, 'selection': {'homeAway': 'home', 'team': 'Arsenal'}}, {'price': 19.288056206088992, 'description': 'Burnley (vs Chelsea)', 'match': {'1x2_prices': [1.2384962406015037, 7.106125970664366, 19.288056206088992], 'selected': 'away', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Chelsea vs Burnley'}, 'selection': {'homeAway': 'away', 'team': 'Burnley'}}, {'price': 1.85744793880153, 'description': 'Crystal Palace (vs Huddersfield Town)', 'match': {'1x2_prices': [1.85744793880153, 3.6742959226565777, 5.277994143042599], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Crystal Palace vs Huddersfield Town'}, 'selection': {'homeAway': 'home', 'team': 'Crystal Palace'}}], 'nLegs': 1, 'name': 'exotic_acca_winner', 'bust': 3074431325}
