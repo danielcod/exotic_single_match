@@ -21,13 +21,13 @@ export default class MatchTable extends React.PureComponent {
     render() {
         const {clickHandler, matches, legs} = this.props;
         return (            
-            <table className= "table table-condensed table-striped">
+            <table className= "table table-condensed table-striped table-bordered">
                 <thead>
                     <tr>
                         {
                             ["Fixture", "1", "X", "2"].map(function(label, key) {
                                 return (
-                                    <th key={key} className= "text-center" style={{paddingBottom: "5px"}}>
+                                    <th key={key} className= "text-center" style={{paddingBottom: "5px", borderLeftWidth: "0px", borderRightWidth: "0px"}}>
                                         {label}
                                     </th>
                                 )
