@@ -254,15 +254,24 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                 />)
         } else {
             return (
-                <MatchTeamPanel
-                    exoticsApi={this.props.exoticsApi}
-                    legs={this.state.bet.legs}
-                    paginator={this.props.legsPaginator}
-                    clickHandler={{
-                        add: this.handleLegAdded,
-                        remove: this.handleLegRemoved
-                    }}
-                />)
+                <div>
+                    <MatchTeamPanel
+                        exoticsApi={this.props.exoticsApi}
+                        legs={this.state.bet.legs}
+                        paginator={this.props.legsPaginator}
+                        clickHandler={{
+                            add: this.handleLegAdded,
+                            remove: this.handleLegRemoved
+                        }}
+                    />
+                    <div className="main-menu-container">
+                        <button
+                            className="btn btn-primary main-menu-btn"
+                            onClick={() => this.props.clickHandler("list")}>MAIN MENU
+                        </button>
+                    </div>
+                </div>
+            )
         }
     }
 

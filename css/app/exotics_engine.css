@@ -121,6 +121,12 @@ tr td div span.future {
     float: left;
 }
 
+.acca-panel-list-content .leg-row .leg-row-descr span.desc,
+.acca-panel-list-content .leg-row .leg-row-descr span.goal {
+    font-size: 11px;
+    text-align: left;
+}
+
 .acca-panel-list-content .leg-row .leg-row-descr div span:first-child {
     margin-right: 20px;
 }
@@ -351,13 +357,14 @@ tr td div span.future {
     margin-bottom: 30px;
 }
 
-.bet-confirm-container .main-menu-container {
-    margin: 30px -15px 20px;
+.main-menu-container {
+    margin: 0 -15px 20px;
     padding: 15px 0 15px 0;
     background: #575763;
+    text-align: center;
 }
 
-.bet-confirm-container .main-menu-btn {
+.main-menu-btn {
     padding: 7px 40px;
 }
 
