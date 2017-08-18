@@ -1,5 +1,5 @@
 import React from 'react';
-import DateTimeCell from '../../atoms/DateTimeCell';
+import DateTimeCellCustom from '../../atoms/DateTimeCellCustom';
 
 export default class AccaLegRow extends React.PureComponent {
 
@@ -20,12 +20,12 @@ export default class AccaLegRow extends React.PureComponent {
         return (
             <tr className="leg-row">
                 <td className="leg-row-date">
-                    <DateTimeCell
+                    <DateTimeCellCustom
                         value={this.props.leg.match.kickoff}
                         type="datetime"/>
                 </td>
                 <td className="leg-row-descr">
-                    {this.props.leg.description}
+                    {this.props.leg.match.name}
                 </td>
                 <td>
                     <span className="text-muted">

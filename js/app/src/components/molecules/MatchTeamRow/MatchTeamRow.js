@@ -98,7 +98,7 @@ export default class MatchTeamRow extends React.PureComponent {
                         value={this.props.match.kickoff}
                         type="datetime"
                     />
-                    <div style={{display: "table-cell", }}>
+                    <div style={{display: "table-cell"}}>
                         <span className='match-name'>
                             {this.props.match.name}
                         </span>

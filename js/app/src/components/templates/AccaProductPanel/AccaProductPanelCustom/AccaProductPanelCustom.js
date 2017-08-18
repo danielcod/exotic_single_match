@@ -142,7 +142,8 @@ export default class AccaProductPanelCustom extends React.PureComponent {
         var hour = dt.getHours().toString();
         var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
         var mid = dt.getHours() >= 12 ? "pm" : "am";
-        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
+        return <span
+            className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
     }
 
     placedBetTextFormatter() {
@@ -271,19 +272,10 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                 {
                     (this.state.bet.legs.length != 0) ?
                         <div>
-                            <div className="form-group">
-                                <h3 className="current-price text-center">Current price:
-                                    <span id="price">{this.formatCurrentPrice(this.state.price)}</span>
-                                </h3>
-                            </div>
-                            <MyFormComponent
-                                label="Your Exotic Acca Legs"
-                                component={
-                                    <AccaLegTable
-                                        clickHandler={this.handleLegRemoved}
-                                        legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
-                                        accaProductPanelState="custom"
-                                    />}
+                            <AccaLegTable
+                                clickHandler={this.handleLegRemoved}
+                                legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
+                                accaProductPanelState="custom"
                             />
                             {
                                 (this.state.bet.legs.length > this.props.betLegsPaginator.rows) ?
@@ -326,7 +318,11 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                             />}
                                     /> : null
                             }
-                            <hr style={{borderColor: "#555"}}/>
+                            <div className="form-group">
+                                <h3 className="current-price text-center">Current price:
+                                    <span id="price">{this.formatCurrentPrice(this.state.price)}</span>
+                                </h3>
+                            </div>
                             <div className="bet-submit-btns">
                                 <button
                                     className="btn btn-primary bet-cancel-btn"
