@@ -1,4 +1,5 @@
 import React from 'react';
+import s from './index.css';
 
 export default class MyBetTab extends React.PureComponent {
     render() {
@@ -11,7 +12,7 @@ export default class MyBetTab extends React.PureComponent {
                                 <li key={key}
                                     className={(tab.name == this.props.selected) ? "active" : ""}
                                     onClick={this.props.clickHandler.bind(null, tab)}>
-                                    <a href='#'>{tab.label}</a>
+                                    <a className={s['tab-label']}>{tab.label}</a>
                                 </li>
                             )
                         })

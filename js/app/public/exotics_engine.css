@@ -289,7 +289,7 @@ tr td .match-name {
 	opacity: 1;
 }
 .react-sanfona-item-body-wrapper {	
-	padding: 20px;
+    padding: 20px 6px;
 	position: relative;
 }
 .react-sanfona-item-expanded .react-sanfona-item-title{
@@ -355,40 +355,40 @@ tr td .match-name {
     font-weight: 600;
     color: #fff;
 }
-/* APP Your Bets Tab */
-#my-bet-tabs {
-    width: 200px;
-    margin: 0 auto;
+/* APP Your Bets Tab */ 
+#my-bet-tabs { 
+    width: 200px; 
+    margin: 0 auto; 
+} 
+ 
+#my-bet-tabs .nav-tabs { 
+    margin: 0 20px 0 20px; 
+    padding: 0; 
+    border-radius: 30px; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li > a { 
+    font-size: 12px; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:before { 
+    border: none; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active > a { 
+    background-color: #d99c41; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:first-child > a { 
+    border-top-left-radius: 20px; 
+    border-bottom-left-radius: 20px; 
 }
 
-#my-bet-tabs .nav-tabs {
-    margin: 0 20px 0 20px;
-    padding: 0;
-    border-radius: 30px;
-}
-
-#my-bet-tabs .nav-tabs > li > a {
-    font-size: 12px;
-}
-
-#my-bet-tabs .nav-tabs > li.active:before {
-    border: none;
-}
-
-#my-bet-tabs .nav-tabs > li.active > a {
-    background-color: #d99c41;
-}
-
-#my-bet-tabs .nav-tabs > li.active:first-child > a {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
-#my-bet-tabs .nav-tabs > li.active:last-child > a {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
+#my-bet-tabs .nav-tabs > li.active:last-child > a { 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+} 
+ 
 #my-bet-list {
     margin-top: 15px;
 }
@@ -433,7 +433,13 @@ tr td .match-name {
 #my-bet-list .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-
-
-
+.pagination li {
+     margin: 0 0 4px 0;
+}
