@@ -5,7 +5,6 @@ import CornersToogle from '../../molecules/CornersToggle';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
 const productsName = products.matchComponents[2];
-import * as data from '../../products';
 import * as struct from  '../../struct';
 import s from './index.css';
 import classNames from 'classnames';
@@ -135,7 +134,6 @@ export default class TeamCardsPanel extends React.PureComponent {
     }
    formatText(){
        let textValue = '';
-       debugger
        const {selectedBetTab, toogleValue, selectedTab} = this.state;
        if (selectedBetTab === null || selectedBetTab === undefined) return;
        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO){
@@ -144,7 +142,7 @@ export default class TeamCardsPanel extends React.PureComponent {
        }else if(selectedBetTab === constant.SELCTED_FOUR){
             textValue = constant.TOTAL_BOOKING_POINTS + ' ' + selectedTab + ' ' + toogleValue + ' cards';   
        }else{
-            textValue = data.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' cards';       
+            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' cards';       
        }       
        this.setState({textValue});
        setTimeout(()=>this.setToParrenState(), 0) ;
@@ -157,7 +155,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                     <tbody>
                         <tr>
                             {
-                                data.cornersComponents.map((value, key)=>{                                                                     
+                                products.cornersComponents.map((value, key)=>{                                                                     
                                     return(
                                         <td  key={key} 
                                             className={(this.state.selectedBetTab === key) ? 

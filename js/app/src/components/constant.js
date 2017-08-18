@@ -11,5 +11,7 @@ export const HOME_TEAM = 'Home Team';
 export const AWAY_TEAM= 'Away Team';
 export const BOTH_TEAM = 'Both Teams';
 export const MATCH_TOTAL = 'Match Total';
-export const TOTAL_BOOKING_POINTS= 'Total Booking Points'
-
+export const TOTAL_BOOKING_POINTS= 'Total Booking Points';
+export const COUNT_PLAYER_ROWS = 8;
+export const FROM_HOME = '(H) ';
+export const FROM_AWAY = '(A) ';
