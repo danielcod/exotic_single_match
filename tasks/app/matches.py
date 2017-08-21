@@ -6,7 +6,7 @@ QueueName="quant"
 
 ReduceNTries=10
 
-# curl "http://localhost:8080/tasks/app/matches?window=30"
+# curl "http://localhost:8080/tasks/app/matches?window=7"
 
 class IndexHandler(webapp2.RequestHandler):
 
