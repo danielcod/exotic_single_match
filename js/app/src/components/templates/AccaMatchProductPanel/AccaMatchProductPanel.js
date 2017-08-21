@@ -206,6 +206,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                         {index ===  3 ? <p>{item}</p> : null} 
                                                         {index ===  4 ? 
                                                             <GoalScorersPanel 
+                                                                matches={matches}
                                                                 match={match}
                                                                 betResultMatch={this.betResultMatch}                                                            
                                                                 bets={this.state.bets}

@@ -1,40 +1,33 @@
 import React from 'react';
-import { bindAll, isEmpty, isEqual} from 'lodash';
+import { bindAll, isEmpty, isEqual, findIndex} from 'lodash';
 import {formatPrice} from  '../../utils';
 import MatchPriceCell from '../../atoms/MatchPriceCell';
+import classNames from 'classnames';
 import * as s from './index.css';
 
 
 export default class GoalScorersTable extends React.PureComponent {
         constructor(props){
         super(props);   
-        this.state={           
-            selected: this.props.selected
-        } 
-        bindAll(this, ['choicePrice']);    
+        
+        bindAll(this, ['choicePrice', 'isSelectedItem']);    
     }   
     componentWillReceiveProps(props){
-        const selected = props.selected;
-        this.setState({selected});        
+        const selected = props.selected;               
     }
     choicePrice(id, key){
-        this.props.clickHandler(id, key);
-        this.setState({selected: [id, key]})
+        this.props.clickHandler(id, key);       
+    }
+    isSelectedItem(id, i){
+        const {selected} = this.props; 
+        const selectedView = findIndex(selected, (value) => { return isEqual(value, [id, i] ); });
+        return (selectedView > -1 ? true : false);
     }
     render(){
-        const {squads, selected} = this.props;
-        console.log(selected)
+        const {squads} = this.props;
         const row = (player, id)=>{
                             let row = [];                            
-                            for(let i = 0; i < 5; i++){    
-                                let selected; 
-                                this.state.selected.map(value=> {
-                                    let worked = false;
-                                    if (!worked) selected = isEqual(value, [id, i] )
-                                    if (selected) worked = true; 
-                                       //console.log(value)
-                                }); 
-                                             //console.log(selected, this.state.selected)                              
+                            for(let i = 0; i < 5; i++){
                                 if (i === 0){                                                        
                                     row.push(
                                             <td key={i} className={s['name_td']}>
@@ -44,6 +37,7 @@ export default class GoalScorersTable extends React.PureComponent {
                                             </td>
                                         )
                                 }else{
+                                    const selected = this.isSelectedItem(id, i);
                                     row.push(
                                         <MatchPriceCell 
                                             key={i}
@@ -53,19 +47,19 @@ export default class GoalScorersTable extends React.PureComponent {
                                         />
                                     )
                                 }
-                                //console.log(selected, id, i, row) 
+                                
                             }
                             
                             return row;
                         }
         return(
-            <table className= "table table-condensed table-striped table-not-bordered">
+            <table className= {classNames(s[''], "table table-condensed table-striped table-not-bordered")}>
                 <thead>
                     <tr>
                         {
-                            ["", "1st", "1+", "2+", "3+"].map(function(label, key) {
+                            ["", "1st", "Any time", "2+", "3+"].map(function(label, key) {
                                 return (
-                                    <th key={key} className= "text-center" style={{paddingBottom: "5px"}}>
+                                    <th key={key} className={classNames(s['player-table-header-item'], "text-center")}>
                                         {label}
                                     </th>
                                 )

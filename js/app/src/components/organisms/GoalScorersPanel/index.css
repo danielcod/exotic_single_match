@@ -1,0 +1,13 @@
+.wrap-mybettab{
+    margin: 0 0 12px 0;
+}
+.show-text{
+    font-size: 16px;
+    min-height: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+.wrap-show-text{    
+    margin: 24px 12px;
+    min-height: 72px;
+}
