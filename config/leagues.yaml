@@ -1,3 +1,12 @@
 - name: ENG.1
   season: "2017/2018"
   rounds: 1
+- name: FRA.1
+  season: "2017/2018"
+  rounds: 1
+- name: GER.1
+  season: "2017/2018"
+  rounds: 1
+- name: SPA.1
+  season: "2017/2018"
+  rounds: 1
