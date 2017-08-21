@@ -1,4 +1,28 @@
-### initial r&d 21/8/2017
+### initial R&D 21/8/2017
+
+## THOUGHTS
+
+- how does pricing code in quant/exotic_acca.py, products/exotic_acca.py overlap  ?
+- which code is used by pricing controller ?
+- there is no code for the app to be able to get a bet description
+- there is no parameter validation code
+- need endpoints for placing bet and retrieving bets
+- think there was a pricing error between 1x2 and DC (zagreb)
+- authorisation
+
+## FILES
+
+# quant/dixon_coles.py
+
+- code for converting 1x2 to DC grid
+
+# quant/exotic_acca.py
+
+- code for pricing exotic acca
+
+# products/exotic_acca.py
+
+- code for pricing and description of exotic acca
 
 ## APP
 
