@@ -1,12 +1,19 @@
 ### initial R&D 21/8/2017
 
+## UI
+
+- when you change the goals selector, price doesn't blank ("[..]")
+- shouldn't there be a confirmation stage between placing bet ?
+- does app call server before placing bet ?
+- does app pass a user token to server ?
+
 ## THOUGHTS
 
-- there is no code for the app to be able to get a bet description
 - there is no parameter validation code
 - need endpoints for placing bet and retrieving bets
 - think there was a pricing error between 1x2 and DC (zagreb)
 - authorisation
+- SETTLEMENT
 
 ## FILES
 
