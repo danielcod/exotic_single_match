@@ -108,19 +108,4 @@ def calc_probability(bet, allmatches, paths=Paths, seed=Seed):
     return sum([filterfn(sample)
                 for sample in samples])/float(paths)
 
-import datetime 
-
-SampleBet={u'legs': [{u'price': 3.2285714934472356, u'match': {u'1x2_prices': [2.2599999427795407, 4.035714366809044, 3.2285714934472356], u'league': u'NOR.1', u'selected': u'away', u'name': u'Sarpsborg 08 vs Brann', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0)}, u'description': u'Brann (vs Sarpsborg 08)', u'selection': {u'team': u'Brann', u'homeAway': u'away'}}, {u'price': 2.809085650912273, u'match': {u'1x2_prices': [2.5389812514941075, 3.9975451629071794, 2.809085650912273], u'league': u'NOR.1', u'selected': u'away', u'name': u'Aalesund vs Odds Ballklubb', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0)}, u'description': u'Odds Ballklubb (vs Aalesund)', u'selection': {u'team': u'Odds Ballklubb', u'homeAway': u'away'}}, {u'price': 8.10937513096724, u'match': {u'1x2_prices': [1.3839999914169312, 6.487500104773792, 8.10937513096724], u'league': u'NOR.1', u'selected': u'away', u'name': u'Rosenborg vs Sogndal', u'kickoff': datetime.datetime(2017, 6, 25, 16, 0)}, u'description': u'Sogndal (vs Rosenborg)', u'selection': {u'team': u'Sogndal', u'homeAway': u'away'}}], u'bust': 4664634616, u'nLegs': 2, u'nGoals': 2}
-
-if __name__=="__main__":
-    from helpers.json_helpers import json_loads
-    allmatches=json_loads(file("quant/fixtures/matches.json").read())
-    import copy
-    bet=copy.deepcopy(SampleBet)
-    bet["resultCondition"]=Win
-    bet["legsCondition"]=GTE
-    bet["goalsCondition"]=GTE
-    print calc_probability(bet, allmatches)
-    
-    
 

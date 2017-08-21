@@ -2,8 +2,6 @@
 
 ## THOUGHTS
 
-- how does pricing code in quant/exotic_acca.py, products/exotic_acca.py overlap  ?
-- which code is used by pricing controller ?
 - there is no code for the app to be able to get a bet description
 - there is no parameter validation code
 - need endpoints for placing bet and retrieving bets
