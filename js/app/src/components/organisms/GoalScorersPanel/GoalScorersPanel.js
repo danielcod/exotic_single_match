@@ -72,6 +72,13 @@ export default class GoalScorersPanel extends React.PureComponent {
         const index = this.isCurrentItemClicked(id, key, selectedInCurrentPage)
         if (index > -1){
             selectedItem.splice(index, 1);
+        }else if(key === constant.SELCTED_TWO){
+            selectedItem = selectedItem.filter((value, idx)=>{
+                console.log(value)
+                if (value.item[1] !== constant.SELCTED_TWO)                
+                    return value;
+            });
+            selectedItem.push(selected);  
         }else{
             if(this.isPlayerClicked(id, selectedInCurrentPage)){
                 switch(key){
@@ -177,6 +184,7 @@ export default class GoalScorersPanel extends React.PureComponent {
         });
         const textValue = [
             '\'1+\' - ' + first,
+            '\'1st+\' - ' + first,
             '\'Anytime\' - ' + two,
             '\'2+\' -' + three,
             '\'3+\' - ' + four
