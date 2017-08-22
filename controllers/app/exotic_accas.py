@@ -12,6 +12,8 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
+MaxCoverage=100
+
 PriceProbLimit=0.0001
 
 Seed, Paths = 13, 5000
@@ -170,24 +172,28 @@ class PriceHandler(webapp2.RequestHandler):
 
 # curl -X POST -H "Cookie: ioSport=bar" http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
 
-def filter_userid(fn):
-    def wrapped_fn(self):
-        logging.info(self.request.headers["Cookie"])
-        return fn(self)
-    return wrapped_fn
-
 class CreateHandler(webapp2.RequestHandler):
 
     @filter_userid
     @parse_json_body
     @emit_json
-    def post(self, bet, limit=PriceProbLimit):
+    def post(self, bet, maxcoverage=MaxCoverage, *args, **kwargs):
+        userid=kwargs["user_id"]
         update_bet_params(bet)
         matches=Blob.fetch("app/matches")
         BetValidator().validate_bet(bet, matches)
-        prob=BetPricer().calc_probability(bet, matches)        
+        prob=BetPricer().calc_probability(bet, matches)
+        if prob > 1/float(bet["price"]):
+            raise RuntimeError("Bet not accepted")
+        if bet["size"]*bet["price"] > maxcoverage:
+            raise RuntimeError("Bet not accepted")
+        bet=ExoticAcca(userid=userid,
+                       params=json.dumps(bet),
+                       size=float(bet["size"]),
+                       price=float(bet["price"]),
+                       timestamp=datetime.datetime.utcnow()).put()
         return {"status": "ok",
-                "id": -1}
+                "id": bet.id()}
         
 Routing=[('/app/exotic_accas/price', PriceHandler),
          ('/app/exotic_accas/create', CreateHandler)]

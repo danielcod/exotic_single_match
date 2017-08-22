@@ -72,3 +72,18 @@ class Blob(db.Model):
         if not blob:
             raise RuntimeError("%s not found" % key)
         return json_loads(blob.text)
+
+class ExoticAcca(db.Model):
+
+    userid=db.StringProperty()
+    params=db.TextProperty()
+    size=db.FloatProperty()
+    price=db.FloatProperty()
+    timestamp=db.DateTimeProperty()
+    status=db.StringProperty()
+
+    @classmethod
+    def find_all(self, userid):
+        query=ExoticAcca.all()
+        query.filter("userid = ", userid)
+        return fetch_models_db(query)

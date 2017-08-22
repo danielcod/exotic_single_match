@@ -25,6 +25,8 @@ if __name__=="__main__":
                 leg["match"].pop(attr)
             for attr in ["homeAway"]:
                 leg["selection"].pop(attr)
+        struct["size"]=10 # NB
+        struct["price"]=1.01 # NB
         # end cleaning code
         destfilename="tmp/%s" % filename.split("/")[-1]
         dest=file(destfilename, 'w')
