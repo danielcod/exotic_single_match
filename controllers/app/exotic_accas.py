@@ -88,6 +88,8 @@ def init_bet_filterfn(bet):
             raise RuntimeError("%s is invalid legs condition" % bet["legsCondition"])
     return filterfn
 
+# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/bet.json
+
 class PriceHandler(webapp2.RequestHandler):
     
     def update_bet(self, bet):
@@ -127,7 +129,7 @@ class PriceHandler(webapp2.RequestHandler):
         filterfn=init_bet_filterfn(bet)
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
-            
+    
     @parse_json_body
     @emit_json
     def post(self, bet, limit=0.005):
@@ -140,7 +142,7 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
         
-Routing=[('/app/bets/price', PriceHandler)]
+Routing=[('/app/exotic_accas/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

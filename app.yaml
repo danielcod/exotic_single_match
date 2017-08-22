@@ -22,8 +22,8 @@ skip_files:
 - ^tmp
 handlers:
 # APP
-- url: /app/bets.*
-  script: controllers.app.bets.app
+- url: /app/exotic_accas.*
+  script: controllers.app.exotic_accas.app
 - url: /app/matches.*
   script: controllers.app.matches.app
 - url: /app.*
