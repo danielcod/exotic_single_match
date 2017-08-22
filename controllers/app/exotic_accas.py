@@ -90,11 +90,10 @@ def init_bet_filterfn(bet):
 
 class PriceHandler(webapp2.RequestHandler):
 
-    def validate_bet(self, bet, matches):
+    def validate_legs(self, bet, matches, errors):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
                       for match in matches])
         now=datetime.datetime.utcnow()
-        errors=[]
         for leg in bet["legs"]:
             matchkeyname="%s/%s" % (leg["match"]["league"],
                                     leg["match"]["name"])
@@ -111,6 +110,18 @@ class PriceHandler(webapp2.RequestHandler):
                 if teamname not in teamnames:
                     errors.append("%s not found in %s" % (teamname,
                                                           matchkeyname))
+
+    def validate_bet(self, bet, matches):
+        errors=[]
+        if bet["name"] not in [Winner, Loser, Draws]:
+            error.append("Bet type not found")
+        if bet["nGoals"] < 0:
+            errors.append("nGoals can't be < 0")
+        if bet["nLegs"] < 0:
+            errors.append("nLegs can't be < 0")
+        if bet["nLegs"] > len(bet["legs"]):
+            errors.append("nLegs exceeds number of legs")
+        self.validate_legs(bet, matches, errors)
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
             
