@@ -12,6 +12,8 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
+PriceProbLimit=0.0001
+
 Seed, Paths = 13, 5000
 
 LegErrMsg="'%s' is invalid goals condition for match '%s' status"
@@ -150,7 +152,7 @@ class PriceHandler(webapp2.RequestHandler):
     
     @parse_json_body
     @emit_json
-    def post(self, bet, limit=0.005):
+    def post(self, bet, limit=PriceProbLimit):
         matches=Blob.fetch("app/matches")
         self.validate_bet(bet, matches)
         self.update_bet(bet)
