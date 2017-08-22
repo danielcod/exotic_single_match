@@ -53,11 +53,11 @@ export default class GoalScorersTable extends React.PureComponent {
                             return row;
                         }
         return(
-            <table className= {classNames(s[''], "table table-condensed table-striped table-not-bordered")}>
+            <table className= {classNames( "table table-condensed table-striped table-not-bordered")}>
                 <thead>
                     <tr>
                         {
-                            ["", "1st", "Any time", "2+", "3+"].map(function(label, key) {
+                            ["", "Any time", "1st Game", "1st Team", "3+"].map(function(label, key) {
                                 return (
                                     <th key={key} className={classNames(s['player-table-header-item'], "text-center")}>
                                         {label}

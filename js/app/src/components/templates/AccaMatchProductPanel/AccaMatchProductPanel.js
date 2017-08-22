@@ -7,6 +7,7 @@ import MatchResult from '../../organisms/MatchResult';
 import CornersPanel from '../../organisms/CornersPanel';
 import TeamCardsPanel from '../../organisms/TeamCardsPanel';
 import GoalScorersPanel from '../../organisms/GoalScorersPanel';
+import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -30,7 +31,8 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             
         }
         bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
-                         'changeBlock', 'handleBuidMyOwn', 'betResultMatch']);
+                         'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
+                         'delTeamBetfromBetsList']);
     }
 
     componentWillMount(){      
@@ -48,13 +50,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         }.bind(this));	          
     }
     handleTabClicked(tab) {        
-        /*if (tab.name == "bet") {
-            this.props.clickHandler("Bet");
-        } else {
-            this.props.clickHandler("Edit");
-        }*/
         this.setState({selectedTab: tab.name});
-
     }
     handleMatchChanged(name, value) {  
         const match = this.state.matches.filter(function(product) {
@@ -84,8 +80,15 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.setState({bets});
         setTimeout(()=> console.log(this.state.bets), 0)
     }
-    delTeamBetfromBetsList(){
-        console.log('delTeamBetfromBetsList');
+    delTeamBetfromBetsList(productsName, matchName){
+        let {bets} = this.state;
+        bets = bets.filter((bet)=>{
+            if (bet.name === productsName && bet.match.name !== matchName ||
+                bet.name !== productsName)
+                return bet;
+        });
+        this.setState({bets});
+        setTimeout(()=>console.log('delTeamBetfromBetsList', bets), 0);
     }
    
     changeBlock(value){
@@ -203,7 +206,15 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                                 delBetfromBetsList={this.delBetfromBetsList}
                                                             /> 
                                                             : null} 
-                                                        {index ===  3 ? <p>{item}</p> : null} 
+                                                        {index ===  3 ? 
+                                                        < PlayerCardsPanel 
+                                                            matches={matches}
+                                                            match={match}
+                                                            betResultMatch={this.betResultMatch}                                                            
+                                                            bets={this.state.bets}
+                                                            delBetfromBetsList={this.delTeamBetfromBetsList}
+                                                        />
+                                                            : null} 
                                                         {index ===  4 ? 
                                                             <GoalScorersPanel 
                                                                 matches={matches}

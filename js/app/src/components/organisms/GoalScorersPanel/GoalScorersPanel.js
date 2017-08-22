@@ -16,21 +16,22 @@ export default class GoalScorersPanel extends React.PureComponent {
         super(props);
         bindAll(this, ['getCurrentBet', 'initState', 'clickTable', 'applyPaginatorWindow', 
                         'handlePaginatorClicked', 'handleTabClicked', 'getCurrentListPlayer',
-                        'formatText', 'isCurrentItemClicked']);
+                        'formatText', 'isCurrentItemClicked', 'handleCancel']);
         let bet = this.getCurrentBet(this.props); 
         if (isEmpty(bet)) bet = this.initState();
         const comands = this.props.match.name.split(' vs ');
         this.state={            
-            price: 26.5,
+            price: bet.options.price,
             currentPage: bet.options.currentPage,
             selectedItem: bet.options.selectedItem,
-            selectedTab: bet.options.selectedTab,
+            selectedTeam: bet.options.selectedTeam,
             textValue: bet.options.textValue,
             myBetTab : [
                 {name: constant.HOME, label: comands[0]},
                 {name: constant.AWAY, label: comands[1]}
             ],
-            triggerState: false
+            triggerState: false,
+            changes: bet.options.changes
         }        
     }    
     componentWillReceiveProps(props){
@@ -41,62 +42,67 @@ export default class GoalScorersPanel extends React.PureComponent {
                 {name: constant.HOME, label: comands[0]},
                 {name: constant.AWAY, label: comands[1]}
             ]
-        //const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes} = bet.options;   
-         this.setState({ myBetTab });   
+        const {selectedTeam, currentPage, selectedItem, price, textValue, changes} = bet.options;   
+         this.setState({ myBetTab, selectedTeam, currentPage, selectedItem, price, textValue, changes });   
     }
     initState(){
         return {
             name: productsName,
-
+            match: this.props.match,
             options:{
-                selectedTab: constant.HOME,
+                selectedTeam: constant.HOME,
                 currentPage: 0,
                 selectedItem: [],
                 textValue:  [],
+                price: 26.5,
+                changes: false
         }}
     }
-    getCurrentBet(){
-
+    getCurrentBet(props){
+        const {bets, match} = props;
+        let currentBet = {};
+        bets.map(bet=>{            
+            if (bet.name === productsName && bet.match.name === match.name){
+                currentBet = bet;
+            }
+        });
+        return currentBet;
+    }
+    setToParrenState(){       
+       const { currentPage, selectedItem, selectedTeam, textValue, price, changes} = this.state;
+       const bet = {
+           name: productsName,
+           match: this.props.match,
+           options:{
+               currentPage,
+               selectedItem,
+               selectedTeam,
+               textValue,               
+               price,
+               changes
+           }           
+       }
+       this.props.betResultMatch(bet);
     }
     clickTable(id, key){        
-        let {selectedItem, currentPage, selectedTab} = this.state;
+        let {selectedItem, currentPage, selectedTeam} = this.state;
         const triggerState = !this.state.triggerState;
         const {match} = this.props;
         const selected = {
-            matchName: this.props.match.name,
+            matchName: match.name,
             page:   currentPage, 
             item:   [id, key],
-            selectedTeam:  selectedTab
+            selectedTeam:  selectedTeam
         };
         const selectedInCurrentPage = this.getCurrentListPlayer();
         const index = this.isCurrentItemClicked(id, key, selectedInCurrentPage)
         if (index > -1){
             selectedItem.splice(index, 1);
-        }else if(key === constant.SELCTED_TWO){
-            selectedItem = selectedItem.filter((value, idx)=>{
-                console.log(value)
-                if (value.item[1] !== constant.SELCTED_TWO)                
-                    return value;
-            });
-            selectedItem.push(selected);  
         }else{
-            if(this.isPlayerClicked(id, selectedInCurrentPage)){
-                switch(key){
-                    case constant.SELCTED_TWO:     
-                        selectedItem = selectedItem.filter((value, idx)=> {
-                            if (value.item[0] === id && value.matchName === match.name 
-                                && value.selectedTeam === selectedTab && value.page === currentPage){
-                                if (value.item[1] !== constant.SELCTED_THREE){
-                                    return value;
-                                }                              
-                            }else{
-                                return value;
-                            }                                
-                        });  
-                        break;                   
-                    case constant.SELCTED_THREE:                        
+            switch(key){
+                    case constant.SELCTED_TWO:    //AnyTime                                         
                         selectedItem = selectedItem.filter((value, idx)=> {  
-                            if(value.matchName === match.name && value.selectedTeam === selectedTab 
+                            if(value.matchName === match.name && value.selectedTeam === selectedTeam 
                                 && value.page === currentPage){
                                     if (value.item[0] !== id){ 
                                         return value;
@@ -104,52 +110,66 @@ export default class GoalScorersPanel extends React.PureComponent {
                             }else{
                                 return value;
                             }                                                   
-                        });
-                        break;
-                    case constant.SELCTED_FOUR:  
-                        selectedItem = selectedItem.filter((value, idx)=> {                            
-                            if (value.item[0] === id  && value.matchName === match.name 
-                                && value.selectedTeam === selectedTab && value.page === currentPage){
-                                if (value.item[1] !== constant.SELCTED_THREE
-                                    && value.item[1] !== constant.SELCTED_FIVE){
+                        });                        
+                        break;                   
+                    case constant.SELCTED_THREE:       //1stGame 
+                        selectedItem = selectedItem.filter((value, idx)=> {                                               
+                            if (value.item[0] === id && value.matchName === match.name 
+                                && value.selectedTeam === selectedTeam && value.page === currentPage){
+                                if (value.item[1] === constant.SELCTED_FIVE ){
                                     return value;
                                 }                              
                             }else{
-                                return value;
+                                 if (value.matchName !== match.name ||
+                                    value.matchName === match.name && value.selectedTeam !== selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE ){          
+                                        return value;    
+                                    }                
+                            }                                
+                        });  
+                        break;
+                    case constant.SELCTED_FOUR:  //1stTeam
+                        selectedItem = selectedItem.filter((value, idx)=> {                            
+                            if (value.item[0] === id  && value.matchName === match.name     
+                                && value.selectedTeam === selectedTeam && value.page === currentPage){
+                                if (value.item[1] === constant.SELCTED_FIVE){
+                                    return value;
+                                }                              
+                            }else{
+                                if (value.matchName !== match.name ||
+                                    value.matchName === match.name && value.selectedTeam !== selectedTeam ||
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE    ){          
+                                        return value;    
+                                    }   
                             }                                
                         });               
-                    case constant.SELCTED_FIVE:
+                    case constant.SELCTED_FIVE: //3+
                          selectedItem = selectedItem.filter((value, idx)=> {
-                            if (value.item[0] === id){
-                                if (value.item[1] !== constant.SELCTED_THREE
-                                    && value.item[1] !== constant.SELCTED_FOUR){
-                                    return value;
-                                }                              
-                            }else{
-                                return value;
-                            }                                
+                            if (value.item[0] === id && value.item[1] !== constant.SELCTED_TWO || value.item[0] !== id){                                
+                                    return value;                                
+                            }                              
                         });
                         break;
-                }                
-            }
+                }           
             selectedItem.push(selected);                         
         }       
-        this.setState({selectedItem, triggerState });
+        this.setState({selectedItem, triggerState, changes: true});
         setTimeout(()=> this.formatText());
-        setTimeout(()=> console.log('GoalScorersPanel', this.state.selectedItem), 0)
     }
     isCurrentItemClicked(id, key, selectedInCurrentPage){   
-        const { selectedItem, selectedTab, currentPage} = this.state;
+        const { selectedItem, selectedTeam, currentPage} = this.state;
         const {match} = this.props;
         let selectedView = -1;
-        selectedItem.map((value, idx)=>{
-            selectedInCurrentPage.map(val=>{
-                const is = isEqual(val, [id, key] );
-                if(value.matchName === match.name && value.selectedTeam === selectedTab &&
-                    value.page === currentPage && is){                    
-                    selectedView = idx;
-                }
-            })          
+        selectedItem.map((value, idx)=>{            
+            const is = isEqual(value.item, [id, key] );
+            if(value.matchName === match.name && value.selectedTeam === selectedTeam &&
+                value.page === currentPage && is){                    
+                selectedView = idx;
+            }      
         })        
         return selectedView;
     }
@@ -162,34 +182,34 @@ export default class GoalScorersPanel extends React.PureComponent {
     }
     formatText(){
         let  first = '', two = '', three = '', four = '';
-        const {selectedItem, currentPage, selectedTab} = this.state;
+        const {selectedItem, currentPage, selectedTeam} = this.state;
         const {matches, match} = this.props;
         selectedItem.map((value, key)=>{
             const player = this.getPlayer(matches, value);  
             const selectedCountGoals = value.item[1];
             switch(selectedCountGoals){
                     case constant.SELCTED_TWO:     
-                        first = first + ' ' + player.name + ',';
+                        first = first + ' ' + player.name;
                         break;                   
                     case constant.SELCTED_THREE:                        
-                        two = two + ' ' + player.name + ',';
+                        two = two + ' ' + player.name;
                         break;
                     case constant.SELCTED_FOUR: 
-                        three = three + ' ' + player.name + ',';
+                        three = three + ' ' + player.name;
                          break;          
                     case constant.SELCTED_FIVE:
-                         four = four + ' ' + player.name + ',';
+                         four = four + ' ' + player.name;
                         break;
                 }           
         });
         const textValue = [
-            '\'1+\' - ' + first,
-            '\'1st+\' - ' + first,
-            '\'Anytime\' - ' + two,
-            '\'2+\' -' + three,
-            '\'3+\' - ' + four
+            '\'Anytime\' - ' + first,
+            '\'1st Game\' - ' + two/*.slice(1, two.length-1)*/,
+            '\'1st Team\' - ' + three/*.slice(1, three.length-1)*/,
+            '\'3+\' - ' + four/*.slice(1, four.length-1)*/
         ];
-        this.setState({textValue})        
+        this.setState({textValue});        
+        setTimeout(()=>this.setToParrenState(), 0) ;      
     }
     getPlayer(matches, selected){
         let player = '';
@@ -223,26 +243,31 @@ export default class GoalScorersPanel extends React.PureComponent {
         if (aPrice < bPrice) return -1;
     }
     handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name, changes: true});
+        this.setState({selectedTeam: tab.name, changes: true});
         //setTimeout(()=>this.formatText(), 0); 
     }
     getCurrentListPlayer(){                                               
         let selected = []
-         const {selectedItem, currentPage, selectedTab}   = this.state;
+         const {selectedItem, currentPage, selectedTeam}   = this.state;
         selectedItem.map((value)=>{     
-            if (value.page === currentPage && value.selectedTeam === selectedTab
+            if (value.page === currentPage && value.selectedTeam === selectedTeam
                 && value.matchName === this.props.match.name)
                 selected.push( value.item );
         });
         return selected;
     }
+    handleCancel(){
+         const props = this.props;
+         const bet  = this.getCurrentBet(props);
+         this.props.delBetfromBetsList(productsName, props.match.name);        
+    }
     render(){
         let squads =  [];    
-        const {selectedItem, currentPage, selectedTab, textValue}   = this.state;
+        const {selectedItem, currentPage, selectedTeam, textValue}   = this.state;
         const {match}  = this.props;
         const selectedInCurrentPage = this.getCurrentListPlayer();
         if (match) {           
-            if (selectedTab === 'home') squads = match.squads[0];
+            if (selectedTeam === 'home') squads = match.squads[0];
             else squads = match.squads[1];
         }
         return(
@@ -250,7 +275,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                 <div className={s['wrap-mybettab']}>
                     <MyBetTab
                         tabs={this.state.myBetTab}
-                        selected={this.state.selectedTab}
+                        selected={this.state.selectedTeam}
                         clickHandler={this.handleTabClicked}
                     />
                 </div>
@@ -281,6 +306,27 @@ export default class GoalScorersPanel extends React.PureComponent {
                             )
                         })
                     }
+                </div>
+                <div className= "form-group">
+                    {
+                        (!this.state.changes) ? 
+                        <h3 className= "current-price text-center">
+                           No Selections
+                        </h3>
+                        :
+                        <h3 className= "current-price text-center">
+                            Selection Price: 
+                            <span className={s['price']} id= "price">
+                                { this.state.price }
+                            </span>
+                        </h3>                       
+                    }                    
+                </div>                
+                <div className={classNames("bet-submit-btns", s['btn-group'])}>
+                    <button
+                        className="btn btn-primary bet-cancel-btn"
+                        onClick={() => this.handleCancel()}>Clear
+                    </button>
                 </div>
             </div>
         );

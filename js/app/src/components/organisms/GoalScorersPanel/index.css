@@ -9,5 +9,8 @@
 }
 .wrap-show-text{    
     margin: 24px 12px;
-    min-height: 72px;
+    min-height: 98px;
+}
+.price{
+    padding: 0 8px;
 }

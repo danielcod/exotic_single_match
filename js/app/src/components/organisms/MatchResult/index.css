@@ -3,6 +3,8 @@
 }
 .wrap-slider{
     min-height: 16px;
+    width: 92%;
+    margin-left: 4%;
 }
 .btn-group{
     margin-top: 16px;
