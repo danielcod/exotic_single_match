@@ -1,3 +1,7 @@
+"""
+needs to work with bet structure as specified in dev/exotic_acca_winner.json
+"""
+
 from controllers.app import *
 
 Winner="exotic_acca_winner"
@@ -84,10 +88,19 @@ def init_bet_filterfn(bet):
 
 class PriceHandler(webapp2.RequestHandler):
 
-    def validate_bet(self, bet):
+    def validate_bet(self, bet, matches):
+        matches=dict([("%s/%s" % (match["league"], match["name"]), match)
+                       for match in matches])
         errors=[]
         for leg in bet["legs"]:
-            logging.info(leg)
+            matchkeyname="%s/%s" % (leg["match"]["league"],
+                                    leg["match"]["name"])
+            if matchkeyname not in matches:
+                errors.append("%s not found" % matchkeyname)
+            else:
+                teamnames=leg["match"]["name"].split(" vs ")
+                if leg["selection"]["team"] not in teamnames:
+                    errors.append("%s not found in %s" % (leg["selection"]["team"], matchkeyname))
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
             
@@ -131,7 +144,7 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, limit=0.005):
         matches=Blob.fetch("app/matches")
-        self.validate_bet(bet)
+        self.validate_bet(bet, matches)
         self.update_bet(bet)
         prob=self.calc_probability(bet,
                                    matches,
