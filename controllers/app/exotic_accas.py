@@ -91,6 +91,10 @@ def init_bet_filterfn(bet):
 # curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
 
 class PriceHandler(webapp2.RequestHandler):
+
+
+    def clean_bet(self, bet):
+        pass
     
     def update_bet(self, bet):
         if bet["name"]==Winner:
