@@ -115,12 +115,6 @@ class PriceHandler(webapp2.RequestHandler):
         errors=[]
         if bet["name"] not in [Winner, Loser, Draws]:
             error.append("Bet type not found")
-        if bet["nGoals"] < 0:
-            errors.append("nGoals can't be < 0")
-        if bet["nLegs"] < 0:
-            errors.append("nLegs can't be < 0")
-        if bet["nLegs"] > len(bet["legs"]):
-            errors.append("nLegs exceeds number of legs")
         self.validate_legs(bet, matches, errors)
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
