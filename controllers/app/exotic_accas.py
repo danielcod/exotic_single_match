@@ -99,8 +99,10 @@ class PriceHandler(webapp2.RequestHandler):
                 errors.append("%s not found" % matchkeyname)
             else:
                 teamnames=leg["match"]["name"].split(" vs ")
-                if leg["selection"]["team"] not in teamnames:
-                    errors.append("%s not found in %s" % (leg["selection"]["team"], matchkeyname))
+                teamname=leg["selection"]["team"]
+                if teamname not in teamnames:
+                    errors.append("%s not found in %s" % (teamname,
+                                                          matchkeyname))
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
             
