@@ -168,17 +168,7 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST http://localhost:8080/app/exotic_accas/description -d @dev/exotic_acca_winner.json
-
-class DescriptionHandler(webapp2.RequestHandler):
-
-    @parse_json_body
-    @emit_json
-    def post(self, bet, limit=PriceProbLimit):
-        return bet
-    
-Routing=[('/app/exotic_accas/price', PriceHandler),
-         ('/app/exotic_accas/description', DescriptionHandler)]
+Routing=[('/app/exotic_accas/price', PriceHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
