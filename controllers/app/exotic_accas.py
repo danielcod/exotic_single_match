@@ -8,59 +8,51 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
-Conditions={
-    GT: "more than",
-    GTE: "at least",
-    LT: "less than",
-    LTE: "at most",
-    EQ: "exactly"
-}
-
 Seed, Paths = 13, 5000
 
 LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
 def init_leg_filter(bet):
     def filterfn(score):
-        if bet["resultCondition"]==Win:
-            if bet["goalsCondition"]==GT:                
+        if bet["result_condition"]==Win:
+            if bet["goals_condition"]==GT:                
                 return score[0]-score[1] > bet["nGoals"]
-            elif bet["goalsCondition"]==GTE:                
+            elif bet["goals_condition"]==GTE:                
                 return score[0]-score[1] >= bet["nGoals"]
-            elif bet["goalsCondition"]==LT:
+            elif bet["goals_condition"]==LT:
                 return score[0]-score[1] < bet["nGoals"]
-            elif bet["goalsCondition"]==LTE:
+            elif bet["goals_condition"]==LTE:
                 return score[0]-score[1] <= bet["nGoals"]
-            elif bet["goalsCondition"]==EQ:                
+            elif bet["goals_condition"]==EQ:                
                 return (score[0]-score[1])==bet["nGoals"]
             else:
-                raise RuntimeError(LegErrMsg % (bet["goalsCondition"], Win))
-        elif bet["resultCondition"]==Lose:
-            if bet["goalsCondition"]==GT:
+                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Win))
+        elif bet["result_condition"]==Lose:
+            if bet["goals_condition"]==GT:
                 return score[1]-score[0] > bet["nGoals"]
-            elif bet["goalsCondition"]==GTE:
+            elif bet["goals_condition"]==GTE:
                 return score[1]-score[0] >= bet["nGoals"]
-            elif bet["goalsCondition"]==LT:
+            elif bet["goals_condition"]==LT:
                 return score[1]-score[0] < bet["nGoals"]
-            elif bet["goalsCondition"]==LTE:
+            elif bet["goals_condition"]==LTE:
                 return score[1]-score[0] <= bet["nGoals"]
-            elif bet["goalsCondition"]==EQ:
+            elif bet["goals_condition"]==EQ:
                 return (score[1]-score[0])==bet["nGoals"]
             else:
-                raise RuntimeError(LegErrMsg % (bet["goalsCondition"], Lose))
-        elif bet["resultCondition"]==Draw:
-            if bet["goalsCondition"]==GT:
+                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Lose))
+        elif bet["result_condition"]==Draw:
+            if bet["goals_condition"]==GT:
                 return (score[0]==score[1]) and (score[0] > bet["nGoals"])
-            elif bet["goalsCondition"]==GTE:
+            elif bet["goals_condition"]==GTE:
                 return (score[0]==score[1]) and (score[0] >= bet["nGoals"])
-            elif bet["goalsCondition"]==LT:
+            elif bet["goals_condition"]==LT:
                 return (score[0]==score[1]) and (score[0] < bet["nGoals"])
-            elif bet["goalsCondition"]==LTE:
+            elif bet["goals_condition"]==LTE:
                 return (score[0]==score[1]) and (score[0] <= bet["nGoals"])
-            elif bet["goalsCondition"]==EQ:
+            elif bet["goals_condition"]==EQ:
                 return (score[0]==score[1]) and (score[0] == bet["nGoals"])
             else:
-                raise RuntimeError(errmsg % (bet["goalsCondition"], Draw))
+                raise RuntimeError(errmsg % (bet["goals_condition"], Draw))
         else:
             raise RuntimeError("Bet result not found/recognised")
     return filterfn
@@ -74,42 +66,43 @@ def init_bet_filterfn(bet):
                   for leg in bet["legs"]]
         n=len([outcome for outcome in outcomes
                if outcome])
-        if bet["legsCondition"]==GT:
+        if bet["legs_condition"]==GT:
             return bool_to_int(n > bet["nLegs"])
-        elif bet["legsCondition"]==GTE:
+        elif bet["legs_condition"]==GTE:
             return bool_to_int(n >= bet["nLegs"])
-        elif bet["legsCondition"]==LT:
+        elif bet["legs_condition"]==LT:
             return bool_to_int(n < bet["nLegs"])
-        elif bet["legsCondition"]==LTE:
+        elif bet["legs_condition"]==LTE:
             return bool_to_int(n <= bet["nLegs"])
-        elif bet["legsCondition"]==EQ:
+        elif bet["legs_condition"]==EQ:
             return bool_to_int(n==bet["nLegs"])
         else:
-            raise RuntimeError("%s is invalid legs condition" % bet["legsCondition"])
+            raise RuntimeError("%s is invalid legs condition" % bet["legs_condition"])
     return filterfn
 
 # curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
 
 class PriceHandler(webapp2.RequestHandler):
 
-
-    def clean_bet(self, bet):
-        pass
-    
+    def validate_bet(self, bet):
+        errors=[]
+        for leg in bet["legs"]:
+            logging.info(leg)
+        if errors!=[]:
+            raise RuntimeError("; ".join(errors))
+            
     def update_bet(self, bet):
-        if bet["name"]==Winner:
-            bet["resultCondition"]=Win
-            bet["legsCondition"]=GTE
-            bet["goalsCondition"]=GTE
-        elif bet["name"]==Loser:
-            bet["resultCondition"]=Lose
-            bet["legsCondition"]=GTE
-            bet["goalsCondition"]=GTE
-        elif bet["name"]==Draws:
-            bet["resultCondition"]=Draw
-            bet["legsCondition"]=GTE
-            bet["goalsCondition"]=GTE
-
+        bet["legs_condition"]=bet["goals_condition"]=GTE
+        name=bet.pop("name")
+        if name==Winner:
+            bet["result_condition"]=Win
+        elif name==Loser:
+            bet["result_condition"]=Lose
+        elif name==Draws:
+            bet["result_condition"]=Draw
+        else:
+            raise RuntimeError("Bet type not found")
+            
     def simulate_match_teams(self, fixtures, paths, seed):
         from quant.dixon_coles import CSGrid
         items=[{} for i in range(paths)]
@@ -138,6 +131,7 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, limit=0.005):
         matches=Blob.fetch("app/matches")
+        self.validate_bet(bet)
         self.update_bet(bet)
         prob=self.calc_probability(bet,
                                    matches,
