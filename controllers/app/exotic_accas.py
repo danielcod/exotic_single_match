@@ -90,7 +90,8 @@ class PriceHandler(webapp2.RequestHandler):
 
     def validate_bet(self, bet, matches):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
-                       for match in matches])
+                      for match in matches])
+        now=datetime.datetime.utcnow()
         errors=[]
         for leg in bet["legs"]:
             matchkeyname="%s/%s" % (leg["match"]["league"],
@@ -98,6 +99,11 @@ class PriceHandler(webapp2.RequestHandler):
             if matchkeyname not in matches:
                 errors.append("%s not found" % matchkeyname)
             else:
+                # check kickoff
+                if matches[matchkeyname]["kickoff"] < now:
+                    # errors.append("%s has already started" % matchkeyname)
+                    pass
+                # check team names
                 teamnames=leg["match"]["name"].split(" vs ")
                 teamname=leg["selection"]["team"]
                 if teamname not in teamnames:
