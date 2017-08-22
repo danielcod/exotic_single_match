@@ -18,6 +18,17 @@ Seed, Paths = 13, 5000
 
 LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
+def update_bet_params(bet):
+    bet["legs_condition"]=bet["goals_condition"]=GTE
+    if bet["name"]==Winner:
+        bet["result_condition"]=Win
+    elif bet["name"]==Loser:
+        bet["result_condition"]=Lose
+    elif bet["name"]==Draws:
+        bet["result_condition"]=Draw
+    else:
+        raise RuntimeError("Bet type not found")
+            
 def init_leg_filter(bet):
     def filterfn(score):
         if bet["result_condition"]==Win:
@@ -116,23 +127,9 @@ class BetValidator:
         self.validate_legs(bet, matches, errors)
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
-    
-# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
 
-class PriceHandler(webapp2.RequestHandler):
-            
-    def update_bet(self, bet):
-        bet["legs_condition"]=bet["goals_condition"]=GTE
-        name=bet.pop("name")
-        if name==Winner:
-            bet["result_condition"]=Win
-        elif name==Loser:
-            bet["result_condition"]=Lose
-        elif name==Draws:
-            bet["result_condition"]=Draw
-        else:
-            raise RuntimeError("Bet type not found")
-            
+class BetPricer:
+
     def simulate_match_teams(self, fixtures, paths, seed):
         from quant.dixon_coles import CSGrid
         items=[{} for i in range(paths)]
@@ -157,20 +154,36 @@ class PriceHandler(webapp2.RequestHandler):
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
+# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
+
+class PriceHandler(webapp2.RequestHandler):
+                
     @parse_json_body
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
+        update_bet_params(bet)
         matches=Blob.fetch("app/matches")
         BetValidator().validate_bet(bet, matches)
-        self.update_bet(bet)
-        prob=self.calc_probability(bet,
-                                   matches,
-                                   seed=Seed,
-                                   paths=Paths)
+        prob=BetPricer().calc_probability(bet, matches)
         price=1/float(max(limit, prob))
         return {"price": price}
 
-Routing=[('/app/exotic_accas/price', PriceHandler)]
+# curl -X POST http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
+
+class CreateHandler(webapp2.RequestHandler):
+                
+    @parse_json_body
+    @emit_json
+    def post(self, bet, limit=PriceProbLimit):
+        update_bet_params(bet)
+        matches=Blob.fetch("app/matches")
+        BetValidator().validate_bet(bet, matches)
+        prob=BetPricer().calc_probability(bet, matches)
+        price=1/float(max(limit, prob))
+        return {"price": price}
+
+Routing=[('/app/exotic_accas/price', PriceHandler),
+         ('/app/exotic_accas/create', CreateHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
