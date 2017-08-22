@@ -88,7 +88,7 @@ def init_bet_filterfn(bet):
             raise RuntimeError("%s is invalid legs condition" % bet["legsCondition"])
     return filterfn
 
-# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/bet.json
+# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
 
 class PriceHandler(webapp2.RequestHandler):
     
