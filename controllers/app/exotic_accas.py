@@ -194,9 +194,25 @@ class CreateHandler(webapp2.RequestHandler):
                        timestamp=datetime.datetime.utcnow()).put()
         return {"status": "ok",
                 "id": bet.id()}
-        
+
+# curl -H "Cookie: ioSport=bar" http://localhost:8080/app/exotic_accas/list
+
+class ListHandler(webapp2.RequestHandler):
+
+    @filter_userid
+    @emit_json
+    def get(self, *args, **kwargs):
+        userid=kwargs["user_id"]
+        def format_bet(bet):
+            bet=bet.to_json()
+            bet["params"]=json.loads(bet["params"])
+            return bet
+        return [format_bet(bet)
+                for bet in ExoticAcca.find_all(userid)]
+
 Routing=[('/app/exotic_accas/price', PriceHandler),
-         ('/app/exotic_accas/create', CreateHandler)]
+         ('/app/exotic_accas/create', CreateHandler),
+         ('/app/exotic_accas/list', ListHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
