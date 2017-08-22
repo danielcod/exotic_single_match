@@ -86,9 +86,7 @@ def init_bet_filterfn(bet):
             raise RuntimeError("%s is invalid legs condition" % bet["legs_condition"])
     return filterfn
 
-# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
-
-class PriceHandler(webapp2.RequestHandler):
+class BetValidator:
 
     def validate_legs(self, bet, matches, errors):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
@@ -118,6 +116,10 @@ class PriceHandler(webapp2.RequestHandler):
         self.validate_legs(bet, matches, errors)
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
+    
+# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
+
+class PriceHandler(webapp2.RequestHandler):
             
     def update_bet(self, bet):
         bet["legs_condition"]=bet["goals_condition"]=GTE
@@ -159,7 +161,7 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
         matches=Blob.fetch("app/matches")
-        self.validate_bet(bet, matches)
+        BetValidator().validate_bet(bet, matches)
         self.update_bet(bet)
         prob=self.calc_probability(bet,
                                    matches,
