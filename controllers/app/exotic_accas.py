@@ -168,20 +168,27 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
+# curl -X POST -H "Cookie: ioSport=bar" http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
+
+def filter_userid(fn):
+    def wrapped_fn(self):
+        logging.info(self.request.headers["Cookie"])
+        return fn(self)
+    return wrapped_fn
 
 class CreateHandler(webapp2.RequestHandler):
-                
+
+    @filter_userid
     @parse_json_body
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
         update_bet_params(bet)
         matches=Blob.fetch("app/matches")
         BetValidator().validate_bet(bet, matches)
-        prob=BetPricer().calc_probability(bet, matches)
-        price=1/float(max(limit, prob))
-        return {"price": price}
-
+        prob=BetPricer().calc_probability(bet, matches)        
+        return {"status": "ok",
+                "id": -1}
+        
 Routing=[('/app/exotic_accas/price', PriceHandler),
          ('/app/exotic_accas/create', CreateHandler)]
 
