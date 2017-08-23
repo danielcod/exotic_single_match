@@ -21,7 +21,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
         this.state = {
             accaProductHelp: false,
             accaProductPanelCustomState: "select",
-            selectedTab: "legs",
+            selectedTab: "bet",
             product: this.props.products[0],
             bet: bet,
             legs: bet.legs,
@@ -56,7 +56,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
         this.setState({accaProductPanelCustomState: accaProductPanelCustomState});
         if (accaProductPanelCustomState == "place") {
             this.props.clickHandler("place");
-        } else if(accaProductPanelCustomState == "select") {
+        } else if (accaProductPanelCustomState == "select") {
             this.props.clickHandler("custom");
         }
     }
@@ -70,7 +70,18 @@ export default class AccaProductPanelCustom extends React.PureComponent {
     }
 
     handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
+        var bet = this.state.bet;
+        if (tab.name == "bet") {
+            if (bet.legs.length > 1) {
+                bet.nLegs = Math.ceil((bet.legs.length / 2) + 1);
+            }
+            this.setState({selectedTab: tab.name, bet: bet});
+            this.updatePrice();
+        } else {
+            bet.nLegs = this.state.product.betLegsToggle.minVal;
+            this.updatePrice();
+            this.setState({selectedTab: tab.name, bet: bet});
+        }
     }
 
     handleStakeChanged(e) {
@@ -93,7 +104,11 @@ export default class AccaProductPanelCustom extends React.PureComponent {
         state.bet.legs = state.bet.legs.filter(function (leg) {
             return leg.description != oldleg.description;
         });
-        state.bet.nLegs = Math.max(this.state.product.betLegsToggle.minVal, Math.min(state.bet.nLegs, state.bet.legs.length)); // NB
+        if (state.bet.legs.length > 1) {
+            state.bet.nLegs = Math.ceil(this.state.bet.legs.length / 2) + 1; // NB
+        } else {
+            state.bet.nLegs = this.state.product.betLegsToggle.minVal;
+        }
         this.setState({bet: state.bet, legs: state.bet.legs});
         this.updatePrice();
     }
@@ -110,7 +125,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
     handlePaginatorClicked(item) {
         var state = this.state;
         state.bet.currentPage = item.value;
-        this.setState({bet: state.bet});
+        this.setState(state.bet);
     }
 
     incrementNLegs() {
@@ -149,17 +164,37 @@ export default class AccaProductPanelCustom extends React.PureComponent {
     }
 
     placedBetTextFormatter() {
-        return Math.ceil((this.state.bet.legs.length / 2) + 1) + ((this.state.bet.nLegs < this.state.bet.legs.length) ? "+" : "") + " of " + this.state.bet.legs.length
+        var formatString;
+        if (this.state.bet.nLegs === this.state.bet.legs.length) {
+            formatString = "All " + this.state.bet.nLegs + " teams to " + (this.state.bet.nGoals <= 1 ? "just " : "");
+        } else {
+            formatString = "Any " + this.state.bet.nLegs + "+ of " + this.state.bet.legs.length + " teams to " + (this.state.bet.nGoals <= 1 ? "just " : "");
+        }
+        switch (this.state.product.name) {
+            case "exotic_acca_winner": {
+                formatString += "win";
+                break;
+            }
+            case "exotic_acca_loser": {
+                formatString += "lose";
+                break;
+            }
+            case "exotic_acca_draws": {
+                formatString += "draw";
+                break;
+            }
+        }
+        return formatString;
     }
 
     placedBetGoalFormatter() {
         switch (this.state.product.name) {
             case "exotic_acca_winner":
-                return this.state.bet.nGoals == 1 ? "To just win" : "To win by " + this.state.bet.nGoals + "+ goals"
+                return this.state.bet.nGoals > 1 ? "By " + this.state.bet.nGoals + "+ goals" : "";
             case "exotic_acca_loser":
-                return this.state.bet.nGoals == 1 ? "To just lose" : "To lose by " + this.state.bet.nGoals + "+ goals"
+                return this.state.bet.nGoals > 1 ? "By " + this.state.bet.nGoals + "+ goals" : "";
             case "exotic_acca_draws":
-                return this.state.bet.nGoals == 1 ? "To just draw" : "To draw by " + this.state.bet.nGoals + "+ goals"
+                return this.state.bet.nGoals > 0 ? "With " + this.state.bet.nGoals + "+ goals per team" : "";
         }
     }
 
@@ -201,7 +236,6 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             var priceId = Math.round(Math.random() * 1e10);
             state.priceId = priceId;
             this.setState({priceId: state.priceId});
-
             // fetch new price
             setTimeout(function () {
                 var struct = {
@@ -283,13 +317,18 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                 {
                     (this.state.bet.legs.length != 0) ?
                         <div>
+                            <div className="form-group">
+                                <h3 className="current-price text-center">Current price:
+                                    <span id="price"> {this.formatCurrentPrice(this.state.price)}</span>
+                                </h3>
+                            </div>
                             <AccaLegTable
-                                clickHandler={this.handleLegRemoved}
                                 legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
+                                clickHandler={this.handleLegRemoved}
                                 accaProductPanelState="custom"
                             />
                             {
-                                (this.state.bet.legs.length > this.props.betLegsPaginator.rows) ?
+                                this.state.bet.legs.length > this.props.betLegsPaginator.rows ?
                                     <MyPaginator
                                         product={this.props.betLegsPaginator}
                                         data={this.state.bet.legs}
@@ -327,20 +366,12 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                                 value={this.state.bet.nGoals}
                                                 changeHandler={this.handleGoalsSliderChanged}
                                             />}
-                                    /> : null
+                                    />
+                                    : null
                             }
-                            <div className="form-group">
-                                <h3 className="current-price text-center">Current price:
-                                    <span id="price">{this.formatCurrentPrice(this.state.price)}</span>
-                                </h3>
-                            </div>
                             <div className="bet-submit-btns">
-                                <button
-                                    className="btn btn-primary bet-cancel-btn"
-                                    onClick={() => this.props.clickHandler("list")}>Cancel
-                                </button>
                                 <div className="stake">
-                                    <span className="stake-label">Your Stake</span>
+                                    <span className="stake-label">STAKE</span>
                                     <span className="stake-symbol">€</span>
                                     <input type="number" name="stake-value" className="stake-value"
                                            defaultValue={this.state.stake}
@@ -348,16 +379,31 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                                this.handleStakeChanged(e)
                                            }}/>
                                 </div>
+                                <br/>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => this.handleStateChanged("place")}>Place Bet
                                 </button>
                             </div>
-                        </div> :
-                        <h4 className="text-center text-muted"
-                            style={{marginLeft: '50px', marginRight: "50px"}}>
-                            Use the Leg Selector tab to add some selections
-                        </h4>
+                        </div>
+                        :
+                        <div className="your-bet-comment">
+                            <span className="comment-title">How does this work?</span>
+                            <span className="text-muted text-left">
+                                <span className="white-bold">1)</span> Choose your <span className="white-bold">Exotic Acca type</span> from the dropdown above
+                            </span>
+                            <span className="text-muted text-left">
+                                <span className="white-bold">2)</span> Use the <span
+                                className="white-bold">Leg Selector</span> tab to pick the games & competitions you care about
+                            </span>
+                            <span className="text-muted text-left">
+                                <span className="white-bold">3)</span> Customize your bet on the <span
+                                className="white-bold">Your Bets</span> tab
+                            </span>
+                            <button className="btn btn-primary get-started-btn"
+                                    onClick={() => this.setState({selectedTab: "legs"})}>Get Started
+                            </button>
+                        </div>
                 }
             </div>
         )
@@ -384,8 +430,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                             <a className="product-help-btn"
                                onClick={() => this.setState({accaProductHelp: !this.state.accaProductHelp})}>
                                 <span className="glyphicon glyphicon-info-sign glyph-background">
-                                    <span className="inner"></span>
-                                </span>
+                                    <span className="inner"></span></span>
                             </a>
                         </div>
                         {
@@ -459,7 +504,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                             </div>
                         </div>
                         <div className="form-group">
-                            <a className="site-url" href="http://www.URLtoinset.com">www.URLtoinset.com</a>
+                            <a className="site-url" href="http://www.DummyURL.com">www.DummyURL.com</a>
                             {this.getCurrentTimeFormatter()}
                         </div>
                         <div className="form-group">

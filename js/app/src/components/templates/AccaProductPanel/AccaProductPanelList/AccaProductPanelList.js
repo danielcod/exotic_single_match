@@ -9,13 +9,13 @@ import MyPaginator from '../../../molecules/MyPaginator';
  */
 export default class AccaProductPanelList extends React.PureComponent {
     accaProductType = [
-        {name: "acca-type", label: "Acca Type"},
+        {name: "acca-type", label: "Exotic Type"},
         {name: "winners", label: "Winners"},
         {name: "losers", label: "Losers"},
         {name: "draws", label: "Draws"},
     ];
     accaTeamType = [
-        {name: "all-teams", label: "All Teams"}
+        {name: "all-teams", label: "Team Grouping"}
     ];
     bet = this.props.items;
 
@@ -23,8 +23,8 @@ export default class AccaProductPanelList extends React.PureComponent {
         super(props);
         this.getTeamType();
         this.state = {
-            selectedProductType: "Acca Type",
-            selectedTeamType: "All Teams",
+            selectedProductType: "Exotic Type",
+            selectedTeamType: "Team Grouping",
             currentPage: 0
         };
         bindAll(this, ['getTeamType', 'filterLegs', 'handleProductChanged',
@@ -56,7 +56,7 @@ export default class AccaProductPanelList extends React.PureComponent {
         var filteredLegs = legs.filter(function (leg) {
             return leg.betLeague === selectedTeamType;
         });
-        if (filteredLegs.length === 0 && selectedTeamType === "All Teams") filteredLegs = legs;
+        if (filteredLegs.length === 0 && selectedTeamType === "Team Grouping") filteredLegs = legs;
         return filteredLegs;
     }
 
@@ -126,6 +126,15 @@ export default class AccaProductPanelList extends React.PureComponent {
         return (
             <div>
                 <div className="acca-panel-list-header">
+                    <div className="form-group">
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => this.props.clickHandler("custom")}>Build Your Own!
+                        </button>
+                    </div>
+                    <div className="form-group">
+                        <span>....or edit one of the popular bets other people have chosen:</span>
+                    </div>
                     <MySelect
                         className="form-control acca-product-type input-lg"
                         options={this.accaProductType.map(function (type) {
@@ -142,11 +151,6 @@ export default class AccaProductPanelList extends React.PureComponent {
                         name="acca-league-type"
                         changeHandler={this.handleTeamChanged}
                     />
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => this.props.clickHandler("custom")}
-                        style={{float: "right"}}>Build My Own
-                    </button>
                 </div>
                 <div className="acca-panel-list-content">
                     <AccaProductLegTable

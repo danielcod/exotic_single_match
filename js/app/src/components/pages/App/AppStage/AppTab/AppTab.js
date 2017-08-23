@@ -6,7 +6,7 @@ export default class AppTab extends React.PureComponent {
         return (
             <div>
                 {
-                    (this.props.currentStage == "browse") ?
+                    /*(this.props.currentStage == "browse") ?*/
                         <ul className="nav nav-tabs">
                             {
                                 this.props.tabs.map((tab, key) => {
@@ -19,7 +19,8 @@ export default class AppTab extends React.PureComponent {
                                     )
                                 })
                             }
-                        </ul> : null
+                        </ul>
+                    /*: null*/
                 }
             </div>
         )

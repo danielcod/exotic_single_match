@@ -4,7 +4,7 @@ from controllers.app import *
 
 class IndexHandler(webapp2.RequestHandler):
 
-    #@emit_json_memcache(MemcacheAge)
+    #emit_json_memcache(MemcacheAge)
     @emit_json
     def get(self):
         self.response.headers['Content-Type'] = 'application/json'

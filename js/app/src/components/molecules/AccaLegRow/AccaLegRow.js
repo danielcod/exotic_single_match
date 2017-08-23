@@ -16,6 +16,13 @@ export default class AccaLegRow extends React.PureComponent {
         }
     }
 
+    formatDescription(match) {
+        var teamnames = match.split(" vs ");
+        return (
+            <span>{teamnames[0]}<br /><span>{" (vs " + teamnames[1] + ")"}</span></span>
+        )
+    }
+
     render() {
         return (
             <tr className="leg-row">
@@ -25,7 +32,7 @@ export default class AccaLegRow extends React.PureComponent {
                         type="datetime"/>
                 </td>
                 <td className="leg-row-descr">
-                    {this.props.leg.match.name}
+                    {this.formatDescription(this.props.leg.match.name)}
                 </td>
                 <td>
                     <span className="text-muted">
@@ -34,15 +41,15 @@ export default class AccaLegRow extends React.PureComponent {
                 </td>
                 {
                     this.props.accaProductPanelState == "custom" ?
-                    <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
-                        <a className="btn btn-secondary">
-                            <i className="glyphicon glyphicon-remove"></i>
-                        </a>
-                    </td>
-                    :
-                    <td>
-                        <span>?</span>
-                    </td>
+                        <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
+                            <a className="btn btn-secondary">
+                                <i className="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </td>
+                        :
+                        <td>
+                            <span>?</span>
+                        </td>
                 }
             </tr>
         )

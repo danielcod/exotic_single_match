@@ -12,13 +12,18 @@ export default class MyBetPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: "open"
+            selectedTab: "open",
+            clickedFaq: false
         };
-        bindAll(this, ['handleTabClicked', 'getTabContent', 'getBetsFromTab']);
+        bindAll(this, ['handleTabClicked', 'getTabContent', 'getBetsFromTab', 'handleFaqClicked']);
     }
 
     handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
+        this.setState({selectedTab: tab.name, clickedFaq: false});
+    }
+
+    handleFaqClicked() {
+        this.setState({clickedFaq: !this.state.clickedFaq});
     }
 
     getBetsFromTab(bets) {
@@ -33,19 +38,21 @@ export default class MyBetPanel extends React.PureComponent {
         }
     }
 
-    getTabContent(mybets) {
+    getTabContent(mybets, faqs) {
         const bets = this.getBetsFromTab(mybets);
         return (
-                <MyBetList
-                    bets={bets}
-                    selectedTab={this.state.selectedTab}
-                />
+            <MyBetList
+                bets={bets}
+                selectedTab={this.state.selectedTab}
+                faqs={faqs}
+                clickedFaq={this.state.clickedFaq}
+            />
         );
     }
 
     render() {
-        const {mybets, clickHandler} = this.props;
-        const tabContent = this.getTabContent(mybets);
+        const {mybets, faqs, clickHandler} = this.props;
+        const tabContent = this.getTabContent(mybets, faqs);
         return (
             <div>
                 <MyBetTab
@@ -53,6 +60,11 @@ export default class MyBetPanel extends React.PureComponent {
                     selected={this.state.selectedTab}
                     clickHandler={this.handleTabClicked}
                 />
+                <button
+                    className={this.state.clickedFaq ? "btn btn-primary faq-btn faq-btn-active" : "btn btn-primary faq-btn"}
+                    onClick={() => this.handleFaqClicked()}>
+                    FAQs
+                </button>
                 {tabContent}
             </div>
         )

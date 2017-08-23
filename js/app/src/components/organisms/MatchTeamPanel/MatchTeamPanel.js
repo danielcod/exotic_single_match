@@ -101,7 +101,8 @@ export default class MatchTeamPanel extends React.PureComponent {
                             <MatchTeamTable
                                 matches={this.applyPaginatorWindow(this.filterMatches(matches))}
                                 legs={this.props.legs}
-                                clickHandler={this.props.clickHandler}/>
+                                clickHandler={this.props.clickHandler}
+                            />
                             {
                                 this.filterMatches(matches).length > this.props.paginator.rows ?
                                     <MyPaginator

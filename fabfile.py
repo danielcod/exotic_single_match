@@ -3,7 +3,7 @@ import os, re, yaml
 #AppEngineHome="~/packages/google-cloud-sdk/platform/google_appengine"
 AppEngineHome = r'"C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\google_appengine"'
 PathToDatastore = "tmp/dev_appserver.datastore"
-Email = "justin.worrall@gmail.com"
+Email = "daniel.liu717@gmail.com"
 DevPort, DevAdminPort = 8080, 8000
 
 

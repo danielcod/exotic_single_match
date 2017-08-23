@@ -17,7 +17,7 @@ export class ExoticsAPI {
             if (this.debug) {
                 console.log("Fetching "+key);
             }
-            
+
             $.ajax({
                 url: url,
                 type: "GET",
@@ -43,8 +43,6 @@ export class ExoticsAPI {
                 console.log("Fetching "+key);
             }
 
-            console.log(payload);
-
             var that = this;
 
              request
@@ -68,7 +66,6 @@ export class ExoticsAPI {
         if( process.env.NODE_ENV == 'development') {
             url="http://127.0.0.1:8080/app/matches";
         }
-
 	    this.httpGet(url, handler);
     };
     fetchPrice=function(body, handler) {

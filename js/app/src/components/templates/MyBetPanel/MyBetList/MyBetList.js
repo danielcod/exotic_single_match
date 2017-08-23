@@ -10,25 +10,16 @@ export default class MyBetList extends React.PureComponent {
         super(props);
         this.state = {
             panelExpanded: false,
-            activeKey: ""
+            activeFaqKey: "",
+            activeOpenKey: "",
+            activeSettledKey: ""
         };
-        bindAll(this, ['getHeader', 'getBetDetail', 'placedBetGoalFormatter',
-            'getLegsFromBet', 'formatCurrentPrice', '_setSelectedItem',
-            '_setExpandedState', '_setCollapsedState']);
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.props.bets != newProps.bets) {
-            this.setState({
-                panelExpanded: false,
-                activeKey: ""
-            });
-        }
+        bindAll(this, ['getHeader', 'getBetDetail', 'placedBetHeaderTextFormatter', 'placedBetTextFormatter',
+            'placedBetGoalFormatter', 'getLegsFromBet', 'formatCurrentPrice', '_setSelectedItem',
+            '_setExpandedState', '_setCollapsedState', 'getFaqHeader', 'getFaqDetail']);
     }
 
     getHeader(bet, expanded) {
-
-        var header = bet.betCondition.nLegs + "+ of " + bet.betCondition.legs;
         return (
             <div>
                 {
@@ -47,24 +38,24 @@ export default class MyBetList extends React.PureComponent {
                             case 'Winners': {
                                 return (
                                     [
-                                        <span>{bet.betCondition.nGoals > 1 ? header = header + " to win by " + bet.betCondition.nGoals + " goals" : header = header + " to just win"}</span>,
-                                        <span className="label winners pull-right">{bet.betType}</span>
+                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
+                                        <span className="label winners pull-right">To Win</span>
                                     ]
                                 )
                             }
                             case 'Losers': {
                                 return (
                                     [
-                                        <span>{bet.betCondition.nGoals > 1 ? header = header + " to lose by " + bet.betCondition.nGoals + " goals" : header = header + " to just lose"}</span>,
-                                        <span className="label losers pull-right">{bet.betType}</span>
+                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
+                                        <span className="label losers pull-right">To Lose</span>
                                     ]
                                 )
                             }
                             case 'Draws': {
                                 return (
                                     [
-                                        <span>{bet.betCondition.nGoals > 1 ? header = header + " to draw by " + bet.betCondition.nGoals + " goals" : header = header + " to just draw"}</span>,
-                                        <span className="label draws pull-right">{bet.betType}</span>
+                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
+                                        <span className="label draws pull-right">To Draw</span>
                                     ]
                                 )
                             }
@@ -75,14 +66,91 @@ export default class MyBetList extends React.PureComponent {
         )
     }
 
+    getFaqHeader(faq, expanded) {
+        return (
+            <div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            {
+                                expanded === true ?
+                                    <span className="glyphicon glyphicon-triangle-top glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
+                                    :
+                                    <span className="glyphicon glyphicon-triangle-bottom glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
+
+                            }
+                        </td>
+                        <td>
+                            <span>{faq.title}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+
+    placedBetHeaderTextFormatter(bet) {
+        var formatString;
+        if (bet.betCondition.nLegs === bet.betCondition.legs) {
+            formatString = "All " + bet.betCondition.nLegs + " to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        } else {
+            formatString = bet.betCondition.nLegs + "+ of " + bet.betCondition.legs + " to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        }
+        switch (bet.betType) {
+            case "Winners": {
+                formatString = formatString + "win" + (bet.betCondition.nGoals > 1 ? " by " + bet.betCondition.nGoals + "+ goals" : "");
+                break;
+            }
+            case "Losers": {
+                formatString = formatString + "lose" + (bet.betCondition.nGoals > 1 ? " by " + bet.betCondition.nGoals + "+ goals" : "");
+                break;
+            }
+            case "Draws": {
+                formatString = formatString + "draw" + (bet.betCondition.nGoals > 0 ? " with " + bet.betCondition.nGoals + "+ goals" : "");
+                break;
+            }
+        }
+        return formatString;
+    }
+
+    placedBetTextFormatter(bet) {
+        var formatString;
+        if (bet.betCondition.nLegs === bet.betCondition.legs) {
+            formatString = "All " + bet.betCondition.nLegs + " teams to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        } else {
+            formatString = "Any " + bet.betCondition.nLegs + "+ of " + bet.betCondition.legs + " teams to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        }
+        switch (bet.betType) {
+            case "Winners": {
+                formatString += "win";
+                break;
+            }
+            case "Losers": {
+                formatString += "lose";
+                break;
+            }
+            case "Draws": {
+                formatString += "draw";
+                break;
+            }
+        }
+        return formatString;
+    }
+
     placedBetGoalFormatter(bet) {
         switch (bet.betType) {
             case "Winners":
-                return bet.betCondition.nGoals > 1 ? "To win by " + bet.betCondition.nGoals + "+ goals" : "To just win";
+                return bet.betCondition.nGoals > 1 ? "By " + bet.betCondition.nGoals + "+ goals" : "";
             case "Losers":
-                return bet.betCondition.nGoals > 1 ? "To lose by " + bet.betCondition.nGoals + "+ goals" : "To just lose";
+                return bet.betCondition.nGoals > 1 ? "By " + bet.betCondition.nGoals + "+ goals" : "";
             case "Draws":
-                return bet.betCondition.nGoals > 1 ? "To draw by " + bet.betCondition.nGoals + "+ goals" : "To just draw";
+                return bet.betCondition.nGoals > 0 ? "With " + bet.betCondition.nGoals + "+ goals per team" : "";
         }
     }
 
@@ -139,7 +207,8 @@ export default class MyBetList extends React.PureComponent {
         var hour = dt.getHours().toString();
         var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
         var mid = dt.getHours() >= 12 ? "pm" : "am";
-        return <span className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
+        return <span
+            className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
     }
 
     getBetDetail(bet) {
@@ -152,7 +221,7 @@ export default class MyBetList extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <div className="bet-goal">
-                        <span>{bet.betType + ": " + bet.betCondition.nLegs + "+ of " + bet.betCondition.legs}</span>
+                        <span>{this.placedBetTextFormatter(bet)}</span>
                         <span>{this.placedBetGoalFormatter(bet)}</span>
                     </div>
                 </div>
@@ -172,22 +241,42 @@ export default class MyBetList extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <div className="bet-placed-result">
-                        <span>To win € {this.formatCurrentPrice(bet.betStake * bet.betPrice )}</span>
+                        <span>To win € {this.formatCurrentPrice(bet.betStake * bet.betPrice)}</span>
                         <span>Result = {bet.betResult}</span>
                     </div>
                 </div>
                 <div className="form-group">
-                    <a className="site-url" href="http://www.URLtoinset.com">www.URLtoinset.com</a>
+                    <a className="site-url" href="http://www.DummyURL.com">www.DummyURL.com</a>
                     {this.getCurrentTimeFormatter(bet.betTime)}
                 </div>
             </div>
         )
     }
 
+    getFaqDetail(faq) {
+        return (
+            <div className="faq-container">
+                <div className="form-group">
+                    {faq.content}
+                </div>
+            </div>
+        )
+    }
+
     _setSelectedItem(activeKey) {
-        this.setState({
-            activeKey: activeKey
-        })
+        const {selectedTab, clickedFaq} = this.props;
+        if (clickedFaq) {
+            this.setState({activeFaqKey: activeKey});
+        } else {
+            switch (selectedTab) {
+                case "open":
+                    this.setState({activeOpenKey: activeKey});
+                    break;
+                case "settled":
+                    this.setState({activeSettledKey: activeKey});
+                    break;
+            }
+        }
     }
 
     _setExpandedState() {
@@ -196,17 +285,17 @@ export default class MyBetList extends React.PureComponent {
         })
     }
 
-    _setCollapsedState(test) {
+    _setCollapsedState() {
         this.setState({
             panelExpanded: false
         })
     }
 
     render() {
-        const {bets, selectedTab} = this.props;
+        const {bets, selectedTab, faqs, clickedFaq} = this.props;
         return (
             <div id="my-bet-list">
-                <div style={selectedTab == 'settled' ? {display: "none"} : null}>
+                <div style={(selectedTab === 'open' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
                     <Accordion>
                         {
                             bets.map((bet, key) => {
@@ -214,7 +303,7 @@ export default class MyBetList extends React.PureComponent {
                                     <Panel
                                         key={key + '_' + selectedTab}
                                         eventKey={key + '_' + selectedTab}
-                                        header={(key + '_' + selectedTab) === this.state.activeKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
+                                        header={(key + '_' + selectedTab) === this.state.activeOpenKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
                                         onSelect={this._setSelectedItem}
                                         onEntering={this._setExpandedState}
                                         onExit={this._setCollapsedState}>
@@ -225,7 +314,7 @@ export default class MyBetList extends React.PureComponent {
                         }
                     </Accordion>
                 </div>
-                <div style={selectedTab == 'open' ? {display: "none"} : null}>
+                <div style={(selectedTab == 'settled' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
                     <Accordion>
                         {
                             bets.map((bet, key) => {
@@ -233,11 +322,30 @@ export default class MyBetList extends React.PureComponent {
                                     <Panel
                                         key={key + '_' + selectedTab}
                                         eventKey={key + '_' + selectedTab}
-                                        header={(key + '_' + selectedTab) === this.state.activeKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
+                                        header={(key + '_' + selectedTab) === this.state.activeSettledKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
                                         onSelect={this._setSelectedItem}
                                         onEntering={this._setExpandedState}
                                         onExit={this._setCollapsedState}>
                                         {this.getBetDetail(bet)}
+                                    </Panel>
+                                )
+                            })
+                        }
+                    </Accordion>
+                </div>
+                <div style={clickedFaq ? {display: "block"} : {display: "none"}}>
+                    <Accordion>
+                        {
+                            faqs.map((faq, key) => {
+                                return (
+                                    <Panel
+                                        key={key + '_faq'}
+                                        eventKey={key + '_faq'}
+                                        header={(key + '_faq') === this.state.activeFaqKey && this.state.panelExpanded === true ? this.getFaqHeader(faq, true) : this.getFaqHeader(faq, false)}
+                                        onSelect={this._setSelectedItem}
+                                        onEntering={this._setExpandedState}
+                                        onExit={this._setCollapsedState}>
+                                        {this.getFaqDetail(faq)}
                                     </Panel>
                                 )
                             })

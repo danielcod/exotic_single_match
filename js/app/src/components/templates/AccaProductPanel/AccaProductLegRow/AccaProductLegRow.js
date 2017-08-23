@@ -35,11 +35,30 @@ export default class AccaProductLegRow extends React.PureComponent {
     }
 
     render() {
+        let btnClass, btnDesc;
+        switch (this.props.leg.betType) {
+            case "Winners": {
+                btnClass = "winners";
+                btnDesc = "To Win";
+                break;
+            }
+            case "Losers": {
+                btnClass = "losers";
+                btnDesc = "To Lose";
+                break;
+            }
+            case "Draws": {
+                btnClass = "draws";
+                btnDesc = "To Draws";
+                break;
+            }
+        }
         return (
             <tr className="leg-row">
                 <td className="leg-row-descr">
                     <div>
-                        <span className={"label " + this.props.leg.betType.toLowerCase()}>{this.props.leg.betType}</span>
+                        <span
+                            className={"label " + btnClass}>{btnDesc}</span>
                         <span>{this.props.leg.betLeague}</span>
                     </div>
                     <span className="desc" style={{marginTop: "5px"}}>

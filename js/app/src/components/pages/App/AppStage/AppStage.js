@@ -7,6 +7,7 @@ import MyBetPanel from '../../../templates/MyBetPanel';
 import * as data from '../../../products';
 import * as bet from '../../../bet';
 import * as list from '../../../list';
+import * as faq from '../../../faq';
 
 export default class AppStage extends React.PureComponent {
     appStage = [
@@ -50,8 +51,8 @@ export default class AppStage extends React.PureComponent {
                     <AccaProductPanel
                         exoticsApi={this.props.exoticsApi}
                         products={data.products}
-                        legsPaginator={{rows: 8}}
-                        betLegsPaginator={{rows: 8}}
+                        legsPaginator={{rows: 6}}
+                        betLegsPaginator={{rows: 6}}
                         list={list.items}
                         clickHandler={this.handleStageChanged}
                     />
@@ -60,6 +61,7 @@ export default class AppStage extends React.PureComponent {
                 return (
                     <MyBetPanel
                         mybets={bet.bets}
+                        faqs={faq.faqs}
                         clickHandler={this.handleStageChanged}
                     />
                 )

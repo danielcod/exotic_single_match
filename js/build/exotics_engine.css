@@ -1,3 +1,11 @@
+#app .header {
+    padding:11px 15px;
+}
+#app .header img {
+    display: inline-block;
+    max-width: 130px;
+}
+
 #app .nav-tabs {
     padding-top: 10px;
     margin-bottom: 20px;
@@ -10,6 +18,12 @@ ul li a .badge {
 /*Table in Your Bet Tab*/
 tr td div span.match-name {
     font-size: 12px;
+    font-weight: bold;
+}
+
+tr td div span.match-name span {
+    font-size: 12px;
+    font-weight: normal;
 }
 
 tr td div span.today {
@@ -33,6 +47,10 @@ tr td div span.future {
 
 .league option {
     font-size: 10px;
+}
+
+select.input-lg {
+    text-align-last: center;
 }
 
 /*
@@ -85,11 +103,16 @@ tr td div span.future {
  */
 .acca-panel-list-header {
     margin-bottom: 30px;
+    text-align: center;
+}
+
+.acca-panel-list-header span {
+    font-size: 12px;
 }
 
 .acca-panel-list-header select {
     font-size: 13px;
-    width: 100px;
+    width: 125px;
     display: inline-block;
     margin-right: 5px;
     padding: 7px 0 7px 7px;
@@ -97,6 +120,11 @@ tr td div span.future {
     background: #59a0df;
     border-color: #5598d4;
     color: #fff;
+    text-align-last: center;
+}
+
+.acca-panel-list-header select.acca-product-type {
+    margin-right: 40px;
 }
 
 .acca-panel-list-header button {
@@ -104,6 +132,7 @@ tr td div span.future {
     padding: 7px 10px;
     color: #fff;
     font-size: 13px;
+    text-transform: uppercase;
 }
 
 .acca-panel-list-content .leg-row:last-child {
@@ -180,8 +209,16 @@ tr td div span.future {
     font-size: 10px;
 }
 
-.leg-row .leg-row-descr {
+.leg-row .leg-row-descr span {
     font-size: 12px;
+}
+
+.leg-row .leg-row-descr > span {
+    font-weight: bold;
+}
+
+.leg-row .leg-row-descr > span > span {
+    font-weight: normal;
 }
 
 .round-cell {
@@ -249,7 +286,7 @@ tr td div span.future {
 .bet-submit-btns .stake {
     display: inline-block;
     background-color: #fff;
-    margin: 0 10px 0 10px;
+    margin: 0 10px 10px 10px;
 }
 
 .bet-submit-btns .stake .stake-label {
@@ -281,10 +318,6 @@ tr td div span.future {
     margin: 0;
 }
 
-.bet-submit-btns .bet-cancel-btn {
-    background-color: gray;
-}
-
 .bet-slider-container {
     margin-left: 30px;
     margin-right: 30px;
@@ -292,6 +325,39 @@ tr td div span.future {
 
 .bet-slider-container .slider.slider-horizontal {
     width: 100%;
+}
+
+.your-bet-comment {
+    text-align: center;
+    padding: 0 30px 0 30px;
+}
+
+.your-bet-comment > span {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.your-bet-comment .comment-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.your-bet-comment .white-bold {
+    color: #fff;
+    font-weight: bold;
+}
+
+.your-bet-comment .get-started-btn {
+    background: #59a0df;
+    border-color: #5598d4;
+    margin-top: 20px;
+}
+
+.your-bet-comment .get-started-btn:active:focus {
+    background: #59a0df;
+    border-color: #5598d4;
 }
 
 /*
@@ -308,7 +374,7 @@ tr td div span.future {
 
 .bet-confirm-container h3,
 .bet-confirm-container span {
-    color: hsla(0, 0%, 100%, .5);
+    color: #fff;
 }
 
 .bet-confirm-container .bet-placed-text {
@@ -316,6 +382,7 @@ tr td div span.future {
     background: #3a3a45;
     border-top: 2px solid #3c763d;
     font-size: 16px;
+    color: hsla(0, 0%, 100%, .7);
 }
 
 .bet-confirm-container .bet-placed-text span {
@@ -324,9 +391,10 @@ tr td div span.future {
 }
 
 .bet-confirm-container .bet-placed-product {
-    color: #fff;
+    color: hsla(0, 0%, 100%, .7);
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
 .bet-confirm-container .bet-goal span {
@@ -367,6 +435,10 @@ tr td div span.future {
     font-size: 14px;
 }
 
+.bet-confirm-container .bet-saved-date {
+    color: hsla(0, 0%, 100%, .5);
+}
+
 .bet-confirm-container .bet-placed-result {
     margin-bottom: 30px;
 }
@@ -380,12 +452,16 @@ tr td div span.future {
     width: 150px;
 }
 
+.bet-confirm-container .table tbody > tr > td {
+    color: #fff;
+}
+
 /*
  *  "Your Bets" Page
  */
 #my-bet-tabs {
     width: 200px;
-    margin: 0 auto;
+    margin-left: 10px;
 }
 
 #my-bet-tabs .nav-tabs {
@@ -455,6 +531,7 @@ tr td div span.future {
 
 #my-bet-list .panel-group .panel .panel-heading .label {
     margin-top: 5px;
+    font-size: 10px;
 }
 
 #my-bet-list .panel-group .panel .panel-heading .winners {
@@ -481,6 +558,28 @@ tr td div span.future {
 #my-bet-list .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
+
+.faq-btn {
+    float: right;
+    margin-top: -36px;
+    margin-right: 20px;
+    background: #575763;
+    color: hsla(0, 0%, 100%, .7);
+}
+
+.faq-btn:hover, .faq-btn:active, .faq-btn:focus, .faq-btn:active:focus {
+    background-color: #575763;
+}
+
+.faq-btn.faq-btn-active {
+    background-color: #EC644B;
+    color: #fff;
+}
+
+#my-bet-list .faq-container {
+    color: #fff;
+}
+
 
 
 
