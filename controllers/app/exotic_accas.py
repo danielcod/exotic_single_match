@@ -196,7 +196,7 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST -H "Cookie: ioSport=bar" http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
+# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
 
 class CreateHandler(webapp2.RequestHandler):
 
@@ -213,15 +213,19 @@ class CreateHandler(webapp2.RequestHandler):
             raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
-        bet=ExoticAcca(userid=userid,
-                       params=json.dumps(bet),
-                       size=float(bet["size"]),
-                       price=float(bet["price"]),
-                       timestamp=datetime.datetime.utcnow()).put()
+        for attr in ["result_condition",
+                     "goals_condition",
+                     "legs_condition"]:
+            bet.pop(attr)
+        placedbet=ExoticAcca(userid=userid,
+                             params=json.dumps(bet),
+                             size=float(bet["size"]),
+                             price=float(bet["price"]),
+                             timestamp=datetime.datetime.utcnow()).put()
         return {"status": "ok",
-                "id": bet.id()}
+                "id": placedbet.id()}
 
-# curl -H "Cookie: ioSport=bar" http://localhost:8080/app/exotic_accas/list
+# curl -H "Cookie: ioSport=Hufton123" http://localhost:8080/app/exotic_accas/list
 
 class ListHandler(webapp2.RequestHandler):
 
@@ -230,9 +234,10 @@ class ListHandler(webapp2.RequestHandler):
     def get(self, *args, **kwargs):
         userid=kwargs["user_id"]
         def format_bet(bet):
-            bet=bet.to_json()
-            bet["params"]=json.loads(bet["params"])
-            return bet
+            params=json.loads(bet.params)
+            params["timestamp"]=bet.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            params["id"]=bet.key().id()
+            return params
         return [format_bet(bet)
                 for bet in ExoticAcca.find_all(userid)]
 
