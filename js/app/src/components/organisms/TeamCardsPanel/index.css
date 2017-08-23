@@ -1,15 +1,20 @@
 .cornersTable{
-    font-size: 14px
+    font-size: 14px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 61%;
+    bottom: 10px;
 }
-.cornersTable .item{
-    border: 1px solid;
+.cornersTable .item{    
     text-align: center;
-    border-color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 10px;    
+    margin: 4px;
+    width: 42%;
+    border-radius: 8px;
 }
 .wrap-mybettab{
-    margin-top: 30px; 
+    margin-top: 20px; 
     margin-bottom: 30px; 
 }
 .price{
@@ -17,10 +22,13 @@
 }
 .btn-group{
     margin-top: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
+}
+.not-selected-bet-tab{
+    background-color: #575763;
 }
 .selected-bet-tab{
-    background-color: #59a0df;
+    background-color: #ec644b;
 }
 .show-text{
     text-align: center;
@@ -30,3 +38,11 @@
     color: #fff;
     margin-top: 24px;
 }
+.row-change-btn{
+     position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+}
+   .output-block{
+        line-height: 28px;;
+   }
