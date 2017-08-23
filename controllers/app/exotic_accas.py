@@ -1,7 +1,3 @@
-"""
-needs to work with bet structure as specified in dev/exotic_acca_winner.json
-"""
-
 from controllers.app import *
 
 Winner="exotic_acca_winner"
@@ -22,11 +18,11 @@ LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
 def update_bet_params(bet):
     bet["legs_condition"]=bet["goals_condition"]=GTE
-    if bet["name"]==Winner:
+    if bet["type"]==Winner:
         bet["result_condition"]=Win
-    elif bet["name"]==Loser:
+    elif bet["type"]==Loser:
         bet["result_condition"]=Lose
-    elif bet["name"]==Draws:
+    elif bet["type"]==Draws:
         bet["result_condition"]=Draw
     else:
         raise RuntimeError("Bet type not found")
@@ -35,41 +31,41 @@ def init_leg_filter(bet):
     def filterfn(score):
         if bet["result_condition"]==Win:
             if bet["goals_condition"]==GT:                
-                return score[0]-score[1] > bet["nGoals"]
+                return score[0]-score[1] > bet["n_goals"]
             elif bet["goals_condition"]==GTE:                
-                return score[0]-score[1] >= bet["nGoals"]
+                return score[0]-score[1] >= bet["n_goals"]
             elif bet["goals_condition"]==LT:
-                return score[0]-score[1] < bet["nGoals"]
+                return score[0]-score[1] < bet["n_goals"]
             elif bet["goals_condition"]==LTE:
-                return score[0]-score[1] <= bet["nGoals"]
+                return score[0]-score[1] <= bet["n_goals"]
             elif bet["goals_condition"]==EQ:                
-                return (score[0]-score[1])==bet["nGoals"]
+                return (score[0]-score[1])==bet["n_goals"]
             else:
                 raise RuntimeError(LegErrMsg % (bet["goals_condition"], Win))
         elif bet["result_condition"]==Lose:
             if bet["goals_condition"]==GT:
-                return score[1]-score[0] > bet["nGoals"]
+                return score[1]-score[0] > bet["n_goals"]
             elif bet["goals_condition"]==GTE:
-                return score[1]-score[0] >= bet["nGoals"]
+                return score[1]-score[0] >= bet["n_goals"]
             elif bet["goals_condition"]==LT:
-                return score[1]-score[0] < bet["nGoals"]
+                return score[1]-score[0] < bet["n_goals"]
             elif bet["goals_condition"]==LTE:
-                return score[1]-score[0] <= bet["nGoals"]
+                return score[1]-score[0] <= bet["n_goals"]
             elif bet["goals_condition"]==EQ:
-                return (score[1]-score[0])==bet["nGoals"]
+                return (score[1]-score[0])==bet["n_goals"]
             else:
                 raise RuntimeError(LegErrMsg % (bet["goals_condition"], Lose))
         elif bet["result_condition"]==Draw:
             if bet["goals_condition"]==GT:
-                return (score[0]==score[1]) and (score[0] > bet["nGoals"])
+                return (score[0]==score[1]) and (score[0] > bet["n_goals"])
             elif bet["goals_condition"]==GTE:
-                return (score[0]==score[1]) and (score[0] >= bet["nGoals"])
+                return (score[0]==score[1]) and (score[0] >= bet["n_goals"])
             elif bet["goals_condition"]==LT:
-                return (score[0]==score[1]) and (score[0] < bet["nGoals"])
+                return (score[0]==score[1]) and (score[0] < bet["n_goals"])
             elif bet["goals_condition"]==LTE:
-                return (score[0]==score[1]) and (score[0] <= bet["nGoals"])
+                return (score[0]==score[1]) and (score[0] <= bet["n_goals"])
             elif bet["goals_condition"]==EQ:
-                return (score[0]==score[1]) and (score[0] == bet["nGoals"])
+                return (score[0]==score[1]) and (score[0] == bet["n_goals"])
             else:
                 raise RuntimeError(errmsg % (bet["goals_condition"], Draw))
         else:
@@ -81,20 +77,20 @@ def init_bet_filterfn(bet):
         return 1 if value else 0
     def filterfn(scores):
         legfilterfn=init_leg_filter(bet)
-        outcomes=[legfilterfn(scores[leg["selection"]["team"]])
+        outcomes=[legfilterfn(scores[leg["selection"]])
                   for leg in bet["legs"]]
         n=len([outcome for outcome in outcomes
                if outcome])
         if bet["legs_condition"]==GT:
-            return bool_to_int(n > bet["nLegs"])
+            return bool_to_int(n > bet["n_legs"])
         elif bet["legs_condition"]==GTE:
-            return bool_to_int(n >= bet["nLegs"])
+            return bool_to_int(n >= bet["n_legs"])
         elif bet["legs_condition"]==LT:
-            return bool_to_int(n < bet["nLegs"])
+            return bool_to_int(n < bet["n_legs"])
         elif bet["legs_condition"]==LTE:
-            return bool_to_int(n <= bet["nLegs"])
+            return bool_to_int(n <= bet["n_legs"])
         elif bet["legs_condition"]==EQ:
-            return bool_to_int(n==bet["nLegs"])
+            return bool_to_int(n==bet["n_legs"])
         else:
             raise RuntimeError("%s is invalid legs condition" % bet["legs_condition"])
     return filterfn
@@ -106,8 +102,8 @@ class BetValidator:
                       for match in matches])
         now=datetime.datetime.utcnow()
         for leg in bet["legs"]:
-            matchkeyname="%s/%s" % (leg["match"]["league"],
-                                    leg["match"]["name"])
+            matchkeyname="%s/%s" % (leg["league"],
+                                    leg["match"])
             if matchkeyname not in matches:
                 errors.append("%s not found" % matchkeyname)
             else:
@@ -116,15 +112,15 @@ class BetValidator:
                     # errors.append("%s has already started" % matchkeyname)
                     pass
                 # check team names
-                teamnames=leg["match"]["name"].split(" vs ")
-                teamname=leg["selection"]["team"]
+                teamnames=leg["match"].split(" vs ")
+                teamname=leg["selection"]
                 if teamname not in teamnames:
                     errors.append("%s not found in %s" % (teamname,
                                                           matchkeyname))
 
     def validate_bet(self, bet, matches):
         errors=[]
-        if bet["name"] not in [Winner, Loser, Draws]:
+        if bet["type"] not in [Winner, Loser, Draws]:
             error.append("Bet type not found")
         self.validate_legs(bet, matches, errors)
         if errors!=[]:
@@ -148,9 +144,9 @@ class BetPricer:
                          for match in allmatches])
         matches=[]
         for leg in bet["legs"]:
-            if leg["match"]["name"] not in allmatches:
-                raise RuntimeError("%s not found" % leg["match"]["name"])
-            matches.append(allmatches[leg["match"]["name"]])
+            if leg["match"] not in allmatches:
+                raise RuntimeError("%s not found" % leg["match"])
+            matches.append(allmatches[leg["match"]])
         samples=self.simulate_match_teams(matches, paths, seed)
         filterfn=init_bet_filterfn(bet)
         return sum([filterfn(sample)
