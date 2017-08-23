@@ -10,7 +10,7 @@ def filter_userid(fn):
             cookiestr=self.request.headers["Cookie"]
             if cookiestr in ['', None]:
                 raise RuntimeError("Cookies not found")
-            matches=re.findall("%s=(\\D+)" % CookieName, cookiestr)
+            matches=re.findall("%s=(\\w+)" % CookieName, cookiestr)
             if matches==[]:
                 raise RuntimeError("User ID not found")
             kwargs["user_id"]=matches[0]
