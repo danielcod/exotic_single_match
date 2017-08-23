@@ -144,7 +144,7 @@ class BetValidator:
         if not isinstance(bet["legs"], list):
             raise RuntimeError("Legs must be a list")
         self.validate_legs(bet, matches, errors)
-        # attrs
+        # n_x attrs
         for attr in ["n_legs", "n_goals"]:
             if attr not in bet:
                 raise RuntimeError("%s not found" % attr)
@@ -152,6 +152,11 @@ class BetValidator:
                 raise RuntimeError("%s must be an integer" % attr)
         self.validate_n_legs(bet, errors)
         self.validate_n_goals(bet, errors)
+        # size, price
+        for attr in ["size", "price"]:
+            if attr in bet:
+                if type(bet[attr]) not in [int, float]:
+                    raise RuntimeError("%s must be an int/float" % attr)
         # return
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
