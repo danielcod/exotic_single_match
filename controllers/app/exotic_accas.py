@@ -97,6 +97,10 @@ def init_bet_filterfn(bet):
 
 class BetValidator:
 
+    def validate_type(self, bet, errors):
+        if bet["type"] not in [Winner, Loser, Draws]:
+            error.append("Bet type not found")
+        
     def validate_legs(self, bet, matches, errors):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
                       for match in matches])
@@ -120,9 +124,23 @@ class BetValidator:
 
     def validate_bet(self, bet, matches):
         errors=[]
-        if bet["type"] not in [Winner, Loser, Draws]:
-            error.append("Bet type not found")
+        # type
+        if "type" not in bet:
+            raise RuntimeError("Type not found")
+        self.validate_type(bet, errors)
+        # attrs
+        for attr in ["n_legs", "n_goals"]:
+            if attr not in bet:
+                raise RuntimeError("%s not found" % attr)
+            if not isinstance(bet[attr], int):
+                raise RuntimeError("%s must be an integer" % attr)
+        # legs
+        if "legs" not in bet:
+            raise RuntimeError("Legs not found")
+        if not isinstance(bet["legs"], list):
+            raise RuntimeError("Legs must be a list")
         self.validate_legs(bet, matches, errors)
+        # return
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
 
