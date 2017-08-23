@@ -216,30 +216,41 @@ class CreateHandler(webapp2.RequestHandler):
         for attr in ["result_condition",
                      "goals_condition",
                      "legs_condition"]:
-            bet.pop(attr)
+            bet.pop(attr)        
         placedbet=ExoticAcca(userid=userid,
                              params=json.dumps(bet),
                              size=float(bet["size"]),
                              price=float(bet["price"]),
-                             timestamp=datetime.datetime.utcnow()).put()
+                             timestamp=datetime.datetime.utcnow(),
+                             status=Active).put()
         return {"status": "ok",
                 "id": placedbet.id()}
 
-# curl -H "Cookie: ioSport=Hufton123" http://localhost:8080/app/exotic_accas/list
+# curl -H "Cookie: ioSport=Hufton123" "http://localhost:8080/app/exotic_accas/list?status=active"
 
 class ListHandler(webapp2.RequestHandler):
 
+    def load_bets(self, userid, status):
+        if status==Active:
+            return ExoticAcca.find_active(userid)
+        elif status==Settled:
+            return ExoticAcca.find_settled(userid)
+        else:
+            raise RuntimeError("Status not recognised")
+    
     @filter_userid
+    @validate_query({'status': '(active)|(settled)'})
     @emit_json
     def get(self, *args, **kwargs):
         userid=kwargs["user_id"]
-        def format_bet(bet):
+        status=self.request.get("status")
+        def format_bet(bet, status):
             params=json.loads(bet.params)
+            params["id"]=bet.key().id()        
             params["timestamp"]=bet.timestamp.strftime("%Y-%m-%d %H:%M:%S")
-            params["id"]=bet.key().id()
-            return params
-        return [format_bet(bet)
-                for bet in ExoticAcca.find_all(userid)]
+            return params        
+        return [format_bet(bet, status)
+                for bet in self.load_bets(userid, status)]
 
 Routing=[('/app/exotic_accas/price', PriceHandler),
          ('/app/exotic_accas/create', CreateHandler),

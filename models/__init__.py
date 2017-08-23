@@ -10,6 +10,8 @@ DefaultMemAge=60 # seconds
 
 DefaultBatchSize=250
 
+Active, Settled = "active", "settled"
+
 def fetch_models_db(query,                     
                     projection=None,
                     keys_only=False, 
@@ -81,9 +83,20 @@ class ExoticAcca(db.Model):
     price=db.FloatProperty()
     timestamp=db.DateTimeProperty()
     status=db.StringProperty()
+    outcome=db.StringProperty()
 
     @classmethod
-    def find_all(self, userid):
+    def find_active(self, userid):
         query=ExoticAcca.all()
         query.filter("userid = ", userid)
+        query.filter("status = ", Active)
         return fetch_models_db(query)
+
+    @classmethod
+    def find_settled(self, userid):
+        query=ExoticAcca.all()
+        query.filter("userid = ", userid)
+        query.filter("status = ", Settled)
+        return fetch_models_db(query)
+
+    
