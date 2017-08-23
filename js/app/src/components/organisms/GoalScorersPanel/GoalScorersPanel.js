@@ -274,6 +274,7 @@ export default class GoalScorersPanel extends React.PureComponent {
             <div>
                 <div className={s['wrap-mybettab']}>
                     <MyBetTab
+                        forTeamName={true}
                         tabs={this.state.myBetTab}
                         selected={this.state.selectedTeam}
                         clickHandler={this.handleTabClicked}

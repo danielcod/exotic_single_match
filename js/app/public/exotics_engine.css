@@ -356,10 +356,10 @@ tr td .match-name {
     color: #fff;
 }
 /* APP Your Bets Tab */ 
-#my-bet-tabs { 
-    width: 200px; 
+/*#my-bet-tabs { 
+    width: 270px; 
     margin: 0 auto; 
-} 
+} */
  
 #my-bet-tabs .nav-tabs { 
     margin: 0 20px 0 20px; 
