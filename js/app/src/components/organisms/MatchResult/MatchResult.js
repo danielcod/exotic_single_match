@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindAll, isEmpty } from 'lodash';
+import { bindAll, isEmpty, isEqual } from 'lodash';
 import MatchResultTable from '../MatchResultTable';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
@@ -57,8 +57,7 @@ export default class MatchResult extends React.PureComponent {
         this.setState({ value });       
         setTimeout(()=> this.formatDynamicText(), 0) ;
     }
-    componentWillReceiveProps(props){
-       
+    componentWillReceiveProps(props){       
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initMatchResult();
         const   value =  bet.options.range,
@@ -72,10 +71,16 @@ export default class MatchResult extends React.PureComponent {
     
     clickHandler(id, key){
         let showSlider = true;
-        if (key === constant.SELCTED_TWO) showSlider = false;
-        const selectedItem =  [id, key];
-        this.setState({ selectedItem, showSlider });        
-        setTimeout(()=> this.formatDynamicText(), 0) ;
+        if (key === constant.SELCTED_TWO) showSlider = false;        
+        let {selectedItem} =  this.state;
+        if (isEqual(selectedItem, Array(id, key))) {     
+            this.handleCancel()                     
+        }else{
+            selectedItem = [id, key];
+            this.setState({ selectedItem, showSlider: true }); 
+            setTimeout(()=> this.formatDynamicText(), 0) ;   
+        }           
+        
     }
     formatDynamicText(){
         if (!this.props.match || !this.state.selectedItem) return;
@@ -109,7 +114,7 @@ export default class MatchResult extends React.PureComponent {
         if (winnComandId != constant.SELCTED_TWO){
             if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
             else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-            infoText = comand + ' ' + selectedTime + ' ' + scores;
+            infoText = comand;// + ' ' + selectedTime + ' ' + scores;
         }else{
             infoText = selectedTime + ' ' + comand;
             infoText = infoText.split('');
@@ -153,34 +158,34 @@ export default class MatchResult extends React.PureComponent {
                             legs= {this.props.legs}
                             clickHandler = {this.clickHandler}
                             selected={this.state.selectedItem}/>
+                <div className={s['text-goals']}>By how many goals?</div>
                 <div className={s['wrap-slider']}>
                     { this.state.showSlider ?                    
                         <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>
                         : null
                     }
-                </div>
-                <div className='result-text' >{this.state.infoText}</div>    
-                <div className= "form-group">
+                </div>                
+                <div className= {classNames("form-group", s['form-marg'])}>
                      {
                         (!this.state.changes) ? 
-                        <h3 className= "current-price text-center">
+                        <h3 className= {classNames("current-price", s['text-center'])}>
                            No Selections
                         </h3>
                         :
-                        <h3 className= "current-price text-center">
-                            Match Result Price:
+                        <h3 className= {classNames("current-price", s['text-center'])}>
+                           {this.state.infoText} :
                             <span className={s['price']} id= "price">
                                 { this.state.price }
                             </span>
                         </h3>                    
                     }    
-                </div>
-                <div className={classNames("bet-submit-btns", s['btn-group'])}>
-                    <button
-                        className="btn btn-primary bet-cancel-btn"
-                        onClick={() => this.handleCancel()}>Clear Selections
-                    </button>
-                </div>
+                </div> 
+                <div className={classNames("bet-submit-btns", s['btn-group'])}> 
+                    <button 
+                        className="btn btn-primary bet-cancel-btn" 
+                        onClick={() => this.handleCancel()}>Clear
+                    </button> 
+                </div>               
             </div>
         );    
     }
