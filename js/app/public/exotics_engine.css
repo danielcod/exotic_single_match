@@ -293,7 +293,7 @@ tr td .match-name {
 	position: relative;
 }
 .react-sanfona-item-expanded .react-sanfona-item-title{
-	background-color: #59a0df;
+	background-color: #d99c41;
 }
 .rc-slider-track{
 	background-color: #81bfde;
@@ -376,7 +376,7 @@ tr td .match-name {
 } 
  
 #my-bet-tabs .nav-tabs > li.active > a { 
-    background-color: #d99c41; 
+    background-color: #ec644b; 
 } 
  
 #my-bet-tabs .nav-tabs > li.active:first-child > a { 
