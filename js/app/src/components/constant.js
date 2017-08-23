@@ -16,3 +16,4 @@ export const TOTAL_BOOKING_POINTS= 'Total Booking Points';
 export const COUNT_PLAYER_ROWS = 8;
 export const HOME = 'home';
 export const AWAY = 'away';
+export const FIVE_COLUMS = 5;

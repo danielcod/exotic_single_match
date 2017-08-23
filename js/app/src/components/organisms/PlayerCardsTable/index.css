@@ -1,0 +1,8 @@
+.name_td{
+    min-width: 94px;
+}
+.player-table-header-item{
+    max-width: 12px;
+    vertical-align: middle!important;
+    padding-bottom: 5px;
+}
