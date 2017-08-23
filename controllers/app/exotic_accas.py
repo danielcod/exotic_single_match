@@ -122,24 +122,36 @@ class BetValidator:
                     errors.append("%s not found in %s" % (teamname,
                                                           matchkeyname))
 
+    def validate_n_legs(self, bet, errors):
+        if bet["n_legs"] < 0:
+            errors.append("n_legs must be > 0")
+        if bet["n_legs"] > len(bet["legs"]):
+            errors.append("n_legs must be < length(legs)")
+
+    def validate_n_goals(self, bet, errors):
+        if bet["n_goals"] < 0:
+            errors.append("n_goals must be > 0")
+            
     def validate_bet(self, bet, matches):
         errors=[]
         # type
         if "type" not in bet:
             raise RuntimeError("Type not found")
         self.validate_type(bet, errors)
-        # attrs
-        for attr in ["n_legs", "n_goals"]:
-            if attr not in bet:
-                raise RuntimeError("%s not found" % attr)
-            if not isinstance(bet[attr], int):
-                raise RuntimeError("%s must be an integer" % attr)
         # legs
         if "legs" not in bet:
             raise RuntimeError("Legs not found")
         if not isinstance(bet["legs"], list):
             raise RuntimeError("Legs must be a list")
         self.validate_legs(bet, matches, errors)
+        # attrs
+        for attr in ["n_legs", "n_goals"]:
+            if attr not in bet:
+                raise RuntimeError("%s not found" % attr)
+            if not isinstance(bet[attr], int):
+                raise RuntimeError("%s must be an integer" % attr)
+        self.validate_n_legs(bet, errors)
+        self.validate_n_goals(bet, errors)
         # return
         if errors!=[]:
             raise RuntimeError("; ".join(errors))
