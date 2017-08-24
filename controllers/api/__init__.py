@@ -24,3 +24,10 @@ def load_fixtures():
     for league in Leagues:
         fixtures+=MemBlob.fetch("fixtures/%s" % league["name"])
     return fixtures
+
+def load_results():
+    results=[]
+    for league in Leagues:
+        results+=MemBlob.fetch("results/%s" % league["name"])
+    return results
+
