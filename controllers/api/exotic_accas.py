@@ -205,6 +205,14 @@ class PriceHandler(webapp2.RequestHandler):
 
 class CreateHandler(webapp2.RequestHandler):
 
+    def filter_kickoffs(self, bet, matches):
+        kickoffs=dict([("%s/%s" % (match["league"], match["name"]),
+                        match["kickoff"])
+                       for match in matches])
+        return sorted(list(set([kickoffs["%s/%s" % (leg["league"],
+                                                    leg["match"])]
+                                for leg in bet["legs"]])))
+        
     @filter_userid
     @parse_json_body
     @emit_json
@@ -214,6 +222,7 @@ class CreateHandler(webapp2.RequestHandler):
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
+
         if prob > 1/float(bet["price"]):
             raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
@@ -221,9 +230,12 @@ class CreateHandler(webapp2.RequestHandler):
         for attr in ["result_condition",
                      "goals_condition",
                      "legs_condition"]:
-            bet.pop(attr)        
+            bet.pop(attr)
+        kickoffs=self.filter_kickoffs(bet, matches)
         placedbet=ExoticAcca(userid=userid,
                              params=json.dumps(bet),
+                             first_kickoff=kickoffs[0],
+                             last_kickoff=kickoffs[-1],
                              size=float(bet["size"]),
                              price=float(bet["price"]),
                              timestamp=datetime.datetime.utcnow(),

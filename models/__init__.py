@@ -80,6 +80,8 @@ class ExoticAcca(db.Model):
 
     userid=db.StringProperty()
     params=db.TextProperty()
+    first_kickoff=db.DateTimeProperty()
+    last_kickoff=db.DateTimeProperty()
     size=db.FloatProperty()
     price=db.FloatProperty()
     timestamp=db.DateTimeProperty()
