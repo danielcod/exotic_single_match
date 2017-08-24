@@ -101,5 +101,5 @@ export const products = [
 			name: "exotic_match_3"
 		},
 	]
-export const matchComponents = ['Match Result', 'Corners', 'Team Booking Points', 'Player Cards', 'Goalscorers', 'BTTS & O/U]'];
+export const matchComponents = ['Match Result', 'Corners', 'Team Booking Points', 'Player Cards', 'Goalscorers', 'BTTS & Over/Under]'];
 export const cornersComponents = ['Home Team', 'Away Team', 'Both Teams', 'Match Total'];

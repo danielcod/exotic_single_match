@@ -1,0 +1,20 @@
+.wrap-mybettab{
+    text-align: center;
+    margin: 8px 0 16px;
+}
+.title-mybettab{
+    margin-bottom: 8px;
+}
+.wrap-slider{
+    width: 90%;
+    margin: 32px 5% 42px 5%;
+}
+.price-text{
+    margin-bottom: 8px;
+}
+.price-symbol{
+    padding: 0 4px;
+}
+.output-block{
+    margin-bottom: 24px;
+}

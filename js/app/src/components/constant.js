@@ -17,3 +17,6 @@ export const COUNT_PLAYER_ROWS = 6;
 export const HOME = 'home';
 export const AWAY = 'away';
 export const FIVE_COLUMS = 5;
+export const YES = 'Yes';
+export const NO = 'No';
+export const marks = { 1: '0.5', 2: '1.5', 3: '2.5', 4: '3.5', 5: '4.5', 6: '5.5'};

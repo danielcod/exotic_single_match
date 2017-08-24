@@ -1,3 +1,5 @@
+import * as constant from './constant'
+
 export function matchSorter(m0, m1) {	       
         if (m0.kickoff < m1.kickoff) {
             return -1;
@@ -37,4 +39,23 @@ export function matchSorter(m0, m1) {
         });
         return currentBet;
     }
-    
+    export function formatBTTSText(row, column){
+        let columnText, rowText;
+        if (column === constant.SELCTED_FIRST){
+            columnText = constant.YES;
+        }else if(column === constant.SELCTED_TWO){
+            columnText = constant.NO;
+        }
+        if (row === constant.SELCTED_FIRST){
+            rowText = constant.FULL_MATCH;
+        }else if(row === constant.SELCTED_TWO){
+            rowText = constant.BOTH_HALVES;
+        }else if(row === constant.SELCTED_THREE){
+            rowText = constant.EITHER_HALF;
+        }
+        return 'BTTS (' + rowText + ') = '+columnText;
+    }
+
+    export function formatTotalGoalsText(sliderValue, selectedTab){
+        return 'Total Goals '+ selectedTab + ' ' + constant.marks[sliderValue];
+    }

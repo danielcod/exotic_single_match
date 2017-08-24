@@ -1,0 +1,54 @@
+.cornersTable{
+    font-size: 14px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: 10px;
+}
+.cornersTable .item{    
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    margin: 4px;
+    width: 30%;
+    height: 40px;
+    border-radius: 8px;
+}
+.wrap-mybettab{
+    margin-top: 20px; 
+    margin-bottom: 30px; 
+}
+.price{
+    padding: 0 8px;
+}
+.btn-group{
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+.not-selected-bet-tab{
+    background-color: #575763;
+}
+.selected-bet-tab{
+    background-color: #ec644b;
+}
+.show-text{
+    text-align: center;
+    font-size: 16px;
+    min-height: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 24px;
+}
+.row-change-btn{
+    margin: 0;
+}
+   .output-block{
+        line-height: 28px;;
+   }
+.table-title{
+    text-align: center;
+    margin-bottom: 16px;
+}
+.column-tile{
+    padding-left: 36px;
+}

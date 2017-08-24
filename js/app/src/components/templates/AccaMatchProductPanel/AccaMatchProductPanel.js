@@ -8,6 +8,7 @@ import CornersPanel from '../../organisms/CornersPanel';
 import TeamCardsPanel from '../../organisms/TeamCardsPanel';
 import GoalScorersPanel from '../../organisms/GoalScorersPanel';
 import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
+import BTTSPanel from '../../organisms/BTTSPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -223,7 +224,14 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                                 bets={this.state.bets}
                                                                 delBetfromBetsList={this.delTeamBetfromBetsList}
                                                             /> : null} 
-                                                        {index ===  5 ? <p>{item}</p> : null} 
+                                                        {index ===  5 ? 
+                                                            <BTTSPanel
+                                                                matches={str.MatchResultStruct}
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delBetfromBetsList}
+                                                            /> : null} 
                                                     </div>           
                                                 </AccordionItem>
                                         );
