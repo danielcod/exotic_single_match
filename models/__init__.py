@@ -102,4 +102,9 @@ class ExoticAcca(db.Model):
         query.filter("status = ", Settled)
         return fetch_models_db(query)
 
+    @classmethod
+    def find_settleable(self, cutoff):
+        query=ExoticAcca.all()
+        quer.filter("last_kickoff < ", cutoff)
+        return fetch_models_db(query)
     
