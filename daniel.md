@@ -1,3 +1,8 @@
+/app is now /api
+/app/matches is now /app/fixtures
+
+-----------------------
+
 Hi Daniel,
 
 I've added a new branch 'dev-justin-backend' to extend and modify the API methods available from the server.
