@@ -21,15 +21,13 @@ skip_files:
 - ^README
 - ^tmp
 handlers:
-# APP
-- url: /app/exotic_accas.*
-  script: controllers.app.exotic_accas.app
-- url: /app/fixtures.*
-  script: controllers.app.fixtures.app
-- url: /app/matches.*
-  script: controllers.app.matches.app
-- url: /app.*
-  script: controllers.app.app
+# API
+- url: /api/exotic_accas.*
+  script: controllers.api.exotic_accas.app
+- url: /api/fixtures.*
+  script: controllers.api.fixtures.app
+- url: /api/matches.*
+  script: controllers.api.matches.app
 # TASKS
 - url: /tasks/fixtures.*
   script: tasks.fixtures.app

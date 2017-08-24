@@ -1,4 +1,4 @@
-from controllers.app import *
+from controllers.api import *
 
 Winner="exotic_acca_winner"
 Loser="exotic_acca_loser"
@@ -187,7 +187,7 @@ class BetPricer:
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
-# curl -X POST http://localhost:8080/app/exotic_accas/price -d @dev/exotic_acca_winner.json
+# curl -X POST http://localhost:8080/api/exotic_accas/price -d @dev/exotic_acca_winner.json
 
 class PriceHandler(webapp2.RequestHandler):
                 
@@ -201,7 +201,7 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/app/exotic_accas/create -d @dev/exotic_acca_winner.json
+# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/api/exotic_accas/create -d @dev/exotic_acca_winner.json
 
 class CreateHandler(webapp2.RequestHandler):
 
@@ -231,7 +231,7 @@ class CreateHandler(webapp2.RequestHandler):
         return {"status": "ok",
                 "id": placedbet.id()}
 
-# curl -H "Cookie: ioSport=Hufton123" "http://localhost:8080/app/exotic_accas/list?status=active"
+# curl -H "Cookie: ioSport=Hufton123" "http://localhost:8080/api/exotic_accas/list?status=active"
 
 class ListHandler(webapp2.RequestHandler):
 
@@ -257,9 +257,9 @@ class ListHandler(webapp2.RequestHandler):
         return [format_bet(bet, status)
                 for bet in self.load_bets(userid, status)]
 
-Routing=[('/app/exotic_accas/price', PriceHandler),
-         ('/app/exotic_accas/create', CreateHandler),
-         ('/app/exotic_accas/list', ListHandler)]
+Routing=[('/api/exotic_accas/price', PriceHandler),
+         ('/api/exotic_accas/create', CreateHandler),
+         ('/api/exotic_accas/list', ListHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

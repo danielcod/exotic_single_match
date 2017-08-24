@@ -1,6 +1,6 @@
-from controllers.app import *
+from controllers.api import *
 
-# curl "http://localhost:8080/app/fixtures"
+# curl "http://localhost:8080/api/fixtures"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -17,7 +17,7 @@ class IndexHandler(webapp2.RequestHandler):
             match.pop("dc_grid")
         return fixtures
         
-Routing=[('/app/fixtures', IndexHandler)]
+Routing=[('/api/fixtures', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
