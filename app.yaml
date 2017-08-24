@@ -24,6 +24,8 @@ handlers:
 # APP
 - url: /app/exotic_accas.*
   script: controllers.app.exotic_accas.app
+- url: /app/fixtures.*
+  script: controllers.app.fixtures.app
 - url: /app/matches.*
   script: controllers.app.matches.app
 - url: /app.*
