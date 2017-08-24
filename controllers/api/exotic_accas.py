@@ -255,19 +255,22 @@ class ListHandler(webapp2.RequestHandler):
             return ExoticAcca.find_settled(userid)
         else:
             raise RuntimeError("Status not recognised")
-    
+
+    def format_bet(self, bet, status):
+        params=json.loads(bet.params)
+        params["id"]=bet.key().id()        
+        params["timestamp"]=bet.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        return params        
+        
     @filter_userid
     @validate_query({'status': '(active)|(settled)'})
     @emit_json
     def get(self, *args, **kwargs):
         userid=kwargs["user_id"]
         status=self.request.get("status")
-        def format_bet(bet, status):
-            params=json.loads(bet.params)
-            params["id"]=bet.key().id()        
-            params["timestamp"]=bet.timestamp.strftime("%Y-%m-%d %H:%M:%S")
-            return params        
-        return [format_bet(bet, status)
+        results=dict([("%s/%s" % (result["league"], result["name"]), result)
+                      for result in load_results()])        
+        return [self.format_bet(bet, status)
                 for bet in self.load_bets(userid, status)]
 
 Routing=[('/api/exotic_accas/price', PriceHandler),
