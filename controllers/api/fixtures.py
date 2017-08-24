@@ -6,7 +6,7 @@ class IndexHandler(webapp2.RequestHandler):
 
     @emit_json_memcache(MemcacheAge)
     def get(self):
-        fixtures=self.load_fixtures()
+        fixtures=load_fixtures()
         for match in fixtures:
             match.pop("dc_grid")
         return fixtures

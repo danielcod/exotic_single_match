@@ -19,15 +19,18 @@ def filter_userid(fn):
             render_error(self, str(error))
     return wrapped_fn
 
-def load_fixtures():
-    fixtures=[]
+def load_matches(key, age):
+    resp=memcache.get(key)
+    if resp not in ['', [], None]:
+        return json_loads(resp)
+    matches=[]
     for league in Leagues:
-        fixtures+=MemBlob.fetch("fixtures/%s" % league["name"])
-    return fixtures
+        matches+=MemBlob.fetch("%s/%s" % (key, league["name"]))
+    memcache.set(key, json_dumps(matches), age)
+    return matches
 
-def load_results():
-    results=[]
-    for league in Leagues:
-        results+=MemBlob.fetch("results/%s" % league["name"])
-    return results
+def load_fixtures(age=MemcacheAge):
+    return load_matches("fixtures", age)
 
+def load_results(age=MemcacheAge):
+    return load_matches("results", age)

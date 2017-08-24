@@ -1,7 +1,9 @@
 from controllers.api import *
 
 Winner="exotic_acca_winner"
+
 Loser="exotic_acca_loser"
+
 Draws="exotic_acca_draws"
 
 Win, Lose, Draw = "win", "lose", "draw"
@@ -222,7 +224,6 @@ class CreateHandler(webapp2.RequestHandler):
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
-
         if prob > 1/float(bet["price"]):
             raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
