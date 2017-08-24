@@ -50,6 +50,13 @@ class LeagueHandler(webapp2.RequestHandler):
         return [1/float(prob)
                 for prob in normprobs]
 
+    def filterfn(self, fixture, cutoff):
+        return ("kickoff" in fixture and
+                fixture["kickoff"] not in [[], None] and
+                fixture["kickoff"].date() <= cutoff and
+                "pre_event_1x2_prices" in fixture and
+                fixture["pre_event_1x2_prices"] not in [[], None])
+    
     def calc_dc_grid(self, fixture):
         probs=[1/float(price)
                for price in fixture["1x2_prices"]]
@@ -68,17 +75,14 @@ class LeagueHandler(webapp2.RequestHandler):
         leaguename=self.request.get("league")
         window=int(self.request.get("window"))
         cutoff=datetime.date.today()+datetime.timedelta(days=window)
+        fixtures=ebadi.get_remaining_fixtures(leaguename,
+                                              Leagues[leaguename]["season"])
         fixtures=sorted([{"league": leaguename,
                           "name": fixture["name"],
                           "kickoff": fixture["kickoff"],
                           "1x2_prices": self.normalise_1x2_prices(self.filter_best_1x2_prices(fixture["pre_event_1x2_prices"]))}
-                         for fixture in ebadi.get_remaining_fixtures(leaguename,
-                                                                   Leagues[leaguename]["season"])
-                         if ("kickoff" in fixture and
-                             fixture["kickoff"] not in [[], None] and
-                             fixture["kickoff"].date() <= cutoff and
-                             "pre_event_1x2_prices" in fixture and
-                             fixture["pre_event_1x2_prices"] not in [[], None])],
+                         for fixture in fixtures
+                         if self.filterfn(fixture, cutoff)],
                         key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
         for fixture in fixtures:
             self.calc_dc_grid(fixture)
