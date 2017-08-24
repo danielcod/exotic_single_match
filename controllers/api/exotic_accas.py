@@ -258,8 +258,8 @@ class ListHandler(webapp2.RequestHandler):
 
     def format_bet(self, bet, status):
         params=json.loads(bet.params)
+        params["timestamp"]=bet.timestamp
         params["id"]=bet.key().id()        
-        params["timestamp"]=bet.timestamp.strftime("%Y-%m-%d %H:%M:%S")
         return params        
         
     @filter_userid
