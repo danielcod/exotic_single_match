@@ -29,3 +29,5 @@ handlers:
 # TASKS
 - url: /tasks/fixtures.*
   script: tasks.fixtures.app
+- url: /tasks/results.*
+  script: tasks.results.app
