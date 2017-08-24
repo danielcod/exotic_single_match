@@ -29,5 +29,5 @@ handlers:
 - url: /app.*
   script: controllers.app.app
 # TASKS
-- url: /tasks/app/matches.*
-  script: tasks.app.matches.app
+- url: /tasks/matches.*
+  script: tasks.matches.app

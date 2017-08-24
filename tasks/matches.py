@@ -1,4 +1,4 @@
-from tasks.app import *
+from tasks import *
 
 from quant.dixon_coles import CSGrid
 
@@ -6,7 +6,7 @@ QueueName="quant"
 
 ReduceNTries=10
 
-# curl "http://localhost:8080/tasks/app/matches?window=7"
+# curl "http://localhost:8080/tasks/matches?window=7"
 
 class IndexHandler(webapp2.RequestHandler):
 
@@ -18,13 +18,13 @@ class IndexHandler(webapp2.RequestHandler):
         if leaguenames==[]:
             leaguenames=Leagues.keys()
         window=self.request.get("window")
-        [taskqueue.add(url="/tasks/app/matches/map",
+        [taskqueue.add(url="/tasks/matches/map",
                        params={"league": leaguename,
                                "window": window},
                        queue_name=QueueName)
          for leaguename in leaguenames]
         logging.info("%s map tasks added" % len(leaguenames))
-        taskqueue.add(url="/tasks/app/matches/reduce",
+        taskqueue.add(url="/tasks/matches/reduce",
                       params={"leagues": ",".join(leaguenames),
                               "count": 0},
                       queue_name=QueueName)
@@ -120,23 +120,23 @@ class ReduceHandler(webapp2.RequestHandler):
         if self.is_completed(leaguenames):
             matches=self.filter_matches(leaguenames)
             logging.info("Total %i matches" % len(matches))
-            Blob(key_name="app/matches",
+            Blob(key_name="matches",
                  text=json_dumps(matches),
                  timestamp=datetime.datetime.now()).put()
             logging.info("Simulations complete; saved to /matches")
         else:
             if count < ReduceNTries:
                 logging.info("Simulations not completed; spawning retry %i/%i" % (count+1, ReduceNTries))
-                taskqueue.add(url="/tasks/app/matches/reduce",
+                taskqueue.add(url="/tasks/matches/reduce",
                               params={"leagues": ",".join(leaguenames),
                                       "count": count+1},
                               queue_name=QueueName)
             else:
                 logging.warning("Simulations not completed; exiting")
                 
-Routing=[('/tasks/app/matches/reduce', ReduceHandler),
-         ('/tasks/app/matches/map', MapHandler),
-         ('/tasks/app/matches', IndexHandler)]
+Routing=[('/tasks/matches/reduce', ReduceHandler),
+         ('/tasks/matches/map', MapHandler),
+         ('/tasks/matches', IndexHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 
