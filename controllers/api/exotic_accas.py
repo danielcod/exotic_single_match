@@ -256,8 +256,31 @@ class ListHandler(webapp2.RequestHandler):
         else:
             raise RuntimeError("Status not recognised")
 
-    def format_bet(self, bet, status):
+    def status_for_leg(self, leg, results):
+        key="%s/%s" % (leg["league"], leg["match"])
+        return Settled if key in results else Active
+        
+    def outcome_for_leg(self, leg, results):
+        key="%s/%s" % (leg["league"], leg["match"])
+        result=results[key]
+        goals=[int(token) for token in result["score"].split("-")]
+        teamnames=leg["match"].split(" vs ")
+        if ((leg["selection"]==teamnames[0] and
+             goals[0] > goals[1]) or
+            (leg["selection"]==teamnames[1] and
+             goals[0] < goals[1]) or
+            (leg["selection"]==Draw and
+             goals[0]==goals[1])):
+            return Win
+        else:
+            return Lose
+        
+    def format_bet(self, bet, status, results):
         params=json.loads(bet.params)
+        for leg in params["legs"]:
+            leg["status"]=self.status_for_leg(leg, results)
+            if leg["status"]==Settled:
+                leg["outcome"]=self.outcome_for_leg(leg, results)
         params["timestamp"]=bet.timestamp
         params["id"]=bet.key().id()        
         return params        
@@ -270,7 +293,7 @@ class ListHandler(webapp2.RequestHandler):
         status=self.request.get("status")
         results=dict([("%s/%s" % (result["league"], result["name"]), result)
                       for result in load_results()])        
-        return [self.format_bet(bet, status)
+        return [self.format_bet(bet, status, results)
                 for bet in self.load_bets(userid, status)]
 
 Routing=[('/api/exotic_accas/price', PriceHandler),
