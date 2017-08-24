@@ -1,7 +1,5 @@
 from tasks import *
 
-from quant.dixon_coles import CSGrid
-
 QueueName="quant"
 
 # curl "http://localhost:8080/tasks/fixtures?window=7"
@@ -52,6 +50,17 @@ class LeagueHandler(webapp2.RequestHandler):
         return [1/float(prob)
                 for prob in normprobs]
 
+    def calc_dc_grid(self, fixture):
+        probs=[1/float(price)
+               for price in fixture["1x2_prices"]]
+        from quant.dixon_coles import CSGrid
+        lx, ly, err = CSGrid.solve(probs)
+        formatstr="%s/%s :: lx -> %.5f, ly -> %.5f, err -> %.5f"
+        logging.info(formatstr % (fixture["league"],
+                                  fixture["name"],
+                                  lx, ly, err))
+        fixture["dc_grid"]=CSGrid.from_poisson(lx, ly)
+
     @validate_query({"league": "^\\D{3}\\.\\d$",
                      "window": "^\\d+$"})
     @task
@@ -71,15 +80,8 @@ class LeagueHandler(webapp2.RequestHandler):
                              "pre_event_1x2_prices" in fixture and
                              fixture["pre_event_1x2_prices"] not in [[], None])],
                         key=lambda x: "%s/%s" % (x["kickoff"], x["name"]))
-        formatstr="%s/%s :: lx -> %.5f, ly -> %.5f, err -> %.5f"
         for fixture in fixtures:
-            probs=[1/float(price)
-                   for price in fixture["1x2_prices"]]
-            lx, ly, err = CSGrid.solve(probs)
-            logging.info(formatstr % (fixture["league"],
-                                      fixture["name"],
-                                      lx, ly, err))
-            fixture["dc_grid"]=CSGrid.from_poisson(lx, ly)
+            self.calc_dc_grid(fixture)
         MemBlob(key_name="fixtures/%s" % leaguename,
                 text=json_dumps(fixtures),
                 timestamp=datetime.datetime.now()).put()
