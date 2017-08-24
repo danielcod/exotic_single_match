@@ -195,7 +195,7 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
         update_bet_params(bet)
-        matches=Blob.fetch("app/matches")
+        matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
         price=1/float(max(limit, prob))
@@ -211,7 +211,7 @@ class CreateHandler(webapp2.RequestHandler):
     def post(self, bet, maxcoverage=MaxCoverage, *args, **kwargs):
         userid=kwargs["user_id"]
         update_bet_params(bet)
-        matches=Blob.fetch("app/matches")
+        matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
         if prob > 1/float(bet["price"]):

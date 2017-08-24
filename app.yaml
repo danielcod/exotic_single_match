@@ -26,10 +26,6 @@ handlers:
   script: controllers.api.exotic_accas.app
 - url: /api/fixtures.*
   script: controllers.api.fixtures.app
-- url: /api/matches.*
-  script: controllers.api.matches.app
 # TASKS
 - url: /tasks/fixtures.*
   script: tasks.fixtures.app
-- url: /tasks/matches.*
-  script: tasks.matches.app

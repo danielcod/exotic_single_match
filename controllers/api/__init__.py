@@ -18,3 +18,9 @@ def filter_userid(fn):
         except RuntimeError, error:
             render_error(self, str(error))
     return wrapped_fn
+
+def load_fixtures():
+    fixtures=[]
+    for league in Leagues:
+        fixtures+=MemBlob.fetch("fixtures/%s" % league["name"])
+    return fixtures
