@@ -75,6 +75,19 @@ class Blob(db.Model):
             raise RuntimeError("%s not found" % key)
         return json_loads(blob.text)
 
+class MemBlob(db.Model):
+
+    league=db.StringProperty()
+    text=db.TextProperty()
+    timestamp=db.DateTimeProperty()
+
+    @classmethod
+    def fetch(self, key):
+        blob=MemBlob.get_by_key_name(key)
+        if not blob:
+            raise RuntimeError("%s not found" % key)
+        return json_loads(blob.text)
+
 class ExoticAcca(db.Model):
 
     userid=db.StringProperty()
