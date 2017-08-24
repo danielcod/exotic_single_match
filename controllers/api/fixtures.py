@@ -4,9 +4,11 @@ from controllers.api import *
 
 class IndexHandler(webapp2.RequestHandler):
 
-    @emit_json_memcache(MemcacheAge)
+    @emit_json
     def get(self):
-        fixtures=load_fixtures()
+        cutoff=datetime.datetime.utcnow()
+        fixtures=[fixture for fixture in load_fixtures()
+                  if fixture["kickoff"] > cutoff]
         for match in fixtures:
             match.pop("dc_grid")
         return fixtures
