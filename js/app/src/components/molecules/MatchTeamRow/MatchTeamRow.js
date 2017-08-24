@@ -100,7 +100,7 @@ export default class MatchTeamRow extends React.PureComponent {
                     />
                     <div style={{display: "table-cell", width: "100%"}}>
                         <span className='match-name'>
-                            {this.state.teamnames[0]}<br /><span>{" (vs " + this.state.teamnames[1] + ")"}</span>
+                            {this.props.match.name}
                         </span>
                     </div>
                 </td>

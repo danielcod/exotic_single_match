@@ -34,7 +34,7 @@ export const products = [
         description: "An Exotic Acca Loser is like an Exotic Acca Winner, but in reverse! This time you're picking a set of teams you expect to lose, and not all teams have to lose for you to win.",
         legsPanel: 'MatchTeamPanel',
         betGoalsSlider: {
-            label: "How many legs need to lose ?",
+            label: "To Lose By At Least",
             tickLabeller: function (minval, maxval) {
                 var labels = [];
                 for (var i = minval; i <= maxval; i++) {
@@ -50,7 +50,7 @@ export const products = [
             maxVal: 4,
         },
         betLegsToggle: {
-            label: "To Lose By At Least",
+            label: "How many legs need to lose ?",
             textFormatter: function (val, maxval) {
                 return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")";
             },

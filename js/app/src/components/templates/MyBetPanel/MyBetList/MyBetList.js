@@ -164,8 +164,9 @@ export default class MyBetList extends React.PureComponent {
                     league: bet.betLeague,
                     name: bet.betLegs[index].name
                 },
+                selection: bet.betLegs[index].selection,
                 price: bet.betLegs[index].price
-            }
+            };
             legs.push(leg);
         }
         return legs;

@@ -78,7 +78,7 @@ export default class MatchRow extends React.PureComponent {
                         value={this.props.match.kickoff}
                         type="datetime"
                     />
-                    <div style={{display: "table-cell"}}>
+                    <div style={{display: "table-cell", width: "100%"}}>
                         <span className='match-name'>
                             {this.props.match.name}
                         </span>

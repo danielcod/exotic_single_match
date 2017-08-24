@@ -18,12 +18,6 @@ ul li a .badge {
 /*Table in Your Bet Tab*/
 tr td div span.match-name {
     font-size: 12px;
-    font-weight: bold;
-}
-
-tr td div span.match-name span {
-    font-size: 12px;
-    font-weight: normal;
 }
 
 tr td div span.today {

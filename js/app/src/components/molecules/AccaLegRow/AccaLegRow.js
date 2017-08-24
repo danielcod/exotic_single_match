@@ -16,11 +16,25 @@ export default class AccaLegRow extends React.PureComponent {
         }
     }
 
-    formatDescription(match) {
-        var teamnames = match.split(" vs ");
-        return (
-            <span>{teamnames[0]}<br /><span>{" (vs " + teamnames[1] + ")"}</span></span>
-        )
+    formatDescription(leg) {
+        var selection = leg.selection;
+        var teamNames = leg.match.name.split(" vs ");
+        if (selection.homeAway) {
+            switch (selection.homeAway) {
+                case "home":
+                    return (
+                        <span>{teamNames[0]}<span>{" (vs " + teamNames[1] + ")"}</span></span>
+                    );
+                case "away":
+                    return (
+                        <span>{teamNames[1]}<span>{" (vs " + teamNames[0] + ")"}</span></span>
+                    );
+            }
+        } else if (selection.name) {
+            return (
+                <span>{teamNames[0] + " vs " + teamNames[1]}</span>
+            );
+        }
     }
 
     render() {
@@ -32,7 +46,7 @@ export default class AccaLegRow extends React.PureComponent {
                         type="datetime"/>
                 </td>
                 <td className="leg-row-descr">
-                    {this.formatDescription(this.props.leg.match.name)}
+                    {this.formatDescription(this.props.leg)}
                 </td>
                 <td>
                     <span className="text-muted">
