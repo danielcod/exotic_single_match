@@ -202,11 +202,11 @@ export default class GoalScorersPanel extends React.PureComponent {
                         break;
                 }           
         });
-        const textValue = [
+        textValue = [
             '\'Anytime\' - ' + first,
-            '\'1st Game\' - ' + two/*.slice(1, two.length-1)*/,
-            '\'1st Team\' - ' + three/*.slice(1, three.length-1)*/,
-            '\'3+\' - ' + four/*.slice(1, four.length-1)*/
+            '\'1st Game\' - ' + two,
+            '\'1st Team\' - ' + three,
+            '\'3+\' - ' + four
         ];         
             return textValue;
     }
