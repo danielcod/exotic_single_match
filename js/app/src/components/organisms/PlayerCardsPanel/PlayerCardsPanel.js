@@ -68,8 +68,8 @@ export default class PlayerCardsPanel extends React.PureComponent {
         });
         return currentBet;
     }
-    setToParrenState(){       
-       const { currentPage, selectedItem, selectedTeam, textValue, price, changes} = this.state;
+    setToParrenState(selectedItem, currentPage, selectedTeam, textValue){       
+       const { price, changes} = this.state;
        const bet = {
            name: productsName,
            match: this.props.match,
@@ -157,8 +157,8 @@ export default class PlayerCardsPanel extends React.PureComponent {
                 }           
             selectedItem.push(selected);                         
         }       
-        this.setState({selectedItem, triggerState, changes: true});
-        setTimeout(()=> this.formatText());
+        const textValue = this.formatText(selectedItem, currentPage, selectedTeam);
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue);        
     }
     isCurrentItemClicked(id, key, selectedInCurrentPage){   
         const { selectedItem, selectedTeam, currentPage} = this.state;
@@ -180,9 +180,10 @@ export default class PlayerCardsPanel extends React.PureComponent {
         });
         return selectedView  > -1 ? true : false;
     }
-    formatText(){
-        let  first = '', two = '', three = '', four = '';
-        const {selectedItem, currentPage, selectedTeam} = this.state;
+    formatText(selectedItem, currentPage, selectedTeam){
+        let  first = '', two = '', three = '', four = '', textValue = '';
+
+       // const {selectedItem, currentPage, selectedTeam} = this.state;
         const {matches, match} = this.props;
         selectedItem.map((value, key)=>{
             const player = this.getPlayer(matches, value);  
@@ -202,15 +203,14 @@ export default class PlayerCardsPanel extends React.PureComponent {
                         break;
                 }           
         });
-        const textValue = [
+        textValue = [
             '\'Any Card\'' +  ' - ' + first,
             '\'1st Game\''+ ' - ' + two,
             '\'1st Team\''+ ' - ' + three,
             '\'Sent Off\''+ ' - ' + four,
 
-        ];
-        this.setState({textValue});        
-        setTimeout(()=>this.setToParrenState(), 0) ;      
+        ];       
+        return textValue;        
     }
     getPlayer(matches, selected){
         let player = '';
@@ -245,7 +245,6 @@ export default class PlayerCardsPanel extends React.PureComponent {
     }
     handleTabClicked(tab) {
         this.setState({selectedTeam: tab.name, changes: true});
-        //setTimeout(()=>this.formatText(), 0); 
     }
     getCurrentListPlayer(){                                               
         let selected = []
