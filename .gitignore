@@ -3,5 +3,6 @@ tmp
 venv_exotic/
 sdk
 js/app/node_modules
+js/app/build
 .idea/
 npm-debug.log
