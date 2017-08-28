@@ -17,8 +17,9 @@ export class ExoticsAPI {
             if (this.debug) {
                 console.log("Fetching "+key);
             }
-            
-            $.ajax({
+            this.cache[key]=struct;
+            handler(struct);
+            /*$.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
@@ -27,7 +28,7 @@ export class ExoticsAPI {
                     handler(struct);
                 }.bind(this),
                 error: this.errHandler
-            });
+            });*/
         } else {
             if (this.debug) {
                 console.log("Serving "+key+" from cache");
@@ -46,15 +47,17 @@ export class ExoticsAPI {
             console.log(payload);
 
             var that = this;
+            that.cache[key]=structPost;
+                   handler(structPost);
 
-             request
+             /*request
                .post(url)
                .send(JSON.stringify(payload))
                .set('Accept', 'application/json')
                .end(function(err, res){
                    that.cache[key]=struct;
                    handler(res.body);
-               });
+               });*/
 
         } else {
             if (this.debug) {
