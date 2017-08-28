@@ -60,6 +60,7 @@ export default class AppStage extends React.PureComponent {
             case "bets":
                 return (
                     <MyBetPanel
+                        exoticsApi={this.props.exoticsApi}
                         mybets={bet.bets}
                         faqs={faq.faqs}
                         clickHandler={this.handleStageChanged}

@@ -6,11 +6,16 @@ from controllers import render_ok, render_error, validate_query
 
 import datetime, logging, webapp2, yaml
 
+import apis.elisey_api as ebadi
+
 from helpers.json_helpers import *
 
 MemcacheAge=60*60
 
 QueueName="default"
+
+Leagues=dict([(league["name"], league)
+              for league in yaml.load(file("config/leagues.yaml").read())])
 
 def task(fn):
     def wrapped_fn(self, *args, **kwargs):

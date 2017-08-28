@@ -18,6 +18,12 @@ export default class MyBetPanel extends React.PureComponent {
         bindAll(this, ['handleTabClicked', 'getTabContent', 'getBetsFromTab', 'handleFaqClicked']);
     }
 
+    componentDidMount() {
+        this.props.exoticsApi.fetchBets(function (struct) {
+            console.log(struct);
+        }.bind(this));
+    }
+
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name, clickedFaq: false});
     }

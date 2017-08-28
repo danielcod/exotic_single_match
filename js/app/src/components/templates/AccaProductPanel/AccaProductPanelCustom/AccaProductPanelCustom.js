@@ -31,7 +31,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             'handleStakeChanged', 'handleLegAdded', 'handleLegRemoved',
             'handleGoalsSliderChanged', 'handlePaginatorClicked', 'incrementNLegs',
             'decrementNLegs', 'placedBetTextFormatter', 'placedBetGoalFormatter',
-            'applyPaginatorWindow', 'updatePrice', 'sortLegs',
+            'applyPaginatorWindow', 'updatePrice', 'sortLegs', 'placeBet',
             'getLegSelectorTabContent', 'getYourBetTabContent', 'getAccaProductPanelCustomContent']);
     }
 
@@ -239,10 +239,12 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             // fetch new price
             setTimeout(function () {
                 var struct = {
-                    name: this.state.product.name,
-                    legs: this.state.bet.legs,
-                    nLegs: this.state.bet.nLegs,
-                    nGoals: this.state.bet.nGoals,
+                    type: this.state.product.name,
+                    legs: this.state.bet.legs.map(function (leg) {
+                        return {league: leg.match.league, match: leg.match.name, selection: leg.selection.team}
+                    }),
+                    n_legs: this.state.bet.nLegs,
+                    n_goals: this.state.bet.nGoals,
                     bust: Math.round(Math.random() * 1e10)
                 };
                 this.props.exoticsApi.fetchPrice(struct, function (struct) {
@@ -274,6 +276,25 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             }
         }.bind(this);
         return legs.sort(sortFn);
+    }
+
+    placeBet() {
+        var struct = {
+            type: this.state.product.name,
+            legs: this.state.bet.legs.map(function (leg) {
+                return {league: leg.match.league, match: leg.match.name, selection: leg.selection.team}
+            }),
+            n_legs: this.state.bet.nLegs,
+            n_goals: this.state.bet.nGoals,
+            price: parseFloat(this.state.price.toFixed(2)),
+            size: parseFloat(parseFloat(this.state.stake).toFixed(2)),
+            bust: Math.round(Math.random() * 1e10)
+        };
+        this.props.exoticsApi.placeBet(struct, function(struct){
+            console.log("Response from create api");
+            console.log(struct);
+            this.handleStateChanged("place");
+        });
     }
 
     getLegSelectorTabContent() {
@@ -382,7 +403,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                 <br/>
                                 <button
                                     className="btn btn-primary"
-                                    onClick={() => this.handleStateChanged("place")}>Place Bet
+                                    onClick={() => this.placeBet()}>Place Bet
                                 </button>
                             </div>
                         </div>
