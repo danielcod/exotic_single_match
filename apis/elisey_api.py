@@ -20,6 +20,8 @@ Bookmakers=yaml.load("""
 
 Oddsportal, Oddschecker = "oddsportal", "oddschecker"
 
+Results, Fixtures = "results", "fixtures"
+
 Timeout=30 
 
 """
@@ -73,15 +75,27 @@ def clean_prices(matches,
         probs=[1/float(price)
                for price in prices]
         return sum(probs)
-    def is_valid(match, item, type, cutoff):
-        if (type=="results" and
-            item["source"]!=Oddsportal):
-            return False
-        if (type=="fixtures" and
-            item["source"]==Oddschecker and
-            match["kickoff"] < cutoff):
-            return False
-        return calc_overround(item) > 1
+    def filter_valid(match, items, type, cutoff):
+        opitems=[item for item in items
+                 if item["source"]==Oddsportal]
+        valid=[]        
+        for item in items:
+            # ignore OC results prices unless there are no OP prices
+            if (type==Results and
+                item["source"]==Oddschecker and
+                opitems!=[]):
+                continue
+            # ignore OC fixtures prices if timestamp < cutoff
+            if (type==Fixtures and
+                item["source"]==Oddschecker and
+                match["kickoff"] < cutoff):
+                continue
+            # ignore if overround < 1
+            if calc_overround(item) < 1:
+                continue
+            # add / valid
+            valid.append(item)
+        return valid
     def filter_latest(prices):
         groups={}
         for item in prices:
@@ -96,15 +110,14 @@ def clean_prices(matches,
     for match in matches:
         if attr not in match:
             continue
-        match[attr]=filter_latest([item for item in match[attr]
-                                   if is_valid(match, item, type, now)])
+        match[attr]=filter_latest(filter_valid(match, match[attr], type, now))
         
 def get_results(leaguename, season, bookmakers=Bookmakers, key=ApiKey):
     resp=rpc_get(Endpoint+"/results?league=%s&season=%s&bookmakers=%s&key=%s" % (leaguename, season, ",".join(bookmakers), key))
     if "items" not in resp:
         return []
     results=resp["items"]
-    clean_prices(results, type="results")
+    clean_prices(results, type=Results)
     return results
 
 def get_remaining_fixtures(leaguename, season, bookmakers=Bookmakers, key=ApiKey):
@@ -112,7 +125,7 @@ def get_remaining_fixtures(leaguename, season, bookmakers=Bookmakers, key=ApiKey
     if "items" not in resp:
         return []
     fixtures=resp["items"]
-    clean_prices(fixtures, type="fixtures")
+    clean_prices(fixtures, type=Fixtures)
     return fixtures
 
 if __name__=="__main__":
