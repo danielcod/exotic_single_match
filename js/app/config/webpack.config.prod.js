@@ -249,7 +249,7 @@ module.exports = Object.keys(languages).map(language => ({
       {
         test: /\.css$/,
         use: [
-          'isomorphic-style-loader',
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
