@@ -442,4 +442,5 @@ tr td .match-name {
 
 .pagination li {
      margin: 0 0 4px 0;
+     cursor: pointer;
 }
