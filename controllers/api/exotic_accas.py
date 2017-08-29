@@ -16,22 +16,12 @@ Seed, Paths = 13, 5000
 
 LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
-def update_bet_params(bet):
-    if bet["type"]==Winner:
-        bet["result_condition"]=Win
-    elif bet["type"]==Loser:
-        bet["result_condition"]=Lose
-    elif bet["type"]==Draws:
-        bet["result_condition"]=Draw
-    else:
-        raise RuntimeError("Bet type not found")
-
 def leg_filterfn(bet, score):
-    if bet["result_condition"]==Win:
+    if bet["type"]==Winner:
         return int(score[0]-score[1] >= bet["n_goals"])
-    elif bet["result_condition"]==Lose:
+    elif bet["type"]==Loser:
         return int(score[1]-score[0] >= bet["n_goals"])
-    elif bet["result_condition"]==Draw:
+    elif bet["type"]==Draws:
         return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
     else:
         raise RuntimeError("Bet result not found/recognised")
@@ -142,7 +132,6 @@ class PriceHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
-        update_bet_params(bet)
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
@@ -166,7 +155,6 @@ class CreateHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, maxcoverage=MaxCoverage, *args, **kwargs):
         userid=kwargs["user_id"]
-        update_bet_params(bet)
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
@@ -174,9 +162,6 @@ class CreateHandler(webapp2.RequestHandler):
             raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
-        for attr in ["result_condition",
-                     "legs_condition"]:
-            bet.pop(attr)
         kickoffs=self.filter_kickoffs(bet, matches)
         placedbet=ExoticAcca(userid=userid,
                              params=json.dumps(bet),
