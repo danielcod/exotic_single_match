@@ -129,7 +129,7 @@ class BetPricer:
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
-# curl -X POST http://localhost:8080/api/exotic_accas/price -d @dev/exotic_acca_winner.json
+# curl -X POST http://localhost:8080/api/exotic_accas/price -d @dev/winners.json
 
 class PriceHandler(webapp2.RequestHandler):
                 
@@ -142,7 +142,7 @@ class PriceHandler(webapp2.RequestHandler):
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/api/exotic_accas/create -d @dev/exotic_acca_winner.json
+# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/api/exotic_accas/create -d @dev/winners.json
 
 class CreateHandler(webapp2.RequestHandler):
 
