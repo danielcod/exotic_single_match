@@ -92,12 +92,13 @@ class BetPricer:
         return items
                 
     def leg_filterfn(self, bet, score):
-        if bet["type"]==Winner:
-            return int(score[0]-score[1] >= bet["n_goals"])
-        elif bet["type"]==Loser:
-            return int(score[1]-score[0] >= bet["n_goals"])
-        elif bet["type"]==Draws:
-            return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
+        if bet["type"] in [Winner, Loser, Draws]:
+            if bet["type"]==Winner:
+                return int(score[0]-score[1] >= bet["n_goals"])
+            elif bet["type"]==Loser:
+                return int(score[1]-score[0] >= bet["n_goals"])
+            else:
+                return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
         else:
             raise RuntimeError("Bet result not found/recognised")
 
