@@ -12,23 +12,6 @@ PriceProbLimit=0.0001
 
 Seed, Paths = 13, 5000
 
-def leg_filterfn(bet, score):
-    if bet["type"]==Winner:
-        return int(score[0]-score[1] >= bet["n_goals"])
-    elif bet["type"]==Loser:
-        return int(score[1]-score[0] >= bet["n_goals"])
-    elif bet["type"]==Draws:
-        return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
-    else:
-        raise RuntimeError("Bet result not found/recognised")
-
-def init_bet_filterfn(bet):
-    def filterfn(scores):
-        values=[leg_filterfn(bet, scores[leg["selection"]])
-                for leg in bet["legs"]]
-        return int(sum(values) >= bet["n_legs"])   
-    return filterfn
-
 class BetValidator:
 
     def validate_type(self, bet, errors):
@@ -107,7 +90,24 @@ class BetPricer:
                 items[i][teamnames[0]]=(score[0], score[1])
                 items[i][teamnames[1]]=(score[1], score[0])
         return items
-            
+                
+    def leg_filterfn(self, bet, score):
+        if bet["type"]==Winner:
+            return int(score[0]-score[1] >= bet["n_goals"])
+        elif bet["type"]==Loser:
+            return int(score[1]-score[0] >= bet["n_goals"])
+        elif bet["type"]==Draws:
+            return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
+        else:
+            raise RuntimeError("Bet result not found/recognised")
+
+    def init_bet_filterfn(self, bet):
+        def filterfn(scores):
+            values=[self.leg_filterfn(bet, scores[leg["selection"]])
+                    for leg in bet["legs"]]
+            return int(sum(values) >= bet["n_legs"])   
+        return filterfn
+    
     def calc_probability(self, bet, allmatches, paths=Paths, seed=Seed):
         allmatches=dict([(match["name"], match)
                          for match in allmatches])
@@ -117,7 +117,7 @@ class BetPricer:
                 raise RuntimeError("%s not found" % leg["match"])
             matches.append(allmatches[leg["match"]])
         samples=self.simulate_match_teams(matches, paths, seed)
-        filterfn=init_bet_filterfn(bet)
+        filterfn=self.init_bet_filterfn(bet)
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
