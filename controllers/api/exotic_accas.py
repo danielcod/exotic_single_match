@@ -1,9 +1,7 @@
 from controllers.api import *
 
 Winner="exotic_acca_winner"
-
 Loser="exotic_acca_loser"
-
 Draws="exotic_acca_draws"
 
 Win, Lose, Draw = "win", "lose", "draw"
@@ -13,8 +11,6 @@ MaxCoverage=100
 PriceProbLimit=0.0001
 
 Seed, Paths = 13, 5000
-
-LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
 def leg_filterfn(bet, score):
     if bet["type"]==Winner:
