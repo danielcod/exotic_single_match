@@ -86,29 +86,26 @@ class BetPricer:
         for fixture in fixtures:
             grid=CSGrid(fixture["dc_grid"])
             for i, score in enumerate(grid.simulate(paths, seed)):
-                teamnames=fixture["name"].split(" vs ")
-                items[i][teamnames[0]]=(score[0], score[1])
-                items[i][teamnames[1]]=(score[1], score[0])
+                items[i][fixture["name"]]=score
         return items
                 
-    def leg_filterfn(self, bet, score):
+    def leg_filterfn(self, bet, leg, score):
         if bet["type"] in [Winner, Loser, Draws]:
             if bet["type"]==Winner:
-                return int(score[0]-score[1] >= bet["n_goals"])
+                teamnames=leg["match"].split(" vs ")
+                i=teamnames.index(leg["selection"])
+                j=1-i
+                return int(score[i]-score[j] >= bet["n_goals"])
             elif bet["type"]==Loser:
-                return int(score[1]-score[0] >= bet["n_goals"])
+                teamnames=leg["match"].split(" vs ")
+                i=teamnames.index(leg["selection"])
+                j=1-i
+                return int(score[j]-score[i] >= bet["n_goals"])
             else:
                 return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
         else:
             raise RuntimeError("Bet result not found/recognised")
 
-    def init_bet_filterfn(self, bet):
-        def filterfn(scores):
-            values=[self.leg_filterfn(bet, scores[leg["selection"]])
-                    for leg in bet["legs"]]
-            return int(sum(values) >= bet["n_legs"])   
-        return filterfn
-    
     def calc_probability(self, bet, allmatches, paths=Paths, seed=Seed):
         allmatches=dict([(match["name"], match)
                          for match in allmatches])
@@ -118,7 +115,10 @@ class BetPricer:
                 raise RuntimeError("%s not found" % leg["match"])
             matches.append(allmatches[leg["match"]])
         samples=self.simulate_match_teams(matches, paths, seed)
-        filterfn=self.init_bet_filterfn(bet)
+        def filterfn(scores):
+            values=[self.leg_filterfn(bet, leg, scores[leg["match"]])
+                    for leg in bet["legs"]]
+            return int(sum(values) >= bet["n_legs"])   
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
