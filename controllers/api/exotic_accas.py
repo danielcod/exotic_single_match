@@ -1,8 +1,10 @@
 from controllers.api import *
 
-Winner="exotic_acca_winner"
-Loser="exotic_acca_loser"
-Draws="exotic_acca_draws"
+Winners="winners"
+Losers="losers"
+Draws="draws"
+Overs="overs"
+Unders="unders"
 
 Win, Lose, Draw = "win", "lose", "draw"
 
@@ -15,8 +17,8 @@ Seed, Paths = 13, 5000
 class BetValidator:
 
     def validate_type(self, bet, errors):
-        if bet["type"] not in [Winner, Loser, Draws]:
-            error.append("Bet type not found")
+        if bet["type"] not in [Winners, Losers, Draws]:
+            errors.append("Bet type not found")
         
     def validate_legs(self, bet, matches, errors):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
@@ -90,19 +92,24 @@ class BetPricer:
         return items
                 
     def leg_filterfn(self, bet, leg, score):
-        if bet["type"] in [Winner, Loser, Draws]:
-            if bet["type"]==Winner:
+        if bet["type"] in [Winners, Losers, Draws]:
+            if bet["type"]==Winners:
                 teamnames=leg["match"].split(" vs ")
                 i=teamnames.index(leg["selection"])
                 j=1-i
                 return int(score[i]-score[j] >= bet["n_goals"])
-            elif bet["type"]==Loser:
+            elif bet["type"]==Losers:
                 teamnames=leg["match"].split(" vs ")
                 i=teamnames.index(leg["selection"])
                 j=1-i
                 return int(score[j]-score[i] >= bet["n_goals"])
-            else:
+            else: # Draws
                 return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
+        elif bet["type"] in [Overs, Unders]:
+            if bet["type"]==Overs:
+                return int(score[0]+score[1]) > bet["n_goals"]
+            elif bet["type"]==Unders:
+                return int(score[0]+score[1]) < bet["n_goals"]
         else:
             raise RuntimeError("Bet result not found/recognised")
 
