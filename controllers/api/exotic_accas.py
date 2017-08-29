@@ -25,7 +25,7 @@ def update_bet_params(bet):
         bet["result_condition"]=Draw
     else:
         raise RuntimeError("Bet type not found")
-            
+
 def init_leg_filter(bet):
     def filterfn(score):
         if bet["result_condition"]==Win:
@@ -39,15 +39,13 @@ def init_leg_filter(bet):
     return filterfn
 
 def init_bet_filterfn(bet):
-    def bool_to_int(value):
-        return 1 if value else 0
+    legfilterfn=init_leg_filter(bet)
     def filterfn(scores):
-        legfilterfn=init_leg_filter(bet)
         outcomes=[legfilterfn(scores[leg["selection"]])
                   for leg in bet["legs"]]
         n=len([outcome for outcome in outcomes
                if outcome])
-        return bool_to_int(n >= bet["n_legs"])
+        return int(n >= bet["n_legs"])
     return filterfn
 
 class BetValidator:
