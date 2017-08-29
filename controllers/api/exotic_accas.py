@@ -8,8 +8,6 @@ Draws="exotic_acca_draws"
 
 Win, Lose, Draw = "win", "lose", "draw"
 
-GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
-
 MaxCoverage=100
 
 PriceProbLimit=0.0001
@@ -19,7 +17,6 @@ Seed, Paths = 13, 5000
 LegErrMsg="'%s' is invalid goals condition for match '%s' status"
 
 def update_bet_params(bet):
-    bet["legs_condition"]=bet["goals_condition"]=GTE
     if bet["type"]==Winner:
         bet["result_condition"]=Win
     elif bet["type"]==Loser:
@@ -32,44 +29,11 @@ def update_bet_params(bet):
 def init_leg_filter(bet):
     def filterfn(score):
         if bet["result_condition"]==Win:
-            if bet["goals_condition"]==GT:                
-                return score[0]-score[1] > bet["n_goals"]
-            elif bet["goals_condition"]==GTE:                
-                return score[0]-score[1] >= bet["n_goals"]
-            elif bet["goals_condition"]==LT:
-                return score[0]-score[1] < bet["n_goals"]
-            elif bet["goals_condition"]==LTE:
-                return score[0]-score[1] <= bet["n_goals"]
-            elif bet["goals_condition"]==EQ:                
-                return (score[0]-score[1])==bet["n_goals"]
-            else:
-                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Win))
+            return score[0]-score[1] >= bet["n_goals"]
         elif bet["result_condition"]==Lose:
-            if bet["goals_condition"]==GT:
-                return score[1]-score[0] > bet["n_goals"]
-            elif bet["goals_condition"]==GTE:
-                return score[1]-score[0] >= bet["n_goals"]
-            elif bet["goals_condition"]==LT:
-                return score[1]-score[0] < bet["n_goals"]
-            elif bet["goals_condition"]==LTE:
-                return score[1]-score[0] <= bet["n_goals"]
-            elif bet["goals_condition"]==EQ:
-                return (score[1]-score[0])==bet["n_goals"]
-            else:
-                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Lose))
+            return score[1]-score[0] >= bet["n_goals"]
         elif bet["result_condition"]==Draw:
-            if bet["goals_condition"]==GT:
-                return (score[0]==score[1]) and (score[0] > bet["n_goals"])
-            elif bet["goals_condition"]==GTE:
-                return (score[0]==score[1]) and (score[0] >= bet["n_goals"])
-            elif bet["goals_condition"]==LT:
-                return (score[0]==score[1]) and (score[0] < bet["n_goals"])
-            elif bet["goals_condition"]==LTE:
-                return (score[0]==score[1]) and (score[0] <= bet["n_goals"])
-            elif bet["goals_condition"]==EQ:
-                return (score[0]==score[1]) and (score[0] == bet["n_goals"])
-            else:
-                raise RuntimeError(errmsg % (bet["goals_condition"], Draw))
+            return (score[0]==score[1]) and (score[0] >= bet["n_goals"])
         else:
             raise RuntimeError("Bet result not found/recognised")
     return filterfn
@@ -83,18 +47,7 @@ def init_bet_filterfn(bet):
                   for leg in bet["legs"]]
         n=len([outcome for outcome in outcomes
                if outcome])
-        if bet["legs_condition"]==GT:
-            return bool_to_int(n > bet["n_legs"])
-        elif bet["legs_condition"]==GTE:
-            return bool_to_int(n >= bet["n_legs"])
-        elif bet["legs_condition"]==LT:
-            return bool_to_int(n < bet["n_legs"])
-        elif bet["legs_condition"]==LTE:
-            return bool_to_int(n <= bet["n_legs"])
-        elif bet["legs_condition"]==EQ:
-            return bool_to_int(n==bet["n_legs"])
-        else:
-            raise RuntimeError("%s is invalid legs condition" % bet["legs_condition"])
+        return bool_to_int(n >= bet["n_legs"])
     return filterfn
 
 class BetValidator:
@@ -229,7 +182,6 @@ class CreateHandler(webapp2.RequestHandler):
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
         for attr in ["result_condition",
-                     "goals_condition",
                      "legs_condition"]:
             bet.pop(attr)
         kickoffs=self.filter_kickoffs(bet, matches)
