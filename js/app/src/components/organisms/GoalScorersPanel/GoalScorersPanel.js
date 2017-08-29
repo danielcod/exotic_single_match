@@ -79,7 +79,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                selectedTeam,
                textValue,               
                price,
-               changes
+               changes: true
            }           
        }
        this.props.betResultMatch(bet);
@@ -87,13 +87,14 @@ export default class GoalScorersPanel extends React.PureComponent {
     clickTable(id, key){        
         let {selectedItem, currentPage, selectedTeam} = this.state;
         const triggerState = !this.state.triggerState;
-        const {match} = this.props;
+        const {match, matches} = this.props;
         const selected = {
             matchName: match.name,
             page:   currentPage, 
             item:   [id, key],
             selectedTeam:  selectedTeam
         };
+        selected.player = this.getPlayer(matches, selected); 
         const selectedInCurrentPage = this.getCurrentListPlayer();
         const index = this.isCurrentItemClicked(id, key, selectedInCurrentPage)
         if (index > -1){
@@ -294,7 +295,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                                     />
                                     : null
                             }
-                <div className={s['wrap-show-text']}>
+               {/* <div className={s['wrap-show-text']}>
                     {
                         textValue.map((value, key)=>{
                             return(
@@ -321,7 +322,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                             </span>
                         </h3>                       
                     }                    
-                </div>                
+                </div>              */}  
                 <div className={classNames("bet-submit-btns", s['btn-group'])}>
                     <button
                         className="btn btn-primary bet-cancel-btn"

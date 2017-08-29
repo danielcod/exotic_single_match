@@ -120,7 +120,7 @@ export default class TeamCardsPanel extends React.PureComponent {
        if (selectedBetTab === null || selectedBetTab === undefined) return;
        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO){
             const comands = this.props.match.name.split(' vs ');
-            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
+            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' cards';
        }else if(selectedBetTab === constant.SELCTED_FOUR){
             textValue = constant.TOTAL_BOOKING_POINTS + ' ' + selectedTab + ' ' + toogleValue + ' cards';   
        }else{

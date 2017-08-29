@@ -20,3 +20,12 @@ export const FIVE_COLUMS = 5;
 export const YES = 'Yes';
 export const NO = 'No';
 export const marks = { 1: '0.5', 2: '1.5', 3: '2.5', 4: '3.5', 5: '4.5', 6: '5.5'};
+export const ANYTIME = 'Anytime';
+export const FIRST_IN_GAME = '1st Game';
+export const FIRST_IN_TEAM = '1st Team';
+export const THREE_PLUS = '3+';
+export const ANY_CARD = 'Any card';
+export const SENT_OFF = 'Sent Off';
+export const PLAYER_CARDS = 'Player cards';
+export const GOAL_SCORERS = 'Goalscorers';
+

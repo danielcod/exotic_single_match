@@ -59,7 +59,7 @@ export default class PlayerCardsTable extends React.PureComponent {
                      <thead>
                     <tr>
                         {
-                            ["", "Any time", "1st Game", "1st Team", "Sent Off"].map(function(label, key) {
+                            ["", "Any card", "1st Game", "1st Team", "Sent Off"].map(function(label, key) {
                                 return (
                                     <th key={key} className={classNames(s['player-table-header-item'], "text-center")}>
                                         {label}

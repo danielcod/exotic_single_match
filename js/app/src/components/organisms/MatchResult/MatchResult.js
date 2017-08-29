@@ -16,7 +16,7 @@ export default class MatchResult extends React.PureComponent {
         if (isEmpty(bet)) bet = this.initMatchResult();
         this.state={
             value :  bet.options.range,
-            infoText : bet.options.text,
+            textValue  : bet.options.textValue,
             selectedItem :  bet.options.tableSelectedItem,
             showSlider : bet.options.showSlider,
             changes : bet.options.selectedMatchResult,
@@ -61,12 +61,12 @@ export default class MatchResult extends React.PureComponent {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initMatchResult();
         const   value =  bet.options.range,
-                infoText = bet.options.text,
+                textValue  = bet.options.textValue,
                 selectedItem =  bet.options.tableSelectedItem,
                 showSlider = bet.options.showSlider,
                 changes= bet.options.selectedMatchResult;
                 
-        this.setState({  value, infoText, selectedItem, showSlider, changes});      
+        this.setState({  value, textValue, selectedItem, showSlider, changes});      
     }
     
     clickHandler(id, key){
@@ -88,7 +88,7 @@ export default class MatchResult extends React.PureComponent {
         const winnComandId = this.state.selectedItem[1];
         const resultTimeId = this.state.selectedItem[0];
         const {value} = this.state;
-        let infoText = '', comand = '', selectedTime = '', scores = '';
+        let textValue  = '', comand = '', selectedTime = '', scores = '';
         switch(winnComandId){
             case constant.SELCTED_FIRST:
                 comand = comands[0] + ' ' + constant.TO_WINN;
@@ -114,26 +114,26 @@ export default class MatchResult extends React.PureComponent {
         if (winnComandId != constant.SELCTED_TWO){
             if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
             else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-            infoText = comand;// + ' ' + selectedTime + ' ' + scores;
+            textValue  = comand;// + ' ' + selectedTime + ' ' + scores;
         }else{
-            infoText = selectedTime + ' ' + comand;
-            infoText = infoText.split('');
-            infoText[0] = infoText[0].toUpperCase();
-            infoText =  infoText.join('');
+            textValue  = selectedTime + ' ' + comand;
+            textValue  = textValue .split('');
+            textValue [0] = textValue [0].toUpperCase();
+            textValue  =  textValue .join('');
         }        
-        this.setState({infoText, changes: true});
+        this.setState({textValue, changes: true});
         setTimeout(()=>this.setToParrenState(), 0) ;
         
     }
    setToParrenState(){
        
-       const { infoText, value, selectedItem, showSlider, changes, price} = this.state;
+       const { textValue, value, selectedItem, showSlider, changes, price} = this.state;
        const bet = {
            name: productsName,
            match: this.props.match,
            options:{
                 range: value,
-                text: infoText,
+                textValue: textValue,
                 tableSelectedItem: selectedItem,
                 showSlider,
                 selectedMatchResult: changes,
@@ -173,7 +173,7 @@ export default class MatchResult extends React.PureComponent {
                         </h3>
                         :
                         <h3 className= {classNames("current-price", s['text-center'])}>
-                           {this.state.infoText} :
+                           {this.state.textValue} :
                             <span className={s['price']} id= "price">
                                 { this.state.price }
                             </span>

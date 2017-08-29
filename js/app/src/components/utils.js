@@ -1,4 +1,8 @@
 import * as constant from './constant'
+import * as products from './products'
+const PLAYER_CARDS = products.matchComponents[3];
+const GOAL_SCORERS = products.matchComponents[4];
+const BTTS = products.matchComponents[5];
 
 export function matchSorter(m0, m1) {	       
         if (m0.kickoff < m1.kickoff) {
@@ -29,6 +33,14 @@ export function matchSorter(m0, m1) {
             return Math.floor(value);
         }
     }
+    export function formatCurrentPrice(price) {
+        if (price == undefined) {
+            return "[...]";
+        } else {
+            return formatPrice(price);
+        }
+    }
+
     export function getCurrentBet(props, matchComponents){
         const {bets, match} = props;
         let currentBet = {};
@@ -59,3 +71,110 @@ export function matchSorter(m0, m1) {
     export function formatTotalGoalsText(sliderValue, selectedTab){
         return 'Total Goals '+ selectedTab + ' ' + constant.marks[sliderValue];
     }
+    export function formatObjectYourBet(bets, match){
+        let showBets = [];
+        bets.map(bet=>{
+            if (bet.match.name != match.name) return;
+            if( BTTS === bet.name){
+                if(bet.options.changedTable){
+                   showBets.push({
+                        match: bet.match,
+                        name: bet.name,
+                        description:  bet.options.textBTTS,
+                         price: bet.options.priceBTTS,
+                        options: {
+                            changedTable: bet.options.changedTable,
+                            selectedItem: bet.options.selectedItem,
+                            priceBTTS: bet.options.priceBTTS,
+                            textBTTS:  bet.options.textBTTS
+                        }
+                    });
+                }
+                if(bet.options.changedTab){
+                    showBets.push({
+                        match: bet.match,
+                        name: bet.name,
+                        description:  bet.options.textTotalGoals,
+                        price: bet.options.priceTotalGoals,
+                        options: {
+                            changedTab: bet.options.changedTab,
+                            selectedTab: bet.options.selectedTab,
+                            priceTotalGoals: bet.options.priceTotalGoals,
+                            textTotalGoals:  bet.options.textTotalGoals,
+                            sliderValue: bet.options.sliderValue
+                        }
+                    });
+                }
+            }else if( PLAYER_CARDS === bet.name){
+               bet.options.selectedItem.map(value=>{
+                    showBets.push({
+                            match: bet.match,
+                            name: bet.name,
+                            options: bet.options,
+                            description:  constant.PLAYER_CARDS + ': ' + getCardsBl(value.item) + ' ' + value.player.name,
+                            price: parseFloat(value.player.price),
+                            player: value.player,
+                            selectedItem: value                            
+                        });
+                });
+            }else if( GOAL_SCORERS === bet.name){
+                 bet.options.selectedItem.map(value=>{
+                    showBets.push({
+                            match: bet.match,
+                            name: bet.name,
+                            options: bet.options,
+                            description:  constant.GOAL_SCORERS + ': ' + getGoalScorersBl(value.item) + ' ' + value.player.name,
+                            price: parseFloat(value.player.price),
+                            player: value.player,
+                            selectedItem: value                            
+                        });
+                });
+            }else{
+                bet.description = bet.options.textValue; 
+                bet.price = bet.options.price;     
+                showBets.push(bet);
+            }
+        });
+        return showBets;
+    }
+function getCardsBl(item){
+    switch(item[1]){
+        case constant.SELCTED_TWO:
+            return constant.ANY_CARD;
+        case constant.SELCTED_THREE:
+            return constant.FIRST_IN_GAME;
+        case constant.SELCTED_FOUR:
+            return constant.FIRST_IN_TEAM;
+        case constant.SELCTED_FIVE:
+            return constant.SENT_OFF;
+    }
+}
+function getGoalScorersBl(item){
+    switch(item[1]){
+        case constant.SELCTED_TWO:
+            return constant.ANYTIME;
+        case constant.SELCTED_THREE:
+            return constant.FIRST_IN_GAME;
+        case constant.SELCTED_FOUR:
+            return constant.FIRST_IN_TEAM;
+        case constant.SELCTED_FIVE:
+            return constant.THREE_PLUS;
+    }   
+}
+export function formatCountBets(bets, match){
+    let betInBets   = 0;
+    bets.map(bet=>{
+        if (bet.match.name != match.name) return;
+        if (PLAYER_CARDS === bet.name || 
+            GOAL_SCORERS === bet.name){
+                betInBets = betInBets +  bet.options.selectedItem.length;
+            }else if(BTTS === bet.name){
+                if (bet.options.changedTab) betInBets = betInBets +  1;
+                if (bet.options.changedTable) betInBets = betInBets +  1;
+            }else{
+                    betInBets = betInBets +  1;
+            }
+    });
+
+    return betInBets;
+}

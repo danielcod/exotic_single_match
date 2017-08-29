@@ -1,14 +1,15 @@
 import React from 'react';
-import { bindAll, eq } from 'lodash';
+import { bindAll, eq, isEqual } from 'lodash';
 import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
-import AccaPanelTabs from '../../organisms/AccaPanelTabs';
+import AccaMatchPanelTabs from '../../organisms/AccaMatchPanelTabs';
 import MatchResult from '../../organisms/MatchResult';
 import CornersPanel from '../../organisms/CornersPanel';
 import TeamCardsPanel from '../../organisms/TeamCardsPanel';
 import GoalScorersPanel from '../../organisms/GoalScorersPanel';
 import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
 import BTTSPanel from '../../organisms/BTTSPanel';
+import MatchBetsPanel from '../../organisms/MatchBetsPanel';
 import {matchSorter} from '../../utils'
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
@@ -18,6 +19,9 @@ import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
 import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
 import s from './index.css';
 import * as str from  '../../struct';
+const PLAYER_CARDS = data.matchComponents[3];
+const GOAL_SCORERS = data.matchComponents[4];
+const BTTS = data.matchComponents[5];
 
 export default class AccaMatchProductPanel extends React.PureComponent{
     constructor(props){
@@ -28,12 +32,13 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             selectedTab: "legs",
             legs: [],           
             bets: [],
-            sanfonaActiveItems: [],            
+            sanfonaActiveItems: [],  
             
         }
         bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
                          'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
-                         'delTeamBetfromBetsList']);
+                         'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
+                         'clearBets']);
     }
 
     componentWillMount(){      
@@ -83,6 +88,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
     }
     delTeamBetfromBetsList(productsName, matchName){
         let {bets} = this.state;
+        setTimeout(()=>console.log('delTeamBetfromBetsList', bets), 0);
         bets = bets.filter((bet)=>{
             if (bet.name === productsName && bet.match.name !== matchName ||
                 bet.name !== productsName)
@@ -91,7 +97,62 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.setState({bets});
         setTimeout(()=>console.log('delTeamBetfromBetsList', bets), 0);
     }
-   
+   handleBetRemoved(bet){
+       if( BTTS === bet.name){
+            this.delFromBTTS(bet);
+       }else if( PLAYER_CARDS === bet.name || GOAL_SCORERS === bet.name){
+            this.delPlayerFromBetList(bet);
+       }else{
+           this.delBetfromBetsList(bet);
+       }
+
+   }
+   delPlayerFromBetList(oldBet){
+       let {bets} = this.state;       
+       bets = bets.map((bet)=>{           
+            if (bet.name === oldBet.name && bet.match.name === oldBet.match.name){
+                const selectedItem = bet.options.selectedItem.filter(value=>{                   
+                    if (oldBet.selectedItem.selectedTeam != value.selectedTeam ||
+                        oldBet.selectedItem.selectedTeam === value.selectedTeam &&
+                        oldBet.selectedItem.page != value.page ||
+                        oldBet.selectedItem.selectedTeam === value.selectedTeam &&
+                        oldBet.selectedItem.page === value.page &&
+                        !isEqual(oldBet.selectedItem.item, value.item ))
+                        return value;
+                });
+                bet.options.selectedItem = selectedItem;
+                return bet;
+            }
+            return bet;
+        });
+        this.setState({bets});
+   }
+   delFromBTTS(oldBet){
+        let {bets} = this.state;       
+       bets = bets.filter((bet)=>{    
+            debugger       
+            if (bet.name === oldBet.name && bet.match.name === oldBet.match.name){
+                if (oldBet.options.changedTab){
+                    bet.options.changedTab = !oldBet.options.changedTab;
+                    bet.options.textTotalGoals = '';
+                    bet.options.sliderValue = 3;
+                    bet.options.selectedTab= {
+                        name: "",
+                        number: null
+                    }
+                }
+                if (oldBet.options.changedTable){
+                    bet.options.changedTable = !oldBet.options.changedTable;
+                    bet.options.selectedItem  = [];
+                    bet.options.textBTTS = '';
+                }
+                //
+                return bet;
+            }
+            return bet;
+        });
+        this.setState({bets});
+   }
     changeBlock(value){
         const sanfonaActiveItems = value.activeItems;
         this.setState({ sanfonaActiveItems });
@@ -101,8 +162,14 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.setState({buildMyOwn});
         this.props.clickHandler("edit");
     }
+    clearBets(){
+        const buildMyOwn = !this.state.buildMyOwn;
+        this.setState({bets: [], buildMyOwn, selectedTab: "legs", sanfonaActiveItems: []});
+        this.props.clickHandler("browse");
+    }
+
      render() {
-         const {matches, match, legs, sanfonaActiveItems} = this.state;
+         const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
          const renderAngle = (index, title)=>{
             let opened = false;
             for (let i=0; i< sanfonaActiveItems.length; i++){
@@ -111,19 +178,19 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                 }
             }                 
             return ((opened) ? 
-                                <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                                    {title}
-                                    <div className={s['b-angle']}>
-                                        <FaAngleDoubleUp/>
-                                    </div>  
-                                </h3>
-                                :
-                                <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                                   {title}
-                                    <div className={s['b-angle']}>
-                                        <FaAngleDoubleDown/>
-                                    </div>
-                                </h3>);            
+                        <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                            {title}
+                            <div className={s['b-angle']}>
+                                <FaAngleDoubleUp/>
+                            </div>  
+                        </h3>
+                        :
+                        <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                            {title}
+                            <div className={s['b-angle']}>
+                                <FaAngleDoubleDown/>
+                            </div>
+                        </h3>);            
          }
         return (
             <div>
@@ -151,7 +218,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                         />
                                     }
                             />
-                            <AccaPanelTabs
+                            <AccaMatchPanelTabs
                                 tabs = { [
                                         {
                                             name: "legs",
@@ -164,13 +231,18 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                 ] }
                                 selected= {this.state.selectedTab}
                                 clickHandler =  {this.handleTabClicked}
-                                legs= { this.state.legs }
+                                bets= { bets }    
+                                match={ match }                            
                             />
                             {
-                            (this.state.selectedTab==="bet") ?
-                                <div>
-                                    not
-                                </div>
+                            (this.state.selectedTab==="bet") ?                                
+                                <MatchBetsPanel
+                                    price={this.state.price}
+                                    handleBetRemoved={this.handleBetRemoved}
+                                    bets= { bets }    
+                                    match={ match } 
+                                    clearBets={this.clearBets}
+                                    />                               
                                 :
                                 <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
                                     {data.matchComponents.map((item, index) => {                               
