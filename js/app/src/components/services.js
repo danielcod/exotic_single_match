@@ -86,7 +86,7 @@ export class ExoticsAPI {
             .set('Accept', 'application/json')
             .withCredentials()
             .end(function (err, res) {
-                if (res.body !== null) {
+                if (res.body !== null && res.body.status === 'ok') {
                     handler(res.body);
                 } else {
                     alert(res.text)

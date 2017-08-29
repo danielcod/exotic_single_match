@@ -34,7 +34,7 @@ export default class MyBetList extends React.PureComponent {
                 {
                     (() => {
                         switch (bet.type) {
-                            case 'exotic_acca_winner': {
+                            case 'winners': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -42,7 +42,7 @@ export default class MyBetList extends React.PureComponent {
                                     ]
                                 )
                             }
-                            case 'exotic_acca_loser': {
+                            case 'losers': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -50,7 +50,7 @@ export default class MyBetList extends React.PureComponent {
                                     ]
                                 )
                             }
-                            case 'exotic_acca_draws': {
+                            case 'draws': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -95,14 +95,14 @@ export default class MyBetList extends React.PureComponent {
 
     getBetName(bet) {
         switch (bet.type) {
-            case "exotic_acca_winner": {
-                return "EXOTIC ACCA WINNER";
+            case "winners": {
+                return "EXOTIC WINNERS";
             }
-            case "exotic_acca_loser": {
-                return "EXOTIC ACCA LOSER";
+            case "losers": {
+                return "EXOTIC LOSERS";
             }
-            case "exotic_acca_draws": {
-                return "EXOTIC ACCA DRAW";
+            case "draws": {
+                return "EXOTIC DRAWS";
             }
         }
     }
@@ -139,14 +139,14 @@ export default class MyBetList extends React.PureComponent {
             var leg = {
                 description: bet.legs[index].match,
                 match: {
-                    kickoff: "2017-08-30 11:38:00",
+                    kickoff: "",
                     league: bet.legs[index].league,
                     name: bet.legs[index].match
                 },
                 selection: {
                     homeAway: this.getHomeaway(bet, index)
                 },
-                price: 6.87
+                price: "null"
             };
             legs.push(leg);
         }
@@ -213,15 +213,15 @@ export default class MyBetList extends React.PureComponent {
             formatString = bet.n_legs + "+ of " + bet.legs.length + " to " + (bet.n_goals <= 1 ? "just " : "");
         }
         switch (bet.type) {
-            case "exotic_acca_winner": {
+            case "winners": {
                 formatString = formatString + "win" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
                 break;
             }
-            case "exotic_acca_loser": {
+            case "losers": {
                 formatString = formatString + "lose" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
                 break;
             }
-            case "exotic_acca_draws": {
+            case "draws": {
                 formatString = formatString + "draw" + (bet.n_goals > 0 ? " with " + bet.n_goals + "+ goals" : "");
                 break;
             }
@@ -237,15 +237,15 @@ export default class MyBetList extends React.PureComponent {
             formatString = "Any " + bet.n_legs + "+ of " + bet.legs.length + " teams to " + (bet.n_goals <= 1 ? "just " : "");
         }
         switch (bet.type) {
-            case "exotic_acca_winner": {
+            case "winners": {
                 formatString += "win";
                 break;
             }
-            case "exotic_acca_loser": {
+            case "losers": {
                 formatString += "lose";
                 break;
             }
-            case "exotic_acca_draws": {
+            case "draws": {
                 formatString += "draw";
                 break;
             }
@@ -255,11 +255,11 @@ export default class MyBetList extends React.PureComponent {
 
     placedBetGoalFormatter(bet) {
         switch (bet.type) {
-            case "exotic_acca_winner":
+            case "winners":
                 return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
-            case "exotic_acca_loser":
+            case "losers":
                 return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
-            case "exotic_acca_draws":
+            case "draws":
                 return bet.n_goals > 0 ? "With " + bet.n_goals + "+ goals per team" : "";
         }
     }

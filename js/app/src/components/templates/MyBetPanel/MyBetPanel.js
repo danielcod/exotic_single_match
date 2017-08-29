@@ -21,9 +21,20 @@ export default class MyBetPanel extends React.PureComponent {
 
     componentDidMount() {
         this.props.exoticsApi.fetchBets('active', function (struct) {
-                this.setState({bets: struct});
+                this.setState({bets: this.sortLegs(struct)});
             }.bind(this)
         );
+    }
+
+    sortLegs(legs) {
+        var sortFn = function (i0, i1) {
+            if (i0.timestamp < i1.timestamp) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }.bind(this);
+        return legs.sort(sortFn);
     }
 
     handleTabClicked(tab) {

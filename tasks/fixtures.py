@@ -2,7 +2,7 @@ from tasks import *
 
 QueueName="quant"
 
-# curl "http://localhost:8080/tasks/fixtures?window=7"
+# curl "http://localhost:8080/tasks/fixtures?window=30"
 
 class IndexHandler(webapp2.RequestHandler):
 

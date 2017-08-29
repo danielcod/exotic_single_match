@@ -1,7 +1,7 @@
 export const products = [
     {
         label: "Exotic Winners",
-        name: "exotic_acca_winner",
+        name: "winners",
         description: "An Exotic Acca Winner is like a traditional acca; but not all teams have to win for it to payout, so you don't have to select all the favourites; and you can add a goals condition to improve the price!",
         legsPanel: 'MatchTeamPanel',
         betGoalsSlider: {
@@ -30,7 +30,7 @@ export const products = [
     },
     {
         label: "Exotic Losers",
-        name: "exotic_acca_loser",
+        name: "losers",
         description: "An Exotic Acca Loser is like an Exotic Acca Winner, but in reverse! This time you're picking a set of teams you expect to lose, and not all teams have to lose for you to win.",
         legsPanel: 'MatchTeamPanel',
         betGoalsSlider: {
@@ -59,7 +59,7 @@ export const products = [
     },
     {
         label: "Exotic Draws",
-        name: "exotic_acca_draws",
+        name: "draws",
         description: "An Exotic Acca Draws bet allows you to bet on the number of draws in an Acca; once again, not all of them have to come in and you can improve the price by specifying the number of goals in each game",
         legsPanel: 'MatchPanel',
         betGoalsSlider: {

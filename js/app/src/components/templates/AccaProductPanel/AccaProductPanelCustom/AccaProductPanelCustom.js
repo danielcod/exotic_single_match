@@ -171,15 +171,15 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             formatString = "Any " + this.state.bet.nLegs + "+ of " + this.state.bet.legs.length + " teams to " + (this.state.bet.nGoals <= 1 ? "just " : "");
         }
         switch (this.state.product.name) {
-            case "exotic_acca_winner": {
+            case "winners": {
                 formatString += "win";
                 break;
             }
-            case "exotic_acca_loser": {
+            case "losers": {
                 formatString += "lose";
                 break;
             }
-            case "exotic_acca_draws": {
+            case "draws": {
                 formatString += "draw";
                 break;
             }
@@ -189,11 +189,11 @@ export default class AccaProductPanelCustom extends React.PureComponent {
 
     placedBetGoalFormatter() {
         switch (this.state.product.name) {
-            case "exotic_acca_winner":
+            case "winners":
                 return this.state.bet.nGoals > 1 ? "By " + this.state.bet.nGoals + "+ goals" : "";
-            case "exotic_acca_loser":
+            case "losers":
                 return this.state.bet.nGoals > 1 ? "By " + this.state.bet.nGoals + "+ goals" : "";
-            case "exotic_acca_draws":
+            case "draws":
                 return this.state.bet.nGoals > 0 ? "With " + this.state.bet.nGoals + "+ goals per team" : "";
         }
     }

@@ -1,15 +1,13 @@
 from controllers.api import *
 import json
 
-Winner="exotic_acca_winner"
-
-Loser="exotic_acca_loser"
-
-Draws="exotic_acca_draws"
+Winners="winners"
+Losers="losers"
+Draws="draws"
+Overs="overs"
+Unders="unders"
 
 Win, Lose, Draw = "win", "lose", "draw"
-
-GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
 MaxCoverage=5000
 
@@ -17,92 +15,11 @@ PriceProbLimit=0.0001
 
 Seed, Paths = 13, 5000
 
-LegErrMsg="'%s' is invalid goals condition for match '%s' status"
-
-def update_bet_params(bet):
-    bet["legs_condition"]=bet["goals_condition"]=GTE
-    if bet["type"]==Winner:
-        bet["result_condition"]=Win
-    elif bet["type"]==Loser:
-        bet["result_condition"]=Lose
-    elif bet["type"]==Draws:
-        bet["result_condition"]=Draw
-    else:
-        raise RuntimeError("Bet type not found")
-            
-def init_leg_filter(bet):
-    def filterfn(score):
-        if bet["result_condition"]==Win:
-            if bet["goals_condition"]==GT:                
-                return score[0]-score[1] > bet["n_goals"]
-            elif bet["goals_condition"]==GTE:                
-                return score[0]-score[1] >= bet["n_goals"]
-            elif bet["goals_condition"]==LT:
-                return score[0]-score[1] < bet["n_goals"]
-            elif bet["goals_condition"]==LTE:
-                return score[0]-score[1] <= bet["n_goals"]
-            elif bet["goals_condition"]==EQ:                
-                return (score[0]-score[1])==bet["n_goals"]
-            else:
-                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Win))
-        elif bet["result_condition"]==Lose:
-            if bet["goals_condition"]==GT:
-                return score[1]-score[0] > bet["n_goals"]
-            elif bet["goals_condition"]==GTE:
-                return score[1]-score[0] >= bet["n_goals"]
-            elif bet["goals_condition"]==LT:
-                return score[1]-score[0] < bet["n_goals"]
-            elif bet["goals_condition"]==LTE:
-                return score[1]-score[0] <= bet["n_goals"]
-            elif bet["goals_condition"]==EQ:
-                return (score[1]-score[0])==bet["n_goals"]
-            else:
-                raise RuntimeError(LegErrMsg % (bet["goals_condition"], Lose))
-        elif bet["result_condition"]==Draw:
-            if bet["goals_condition"]==GT:
-                return (score[0]==score[1]) and (score[0] > bet["n_goals"])
-            elif bet["goals_condition"]==GTE:
-                return (score[0]==score[1]) and (score[0] >= bet["n_goals"])
-            elif bet["goals_condition"]==LT:
-                return (score[0]==score[1]) and (score[0] < bet["n_goals"])
-            elif bet["goals_condition"]==LTE:
-                return (score[0]==score[1]) and (score[0] <= bet["n_goals"])
-            elif bet["goals_condition"]==EQ:
-                return (score[0]==score[1]) and (score[0] == bet["n_goals"])
-            else:
-                raise RuntimeError(errmsg % (bet["goals_condition"], Draw))
-        else:
-            raise RuntimeError("Bet result not found/recognised")
-    return filterfn
-
-def init_bet_filterfn(bet):
-    def bool_to_int(value):
-        return 1 if value else 0
-    def filterfn(scores):
-        legfilterfn=init_leg_filter(bet)
-        outcomes=[legfilterfn(scores[leg["selection"]])
-                  for leg in bet["legs"]]
-        n=len([outcome for outcome in outcomes
-               if outcome])
-        if bet["legs_condition"]==GT:
-            return bool_to_int(n > bet["n_legs"])
-        elif bet["legs_condition"]==GTE:
-            return bool_to_int(n >= bet["n_legs"])
-        elif bet["legs_condition"]==LT:
-            return bool_to_int(n < bet["n_legs"])
-        elif bet["legs_condition"]==LTE:
-            return bool_to_int(n <= bet["n_legs"])
-        elif bet["legs_condition"]==EQ:
-            return bool_to_int(n==bet["n_legs"])
-        else:
-            raise RuntimeError("%s is invalid legs condition" % bet["legs_condition"])
-    return filterfn
-
 class BetValidator:
 
     def validate_type(self, bet, errors):
-        if bet["type"] not in [Winner, Loser, Draws]:
-            error.append("Bet type not found")
+        if bet["type"] not in [Winners, Losers, Draws]:
+            errors.append("Bet type not found")
         
     def validate_legs(self, bet, matches, errors):
         matches=dict([("%s/%s" % (match["league"], match["name"]), match)
@@ -172,11 +89,31 @@ class BetPricer:
         for fixture in fixtures:
             grid=CSGrid(fixture["dc_grid"])
             for i, score in enumerate(grid.simulate(paths, seed)):
-                teamnames=fixture["name"].split(" vs ")
-                items[i][teamnames[0]]=(score[0], score[1])
-                items[i][teamnames[1]]=(score[1], score[0])
+                items[i][fixture["name"]]=score
         return items
-            
+                
+    def leg_filterfn(self, bet, leg, score):
+        if bet["type"] in [Winners, Losers, Draws]:
+            if bet["type"]==Winners:
+                teamnames=leg["match"].split(" vs ")
+                i=teamnames.index(leg["selection"])
+                j=1-i
+                return int(score[i]-score[j] >= bet["n_goals"])
+            elif bet["type"]==Losers:
+                teamnames=leg["match"].split(" vs ")
+                i=teamnames.index(leg["selection"])
+                j=1-i
+                return int(score[j]-score[i] >= bet["n_goals"])
+            else: # Draws
+                return int((score[0]==score[1]) and (score[0] >= bet["n_goals"]))
+        elif bet["type"] in [Overs, Unders]:
+            if bet["type"]==Overs:
+                return int(score[0]+score[1]) > bet["n_goals"]
+            elif bet["type"]==Unders:
+                return int(score[0]+score[1]) < bet["n_goals"]
+        else:
+            raise RuntimeError("Bet result not found/recognised")
+
     def calc_probability(self, bet, allmatches, paths=Paths, seed=Seed):
         allmatches=dict([(match["name"], match)
                          for match in allmatches])
@@ -186,11 +123,14 @@ class BetPricer:
                 raise RuntimeError("%s not found" % leg["match"])
             matches.append(allmatches[leg["match"]])
         samples=self.simulate_match_teams(matches, paths, seed)
-        filterfn=init_bet_filterfn(bet)
+        def filterfn(scores):
+            values=[self.leg_filterfn(bet, leg, scores[leg["match"]])
+                    for leg in bet["legs"]]
+            return int(sum(values) >= bet["n_legs"])   
         return sum([filterfn(sample)
                     for sample in samples])/float(paths)
     
-# curl -X POST http://localhost:8080/api/exotic_accas/price -d @dev/exotic_acca_winner.json
+# curl -X POST http://localhost:8080/api/exotic_accas/price -d @dev/winners.json
 
 class PriceHandler(webapp2.RequestHandler):
                 
@@ -202,14 +142,13 @@ class PriceHandler(webapp2.RequestHandler):
         self.response.headers['Access-Control-Allow-Credentials'] = 'true'
         self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
         self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET'
-        update_bet_params(bet)
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
         price=1/float(max(limit, prob))
         return {"price": price}
 
-# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/api/exotic_accas/create -d @dev/exotic_acca_winner.json
+# curl -X POST -H "Cookie: ioSport=Hufton123;" http://localhost:8080/api/exotic_accas/create -d @dev/winners.json
 
 class CreateHandler(webapp2.RequestHandler):
 
@@ -231,20 +170,15 @@ class CreateHandler(webapp2.RequestHandler):
         self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
         self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET'
         userid=kwargs["user_id"]
-        update_bet_params(bet)
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
         logging.info(prob)
         logging.info(1/float(bet["price"]))
-        #if prob > 1/float(bet["price"]):
-        #    raise RuntimeError("Bet not accepted")
+        if prob > 1/float(bet["price"]):
+            raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
-        for attr in ["result_condition",
-                     "goals_condition",
-                     "legs_condition"]:
-            bet.pop(attr)
         kickoffs=self.filter_kickoffs(bet, matches)
         placedbet=ExoticAcca(userid=userid,
                              params=json.dumps(bet),
