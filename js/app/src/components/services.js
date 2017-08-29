@@ -10,7 +10,6 @@ export class ExoticsAPI {
         this.debug = debug || false;
         this.cache = {};
         this.errHandler = errHandler;
-
         document.cookie = "ioSport=Hufton123";
     }
 
@@ -20,11 +19,11 @@ export class ExoticsAPI {
             if (this.debug) {
                 console.log("Fetching " + key);
             }
-
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
+                xhrFields: {withCredentials: true},
                 success: function (struct) {
                     this.cache[key] = struct;
                     handler(struct);
@@ -39,24 +38,35 @@ export class ExoticsAPI {
         }
     };
 
+    httpGetForList = function (url, handler) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            xhrFields: {withCredentials: true},
+            success: function (struct) {
+                handler(struct);
+            }.bind(this),
+            error: this.errHandler
+        })
+    };
+
     httpPost = function (url, payload, handler) {
         var key = url + " " + JSON.stringify(payload)
         if (this.cache[key] == undefined) {
             if (this.debug) {
                 console.log("Fetching " + key);
             }
-
             var that = this;
-
             request
                 .post(url)
                 .send(JSON.stringify(payload))
                 .set('Accept', 'application/json')
+                .withCredentials()
                 .end(function (err, res) {
                     that.cache[key] = struct;
                     handler(res.body);
                 });
-
         } else {
             if (this.debug) {
                 console.log("Serving " + key + " from cache");
@@ -66,7 +76,6 @@ export class ExoticsAPI {
     };
 
     httpPostForCreate = function (url, payload, handler) {
-
         var key = url + " " + JSON.stringify(payload)
         if (this.debug) {
             console.log("Fetching " + key);
@@ -77,30 +86,34 @@ export class ExoticsAPI {
             .set('Accept', 'application/json')
             .withCredentials()
             .end(function (err, res) {
-                handler(res.body);
+                if (res.body !== null) {
+                    handler(res.body);
+                } else {
+                    alert(res.text)
+                }
             });
     };
 
     fetchMatches = function (handler) {
         var url = "/api/fixtures";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://127.0.0.1:8080/api/fixtures";
+            url = "http://localhost:8080/api/fixtures";
         }
         this.httpGet(url, handler);
     };
 
-    fetchBets = function (handler) {
-        var url = "/api/exotic_accas/list?status=active";
+    fetchBets = function (status, handler) {
+        var url = "/api/exotic_accas/list?status=" + status;
         if (process.env.NODE_ENV == 'development') {
-            url = "http://127.0.0.1:8080/api/exotic_accas/list?status=active";
+            url = "http://localhost:8080/api/exotic_accas/list?status=" + status;
         }
-        this.httpGet(url, handler);
+        this.httpGetForList(url, handler);
     };
 
     fetchPrice = function (body, handler) {
         var url = "/api/exotic_accas/price";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://127.0.0.1:8080/api/exotic_accas/price";
+            url = "http://localhost:8080/api/exotic_accas/price";
         }
         this.httpPost(url, body, handler);
     };
@@ -108,7 +121,7 @@ export class ExoticsAPI {
     placeBet = function (body, handler) {
         var url = "/api/exotic_accas/create";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://127.0.0.1:8080//api/exotic_accas/create";
+            url = "http://localhost:8080/api/exotic_accas/create";
         }
         this.httpPostForCreate(url, body, handler);
     };

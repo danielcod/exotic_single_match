@@ -5,7 +5,6 @@ import AppTab from './AppTab';
 import AccaProductPanel from '../../../templates/AccaProductPanel';
 import MyBetPanel from '../../../templates/MyBetPanel';
 import * as data from '../../../products';
-import * as bet from '../../../bet';
 import * as list from '../../../list';
 import * as faq from '../../../faq';
 
@@ -45,7 +44,7 @@ export default class AppStage extends React.PureComponent {
             case "match":
                 return (
                     <div style={{textAlign: "center"}}>Coming soon</div>
-                )
+                );
             case "exotic":
                 return (
                     <AccaProductPanel
@@ -56,12 +55,11 @@ export default class AppStage extends React.PureComponent {
                         list={list.items}
                         clickHandler={this.handleStageChanged}
                     />
-                )
+                );
             case "bets":
                 return (
                     <MyBetPanel
                         exoticsApi={this.props.exoticsApi}
-                        mybets={bet.bets}
                         faqs={faq.faqs}
                         clickHandler={this.handleStageChanged}
                     />

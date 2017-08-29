@@ -14,9 +14,8 @@ export default class MyBetList extends React.PureComponent {
             activeOpenKey: "",
             activeSettledKey: ""
         };
-        bindAll(this, ['getHeader', 'getBetDetail', 'placedBetHeaderTextFormatter', 'placedBetTextFormatter',
-            'placedBetGoalFormatter', 'getLegsFromBet', 'formatCurrentPrice', '_setSelectedItem',
-            '_setExpandedState', '_setCollapsedState', 'getFaqHeader', 'getFaqDetail']);
+        bindAll(this, ['getHeader', 'getBetDetail', 'getLegsFromBet', 'formatCurrentPrice',
+            '_setSelectedItem', '_setExpandedState', '_setCollapsedState']);
     }
 
     getHeader(bet, expanded) {
@@ -34,8 +33,8 @@ export default class MyBetList extends React.PureComponent {
                 }
                 {
                     (() => {
-                        switch (bet.betType) {
-                            case 'Winners': {
+                        switch (bet.type) {
+                            case 'exotic_acca_winner': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -43,7 +42,7 @@ export default class MyBetList extends React.PureComponent {
                                     ]
                                 )
                             }
-                            case 'Losers': {
+                            case 'exotic_acca_loser': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -51,7 +50,7 @@ export default class MyBetList extends React.PureComponent {
                                     ]
                                 )
                             }
-                            case 'Draws': {
+                            case 'exotic_acca_draws': {
                                 return (
                                     [
                                         <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
@@ -82,7 +81,6 @@ export default class MyBetList extends React.PureComponent {
                                     <span className="glyphicon glyphicon-triangle-bottom glyph-background">
                                         <span className="inner"></span>
                                     </span>
-
                             }
                         </td>
                         <td>
@@ -95,24 +93,136 @@ export default class MyBetList extends React.PureComponent {
         )
     }
 
+    getBetName(bet) {
+        switch (bet.type) {
+            case "exotic_acca_winner": {
+                return "EXOTIC ACCA WINNER";
+            }
+            case "exotic_acca_loser": {
+                return "EXOTIC ACCA LOSER";
+            }
+            case "exotic_acca_draws": {
+                return "EXOTIC ACCA DRAW";
+            }
+        }
+    }
+
+    getHomeaway(bet, index) {
+        var teamNames = bet.legs[index].match.split(" vs ");
+        if (teamNames[0] === bet.legs[index].selection) {
+            return "home";
+        } else {
+            return "away";
+        }
+    }
+
+    getCurrentTimeFormatter(betDate) {
+        var dt = new Date(betDate);
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var month = monthNames[dt.getMonth()];
+        var day = dt.getDate().toString();
+        var hour = dt.getHours().toString();
+        var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
+        var mid = dt.getHours() >= 12 ? "pm" : "am";
+        return <span
+            className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
+    }
+
+    getLegsFromBet(bet) {
+        var legs = [];
+        for (var index in bet.legs) {
+            var leg = {
+                description: bet.legs[index].match,
+                match: {
+                    kickoff: "2017-08-30 11:38:00",
+                    league: bet.legs[index].league,
+                    name: bet.legs[index].match
+                },
+                selection: {
+                    homeAway: this.getHomeaway(bet, index)
+                },
+                price: 6.87
+            };
+            legs.push(leg);
+        }
+        return legs;
+    }
+
+    getBetDetail(bet) {
+        return (
+            <div className="bet-confirm-container">
+                <div className="form-group">
+                    <h3 className="bet-placed-product">
+                        {this.getBetName(bet)}
+                    </h3>
+                </div>
+                <div className="form-group">
+                    <div className="bet-goal">
+                        <span>{this.placedBetTextFormatter(bet)}</span>
+                        <span>{this.placedBetGoalFormatter(bet)}</span>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <div className="bet-legs">
+                        <AccaLegTable
+                            clickHandler={null}
+                            legs={this.getLegsFromBet(bet)}
+                            accaProductPanelState={"result"}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <h3 className="bet-placed-price">
+                        €{bet.size} @ <span>{bet.price}</span>
+                    </h3>
+                </div>
+                <div className="form-group">
+                    <div className="bet-placed-result">
+                        <span>To win € {this.formatCurrentPrice(bet.size * bet.price)}</span>
+                        <span>Result = {bet.betResult}</span>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <a className="site-url" href="http://www.DummyURL.com">www.DummyURL.com</a>
+                    {this.getCurrentTimeFormatter(bet.timestamp)}
+                </div>
+            </div>
+        )
+    }
+
+    getFaqDetail(faq) {
+        return (
+            <div className="faq-container">
+                <div className="form-group">
+                    {faq.content}
+                </div>
+            </div>
+        )
+    }
+
     placedBetHeaderTextFormatter(bet) {
         var formatString;
-        if (bet.betCondition.nLegs === bet.betCondition.legs) {
-            formatString = "All " + bet.betCondition.nLegs + " to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        if (bet.n_legs === bet.legs.length) {
+            formatString = "All " + bet.n_legs + " to " + (bet.n_goals <= 1 ? "just " : "");
         } else {
-            formatString = bet.betCondition.nLegs + "+ of " + bet.betCondition.legs + " to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+            formatString = bet.n_legs + "+ of " + bet.legs.length + " to " + (bet.n_goals <= 1 ? "just " : "");
         }
-        switch (bet.betType) {
-            case "Winners": {
-                formatString = formatString + "win" + (bet.betCondition.nGoals > 1 ? " by " + bet.betCondition.nGoals + "+ goals" : "");
+        switch (bet.type) {
+            case "exotic_acca_winner": {
+                formatString = formatString + "win" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
                 break;
             }
-            case "Losers": {
-                formatString = formatString + "lose" + (bet.betCondition.nGoals > 1 ? " by " + bet.betCondition.nGoals + "+ goals" : "");
+            case "exotic_acca_loser": {
+                formatString = formatString + "lose" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
                 break;
             }
-            case "Draws": {
-                formatString = formatString + "draw" + (bet.betCondition.nGoals > 0 ? " with " + bet.betCondition.nGoals + "+ goals" : "");
+            case "exotic_acca_draws": {
+                formatString = formatString + "draw" + (bet.n_goals > 0 ? " with " + bet.n_goals + "+ goals" : "");
                 break;
             }
         }
@@ -121,21 +231,21 @@ export default class MyBetList extends React.PureComponent {
 
     placedBetTextFormatter(bet) {
         var formatString;
-        if (bet.betCondition.nLegs === bet.betCondition.legs) {
-            formatString = "All " + bet.betCondition.nLegs + " teams to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+        if (bet.n_legs === bet.legs.length) {
+            formatString = "All " + bet.n_legs + " teams to " + (bet.n_goals <= 1 ? "just " : "");
         } else {
-            formatString = "Any " + bet.betCondition.nLegs + "+ of " + bet.betCondition.legs + " teams to " + (bet.betCondition.nGoals <= 1 ? "just " : "");
+            formatString = "Any " + bet.n_legs + "+ of " + bet.legs.length + " teams to " + (bet.n_goals <= 1 ? "just " : "");
         }
-        switch (bet.betType) {
-            case "Winners": {
+        switch (bet.type) {
+            case "exotic_acca_winner": {
                 formatString += "win";
                 break;
             }
-            case "Losers": {
+            case "exotic_acca_loser": {
                 formatString += "lose";
                 break;
             }
-            case "Draws": {
+            case "exotic_acca_draws": {
                 formatString += "draw";
                 break;
             }
@@ -144,32 +254,14 @@ export default class MyBetList extends React.PureComponent {
     }
 
     placedBetGoalFormatter(bet) {
-        switch (bet.betType) {
-            case "Winners":
-                return bet.betCondition.nGoals > 1 ? "By " + bet.betCondition.nGoals + "+ goals" : "";
-            case "Losers":
-                return bet.betCondition.nGoals > 1 ? "By " + bet.betCondition.nGoals + "+ goals" : "";
-            case "Draws":
-                return bet.betCondition.nGoals > 0 ? "With " + bet.betCondition.nGoals + "+ goals per team" : "";
+        switch (bet.type) {
+            case "exotic_acca_winner":
+                return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
+            case "exotic_acca_loser":
+                return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
+            case "exotic_acca_draws":
+                return bet.n_goals > 0 ? "With " + bet.n_goals + "+ goals per team" : "";
         }
-    }
-
-    getLegsFromBet(bet) {
-        var legs = new Array();
-        for (var index in bet.betLegs) {
-            var leg = {
-                description: bet.betLegs[index].name,
-                match: {
-                    kickoff: bet.betLegs[index].kickoff,
-                    league: bet.betLeague,
-                    name: bet.betLegs[index].name
-                },
-                selection: bet.betLegs[index].selection,
-                price: bet.betLegs[index].price
-            };
-            legs.push(leg);
-        }
-        return legs;
     }
 
     formatPrice(value) {
@@ -193,75 +285,6 @@ export default class MyBetList extends React.PureComponent {
         } else {
             return this.formatPrice(price);
         }
-    }
-
-    getCurrentTimeFormatter(betDate) {
-        var dt = new Date(betDate);
-        var monthNames = [
-            "January", "February", "March",
-            "April", "May", "June", "July",
-            "August", "September", "October",
-            "November", "December"
-        ];
-        var month = monthNames[dt.getMonth()];
-        var day = dt.getDate().toString();
-        var hour = dt.getHours().toString();
-        var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
-        var mid = dt.getHours() >= 12 ? "pm" : "am";
-        return <span
-            className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
-    }
-
-    getBetDetail(bet) {
-        return (
-            <div className="bet-confirm-container">
-                <div className="form-group">
-                    <h3 className="bet-placed-product">
-                        {bet.betName + " - " + bet.betType}
-                    </h3>
-                </div>
-                <div className="form-group">
-                    <div className="bet-goal">
-                        <span>{this.placedBetTextFormatter(bet)}</span>
-                        <span>{this.placedBetGoalFormatter(bet)}</span>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="bet-legs">
-                        <AccaLegTable
-                            clickHandler={null}
-                            legs={this.getLegsFromBet(bet)}
-                            accaProductPanelState={"result"}
-                        />
-                    </div>
-                </div>
-                <div className="form-group">
-                    <h3 className="bet-placed-price">
-                        €{bet.betStake} @ <span>{bet.betPrice}</span>
-                    </h3>
-                </div>
-                <div className="form-group">
-                    <div className="bet-placed-result">
-                        <span>To win € {this.formatCurrentPrice(bet.betStake * bet.betPrice)}</span>
-                        <span>Result = {bet.betResult}</span>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <a className="site-url" href="http://www.DummyURL.com">www.DummyURL.com</a>
-                    {this.getCurrentTimeFormatter(bet.betTime)}
-                </div>
-            </div>
-        )
-    }
-
-    getFaqDetail(faq) {
-        return (
-            <div className="faq-container">
-                <div className="form-group">
-                    {faq.content}
-                </div>
-            </div>
-        )
     }
 
     _setSelectedItem(activeKey) {

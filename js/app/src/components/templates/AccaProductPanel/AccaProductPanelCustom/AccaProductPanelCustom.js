@@ -252,7 +252,6 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                     if (state.priceId == priceId) {
                         const price = struct.price;
                         this.setState({price});
-
                     }
                 }.bind(this));
             }.bind(this), 500);
@@ -290,11 +289,10 @@ export default class AccaProductPanelCustom extends React.PureComponent {
             size: parseFloat(parseFloat(this.state.stake).toFixed(2)),
             bust: Math.round(Math.random() * 1e10)
         };
-        this.props.exoticsApi.placeBet(struct, function(struct){
-            console.log("Response from create api");
-            console.log(struct);
-            this.handleStateChanged("place");
-        });
+        this.props.exoticsApi.placeBet(struct, function (struct) {
+                this.handleStateChanged("place");
+            }.bind(this)
+        );
     }
 
     getLegSelectorTabContent() {

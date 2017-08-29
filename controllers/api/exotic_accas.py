@@ -11,7 +11,7 @@ Win, Lose, Draw = "win", "lose", "draw"
 
 GT, GTE, LT, LTE, EQ = ">", ">=", "<", "<=", "="
 
-MaxCoverage=100
+MaxCoverage=5000
 
 PriceProbLimit=0.0001
 
@@ -198,9 +198,10 @@ class PriceHandler(webapp2.RequestHandler):
     @emit_json
     def post(self, bet, limit=PriceProbLimit):
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.headers['Access-Control-Allow-Origin'] = '*'
+        self.response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        self.response.headers['Access-Control-Allow-Credentials'] = 'true'
         self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-        self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE'
+        self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET'
         update_bet_params(bet)
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
@@ -224,6 +225,11 @@ class CreateHandler(webapp2.RequestHandler):
     @parse_json_body
     @emit_json
     def post(self, bet, maxcoverage=MaxCoverage, *args, **kwargs):
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        self.response.headers['Access-Control-Allow-Credentials'] = 'true'
+        self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET'
         userid=kwargs["user_id"]
         update_bet_params(bet)
         matches=load_fixtures()
@@ -231,8 +237,8 @@ class CreateHandler(webapp2.RequestHandler):
         prob=BetPricer().calc_probability(bet, matches)
         logging.info(prob)
         logging.info(1/float(bet["price"]))
-        if prob > 1/float(bet["price"]):
-            raise RuntimeError("Bet not accepted")
+        #if prob > 1/float(bet["price"]):
+        #    raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
         for attr in ["result_condition",
@@ -296,6 +302,11 @@ class ListHandler(webapp2.RequestHandler):
     @validate_query({'status': '(active)|(settled)'})
     @emit_json
     def get(self, *args, **kwargs):
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        self.response.headers['Access-Control-Allow-Credentials'] = 'true'
+        self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET'
         userid=kwargs["user_id"]
         status=self.request.get("status")
         results=dict([("%s/%s" % (result["league"], result["name"]), result)
