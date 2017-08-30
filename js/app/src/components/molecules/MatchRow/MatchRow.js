@@ -73,16 +73,16 @@ export default class MatchRow extends React.PureComponent {
     render() {
         return (
             <tr className="text-center">
-                <td>
+                <td className="date">
                     <DateTimeCellCustom
                         value={this.props.match.kickoff}
                         type="datetime"
                     />
-                    <div style={{display: "table-cell", width: "100%"}}>
-                        <span className='match-name'>
-                            {this.props.match.name}
-                        </span>
-                    </div>
+                </td>
+                <td className="fixture">
+                    <span className='match-name'>
+                        {this.props.match.name}
+                    </span>
                 </td>
                 <td>
                     <span style={{color: '#777'}}>

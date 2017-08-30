@@ -298,15 +298,24 @@ export default class AccaProductPanelCustom extends React.PureComponent {
     getLegSelectorTabContent() {
         if (this.state.product.legsPanel === 'MatchPanel') {
             return (
-                <MatchPanel
-                    exoticsApi={this.props.exoticsApi}
-                    legs={this.state.bet.legs}
-                    paginator={this.props.legsPaginator}
-                    clickHandler={{
-                        add: this.handleLegAdded,
-                        remove: this.handleLegRemoved
-                    }}
-                />)
+                <div>
+                    <MatchPanel
+                        exoticsApi={this.props.exoticsApi}
+                        legs={this.state.bet.legs}
+                        paginator={this.props.legsPaginator}
+                        clickHandler={{
+                            add: this.handleLegAdded,
+                            remove: this.handleLegRemoved
+                        }}
+                    />
+                    <div className="main-menu-container">
+                        <button
+                            className="btn btn-primary main-menu-btn"
+                            onClick={() => this.props.clickHandler("list")}>MAIN MENU
+                        </button>
+                    </div>
+                </div>
+            )
         } else {
             return (
                 <div>
@@ -345,6 +354,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                 legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
                                 clickHandler={this.handleLegRemoved}
                                 accaProductPanelState="custom"
+                                price={true}
                             />
                             {
                                 this.state.bet.legs.length > this.props.betLegsPaginator.rows ?
@@ -485,7 +495,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                         </div>
                         <div className="form-group">
                             <h3 className="bet-placed-product">
-                                {this.state.product.label}
+                                {this.state.product.label + " acca"}
                             </h3>
                         </div>
                         <div className="form-group">
@@ -508,6 +518,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                                     clickHandler={this.handleLegRemoved}
                                     legs={this.applyPaginatorWindow(this.sortLegs(this.state.bet.legs))}
                                     accaProductPanelState={this.state.accaProductPanelState}
+                                    price={false}
                                 />
                             </div>
                         </div>
@@ -518,7 +529,7 @@ export default class AccaProductPanelCustom extends React.PureComponent {
                         </div>
                         <div className="form-group">
                             <div className="bet-placed-result">
-                                <span>To win € {this.formatCurrentPrice(this.state.stake * this.state.price)}</span>
+                                <span>To Return € {this.formatCurrentPrice(this.state.stake * this.state.price)}</span>
                                 <span>Result = ?</span>
                             </div>
                         </div>

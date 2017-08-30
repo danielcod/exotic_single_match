@@ -3,7 +3,7 @@ import AccaLegRow from '../../molecules/AccaLegRow';
 
 export default class AccaLegTable extends React.PureComponent {
     render() {
-        const {accaProductPanelState, legs, clickHandler} = this.props;
+        const {price, accaProductPanelState, legs, clickHandler} = this.props;
         return (
             <table className="table table-condensed table-striped  text-center table-bordered">
                 <tbody>
@@ -13,6 +13,7 @@ export default class AccaLegTable extends React.PureComponent {
                             key={key}
                             clickHandler={clickHandler}
                             accaProductPanelState={accaProductPanelState}
+                            price={price}
                             leg={leg}/>)
                     })
                 }

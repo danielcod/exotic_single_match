@@ -48,11 +48,16 @@ export default class AccaLegRow extends React.PureComponent {
                 <td className="leg-row-descr">
                     {this.formatDescription(this.props.leg)}
                 </td>
-                <td>
-                    <span className="text-muted">
-                        {this.formatPrice(this.props.leg.price)}
-                    </span>
-                </td>
+                {
+                    this.props.price === true ?
+                        <td>
+                            <span className="text-muted">
+                                {this.formatPrice(this.props.leg.price)}
+                            </span>
+                        </td>
+                        :
+                        null
+                }
                 {
                     this.props.accaProductPanelState == "custom" ?
                         <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>

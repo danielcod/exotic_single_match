@@ -23,12 +23,6 @@ export default class DateTimeCellCustom extends React.PureComponent {
                         {DU.DateUtils.formatRemainedDays(today, date)}
                     </span>)
         }
-        return <div
-            style={{
-                display: "table-cell",
-                whiteSpace: "nowrap",
-                verticalAlign: "middle",
-                paddingRight: "5px"
-            }}>{result}</div>;
+        return <div>{result}</div>;
     }
 }

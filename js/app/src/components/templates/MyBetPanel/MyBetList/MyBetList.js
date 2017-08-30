@@ -96,13 +96,13 @@ export default class MyBetList extends React.PureComponent {
     getBetName(bet) {
         switch (bet.type) {
             case "winners": {
-                return "EXOTIC WINNERS";
+                return "EXOTIC WINNERS ACCA";
             }
             case "losers": {
-                return "EXOTIC LOSERS";
+                return "EXOTIC LOSERS ACCA";
             }
             case "draws": {
-                return "EXOTIC DRAWS";
+                return "EXOTIC DRAWS ACCA";
             }
         }
     }
@@ -145,8 +145,7 @@ export default class MyBetList extends React.PureComponent {
                 },
                 selection: {
                     homeAway: this.getHomeaway(bet, index)
-                },
-                price: "null"
+                }
             };
             legs.push(leg);
         }
@@ -173,6 +172,7 @@ export default class MyBetList extends React.PureComponent {
                             clickHandler={null}
                             legs={this.getLegsFromBet(bet)}
                             accaProductPanelState={"result"}
+                            price={false}
                         />
                     </div>
                 </div>
@@ -183,7 +183,7 @@ export default class MyBetList extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <div className="bet-placed-result">
-                        <span>To win € {this.formatCurrentPrice(bet.size * bet.price)}</span>
+                        <span>To Return € {this.formatCurrentPrice(bet.size * bet.price)}</span>
                         <span>Result = {bet.betResult}</span>
                     </div>
                 </div>

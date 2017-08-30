@@ -98,11 +98,13 @@ export default class MatchTeamPanel extends React.PureComponent {
                                     changeHandler={this.handleLeagueChanged}
                                 />
                             </div>
-                            <MatchTeamTable
-                                matches={this.applyPaginatorWindow(this.filterMatches(matches))}
-                                legs={this.props.legs}
-                                clickHandler={this.props.clickHandler}
-                            />
+                            <div className="match-table-container">
+                                <MatchTeamTable
+                                    matches={this.applyPaginatorWindow(this.filterMatches(matches))}
+                                    legs={this.props.legs}
+                                    clickHandler={this.props.clickHandler}
+                                />
+                            </div>
                             {
                                 this.filterMatches(matches).length > this.props.paginator.rows ?
                                     <MyPaginator

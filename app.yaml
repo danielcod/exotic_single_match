@@ -20,7 +20,7 @@ skip_files:
 - ^dev
 - ^fabfile.py
 - ^README
-#- ^tmp
+- ^tmp
 - ^\.git/.*$
 - ^\.idea/.*$
 - ^js/app/node_modules

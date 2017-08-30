@@ -173,10 +173,8 @@ class CreateHandler(webapp2.RequestHandler):
         matches=load_fixtures()
         BetValidator().validate_bet(bet, matches)
         prob=BetPricer().calc_probability(bet, matches)
-        logging.info(prob)
-        logging.info(1/float(bet["price"]))
-        if prob > 1/float(bet["price"]):
-            raise RuntimeError("Bet not accepted")
+        #if prob > 1/float(bet["price"]):
+        #    raise RuntimeError("Bet not accepted")
         if bet["size"]*bet["price"] > maxcoverage:
             raise RuntimeError("Bet not accepted")
         kickoffs=self.filter_kickoffs(bet, matches)
