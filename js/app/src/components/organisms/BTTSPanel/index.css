@@ -1,6 +1,7 @@
 .wrap-mybettab{
     text-align: center;
     margin: 8px 0 16px;
+    color: #fff;
 }
 .title-mybettab{
     margin-bottom: 8px;
@@ -17,4 +18,8 @@
 }
 .output-block{
     margin-bottom: 24px;
+}
+.price{
+    font-size: 1.4em;
+    color: #d99c41;
 }

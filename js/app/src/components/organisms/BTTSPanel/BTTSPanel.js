@@ -14,7 +14,7 @@ import classNames from 'classnames';
 export default class BTTSPanel extends React.PureComponent {
         constructor(props){
         super(props);
-        bindAll(this, ['handleTabClicked',   'formatText', 'onChangeSlider',
+        bindAll(this, ['handleTabClicked',  'onChangeSlider',
                         'changeStateByTab', 'setToParrenState', 'handleCancel']);
         let bet = this.getCurrentBet(this.props); 
         if (isEmpty(bet)) bet = this.initMatchResult();
@@ -55,7 +55,7 @@ export default class BTTSPanel extends React.PureComponent {
                 changedTab: null,
                 selectedItem: [],
                 priceBTTS: 1.2,
-                priceTotalGoals: 3.2
+                priceTotalGoals: 3.2,                
         }}
     }
     setToParrenState(){       
@@ -84,10 +84,10 @@ export default class BTTSPanel extends React.PureComponent {
          const bet  = this.getCurrentBet(props);
          this.props.delBetfromBetsList(bet);        
     }
-    changeStateByTab(row, column){
+    changeStateByTab(row, column, priceBTTS){
         const selectedItem =  [row, column];
         const textBTTS = formatBTTSText(row, column);
-        this.setState({selectedItem, changedTable: true, textBTTS});    
+        this.setState({selectedItem, changedTable: true, textBTTS, priceBTTS});    
         setTimeout(()=> this.setToParrenState(), 0);
     }
     handleTabClicked(tab) {
@@ -117,20 +117,19 @@ export default class BTTSPanel extends React.PureComponent {
         }else{
             this.setState({ sliderValue });               
         }
-    }
-   formatText(){
-       
-   }
+    }   
     render(){        
         const firstTeam = this.props.match.name.split(' vs ')[0];
         const secondTeam = this.props.match.name.split(' vs ')[1];
         const toogleValue = this.state.toogleValue;
         const  {sliderValue} = this.state;  
+        const  {match} = this.props;  
         return(
             <div>
                 <BTTSTable
                     changeStateByTab = {this.changeStateByTab}
                     selectedItem= {this.state.selectedItem}
+                    match = {match}
                 />
                 <div className={s['wrap-mybettab']}>
                     <div className={s['title-mybettab']}>

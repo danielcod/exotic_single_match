@@ -6,9 +6,11 @@ import * as s from './index.css';
 
 export default class PlayerCardsTable extends React.PureComponent {
     render(){
-        const { selectedItem } = this.props;
+        const { selectedItem, match } = this.props;
         const   row = selectedItem[0], 
                 column = selectedItem[1];
+        let BTTS = {};
+        if (match) BTTS = match.BTTS;
         return(
             <div className={s['cornersTable']}>
                 <div className={classNames('row')}> 
@@ -28,62 +30,30 @@ export default class PlayerCardsTable extends React.PureComponent {
                             NO
                         </div>
                     </div> 
-                    <div className={classNames('row', s['row-change-btn'])}>                    
-                        <div className={ classNames(s['item'], 'col-xs-4', 'col-md-4') }
-                            >
-                            {constant.FULL_MATCH}
-                        </div>
-                        <div className={(row === 0 && column === 0) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab(constant.SELCTED_FIRST, constant.SELCTED_FIRST)}>
-                            
-                        </div>
-                        <div className={(row === 0 && column === 1) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab(constant.SELCTED_FIRST, constant.SELCTED_TWO)}>
-                            
-                        </div>
-                    </div>
-                    <div className={classNames('row', s['row-change-btn'])}>
-                        <div className={classNames(s['item'], 'col-xs-4', 'col-md-4')}
-                            >
-                            {constant.BOTH_HALVES}
-                        </div>
-                        <div className={(row === 1 && column === 0) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab( constant.SELCTED_TWO, constant.SELCTED_FIRST)}>
-                            
-                        </div>
-                        <div className={(row === 1 && column === 1) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab( constant.SELCTED_TWO, constant.SELCTED_TWO)}>
-                            
-                        </div>                   
-                        
-                    </div>
-                    <div className={classNames('row', s['row-change-btn'])}>
-                        <div className={classNames(s['item'], 'col-xs-4', 'col-md-4')}
-                            >
-                            {constant.EITHER_HALF}
-                        </div>
-                        <div className={(row === 2 && column === 0) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab( constant.SELCTED_THREE, constant.SELCTED_FIRST)}>
-                            
-                        </div>
-                        <div className={(row === 2 && column === 1) ? 
-                                            classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
-                                            : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
-                            onClick={()=>this.props.changeStateByTab( constant.SELCTED_THREE, constant.SELCTED_TWO)}>
-                            
-                        </div>                   
-                        
-                    </div>
+                    {
+                        BTTS.map((value, key)=>{
+                            return(
+                                <div key ={key} className={classNames('row', s['row-change-btn'])}>                    
+                                    <div className={ classNames(s['item'], 'col-xs-4', 'col-md-4') }
+                                        >
+                                        {value.name}
+                                    </div>
+                                    <div className={(row === key && column === constant.SELCTED_FIRST) ? 
+                                                        classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
+                                                        : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
+                                        onClick={()=>this.props.changeStateByTab(key, constant.SELCTED_FIRST, value.YES)}>
+                                        {value.YES}
+                                    </div>
+                                    <div className={(row === key && column === constant.SELCTED_TWO) ? 
+                                                        classNames(s['item'], s['selected-bet-tab'], 'col-xs-4', 'col-md-4') 
+                                                        : classNames(s['item'], s['not-selected-bet-tab'], 'col-xs-4', 'col-md-4')}
+                                        onClick={()=>this.props.changeStateByTab(key, constant.SELCTED_TWO, value.NO)}>
+                                        {value.NO}
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }                   
                 </div>
         );
     }
