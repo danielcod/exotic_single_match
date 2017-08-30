@@ -115,16 +115,12 @@ export default class MatchResult extends React.PureComponent {
             case constant.SELCTED_THREE:
                selectedTime = constant.EITHER_HALF;
                 break;
-        }
-        if (winnComandId != constant.SELCTED_TWO){
-            if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
-            else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-            textValue  = comand + ' ' + '(' + selectedTime + ') ' + ' ' + scores;
-        }else{
-            textValue  = comand + ' (' + selectedTime + ')';            
-        } 
-        return textValue;   
+        }        
+        if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
+        else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
+        textValue  = comand + ' ' + '(' + selectedTime + ') ' + ' ' + scores;        
         
+        return textValue;           
     }
    setToParrenState(selectedItem, value, textValue, showSlider){
        
@@ -161,15 +157,13 @@ export default class MatchResult extends React.PureComponent {
                             legs= {this.props.legs}
                             clickHandler = {this.clickHandler}
                             selected={selectedItem}/>              
-                
-                <div className={s['wrap-slider']}>
-                    { this.state.showSlider ?   
-                        <div>
-                            <div className={s['text-goals']}>By how many goals?</div>                  
-                            <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>    
-                        </div>                        
-                        : null
+                { this.state.showSlider ? 
+                        <div className={s['text-goals']}>By how many goals?</div>                  
+                        : 
+                        <div className={s['text-goals']}>Each team to score how many goals?</div>                  
                     }
+                <div className={s['wrap-slider']}>
+                    <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>    
                 </div>                
                 <div className= {classNames("form-group", s['form-marg'])}>
                      {
