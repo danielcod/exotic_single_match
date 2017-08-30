@@ -50,8 +50,8 @@ export default class CornersPanel extends React.PureComponent {
 
         }}
     }
-    setToParrenState(){       
-       const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, price} = this.state;
+    setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue){       
+       const { sliderOptions,  price} = this.state;
        const bet = {
            name: productsName,
            match: this.props.match,
@@ -61,7 +61,7 @@ export default class CornersPanel extends React.PureComponent {
                 toogleValue, 
                 selectedBetTab, 
                 textValue, 
-                changes,
+                changes: true,
                 price
            }           
        }
@@ -82,49 +82,53 @@ export default class CornersPanel extends React.PureComponent {
          const bet  = this.getCurrentBet(props);
          this.props.delBetfromBetsList(bet);        
     }
-    changeStateByTab(pos){
-         this.setState({
-            selectedTab: "over",
-            sliderOptions: struct.cornersStruct[pos],
-            toogleValue: struct.cornersStruct[pos].value,                       
-            textValue: '',
-            selectedBetTab: pos,
-            changes: true
-        });
-        setTimeout(()=>this.formatText(), 0); 
+    changeStateByTab(selectedBetTab){
+        const {toogleValue, selectedTab} = this.state;  
+       const textValue =  this.formatText(selectedBetTab, toogleValue, selectedTab);
+       this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue)
     }
     handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
-        setTimeout(()=>this.formatText(), 0); 
+         const {toogleValue, selectedBetTab} = this.state;  
+         const selectedTab = tab.name;
+         if (!selectedBetTab){
+             this.setState({selectedTab});
+             return;
+         }
+       const textValue =  this.formatText(selectedBetTab, toogleValue, selectedTab);
+       this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue);
     }
    
     decrementValue() {        
-        const {sliderOptions} = this.state;
+        const {sliderOptions, selectedBetTab, selectedTab} = this.state;
         let toogleValue = this.state.toogleValue - sliderOptions.step;
         if (toogleValue < sliderOptions.min) toogleValue = this.state.toogleValue;
-        this.setState({toogleValue});        
-        setTimeout(()=>this.formatText(), 0); 
+       if (!selectedBetTab){
+             this.setState({toogleValue});
+             return;
+         }
+        const textValue =  this.formatText(selectedBetTab, toogleValue, selectedTab);
+       this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue);
     }
     incrementValue() {          
-       const {sliderOptions} = this.state;
+       const {sliderOptions, selectedBetTab, selectedTab} = this.state;
         let toogleValue = this.state.toogleValue + sliderOptions.step;
         if (toogleValue > sliderOptions.max) toogleValue = this.state.toogleValue;
-        this.setState({toogleValue});
-        setTimeout(()=>this.formatText(), 0); 
-
+        if (!selectedBetTab){
+             this.setState({toogleValue});
+             return;
+         } 
+        const textValue =  this.formatText(selectedBetTab, toogleValue, selectedTab);
+       this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue);
     }
-   formatText(){
-       let textValue = '';
-       const {selectedBetTab, toogleValue, selectedTab} = this.state;
-       if (selectedBetTab === null || selectedBetTab === undefined) return;
+   formatText(selectedBetTab, toogleValue, selectedTab){
+       let textValue = '';      
        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO){
             const comands = this.props.match.name.split(' vs ');            
             textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
        }else{
             textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';       
        }       
-       this.setState({textValue});
-       setTimeout(()=>this.setToParrenState(), 0) ;
+       return textValue;       
    }
     render(){
         const firstTeam = this.props.match.name.split(' vs ')[0];
@@ -189,7 +193,10 @@ export default class CornersPanel extends React.PureComponent {
                         </h3>
                         :
                         <h3 className={classNames(s['output-block'], "current-price", "text-center")} >
-                             {this.state.textValue}: 
+                             {this.state.textValue}
+                             <span className={s['price-symbol']}>
+                                    @  
+                                </span> 
                             <span className={s['price']} id= "price">
                                 { this.state.price }
                             </span>

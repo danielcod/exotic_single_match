@@ -17,9 +17,6 @@
     margin-top: 20px; 
     margin-bottom: 30px; 
 }
-.price{
-    padding: 0 8px;
-}
 .btn-group{
     margin-top: 16px;
     margin-bottom: 0;
@@ -46,3 +43,8 @@
    .output-block{
         line-height: 28px;;
    }
+.price-symbol{
+    padding: 0 4px;
+    font-size: 16px!important;
+    color: #ffffff!important;
+}
