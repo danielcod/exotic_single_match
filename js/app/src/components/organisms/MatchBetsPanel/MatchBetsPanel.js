@@ -23,16 +23,21 @@ export default class MatchBetsPanel extends React.PureComponent {
         }        
     }    
     componentWillMount(){
-        const {match, bets} = this.props;
-        let {showBets, textBetsInStake, countBetsInStake} = this.state;
+        this.changeState(this.props);
+    }
+    componentWillReceiveProps(nextProps){
+       this.changeState(nextProps);
+    }
+    changeState = (props)=>{
+        const {match, bets} = props;
+        let showBets = [];
+        let {textBetsInStake, countBetsInStake} = this.state;       
         bets.map(bet=>{
             if (bet.match.name != match.name) return;
              showBets.push(bet);           
         });
         showBets = formatObjectYourBet(showBets, match);
-        if (countBetsInStake === showBets.length)  textBetsInStake = countBetsInStake + '(of ' + showBets.length + ')';
-        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
-        
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);        
         this.setState({showBets, textBetsInStake});
     }
     applyPaginatorWindow(items) {
@@ -77,8 +82,7 @@ export default class MatchBetsPanel extends React.PureComponent {
         let {countBetsInStake, showBets, textBetsInStake} = this.state;
         if (parseInt(countBetsInStake) <= 1) return;
         countBetsInStake -= 1;
-        if (countBetsInStake === showBets.length)  textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
-        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
         this.setState({countBetsInStake, textBetsInStake});
         this.updatePrice();
     }
@@ -86,14 +90,20 @@ export default class MatchBetsPanel extends React.PureComponent {
         let {countBetsInStake, showBets, textBetsInStake} = this.state;
         if (parseInt(countBetsInStake) >=  showBets.length) return;
         countBetsInStake += 1;
-        if (countBetsInStake === showBets.length)  textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
-        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
         this.setState({countBetsInStake, textBetsInStake});
         this.updatePrice();
     }
-    render(){
+    formatToogleText(countBetsInStake, showBets){
+        let textBetsInStake = '';
+        if (countBetsInStake === showBets.length)  textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
+        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
+        return textBetsInStake;
+    }
+    render(){       
         const {price, handleBetRemoved, match, bets} = this.props;
         const {openStakePanel, showBets, textBetsInStake} = this.state;
+         console.log('render MatchBetsPanel', showBets)
         if (showBets.length === 0){
             return(
                 <div>
