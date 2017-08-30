@@ -54,8 +54,13 @@ export default class MatchResult extends React.PureComponent {
         }}
     }
     onChange(value){
-        this.setState({ value });       
-        setTimeout(()=> this.formatDynamicText(), 0) ;
+        const {selectedItem, showSlider} = this.state;
+        if (!selectedItem) {
+            this.setState({value});
+            return;
+        }
+       const textValue =  this.formatDynamicText(selectedItem, value);
+       this.setToParrenState(selectedItem, value, textValue, showSlider)
     }
     componentWillReceiveProps(props){       
         let bet = this.getCurrentBet(props);
@@ -71,23 +76,23 @@ export default class MatchResult extends React.PureComponent {
     
     clickHandler(id, key){
         let showSlider = true;
+        const {value} = this.state;
         if (key === constant.SELCTED_TWO) showSlider = false;        
         let {selectedItem} =  this.state;
         if (isEqual(selectedItem, Array(id, key))) {     
             this.handleCancel()                     
         }else{
             selectedItem = [id, key];
-            this.setState({ selectedItem, showSlider: true }); 
-            setTimeout(()=> this.formatDynamicText(), 0) ;   
+            const textValue = this.formatDynamicText(selectedItem, value);
+            this.setToParrenState(selectedItem, value, textValue, showSlider);
         }           
         
     }
-    formatDynamicText(){
-        if (!this.props.match || !this.state.selectedItem) return;
+    formatDynamicText(selectedItem, value){
+        if (!this.props.match || !selectedItem) return;
         const comands = this.props.match.name.split(' vs ');
-        const winnComandId = this.state.selectedItem[1];
-        const resultTimeId = this.state.selectedItem[0];
-        const {value} = this.state;
+        const winnComandId = selectedItem[1];
+        const resultTimeId = selectedItem[0];        
         let textValue  = '', comand = '', selectedTime = '', scores = '';
         switch(winnComandId){
             case constant.SELCTED_FIRST:
@@ -102,32 +107,28 @@ export default class MatchResult extends React.PureComponent {
         }
         switch(resultTimeId){
             case constant.SELCTED_FIRST:
-                selectedTime = constant.FULL_MATCH.toLowerCase();
+                selectedTime = constant.FULL_MATCH;
                 break;
             case constant.SELCTED_TWO:
-                selectedTime = constant.BOTH_HALVES.toLowerCase();
+                selectedTime = constant.BOTH_HALVES;
                 break;
             case constant.SELCTED_THREE:
-               selectedTime = constant.EITHER_HALF.toLowerCase();
+               selectedTime = constant.EITHER_HALF;
                 break;
         }
         if (winnComandId != constant.SELCTED_TWO){
             if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
             else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-            textValue  = comand;// + ' ' + selectedTime + ' ' + scores;
+            textValue  = comand + ' ' + '(' + selectedTime + ') ' + ' ' + scores;
         }else{
-            textValue  = selectedTime + ' ' + comand;
-            textValue  = textValue .split('');
-            textValue [0] = textValue [0].toUpperCase();
-            textValue  =  textValue .join('');
-        }        
-        this.setState({textValue, changes: true});
-        setTimeout(()=>this.setToParrenState(), 0) ;
+            textValue  = comand + ' (' + selectedTime + ')';            
+        } 
+        return textValue;   
         
     }
-   setToParrenState(){
+   setToParrenState(selectedItem, value, textValue, showSlider){
        
-       const { textValue, value, selectedItem, showSlider, changes, price} = this.state;
+       const { changes, price} = this.state;
        const bet = {
            name: productsName,
            match: this.props.match,
@@ -136,14 +137,16 @@ export default class MatchResult extends React.PureComponent {
                 textValue: textValue,
                 tableSelectedItem: selectedItem,
                 showSlider,
-                selectedMatchResult: changes,
+                selectedMatchResult: true,
                 price
            }           
        }
        this.props.betResultMatch(bet);
    }
     render(){
-        const  {value} = this.state;  
+        const  {value, selectedItem} = this.state;  
+        let select;
+        if (selectedItem) select = selectedItem[1];
         const marks = {
             1: '1',
             2: '2',
@@ -157,11 +160,14 @@ export default class MatchResult extends React.PureComponent {
                             matches={ this.props.matches }
                             legs= {this.props.legs}
                             clickHandler = {this.clickHandler}
-                            selected={this.state.selectedItem}/>
-                <div className={s['text-goals']}>By how many goals?</div>
+                            selected={selectedItem}/>              
+                
                 <div className={s['wrap-slider']}>
-                    { this.state.showSlider ?                    
-                        <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>
+                    { this.state.showSlider ?   
+                        <div>
+                            <div className={s['text-goals']}>By how many goals?</div>                  
+                            <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>    
+                        </div>                        
                         : null
                     }
                 </div>                
@@ -173,7 +179,10 @@ export default class MatchResult extends React.PureComponent {
                         </h3>
                         :
                         <h3 className= {classNames("current-price", s['text-center'])}>
-                           {this.state.textValue} :
+                           {this.state.textValue} 
+                           <span className={s['price-symbol']}>
+                                    @  
+                                </span> 
                             <span className={s['price']} id= "price">
                                 { this.state.price }
                             </span>
