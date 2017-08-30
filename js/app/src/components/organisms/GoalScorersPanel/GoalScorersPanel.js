@@ -294,35 +294,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                                         currentPage={this.state.currentPage}
                                     />
                                     : null
-                            }
-               {/* <div className={s['wrap-show-text']}>
-                    {
-                        textValue.map((value, key)=>{
-                            return(
-                                <div
-                                    key = {key}
-                                    className={s['show-text']}>
-                                    {value}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <div className= "form-group">
-                    {
-                        (!this.state.changes) ? 
-                        <h3 className= "current-price text-center">
-                           No Selections
-                        </h3>
-                        :
-                        <h3 className= "current-price text-center">
-                            Selection Price: 
-                            <span className={s['price']} id= "price">
-                                { this.state.price }
-                            </span>
-                        </h3>                       
-                    }                    
-                </div>              */}  
+                            }              
                 <div className={classNames("bet-submit-btns", s['btn-group'])}>
                     <button
                         className="btn btn-primary bet-cancel-btn"

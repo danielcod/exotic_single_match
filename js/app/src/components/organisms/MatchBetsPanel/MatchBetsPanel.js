@@ -29,6 +29,7 @@ export default class MatchBetsPanel extends React.PureComponent {
        this.changeState(nextProps);
     }
     changeState = (props)=>{
+        console.log('arguments', arguments)
         const {match, bets} = props;
         let showBets = [];
         let {textBetsInStake, countBetsInStake} = this.state;       
