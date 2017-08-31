@@ -32,7 +32,7 @@ export default class PlayerCardsTable extends React.PureComponent {
                                 if (i === 0){                                                        
                                     row.push(
                                             <td key={i} className={s['name_td']}>
-                                                <span className='match-name'>
+                                                <span className= {classNames(s['first-collumn'])}>
                                                     { player.name} 
                                                 </span> 
                                             </td>
