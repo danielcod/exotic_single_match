@@ -3,6 +3,7 @@ import {bindAll} from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Panel from 'react-bootstrap/lib/Panel';
 import AccaLegTable from '../../../organisms/AccaLegTable';
+import {getLegsFromBet} from '../../../utils';
 
 export default class MyBetList extends React.PureComponent {
     constructor(props) {
@@ -49,23 +50,7 @@ export default class MyBetList extends React.PureComponent {
             case "Draws":
                 return bet.betCondition.nGoals > 1 ? "To draw by " + bet.betCondition.nGoals + "+ goals" : "To just draw";
         }
-    }
-
-    getLegsFromBet(bet) {
-        var legs = new Array();
-        for (var index in bet.betLegs) {
-            var leg = {
-                description: bet.betLegs[index].name,
-                match: {
-                    kickoff: bet.betLegs[index].kickoff,
-                    league: bet.betLeague,
-                },
-                price: bet.betLegs[index].price
-            }
-            legs.push(leg);
-        }
-        return legs;
-    }
+    }   
 
     formatPrice(value) {
         let result = 0;
@@ -124,7 +109,7 @@ export default class MyBetList extends React.PureComponent {
                     <div className="bet-legs">
                         <AccaLegTable
                             clickHandler={null}
-                            legs={this.getLegsFromBet(bet)}
+                            legs={getLegsFromBet(bet)}
                             accaProductPanelState={"result"}
                         />
                     </div>

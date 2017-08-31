@@ -8,9 +8,10 @@ import CornersPanel from '../../organisms/CornersPanel';
 import TeamCardsPanel from '../../organisms/TeamCardsPanel';
 import GoalScorersPanel from '../../organisms/GoalScorersPanel';
 import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
+import StakePanel from '../../organisms/StakePanel';
 import BTTSPanel from '../../organisms/BTTSPanel';
 import MatchBetsPanel from '../../organisms/MatchBetsPanel';
-import {matchSorter} from '../../utils'
+import {matchSorter} from '../../utils';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -33,6 +34,11 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             legs: [],           
             bets: [],
             sanfonaActiveItems: [],  
+            openedStakePanel: false,
+            showBets: [],
+            stake: null,
+            price: 10,
+            textBetsInStake: null
             
         }
         bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
@@ -163,11 +169,40 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         this.props.clickHandler("edit");
     }
     clearBets(){
-        const buildMyOwn = !this.state.buildMyOwn;
-        this.setState({bets: [], buildMyOwn, selectedTab: "legs", sanfonaActiveItems: []});
+        //const buildMyOwn = !this.state.buildMyOwn;
+        this.setState({bets: [], buildMyOwn: false, selectedTab: "legs", sanfonaActiveItems: [], openedStakePanel: false});
         this.props.clickHandler("browse");
     }
-
+    openStakePanel =(showBets, stake, price, textBetsInStake)=>{
+        const {buildMyOwn} = this.state;
+        this.setState({openedStakePanel: true, buildMyOwn: false, showBets, stake, /* price, */ textBetsInStake });
+        this.props.clickHandler("bet");
+    }
+    returnToBetsPanel = ()=>{
+        this.setState({openedStakePanel: false, buildMyOwn: true});
+    }
+    buildButtonOrStakePanel = ()=>{             
+             const {openedStakePanel, showBets, stake, price, textBetsInStake, buildMyOwn, match} = this.state;
+             if(!openedStakePanel){
+                 return (
+                    <button className="btn btn-primary" style={{float: 'right'}}
+                        onClick={this.handleBuidMyOwn}
+                        >Build My Own</button>
+                 );
+             }else{
+                 return (
+                     <StakePanel
+                        showBets={showBets}
+                        stake = {stake}
+                        price = {price}
+                        textBetsInStake= {textBetsInStake}
+                        toMainMenu = {this.clearBets}
+                        returnToBetsPanel={this.returnToBetsPanel}
+                        match = {match}
+                     />
+                 );
+             }
+         }
      render() {
          const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
          const renderAngle = (index, title)=>{
@@ -192,12 +227,12 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                             </div>
                         </h3>);            
          }
+        
+        const changeBuild = this.buildButtonOrStakePanel()
         return (
             <div>
                 { !this.state.buildMyOwn ?
-                    <button className="btn btn-primary" style={{float: 'right'}}
-                        onClick={this.handleBuidMyOwn}
-                        >Build My Own</button>
+                    <div>{changeBuild}</div>
                         :
                         <div>
                             <MyFormComponent                        
@@ -242,6 +277,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                     bets= { bets }    
                                     match={ match } 
                                     clearBets={this.clearBets}
+                                    openStakePanel={this.openStakePanel}
                                     />                               
                                 :
                                 <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>

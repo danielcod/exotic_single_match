@@ -6,17 +6,19 @@ import CornersToogle from '../../molecules/CornersToggle';
 import MyPaginator from '../../molecules/MyPaginator';
 import * as constant from  '../../constant';
 import * as products from  '../../products'; 
+import classNames from 'classnames';
 import s from './index.css';
 
 export default class MatchBetsPanel extends React.PureComponent {
     constructor(props){
         super(props);
-        bindAll(this, ['handlePaginatorClicked', 'openStakePanel', 'handleStakeChanged',
+        bindAll(this, ['handlePaginatorClicked', 'handleStakeChanged',
                         'decrementValue', 'incrementValue', 'updatePrice']);       
         this.state={ 
             currentPage: 0,
             openedStakePanel: false,
-            stake: 0,
+            stake: "10.00",
+            price: 0,
             countBetsInStake: 1,
             textBetsInStake: '',
             showBets: []
@@ -29,7 +31,6 @@ export default class MatchBetsPanel extends React.PureComponent {
        this.changeState(nextProps);
     }
     changeState = (props)=>{
-        console.log('arguments', arguments)
         const {match, bets} = props;
         let showBets = [];
         let {textBetsInStake, countBetsInStake} = this.state;       
@@ -68,11 +69,7 @@ export default class MatchBetsPanel extends React.PureComponent {
     handlePaginatorClicked(item) {
         const currentPage = item.value;        
         this.setState({currentPage});
-    }
-    openStakePanel(){
-        const {openStakePanel} = this.state;
-        this.setState({openStakePanel: !openStakePanel});
-    }
+    }    
     handleStakeChanged(e){
         this.setState({stake: e.target.value});
     }
@@ -101,10 +98,13 @@ export default class MatchBetsPanel extends React.PureComponent {
         else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
         return textBetsInStake;
     }
+    placeBet = ()=>{
+        const {showBets, stake, price, textBetsInStake} = this.state;
+        this.props.openStakePanel(showBets, stake, price, textBetsInStake);
+    }
     render(){       
         const {price, handleBetRemoved, match, bets} = this.props;
         const {openStakePanel, showBets, textBetsInStake} = this.state;
-         console.log('render MatchBetsPanel', showBets)
         if (showBets.length === 0){
             return(
                 <div>
@@ -117,60 +117,62 @@ export default class MatchBetsPanel extends React.PureComponent {
         }
         return(
             <div>
-                {openStakePanel ?
-                    <div>StakePanel</div>
-                    :
-                    <div>
-                        <div className="form-group">
-                        <h3 className="current-price text-center">Current price:
-                            <span id="price">{formatCurrentPrice(price)}</span>
-                        </h3>
+                
+                <div>
+                    <div className="form-group">
+                    <h3 className="current-price text-center">Current price:
+                        <span id="price">{formatCurrentPrice(price)}</span>
+                    </h3>
+                </div>
+                <MatchBetsTable
+                        clickHandler={handleBetRemoved}
+                        bets={this.applyPaginatorWindow(this.sortLegs(showBets))}
+                        accaProductPanelState='custom'
+                        match={match}
+                    />
+                <hr className={classNames(s['table-border-bottom'])}/>
+                    {
+                        (showBets.length > constant.COUNT_PLAYER_ROWS) ?
+                            <MyPaginator
+                                product={{rows : constant.COUNT_PLAYER_ROWS}}
+                                data={showBets}
+                                clickHandler={this.handlePaginatorClicked}
+                                currentPage={this.state.currentPage}
+                            />
+                            : null
+                    }
+                    <div className={s["corners-slider-container"]}>
+                        <CornersToogle
+                            value={textBetsInStake}
+                            clickHandlers={{
+                                increment: this.incrementValue,
+                                decrement: this.decrementValue
+                            }}/>
                     </div>
-                    <MatchBetsTable
-                            clickHandler={handleBetRemoved}
-                            bets={this.applyPaginatorWindow(this.sortLegs(showBets))}
-                            accaProductPanelState='custom'
-                            match={match}
-                        />
-                        {
-                            (showBets.length > constant.COUNT_PLAYER_ROWS) ?
-                                <MyPaginator
-                                    product={{rows : constant.COUNT_PLAYER_ROWS}}
-                                    data={showBets}
-                                    clickHandler={this.handlePaginatorClicked}
-                                    currentPage={this.state.currentPage}
-                                />
-                                : null
-                        }
-                        <div className={s["corners-slider-container"]}>
-                            <CornersToogle
-                                value={textBetsInStake}
-                                clickHandlers={{
-                                    increment: this.incrementValue,
-                                    decrement: this.decrementValue
-                                }}/>
+                   
+                    <div className="bet-submit-btns">
+                        {/*<button
+                            className="btn btn-primary bet-cancel-btn"
+                            onClick={ this.props.clearBets}>Cancel
+                        </button>*/}
+                        <div className={classNames(s["bet-submit-btns-child"], "stake-label")}>STAKE</div>
+                        <div className="stake">                            
+                            <span className="stake-symbol">€</span>
+                            <input type="number" name="stake-value" className={classNames(s["bet-submit-btns-child"], "stake-value")}
+                                    defaultValue={this.state.stake}
+                                    onChange={ this.handleStakeChanged }
+                                    />
                         </div>
-                        <hr style={{borderColor: "#555"}}/>
-                        <div className="bet-submit-btns">
+                        <div>
                             <button
-                                className="btn btn-primary bet-cancel-btn"
-                                onClick={ this.props.clearBets}>Cancel
-                            </button>
-                            <div className="stake">
-                                <span className="stake-label">Your Stake</span>
-                                <span className="stake-symbol">€</span>
-                                <input type="number" name="stake-value" className="stake-value"
-                                        defaultValue={this.state.stake}
-                                        onChange={ this.handleStakeChanged }
-                                        />
-                            </div>
-                            <button
-                                className="btn btn-primary"
-                                onClick={this.openStakePanel}>Place Bet
+                                style={{marginTop: '8px'}}
+                                className={classNames(s["bet-submit-btns-child"], "btn btn-primary")}
+                                onClick={this.placeBet}>Place Bet
                             </button>
                         </div>
-                    </div>                    
-                }
+                        
+                    </div>
+                </div>                                    
             </div>
         );
     }
