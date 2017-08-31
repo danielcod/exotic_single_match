@@ -91,18 +91,20 @@ export default class MatchResult extends React.PureComponent {
     formatDynamicText(selectedItem, value){
         if (!this.props.match || !selectedItem) return;
         const comands = this.props.match.name.split(' vs ');
-        const winnComandId = selectedItem[1];
-        const resultTimeId = selectedItem[0];        
-        let textValue  = '', comand = '', selectedTime = '', scores = '';
+        const [resultTimeId, winnComandId ]  = selectedItem;
+        let textValue  = '', comand = '', selectedTime = '', scores = '', goalText = '';
         switch(winnComandId){
             case constant.SELCTED_FIRST:
                 comand = comands[0] + ' ' + constant.TO_WINN;
+                goalText = (value[0] === value[1] && value[0] === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_THREE:
                 comand = comands[1] + ' ' + constant.TO_WINN;
+                goalText = (value[0] === value[1] && value[0] === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_TWO:
                 comand = constant.MATCH_IS_DRAW;
+                goalText = ''; //value[0] != value[1] ?  ' total goals' : ' total goal';
                 break;
         }
         switch(resultTimeId){
@@ -116,11 +118,18 @@ export default class MatchResult extends React.PureComponent {
                selectedTime = constant.EITHER_HALF;
                 break;
         }        
-        if (value[0] === value[1]) scores = 'by exactly ' + value[0] + ' goals';
-        else scores = 'by ' + value[0] + ' - ' + value[1] + ' goals';
-        textValue  = comand + ' ' + '(' + selectedTime + ') ' + ' ' + scores;        
+        if (value[0] === value[1]) {
+            const countGoals = value[1] != constant.SELCTED_SIX ? value[0]  : value[0] + '+ ';
+            const  exactlyText = value[1] != constant.SELCTED_SIX ? 'by exactly ' : 'by ';
+            scores =  exactlyText + countGoals + goalText;
+        }
+        else {
+            const countGoals = value[1] != constant.SELCTED_SIX ? value[0] + ' - ' + value[1] : value[0] + '+ ';
+            scores = winnComandId != constant.SELCTED_TWO ?  'by ' + countGoals + goalText : '';
+        }
+        textValue  = comand + ' ' + ' ' + scores + ' (' + selectedTime + ')';        
         
-        return textValue;           
+        return textValue;  
     }
    setToParrenState(selectedItem, value, textValue, showSlider){
        
@@ -158,13 +167,13 @@ export default class MatchResult extends React.PureComponent {
                             clickHandler = {this.clickHandler}
                             selected={selectedItem}/>              
                 { this.state.showSlider ? 
-                        <div className={s['text-goals']}>By how many goals?</div>                  
+                        <div className={s['wrap-slider']}>
+                            <div className={s['text-goals']}>By how many goals?</div>  
+                            <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>    
+                        </div>
                         : 
-                        <div className={s['text-goals']}>Each team to score how many goals?</div>                  
-                    }
-                <div className={s['wrap-slider']}>
-                    <Range dots step={1} value={value} defaultValue={value}  marks={marks} min={1} max={5} onChange={this.onChange}/>    
-                </div>                
+                        null           
+                    }                              
                 <div className= {classNames("form-group", s['form-marg'])}>
                      {
                         (!this.state.changes) ? 

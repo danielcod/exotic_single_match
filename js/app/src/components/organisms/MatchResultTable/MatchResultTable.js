@@ -2,6 +2,8 @@ import React from 'react';
 import MatchPriceCell from '../../atoms/MatchPriceCell';
 import {formatPrice} from  '../../utils';
 import {bindAll, isEqual} from 'lodash';
+import classnames from 'classnames';
+import * as s from './index.css'
 
 export default class MatchResultTable extends React.PureComponent{
     constructor(props){
@@ -29,7 +31,7 @@ export default class MatchResultTable extends React.PureComponent{
                         {
                             ["", "1", "X", "2"].map(function(label, key) {
                                 return (
-                                    <th key={key} className= "text-center" style={{paddingBottom: "5px"}}>
+                                    <th key={key} className= {classnames('text-center')}  style={{paddingBottom: "5px"}}>
                                         {label}
                                     </th>
                                 )
@@ -43,7 +45,7 @@ export default class MatchResultTable extends React.PureComponent{
                             return(
                                 <tr key={id} className= "text-center match">                               
                                     <td>
-                                            <span className='match-name'>
+                                            <span className= {classnames(s['first-collumn'])}>
                                                  {match.name} 
                                             </span> 
                                     </td>

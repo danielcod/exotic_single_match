@@ -8,6 +8,7 @@ export const SELCTED_TWO = 1;
 export const SELCTED_THREE = 2;
 export const SELCTED_FOUR = 3;
 export const SELCTED_FIVE = 4;
+export const SELCTED_SIX = 5;
 export const HOME_TEAM = 'Home Team';
 export const AWAY_TEAM= 'Away Team';
 export const BOTH_TEAM = 'Both Teams';
