@@ -1,0 +1,9 @@
+.tb-rd {
+    border-bottom: 1px solid #575763;
+    color: #fff!important;
+    font-size: 14px!important; 
+}
+.tb-rd > div > span, .tb-rd > span{
+    color: #fff!important;
+    font-size: 14px!important; 
+}

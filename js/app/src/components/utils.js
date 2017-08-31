@@ -27,7 +27,7 @@ export function matchSorter(m0, m1) {
             return value.toFixed(2);
         } else if (value < 10) {
             return value.toFixed(2);
-        } else if (value < 100) {
+        } else if (value < 1000) {
             return value.toFixed(1);
         } else {
             return Math.floor(value);
@@ -178,3 +178,19 @@ export function formatCountBets(bets, match){
 
     return betInBets;
 }
+export function getLegsFromBet(bet) {
+        var legs = new Array();
+        for (var index in bet.betLegs) {
+            var leg = {
+                description: bet.betLegs[index].name,
+                match: {
+                    kickoff: bet.betLegs[index].kickoff,
+                    league: bet.betLeague,
+                },
+                price: bet.betLegs[index].price
+            }
+            legs.push(leg);
+        }
+        return legs;
+    }
+   

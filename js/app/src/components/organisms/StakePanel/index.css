@@ -1,0 +1,31 @@
+.bet-placed-product{
+   color: hsla(0, 0%, 100%, .5);
+   font-size: 14px;
+   font-weight: bold;
+   margin-bottom: 10px;
+}
+.bet-match, .in-legs > span{
+   font-size: 18px;
+   font-weight: bold;
+   color: #fff;
+}
+.bet-match-date{
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
+.wrap-pagitaor{
+    margin-top: 12px;
+}
+.main-menu-btn{
+    width: 42%;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 8px;
+}
+.main-menu-btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
