@@ -34,7 +34,7 @@ export default class PlayerCardsTable extends React.PureComponent {
                         BTTS.map((value, key)=>{
                             return(
                                 <div key ={key} className={classNames('row', s['row-change-btn'])}>                    
-                                    <div className={ classNames(s['item'], 'col-xs-4', 'col-md-4') }
+                                    <div className={ classNames(s['first-item'], 'col-xs-4', 'col-md-4') }
                                         >
                                         {value.name}
                                     </div>
