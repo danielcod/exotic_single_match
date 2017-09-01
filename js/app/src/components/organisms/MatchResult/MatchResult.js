@@ -93,18 +93,19 @@ export default class MatchResult extends React.PureComponent {
         const comands = this.props.match.name.split(' vs ');
         const [resultTimeId, winnComandId ]  = selectedItem;
         let textValue  = '', comand = '', selectedTime = '', scores = '', goalText = '';
+        const [minCountGoals, maxCountGoals] = value;
         switch(winnComandId){
             case constant.SELCTED_FIRST:
                 comand = comands[0] + ' ' + constant.TO_WINN;
-                goalText = (value[0] === value[1] && value[0] === 1) ?  ' goal' : ' goals';
+                goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_THREE:
                 comand = comands[1] + ' ' + constant.TO_WINN;
-                goalText = (value[0] === value[1] && value[0] === 1) ?  ' goal' : ' goals';
+                goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_TWO:
                 comand = constant.MATCH_IS_DRAW;
-                goalText = ''; //value[0] != value[1] ?  ' total goals' : ' total goal';
+                goalText = ''; //minCountGoals != maxCountGoals ?  ' total goals' : ' total goal';
                 break;
         }
         switch(resultTimeId){
@@ -118,15 +119,14 @@ export default class MatchResult extends React.PureComponent {
                selectedTime = constant.EITHER_HALF;
                 break;
         }        
-        if (value[0] === value[1]) {
-            const countGoals = value[1] != constant.SELCTED_SIX ? value[0]  : value[0] + '+ ';
-            const  exactlyText = value[1] != constant.SELCTED_SIX ? 'by exactly ' : 'by ';
-            scores =  exactlyText + countGoals + goalText;
+        if (minCountGoals === maxCountGoals) {            
+            scores = '';
         }
         else {
-            const countGoals = value[1] != constant.SELCTED_SIX ? value[0] + ' - ' + value[1] : value[0] + '+ ';
+            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ ';
             scores = winnComandId != constant.SELCTED_TWO ?  'by ' + countGoals + goalText : '';
         }
+        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals=== constant.SELCTED_SIX) scores = '';
         textValue  = comand + ' ' + ' ' + scores + ' (' + selectedTime + ')';        
         
         return textValue;  
