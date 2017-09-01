@@ -111,7 +111,7 @@ export function matchSorter(m0, m1) {
                             match: bet.match,
                             name: bet.name,
                             options: bet.options,
-                            description:  constant.PLAYER_CARDS + ': ' + getCardsBl(value.item) + ' ' + value.player.name,
+                            description:  value.player.name + ' - ' + getCardsBl(value.item, value.matchName, value.selectedTeam),
                             price: parseFloat(value.player.price),
                             player: value.player,
                             selectedItem: value                            
@@ -123,7 +123,7 @@ export function matchSorter(m0, m1) {
                             match: bet.match,
                             name: bet.name,
                             options: bet.options,
-                            description:  constant.GOAL_SCORERS + ': ' + getGoalScorersBl(value.item) + ' ' + value.player.name,
+                            description:  value.player.name + ' - ' + getGoalScorersBl(value.item, value.matchName, value.selectedTeam),
                             price: parseFloat(value.player.price),
                             player: value.player,
                             selectedItem: value                            
@@ -137,28 +137,32 @@ export function matchSorter(m0, m1) {
         });
         return showBets;
     }
-function getCardsBl(item){
+function getCardsBl(item, matchName, selectedTeam){
+    const [homeTeam, awayTeam] = matchName.split(' vs ');    
+    const comandName = selectedTeam === constant.HOME ? homeTeam : awayTeam;   
     switch(item[1]){
         case constant.SELCTED_TWO:
             return constant.ANY_CARD;
         case constant.SELCTED_THREE:
-            return constant.FIRST_IN_GAME;
+            return constant.FIRST_MATCH + ' ' + constant.CARD;
         case constant.SELCTED_FOUR:
-            return constant.FIRST_IN_TEAM;
+            return constant.FIRST + ' ' + comandName + ' ' + constant.CARD;
         case constant.SELCTED_FIVE:
             return constant.SENT_OFF;
     }
 }
-function getGoalScorersBl(item){
+function getGoalScorersBl(item, matchName, selectedTeam){
+    const [homeTeam, awayTeam] = matchName.split(' vs ');    
+    const comandName = selectedTeam === constant.HOME ? homeTeam : awayTeam;
     switch(item[1]){
         case constant.SELCTED_TWO:
-            return constant.ANYTIME;
+            return constant.ANYTIME_GOAL;
         case constant.SELCTED_THREE:
-            return constant.FIRST_IN_GAME;
+            return constant.FIRST_MATCH + ' ' + constant.GOAL;
         case constant.SELCTED_FOUR:
-            return constant.FIRST_IN_TEAM;
+            return constant.FIRST + ' ' + comandName + ' ' + constant.GOAL;
         case constant.SELCTED_FIVE:
-            return constant.THREE_PLUS;
+            return constant.THREE_PLUS_GOALS;
     }   
 }
 export function formatCountBets(bets, match){
