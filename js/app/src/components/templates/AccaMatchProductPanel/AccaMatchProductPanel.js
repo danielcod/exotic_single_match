@@ -45,7 +45,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
         bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
                          'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
                          'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
-                         'clearBets']);
+                         'clearBets', 'delFromBTTS']);
     }
 
     componentWillMount(){      

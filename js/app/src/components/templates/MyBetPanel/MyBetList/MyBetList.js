@@ -11,7 +11,7 @@ export default class MyBetList extends React.PureComponent {
         this.state = {
             panelExpanded: false
         };
-        bindAll(this, ['getHeader', 'getBetDetail', 'placedBetGoalFormatter', 'getLegsFromBet', 'formatCurrentPrice', '_toggleExpand']);
+        bindAll(this, ['getHeader', 'getBetDetail', 'placedBetGoalFormatter',  'formatCurrentPrice', '_toggleExpand']);
     }
 
     componentWillReceiveProps(newProps) {
