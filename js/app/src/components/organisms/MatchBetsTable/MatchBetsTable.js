@@ -16,6 +16,7 @@ export default class MatchBetsTable extends React.PureComponent {
                                 key={key}
                                 clickHandler={clickHandler}
                                 accaProductPanelState={accaProductPanelState}
+                                matchBets={true}
                                 leg={bet}/>)                            
                     })
                 }

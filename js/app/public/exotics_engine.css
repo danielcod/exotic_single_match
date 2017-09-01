@@ -263,13 +263,10 @@ tr td .match-name {
   margin-bottom: 70px;
 }
 
-.react-sanfona-item:first-child .react-sanfona-item-title {
+.react-sanfona-item:first-child .react-sanfona-item-wrap {
     border-top: none;
 }
-.react-sanfona-item-expanded .react-sanfona-item-title {
-    background-color: #03a9f4;
-    color: #fff;
-}
+
 .react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn { 
         display: inline-block;
         float: right;
@@ -279,11 +276,10 @@ tr td .match-name {
       display: none;
 }
 .react-sanfona-item-title {    
-    border-top: 1px solid #ccc;   
-	padding: 16px 16px 0px 16px;
-	font-size: 16px;
+    font-size: 16px;
     text-transform: uppercase;
     transition: background-color .3s;
+    width: 80%;
 }
 .react-sanfona-item:hover .tooltip {
 	opacity: 1;
@@ -292,7 +288,17 @@ tr td .match-name {
     padding: 20px 6px;
 	position: relative;
 }
-.react-sanfona-item-expanded .react-sanfona-item-title{
+.react-sanfona-item-wrap{
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 16px 16px 0px 16px;
+    cursor: pointer;
+}
+
+.react-sanfona-item-expanded .react-sanfona-item-wrap{
 	background-color: #d99c41;
 }
 .rc-slider-track{

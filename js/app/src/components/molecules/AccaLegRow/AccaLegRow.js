@@ -1,5 +1,7 @@
 import React from 'react';
 import DateTimeCell from '../../atoms/DateTimeCell';
+import * as constant from '../../constant';
+import s from './index.css';
 
 export default class AccaLegRow extends React.PureComponent {
 
@@ -14,15 +16,26 @@ export default class AccaLegRow extends React.PureComponent {
         } else {
             return Math.floor(value);
         }
-    }
+    }   
 
     render() {
+        const {leg, matchBets} = this.props;
+        let firstItem = null;
+        if(matchBets){
+            const titleSrc = leg.name != constant.BTTS_FULL ? leg.name : constant.BTTS;
+            const imgSrc = 'img/' + titleSrc + '-light.png';
+            firstItem =  <div className = {s['title-img']} title={leg.name}>
+                                <img src={imgSrc}/>
+                            </div>
+        }else{
+            firstItem = <DateTimeCell
+                            value={this.props.leg.match.kickoff}
+                            type="datetime"/>;
+        }
         return (
             <tr className="leg-row">
                 <td className="leg-row-date">
-                    <DateTimeCell
-                        value={this.props.leg.match.kickoff}
-                        type="datetime"/>
+                    {firstItem}
                 </td>
                 <td className="leg-row-descr">
                     {this.props.leg.description}

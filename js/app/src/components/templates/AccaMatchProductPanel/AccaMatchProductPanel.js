@@ -14,6 +14,7 @@ import MatchBetsPanel from '../../organisms/MatchBetsPanel';
 import {matchSorter} from '../../utils';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
+import * as constant from '../../constant';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import classnames from 'classnames';
 import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
@@ -207,25 +208,39 @@ export default class AccaMatchProductPanel extends React.PureComponent{
          const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
          const renderAngle = (index, title)=>{
             let opened = false;
+            const titleSrc = title != constant.BTTS_FULL ? title : constant.BTTS;
             for (let i=0; i< sanfonaActiveItems.length; i++){
                 if (sanfonaActiveItems[i] === index){
                     opened = true;
                 }
-            }                 
+            }
+            const darkOrLight = opened ? '-dark.png' : '-light.png'
+            const imgSrc = 'img/' + titleSrc + darkOrLight;
             return ((opened) ? 
-                        <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                            {title}
-                            <div className={s['b-angle']}>
-                                <FaAngleDoubleUp/>
+                        <div className="react-sanfona-item-wrap">
+                           <div className = {s['title-img']}>
+                                <img  src={imgSrc}/>
                             </div>  
-                        </h3>
+                            <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                {title}                                
+                                <div className={s['b-angle']}>
+                                    <FaAngleDoubleUp/>
+                                </div>  
+                            </h3>
+                        </div>                       
                         :
-                        <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                            {title}
-                            <div className={s['b-angle']}>
-                                <FaAngleDoubleDown/>
-                            </div>
-                        </h3>);            
+                        <div className="react-sanfona-item-wrap">
+                            <div className = {s['title-img']}>
+                                <img src={imgSrc}/>
+                            </div>                            
+                            <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                {title}                                
+                                <div className={s['b-angle']}>
+                                    <FaAngleDoubleDown/>
+                                </div>
+                            </h3>
+                        </div>
+                    );            
          }
         
         const changeBuild = this.buildButtonOrStakePanel()

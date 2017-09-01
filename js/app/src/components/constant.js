@@ -29,6 +29,7 @@ export const ANY_CARD = '​ Any​ ​Card';
 export const SENT_OFF = 'Sent Off';
 export const PLAYER_CARDS = 'Player cards';
 export const GOAL_SCORERS = 'Goalscorers';
-export const GOAL = 'goal';
-export const CARD = 'card';
-
+export const GOAL = 'Goal';
+export const CARD = 'Card';
+export const BTTS_FULL = 'BTTS & Over/Under';
+export const BTTS = 'BTTS';

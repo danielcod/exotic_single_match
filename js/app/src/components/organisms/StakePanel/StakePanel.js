@@ -73,7 +73,6 @@ export default class StakePanel extends React.PureComponent {
     } 
     render(){        
         const {stake, showBets, price, textBetsInStake, match} = this.props;
-        console.log('render-pureComponent', showBets)
         return(
            <div className="bet-confirm-container">
                <div className="form-group">

@@ -11,3 +11,15 @@
     width: 20px;
     height: 20px;
 }
+.title-img{
+    width: 24px;
+    height: 24px;
+    margin-right: 24px;
+    margin-bottom: 2px;
+}
+.title-img img{
+    position: relative;
+    bottom: 3px;
+    width: 24px;
+    height: auto;
+}

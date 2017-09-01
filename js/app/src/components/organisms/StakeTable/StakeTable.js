@@ -1,23 +1,26 @@
 import React from 'react';
 import DateTimeCell from '../../atoms/DateTimeCell';
+import * as constant from '../../constant';
 import classnames from 'classnames'
 import * as s from './index.css';
 
 export default class StakeTable extends React.PureComponent {
     render() {
-        const {bets, match} = this.props;        
+        const {bets, match} = this.props;            
         return (
             <table className="table table-condensed table-striped  text-center"
                    style={{marginTop: '0px', marginBottom: "0px"}}>
                 <tbody>
                 {
-                    bets.map(function (bet, key) {                                                                      
+                    bets.map(function (bet, key) {    
+                            const titleSrc = bet.name != constant.BTTS_FULL ? bet.name : constant.BTTS;
+                            const imgSrc = 'img/' + titleSrc + '-light.png';                                                                    
                             return (
                                  <tr key={key} className="leg-row">
                                     <td className={classnames(s['tb-rd'], "leg-row-date")}>
-                                        <DateTimeCell
-                                            value={bet.match.kickoff}
-                                            type="datetime"/>
+                                        <div className = {s['title-img']} title={bet.name}>
+                                            <img src={imgSrc}/>
+                                        </div>
                                     </td>
                                     <td className={classnames(s['tb-rd'], "leg-row-descr")} >
                                         {bet.description}
