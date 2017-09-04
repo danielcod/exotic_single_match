@@ -344,9 +344,7 @@ tr td .match-name {
 	margin-top: 4px;
     font-size: 16px;
 }
-.table-not-bordered{
-	margin: 0px 0 40px 0;
-}
+
 .table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
 	    border: 0;
 }
