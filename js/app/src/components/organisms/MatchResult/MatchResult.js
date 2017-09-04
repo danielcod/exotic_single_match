@@ -110,24 +110,24 @@ export default class MatchResult extends React.PureComponent {
         }
         switch(resultTimeId){
             case constant.SELCTED_FIRST:
-                selectedTime = constant.FULL_MATCH;
+                selectedTime = ''; //' (' + constant.FULL_MATCH + ')';
                 break;
             case constant.SELCTED_TWO:
-                selectedTime = constant.BOTH_HALVES;
+                selectedTime = ' (' + constant.BOTH_HALVES +')';
                 break;
             case constant.SELCTED_THREE:
-               selectedTime = constant.EITHER_HALF;
+               selectedTime = ' (' + constant.EITHER_HALF + ')';
                 break;
         }        
         if (minCountGoals === maxCountGoals) {            
-            scores = '';
+            scores = winnComandId != constant.SELCTED_TWO ?  '​ by​ exactly ' + maxCountGoals + goalText : '';
         }
         else {
             const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ ';
             scores = winnComandId != constant.SELCTED_TWO ?  'by ' + countGoals + goalText : '';
         }
         if (minCountGoals === constant.SELCTED_TWO && maxCountGoals=== constant.SELCTED_SIX) scores = '';
-        textValue  = comand + ' ' + ' ' + scores + ' (' + selectedTime + ')';        
+        textValue  = comand + ' ' + ' ' + scores + selectedTime;        
         
         return textValue;  
     }
