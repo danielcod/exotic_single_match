@@ -137,7 +137,7 @@ export default class StakePanel extends React.PureComponent {
                         <button
                             className={classnames("btn btn-primary", s['main-menu-btn'])}
                             onClick={this.props.returnToBetsPanel}>
-                            KEEP SELECTTIONS
+                            KEEP SELECTIONS
                         </button>
                         <button
                             className={classnames("btn btn-primary", s['main-menu-btn'])}

@@ -31,5 +31,3 @@ export const PLAYER_CARDS = 'Player cards';
 export const GOAL_SCORERS = 'Goalscorers';
 export const GOAL = 'Goal';
 export const CARD = 'Card';
-export const BTTS_FULL = 'BTTS & Over/Under';
-export const BTTS = 'BTTS';

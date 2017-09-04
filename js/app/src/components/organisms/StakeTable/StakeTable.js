@@ -13,8 +13,7 @@ export default class StakeTable extends React.PureComponent {
                 <tbody>
                 {
                     bets.map(function (bet, key) {    
-                            const titleSrc = bet.name != constant.BTTS_FULL ? bet.name : constant.BTTS;
-                            const imgSrc = 'img/' + titleSrc + '-light.png';                                                                    
+                            const imgSrc = 'img/' + bet.name + '-light.png';                                                                    
                             return (
                                  <tr key={key} className="leg-row">
                                     <td className={classnames(s['tb-rd'], "leg-row-date")}>

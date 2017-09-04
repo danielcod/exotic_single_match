@@ -22,8 +22,7 @@ export default class AccaLegRow extends React.PureComponent {
         const {leg, matchBets} = this.props;
         let firstItem = null;
         if(matchBets){
-            const titleSrc = leg.name != constant.BTTS_FULL ? leg.name : constant.BTTS;
-            const imgSrc = 'img/' + titleSrc + '-light.png';
+            const imgSrc = 'img/' + leg.name + '-light.png';
             firstItem =  <div className = {s['title-img']} title={leg.name}>
                                 <img src={imgSrc}/>
                             </div>

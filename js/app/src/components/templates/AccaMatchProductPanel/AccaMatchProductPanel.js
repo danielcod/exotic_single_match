@@ -208,18 +208,18 @@ export default class AccaMatchProductPanel extends React.PureComponent{
          const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
          const renderAngle = (index, title)=>{
             let opened = false;
-            const titleSrc = title != constant.BTTS_FULL ? title : constant.BTTS;
             for (let i=0; i< sanfonaActiveItems.length; i++){
                 if (sanfonaActiveItems[i] === index){
                     opened = true;
                 }
             }
             const darkOrLight = opened ? '-dark.png' : '-light.png'
-            const imgSrc = 'img/' + titleSrc + darkOrLight;
+            const imgSrc = 'img/' + title + darkOrLight;
             return ((opened) ? 
                         <div className="react-sanfona-item-wrap">
                            <div className = {s['title-img']}>
-                                <img  src={imgSrc}/>
+                                <img  style={{display: 'block'}} src={'img/' + title + '-dark.png'}/>
+                                <img  style={{display: 'none'}} src={'img/' + title + '-light.png'}/>
                             </div>  
                             <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
                                 {title}                                
@@ -231,7 +231,8 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                         :
                         <div className="react-sanfona-item-wrap">
                             <div className = {s['title-img']}>
-                                <img src={imgSrc}/>
+                                <img  style={{display: 'none'}} src={'img/' + title + '-dark.png'}/>
+                                <img  style={{display: 'block'}} src={'img/' + title + '-light.png'}/>
                             </div>                            
                             <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
                                 {title}                                
