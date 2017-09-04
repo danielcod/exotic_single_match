@@ -12,44 +12,53 @@ export default class MyBetPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: "open"
+            selectedTab: "open",
+            clickedFaq: false,
+            bets: []
         };
-        bindAll(this, ['handleTabClicked', 'getTabContent', 'getBetsFromTab']);
+        bindAll(this, ['handleTabClicked', 'handleFaqClicked']);
     }
 
-    componentWillMount() {
-
-    }
-
-    handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
-    }
-
-    getBetsFromTab(bets) {
-        if (this.state.selectedTab == "open") {
-            return bets.filter(function (bet) {
-                return bet.betResult == "?";
-            })
-        } else {
-            return bets.filter(function (bet) {
-                return bet.betResult != "?";
-            })
-        }
-    }
-
-    getTabContent(mybets) {
-        const bets = this.getBetsFromTab(mybets);
-        return (
-                <MyBetList
-                    bets={bets}
-                    selectedTab={this.state.selectedTab}
-                />
+    componentDidMount() {
+        this.props.exoticsApi.fetchBets('active', function (struct) {
+                this.setState({bets: this.sortLegs(struct)});
+            }.bind(this)
         );
     }
 
+    sortLegs(legs) {
+        var sortFn = function (i0, i1) {
+            if (i0.timestamp < i1.timestamp) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }.bind(this);
+        return legs.sort(sortFn);
+    }
+
+    handleTabClicked(tab) {
+        var status;
+        if (tab.name === "open") {
+            status = "active";
+        } else if (tab.name === "settled") {
+            status = "settled";
+        }
+        this.props.exoticsApi.fetchBets(status, function (struct) {
+            this.setState({
+                selectedTab: tab.name,
+                clickedFaq: false,
+                bets: struct
+            });
+        }.bind(this));
+    }
+
+    handleFaqClicked() {
+        this.setState({clickedFaq: !this.state.clickedFaq});
+    }
+
     render() {
-        const {mybets, clickHandler} = this.props;
-        const tabContent = this.getTabContent(mybets);
+        const {faqs, clickHandler} = this.props;
         return (
             <div>
                 <MyBetTab
@@ -57,7 +66,17 @@ export default class MyBetPanel extends React.PureComponent {
                     selected={this.state.selectedTab}
                     clickHandler={this.handleTabClicked}
                 />
-                {tabContent}
+                <button
+                    className={this.state.clickedFaq ? "btn btn-primary faq-btn faq-btn-active" : "btn btn-primary faq-btn"}
+                    onClick={() => this.handleFaqClicked()}>
+                    FAQs
+                </button>
+                <MyBetList
+                    bets={this.state.bets}
+                    selectedTab={this.state.selectedTab}
+                    faqs={faqs}
+                    clickedFaq={this.state.clickedFaq}
+                />
             </div>
         )
     }

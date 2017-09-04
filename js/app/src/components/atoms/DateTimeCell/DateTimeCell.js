@@ -24,7 +24,6 @@ export default class DateTimeCell extends React.PureComponent{
                         {DU.DateUtils.formatDate(date)}
                     </span>)            
         }
-        
-        return <div>{result}</div>;
+        return <div style={{display: "table-cell", whiteSpace: "nowrap", verticalAlign: "middle", paddingRight: "5px"}}>{result}</div>;
     }
 }

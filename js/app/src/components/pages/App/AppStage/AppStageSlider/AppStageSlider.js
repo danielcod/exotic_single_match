@@ -28,7 +28,7 @@ export default class AppStageSlider extends React.PureComponent {
         const {ticks, currentStage} = this.props;
         const sliderTicks = this.initSliderTicks(1, ticks.length);
         return (
-            <div className="app-stage-slider-container">
+            <div className="app-stage-slider-container" style={{display: "none"}}>
                 <ReactBootstrapSlider
                     value={ticks.map(function (o) {return o.name;}).indexOf(currentStage) + 1}
                     max={ticks.length}

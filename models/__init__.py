@@ -10,6 +10,8 @@ DefaultMemAge=60 # seconds
 
 DefaultBatchSize=250
 
+Active, Settled = "active", "settled"
+
 def fetch_models_db(query,                     
                     projection=None,
                     keys_only=False, 
@@ -61,14 +63,49 @@ def to_json(self, fields=[], extras=[]):
 
 db.Model.to_json=to_json # ** NB **
 
-class Blob(db.Model):
+class MemBlob(db.Model):
 
-    text = db.TextProperty()
-    timestamp = db.DateTimeProperty()
+    league=db.StringProperty()
+    text=db.TextProperty()
+    timestamp=db.DateTimeProperty()
 
     @classmethod
     def fetch(self, key):
-        blob = Blob.get_by_key_name(key)
+        blob=MemBlob.get_by_key_name(key)
+
         if not blob:
             raise RuntimeError("%s not found" % key)
         return json_loads(blob.text)
+
+class ExoticAcca(db.Model):
+
+    userid=db.StringProperty()
+    params=db.TextProperty()
+    first_kickoff=db.DateTimeProperty()
+    last_kickoff=db.DateTimeProperty()
+    size=db.FloatProperty()
+    price=db.FloatProperty()
+    timestamp=db.DateTimeProperty()
+    status=db.StringProperty()
+    outcome=db.StringProperty()
+
+    @classmethod
+    def find_active(self, userid):
+        query=ExoticAcca.all()
+        query.filter("userid = ", userid)
+        query.filter("status = ", Active)
+        return fetch_models_db(query)
+
+    @classmethod
+    def find_settled(self, userid):
+        query=ExoticAcca.all()
+        query.filter("userid = ", userid)
+        query.filter("status = ", Settled)
+        return fetch_models_db(query)
+
+    @classmethod
+    def find_settleable(self, cutoff):
+        query=ExoticAcca.all()
+        quer.filter("last_kickoff < ", cutoff)
+        return fetch_models_db(query)
+    

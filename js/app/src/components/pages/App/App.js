@@ -7,7 +7,7 @@ export default class App extends React.PureComponent {
         return (
             <div>
                 <div className="header clearfix">
-                    <h1>Team Exotics</h1>
+                    <img className="img-responsive" src="img/logo.png" alt="logo"/>
                 </div>
                 <AppStage
                     exoticsApi={this.props.exoticsApi}

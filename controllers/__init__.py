@@ -8,16 +8,6 @@ import datetime, logging, re, webapp2, yaml
 
 MemcacheAge=60*60 # keep it long to avoid calling DB all the time
 
-All="All"
-
-def end_of_season(today):
-    if today.month < 7:
-        return datetime.date(today.year, 6, 30)
-    else:
-        return datetime.date(today.year+1, 6, 30)
-
-EndOfSeason=end_of_season(datetime.date.today())
-
 def render_error(self, msg):
     self.response.set_status(400)
     self.response.headers['Content-Type']='text/plain' 
@@ -66,25 +56,6 @@ def emit_json(fn):
         except RuntimeError, error:  
             render_error(self, error)
     return wrapped_fn
-
-def emit_json_memcache(age):
-    def wrap(fn):
-        def wrapped_fn(self, *args, **kwargs):
-            try:    
-                memkey="%s?%s" % (self.request.path, self.request.query_string)
-                body=memcache.get(memkey)
-                if body not in ['', None]:
-                    # logging.info("Serving %s from memcache" % memkey)
-                    struct=json_loads(body)
-                else:
-                    # logging.info("Generating %s" % memkey)
-                    struct=fn(self, *args, **kwargs)
-                    memcache.set(memkey, json_dumps(struct), age)
-                render_json(self, struct)
-            except RuntimeError, error:  
-                render_error(self, error)
-        return wrapped_fn
-    return wrap
 
 def parse_json_body(fn):
     def wrapped_fn(self, *args, **kwargs):

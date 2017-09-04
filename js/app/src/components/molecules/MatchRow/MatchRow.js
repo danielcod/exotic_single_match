@@ -1,45 +1,47 @@
 import React from 'react';
 import {bindAll} from 'lodash';
-import DateTimeCell from '../../atoms/DateTimeCell';
+import DateTimeCellCustom from '../../atoms/DateTimeCellCustom';
 import MatchToggleCell from '../../atoms/MatchToggleCell';
 
 export default class MatchRow extends React.PureComponent {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             selected: false
         }
         bindAll(this, ['handleCellClicked']);
     }
-    componentWillMount(){
+
+    componentWillMount() {
         this.setState({
-            selected: this.props.match.selected==true
+            selected: this.props.match.selected == true
         })
     }
+
     handleCellClicked() {
-	// update state
-        var state=this.state;
-        state.selected=!state.selected;
+        // update state
+        var state = this.state;
+        state.selected = !state.selected;
         this.setState(state);
         // pass leg
-        var leg={
+        var leg = {
             match: this.props.match,
             selection: {
-            // START HACK
-            /* 
-            this is a hack designed to make Exotic Acca Draws work
-            problem is that quant pricing requires a team, but in this case you have a match
-            quick workaround is to force a team in this case; prob of one team drawing is the same as the prop of the other team drawing in a given match (???)
-            this won't work for other match- based payoffs!
-            real solution is to fix quant pricing to allow draws to be priced off matches rather than teams
-            */
-            team: this.props.match.name.split(" vs ")[0],
-            // END HACK
-            name: this.props.match.name
+                // START HACK
+                /*
+                this is a hack designed to make Exotic Acca Draws work
+                problem is that quant pricing requires a team, but in this case you have a match
+                quick workaround is to force a team in this case; prob of one team drawing is the same as the prop of the other team drawing in a given match (???)
+                this won't work for other match- based payoffs!
+                real solution is to fix quant pricing to allow draws to be priced off matches rather than teams
+                */
+                team: this.props.match.name.split(" vs ")[0],
+                // END HACK
+                name: this.props.match.name
             },
             description: this.props.match.name,
             price: this.props.match["1x2_prices"][1]
-	    };
+        };
         if (state.selected) {
             this.props.clickHandler.add(leg);
         } else {
@@ -48,12 +50,13 @@ export default class MatchRow extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.match.name!=this.props.match.name) {
-            var state=this.state;
-            state.selected=nextProps.match.selected;
+        if (nextProps.match.name != this.props.match.name) {
+            var state = this.state;
+            state.selected = nextProps.match.selected;
             this.setState(state);
         }
     }
+
     formatPrice(value) {
         if (value < 2) {
             // return value.toFixed(3);
@@ -69,26 +72,27 @@ export default class MatchRow extends React.PureComponent {
 
     render() {
         return (
-            <tr className= "text-center">
-                <td>
-                    <span>
+            <tr className="text-center">
+                <td className="date">
+                    <DateTimeCellCustom
+                        value={this.props.match.kickoff}
+                        type="datetime"
+                    />
+                </td>
+                <td className="fixture">
+                    <span className='match-name'>
                         {this.props.match.name}
                     </span>
-                    <br/>
-                    <DateTimeCell
-                        value={this.props.match.kickoff}
-                        type= "datetime"
-                    />
                 </td>
                 <td>
                     <span style={{color: '#777'}}>
                         {this.formatPrice(this.props.match["1x2_prices"][0])}
                     </span>
                 </td>
-                <MatchToggleCell 
+                <MatchToggleCell
                     value={this.formatPrice(this.props.match["1x2_prices"][1])}
-		            selected={this.state.selected}
-		            clickHandler={this.handleCellClicked}
+                    selected={this.state.selected}
+                    clickHandler={this.handleCellClicked}
                 />
                 <td>
                     <span style={{color: '#777'}}>
@@ -96,6 +100,6 @@ export default class MatchRow extends React.PureComponent {
                     </span>
                 </td>
             </tr>
-        )        
+        )
     }
 }

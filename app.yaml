@@ -1,5 +1,5 @@
-application: iosport-exotics-engine
-version: 1
+#application: iosport-exotics-engine-177508
+#version: 1
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -29,31 +29,26 @@ handlers:
 # STATIC
 - url: /css
   static_dir: css
-  http_headers:
-    Access-Control-Allow-Origin: '*'
 - url: /img
   static_dir: img
-  http_headers:
-    Access-Control-Allow-Origin: '*'
 - url: /js
   static_dir: js
-  http_headers:
-    Access-Control-Allow-Origin: '*'
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
-  http_headers:
-    Access-Control-Allow-Origin: '*'
 # APP
-- url: /app/bets.*
-  script: controllers.app.bets.app
-- url: /app/matches.*
-  script: controllers.app.matches.app
+- url: /api/exotic_accas.*
+  script: controllers.api.exotic_accas.app
+- url: /api/fixtures.*
+  script: controllers.api.fixtures.app
 - url: /app.*
-  script: controllers.app.app
+  script: controllers.api.app
 # TASKS
-- url: /tasks/app/matches.*
-  script: tasks.app.matches.app
+- url: /tasks/fixtures.*
+  script: tasks.fixtures.app
+- url: /tasks/results.*
+  script: tasks.results.app
 # ROOT
 - url: .*
-  script: controllers.root.app 
+  script: controllers.root.app
+
