@@ -82,10 +82,14 @@ export default class CornersPanel extends React.PureComponent {
          const bet  = this.getCurrentBet(props);
          this.props.delBetfromBetsList(bet);        
     }
-    changeStateByTab(selectedBetTab){
-        const {toogleValue, selectedTab} = this.state;  
-       const textValue =  this.formatText(selectedBetTab, toogleValue, selectedTab);
-       this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue)
+    changeStateByTab(selected){
+        const {toogleValue, selectedTab, selectedBetTab} = this.state; 
+        if (selectedBetTab === selected){
+            this.handleCancel();
+            return;
+        }         
+       const textValue =  this.formatText(selected, toogleValue, selectedTab);
+       this.setToParrenState(selected, toogleValue, selectedTab, textValue)
     }
     handleTabClicked(tab) {
          const {toogleValue, selectedBetTab} = this.state;  

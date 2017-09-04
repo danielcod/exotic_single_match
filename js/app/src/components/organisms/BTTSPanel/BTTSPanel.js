@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindAll, isEmpty } from 'lodash';
+import { bindAll, isEmpty, isEqual } from 'lodash';
 import MyBetTabThreeState from '../../molecules/MyBetTabThreeState';
 import Slider from 'rc-slider';
 import BTTSTable from '../BTTSTable';
@@ -85,10 +85,15 @@ export default class BTTSPanel extends React.PureComponent {
          this.props.delBetfromBetsList(bet);        
     }
     changeStateByTab(row, column, priceBTTS){
-        const selectedItem =  [row, column];
-        const textBTTS = formatBTTSText(row, column);
-        this.setState({selectedItem, changedTable: true, textBTTS, priceBTTS});    
-        setTimeout(()=> this.setToParrenState(), 0);
+        const {selectedItem} =  this.state; 
+        const newItem = Array(row, column);
+        if (isEqual(selectedItem, newItem)) {     
+            this.setState({selectedItem: [], changedTable: null, textBTTS: '', priceBTTS: null});               
+        }else{
+            const textBTTS = formatBTTSText(row, column);
+            this.setState({selectedItem: newItem, changedTable: true, textBTTS, priceBTTS});               
+        }
+         setTimeout(()=> this.setToParrenState(), 0);
     }
     handleTabClicked(tab) {
         let {selectedTab, sliderValue} = this.state;
