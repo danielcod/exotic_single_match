@@ -1,8 +1,8 @@
 import * as constant from './constant'
 import * as products from './products'
-const PLAYER_CARDS = products.matchComponents[3];
-const GOAL_SCORERS = products.matchComponents[4];
-const BTTS = products.matchComponents[5];
+const PLAYER_CARDS = constant.PLAYER_CARDS_;
+const GOAL_SCORERS = constant.GOAL_SCORERS;
+const BTTS = constant.GOALS;
 
 export function matchSorter(m0, m1) {	       
         if (m0.kickoff < m1.kickoff) {
@@ -59,13 +59,13 @@ export function matchSorter(m0, m1) {
             columnText = constant.NO;
         }
         if (row === constant.SELCTED_FIRST){
-            rowText = constant.FULL_MATCH;
+            rowText = ''; //'(' +constant.FULL_MATCH + ');
         }else if(row === constant.SELCTED_TWO){
-            rowText = constant.BOTH_HALVES;
+            rowText = '(' + constant.BOTH_HALVES + ')';
         }else if(row === constant.SELCTED_THREE){
-            rowText = constant.EITHER_HALF;
+            rowText = '(' + constant.EITHER_HALF + ')';
         }
-        return 'BTTS (' + rowText + ') = '+columnText;
+        return 'BTTS ' +  rowText  + ' = ' + columnText;
     }
 
     export function formatTotalGoalsText(sliderValue, selectedTab){

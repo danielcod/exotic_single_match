@@ -5,7 +5,7 @@ import Slider from 'rc-slider';
 import BTTSTable from '../BTTSTable';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
-const productsName = products.matchComponents[5];
+const productsName = constant.GOALS;
 import * as struct from  '../../struct';
 import {formatBTTSText, formatTotalGoalsText} from '../../utils';
 import s from './index.css';

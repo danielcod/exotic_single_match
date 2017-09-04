@@ -313,7 +313,23 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                                 bets={this.state.bets}
                                                                 delBetfromBetsList={this.delBetfromBetsList}                                                                                                      
                                                                 /> : null}  
-                                                        {index ===  1 ?
+                                                        {index ===  1 ? 
+                                                            <BTTSPanel
+                                                                matches={str.MatchResultStruct}
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delBetfromBetsList}
+                                                            /> : null} 
+                                                        {index ===  2 ? 
+                                                            <GoalScorersPanel 
+                                                                matches={matches}
+                                                                match={match}
+                                                                betResultMatch={this.betResultMatch}                                                            
+                                                                bets={this.state.bets}
+                                                                delBetfromBetsList={this.delTeamBetfromBetsList}
+                                                            /> : null} 
+                                                        {index ===  3 ?
                                                             <CornersPanel
                                                                 matches={str.MatchResultStruct}
                                                                 match={match}
@@ -322,7 +338,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                                 delBetfromBetsList={this.delBetfromBetsList}
                                                                 />
                                                              : null} 
-                                                        {index ===  2 ? 
+                                                        {index ===  4 ? 
                                                             <TeamCardsPanel
                                                                 matches={str.MatchResultStruct}
                                                                 match={match}
@@ -331,7 +347,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                                 delBetfromBetsList={this.delBetfromBetsList}
                                                             /> 
                                                             : null} 
-                                                        {index ===  3 ? 
+                                                        {index ===  5 ? 
                                                         < PlayerCardsPanel 
                                                             matches={matches}
                                                             match={match}
@@ -340,22 +356,8 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                             delBetfromBetsList={this.delTeamBetfromBetsList}
                                                         />
                                                             : null} 
-                                                        {index ===  4 ? 
-                                                            <GoalScorersPanel 
-                                                                matches={matches}
-                                                                match={match}
-                                                                betResultMatch={this.betResultMatch}                                                            
-                                                                bets={this.state.bets}
-                                                                delBetfromBetsList={this.delTeamBetfromBetsList}
-                                                            /> : null} 
-                                                        {index ===  5 ? 
-                                                            <BTTSPanel
-                                                                matches={str.MatchResultStruct}
-                                                                match={match}
-                                                                betResultMatch={this.betResultMatch}                                                            
-                                                                bets={this.state.bets}
-                                                                delBetfromBetsList={this.delBetfromBetsList}
-                                                            /> : null} 
+                                                        
+                                                        
                                                     </div>           
                                                 </AccordionItem>
                                         );

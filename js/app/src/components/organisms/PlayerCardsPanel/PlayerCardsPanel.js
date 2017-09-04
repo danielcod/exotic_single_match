@@ -6,7 +6,7 @@ import MyBetTab from '../../templates/MyBetPanel/MyBetTab';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
 import {formatPrice} from  '../../utils';
-const productsName = products.matchComponents[3];
+const productsName = constant.PLAYER_CARDS_;
 import * as struct from  '../../struct';
 import s from './index.css';
 import classNames from 'classnames';

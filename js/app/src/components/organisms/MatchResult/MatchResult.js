@@ -3,7 +3,7 @@ import { bindAll, isEmpty, isEqual } from 'lodash';
 import MatchResultTable from '../MatchResultTable';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
-const productsName = products.matchComponents[0];
+const productsName = constant.MATCH_RESULT;
 import Slider from 'rc-slider';
 const Range = Slider.Range;
 import classNames from 'classnames';

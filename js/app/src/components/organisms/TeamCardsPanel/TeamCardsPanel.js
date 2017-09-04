@@ -4,7 +4,7 @@ import MyBetTab from '../../templates/MyBetPanel/MyBetTab';
 import CornersToogle from '../../molecules/CornersToggle';
 import * as constant from  '../../constant';
 import * as products from  '../../products';
-const productsName = products.matchComponents[2];
+const productsName = constant.TEAM_CARDS;
 import * as struct from  '../../struct';
 import s from './index.css';
 import classNames from 'classnames';
