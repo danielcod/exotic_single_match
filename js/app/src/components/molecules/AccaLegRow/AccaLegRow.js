@@ -48,7 +48,7 @@ export default class AccaLegRow extends React.PureComponent {
                                 <img src={imgSrc}/>
                             </div>
         }else{
-            firstItem = <DateTimeCell
+            firstItem = <DateTimeCellCustom
                             value={this.props.leg.match.kickoff}
                             type="datetime"/>;
         }

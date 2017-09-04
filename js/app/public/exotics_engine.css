@@ -1,4 +1,5 @@
 #app .header {
+    position: absolute;
     padding: 11px 15px;
 }
 
@@ -53,12 +54,6 @@ ul li a .badge {
 .acca-panel-list-content .leg-row .leg-row-descr .draws {
     background-color: #d99c41;
 }
-
-.round-cell .round-cell-btn:hover,
-.round-cell .round-cell-btn:focus {
-    color: #fff;
-}
-
 .acca-panel-list-content .paginator {
     margin-top: 30px;
 }
@@ -128,7 +123,7 @@ ul li a .badge {
 
 .round-cell .round-cell-btn:hover,
 .round-cell .round-cell-btn:focus {
-    color: rgba(255, 255, 255, 0.7);
+    color: #FFF;
 }
 
 tr > td span.today {

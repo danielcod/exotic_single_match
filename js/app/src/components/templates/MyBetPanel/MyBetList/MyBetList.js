@@ -141,7 +141,6 @@ export default class MyBetList extends React.PureComponent {
             case "draws": {
                 return "EXOTIC DRAWS ACCA";
             }
->>>>>>> dev-daniel
         }
     }
 

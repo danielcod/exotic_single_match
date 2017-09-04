@@ -1,5 +1,5 @@
 import React from 'react';
-import AccaLegRow from '../../molecules/AccaLegRow';
+import BetRow from '../../molecules/BetRow';
 import * as products from  '../../products'; 
 import {formatObjectYourBet} from '../../utils';
 
@@ -12,7 +12,7 @@ export default class MatchBetsTable extends React.PureComponent {
                 <tbody>
                 {
                     bets.map(function (bet, key) {                                                                      
-                            return (<AccaLegRow
+                            return (<BetRow
                                 key={key}
                                 clickHandler={clickHandler}
                                 accaProductPanelState={accaProductPanelState}
