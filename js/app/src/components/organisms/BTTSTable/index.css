@@ -40,6 +40,12 @@
 .selected-bet-tab{
     background-color: #ec644b;
 }
+.not-selected-bet-tab:focus,
+.not-selected-bet-tab:hover,
+.selected-bet-tab:focus,
+.selected-bet-tab:hover{
+     color: #fff;
+}
 .show-text{
     text-align: center;
     font-size: 16px;

@@ -4,7 +4,7 @@ import * as constant from  '../../constant';
 import classNames from 'classnames';
 import * as s from './index.css';
 
-export default class PlayerCardsTable extends React.PureComponent {
+export default class BTTSTable extends React.PureComponent {
     render(){
         const { selectedItem, match } = this.props;
         const   row = selectedItem[0], 
