@@ -57,7 +57,7 @@ export default class GoalScorersTable extends React.PureComponent {
                 <thead>
                     <tr>
                         {
-                            ["", "Any Goal", "Game 1st", "Team 1st", "3+ goals"].map(function(label, key) {
+                            ["", "Any Time", "Game 1st", "Team 1st", "3+ goals"].map(function(label, key) {
                                 return (
                                     <th key={key} className={classNames(s['player-table-header-item'], "text-center")}>
                                         {label}

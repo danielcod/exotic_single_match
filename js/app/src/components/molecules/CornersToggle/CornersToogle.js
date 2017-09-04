@@ -10,7 +10,7 @@ export default class CornersToogle extends React.PureComponent{
                     </a>
                 </li>
                 <li>
-                    <h4 className= "text-muted" style={{color: "#AAA"}}>
+                    <h4 className= "text-muted" style={{color: "#fff"}}>
                         {this.props.value}
                     </h4>
                 </li>
