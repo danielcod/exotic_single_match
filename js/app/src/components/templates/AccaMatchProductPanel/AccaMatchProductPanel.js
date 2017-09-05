@@ -21,9 +21,9 @@ import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
 import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
 import s from './index.css';
 import * as str from  '../../struct';
-const PLAYER_CARDS = data.matchComponents[3];
-const GOAL_SCORERS = data.matchComponents[4];
-const BTTS = data.matchComponents[5];
+const PLAYER_CARDS = constant.PLAYER_CARDS_;
+const GOAL_SCORERS = constant.GOAL_SCORERS;
+const BTTS = constant.GOALS;
 
 export default class AccaMatchProductPanel extends React.PureComponent{
     constructor(props){
