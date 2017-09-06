@@ -9,10 +9,12 @@
 }
 
 #app .nav-tabs {
-    padding-top: 10px;
+    padding: 20px 6px 0;
     margin-bottom: 20px;
 }
-
+.nav-tabs>li>a{
+    line-height: 1.5;
+}
 ul li a .badge {
     background-color: #59a0df;
 }

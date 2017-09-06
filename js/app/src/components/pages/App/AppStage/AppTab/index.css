@@ -1,0 +1,7 @@
+.badge_{
+    position: relative;
+    left: 4px;
+}
+.badgeBet a{
+    padding-left: 10px!important;
+}

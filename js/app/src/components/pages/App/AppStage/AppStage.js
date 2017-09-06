@@ -16,22 +16,29 @@ export default class AppStage extends React.PureComponent {
         {name: "bet", label: "Bet"}
     ];
     appTab = [
-        {name: "match", label: "Match Exotics"},
-        {name: "exotic", label: "Exotic Accas"},
-        {name: "bets", label: "Your Bets"}
+        /*{name: "match", label: "Match Exotics"},*/
+        {name: "browse", label: "Browse"},
+        { name: "build", label: "Build" },
+        { name: "bet",  label: "Betslip" },         
+        { name: "bets", label: "Bets" }
     ];
 
     constructor(props) {
         super(props);
         this.state = {
             currentStage: "browse",
-            selectedTab: "match",
+            selectedTab: "browse",
+            match: {},
+            bets: []
         };
         bindAll(this, ['handleTabClicked', 'handleStageChanged', 'getTabContent']);
     }
 
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
+        if ('bets' === tab.name){
+            this.setBets();
+        }
     }
 
     handleStageChanged(stage) {
@@ -39,27 +46,38 @@ export default class AppStage extends React.PureComponent {
             currentStage: stage
         });
     }
-
+    handleBuidMyOwn = ()=>{
+        this.setState({selectedTab: 'build', currentStage: "edit"});
+    }
+    handleToBrowse = (selectedTab)=>{
+        this.setState({selectedTab, currentStage: "edit"});
+    }
+    setMatch = (match)=>{
+        this.setState({match});
+    }
+    setBets = (bets = [])=>{
+        this.setState({bets});
+    }
     getTabContent() {
         switch (this.state.selectedTab) {
-            case "match":
+            case "browse":
+                return (
+                    <button className="btn btn-primary" style={{float: 'right'}}
+                        onClick={this.handleBuidMyOwn}
+                        >Build My Own</button>
+                );
+            case "build":
+            case "bet":
                 return (                    
                     <AccaMatchProductPanel 
                         exoticsApi={this.props.exoticsApi}                                               
-                        clickHandler={this.handleStageChanged}     
+                        clickHandler={this.handleStageChanged}
+                        selectedTab = {this.state.selectedTab}     
+                        setMatch={this.setMatch}
+                        setBets={this.setBets}
+                        handleToBrowse={this.handleToBrowse}
                     />                     
                 )
-            case "exotic":
-                return (
-                    <AccaProductPanel
-                        exoticsApi={this.props.exoticsApi}
-                        products={data.products}
-                        legsPaginator={{rows: 6}}
-                        betLegsPaginator={{rows: 6}}
-                        list={list.items}
-                        clickHandler={this.handleStageChanged}
-                    />
-                );
             case "bets":
                 return (
                     <MyBetPanel
@@ -84,6 +102,8 @@ export default class AppStage extends React.PureComponent {
                     selected={this.state.selectedTab}
                     clickHandler={this.handleTabClicked}
                     currentStage={this.state.currentStage}
+                    bets={this.state.bets}
+                    match={this.state.match}
                 />
                 {tabContent}
             </div>
