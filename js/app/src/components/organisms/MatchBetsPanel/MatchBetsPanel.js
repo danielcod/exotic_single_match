@@ -122,7 +122,9 @@ export default class MatchBetsPanel extends React.PureComponent {
                         </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>2) </span>
-                             Add your selections for in-game events
+                             Add your                             
+                              <span className={s['white-text']}>  selections </span>
+                              for in-game events.
                         </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>3) </span>
