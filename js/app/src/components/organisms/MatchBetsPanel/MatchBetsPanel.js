@@ -115,7 +115,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>1) </span>
                             Choose your 
-                            <span className={s['white-text']}> Match </span>
+                            <span className={s['white-text']}> match </span>
                             from the 
                             <span className={s['white-text']}> Build </span>
                             tab!
