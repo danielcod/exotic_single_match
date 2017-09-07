@@ -115,16 +115,19 @@ export default class MatchBetsPanel extends React.PureComponent {
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>1) </span>
                             Choose your 
-                            <span className={s['white-text']}> Exotic Acca type </span>
-                            and the games you want from the 
+                            <span className={s['white-text']}> Match </span>
+                            from the 
                             <span className={s['white-text']}> Build </span>
                             tab!
                         </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>2) </span>
-                             Customize your bet on the 
-                            <span className={s['white-text']}> Betslip </span>
-                            tab
+                             Add your selections for in-game events
+                        </div>
+                        <div className={classNames('text-muted', 'text-left')}>
+                            <span className={s['white-text']}>3) </span>
+                             Make it exotic on the 
+                            <span className={s['white-text']}> Betslip! </span>                           
                         </div>
                         <button 
                             className={classNames('btn', 'btn-primary', s['get-started-btn'])}

@@ -510,10 +510,10 @@ select.input-lg {
     color: #fff;
 }
 /* APP Your Bets Tab */ 
-/*#my-bet-tabs { 
-    width: 270px; 
-    margin: 0 auto; 
-} */
+#my-bet-tabs { 
+    width: 200px; 
+    margin-left: 10px; 
+} 
  
 #my-bet-tabs .nav-tabs { 
     margin: 0 20px 0 20px; 
@@ -620,4 +620,11 @@ select.input-lg {
 .pagination li {
      margin: 0 0 4px 0;
      cursor: pointer;
+}
+.faq-btn{
+    float: right;
+    margin-top: -36px;
+    margin-right: 20px;
+    background: #575763;
+    color: hsla(0, 0%, 100%, .7);
 }

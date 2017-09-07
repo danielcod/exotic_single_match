@@ -10,8 +10,8 @@
     justify-content: baseline;
 }
 .my-bet-tabs {
-    width: 200px;
-    margin: 0 auto;
+    width: 200px!important;
+    margin: 0 auto!important;
     
 }
 .my-team-bet-tabs{
