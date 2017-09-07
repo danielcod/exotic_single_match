@@ -258,6 +258,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                         match={ match } 
                                         clearBets={this.clearBets}
                                         openStakePanel={this.openStakePanel}
+                                        returnToBetsPanel={this.returnToBetsPanel}
                                         /> 
                         :
                         <div>

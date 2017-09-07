@@ -108,10 +108,30 @@ export default class MatchBetsPanel extends React.PureComponent {
         if (showBets.length === 0){
             return(
                 <div>
-                    <h4 className="text-center text-muted" 
-                        style={{marginLeft: '50px', marginRight: '50px'}}>
-                        Use the Leg Selector tab to add some selections
-                    </h4>
+                    <div className={classNames(s["description"])}>                        
+                        <div className={classNames(s['title'])}>
+                            How does this work?
+                        </div >
+                        <div className={classNames('text-muted', 'text-left')}>
+                            <span className={s['white-text']}>1) </span>
+                            Choose your 
+                            <span className={s['white-text']}> Exotic Acca type </span>
+                            and the games you want from the 
+                            <span className={s['white-text']}> Build </span>
+                            tab!
+                        </div>
+                        <div className={classNames('text-muted', 'text-left')}>
+                            <span className={s['white-text']}>2) </span>
+                             Customize your bet on the 
+                            <span className={s['white-text']}> Betslip </span>
+                            tab
+                        </div>
+                        <button 
+                            className={classNames('btn', 'btn-primary', s['get-started-btn'])}
+                            onClick={this.props.returnToBetsPanel}>
+                            Get Started
+                        </button>                     
+                    </div>                    
                 </div>
             );
         }

@@ -8,6 +8,8 @@ import MyBetPanel from '../../../templates/MyBetPanel';
 import * as data from '../../../products';
 import * as list from '../../../list';
 import * as faq from '../../../faq';
+import classnames from 'classnames';
+import * as s from './index.css';
 
 export default class AppStage extends React.PureComponent {
     appStage = [
@@ -62,9 +64,9 @@ export default class AppStage extends React.PureComponent {
         switch (this.state.selectedTab) {
             case "browse":
                 return (
-                    <button className="btn btn-primary" style={{float: 'right'}}
+                    <button className={classnames("btn", "btn-primary", s['btn-build'])}
                         onClick={this.handleBuidMyOwn}
-                        >Build My Own</button>
+                        >BUILD YOUR OWN EXOTIC</button>
                 );
             case "build":
             case "bet":

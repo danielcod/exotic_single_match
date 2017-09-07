@@ -7,3 +7,28 @@
 .bet-submit-btns-child{
     margin: 4px 0;
 }
+.description{
+    text-align: center;
+    padding: 0 30px 0 30px;
+}
+.description .title{
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+.description .white-text{
+    color: #fff;
+    font-weight: bold;
+}
+.description div{
+    margin-bottom: 15px;
+}
+.get-started-btn, 
+.get-started-btn:hover,
+.get-started-btn:focus,
+.get-started-btn:active
+ {
+    background: #59a0df!important;
+    border-color: #5598d4!important;
+    margin-top: 20px;
+}
