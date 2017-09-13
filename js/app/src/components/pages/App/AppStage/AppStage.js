@@ -18,7 +18,6 @@ export default class AppStage extends React.PureComponent {
         {name: "bet", label: "Bet"}
     ];
     appTab = [
-        /*{name: "match", label: "Match Exotics"},*/
         {name: "browse", label: "Browse"},
         { name: "build", label: "Build" },
         { name: "bet",  label: "Betslip" },         
@@ -38,7 +37,7 @@ export default class AppStage extends React.PureComponent {
 
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
-        if ('bets' === tab.name){
+        if ('bets' === tab.name || "browse" === tab.name  ){
             this.setBets();
         }
     }
