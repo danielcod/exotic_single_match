@@ -3,7 +3,6 @@
     position: relative;
     transform: translateX(-50%);
     left: 50%;
-    bottom: 10px;
 }
 .cornersTable .item{    
     text-align: center;
@@ -62,7 +61,7 @@
    }
 .table-title{
     text-align: center;
-    margin-bottom: 16px;
+    margin: 8px 0;
     color: #fff;
 }
 .column-tile{

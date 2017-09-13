@@ -3,7 +3,7 @@
     position: relative;
     transform: translateX(-50%);
     left: 61%;
-    bottom: 10px;
+    bottom: -8px;
 }
 .cornersTable .item{    
     text-align: center;
@@ -15,12 +15,11 @@
 }
 .wrap-mybettab{
     margin-top: 20px; 
-    margin-bottom: 30px; 
+    margin-bottom: 14px; 
     margin-left: 50px; 
 }
 .btn-group{
-    margin-top: 16px;
-    margin-bottom: 0;
+    margin: 16px 0 16px 0;
 }
 .not-selected-bet-tab{
     background-color: #575763;

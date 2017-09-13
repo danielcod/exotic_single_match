@@ -435,7 +435,7 @@ select.input-lg {
 	opacity: 1;
 }
 .react-sanfona-item-body-wrapper {	
-    padding: 20px 6px;
+    padding: 0 6px;
 	position: relative;
 }
 .react-sanfona-item-wrap{

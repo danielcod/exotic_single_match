@@ -160,7 +160,7 @@ export default class MatchResult extends React.PureComponent {
             5: '5+'
         }     
         return(
-            <div>
+            <div className={s['match-result']}>
                 <MatchResultTable
                             matches={ this.props.matches }
                             legs= {this.props.legs}

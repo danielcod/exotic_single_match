@@ -286,8 +286,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                     return (                                    
                                             <AccordionItem  
                                                 title={ renderAngle(index, item)}  key={item}
-                                                >
-                                                <div>                                                                                    
+                                                >                                                                                                                                  
                                                     {index ===  0 ? 
                                                         <MatchResult 
                                                             matches={str.MatchResultStruct}
@@ -340,9 +339,6 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                         delBetfromBetsList={this.delTeamBetfromBetsList}
                                                     />
                                                         : null} 
-                                                    
-                                                    
-                                                </div>           
                                             </AccordionItem>
                                     );
                                 })}
