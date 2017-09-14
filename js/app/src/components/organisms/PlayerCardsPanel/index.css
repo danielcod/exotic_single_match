@@ -1,5 +1,6 @@
 .wrap-mybettab{
-    margin: 12px 0 -12px 50px;
+    margin: 20px auto 14px auto;
+    max-width: 200px;
 }
 .show-text{
     font-size: 16px;

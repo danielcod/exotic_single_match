@@ -133,17 +133,21 @@ export default class StakePanel extends React.PureComponent {
                     {this.getCurrentTimeFormatter()}
                 </div>
                 <div className="form-group">
-                    <div className={classnames("main-menu-container", s['main-menu-btn-container'])}>                        
-                        <button
-                            className={classnames("btn btn-primary", s['main-menu-btn'])}
-                            onClick={this.props.returnToBetsPanel}>
-                            KEEP SELECTIONS
-                        </button>
-                        <button
-                            className={classnames("btn btn-primary", s['main-menu-btn'])}
-                            onClick={this.props.toMainMenu}>
-                            MAIN MENU
-                        </button>
+                    <div className={classnames("main-menu-container", s['main-menu-btn-container'])}>  
+                        <div className={s['wrap-main-menu-btn']}>
+                            <button
+                                className={classnames("btn btn-primary", s['main-menu-btn'])}
+                                onClick={this.props.returnToBetsPanel}>
+                                KEEP SELECTIONS
+                            </button>
+                        </div>                      
+                        <div className={s['wrap-main-menu-btn']}>
+                            <button
+                                className={classnames("btn btn-primary", s['main-menu-btn'])}
+                                onClick={this.props.toMainMenu}>
+                                MAIN MENU
+                            </button>
+                        </div>                        
                     </div>                    
                 </div>
            </div>

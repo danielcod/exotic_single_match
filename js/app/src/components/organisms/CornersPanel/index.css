@@ -14,9 +14,8 @@
     border-radius: 8px;
 }
 .wrap-mybettab{
-    margin-top: 20px; 
-    margin-bottom: 14px; 
-    margin-left: 50px; 
+    margin: 20px auto 14px auto;
+    max-width: 200px;
 }
 .btn-group{
     margin: 16px 0 16px 0;

@@ -189,12 +189,14 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                 <img  style={{display: 'block'}} src={'img/' + title + '-dark.png'}/>
                                 <img  style={{display: 'none'}} src={'img/' + title + '-light.png'}/>
                             </div>  
-                            <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                                {title}                                
-                                <div className={s['b-angle']}>
-                                    <FaAngleDoubleUp/>
-                                </div>  
-                            </h3>
+                            <div className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                <div className={s["wrap-item-title"]}>
+                                    <div className={s['sanfona-title']}>{title}</div>
+                                    <div className={s['b-angle']}>
+                                        <FaAngleDoubleUp/>
+                                    </div>  
+                                </div>
+                            </div>
                         </div>                       
                         :
                         <div className="react-sanfona-item-wrap">
@@ -202,12 +204,14 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                 <img  style={{display: 'none'}} src={'img/' + title + '-dark.png'}/>
                                 <img  style={{display: 'block'}} src={'img/' + title + '-light.png'}/>
                             </div>                            
-                            <h3 className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
-                                {title}                                
-                                <div className={s['b-angle']}>
-                                    <FaAngleDoubleDown/>
+                            <div className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
+                                 <div className={s["wrap-item-title"]}>
+                                    <div className={s['sanfona-title']}>{title}</div>
+                                    <div className={s['b-angle']}>
+                                        <FaAngleDoubleUp/>
+                                    </div>  
                                 </div>
-                            </h3>
+                            </div>
                         </div>
                     );            
          }

@@ -4,22 +4,29 @@
 }
 .b-angle{
     position: relative;
-    bottom: 18px;
-    left: 90%
+    bottom: 4px;
+    
 }
+
 .b-angle >  svg{
     width: 20px;
     height: 20px;
 }
 .title-img{
     width: 24px;
-    height: 24px;
+    height: auto;
     margin-right: 24px;
-    margin-bottom: 2px;
+    display: table-cell;
+    vertical-align: middle;
 }
 .title-img img{
     position: relative;
     bottom: 3px;
     width: 24px;
     height: auto;
+}
+.wrap-item-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

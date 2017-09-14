@@ -2,6 +2,7 @@ import React from 'react';
 import {bindAll} from 'lodash';
 import MyBetTab from './MyBetTab';
 import MyBetList from './MyBetList';
+import * as s from './index.css';
 
 export default class MyBetPanel extends React.PureComponent {
     myBetTab = [
@@ -61,11 +62,13 @@ export default class MyBetPanel extends React.PureComponent {
         const {faqs, clickHandler} = this.props;
         return (
             <div>
-                <MyBetTab
-                    tabs={this.myBetTab}
-                    selected={this.state.selectedTab}
-                    clickHandler={this.handleTabClicked}
-                />
+                <div className={s['wrap-mybettab']}>
+                    <MyBetTab
+                        tabs={this.myBetTab}
+                        selected={this.state.selectedTab}
+                        clickHandler={this.handleTabClicked}
+                    />
+                </div>                
                 <button
                     className={this.state.clickedFaq ? "btn btn-primary faq-btn faq-btn-active" : "btn btn-primary faq-btn"}
                     onClick={() => this.handleFaqClicked()}>

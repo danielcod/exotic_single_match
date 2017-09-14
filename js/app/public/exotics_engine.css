@@ -1,3 +1,9 @@
+#app{
+    margin: 0 auto;   
+}
+@media screen and (max-width: 650px) {
+     max-width: 100vw;
+}
 #app .header {
     position: absolute;
     padding: 11px 15px;
@@ -411,6 +417,9 @@ select.input-lg {
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-bottom: 70px;
+  position: relative;
+  top:0;
+  left:0;
 }
 
 .react-sanfona-item:first-child .react-sanfona-item-wrap {
@@ -425,11 +434,16 @@ select.input-lg {
 .react-sanfona-item .title-done-btn {
       display: none;
 }
-.react-sanfona-item-title {    
+.react-sanfona-item-title {  
     font-size: 16px;
     text-transform: uppercase;
     transition: background-color .3s;
-    width: 80%;
+    width: auto;
+    padding-left: 30px;
+    display: table-cell;
+    position: relative;
+    bottom: 6px;
+
 }
 .react-sanfona-item:hover .tooltip {
 	opacity: 1;
@@ -440,12 +454,11 @@ select.input-lg {
 }
 .react-sanfona-item-wrap{
     border-top: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    display: table;
     width: 100%;
-    padding: 16px 16px 0px 16px;
+    padding: 16px 16px 6px 16px;
     cursor: pointer;
+    line-height: 44px;
 }
 
 .react-sanfona-item-expanded .react-sanfona-item-wrap{
@@ -497,6 +510,7 @@ select.input-lg {
 
 .table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
 	    border: 0;
+        padding: 1%;
 }
 .table-not-bordered .match-name{
 	font-size: 14px;
@@ -510,10 +524,7 @@ select.input-lg {
     color: #fff;
 }
 /* APP Your Bets Tab */ 
-#my-bet-tabs { 
-    width: 200px; 
-    margin-left: 10px; 
-} 
+
  
 #my-bet-tabs .nav-tabs { 
     margin: 0 20px 0 20px; 
@@ -523,6 +534,7 @@ select.input-lg {
  
 #my-bet-tabs .nav-tabs > li > a { 
     font-size: 12px; 
+    min-width: 80px;
 } 
  
 #my-bet-tabs .nav-tabs > li.active:before { 
