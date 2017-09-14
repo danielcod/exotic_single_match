@@ -138,8 +138,10 @@ export default class TeamCardsPanel extends React.PureComponent {
        return textValue;       
    }
     render(){        
-        const firstTeam = this.props.match.name.split(' vs ')[0];
-        const secondTeam = this.props.match.name.split(' vs ')[1];
+        let  firstTeam, secondTeam;
+        if (this.props.match){
+            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        }
         const toogleValue = this.state.toogleValue;
         return(
             <div>

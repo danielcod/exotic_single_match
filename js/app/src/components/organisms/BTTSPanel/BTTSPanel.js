@@ -123,12 +123,15 @@ export default class BTTSPanel extends React.PureComponent {
             this.setState({ sliderValue });               
         }
     }   
-    render(){        
-        const firstTeam = this.props.match.name.split(' vs ')[0];
-        const secondTeam = this.props.match.name.split(' vs ')[1];
+    render(){ 
+        const  {match} = this.props; 
+        let  firstTeam, secondTeam;
+        if (match){
+            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        }
         const toogleValue = this.state.toogleValue;
         const  {sliderValue} = this.state;  
-        const  {match} = this.props;  
+         
         return(
             <div>
                 <BTTSTable

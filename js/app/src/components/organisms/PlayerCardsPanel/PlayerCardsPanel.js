@@ -11,7 +11,7 @@ import * as struct from  '../../struct';
 import s from './index.css';
 import classNames from 'classnames';
 
-export default class PlayerCardsPanel extends React.PureComponent {
+export default class PlayerCardsPanel extends React.Component {
         constructor(props){
         super(props);
         bindAll(this, ['getCurrentBet', 'initState', 'clickTable', 'applyPaginatorWindow', 
@@ -19,7 +19,10 @@ export default class PlayerCardsPanel extends React.PureComponent {
                         'formatText', 'isCurrentItemClicked', 'handleCancel']);
         let bet = this.getCurrentBet(this.props); 
         if (isEmpty(bet)) bet = this.initState();
-        const comands = this.props.match.name.split(' vs ');
+        let  firstTeam, secondTeam;
+        if (this.props.match){
+            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        }
         this.state={            
             price: bet.options.price,
             currentPage: bet.options.currentPage,
@@ -27,8 +30,8 @@ export default class PlayerCardsPanel extends React.PureComponent {
             selectedTeam: bet.options.selectedTeam,
             textValue: bet.options.textValue,
             myBetTab : [
-                {name: constant.HOME, label: comands[0]},
-                {name: constant.AWAY, label: comands[1]}
+                {name: constant.HOME, label: firstTeam},
+                {name: constant.AWAY, label: secondTeam}
             ],
             triggerState: false,
             changes: bet.options.changes
@@ -37,10 +40,13 @@ export default class PlayerCardsPanel extends React.PureComponent {
     componentWillReceiveProps(props){
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initState();
-        const comands = props.match.name.split(' vs ');
+        let  firstTeam, secondTeam;
+        if (this.props.match){
+            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        }
         const myBetTab = [
-                {name: constant.HOME, label: comands[0]},
-                {name: constant.AWAY, label: comands[1]}
+                {name: constant.HOME, label: firstTeam},
+                {name: constant.AWAY, label: secondTeam}
             ]
         const {selectedTeam, currentPage, selectedItem, price, textValue, changes} = bet.options;   
          this.setState({ myBetTab, selectedTeam, currentPage, selectedItem, price, textValue, changes });   

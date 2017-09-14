@@ -91,16 +91,20 @@ export default class MatchResult extends React.PureComponent {
     formatDynamicText(selectedItem, value){
         if (!this.props.match || !selectedItem) return;
         const comands = this.props.match.name.split(' vs ');
+        let  firstTeam, secondTeam;
+        if (this.props.match){
+            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        }
         const [resultTimeId, winnComandId ]  = selectedItem;
         let textValue  = '', comand = '', selectedTime = '', scores = '', goalText = '';
         const [minCountGoals, maxCountGoals] = value;
         switch(winnComandId){
             case constant.SELCTED_FIRST:
-                comand = comands[0] + ' ' + constant.TO_WINN;
+                comand = firstTeam + ' ' + constant.TO_WINN;
                 goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_THREE:
-                comand = comands[1] + ' ' + constant.TO_WINN;
+                comand = secondTeam + ' ' + constant.TO_WINN;
                 goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
                 break;
             case constant.SELCTED_TWO:

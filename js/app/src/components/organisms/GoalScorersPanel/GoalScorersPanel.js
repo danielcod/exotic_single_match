@@ -19,7 +19,10 @@ export default class GoalScorersPanel extends React.PureComponent {
                         'formatText', 'isCurrentItemClicked', 'handleCancel']);
         let bet = this.getCurrentBet(this.props); 
         if (isEmpty(bet)) bet = this.initState();
-        const comands = this.props.match.name.split(' vs ');
+        let firstComand, secondComand;
+        if (this.props.match){
+            [firstComand, secondComand] = this.props.match.name.split(' vs ');
+        }        
         this.state={            
             price: bet.options.price,
             currentPage: bet.options.currentPage,
@@ -27,8 +30,8 @@ export default class GoalScorersPanel extends React.PureComponent {
             selectedTeam: bet.options.selectedTeam,
             textValue: bet.options.textValue,
             myBetTab : [
-                {name: constant.HOME, label: comands[0]},
-                {name: constant.AWAY, label: comands[1]}
+                {name: constant.HOME, label: firstComand},
+                {name: constant.AWAY, label: secondComand}
             ],
             triggerState: false,
             changes: bet.options.changes
@@ -37,10 +40,13 @@ export default class GoalScorersPanel extends React.PureComponent {
     componentWillReceiveProps(props){
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initState();
-        const comands = props.match.name.split(' vs ');
+        let firstComand, secondComand;
+        if (this.props.match){
+            [firstComand, secondComand] = this.props.match.name.split(' vs ');
+        } 
         const myBetTab = [
-                {name: constant.HOME, label: comands[0]},
-                {name: constant.AWAY, label: comands[1]}
+                {name: constant.HOME, label: firstComand},
+                {name: constant.AWAY, label: secondComand}
             ]
         const {selectedTeam, currentPage, selectedItem, price, textValue, changes} = bet.options;   
          this.setState({ myBetTab, selectedTeam, currentPage, selectedItem, price, textValue, changes });   

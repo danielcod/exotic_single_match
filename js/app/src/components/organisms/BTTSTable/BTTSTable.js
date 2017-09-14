@@ -9,7 +9,7 @@ export default class BTTSTable extends React.PureComponent {
         const { selectedItem, match } = this.props;
         const   row = selectedItem[0], 
                 column = selectedItem[1];
-        let BTTS = {};
+        let BTTS = [];
         if (match) BTTS = match.BTTS;
         return(
             <div className={s['cornersTable']}>
