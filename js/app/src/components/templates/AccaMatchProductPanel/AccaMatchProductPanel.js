@@ -208,7 +208,7 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                  <div className={s["wrap-item-title"]}>
                                     <div className={s['sanfona-title']}>{title}</div>
                                     <div className={s['b-angle']}>
-                                        <FaAngleDoubleUp/>
+                                        <FaAngleDoubleDown/>
                                     </div>  
                                 </div>
                             </div>
