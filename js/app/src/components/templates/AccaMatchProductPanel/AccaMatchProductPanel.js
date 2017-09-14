@@ -11,7 +11,6 @@ import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
 import StakePanel from '../../organisms/StakePanel';
 import BTTSPanel from '../../organisms/BTTSPanel';
 import MatchBetsPanel from '../../organisms/MatchBetsPanel';
-import {matchSorter} from '../../utils';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import * as data from '../../products';
 import * as constant from '../../constant';
@@ -29,8 +28,6 @@ export default class AccaMatchProductPanel extends React.PureComponent{
     constructor(props){
         super(props);
         this.state={
-            matches: [],
-            match: {},
             selectedTab: "legs",
             legs: [],           
             bets: [],
@@ -42,42 +39,19 @@ export default class AccaMatchProductPanel extends React.PureComponent{
             textBetsInStake: null
             
         }
-        bindAll(this, ['handleMatchChanged', 'handleTabClicked', 'delBetfromBetsList',
+        bindAll(this, [ 'handleTabClicked', 'delBetfromBetsList',
                          'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
                          'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
                          'clearBets', 'delFromBTTS']);
-    }
-
-    componentWillMount(){      
-        this.props.exoticsApi.fetchMatches(function(struct) {
-            let {matches, leagues} = this.state;
-            const cutoff=new Date();
-            
-            matches=struct.filter(function(match) {
-                return new Date(match.kickoff) > cutoff;
-            }).sort(matchSorter);
-            this.setState({
-                matches: matches,
-                match: matches[0]
-            });
-            this.props.setMatch(matches[0]);
-        }.bind(this));
-    }
+    }    
     componentWillReceiveProps(props){
-        if(props.selectedTab === 'bet'){
+        if(props.selectedTab === 'bet'){            
             this.setState({sanfonaActiveItems: []});
-        }
-    }
+        }      
+    }    
     handleTabClicked(tab) {        
         this.setState({selectedTab: tab.name});
-    }
-    handleMatchChanged(name, value) {  
-        const match = this.state.matches.filter(function(product) {
-            return product.name==value;
-        })[0];   
-        this.props.setMatch(match);
-        this.setState({match});           
-    }
+    }    
     betResultMatch(nBet){
         let {bets} = this.state;
         let changed = false;
@@ -197,9 +171,9 @@ export default class AccaMatchProductPanel extends React.PureComponent{
     }
     
      render() {
-         const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
+         const { legs, sanfonaActiveItems, bets} = this.state;
          const {openedStakePanel, showBets, stake, price, textBetsInStake, buildMyOwn} = this.state;
-         const {selectedTab} = this.props;
+         const {selectedTab, matches, match} = this.props;
          const renderAngle = (index, title)=>{
             let opened = false;
             for (let i=0; i< sanfonaActiveItems.length; i++){
@@ -274,7 +248,8 @@ export default class AccaMatchProductPanel extends React.PureComponent{
                                                         })
                                                     }
                                             name= "match"
-                                            changeHandler= {this.handleMatchChanged}
+                                            changeHandler= {this.props.handleMatchChanged}
+                                            match={match}
 
 
                                         />

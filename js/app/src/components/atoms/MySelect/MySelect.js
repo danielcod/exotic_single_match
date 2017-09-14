@@ -8,19 +8,22 @@ export default class MySelect extends React.PureComponent{
     changeSelect(event){
         this.props.changeHandler(this.props.name, event.target.value);
     }
-    render() {
+    render() {        
+        const {match} = this.props;
         return(
             <select
                 style={this.props.name === 'league' ? {paddingLeft: '26%', backgroundColor: '#d99c41' } : {}} 
                 className= {this.props.className || "form-control"}
-                onChange= {this.changeSelect}>
+                onChange= {this.changeSelect}                
+                value={match ? match.name : null}>
                 {
                     this.props.options.map((option, key)=> {
-                        return <option key={key} value={option.value}>
+                        return <option                                    
+                                    key={key} value={option.value}>
                                     { option.label || option.value}
                                 </option>                                  
                     })
-                }
+                }               
             </select>
         )}
 };

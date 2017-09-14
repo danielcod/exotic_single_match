@@ -5,6 +5,7 @@ import AppTab from './AppTab';
 import AccaProductPanel from '../../../templates/AccaProductPanel';
 import AccaMatchProductPanel from '../../../templates/AccaMatchProductPanel';
 import MyBetPanel from '../../../templates/MyBetPanel';
+import {matchSorter} from '../../../utils';
 import * as data from '../../../products';
 import * as list from '../../../list';
 import * as faq from '../../../faq';
@@ -30,11 +31,37 @@ export default class AppStage extends React.PureComponent {
             currentStage: "browse",
             selectedTab: "browse",
             match: {},
+            matches: [],
             bets: []
         };
-        bindAll(this, ['handleTabClicked', 'handleStageChanged', 'getTabContent']);
+        bindAll(this, ['handleTabClicked', 'handleStageChanged', 'getTabContent', 'handleMatchChanged']);
     }
-
+    componentWillMount(){   
+        this.props.exoticsApi.fetchMatches(function(struct) {
+            let {matches, leagues} = this.state;
+            const cutoff=new Date();
+            
+            matches=struct.filter(function(match) {
+                var bits = match.kickoff.split(/\D/);
+                var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);            
+                if ( date > cutoff){                      
+                     return match;
+                }               
+            }).sort(matchSorter);
+            
+            this.setState({
+                matches: matches,
+                match: matches[0]
+            });
+            
+        }.bind(this));
+    }
+    handleMatchChanged(name, value) {  
+        const match = this.state.matches.filter(function(product) {
+            return product.name==value;
+        })[0];           
+        this.setState({match});           
+    }
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
         if ('bets' === tab.name || "browse" === tab.name  ){
@@ -77,6 +104,9 @@ export default class AppStage extends React.PureComponent {
                         setMatch={this.setMatch}
                         setBets={this.setBets}
                         handleToBrowse={this.handleToBrowse}
+                        matches={this.state.matches}
+                        match={this.state.match}
+                        handleMatchChanged={this.handleMatchChanged}
                     />                     
                 )
             case "bets":
