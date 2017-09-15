@@ -1,9 +1,7 @@
 #app{
     margin: 0 auto;   
 }
-@media screen and (max-width: 650px) {
-     max-width: 100vw;
-}
+
 #app .header {
     position: absolute;
     padding: 11px 15px;
