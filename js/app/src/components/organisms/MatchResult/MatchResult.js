@@ -96,20 +96,17 @@ export default class MatchResult extends React.PureComponent {
             [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
         }
         const [resultTimeId, winnComandId ]  = selectedItem;
-        let textValue  = '', comand = '', selectedTime = '', scores = '', goalText = '';
+        let textValue  = '', comand = '', selectedTime = '', scores = '';
         const [minCountGoals, maxCountGoals] = value;
         switch(winnComandId){
             case constant.SELCTED_FIRST:
-                comand = firstTeam + ' ' + constant.TO_WINN;
-                goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
+                comand = firstTeam + ' ' + constant.TO_WINN;                
                 break;
             case constant.SELCTED_THREE:
-                comand = secondTeam + ' ' + constant.TO_WINN;
-                goalText = (minCountGoals === maxCountGoals && minCountGoals === 1) ?  ' goal' : ' goals';
+                comand = secondTeam + ' ' + constant.TO_WINN;                
                 break;
             case constant.SELCTED_TWO:
-                comand = constant.MATCH_IS_DRAW;
-                goalText = ''; //minCountGoals != maxCountGoals ?  ' total goals' : ' total goal';
+                comand = constant.MATCH_IS_DRAW;               
                 break;
         }
         switch(resultTimeId){
@@ -122,7 +119,8 @@ export default class MatchResult extends React.PureComponent {
             case constant.SELCTED_THREE:
                selectedTime = ' (' + constant.EITHER_HALF + ')';
                 break;
-        }        
+        }     
+        const goalText = this.formatGoalText(winnComandId, value);
         if (minCountGoals === maxCountGoals) {            
             scores = winnComandId != constant.SELCTED_TWO ?  '​ by​ exactly ' + maxCountGoals + goalText : '';
         }
@@ -134,6 +132,18 @@ export default class MatchResult extends React.PureComponent {
         textValue  = comand + ' ' + ' ' + scores + selectedTime;        
         
         return textValue;  
+    }
+    formatGoalText(winnComandId, value){
+        const [minCountGoals, maxCountGoals] = value;
+        if (minCountGoals !== maxCountGoals){
+            return ' goals';
+        }
+        if (minCountGoals === 1){
+            return ' goal'
+        }else if(minCountGoals === 5){
+            return '+ goals';
+        }
+        return '';
     }
    setToParrenState(selectedItem, value, textValue, showSlider){
        
