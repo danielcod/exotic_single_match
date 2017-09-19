@@ -7,7 +7,7 @@
     min-height: 16px;
     width: 92%;
     margin-left: 4%;
-    margin-top: 30px;
+    margin-top: -14px;
 }
 .btn-group{
     margin-top: 16px;
@@ -21,14 +21,14 @@
     line-height: 24px;
 }
 .text-goals{
-    position: absolute;
+    position: relative;
     transform: translateX(-50%);
-    top: 41%;
+    margin-bottom: 6px;
     left: 50%;
     font-size: 14px;
     width: 100%;
     text-align: center;
-        color: #fff;
+    color: #fff;
 }
 .match-result{
     position: relative;

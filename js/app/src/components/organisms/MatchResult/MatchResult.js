@@ -121,8 +121,12 @@ export default class MatchResult extends React.PureComponent {
                 break;
         }     
         const goalText = this.formatGoalText(winnComandId, value);
-        if (minCountGoals === maxCountGoals) {            
-            scores = winnComandId != constant.SELCTED_TWO ?  '​ by​ exactly ' + maxCountGoals + goalText : '';
+        if (minCountGoals === maxCountGoals) {     
+            if (maxCountGoals !== 5){
+                scores = winnComandId != constant.SELCTED_TWO ?  '​ by​ exactly ' + maxCountGoals + goalText : '';
+            }else{
+                scores = winnComandId != constant.SELCTED_TWO ?  '​ by ' + maxCountGoals + goalText : '';
+            }            
         }
         else {
             const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ ';
