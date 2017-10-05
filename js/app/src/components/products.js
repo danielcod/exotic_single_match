@@ -1,4 +1,4 @@
-export const products = [
+﻿export const products = [
 			{
 			    label: "Exotics Acca – Winners",
 			    name: "exotic_acca_winner",
@@ -101,5 +101,5 @@ export const products = [
 			name: "exotic_match_3"
 		},
 	]
-export const matchComponents = ['Match Result', 'Goals​', 'Goalscorers', 'Corners', 'Team​ ​Cards', 'Player Cards' ];
+export const matchComponents = ['Match Result', 'Goals', 'Goalscorers', 'Corners', 'Team Cards', 'Player Cards' ];
 export const cornersComponents = ['Home Team', 'Away Team', 'Both Teams', 'Match Total'];

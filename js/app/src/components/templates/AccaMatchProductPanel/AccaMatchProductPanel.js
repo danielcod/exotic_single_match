@@ -200,14 +200,14 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     opened = true;
                 }
             }
-            console.log(title)
+            console.log(title + ":")
             const darkOrLight = opened ? '-dark.png' : '-light.png'
             const imgSrc = 'img/' + title + darkOrLight;
             return ((opened) ?
                     <div className="react-sanfona-item-wrap">
                         <div className={s['title-img']}>
-                            <img style={{display: 'block'}} src={'img/' + title + '-dark.png'}/>
-                            <img style={{display: 'none'}} src={'img/' + title + '-light.png'}/>
+                            <img style={{display: 'block'}} src={'/img/' + title + '-dark.png'}/>
+                            <img style={{display: 'none'}} src={'/img/' + title + '-light.png'}/>
                         </div>
                         <div className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
                             <div className={s["wrap-item-title"]}>
@@ -221,8 +221,8 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     :
                     <div className="react-sanfona-item-wrap">
                         <div className={s['title-img']}>
-                            <img style={{display: 'none'}} src={'img/' + title + '-dark.png'}/>
-                            <img style={{display: 'block'}} src={'img/' + title + '-light.png'}/>
+                            <img style={{display: 'none'}} src={'/img/' + title + '-dark.png'}/>
+                            <img style={{display: 'block'}} src={"/img/" + title + "-light.png"}/>
                         </div>
                         <div className="react-sanfona-item-title" style={{cursor: 'pointer', margin: '0px'}}>
                             <div className={s["wrap-item-title"]}>
