@@ -1,49 +1,82 @@
+#app{
+    margin: 0 auto;   
+}
+
+#app .header {
+    position: absolute;
+    padding: 11px 15px;
+}
+
+#app .header img {
+    display: inline-block;
+    max-width: 130px;
+}
+
+#app .nav-tabs {
+    padding: 10px 6px 0;
+    margin-bottom: 20px;
+}
+.nav-tabs>li>a{
+    line-height: 1.5;
+}
 ul li a .badge {
     background-color: #59a0df;
 }
 
-/*Table in Your Bet Tab*/
-tr td .match-name {
-    font-size: 10px;
+/*
+ * Staging slider at the top of page
+ */
+.app-stage-slider-container {
+    margin: 15px 40px 25px 40px;
 }
 
-.match td div span {
-    font-size: 10px;
+.app-stage-slider-container .slider.slider-horizontal {
+    width: 100%;
 }
 
-.league option {
-    font-size: 10px;
+.app-stage-slider-container .slider.slider-horizontal .slider-track {
+    height: 8px;
+    margin-top: 1px;
+    background: #575763;
 }
 
-/*Table in Lag Selector Tab*/
-.leg-row .leg-row-date span {
-    font-size: 10px;
+.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
+    background: #675545;
+    box-shadow: none;
 }
 
 .leg-row .leg-row-descr {
-    font-size: 10px;
+    font-size: 14px;
 }
 
-.round-cell {
-    border-radius: 8px;
+.acca-panel-list-content .leg-row .leg-row-descr .winners {
+    background-color: #EC644B;
 }
 
-.round-cell .round-cell-btn {
-    background-color: #575763;
-    border-color: #575763;
-    border-radius: 3px !important;
-    outline: none;
-    width: 40px !important;
+.acca-panel-list-content .leg-row .leg-row-descr .losers {
+    background-color: #1F8DC4;
 }
 
-.round-cell .round-cell-btn:focus {
-    outline: none;
+.acca-panel-list-content .leg-row .leg-row-descr .draws {
+    background-color: #d99c41;
+}
+.acca-panel-list-content .paginator {
+    margin-top: 30px;
 }
 
-.round-cell .round-cell-btn:hover,
-.round-cell .round-cell-btn:focus {
-    color: rgba(255, 255, 255, 0.7);
+.main-menu-container {
+    margin: 0 -15px 20px;
+    padding: 15px 0 15px 0;
+    text-align: center;
 }
+
+.main-menu-btn {
+    padding: 7px 40px;
+}
+
+/*
+ *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" Page
+ */
 
 .product-select {
     margin: 20px 50px 0 50px;
@@ -76,7 +109,92 @@ tr td .match-name {
     z-index: -1;
 }
 
-/* Style for Your Bet tab */
+.round-cell {
+    border-radius: 8px;
+}
+
+.round-cell .round-cell-btn {
+    background-color: #575763;
+    border-color: #575763;
+    border-radius: 3px !important;
+    outline: none;
+    width: 40px !important;
+    height: 30px !important;
+    line-height: 29px !important;
+}
+
+.round-cell .round-cell-btn:focus {
+    outline: none;
+}
+
+.round-cell .round-cell-btn:hover,
+.round-cell .round-cell-btn:focus {
+    color: #FFF;
+}
+
+tr > td span.today {
+    background: #1F8DC4;
+    min-width: 40px;
+    padding: 3px 0;
+    color: #fff;
+}
+
+tr > td span.future {
+    /*background: #EC644B;*/
+    background: #1F8DC4;
+    min-width: 40px;
+    padding: 3px 0;
+    color: #fff;
+}
+
+/*
+ *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" -> Leg Selector" Page
+ */
+.match-table-container {
+    height: 380px;
+}
+
+.match-table-container table.table > tbody > tr {
+    height: 51px;
+}
+
+.match-table-container table.table > tbody > tr > td.fixture {
+    width: 147px;
+}
+
+.match-table-container table.table > tbody > tr > td.date {
+    width: 50px;
+}
+
+tr > td > span.match-name {
+    font-size: 12px;
+}
+
+select.input-lg {
+    text-align-last: center;
+}
+
+/*
+ *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" -> "Your Bet" Page
+ */
+.leg-row .leg-row-date span {
+    font-size: 10px;
+}
+
+.leg-row .leg-row-descr span {
+    font-size: 12px;
+}
+
+.leg-row .leg-row-descr > span {
+    font-weight: bold;
+    color: #fff;
+}
+
+.leg-row .leg-row-descr > span > span {
+    font-weight: normal;
+    color: hsla(0,0%,100%,.7);
+}
+
 .bet-submit-btns {
     text-align: center;
     margin-bottom: 20px;
@@ -85,7 +203,7 @@ tr td .match-name {
 .bet-submit-btns .stake {
     display: inline-block;
     background-color: #fff;
-    margin: 0 10px 0 10px;
+    margin: 0 10px 10px 10px;
 }
 
 .bet-submit-btns .stake .stake-label {
@@ -117,10 +235,6 @@ tr td .match-name {
     margin: 0;
 }
 
-.bet-submit-btns .bet-cancel-btn {
-    background-color: gray;
-}
-
 .bet-slider-container {
     margin-left: 30px;
     margin-right: 30px;
@@ -130,7 +244,42 @@ tr td .match-name {
     width: 100%;
 }
 
-/* Style for bet confirm page */
+.your-bet-comment {
+    text-align: center;
+    padding: 0 30px 0 30px;
+}
+
+.your-bet-comment > span {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.your-bet-comment .comment-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.your-bet-comment .white-bold {
+    color: #fff;
+    font-weight: bold;
+}
+
+.your-bet-comment .get-started-btn {
+    background: #59a0df;
+    border-color: #5598d4;
+    margin-top: 20px;
+}
+
+.your-bet-comment .get-started-btn:active:focus {
+    background: #59a0df;
+    border-color: #5598d4;
+}
+
+/*
+ * "Exotic Accas" -> "BUILD YOUR OWN!" -> "Bet place confirm" page
+ */
 .bet-confirm-container {
     text-align: center;
     padding-top: 10px;
@@ -142,7 +291,7 @@ tr td .match-name {
 
 .bet-confirm-container h3,
 .bet-confirm-container span {
-    color: hsla(0, 0%, 100%, .5);
+    color: #fff;
 }
 
 .bet-confirm-container .bet-placed-text {
@@ -150,6 +299,7 @@ tr td .match-name {
     background: #3a3a45;
     border-top: 2px solid #3c763d;
     font-size: 16px;
+    color: hsla(0, 0%, 100%, .7);
 }
 
 .bet-confirm-container .bet-placed-text span {
@@ -158,9 +308,10 @@ tr td .match-name {
 }
 
 .bet-confirm-container .bet-placed-product {
-    color: #fff;
+    color: hsla(0, 0%, 100%, .7);
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
 .bet-confirm-container .bet-goal span {
@@ -171,7 +322,8 @@ tr td .match-name {
     font-size: 16px;
 }
 
-.bet-confirm-container .bet-legs {
+.bet-confirm-container .bet-legs .leg-row .leg-row-descr > span > span {
+    color: #fff;
 }
 
 .bet-confirm-container .bet-placed-price {
@@ -201,23 +353,25 @@ tr td .match-name {
     font-size: 14px;
 }
 
+.bet-confirm-container .bet-saved-date {
+    color: hsla(0, 0%, 100%, .5);
+}
+
 .bet-confirm-container .bet-placed-result {
     margin-bottom: 30px;
 }
 
-.bet-confirm-container .main-menu-container {
-    margin: 30px -15px 20px;
-    padding: 15px 0 15px 0;
-    background: #575763;
+.bet-confirm-container .main-menu-btn:first-child {
+    margin-right: 15px;
 }
 
 .bet-confirm-container .main-menu-btn {
-    padding: 7px 40px;
+    padding: 7px 0;
+    width: 150px;
 }
 
-/* Style for staging slider */
-.app-stage-slider-container {
-    margin: 30px 40px 30px 40px;
+.bet-confirm-container .table tbody > tr > td {
+    color: #fff;
 }
 
 .app-stage-slider-container .slider.slider-horizontal {
@@ -257,41 +411,148 @@ tr td .match-name {
     margin-top: 30px;
     padding-left: 5px;
 }
-
-/* APP Your Bets Tab */
-#my-bet-tabs {
-    width: 200px;
-    margin: 0 auto;
+.react-sanfona {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 70px;
+  position: relative;
+  top:0;
+  left:0;
 }
 
-#my-bet-tabs .nav-tabs {
-    margin: 0 20px 0 20px;
-    padding: 0;
-    border-radius: 30px;
+.react-sanfona-item:first-child .react-sanfona-item-wrap {
+    border-top: none;
 }
 
-#my-bet-tabs .nav-tabs > li > a {
-    font-size: 12px;
+.react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn { 
+        display: inline-block;
+        float: right;
+        color: #000;
+}   
+.react-sanfona-item .title-done-btn {
+      display: none;
+}
+.react-sanfona-item-title {  
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color .3s;
+    width: auto;
+    padding-left: 30px;
+    display: table-cell;
+    position: relative;
+    bottom: 6px;
+
+}
+.react-sanfona-item:hover .tooltip {
+	opacity: 1;
+}
+.react-sanfona-item-body-wrapper {	
+    padding: 0 6px;
+	position: relative;
+}
+.react-sanfona-item-wrap{
+    border-top: 1px solid #ccc;
+    display: table;
+    width: 100%;
+    padding: 16px 16px 6px 16px;
+    cursor: pointer;
+    line-height: 44px;
 }
 
-#my-bet-tabs .nav-tabs > li.active:before {
+.react-sanfona-item-expanded .react-sanfona-item-wrap{
+	background-color: #d99c41;
+}
+.rc-slider-track{
+	background-color: #81bfde;
+	height: 10px;
+    top: 2px;
+}
+
+.rc-slider-rail{
+	height: 10px;
+    top: 2px;
+}
+.rc-slider-handle{
+	background-color: #59a0df;
+    width: 20px;
+    height: 20px;
     border: none;
+    margin-left: -9px;
+    margin-top: -9px;
 }
 
-#my-bet-tabs .nav-tabs > li.active > a {
-    background-color: #d99c41;
+.rc-slider-dot{
+	width: 20px;
+    height: 20px;
+    bottom: -7px;
+    border: none;
+    margin-left: -9px
+}
+.rc-slider-dot:first-child {
+    margin-left: -9px;
+}
+.rc-slider-dot:last-child{
+	margin-left: -9px;
+}
+.rc-slider-dot-active{
+	
+	background-color: #81bfde ;
+}
+.rc-slider-mark-text-active{
+	color: #FFF;
+}
+.rc-slider-mark{
+	margin-top: 4px;
+    font-size: 16px;
 }
 
-#my-bet-tabs .nav-tabs > li.active:first-child > a {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+.table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
+	    border: 0;
+        padding: 1%;
+}
+.table-not-bordered .match-name{
+	font-size: 14px;
+}
+.result-text{
+	min-height: 44px;
+	margin-top: 44px;
+	text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+/* APP Your Bets Tab */ 
+
+ 
+#my-bet-tabs .nav-tabs { 
+    margin: 0 20px 0 20px; 
+    padding: 0; 
+    border-radius: 30px; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li > a { 
+    font-size: 12px; 
+    min-width: 80px;
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:before { 
+    border: none; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active > a { 
+    background-color: #ec644b; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:first-child > a { 
+    border-top-left-radius: 20px; 
+    border-bottom-left-radius: 20px; 
 }
 
-#my-bet-tabs .nav-tabs > li.active:last-child > a {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
+#my-bet-tabs .nav-tabs > li.active:last-child > a { 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+} 
+ 
 #my-bet-list {
     margin-top: 15px;
 }
@@ -300,6 +561,7 @@ tr td .match-name {
     background: none;
     border-color: #575763;
     border-width: 1px 0 0 0;
+    margin-top: 0;
 }
 
 #my-bet-list .panel-group .panel:last-child {
@@ -329,14 +591,50 @@ tr td .match-name {
     text-decoration: none;
 }
 
+#my-bet-list .panel-group .panel .panel-heading .label {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .winners {
+    background-color: #EC644B;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .losers {
+    background-color: #1F8DC4;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .draws {
+    background-color: #d99c41;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .glyph-background {
+    top: 3px;
+    margin-right: 10px;
+}
+
 #my-bet-list .panel-group .panel .panel-collapse {
-   background: #575763;
+    background: #575763;
 }
 
 #my-bet-list .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-
-
-
+.pagination li {
+     margin: 0 0 4px 0;
+     cursor: pointer;
+}
+.faq-btn{
+    float: right;
+    margin-top: -36px;
+    margin-right: 20px;
+    background: #575763;
+    color: hsla(0, 0%, 100%, .7);
+}

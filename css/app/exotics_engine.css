@@ -1,4 +1,9 @@
+#app{
+    margin: 0 auto;   
+}
+
 #app .header {
+    position: absolute;
     padding: 11px 15px;
 }
 
@@ -8,10 +13,12 @@
 }
 
 #app .nav-tabs {
-    padding-top: 10px;
+    padding: 10px 6px 0;
     margin-bottom: 20px;
 }
-
+.nav-tabs>li>a{
+    line-height: 1.5;
+}
 ul li a .badge {
     background-color: #59a0df;
 }
@@ -38,100 +45,8 @@ ul li a .badge {
     box-shadow: none;
 }
 
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick {
-    background: #575763;
-    width: 30px;
-    height: 30px;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick.in-selection {
-    background: #d99c41;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-handle {
-    background: #d99c41;
-    width: 30px;
-    height: 30px;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-label-container {
-    margin-top: 30px;
-    padding-left: 5px;
-}
-
-/*
- * "Exotic Acca" Page
- */
-.acca-panel-list-header {
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.acca-panel-list-header span {
-    font-size: 12px;
-}
-
-.acca-panel-list-header select {
-    font-size: 13px;
-    width: 125px;
-    display: inline-block;
-    margin-right: 5px;
-    padding: 7px 0 7px 7px;
-    height: 35px;
-    background: #59a0df;
-    border-color: #5598d4;
-    color: #fff;
-    text-align-last: center;
-}
-
-.acca-panel-list-header select.acca-product-type {
-    margin-right: 40px;
-}
-
-.acca-panel-list-header button {
-    height: 35px;
-    padding: 7px 10px;
-    color: #fff;
-    font-size: 13px;
-    text-transform: uppercase;
-}
-
-.acca-panel-list-content .leg-row:last-child {
-    border-bottom: 1px solid #575763;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.acca-panel-list-content .leg-row span {
-    color: #fff;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr span {
-    display: inline-block;
-    float: left;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr span.desc,
-.acca-panel-list-content .leg-row .leg-row-descr span.goal {
-    font-size: 11px;
-    text-align: left;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr div span:first-child {
-    margin-right: 20px;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr div span:last-child {
-    font-size: 13px;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .label {
-    font-size: 10px;
+.leg-row .leg-row-descr {
+    font-size: 14px;
 }
 
 .acca-panel-list-content .leg-row .leg-row-descr .winners {
@@ -145,11 +60,6 @@ ul li a .badge {
 .acca-panel-list-content .leg-row .leg-row-descr .draws {
     background-color: #d99c41;
 }
-
-.acca-panel-list-content .leg-row .leg-row-price {
-    font-size: 17px;
-}
-
 .acca-panel-list-content .paginator {
     margin-top: 30px;
 }
@@ -219,7 +129,7 @@ ul li a .badge {
 
 .round-cell .round-cell-btn:hover,
 .round-cell .round-cell-btn:focus {
-    color: rgba(255, 255, 255, 0.7);
+    color: #FFF;
 }
 
 tr > td span.today {
@@ -501,45 +411,148 @@ select.input-lg {
     margin-top: 30px;
     padding-left: 5px;
 }
-
-.slider.slider-horizontal{
-    width: 80%;
-    margin-left: 9%;
-}
-/* APP Your Bets Tab */
-#my-bet-tabs {
-    width: 200px;
-    margin-left: 10px;
+.react-sanfona {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 70px;
+  position: relative;
+  top:0;
+  left:0;
 }
 
-#my-bet-tabs .nav-tabs {
-    margin: 0 20px 0 20px;
-    padding: 0;
-    border-radius: 30px;
+.react-sanfona-item:first-child .react-sanfona-item-wrap {
+    border-top: none;
 }
 
-#my-bet-tabs .nav-tabs > li > a {
-    font-size: 12px;
+.react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn { 
+        display: inline-block;
+        float: right;
+        color: #000;
+}   
+.react-sanfona-item .title-done-btn {
+      display: none;
+}
+.react-sanfona-item-title {  
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color .3s;
+    width: auto;
+    padding-left: 30px;
+    display: table-cell;
+    position: relative;
+    bottom: 6px;
+
+}
+.react-sanfona-item:hover .tooltip {
+	opacity: 1;
+}
+.react-sanfona-item-body-wrapper {	
+    padding: 0 6px;
+	position: relative;
+}
+.react-sanfona-item-wrap{
+    border-top: 1px solid #ccc;
+    display: table;
+    width: 100%;
+    padding: 16px 16px 6px 16px;
+    cursor: pointer;
+    line-height: 44px;
 }
 
-#my-bet-tabs .nav-tabs > li.active:before {
+.react-sanfona-item-expanded .react-sanfona-item-wrap{
+	background-color: #d99c41;
+}
+.rc-slider-track{
+	background-color: #81bfde;
+	height: 10px;
+    top: 2px;
+}
+
+.rc-slider-rail{
+	height: 10px;
+    top: 2px;
+}
+.rc-slider-handle{
+	background-color: #59a0df;
+    width: 20px;
+    height: 20px;
     border: none;
+    margin-left: -9px;
+    margin-top: -9px;
 }
 
-#my-bet-tabs .nav-tabs > li.active > a {
-    background-color: #d99c41;
+.rc-slider-dot{
+	width: 20px;
+    height: 20px;
+    bottom: -7px;
+    border: none;
+    margin-left: -9px
+}
+.rc-slider-dot:first-child {
+    margin-left: -9px;
+}
+.rc-slider-dot:last-child{
+	margin-left: -9px;
+}
+.rc-slider-dot-active{
+	
+	background-color: #81bfde ;
+}
+.rc-slider-mark-text-active{
+	color: #FFF;
+}
+.rc-slider-mark{
+	margin-top: 4px;
+    font-size: 16px;
 }
 
-#my-bet-tabs .nav-tabs > li.active:first-child > a {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+.table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
+	    border: 0;
+        padding: 1%;
+}
+.table-not-bordered .match-name{
+	font-size: 14px;
+}
+.result-text{
+	min-height: 44px;
+	margin-top: 44px;
+	text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+/* APP Your Bets Tab */ 
+
+ 
+#my-bet-tabs .nav-tabs { 
+    margin: 0 20px 0 20px; 
+    padding: 0; 
+    border-radius: 30px; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li > a { 
+    font-size: 12px; 
+    min-width: 80px;
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:before { 
+    border: none; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active > a { 
+    background-color: #ec644b; 
+} 
+ 
+#my-bet-tabs .nav-tabs > li.active:first-child > a { 
+    border-top-left-radius: 20px; 
+    border-bottom-left-radius: 20px; 
 }
 
-#my-bet-tabs .nav-tabs > li.active:last-child > a {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
+#my-bet-tabs .nav-tabs > li.active:last-child > a { 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+} 
+ 
 #my-bet-list {
     margin-top: 15px;
 }
@@ -607,34 +620,21 @@ select.input-lg {
 #my-bet-list .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
-
-#my-bet-list .faq-container {
-    color: #fff;
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.faq-btn {
+.pagination li {
+     margin: 0 0 4px 0;
+     cursor: pointer;
+}
+.faq-btn{
     float: right;
     margin-top: -36px;
     margin-right: 20px;
     background: #575763;
     color: hsla(0, 0%, 100%, .7);
 }
-
-.faq-btn:hover, .faq-btn:active, .faq-btn:focus, .faq-btn:active:focus {
-    background-color: #575763;
-}
-
-.faq-btn.faq-btn-active {
-    background-color: #EC644B;
-    color: #fff;
-}
-
-
-
-
-
-
-
-
-
-
