@@ -5,7 +5,7 @@ export default class AccaProductLegTable extends React.PureComponent {
     render() {
         const {legs, clickHandler} = this.props;
         return (
-            <table className="table table-condensed table-striped  text-center"
+            <table className="table table-condensed table-striped"
                    style={{marginTop: '0px', marginBottom: "0px"}}>
                 <tbody>
                 {

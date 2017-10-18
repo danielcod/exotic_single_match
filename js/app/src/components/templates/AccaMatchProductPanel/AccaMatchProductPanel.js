@@ -163,7 +163,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     handleBuidMyOwn() {
         const buildMyOwn = !this.state.buildMyOwn;
         this.setState({buildMyOwn});
-        this.props.clickHandler("edit");
     }
 
     clearBets() {
@@ -182,7 +181,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     openStakePanel = (showBets, stake, price, textBetsInStake) => {
         const {buildMyOwn} = this.state;
         this.setState({openedStakePanel: true, buildMyOwn: false, showBets, stake, /* price, */ textBetsInStake});
-        this.props.clickHandler("bet");
     }
     returnToBetsPanel = () => {
         this.setState({openedStakePanel: false, buildMyOwn: true});

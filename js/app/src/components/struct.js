@@ -4,7 +4,7 @@ name: "Arsenal vs Leicester City",
 squads:[
     [{name: "Ospina", price: "00.934719957198948"}, {name: "Cech", price: "10.6034022307619233"}, {name: "Debuchy", price: "20.04135392477149202"}, {name: "Gibbs", price: "30.4053624797603441"}, {name: "Mertesacker", price: "40.3252153316173909"}, {name: "Gabriel", price: "50.4761669136687383"}, {name: "Koscielny", price: "60.18302736351054438"}, {name: "Holding", price: "70.36406169693427204"}, {name: "Monreal", price: "80.41993066548296243"}, {name: "Mustafi", price: "90.4299890227276766"}, {name: "Chambers", price: "100.5737876348179722"}, {name: "Bellerin", price: "110.2785807671026741"}, {name: "Jenkinson", price: "120.49872442382885285"}, {name: "Kolasinac", price: "130.6317567342082224"}, {name: "Ramsey", price: "140.7725477349988237"}, {name: "Wilshere", price: "150.38513913846240055"}],
     [{name: "Schmeichel", price: "00.7906078622456969"}, {name: "Hamer", price: "10.0021565289868124005"}, {name: "Jakupovic", price: "20.01043966032641519"}, {name: "Maguire", price: "30.41173274530148185"}, {name: "Chilwell", price: "40.8113992970190582"}, {name: "Morgan", price: "50.253316329595793"}, {name: "Huth", price: "60.403182985795139"}, {name: "Simpson", price: "70.9565450925280303"}, {name: "Fuchs", price: "80.2027733672578571"}, {name: "Benalouane", price: "90.36637483330573906"}, {name: "Drinkwater", price: "100.5013678544036388"}, {name: "James", price: "110.1374846657731772"}, {name: "King", price: "120.9298440544466733"}, {name: "Albrighton", price: "130.5657457536505255"}, {name: "Amartey", price: "140.8017141759448403"}, {name: "Gray", price: "150.2880831902611485"}]
-], 
+],
 BTTS: [
     {name: 'Full Match', YES: 1.5, NO: 2.6},
     {name: 'Both Halves', YES: 10.2, NO: 3.8},
@@ -422,7 +422,7 @@ league: "FIN.1",
 export const postStruct =  {'nGoals': 2, 'legs': [{'price': 1.4214046822742474, 'description': 'Arsenal (vs Leicester City)', 'match': {'1x2_prices': [1.4214046822742474, 5.279503105590062, 9.340659340659338], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 11, 18, 45), 'name': 'Arsenal vs Leicester City'}, 'selection': {'homeAway': 'home', 'team': 'Arsenal'}}, {'price': 19.288056206088992, 'description': 'Burnley (vs Chelsea)', 'match': {'1x2_prices': [1.2384962406015037, 7.106125970664366, 19.288056206088992], 'selected': 'away', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Chelsea vs Burnley'}, 'selection': {'homeAway': 'away', 'team': 'Burnley'}}, {'price': 1.85744793880153, 'description': 'Crystal Palace (vs Huddersfield Town)', 'match': {'1x2_prices': [1.85744793880153, 3.6742959226565777, 5.277994143042599], 'selected': 'home', 'league': 'ENG.1', 'kickoff': new Date(2017, 8, 12, 14, 0), 'name': 'Crystal Palace vs Huddersfield Town'}, 'selection': {'homeAway': 'home', 'team': 'Crystal Palace'}}], 'nLegs': 1, 'name': 'exotic_acca_winner', 'bust': 3074431325}
 export const MatchResultStruct = [
     {
-        name: "Full Match",        
+        name: "Full Match",
         '1x2_prices': [
             1.4214046822742474,
             5.279503105590062,
@@ -430,7 +430,7 @@ export const MatchResultStruct = [
         ]
     },
     {
-        name: "Both Halves",        
+        name: "Both Halves",
         '1x2_prices': [
             1.3534778681120145,
             5.8006194347657765,
@@ -438,7 +438,7 @@ export const MatchResultStruct = [
         ]
     },
     {
-        name: "Either Half",        
+        name: "Either Half",
         '1x2_prices': [
             3.8456478405315617,
             3.551389826348408,
@@ -457,7 +457,7 @@ export const cornersStruct = [
         min: 0.5,
         max: 10.5,
         step: 1,
-        value : 3.5 
+        value : 3.5
     },
     {
         min: 0.5,

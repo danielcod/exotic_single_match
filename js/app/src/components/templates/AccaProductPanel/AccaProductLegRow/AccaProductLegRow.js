@@ -16,55 +16,20 @@ export default class AccaProductLegRow extends React.PureComponent {
     }
 
     getHeader(bet) {
-        var header = bet.betCondition.nLegs + "+ of " + bet.betCondition.legs;
-        switch (bet.betType) {
-            case 'Winners': {
-                bet.betCondition.nGoals > 1 ? header = header + " to win by " + bet.betCondition.nGoals + " goals" : header = header + " to just win";
-                break;
-            }
-            case 'Losers': {
-                bet.betCondition.nGoals > 1 ? header = header + " to lose by " + bet.betCondition.nGoals + " goals" : header = header + " to just lose";
-                break;
-            }
-            case 'Draws': {
-                bet.betCondition.nGoals > 1 ? header = header + " to draw by " + bet.betCondition.nGoals + " goals" : header = header + " to just draw";
-                break;
-            }
-        }
-        return header;
+        return "Any " + bet.betCondition.nLegs + "+ of " + bet.betCondition.legs;
     }
 
     render() {
-        let btnClass, btnDesc;
-        switch (this.props.leg.betType) {
-            case "Winners": {
-                btnClass = "winners";
-                btnDesc = "To Win";
-                break;
-            }
-            case "Losers": {
-                btnClass = "losers";
-                btnDesc = "To Lose";
-                break;
-            }
-            case "Draws": {
-                btnClass = "draws";
-                btnDesc = "To Draws";
-                break;
-            }
-        }
         return (
             <tr className="leg-row">
                 <td className="leg-row-descr">
                     <div>
-                        <span
-                            className={"label " + btnClass}>{btnDesc}</span>
-                        <span>{this.props.leg.betLeague}</span>
+                        <span className="bold">{this.props.leg.betLeague + " (" + this.props.leg.betTime + ")"}</span>
                     </div>
                     <span className="desc" style={{marginTop: "5px"}}>
                         {this.props.leg.betLegs}
                     </span>
-                    <span className="goal">
+                    <span className="goal label">
                         {this.getHeader(this.props.leg)}
                     </span>
                 </td>

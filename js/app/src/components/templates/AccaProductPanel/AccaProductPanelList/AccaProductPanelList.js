@@ -27,9 +27,8 @@ export default class AccaProductPanelList extends React.PureComponent {
             selectedTeamType: "Team Grouping",
             currentPage: 0
         };
-        bindAll(this, ['getTeamType', 'filterLegs', 'handleProductChanged',
-            'handleTeamChanged', 'handleLegEdited', 'handlePaginatorClicked',
-            'applyPaginatorWindow', 'getAccaProductPanelListContent'
+        bindAll(this, ['getTeamType', 'filterLegs', 'handleProductChanged', 'handleTeamChanged',
+            'handleLegEdited', 'handlePaginatorClicked', 'applyPaginatorWindow'
         ]);
     }
 
@@ -122,14 +121,14 @@ export default class AccaProductPanelList extends React.PureComponent {
         return legs.sort(sortFn);
     }
 
-    getAccaProductPanelListContent() {
+    render() {
         return (
-            <div>
-                <div className="acca-panel-list-header">
+            <div id="exotic-acca-list">
+                <div id="exotic-acca-list-header">
                     <div className="form-group">
                         <button
                             className="btn btn-primary"
-                            onClick={() => this.props.clickHandler("custom")}>Build Your Own!
+                            onClick={() => this.props.clickHandler("custom")}>Build Your Own EXOTIC
                         </button>
                     </div>
                     <div className="form-group">
@@ -152,31 +151,26 @@ export default class AccaProductPanelList extends React.PureComponent {
                         changeHandler={this.handleTeamChanged}
                     />
                 </div>
-                <div className="acca-panel-list-content">
-                    <AccaProductLegTable
-                        clickHandler={this.handleLegEdited}
-                        legs={this.applyPaginatorWindow(this.sortLegs(this.filterLegs()))}
-                    />
+                <div id="exotic-acca-list-content">
+                    <div id="exotic-acca-list-table">
+                        <AccaProductLegTable
+                            clickHandler={this.handleLegEdited}
+                            /*legs={this.applyPaginatorWindow(this.sortLegs(this.filterLegs()))}*/
+                            legs={this.applyPaginatorWindow(this.filterLegs())}
+                        />
+                    </div>
                     {
                         this.filterLegs().length > this.props.legsPaginator.rows ?
                             <MyPaginator
                                 clickHandler={this.handlePaginatorClicked}
                                 currentPage={this.state.currentPage}
                                 product={this.props.legsPaginator}
-                                data={this.sortLegs(this.filterLegs())}
+                                /*data={this.sortLegs(this.filterLegs())}*/
+                                data={this.filterLegs()}
                             />
                             : null
                     }
                 </div>
-            </div>
-        )
-    }
-
-    render() {
-        const AccaProductPanelListContent = this.getAccaProductPanelListContent();
-        return (
-            <div className="acca-panel-list">
-                {AccaProductPanelListContent}
             </div>
         )
     }

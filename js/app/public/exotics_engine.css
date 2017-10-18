@@ -1,5 +1,5 @@
-#app{
-    margin: 0 auto;   
+#app {
+    margin: 0 auto;
 }
 
 #app .header {
@@ -16,52 +16,21 @@
     padding: 10px 6px 0;
     margin-bottom: 20px;
 }
-.nav-tabs>li>a{
+
+.nav-tabs > li > a {
     line-height: 1.5;
 }
+
 ul li a .badge {
     background-color: #59a0df;
-}
-
-/*
- * Staging slider at the top of page
- */
-.app-stage-slider-container {
-    margin: 15px 40px 25px 40px;
-}
-
-.app-stage-slider-container .slider.slider-horizontal {
-    width: 100%;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track {
-    height: 8px;
-    margin-top: 1px;
-    background: #575763;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
-    background: #675545;
-    box-shadow: none;
 }
 
 .leg-row .leg-row-descr {
     font-size: 14px;
 }
 
-.acca-panel-list-content .leg-row .leg-row-descr .winners {
-    background-color: #EC644B;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .losers {
-    background-color: #1F8DC4;
-}
-
-.acca-panel-list-content .leg-row .leg-row-descr .draws {
-    background-color: #d99c41;
-}
-.acca-panel-list-content .paginator {
-    margin-top: 30px;
+span.bold {
+    font-weight: bold;
 }
 
 .main-menu-container {
@@ -72,41 +41,6 @@ ul li a .badge {
 
 .main-menu-btn {
     padding: 7px 40px;
-}
-
-/*
- *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" Page
- */
-
-.product-select {
-    margin: 20px 50px 0 50px;
-    position: relative;
-}
-
-.product-select .product-help-btn {
-    position: absolute;
-    top: 33px;
-    right: -30px;
-    font-size: 21px;
-    cursor: pointer;
-}
-
-.product-select .product-help-btn .glyph-background {
-    position: relative;
-    border-radius: 50%;
-    z-index: 2;
-    color: #59a0df;
-}
-
-.product-select .product-help-btn .inner {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border-radius: 50%;
-    background-color: #fff;
-    z-index: -1;
 }
 
 .round-cell {
@@ -147,31 +81,129 @@ tr > td span.future {
     color: #fff;
 }
 
-/*
- *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" -> Leg Selector" Page
- */
-.match-table-container {
-    height: 380px;
+.react-sanfona {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 70px;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
-.match-table-container table.table > tbody > tr {
-    height: 51px;
+.react-sanfona-item:first-child .react-sanfona-item-wrap {
+    border-top: none;
 }
 
-.match-table-container table.table > tbody > tr > td.fixture {
-    width: 147px;
+.react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn {
+    display: inline-block;
+    float: right;
+    color: #000;
 }
 
-.match-table-container table.table > tbody > tr > td.date {
-    width: 50px;
+.react-sanfona-item .title-done-btn {
+    display: none;
 }
 
-tr > td > span.match-name {
-    font-size: 12px;
+.react-sanfona-item-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color .3s;
+    width: auto;
+    padding-left: 30px;
+    display: table-cell;
+    position: relative;
+    bottom: 6px;
+
 }
 
-select.input-lg {
-    text-align-last: center;
+.react-sanfona-item:hover .tooltip {
+    opacity: 1;
+}
+
+.react-sanfona-item-body-wrapper {
+    padding: 0 6px;
+    position: relative;
+}
+
+.react-sanfona-item-wrap {
+    border-top: 1px solid #ccc;
+    display: table;
+    width: 100%;
+    padding: 16px 16px 6px 16px;
+    cursor: pointer;
+    line-height: 44px;
+}
+
+.react-sanfona-item-expanded .react-sanfona-item-wrap {
+    background-color: #d99c41;
+}
+
+.rc-slider-track {
+    background-color: #81bfde;
+    height: 10px;
+    top: 2px;
+}
+
+.rc-slider-rail {
+    height: 10px;
+    top: 2px;
+}
+
+.rc-slider-handle {
+    background-color: #59a0df;
+    width: 20px;
+    height: 20px;
+    border: none;
+    margin-left: -9px;
+    margin-top: -9px;
+}
+
+.rc-slider-dot {
+    width: 20px;
+    height: 20px;
+    bottom: -7px;
+    border: none;
+    margin-left: -9px
+}
+
+.rc-slider-dot:first-child {
+    margin-left: -9px;
+}
+
+.rc-slider-dot:last-child {
+    margin-left: -9px;
+}
+
+.rc-slider-dot-active {
+
+    background-color: #81bfde;
+}
+
+.rc-slider-mark-text-active {
+    color: #FFF;
+}
+
+.rc-slider-mark {
+    margin-top: 4px;
+    font-size: 16px;
+}
+
+.table-not-bordered thead > tr > th, .table-not-bordered tbody > tr > td {
+    border: 0;
+    padding: 1%;
+}
+
+.table-not-bordered .match-name {
+    font-size: 14px;
+}
+
+.result-text {
+    min-height: 44px;
+    margin-top: 44px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
 }
 
 /*
@@ -192,7 +224,7 @@ select.input-lg {
 
 .leg-row .leg-row-descr > span > span {
     font-weight: normal;
-    color: hsla(0,0%,100%,.7);
+    color: hsla(0, 0%, 100%, .7);
 }
 
 .bet-submit-btns {
@@ -278,360 +310,116 @@ select.input-lg {
 }
 
 /*
- * "Exotic Accas" -> "BUILD YOUR OWN!" -> "Bet place confirm" page
+ * "Browser" Tab Page
  */
-.bet-confirm-container {
+#exotic-acca-list-header {
+    margin-bottom: 15px;
     text-align: center;
-    padding-top: 10px;
 }
 
-.bet-confirm-container h3 {
-    margin: 10px 0 10px 0;
+#exotic-acca-list-header span {
+    font-size: 12px;
 }
 
-.bet-confirm-container h3,
-.bet-confirm-container span {
+#exotic-acca-list-header select {
+    font-size: 13px;
+    width: 125px;
+    /*display: inline-block;*/
+    display: none;
+    margin-right: 5px;
+    padding: 7px 0 7px 7px;
+    height: 35px;
+    background: #59a0df;
+    border-color: #5598d4;
     color: #fff;
+    text-align-last: center;
 }
 
-.bet-confirm-container .bet-placed-text {
-    padding: 15px 0;
-    background: #3a3a45;
-    border-top: 2px solid #3c763d;
-    font-size: 16px;
-    color: hsla(0, 0%, 100%, .7);
+#exotic-acca-list-header select.acca-product-type {
+    margin-right: 40px;
 }
 
-.bet-confirm-container .bet-placed-text span {
-    margin-right: 10px;
-    color: #3c763d;
-}
-
-.bet-confirm-container .bet-placed-product {
-    color: hsla(0, 0%, 100%, .7);
-    display: inline-block;
-    font-size: 16px;
+#exotic-acca-list-header button {
+    height: 35px;
+    padding: 7px 10px;
+    color: #fff;
+    font-size: 13px;
     text-transform: uppercase;
 }
 
-.bet-confirm-container .bet-goal span {
-    display: inline-block;
-    width: 100%;
+#exotic-acca-list-table {
+    height: 450px;
+}
+
+#exotic-acca-list-table span {
+    color: #fff;
+}
+
+#exotic-acca-list-table span.label {
+    background: #37a000;
     margin-top: 5px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.bet-confirm-container .bet-legs .leg-row .leg-row-descr > span > span {
-    color: #fff;
-}
-
-.bet-confirm-container .bet-placed-price {
-    padding: 15px 0;
-    border-top: 1px solid #d99c41;
-    border-bottom: 1px solid #d99c41;
-    color: #fff;
-    font-size: 16px;
-}
-
-.bet-confirm-container .bet-placed-price span {
-    color: #d99c41;
-}
-
-.bet-confirm-container .bet-placed-result span {
-    display: inline-block;
-    width: 100%;
-    margin-top: 5px;
-    font-size: 16px;
-}
-
-.bet-confirm-container .site-url,
-.bet-confirm-container .bet-saved-date {
-    display: inline-block;
-    width: 100%;
-    margin-top: 5px;
-    font-size: 14px;
-}
-
-.bet-confirm-container .bet-saved-date {
-    color: hsla(0, 0%, 100%, .5);
-}
-
-.bet-confirm-container .bet-placed-result {
-    margin-bottom: 30px;
-}
-
-.bet-confirm-container .main-menu-btn:first-child {
-    margin-right: 15px;
-}
-
-.bet-confirm-container .main-menu-btn {
-    padding: 7px 0;
-    width: 150px;
-}
-
-.bet-confirm-container .table tbody > tr > td {
-    color: #fff;
-}
-
-.app-stage-slider-container .slider.slider-horizontal {
-    width: 100%;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track {
-    height: 8px;
-    margin-top: 1px;
-    background: #575763;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-track .slider-selection.tick-slider-selection {
-    background: #675545;
-    box-shadow: none;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick {
-    background: #575763;
-    width: 30px;
-    height: 30px;
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-container .slider-tick.in-selection {
-    background: #d99c41;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-handle {
-    background: #d99c41;
-    width: 30px;
-    height: 30px;
-    border: 8px solid #675545
-}
-
-.app-stage-slider-container .slider.slider-horizontal .slider-tick-label-container {
-    margin-top: 30px;
-    padding-left: 5px;
-}
-.react-sanfona {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-bottom: 70px;
-  position: relative;
-  top:0;
-  left:0;
-}
-
-.react-sanfona-item:first-child .react-sanfona-item-wrap {
-    border-top: none;
-}
-
-.react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn { 
-        display: inline-block;
-        float: right;
-        color: #000;
-}   
-.react-sanfona-item .title-done-btn {
-      display: none;
-}
-.react-sanfona-item-title {  
-    font-size: 16px;
-    text-transform: uppercase;
-    transition: background-color .3s;
-    width: auto;
-    padding-left: 30px;
-    display: table-cell;
-    position: relative;
-    bottom: 6px;
-
-}
-.react-sanfona-item:hover .tooltip {
-	opacity: 1;
-}
-.react-sanfona-item-body-wrapper {	
-    padding: 0 6px;
-	position: relative;
-}
-.react-sanfona-item-wrap{
-    border-top: 1px solid #ccc;
-    display: table;
-    width: 100%;
-    padding: 16px 16px 6px 16px;
-    cursor: pointer;
-    line-height: 44px;
-}
-
-.react-sanfona-item-expanded .react-sanfona-item-wrap{
-	background-color: #d99c41;
-}
-.rc-slider-track{
-	background-color: #81bfde;
-	height: 10px;
-    top: 2px;
-}
-
-.rc-slider-rail{
-	height: 10px;
-    top: 2px;
-}
-.rc-slider-handle{
-	background-color: #59a0df;
-    width: 20px;
-    height: 20px;
-    border: none;
-    margin-left: -9px;
-    margin-top: -9px;
-}
-
-.rc-slider-dot{
-	width: 20px;
-    height: 20px;
-    bottom: -7px;
-    border: none;
-    margin-left: -9px
-}
-.rc-slider-dot:first-child {
-    margin-left: -9px;
-}
-.rc-slider-dot:last-child{
-	margin-left: -9px;
-}
-.rc-slider-dot-active{
-	
-	background-color: #81bfde ;
-}
-.rc-slider-mark-text-active{
-	color: #FFF;
-}
-.rc-slider-mark{
-	margin-top: 4px;
-    font-size: 16px;
-}
-
-.table-not-bordered thead>tr>th, .table-not-bordered tbody>tr>td{
-	    border: 0;
-        padding: 1%;
-}
-.table-not-bordered .match-name{
-	font-size: 14px;
-}
-.result-text{
-	min-height: 44px;
-	margin-top: 44px;
-	text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-}
-/* APP Your Bets Tab */ 
-
- 
-#my-bet-tabs .nav-tabs { 
-    margin: 0 20px 0 20px; 
-    padding: 0; 
-    border-radius: 30px; 
-} 
- 
-#my-bet-tabs .nav-tabs > li > a { 
-    font-size: 12px; 
+    clear:both;
     min-width: 80px;
-} 
- 
-#my-bet-tabs .nav-tabs > li.active:before { 
-    border: none; 
-} 
- 
-#my-bet-tabs .nav-tabs > li.active > a { 
-    background-color: #ec644b; 
-} 
- 
-#my-bet-tabs .nav-tabs > li.active:first-child > a { 
-    border-top-left-radius: 20px; 
-    border-bottom-left-radius: 20px; 
 }
 
-#my-bet-tabs .nav-tabs > li.active:last-child > a { 
-    border-top-right-radius: 20px; 
-    border-bottom-right-radius: 20px; 
-} 
- 
-#my-bet-list {
-    margin-top: 15px;
+#exotic-acca-list-table tr:last-child {
+    border-bottom: 1px solid #575763;
 }
 
-#my-bet-list .panel-group .panel {
-    background: none;
-    border-color: #575763;
-    border-width: 1px 0 0 0;
-    margin-top: 0;
+#exotic-acca-list-table td.leg-row-descr {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-#my-bet-list .panel-group .panel:last-child {
-    border-width: 1px 0 1px 0;
+#exotic-acca-list-table td.leg-row-descr span {
+    display: inline-block;
+    float: left;
+    font-size: 11px;
 }
 
-#my-bet-list .panel-group .panel .panel-heading {
-    background: none;
-    color: hsla(0, 0%, 100%, .7);
+#exotic-acca-list-table td.leg-row-descr div span {
+    font-size: 13px;
+}
+
+#exotic-acca-list-table td.leg-row-price {
+    font-size: 17px;
+}
+
+#exotic-acca-list-content .paginator {
+    margin-top: 30px;
+}
+
+/* APP Bets Tab */
+#my-bet-tabs .nav-tabs {
+    margin: 0 20px 0 20px;
     padding: 0;
+    border-radius: 30px;
 }
 
-#my-bet-list .panel-group .panel .panel-heading {
-    display: inline-block;
-    width: 100%;
+#my-bet-tabs .nav-tabs > li > a {
+    font-size: 12px;
+    min-width: 80px;
 }
 
-#my-bet-list .panel-group .panel .panel-heading a {
-    font-size: 14px;
-    padding: 10px 15px;
-    display: inline-block;
-    width: 100%;
-    cursor: pointer;
-}
-
-#my-bet-list .panel-group .panel .panel-heading a:hover {
-    text-decoration: none;
-}
-
-#my-bet-list .panel-group .panel .panel-heading .label {
-    margin-top: 5px;
-    font-size: 10px;
-}
-
-#my-bet-list .panel-group .panel .panel-heading .winners {
-    background-color: #EC644B;
-}
-
-#my-bet-list .panel-group .panel .panel-heading .losers {
-    background-color: #1F8DC4;
-}
-
-#my-bet-list .panel-group .panel .panel-heading .draws {
-    background-color: #d99c41;
-}
-
-#my-bet-list .panel-group .panel .panel-heading .glyph-background {
-    top: 3px;
-    margin-right: 10px;
-}
-
-#my-bet-list .panel-group .panel .panel-collapse {
-    background: #575763;
-}
-
-#my-bet-list .panel-group .panel .panel-collapse .panel-body {
+#my-bet-tabs .nav-tabs > li.active:before {
     border: none;
 }
-.pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+
+#my-bet-tabs .nav-tabs > li.active > a {
+    background-color: #ec644b;
 }
 
-.pagination li {
-     margin: 0 0 4px 0;
-     cursor: pointer;
+#my-bet-tabs .nav-tabs > li.active:first-child > a {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
-.faq-btn{
+
+#my-bet-tabs .nav-tabs > li.active:last-child > a {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.faq-btn {
     float: right;
     margin-top: -36px;
     margin-right: 20px;
