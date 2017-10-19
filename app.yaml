@@ -37,10 +37,10 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
 # APP
-- url: /api/exotic_accas.*
-  script: controllers.api.exotic_accas.app
-- url: /api/fixtures.*
-  script: controllers.api.fixtures.app
+- url: /api/single_match/bets.*
+  script: controllers.api.single_match.bets.app
+- url: /api/single_match/legs.*
+  script: controllers.api.single_match.legs.app
 - url: /app.*
   script: controllers.api.app
 # TASKS

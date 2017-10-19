@@ -77,7 +77,7 @@ class MemBlob(db.Model):
             raise RuntimeError("%s not found" % key)
         return json_loads(blob.text)
 
-class ExoticAcca(db.Model):
+class MultiMatchBet(db.Model):
 
     userid=db.StringProperty()
     params=db.TextProperty()
@@ -91,21 +91,21 @@ class ExoticAcca(db.Model):
 
     @classmethod
     def find_active(self, userid):
-        query=ExoticAcca.all()
+        query=MultiMatchBet.all()
         query.filter("userid = ", userid)
         query.filter("status = ", Active)
         return fetch_models_db(query)
 
     @classmethod
     def find_settled(self, userid):
-        query=ExoticAcca.all()
+        query=MultiMatchBet.all()
         query.filter("userid = ", userid)
         query.filter("status = ", Settled)
         return fetch_models_db(query)
 
     @classmethod
     def find_settleable(self, cutoff):
-        query=ExoticAcca.all()
+        query=MultiMatchBet.all()
         quer.filter("last_kickoff < ", cutoff)
         return fetch_models_db(query)
     

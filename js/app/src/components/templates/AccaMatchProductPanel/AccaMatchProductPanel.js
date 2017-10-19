@@ -29,7 +29,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: "legs",
+            selectedTab: "build",
             legs: [],
             bets: [],
             sanfonaActiveItems: [],
@@ -40,8 +40,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
             textBetsInStake: null
 
         }
-        bindAll(this, ['handleTabClicked', 'delBetfromBetsList',
-            'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
+        bindAll(this, ['delBetfromBetsList', 'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
             'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
             'clearBets', 'delFromBTTS']);
     }
@@ -50,10 +49,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         if (props.selectedTab === 'bet') {
             this.setState({sanfonaActiveItems: []});
         }
-    }
-
-    handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
     }
 
     betResultMatch(nBet) {
@@ -170,7 +165,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         this.setState({
             bets: [],
             buildMyOwn: false,
-            selectedTab: "legs",
+            selectedTab: "build",
             sanfonaActiveItems: [],
             openedStakePanel: false
         });
@@ -198,7 +193,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     opened = true;
                 }
             }
-            console.log(title + ":")
             const darkOrLight = opened ? '-dark.png' : '-light.png'
             const imgSrc = 'img/' + title + darkOrLight;
             return ((opened) ?
@@ -264,8 +258,8 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                 className="form-control btn-primary input-lg"
                                 options={matches.map(function (product) {
                                     return {
-                                        label: product.label,
-                                        value: product.name
+                                        label: product.fixture,
+                                        value: product.match_id
                                     }
                                 })
                                 }
@@ -293,49 +287,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                 bets={this.state.bets}
                                                 delBetfromBetsList={this.delBetfromBetsList}
                                             /> : null}
-                                        {index === 1 ?
-                                            <BTTSPanel
-                                                matches={str.MatchResultStruct}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            /> : null}
-                                        {index === 2 ?
-                                            <GoalScorersPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delTeamBetfromBetsList}
-                                            /> : null}
-                                        {index === 3 ?
-                                            <CornersPanel
-                                                matches={str.MatchResultStruct}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            />
-                                            : null}
-                                        {index === 4 ?
-                                            <TeamCardsPanel
-                                                matches={str.MatchResultStruct}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            />
-                                            : null}
-                                        {index === 5 ?
-                                            < PlayerCardsPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delTeamBetfromBetsList}
-                                            />
-                                            : null}
                                     </AccordionItem>
                                 );
                             })}

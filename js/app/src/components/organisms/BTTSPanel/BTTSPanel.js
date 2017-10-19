@@ -127,7 +127,7 @@ export default class BTTSPanel extends React.PureComponent {
         const  {match} = this.props; 
         let  firstTeam, secondTeam;
         if (match){
-            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
         }
         const toogleValue = this.state.toogleValue;
         const  {sliderValue} = this.state;  

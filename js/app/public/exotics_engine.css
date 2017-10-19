@@ -207,109 +207,6 @@ tr > td span.future {
 }
 
 /*
- *  "Exotic Accas" Menu -> "BUILD YOUR OWN!" -> "Your Bet" Page
- */
-.leg-row .leg-row-date span {
-    font-size: 10px;
-}
-
-.leg-row .leg-row-descr span {
-    font-size: 12px;
-}
-
-.leg-row .leg-row-descr > span {
-    font-weight: bold;
-    color: #fff;
-}
-
-.leg-row .leg-row-descr > span > span {
-    font-weight: normal;
-    color: hsla(0, 0%, 100%, .7);
-}
-
-.bet-submit-btns {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.bet-submit-btns .stake {
-    display: inline-block;
-    background-color: #fff;
-    margin: 0 10px 10px 10px;
-}
-
-.bet-submit-btns .stake .stake-label {
-    display: block;
-    background: #454551;
-    padding-bottom: 2px;
-}
-
-.bet-submit-btns .stake .stake-symbol {
-    color: #000;
-    padding: 0 4px 0 15px;
-}
-
-.bet-submit-btns .stake .stake-value {
-    width: 50px;
-    height: 30px;
-    border: none;
-    color: #000;
-    -moz-appearance: textfield;
-}
-
-.bet-submit-btns .stake .stake-value:focus {
-    outline: none;
-}
-
-.bet-submit-btns .stake .stake-value::-webkit-outer-spin-button,
-.bet-submit-btns .stake .stake-value::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.bet-slider-container {
-    margin-left: 30px;
-    margin-right: 30px;
-}
-
-.bet-slider-container .slider.slider-horizontal {
-    width: 100%;
-}
-
-.your-bet-comment {
-    text-align: center;
-    padding: 0 30px 0 30px;
-}
-
-.your-bet-comment > span {
-    display: block;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
-.your-bet-comment .comment-title {
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.your-bet-comment .white-bold {
-    color: #fff;
-    font-weight: bold;
-}
-
-.your-bet-comment .get-started-btn {
-    background: #59a0df;
-    border-color: #5598d4;
-    margin-top: 20px;
-}
-
-.your-bet-comment .get-started-btn:active:focus {
-    background: #59a0df;
-    border-color: #5598d4;
-}
-
-/*
  * "Browser" Tab Page
  */
 #exotic-acca-list-header {
@@ -389,7 +286,165 @@ tr > td span.future {
     margin-top: 30px;
 }
 
-/* APP Bets Tab */
+/*
+ *  "Betslip" Page
+ */
+.leg-row .leg-row-date span {
+    font-size: 10px;
+}
+
+.leg-row .leg-row-descr span {
+    font-size: 12px;
+}
+
+.leg-row .leg-row-descr > span {
+    font-weight: bold;
+    color: #fff;
+}
+
+.leg-row .leg-row-descr > span > span {
+    font-weight: normal;
+    color: hsla(0, 0%, 100%, .7);
+}
+
+.bet-submit-btns {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bet-submit-btns .stake {
+    display: inline-block;
+    background-color: #fff;
+    margin: 0 10px 10px 10px;
+}
+
+.bet-submit-btns .stake .stake-label {
+    display: block;
+    background: #454551;
+    padding-bottom: 2px;
+}
+
+.bet-submit-btns .stake .stake-symbol {
+    color: #000;
+    padding: 0 4px 0 15px;
+}
+
+.bet-submit-btns .stake .stake-value {
+    width: 50px;
+    height: 30px;
+    border: none;
+    color: #000;
+    -moz-appearance: textfield;
+}
+
+.bet-submit-btns .stake .stake-value:focus {
+    outline: none;
+}
+
+.bet-submit-btns .stake .stake-value::-webkit-outer-spin-button,
+.bet-submit-btns .stake .stake-value::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*
+ * "Bet place confirm" page
+ */
+.bet-confirm-container {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.bet-confirm-container h3 {
+    margin: 10px 0 10px 0;
+}
+
+.bet-confirm-container h3,
+.bet-confirm-container span {
+    color: #fff;
+}
+
+.bet-confirm-container .bet-placed-text {
+    padding: 15px 0;
+    background: #3a3a45;
+    border-top: 2px solid #3c763d;
+    font-size: 16px;
+    color: hsla(0, 0%, 100%, .7);
+}
+
+.bet-confirm-container .bet-placed-text span {
+    margin-right: 10px;
+    color: #3c763d;
+}
+
+.bet-confirm-container .bet-placed-product {
+    color: hsla(0, 0%, 100%, .7);
+    display: inline-block;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.bet-confirm-container .bet-goal span {
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.bet-confirm-container .bet-legs .leg-row .leg-row-descr > span > span {
+    color: #fff;
+}
+
+.bet-confirm-container .bet-placed-price {
+    padding: 15px 0;
+    border-top: 1px solid #d99c41;
+    border-bottom: 1px solid #d99c41;
+    color: #fff;
+    font-size: 16px;
+}
+
+.bet-confirm-container .bet-placed-price span {
+    color: #d99c41;
+}
+
+.bet-confirm-container .bet-placed-result span {
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.bet-confirm-container .site-url,
+.bet-confirm-container .bet-saved-date {
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.bet-confirm-container .bet-saved-date {
+    color: hsla(0, 0%, 100%, .5);
+}
+
+.bet-confirm-container .bet-placed-result {
+    margin-bottom: 30px;
+}
+
+.bet-confirm-container .main-menu-btn:first-child {
+    margin-right: 15px;
+}
+
+.bet-confirm-container .main-menu-btn {
+    padding: 7px 0;
+    width: 150px;
+}
+
+.bet-confirm-container .table tbody > tr > td {
+    color: #fff;
+}
+
+/* "Bets" Tab */
 #my-bet-tabs .nav-tabs {
     margin: 0 20px 0 20px;
     padding: 0;

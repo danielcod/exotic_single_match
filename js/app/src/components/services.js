@@ -15,13 +15,12 @@ export class ExoticsAPI {
 
     httpGet = function (url, handler) {
         var key = url;
+        //this.cache[key]=struct;
         if (this.cache[key] == undefined) {
             if (this.debug) {
                 console.log("Fetching " + key);
             }
-            this.cache[key]=struct;
-            handler(struct);
-            /*$.ajax({
+            $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
@@ -31,7 +30,7 @@ export class ExoticsAPI {
                     handler(struct);
                 }.bind(this),
                 error: this.errHandler
-            });*/
+            });
         } else {
             if (this.debug) {
                 console.log("Serving " + key + " from cache");
@@ -60,18 +59,15 @@ export class ExoticsAPI {
                 console.log("Fetching " + key);
             }
             var that = this;
-            that.cache[key]=structPost;
-                   handler(structPost);
-
-             /*request
-               .post(url)
-               .send(JSON.stringify(payload))
-               .set('Accept', 'application/json')
-               .end(function(err, res){
-                   that.cache[key]=struct;
-                   handler(res.body);
-               });*/
-
+            request
+                .post(url)
+                .send(JSON.stringify(payload))
+                .set('Accept', 'application/json')
+                .withCredentials()
+                .end(function (err, res) {
+                    that.cache[key] = struct;
+                    handler(res.body);
+                });
         } else {
             if (this.debug) {
                 console.log("Serving " + key + " from cache");
@@ -100,33 +96,33 @@ export class ExoticsAPI {
     };
 
     fetchMatches = function (handler) {
-        var url = "/api/fixtures";
+        var url = "/api/single_match/legs";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/fixtures";
+            url = "http://localhost:8080/api/single_match/legs";
         }
         this.httpGet(url, handler);
     };
 
     fetchBets = function (status, handler) {
-        var url = "/api/exotic_accas/list?status=" + status;
+        var url = "/api/multi_match/bets/list?status=" + status;
         if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/exotic_accas/list?status=" + status;
+            url = "http://localhost:8080/api/multi_match/bets/list?status=" + status;
         }
         this.httpGetForList(url, handler);
     };
 
     fetchPrice = function (body, handler) {
-        var url = "/api/exotic_accas/price";
+        var url = "/api/multi_match/bets/price";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/exotic_accas/price";
+            url = "http://localhost:8080/api/multi_match/bets/price";
         }
         this.httpPost(url, body, handler);
     };
 
     placeBet = function (body, handler) {
-        var url = "/api/exotic_accas/create";
+        var url = "/api/multi_match/bets/create";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/exotic_accas/create";
+            url = "http://localhost:8080/api/multi_match/bets/create";
         }
         this.httpPostForCreate(url, body, handler);
     };

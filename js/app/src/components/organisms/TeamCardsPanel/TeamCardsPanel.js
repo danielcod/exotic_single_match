@@ -94,7 +94,7 @@ export default class TeamCardsPanel extends React.PureComponent {
     handleTabClicked(tab) {
         const {toogleValue, selectedBetTab} = this.state;  
          const selectedTab = tab.name;
-         if (!selectedBetTab){
+         if (selectedBetTab === null){
              this.setState({selectedTab});
              return;
          }
@@ -106,7 +106,7 @@ export default class TeamCardsPanel extends React.PureComponent {
         const {sliderOptions, selectedBetTab, selectedTab} = this.state;
         let toogleValue = this.state.toogleValue - sliderOptions.step;
         if (toogleValue < sliderOptions.min) toogleValue = this.state.toogleValue;
-       if (!selectedBetTab){
+       if (selectedBetTab === null){
              this.setState({toogleValue});
              return;
          }
@@ -117,7 +117,7 @@ export default class TeamCardsPanel extends React.PureComponent {
        const {sliderOptions, selectedBetTab, selectedTab} = this.state;
         let toogleValue = this.state.toogleValue + sliderOptions.step;
         if (toogleValue > sliderOptions.max) toogleValue = this.state.toogleValue;
-        if (!selectedBetTab){
+        if (selectedBetTab === null){
              this.setState({toogleValue});
              return;
          } 

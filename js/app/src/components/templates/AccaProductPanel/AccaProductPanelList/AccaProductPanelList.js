@@ -134,22 +134,6 @@ export default class AccaProductPanelList extends React.PureComponent {
                     <div className="form-group">
                         <span>....or edit one of the popular bets other people have chosen:</span>
                     </div>
-                    <MySelect
-                        className="form-control acca-product-type input-lg"
-                        options={this.accaProductType.map(function (type) {
-                            return {label: type.label, value: type.name}
-                        })}
-                        name="acca-product-type"
-                        changeHandler={this.handleProductChanged}
-                    />
-                    <MySelect
-                        className="form-control acca-league-type input-lg"
-                        options={this.accaTeamType.map(function (league) {
-                            return {label: league.label, value: league.name}
-                        })}
-                        name="acca-league-type"
-                        changeHandler={this.handleTeamChanged}
-                    />
                 </div>
                 <div id="exotic-acca-list-content">
                     <div id="exotic-acca-list-table">

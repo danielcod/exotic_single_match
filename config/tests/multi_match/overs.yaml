@@ -1,0 +1,181 @@
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 1
+  - 0
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 2
+  - 0
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 3
+  - 0
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 0
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 1
+  - 1
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 2
+  - 2
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 3
+  - 3
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 1
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 2
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 0
+  - 3
+  leg:
+    match: A vs B
+    selection: A
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 1
+  - 0
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 2
+  - 0
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 3
+  - 0
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 0
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 1
+  - 1
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 2
+  - 2
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 3
+  - 3
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 1
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: false
+  score:
+  - 0
+  - 2
+  leg:
+    match: A vs B
+    selection: B
+- bet:
+    n_goals: 3
+  outcome: true
+  score:
+  - 0
+  - 3
+  leg:
+    match: A vs B
+    selection: B
+

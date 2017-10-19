@@ -22,7 +22,7 @@ export default class BetRow extends React.PureComponent {
         const {leg, matchBets} = this.props;
         let firstItem = null;
         if(matchBets){
-            const imgSrc = 'img/' + leg.name + '-light.png';
+            const imgSrc = 'img/' + leg.name.toString() + '-light.png';
             firstItem =  <div className = {s['title-img']} title={leg.name}>
                                 <img src={imgSrc}/>
                             </div>

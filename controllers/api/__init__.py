@@ -4,6 +4,8 @@ Leagues=yaml.load(file("config/leagues.yaml").read())
 
 Deps = yaml.load(file("config/app_deps.yaml").read())
 
+Win, Lose, Push = "win", "lose", "push"
+
 CookieName="ioSport"
 
 def filter_userid(fn):

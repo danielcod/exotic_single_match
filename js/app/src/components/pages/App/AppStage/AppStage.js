@@ -9,15 +9,15 @@ import * as data from '../../../products';
 import * as list from '../../../list';
 import * as faq from '../../../faq';
 import classnames from 'classnames';
-import * as s from './index.css';
 
 export default class AppStage extends React.PureComponent {
     appTab = [
         {name: "browse", label: "Browse"},
-        { name: "build", label: "Build" },
-        { name: "bet",  label: "Betslip" },
-        { name: "bets", label: "Bets" }
+        {name: "build", label: "Build"},
+        {name: "bet", label: "Betslip"},
+        {name: "bets", label: "Bets"}
     ];
+
     constructor(props) {
         super(props);
         this.state = {
@@ -28,17 +28,19 @@ export default class AppStage extends React.PureComponent {
         };
         bindAll(this, ['handleTabClicked', 'getTabContent', 'handleMatchChanged']);
     }
-    componentWillMount(){
-        this.props.exoticsApi.fetchMatches(function(struct) {
-            let {matches, leagues} = this.state;
-            const cutoff=new Date();
 
-            matches=struct.filter(function(match) {
-                var bits = match.kickoff.split(/\D/);
+    componentWillMount() {
+        this.props.exoticsApi.fetchMatches(function (struct) {
+            let {matches, leagues} = this.state;
+            const cutoff = new Date();
+
+            matches = Object.values(struct).filter(function (match) {
+                /*var bits = match.kickoff.split(/\D/);
                 var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
-                if ( date > cutoff){
-                     return match;
-                }
+                if (date > cutoff) {
+                    return match;
+                }*/
+                return match
             }).sort(matchSorter);
 
             this.setState({
@@ -48,30 +50,31 @@ export default class AppStage extends React.PureComponent {
 
         }.bind(this));
     }
+
     handleMatchChanged(name, value) {
-        const match = this.state.matches.filter(function(product) {
-            return product.name==value;
+        const match = this.state.matches.filter(function (product) {
+            return product.match_id == value;
         })[0];
         this.setState({match});
     }
+
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
-        if ('bets' === tab.name || "browse" === tab.name  ){
+        if ('bets' === tab.name || "browse" === tab.name) {
             this.setBets();
         }
     }
-    handleBuidMyOwn = ()=>{
-        this.setState({selectedTab: 'build', currentStage: "edit"});
-    }
-    handleToBrowse = (selectedTab)=>{
+
+    handleToBrowse = (selectedTab) => {
         this.setState({selectedTab, currentStage: "edit"});
     }
-    setMatch = (match)=>{
+    setMatch = (match) => {
         this.setState({match});
     }
-    setBets = (bets = [])=>{
+    setBets = (bets = []) => {
         this.setState({bets});
     }
+
     getTabContent() {
         switch (this.state.selectedTab) {
             case "browse":
@@ -87,7 +90,7 @@ export default class AppStage extends React.PureComponent {
                 return (
                     <AccaMatchProductPanel
                         exoticsApi={this.props.exoticsApi}
-                        selectedTab = {this.state.selectedTab}
+                        selectedTab={this.state.selectedTab}
                         setMatch={this.setMatch}
                         setBets={this.setBets}
                         handleToBrowse={this.handleToBrowse}
