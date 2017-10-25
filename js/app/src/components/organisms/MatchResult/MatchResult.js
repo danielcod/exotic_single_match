@@ -22,7 +22,8 @@ export default class MatchResult extends React.PureComponent {
             selectedItem: bet.options.tableSelectedItem,
             showSlider: bet.options.showSlider,
             changes: bet.options.selectedMatchResult,
-            price: 17.3,
+            price: bet.options.price,
+            selection: bet.options.selection
 
         }
         bindAll(this, ['onChange', 'clickHandler', 'formatDynamicText',
@@ -33,7 +34,7 @@ export default class MatchResult extends React.PureComponent {
         const {bets, match} = props;
         let currentBet = {};
         bets.map(bet => {
-            if (bet.name === productsName && bet.match.name === match.name) {
+            if (bet.name === productsName && bet.match.fixture === match.fixture) {
                 currentBet = bet;
             }
         });
@@ -55,7 +56,10 @@ export default class MatchResult extends React.PureComponent {
                 text: ' ',
                 showSlider: true,
                 buildMyOwn: false,
-                changes: false
+                changes: false,
+                selectedPrice: 0,
+                price: 0,
+                selection: ''
             }
         }
     }
@@ -77,12 +81,14 @@ export default class MatchResult extends React.PureComponent {
             textValue = bet.options.textValue,
             selectedItem = bet.options.tableSelectedItem,
             showSlider = bet.options.showSlider,
-            changes = bet.options.selectedMatchResult;
+            changes = bet.options.selectedMatchResult,
+            price = bet.options.price,
+            selection = bet.options.selection
 
-        this.setState({value, textValue, selectedItem, showSlider, changes});
+        this.setState({value, textValue, selectedItem, showSlider, changes, price, selection});
     }
 
-    clickHandler(id, key) {
+    clickHandler(id, key, selection, selectedPrice) {
         let showSlider = true;
         const {value} = this.state;
         if (key === constant.SELCTED_TWO) showSlider = false;
@@ -90,9 +96,9 @@ export default class MatchResult extends React.PureComponent {
         if (isEqual(selectedItem, Array(id, key))) {
             this.handleCancel()
         } else {
-            selectedItem = [id, key];
+            selectedItem = [id, key]
             const textValue = this.formatDynamicText(selectedItem, value);
-            this.setToParrenState(selectedItem, value, textValue, showSlider);
+            this.setToParrenState(selectedItem, value, textValue, showSlider, selection, selectedPrice);
         }
 
     }
@@ -160,9 +166,7 @@ export default class MatchResult extends React.PureComponent {
         return '';
     }
 
-    setToParrenState(selectedItem, value, textValue, showSlider) {
-
-        const {changes, price} = this.state;
+    setToParrenState(selectedItem, value, textValue, showSlider, selection, selectedPrice) {
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -172,16 +176,44 @@ export default class MatchResult extends React.PureComponent {
                 tableSelectedItem: selectedItem,
                 showSlider,
                 selectedMatchResult: true,
-                price
+                selection: selection,
+                price: parseFloat(selectedPrice)
             }
         }
         this.props.betResultMatch(bet);
     }
 
     render() {
-        const {value, selectedItem} = this.state;
-        let select;
-        if (selectedItem) select = selectedItem[1];
+        const {value, selectedItem} = this.state
+        const {match} = this.props
+        const matches = [
+            {
+                name: "Full Match",
+                '1x2_prices': [
+                    {ones_criteria: match.ones_criteria},
+                    {xs_criteria: match.xs_criteria},
+                    {twos_criteria: match.twos_criteria}
+                ],
+            },
+            {
+                name: "Both Halves",
+                '1x2_prices': [
+                    {bhones_criteria: match.bhones_criteria},
+                    {bhxs_criteria: match.bhxs_criteria},
+                    {bhtwos_criteria: match.bhtwos_criteria}
+                ],
+            },
+            {
+                name: "Either Half",
+                '1x2_prices': [
+                    {ehones_criteria: match.ehones_criteria},
+                    {ehxs_criteria: match.ehxs_criteria},
+                    {ehtwos_criteria: match.ehtwos_criteria}
+                ],
+            }
+        ]
+        let select
+        if (selectedItem) select = selectedItem[1]
         const marks = {
             1: '1',
             2: '2',
@@ -192,7 +224,7 @@ export default class MatchResult extends React.PureComponent {
         return (
             <div className={s['match-result']}>
                 <MatchResultTable
-                    matches={this.props.matches}
+                    matches={matches}
                     legs={this.props.legs}
                     clickHandler={this.clickHandler}
                     selected={selectedItem}/>

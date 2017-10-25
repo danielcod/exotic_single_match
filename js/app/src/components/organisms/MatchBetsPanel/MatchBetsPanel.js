@@ -4,17 +4,17 @@ import {bindAll} from 'lodash';
 import {formatCurrentPrice, formatObjectYourBet} from '../../utils';
 import CornersToogle from '../../molecules/CornersToggle';
 import MyPaginator from '../../molecules/MyPaginator';
-import * as constant from  '../../constant';
-import * as products from  '../../products'; 
+import * as constant from '../../constant';
+import * as products from '../../products';
 import classNames from 'classnames';
 import s from './index.css';
 
 export default class MatchBetsPanel extends React.PureComponent {
-    constructor(props){
+    constructor(props) {
         super(props);
         bindAll(this, ['handlePaginatorClicked', 'handleStakeChanged',
-                        'decrementValue', 'incrementValue', 'updatePrice']);       
-        this.state={ 
+            'decrementValue', 'incrementValue', 'updatePrice']);
+        this.state = {
             currentPage: 0,
             openedStakePanel: false,
             stake: "10.00",
@@ -22,32 +22,37 @@ export default class MatchBetsPanel extends React.PureComponent {
             countBetsInStake: 1,
             textBetsInStake: '',
             showBets: []
-        }        
-    }    
-    componentWillMount(){
+        }
+    }
+
+    componentWillMount() {
         this.changeState(this.props);
     }
-    componentWillReceiveProps(nextProps){
-       this.changeState(nextProps);
+
+    componentWillReceiveProps(nextProps) {
+        this.changeState(nextProps);
     }
-    changeState = (props)=>{
+
+    changeState = (props) => {
         const {match, bets} = props;
         let showBets = [];
-        let {textBetsInStake, countBetsInStake} = this.state;       
-        bets.map(bet=>{
-            if (bet.match.name != match.name) return;
-             showBets.push(bet);           
+        let {textBetsInStake, countBetsInStake} = this.state;
+        bets.map(bet => {
+            if (bet.match.fixture != match.fixture) return;
+            showBets.push(bet);
         });
         showBets = formatObjectYourBet(showBets, match);
-        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);        
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
         this.setState({showBets, textBetsInStake});
     }
+
     applyPaginatorWindow(items) {
         var rows = constant.COUNT_PLAYER_ROWS;
         var i = this.state.currentPage * rows;
         var j = (this.state.currentPage + 1) * rows;
         return items.slice(i, j);
     }
+
     sortLegs(legs) {
         var sortFn = function (i0, i1) {
             if (i0.match.kickoff < i1.match.kickoff) {
@@ -66,17 +71,21 @@ export default class MatchBetsPanel extends React.PureComponent {
         };
         return legs.sort(sortFn);
     }
+
     handlePaginatorClicked(item) {
-        const currentPage = item.value;        
+        const currentPage = item.value;
         this.setState({currentPage});
-    }    
-    handleStakeChanged(e){
+    }
+
+    handleStakeChanged(e) {
         this.setState({stake: e.target.value});
     }
-    updatePrice(){
+
+    updatePrice() {
         console.log('updatePrice')
     }
-    decrementValue() {    
+
+    decrementValue() {
         let {countBetsInStake, showBets, textBetsInStake} = this.state;
         if (parseInt(countBetsInStake) <= 1) return;
         countBetsInStake -= 1;
@@ -84,82 +93,85 @@ export default class MatchBetsPanel extends React.PureComponent {
         this.setState({countBetsInStake, textBetsInStake});
         this.updatePrice();
     }
+
     incrementValue() {
         let {countBetsInStake, showBets, textBetsInStake} = this.state;
-        if (parseInt(countBetsInStake) >=  showBets.length) return;
+        if (parseInt(countBetsInStake) >= showBets.length) return;
         countBetsInStake += 1;
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
         this.setState({countBetsInStake, textBetsInStake});
         this.updatePrice();
     }
-    formatToogleText(countBetsInStake, showBets){
+
+    formatToogleText(countBetsInStake, showBets) {
         let textBetsInStake = '';
-        if (countBetsInStake === showBets.length)  textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
+        if (countBetsInStake === showBets.length) textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
         else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
         return textBetsInStake;
     }
-    placeBet = ()=>{
+
+    placeBet = () => {
         const {showBets, stake, price, textBetsInStake} = this.state;
         this.props.openStakePanel(showBets, stake, price, textBetsInStake);
     }
-    render(){       
+
+    render() {
         const {price, handleBetRemoved, match, bets} = this.props;
         const {openStakePanel, showBets, textBetsInStake} = this.state;
-        if (showBets.length === 0){
-            return(
+        if (showBets.length === 0) {
+            return (
                 <div>
-                    <div className={classNames(s["description"])}>                        
+                    <div className={classNames(s["description"])}>
                         <div className={classNames(s['title'])}>
                             How does this work?
-                        </div >
+                        </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>1) </span>
-                            Choose your 
+                            Choose your
                             <span className={s['white-text']}> match </span>
-                            from the 
+                            from the
                             <span className={s['white-text']}> Build </span>
                             tab!
                         </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>2) </span>
-                             Add your                             
-                              <span className={s['white-text']}>  selections </span>
-                              for in-game events.
+                            Add your
+                            <span className={s['white-text']}>  selections </span>
+                            for in-game events.
                         </div>
                         <div className={classNames('text-muted', 'text-left')}>
                             <span className={s['white-text']}>3) </span>
-                             Make it exotic on the 
-                            <span className={s['white-text']}> Betslip! </span>                           
+                            Make it exotic on the
+                            <span className={s['white-text']}> Betslip! </span>
                         </div>
-                        <button 
+                        <button
                             className={classNames('btn', 'btn-primary', s['get-started-btn'])}
                             onClick={this.props.returnToBetsPanel}>
                             Get Started
-                        </button>                     
-                    </div>                    
+                        </button>
+                    </div>
                 </div>
             );
         }
-        return(
+        return (
             <div>
-                
                 <div>
                     <div className="form-group">
-                    <h3 className="current-price text-center">Current price:
-                        <span id="price">{formatCurrentPrice(price)}</span>
-                    </h3>
-                </div>
-                <MatchBetsTable
+                        <h3 className="current-price text-center">Current price:
+                            <span id="price">{formatCurrentPrice(price)}</span>
+                        </h3>
+                    </div>
+                    <MatchBetsTable
                         clickHandler={handleBetRemoved}
                         bets={this.applyPaginatorWindow(this.sortLegs(showBets))}
                         accaProductPanelState='custom'
                         match={match}
                     />
-                <hr className={classNames(s['table-border-bottom'])}/>
+                    <hr className={classNames(s['table-border-bottom'])}/>
                     {
                         (showBets.length > constant.COUNT_PLAYER_ROWS) ?
                             <MyPaginator
-                                product={{rows : constant.COUNT_PLAYER_ROWS}}
+                                product={{rows: constant.COUNT_PLAYER_ROWS}}
                                 data={showBets}
                                 clickHandler={this.handlePaginatorClicked}
                                 currentPage={this.state.currentPage}
@@ -174,19 +186,20 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 decrement: this.decrementValue
                             }}/>
                     </div>
-                   
+
                     <div className="bet-submit-btns">
                         {/*<button
                             className="btn btn-primary bet-cancel-btn"
                             onClick={ this.props.clearBets}>Cancel
                         </button>*/}
                         <div className={classNames(s["bet-submit-btns-child"], "stake-label")}>STAKE</div>
-                        <div className="stake">                            
+                        <div className="stake">
                             <span className="stake-symbol">€</span>
-                            <input type="number" name="stake-value" className={classNames(s["bet-submit-btns-child"], "stake-value")}
-                                    defaultValue={this.state.stake}
-                                    onChange={ this.handleStakeChanged }
-                                    />
+                            <input type="number" name="stake-value"
+                                   className={classNames(s["bet-submit-btns-child"], "stake-value")}
+                                   defaultValue={this.state.stake}
+                                   onChange={this.handleStakeChanged}
+                            />
                         </div>
                         <div>
                             <button
@@ -195,9 +208,9 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 onClick={this.placeBet}>Place Bet
                             </button>
                         </div>
-                        
+
                     </div>
-                </div>                                    
+                </div>
             </div>
         );
     }

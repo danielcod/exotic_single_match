@@ -42,7 +42,6 @@ export default class AppStage extends React.PureComponent {
                 }*/
                 return match
             }).sort(matchSorter);
-
             this.setState({
                 matches: matches,
                 match: matches[0]

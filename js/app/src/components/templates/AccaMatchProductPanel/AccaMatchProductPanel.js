@@ -55,7 +55,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         let {bets} = this.state;
         let changed = false;
         bets = bets.map(bet => {
-            if (bet.name === nBet.name && bet.match.name === nBet.match.name) {
+            if (bet.name === nBet.name && bet.match.fixture === nBet.match.fixture) {
                 bet.options = nBet.options;
                 changed = true;
             }
@@ -64,7 +64,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         if (changed === false) bets.push(nBet);
         this.setState({bets});
         this.props.setBets(bets);
-        setTimeout(() => console.log(this.state.bets), 0)
+        //setTimeout(() => console.log(this.state.bets), 0)
     }
 
     delBetfromBetsList(oldBet) {
@@ -74,14 +74,13 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         });
         this.setState({bets});
         this.props.setBets(bets);
-        setTimeout(() => console.log(this.state.bets), 0)
     }
 
     delTeamBetfromBetsList(productsName, matchName) {
         let {bets} = this.state;
         setTimeout(() => console.log('delTeamBetfromBetsList', bets), 0);
         bets = bets.filter((bet) => {
-            if (bet.name === productsName && bet.match.name !== matchName ||
+            if (bet.name === productsName && bet.match.fixture !== matchName ||
                 bet.name !== productsName)
                 return bet;
         });
@@ -266,12 +265,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                 name="match"
                                 changeHandler={this.props.handleMatchChanged}
                                 match={match}
-
-
                             />
                             }
                         />
-
                         <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
                             {data.matchComponents.map((item, index) => {
                                 return (
@@ -280,13 +276,54 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                     >
                                         {index === 0 ?
                                             <MatchResult
-                                                matches={str.MatchResultStruct}
                                                 match={match}
                                                 legs={legs}
                                                 betResultMatch={this.betResultMatch}
                                                 bets={this.state.bets}
                                                 delBetfromBetsList={this.delBetfromBetsList}
                                             /> : null}
+                                        {index === 1 ?
+                                            <BTTSPanel
+                                                match={match}
+                                                betResultMatch={this.betResultMatch}
+                                                bets={this.state.bets}
+                                                delBetfromBetsList={this.delBetfromBetsList}
+                                            /> : null}
+                                        {index === 2 ?
+                                            <GoalScorersPanel
+                                                matches={matches}
+                                                match={match}
+                                                betResultMatch={this.betResultMatch}
+                                                bets={this.state.bets}
+                                                delBetfromBetsList={this.delTeamBetfromBetsList}
+                                            /> : null}
+                                        {index === 3 ?
+                                            <CornersPanel
+                                                matches={matches}
+                                                match={match}
+                                                betResultMatch={this.betResultMatch}
+                                                bets={this.state.bets}
+                                                delBetfromBetsList={this.delBetfromBetsList}
+                                            />
+                                            : null}
+                                        {index === 4 ?
+                                            <TeamCardsPanel
+                                                matches={matches}
+                                                match={match}
+                                                betResultMatch={this.betResultMatch}
+                                                bets={this.state.bets}
+                                                delBetfromBetsList={this.delBetfromBetsList}
+                                            />
+                                            : null}
+                                        {index === 5 ?
+                                            <PlayerCardsPanel
+                                                matches={matches}
+                                                match={match}
+                                                betResultMatch={this.betResultMatch}
+                                                bets={this.state.bets}
+                                                delBetfromBetsList={this.delTeamBetfromBetsList}
+                                            />
+                                            : null}
                                     </AccordionItem>
                                 );
                             })}

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 export default class MyBetTabThreeState extends React.PureComponent {
     render() {
-          const {forTeamName} = this.props;
+        const {forTeamName} = this.props;
         return (
             <div id="my-bet-tabs" className={classNames((forTeamName ? s['my-team-bet-tabs'] : s['my-bet-tabs']))}>
                 <ul className="nav nav-tabs">
@@ -19,7 +19,7 @@ export default class MyBetTabThreeState extends React.PureComponent {
                                         <span className={s['label-text']}>
                                             {tab.label}
                                         </span>
-                                        </a>
+                                    </a>
                                 </li>
                             )
                         })

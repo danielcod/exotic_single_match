@@ -19,8 +19,8 @@ export default class MatchResultTable extends React.PureComponent {
         this.setState({selected});
     }
 
-    choicePrice(id, key) {
-        this.props.clickHandler(id, key);
+    choicePrice(id, key, selection, selectedPrice) {
+        this.props.clickHandler(id, key, selection, selectedPrice);
         this.setState({selected: [id, key]})
     }
 
@@ -47,9 +47,9 @@ export default class MatchResultTable extends React.PureComponent {
                         return (
                             <tr key={id} className="text-center match">
                                 <td>
-                                            <span className={classnames(s['first-collumn'])}>
-                                                 {match.name} 
-                                            </span>
+                                    <span className={classnames(s['first-collumn'])}>
+                                        {match.name}
+                                    </span>
                                 </td>
                                 {
                                     match['1x2_prices'].map((value, key) => {
@@ -57,17 +57,15 @@ export default class MatchResultTable extends React.PureComponent {
                                         return (
                                             <MatchPriceCell
                                                 key={key}
-                                                value={formatPrice(value)}
+                                                value={formatPrice(Object.values(value)[0])}
                                                 selected={selected}
-                                                clickHandler={() => this.choicePrice(id, key)}
+                                                clickHandler={() => this.choicePrice(id, key, Object.keys(value)[0], formatPrice(Object.values(value)[0]))}
                                             />
                                         )
-
                                     })
                                 }
                             </tr>
                         )
-
                     })
                 }
                 </tbody>

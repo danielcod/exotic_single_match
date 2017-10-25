@@ -16,20 +16,20 @@ export default class BetRow extends React.PureComponent {
         } else {
             return Math.floor(value);
         }
-    }   
+    }
 
     render() {
         const {leg, matchBets} = this.props;
         let firstItem = null;
-        if(matchBets){
+        if (matchBets) {
             const imgSrc = 'img/' + leg.name.toString() + '-light.png';
-            firstItem =  <div className = {s['title-img']} title={leg.name}>
-                                <img src={imgSrc}/>
-                            </div>
-        }else{
+            firstItem = <div className={s['title-img']} title={leg.name}>
+                <img src={imgSrc}/>
+            </div>
+        } else {
             firstItem = <DateTimeCell
-                            value={this.props.leg.match.kickoff}
-                            type="datetime"/>;
+                value={this.props.leg.match.kickoff}
+                type="datetime"/>;
         }
         return (
             <tr className="leg-row">
@@ -46,15 +46,15 @@ export default class BetRow extends React.PureComponent {
                 </td>
                 {
                     this.props.accaProductPanelState == "custom" ?
-                    <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
-                        <a className="btn btn-secondary">
-                            <i className="glyphicon glyphicon-remove"></i>
-                        </a>
-                    </td>
-                    :
-                    <td>
-                        <span>?</span>
-                    </td>
+                        <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
+                            <a className="btn btn-secondary">
+                                <i className="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </td>
+                        :
+                        <td>
+                            <span>?</span>
+                        </td>
                 }
             </tr>
         )

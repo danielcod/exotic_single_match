@@ -1,283 +1,344 @@
 import React from 'react';
-import { bindAll, isEmpty, findIndex, isEqual, remove } from 'lodash';
+import {bindAll, isEmpty, findIndex, isEqual, remove} from 'lodash';
 import PlayerCardsTable from '../PlayerCardsTable';
 import MyPaginator from '../../molecules/MyPaginator';
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab';
-import * as constant from  '../../constant';
-import * as products from  '../../products';
-import {formatPrice} from  '../../utils';
+import * as constant from '../../constant';
+import * as products from '../../products';
+import {formatPrice} from '../../utils';
 const productsName = constant.PLAYER_CARDS_;
-import * as struct from  '../../struct';
+import * as struct from '../../struct';
 import s from './index.css';
 import classNames from 'classnames';
 
 export default class PlayerCardsPanel extends React.Component {
-        constructor(props){
+    constructor(props) {
         super(props);
-        bindAll(this, ['getCurrentBet', 'initState', 'clickTable', 'applyPaginatorWindow', 
-                        'handlePaginatorClicked', 'handleTabClicked', 'getCurrentListPlayer',
-                        'formatText', 'isCurrentItemClicked', 'handleCancel']);
-        let bet = this.getCurrentBet(this.props); 
+        bindAll(this, ['getCurrentBet', 'initState', 'clickTable', 'applyPaginatorWindow',
+            'handlePaginatorClicked', 'handleTabClicked', 'getCurrentListPlayer',
+            'formatText', 'isCurrentItemClicked', 'handleCancel']);
+        let bet = this.getCurrentBet(this.props);
         if (isEmpty(bet)) bet = this.initState();
-        let  firstTeam, secondTeam;
-        if (this.props.match){
-            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        let firstTeam, secondTeam;
+        if (this.props.match) {
+            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
         }
-        this.state={            
+        this.state = {
             price: bet.options.price,
             currentPage: bet.options.currentPage,
             selectedItem: bet.options.selectedItem,
             selectedTeam: bet.options.selectedTeam,
             textValue: bet.options.textValue,
-            myBetTab : [
+            myBetTab: [
                 {name: constant.HOME, label: firstTeam},
                 {name: constant.AWAY, label: secondTeam}
             ],
             triggerState: false,
             changes: bet.options.changes
-        }        
-    }    
-    componentWillReceiveProps(props){
+        }
+    }
+
+    componentWillReceiveProps(props) {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initState();
-        let  firstTeam, secondTeam;
-        if (this.props.match){
-            [firstTeam, secondTeam] = this.props.match.name.split(' vs ');
+        let firstTeam, secondTeam;
+        if (this.props.match) {
+            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
         }
         const myBetTab = [
-                {name: constant.HOME, label: firstTeam},
-                {name: constant.AWAY, label: secondTeam}
-            ]
-        const {selectedTeam, currentPage, selectedItem, price, textValue, changes} = bet.options;   
-         this.setState({ myBetTab, selectedTeam, currentPage, selectedItem, price, textValue, changes });   
+            {name: constant.HOME, label: firstTeam},
+            {name: constant.AWAY, label: secondTeam}
+        ]
+        const {selectedTeam, currentPage, selectedItem, price, textValue, changes} = bet.options;
+        this.setState({myBetTab, selectedTeam, currentPage, selectedItem, price, textValue, changes});
     }
-    initState(){
+
+    initState() {
         return {
             name: productsName,
             match: this.props.match,
-            options:{
+            options: {
                 selectedTeam: constant.HOME,
                 currentPage: 0,
                 selectedItem: [],
-                textValue:  [],
+                textValue: [],
                 price: 26.5,
                 changes: false
-        }}
+            }
+        }
     }
-    getCurrentBet(props){
+
+    getCurrentBet(props) {
         const {bets, match} = props;
         let currentBet = {};
-        bets.map(bet=>{            
-            if (bet.name === productsName && bet.match.name === match.name){
+        bets.map(bet => {
+            if (bet.name === productsName && bet.match.name === match.name) {
                 currentBet = bet;
             }
         });
         return currentBet;
     }
-    setToParrenState(selectedItem, currentPage, selectedTeam, textValue){       
-       const { price } = this.state;
-       const bet = {
-           name: productsName,
-           match: this.props.match,
-           options:{
-               currentPage,
-               selectedItem,
-               selectedTeam,
-               textValue,               
-               price,
-               changes: true
-           }           
-       }
-       this.props.betResultMatch(bet);
+
+    setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection) {
+        const bet = {
+            name: productsName,
+            match: this.props.match,
+            options: {
+                currentPage,
+                selectedItem,
+                selectedTeam,
+                textValue,
+                price: selectedPrice,
+                changes: true,
+                selection
+            }
+        }
+        this.props.betResultMatch(bet);
     }
-    clickTable(id, key){        
+
+    clickTable(id, key, selectedPrice, selectedPlayer, selection) {
         let {selectedItem, currentPage, selectedTeam} = this.state;
         const triggerState = !this.state.triggerState;
-        const {match, matches} = this.props;           
+        const {match, matches} = this.props;
         const selected = {
-            matchName: match.name,
-            page:   currentPage, 
-            item:   [id, key],
-            selectedTeam:  selectedTeam
+            matchName: match.fixture,
+            page: currentPage,
+            item: [id, key],
+            selectedTeam: selectedTeam,
+            player: {
+                name: selectedPlayer,
+                price: selectedPrice
+            }
         };
-        selected.player = this.getPlayer(matches, selected); 
-        const selectedInCurrentPage = this.getCurrentListPlayer();
-        const index = this.isCurrentItemClicked(id, key, selectedInCurrentPage)
-        if (index > -1){
+        const index = this.isCurrentItemClicked(id, key)
+        if (index > -1) {
             selectedItem.splice(index, 1);
-        }else{
-            switch(key){
-                    case constant.SELCTED_TWO:    //AnyTime                                         
-                        selectedItem = selectedItem.filter((value, idx)=> {  
-                            if(value.matchName === match.name && value.selectedTeam === selectedTeam 
-                                && value.page === currentPage){
-                                    if (value.item[0] !== id){ 
-                                        return value;
-                                    }
-                            }else{
+        } else {
+            switch (key) {
+                case constant.SELCTED_TWO:    //AnyTime
+                    selectedItem = selectedItem.filter((value, idx) => {
+                        if (value.matchName === match.name && value.selectedTeam === selectedTeam
+                            && value.page === currentPage) {
+                            if (value.item[0] !== id) {
                                 return value;
-                            }                                                   
-                        });                        
-                        break;                   
-                    case constant.SELCTED_THREE:       //1stGame 
-                        selectedItem = selectedItem.filter((value, idx)=> {                                               
-                            if (value.item[0] === id && value.matchName === match.name 
-                                && value.selectedTeam === selectedTeam && value.page === currentPage){
-                                if (value.item[1] === constant.SELCTED_FIVE ){
-                                    return value;
-                                }                              
-                            }else{
-                                 if (value.matchName !== match.name ||
-                                    value.matchName === match.name && value.selectedTeam !== selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE ){          
-                                        return value;    
-                                    }                
-                            }                                
-                        });  
-                        break;
-                    case constant.SELCTED_FOUR:  //1stTeam
-                        selectedItem = selectedItem.filter((value, idx)=> {                            
-                            if (value.item[0] === id  && value.matchName === match.name     
-                                && value.selectedTeam === selectedTeam && value.page === currentPage){
-                                if (value.item[1] === constant.SELCTED_FIVE){
-                                    return value;
-                                }                              
-                            }else{
-                                if (value.matchName !== match.name ||
-                                    value.matchName === match.name && value.selectedTeam !== selectedTeam ||
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
-                                    value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE    ){          
-                                        return value;    
-                                    }   
-                            }                                
-                        });               
-                    case constant.SELCTED_FIVE: //3+
-                         selectedItem = selectedItem.filter((value, idx)=> {
-                            if (value.item[0] === id && value.item[1] !== constant.SELCTED_TWO || value.item[0] !== id){                                
-                                    return value;                                
-                            }                              
-                        });
-                        break;
-                }           
-            selectedItem.push(selected);                         
-        }            
-        const textValue = this.formatText(selectedItem, currentPage, selectedTeam);
-        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue);        
+                            }
+                        } else {
+                            return value;
+                        }
+                    });
+                    break;
+                case constant.SELCTED_THREE:       //1stGame
+                    selectedItem = selectedItem.filter((value, idx) => {
+                        if (value.item[0] === id && value.matchName === match.name
+                            && value.selectedTeam === selectedTeam && value.page === currentPage) {
+                            if (value.item[1] === constant.SELCTED_FIVE) {
+                                return value;
+                            }
+                        } else {
+                            if (value.matchName !== match.name ||
+                                value.matchName === match.name && value.selectedTeam !== selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE) {
+                                return value;
+                            }
+                        }
+                    });
+                    break;
+                case constant.SELCTED_FOUR:  //1stTeam
+                    selectedItem = selectedItem.filter((value, idx) => {
+                        if (value.item[0] === id && value.matchName === match.name
+                            && value.selectedTeam === selectedTeam && value.page === currentPage) {
+                            if (value.item[1] === constant.SELCTED_FIVE) {
+                                return value;
+                            }
+                        } else {
+                            if (value.matchName !== match.name ||
+                                value.matchName === match.name && value.selectedTeam !== selectedTeam ||
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE ||
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_FOUR &&
+                                value.matchName === match.name && value.selectedTeam === selectedTeam && value.item[1] !== constant.SELCTED_THREE) {
+                                return value;
+                            }
+                        }
+                    });
+                case constant.SELCTED_FIVE: //3+
+                    selectedItem = selectedItem.filter((value, idx) => {
+                        if (value.item[0] === id && value.item[1] !== constant.SELCTED_TWO || value.item[0] !== id) {
+                            return value;
+                        }
+                    });
+                    break;
+            }
+            selectedItem.push(selected);
+        }
+        const textValue = this.formatText(selectedItem, currentPage, selectedTeam, selectedPlayer);
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection);
     }
-    isCurrentItemClicked(id, key, selectedInCurrentPage){   
-        const { selectedItem, selectedTeam, currentPage} = this.state;
+
+    isCurrentItemClicked(id, key, selectedInCurrentPage) {
+        const {selectedItem, selectedTeam, currentPage} = this.state;
         const {match} = this.props;
         let selectedView = -1;
-        selectedItem.map((value, idx)=>{            
-            const is = isEqual(value.item, [id, key] );
-            if(value.matchName === match.name && value.selectedTeam === selectedTeam &&
-                value.page === currentPage && is){                    
+        selectedItem.map((value, idx) => {
+            const is = isEqual(value.item, [id, key]);
+            if (value.matchName === match.fixture && value.selectedTeam === selectedTeam &&
+                value.page === currentPage && is) {
                 selectedView = idx;
-            }      
-        })        
+            }
+        })
         return selectedView;
     }
 
-    isPlayerClicked(id, selectedInCurrentPage){
-        const selectedView = findIndex(selectedInCurrentPage, (value) => { 
-            return value[0] === id ; 
+    isPlayerClicked(id, selectedInCurrentPage) {
+        const selectedView = findIndex(selectedInCurrentPage, (value) => {
+            return value[0] === id;
         });
-        return selectedView  > -1 ? true : false;
+        return selectedView > -1 ? true : false;
     }
-    formatText(selectedItem, currentPage, selectedTeam){
-        let  first = '', two = '', three = '', four = '', textValue = '';
 
-       // const {selectedItem, currentPage, selectedTeam} = this.state;
+    formatText(selectedItem, currentPage, selectedTeam, selectedPlayer) {
+        let first = '', two = '', three = '', four = '', textValue = '';
+        // const {selectedItem, currentPage, selectedTeam} = this.state;
         const {matches, match} = this.props;
-        selectedItem.map((value, key)=>{
-            const player = this.getPlayer(matches, value);  
+        selectedItem.map((value, key) => {
             const selectedCountGoals = value.item[1];
-            switch(selectedCountGoals){
-                    case constant.SELCTED_TWO:     
-                        first = first + ' ' + player.name;
-                        break;                   
-                    case constant.SELCTED_THREE:                        
-                        two = two + ' ' + player.name;
-                        break;
-                    case constant.SELCTED_FOUR: 
-                        three = three + ' ' + player.name;
-                         break;          
-                    case constant.SELCTED_FIVE:
-                         four = four + ' ' + player.name;
-                        break;
-                }           
+            switch (selectedCountGoals) {
+                case constant.SELCTED_TWO:
+                    first = first + ' ' + selectedPlayer;
+                    break;
+                case constant.SELCTED_THREE:
+                    two = two + ' ' + selectedPlayer;
+                    break;
+                case constant.SELCTED_FOUR:
+                    three = three + ' ' + selectedPlayer;
+                    break;
+                case constant.SELCTED_FIVE:
+                    four = four + ' ' + selectedPlayer;
+                    break;
+            }
         });
         textValue = [
-            '\'Any Card\'' +  ' - ' + first,
-            '\'1st Game\''+ ' - ' + two,
-            '\'1st Team\''+ ' - ' + three,
-            '\'Sent Off\''+ ' - ' + four,
+            '\'Any Card\'' + ' - ' + first,
+            '\'1st Game\'' + ' - ' + two,
+            '\'1st Team\'' + ' - ' + three,
+            '\'Sent Off\'' + ' - ' + four,
 
-        ];       
-        return textValue;        
+        ];
+        return textValue;
     }
-    getPlayer(matches, selected){
+
+    getPlayer(matches, selected) {
         let player = '';
-        matches.map((val)=>{
-            if (val.name === selected.matchName){
-                if (constant.HOME === selected.selectedTeam){
-                    const idPlayer = selected.item[0]+(selected.page)*8;
+        matches.map((val) => {
+            if (val.name === selected.matchName) {
+                if (constant.HOME === selected.selectedTeam) {
+                    const idPlayer = selected.item[0] + (selected.page) * 8;
                     player = val.squads[0][idPlayer];
-                }else if(constant.AWAY === selected.selectedTeam){
-                    const idPlayer = selected.item[0]+(selected.page)*8;
+                } else if (constant.AWAY === selected.selectedTeam) {
+                    const idPlayer = selected.item[0] + (selected.page) * 8;
                     player = val.squads[1][idPlayer];
                 }
             }
         })
         return player;
     }
+
     handlePaginatorClicked(item) {
-        const currentPage = item.value;        
+        const currentPage = item.value;
         this.setState({currentPage});
     }
+
     applyPaginatorWindow(items) {
         var rows = constant.COUNT_PLAYER_ROWS;
         var i = this.state.currentPage * rows;
         var j = (this.state.currentPage + 1) * rows;
         return items.slice(i, j);
     }
+
     comparePrice(a, b) {
         const aPrice = parseFloat(a.price);
         const bPrice = parseFloat(b.price);
         if (aPrice > bPrice) return 1;
         if (aPrice < bPrice) return -1;
     }
+
     handleTabClicked(tab) {
         this.setState({selectedTeam: tab.name, changes: true});
     }
-    getCurrentListPlayer(){                                               
+
+    getCurrentListPlayer() {
         let selected = []
-         const {selectedItem, currentPage, selectedTeam}   = this.state;
-        selectedItem.map((value)=>{     
+        const {selectedItem, currentPage, selectedTeam} = this.state;
+        selectedItem.map((value) => {
             if (value.page === currentPage && value.selectedTeam === selectedTeam
-                && value.matchName === this.props.match.name)
-                selected.push( value.item );
+                && value.matchName === this.props.match.fixture)
+                selected.push(value.item);
         });
         return selected;
     }
-    handleCancel(){
-         const props = this.props;
-         const bet  = this.getCurrentBet(props);
-         this.props.delBetfromBetsList(productsName, props.match.name);        
+
+    handleCancel() {
+        const props = this.props;
+        const bet = this.getCurrentBet(props);
+        this.props.delBetfromBetsList(productsName, props.match.fixture);
     }
-    render(){
-        let squads =  [];    
-        const {selectedItem, currentPage, selectedTeam, textValue}   = this.state;
-        const {match}  = this.props;
+
+    render() {
+        let matches
+        const {selectedItem, currentPage, selectedTeam, textValue} = this.state;
+        const {match} = this.props;
         const selectedInCurrentPage = this.getCurrentListPlayer();
-        if (match) {           
-            if (selectedTeam === 'home') squads = match.squads[0];
-            else squads = match.squads[1];
+        if (match) {
+            if (selectedTeam === 'home') {
+                matches = Object.keys(match.home_player_card_criteria).map(function (team) {
+                    return {
+                        id: team,
+                        name: match.home_player_card_criteria[team]['name'],
+                        any_time: {
+                            price: match.home_player_card_criteria[team]['price'],
+                            selection: "home_player_card_criteria"
+                        },
+                        game_1st: {
+                            price: match.first_player_in_match_booked_home_selections_criteria[team]['price'],
+                            selection: "first_player_in_match_booked_home_selections_criteria"
+                        },
+                        team_1st: {
+                            price: match.first_home_player_booked_criteria[team]['price'],
+                            selection: "first_home_player_booked_criteria"
+                        },
+                        goals: {
+                            price: match.home_player_reds_criteria[team]['price'],
+                            selection: "home_player_reds_criteria"
+                        }
+                    }
+                })
+            } else {
+                matches = Object.keys(match.away_player_card_criteria).map(function (team) {
+                    return {
+                        id: team,
+                        name: match.away_player_card_criteria[team]['name'],
+                        any_time: {
+                            price: match.away_player_card_criteria[team]['price'],
+                            selection: "away_player_card_criteria"
+                        },
+                        game_1st: {
+                            price: match.first_player_in_match_booked_away_selections_criteria[team]['price'],
+                            selection: "first_player_in_match_booked_away_selections_criteria"
+                        },
+                        team_1st: {
+                            price: match.first_away_player_booked_criteria[team]['price'],
+                            selection: "first_away_player_booked_criteria"
+                        },
+                        goals: {
+                            price: match.away_player_reds_criteria[team]['price'],
+                            selection: "away_player_reds_criteria"
+                        }
+                    }
+                })
+            }
         }
-        return(
+        return (
             <div>
                 <div className={s['wrap-mybettab']}>
                     <MyBetTab
@@ -288,24 +349,25 @@ export default class PlayerCardsPanel extends React.Component {
                     />
                 </div>
                 <PlayerCardsTable
-                            squads={ this.applyPaginatorWindow(squads) }
-                            legs= {this.props.legs}
-                            clickHandler = {this.clickTable}
-                            selected={selectedInCurrentPage}/>
-                            {
-                                (squads.length > constant.COUNT_PLAYER_ROWS) ?
-                                    <MyPaginator
-                                        product={{rows : constant.COUNT_PLAYER_ROWS}}
-                                        data={squads}
-                                        clickHandler={this.handlePaginatorClicked}
-                                        currentPage={this.state.currentPage}
-                                    />
-                                    : null
-                            }               
+                    matches={this.applyPaginatorWindow(matches)}
+                    legs={this.props.legs}
+                    clickHandler={this.clickTable}
+                    selected={selectedInCurrentPage}/>
+                {
+                    (matches.length > constant.COUNT_PLAYER_ROWS) ?
+                        <MyPaginator
+                            product={{rows: constant.COUNT_PLAYER_ROWS}}
+                            data={matches}
+                            clickHandler={this.handlePaginatorClicked}
+                            currentPage={this.state.currentPage}
+                        />
+                        : null
+                }
                 <div className={classNames("bet-submit-btns", s['btn-group'])}>
                     <button
                         className="btn btn-primary bet-cancel-btn"
-                        onClick={() => this.handleCancel()}>Clear                   </button>
+                        onClick={() => this.handleCancel()}>Clear
+                    </button>
                 </div>
             </div>
         );
