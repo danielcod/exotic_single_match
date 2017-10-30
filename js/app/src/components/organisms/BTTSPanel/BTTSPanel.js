@@ -5,7 +5,6 @@ import Slider from 'rc-slider';
 import BTTSTable from '../BTTSTable';
 import * as constant from '../../constant';
 import * as products from '../../products';
-
 const productsName = constant.GOALS;
 import * as struct from '../../struct';
 import {formatBTTSText, formatTotalGoalsText} from '../../utils';
@@ -42,7 +41,6 @@ export default class BTTSPanel extends React.PureComponent {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initMatchResult();
         const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = bet.options;
-
         this.setState({
             sliderValue,
             selectedTab,
@@ -60,16 +58,16 @@ export default class BTTSPanel extends React.PureComponent {
     initMatchResult() {
         return {
             options: {
-                sliderValue: 3,
                 selectedTab: {
                     name: "",
                     number: null
                 },
+                selectedItem: [],
+                sliderValue: 3,
                 textBTTS: '',
                 textTotalGoals: '',
                 changedTable: null,
                 changedTab: null,
-                selectedItem: [],
                 priceBTTS: 1.2,
                 priceTotalGoals: 0,
                 selection: ''
@@ -102,7 +100,7 @@ export default class BTTSPanel extends React.PureComponent {
         const {bets, match} = props;
         let currentBet = {};
         bets.map(bet => {
-            if (bet.name === productsName && bet.match.name === match.name) {
+            if (bet.name === productsName && bet.match.fixture === match.fixture) {
                 currentBet = bet;
             }
         });
@@ -148,7 +146,6 @@ export default class BTTSPanel extends React.PureComponent {
     }
 
     onChangeSlider(sliderValue) {
-        console.log(sliderValue)
         const {match} = this.props
         const {selectedTab, changedTab} = this.state
         let textTotalGoals = ''

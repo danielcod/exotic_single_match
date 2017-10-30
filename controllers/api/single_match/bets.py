@@ -5,7 +5,7 @@ from controllers.api.single_match import *
 class PriceHandler(webapp2.RequestHandler):
     
     @parse_json_body
-    # @add_cors_headers
+    @add_cors_headers
     @emit_json
     def post(self, bet):
         from google.appengine.api import urlfetch

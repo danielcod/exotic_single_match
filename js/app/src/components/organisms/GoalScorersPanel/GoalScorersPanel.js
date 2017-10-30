@@ -58,8 +58,7 @@ export default class GoalScorersPanel extends React.PureComponent {
             name: productsName,
             match: this.props.match,
             options: {
-                //selectedTeam: constant.HOME,
-                selectedTeam: constant.AWAY,
+                selectedTeam: constant.HOME,
                 currentPage: 0,
                 selectedItem: [],
                 textValue: [],
@@ -80,7 +79,7 @@ export default class GoalScorersPanel extends React.PureComponent {
         return currentBet;
     }
 
-    setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection) {
+    setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice) {
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -91,13 +90,12 @@ export default class GoalScorersPanel extends React.PureComponent {
                 textValue,
                 price: selectedPrice,
                 changes: true,
-                selection
             }
         }
         this.props.betResultMatch(bet);
     }
 
-    clickTable(id, key, selectedPrice, selectedPlayer, selection) {
+    clickTable(id, key, selectedPrice, selectedPlayer, selection, selectedId) {
         let {selectedItem, currentPage, selectedTeam} = this.state;
         const triggerState = !this.state.triggerState;
         const {match, matches} = this.props;
@@ -109,7 +107,9 @@ export default class GoalScorersPanel extends React.PureComponent {
             player: {
                 name: selectedPlayer,
                 price: selectedPrice
-            }
+            },
+            selectedId: selectedId,
+            selection: selection
         };
         const index = this.isCurrentItemClicked(id, key)
         if (index > -1) {
@@ -175,7 +175,7 @@ export default class GoalScorersPanel extends React.PureComponent {
         }
         //this.setState({selectedItem, triggerState, changes: true});
         const textValue = this.formatText(selectedItem, currentPage, selectedTeam, selectedPlayer);
-        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection);
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice);
     }
 
     isCurrentItemClicked(id, key, selectedInCurrentPage) {

@@ -2,11 +2,8 @@ import React from 'react';
 import {bindAll, isEmpty, isEqual} from 'lodash';
 import MatchResultTable from '../MatchResultTable';
 import * as constant from '../../constant';
-import * as products from '../../products';
-
 const productsName = constant.MATCH_RESULT;
 import Slider from 'rc-slider';
-
 const Range = Slider.Range;
 import classNames from 'classnames';
 import * as s from './index.css'
@@ -52,26 +49,24 @@ export default class MatchResult extends React.PureComponent {
             name: productsName,
             options: {
                 range: [1, 5],
-                selectedItem: [],
-                text: ' ',
+                textValue: '',
                 showSlider: true,
-                buildMyOwn: false,
-                changes: false,
-                selectedPrice: 0,
+                tableSelectedItem: [],
+                selectedMatchResult: false,
+                selection: '',
                 price: 0,
-                selection: ''
             }
         }
     }
 
     onChange(value) {
-        const {selectedItem, showSlider} = this.state;
-        if (!selectedItem) {
+        const {selectedItem, showSlider, selection, price} = this.state;
+        if (isEmpty(selectedItem)) {
             this.setState({value});
             return;
         }
         const textValue = this.formatDynamicText(selectedItem, value);
-        this.setToParrenState(selectedItem, value, textValue, showSlider)
+        this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price)
     }
 
     componentWillReceiveProps(props) {
@@ -84,7 +79,6 @@ export default class MatchResult extends React.PureComponent {
             changes = bet.options.selectedMatchResult,
             price = bet.options.price,
             selection = bet.options.selection
-
         this.setState({value, textValue, selectedItem, showSlider, changes, price, selection});
     }
 
@@ -104,7 +98,7 @@ export default class MatchResult extends React.PureComponent {
     }
 
     formatDynamicText(selectedItem, value) {
-        if (!this.props.match || !selectedItem) return;
+        if (!this.props.match || isEmpty(selectedItem)) return;
         const comands = this.props.match.fixture.split(' vs ');
         let firstTeam, secondTeam;
         if (this.props.match) {
@@ -173,8 +167,8 @@ export default class MatchResult extends React.PureComponent {
             options: {
                 range: value,
                 textValue: textValue,
-                tableSelectedItem: selectedItem,
                 showSlider,
+                tableSelectedItem: selectedItem,
                 selectedMatchResult: true,
                 selection: selection,
                 price: parseFloat(selectedPrice)
@@ -212,8 +206,6 @@ export default class MatchResult extends React.PureComponent {
                 ],
             }
         ]
-        let select
-        if (selectedItem) select = selectedItem[1]
         const marks = {
             1: '1',
             2: '2',
@@ -227,7 +219,8 @@ export default class MatchResult extends React.PureComponent {
                     matches={matches}
                     legs={this.props.legs}
                     clickHandler={this.clickHandler}
-                    selected={selectedItem}/>
+                    selected={selectedItem}
+                />
                 {this.state.showSlider ?
                     <div className={s['wrap-slider']}>
                         <div className={s['text-goals']}>By how many goals?</div>

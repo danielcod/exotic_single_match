@@ -74,7 +74,7 @@ export function matchSorter(m0, m1) {
     export function formatObjectYourBet(bets, match){
         let showBets = [];
         bets.map(bet=>{
-            if (bet.match.name != match.name) return;
+            if (bet.match.fixture != match.fixture) return;
             if( BTTS === bet.name){
                 if(bet.options.changedTable){
                    showBets.push({

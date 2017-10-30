@@ -70,7 +70,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                 selectedBetTab,
                 textValue,
                 changes: true,
-                price: formatPrice(selectedItem[selectedTab][toogleValue]),
+                price: parseFloat(formatPrice(selectedItem[selectedTab][toogleValue])),
                 selectedItem,
                 selection: selectedItem.selection
             }

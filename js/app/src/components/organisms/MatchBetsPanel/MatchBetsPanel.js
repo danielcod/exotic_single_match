@@ -33,6 +33,10 @@ export default class MatchBetsPanel extends React.PureComponent {
         this.changeState(nextProps);
     }
 
+    componentDidMount() {
+        this.updatePrice();
+    }
+
     changeState = (props) => {
         const {match, bets} = props;
         let showBets = [];
@@ -83,6 +87,125 @@ export default class MatchBetsPanel extends React.PureComponent {
 
     updatePrice() {
         console.log('updatePrice')
+        const {match, bets} = this.props
+        if (bets.length > 0) {
+            let matchid = match.match_id.toString()
+            setTimeout(function () {
+                    let struct = {
+                        "selection":
+                            {
+                                "winners_criteria": 1,
+                                "xs_criteria": null,
+                                "bhxs_criteria": null,
+                                "ehxs_criteria": null,
+                                "ones_criteria": null,
+                                "bhones_criteria": null,
+                                "ehones_criteria": null,
+                                "twos_criteria": null,
+                                "bhtwos_criteria": null,
+                                "ehtwos_criteria": null,
+                                "btts_criteria": null,
+                                "btts_both_halves_criteria": null,
+                                "btts_either_half_criteria": null,
+                                "total_goals_criteria": null,
+                                "home_goal_scorer_criteria": null,
+                                "first_goal_scorer_in_match_home_selections_criteria": null,
+                                "first_home_goal_scorer_criteria": null,
+                                "home_hattrick_criteria": null,
+                                "away_goal_scorer_criteria": null,
+                                "first_goal_scorer_in_match_away_selections_criteria": null,
+                                "first_away_goal_scorer_criteria": null,
+                                "away_hattrick_criteria": null,
+                                "home_corners_criteria": null,
+                                "away_corners_criteria": null,
+                                "match_total_corners_criteria": null,
+                                "both_teams_corners_criteria": null,
+                                "lower_number_of_goals_criteria": null,
+                                "upper_number_of_goals_criteria": null,
+                                "home_booking_points_criteria": null,
+                                "away_booking_points_criteria": null,
+                                "total_booking_points_criteria": null,
+                                "both_teams_booking_points_criteria": null,
+                                "home_player_card_criteria": null,
+                                "first_player_in_match_booked_home_selections_criteria": null,
+                                "first_home_player_booked_criteria": null,
+                                "home_player_reds_criteria": null,
+                                "away_player_card_criteria": null,
+                                "first_player_in_match_booked_away_selections_criteria": null,
+                                "first_away_player_booked_criteria": null,
+                                "away_player_reds_criteria": null
+                            },
+                        "iD": matchid
+                    }
+                    let selection, range, sliderValue, tableSelectedItem, selectedTab, toogleValue
+                    bets.forEach(function (bet) {
+                        switch (bet.name) {
+                            case constant.MATCH_RESULT:
+                                selection = bet.options.selection
+                                range = bet.options.range
+                                tableSelectedItem = bet.options.tableSelectedItem
+                                struct['selection'][selection] = 1
+                                if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
+                                    struct['selection']['lower_number_of_goals_criteria'] = range[0]
+                                    struct['selection']['upper_number_of_goals_criteria'] = range[1]
+                                }
+                                break
+                            case constant.GOALS:
+                                selection = bet.options.selection
+                                sliderValue = bet.options.sliderValue
+                                if (bet.options.selectedItem[1] === constant.SELCTED_FIRST){
+                                    struct['selection'][selection] = 1
+                                } else if (bet.options.selectedItem[1] === constant.SELCTED_TWO) {
+                                    struct['selection'][selection] = -1
+                                }
+                                if (bet.options.selectedTab['name'] === "over"){
+                                    struct['selection']['total_goals_criteria'] = parseFloat(constant.marks[sliderValue])
+                                } else if(bet.options.selectedTab['name'] === "under") {
+                                    struct['selection']['total_goals_criteria'] = -Math.abs(parseFloat(constant.marks[sliderValue]))
+                                }
+                                break
+                            case constant.GOAL_SCORERS:
+                                bet.options.selectedItem.forEach(function (item) {
+                                    selection = item.selection
+                                    if (struct['selection'][selection] === null){
+                                        struct['selection'][selection] = []
+                                    }
+                                    struct['selection'][selection].push(item.selectedId)
+                                })
+                                break
+                            case constant.CORNERS:
+                            case constant.TEAM_CARDS:
+                                selection = bet.options.selection
+                                selectedTab = bet.options.selectedTab
+                                toogleValue = bet.options.toogleValue
+                                 if (selectedTab === "over") {
+                                    struct['selection'][selection] = parseFloat(toogleValue)
+                                } else if (selectedTab === "under") {
+                                    struct['selection'][selection] = -Math.abs(parseFloat(toogleValue))
+                                }
+                                break
+                            case constant.PLAYER_CARDS_:
+                                bet.options.selectedItem.forEach(function (item) {
+                                    selection = item.selection
+                                    if (struct['selection'][selection] === null){
+                                        struct['selection'][selection] = []
+                                    }
+                                    struct['selection'][selection].push(item.selectedId)
+
+                                })
+                                break
+                        }
+                    })
+                    console.log(struct)
+                    this.props.exoticsApi.fetchPrice(struct, function (response) {
+                        console.log(JSON.parse(response))
+                        let res = JSON.parse(response)
+                        const price = res.price
+                        this.setState({price})
+                    }.bind(this));
+                }.bind(this), 500
+            )
+        }
     }
 
     decrementValue() {
@@ -116,8 +239,8 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     render() {
-        const {price, handleBetRemoved, match, bets} = this.props;
-        const {openStakePanel, showBets, textBetsInStake} = this.state;
+        const {handleBetRemoved, match, bets} = this.props
+        const {price, openStakePanel, showBets, textBetsInStake} = this.state;
         if (showBets.length === 0) {
             return (
                 <div>

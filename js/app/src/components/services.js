@@ -112,9 +112,9 @@ export class ExoticsAPI {
     };
 
     fetchPrice = function (body, handler) {
-        var url = "/api/multi_match/bets/price";
+        var url = "/api/single_match/bets/price";
         if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/multi_match/bets/price";
+            url = "http://localhost:8080/api/single_match/bets/price";
         }
         this.httpPost(url, body, handler);
     };

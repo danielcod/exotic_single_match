@@ -23,53 +23,23 @@ export default class AppStage extends React.PureComponent {
         this.state = {
             selectedTab: "browse",
             match: {},
-            matches: [],
             bets: []
         };
-        bindAll(this, ['handleTabClicked', 'getTabContent', 'handleMatchChanged']);
-    }
-
-    componentWillMount() {
-        this.props.exoticsApi.fetchMatches(function (struct) {
-            let {matches, leagues} = this.state;
-            const cutoff = new Date();
-
-            matches = Object.values(struct).filter(function (match) {
-                /*var bits = match.kickoff.split(/\D/);
-                var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
-                if (date > cutoff) {
-                    return match;
-                }*/
-                return match
-            }).sort(matchSorter);
-            this.setState({
-                matches: matches,
-                match: matches[0]
-            });
-
-        }.bind(this));
-    }
-
-    handleMatchChanged(name, value) {
-        const match = this.state.matches.filter(function (product) {
-            return product.match_id == value;
-        })[0];
-        this.setState({match});
+        bindAll(this, ['handleTabClicked', 'getTabContent']);
     }
 
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name});
-        if ('bets' === tab.name || "browse" === tab.name) {
-            this.setBets();
-        }
     }
 
     handleToBrowse = (selectedTab) => {
         this.setState({selectedTab, currentStage: "edit"});
     }
+
     setMatch = (match) => {
         this.setState({match});
     }
+
     setBets = (bets = []) => {
         this.setState({bets});
     }
@@ -93,8 +63,6 @@ export default class AppStage extends React.PureComponent {
                         setMatch={this.setMatch}
                         setBets={this.setBets}
                         handleToBrowse={this.handleToBrowse}
-                        matches={this.state.matches}
-                        match={this.state.match}
                         handleMatchChanged={this.handleMatchChanged}
                     />
                 )

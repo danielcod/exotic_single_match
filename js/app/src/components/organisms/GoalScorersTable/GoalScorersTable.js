@@ -16,9 +16,9 @@ export default class GoalScorersTable extends React.PureComponent {
         const selected = props.selected;
     }
 
-    choicePrice(id, key, selectedPrice, selectedTeam, selection) {
+    choicePrice(id, key, selectedPrice, selectedTeam, selection, selectedId) {
         console.log(id + "-" + key + "-" + selectedPrice + "-" + selectedTeam + "-" + selection)
-        this.props.clickHandler(id, key, selectedPrice, selectedTeam, selection);
+        this.props.clickHandler(id, key, selectedPrice, selectedTeam, selection, selectedId);
     }
 
     isSelectedItem(id, i) {
@@ -85,25 +85,25 @@ export default class GoalScorersTable extends React.PureComponent {
                                     key={1}
                                     value={formatPrice(player.any_time['price'])}
                                     selected={this.isSelectedItem(key, 1)}
-                                    clickHandler={() => this.choicePrice(key, 1, formatPrice(player.any_time['price']), player.name, player.any_time['selection'])}
+                                    clickHandler={() => this.choicePrice(key, 1, formatPrice(player.any_time['price']), player.name, player.any_time['selection'], player.id)}
                                 />
                                 <MatchPriceCell
                                     key={2}
                                     value={formatPrice(player.game_1st['price'])}
                                     selected={this.isSelectedItem(key, 2)}
-                                    clickHandler={() => this.choicePrice(key, 2, formatPrice(player.game_1st['price']), player.name, player.game_1st['selection'])}
+                                    clickHandler={() => this.choicePrice(key, 2, formatPrice(player.game_1st['price']), player.name, player.game_1st['selection'], player.id)}
                                 />
                                 <MatchPriceCell
                                     key={3}
                                     value={formatPrice(player.team_1st['price'])}
                                     selected={this.isSelectedItem(key, 3)}
-                                    clickHandler={() => this.choicePrice(key, 3, formatPrice(player.team_1st['price']), player.name, player.team_1st['selection'])}
+                                    clickHandler={() => this.choicePrice(key, 3, formatPrice(player.team_1st['price']), player.name, player.team_1st['selection'], player.id)}
                                 />
                                 <MatchPriceCell
                                     key={4}
                                     value={formatPrice(player.goals['price'])}
                                     selected={this.isSelectedItem(key, 4)}
-                                    clickHandler={() => this.choicePrice(key, 4, formatPrice(player.goals['price']), player.name, player.goals['selection'])}
+                                    clickHandler={() => this.choicePrice(key, 4, formatPrice(player.goals['price']), player.name, player.goals['selection'], player.id)}
                                 />
                             </tr>
                         )

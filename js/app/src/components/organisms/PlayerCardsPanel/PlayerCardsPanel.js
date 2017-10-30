@@ -79,7 +79,7 @@ export default class PlayerCardsPanel extends React.Component {
         return currentBet;
     }
 
-    setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection) {
+    setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice) {
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -89,14 +89,13 @@ export default class PlayerCardsPanel extends React.Component {
                 selectedTeam,
                 textValue,
                 price: selectedPrice,
-                changes: true,
-                selection
+                changes: true
             }
         }
         this.props.betResultMatch(bet);
     }
 
-    clickTable(id, key, selectedPrice, selectedPlayer, selection) {
+    clickTable(id, key, selectedPrice, selectedPlayer, selection, selectedId) {
         let {selectedItem, currentPage, selectedTeam} = this.state;
         const triggerState = !this.state.triggerState;
         const {match, matches} = this.props;
@@ -108,7 +107,9 @@ export default class PlayerCardsPanel extends React.Component {
             player: {
                 name: selectedPlayer,
                 price: selectedPrice
-            }
+            },
+            selectedId: selectedId,
+            selection: selection
         };
         const index = this.isCurrentItemClicked(id, key)
         if (index > -1) {
@@ -173,7 +174,7 @@ export default class PlayerCardsPanel extends React.Component {
             selectedItem.push(selected);
         }
         const textValue = this.formatText(selectedItem, currentPage, selectedTeam, selectedPlayer);
-        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice, selection);
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice);
     }
 
     isCurrentItemClicked(id, key, selectedInCurrentPage) {

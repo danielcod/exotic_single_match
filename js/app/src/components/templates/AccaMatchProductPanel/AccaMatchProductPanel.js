@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import {bindAll, eq, isEqual} from 'lodash';
+import {bindAll, isEmpty, isEqual} from 'lodash';
 import MySelect from '../../atoms/MySelect';
 import MyFormComponent from '../../atoms/MyFormComponent';
 import AccaMatchPanelTabs from '../../organisms/AccaMatchPanelTabs';
@@ -11,6 +11,7 @@ import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
 import StakePanel from '../../organisms/StakePanel';
 import BTTSPanel from '../../organisms/BTTSPanel';
 import MatchBetsPanel from '../../organisms/MatchBetsPanel';
+import {matchSorter} from '../../utils';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import * as data from '../../products';
 import * as constant from '../../constant';
@@ -30,6 +31,8 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         super(props);
         this.state = {
             selectedTab: "build",
+            match: {},
+            matches: [],
             legs: [],
             bets: [],
             sanfonaActiveItems: [],
@@ -40,15 +43,45 @@ export default class AccaMatchProductPanel extends React.PureComponent {
             textBetsInStake: null
 
         }
-        bindAll(this, ['delBetfromBetsList', 'changeBlock', 'handleBuidMyOwn', 'betResultMatch',
+        bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',
             'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
             'clearBets', 'delFromBTTS']);
+    }
+
+    componentDidMount() {
+        this.props.exoticsApi.fetchMatches(function (struct) {
+            let {matches, leagues} = this.state;
+            const cutoff = new Date();
+            matches = Object.values(struct).filter(function (match) {
+                /*var bits = match.kickoff.split(/\D/);
+                var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
+                if (date > cutoff) {
+                    return match;
+                }*/
+                return match
+            }).sort(matchSorter)
+            this.setState({
+                matches: matches,
+                match: matches[0]
+            })
+            this.props.setMatch(matches[0])
+        }.bind(this))
     }
 
     componentWillReceiveProps(props) {
         if (props.selectedTab === 'bet') {
             this.setState({sanfonaActiveItems: []});
         }
+    }
+
+    handleMatchChanged(name, value) {
+        const match = this.state.matches.filter(function (product) {
+            return product.match_id == value;
+        })[0]
+        const bets = []
+        this.setState({match, bets})
+        this.props.setMatch(match)
+        this.props.setBets(bets)
     }
 
     betResultMatch(nBet) {
@@ -78,7 +111,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     delTeamBetfromBetsList(productsName, matchName) {
         let {bets} = this.state;
-        setTimeout(() => console.log('delTeamBetfromBetsList', bets), 0);
         bets = bets.filter((bet) => {
             if (bet.name === productsName && bet.match.fixture !== matchName ||
                 bet.name !== productsName)
@@ -86,7 +118,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         });
         this.setState({bets});
         this.props.setBets(bets);
-        setTimeout(() => console.log('delTeamBetfromBetsList', bets), 0);
     }
 
     handleBetRemoved(bet) {
@@ -154,11 +185,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         this.setState({sanfonaActiveItems});
     }
 
-    handleBuidMyOwn() {
-        const buildMyOwn = !this.state.buildMyOwn;
-        this.setState({buildMyOwn});
-    }
-
     clearBets() {
         //const buildMyOwn = !this.state.buildMyOwn;
         this.setState({
@@ -182,9 +208,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     render() {
-        const {legs, sanfonaActiveItems, bets} = this.state;
+        const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
         const {openedStakePanel, showBets, stake, price, textBetsInStake, buildMyOwn} = this.state;
-        const {selectedTab, matches, match} = this.props;
+        const {selectedTab} = this.props;
         const renderAngle = (index, title) => {
             let opened = false;
             for (let i = 0; i < sanfonaActiveItems.length; i++) {
@@ -228,110 +254,111 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         }
         return (
             <div>
-                {selectedTab === "bet" ?
-                    openedStakePanel ?
-                        <StakePanel
-                            showBets={showBets}
-                            stake={stake}
-                            price={price}
-                            textBetsInStake={textBetsInStake}
-                            toMainMenu={this.clearBets}
-                            returnToBetsPanel={this.returnToBetsPanel}
-                            match={match}
-                        />
-                        :
-                        <MatchBetsPanel
-                            price={this.state.price}
-                            handleBetRemoved={this.handleBetRemoved}
-                            bets={bets}
-                            match={match}
-                            clearBets={this.clearBets}
-                            openStakePanel={this.openStakePanel}
-                            returnToBetsPanel={this.returnToBetsPanel}
-                        />
-                    :
-                    <div>
-                        <MyFormComponent
-                            label="Choose your Match Exotics"
-                            component={<MySelect
-                                className="form-control btn-primary input-lg"
-                                options={matches.map(function (product) {
-                                    return {
-                                        label: product.fixture,
-                                        value: product.match_id
+                {
+                    !isEmpty(match) ?
+                        selectedTab === "bet" ?
+                            openedStakePanel ?
+                                <StakePanel
+                                    showBets={showBets}
+                                    stake={stake}
+                                    price={price}
+                                    textBetsInStake={textBetsInStake}
+                                    toMainMenu={this.clearBets}
+                                    returnToBetsPanel={this.returnToBetsPanel}
+                                    match={match}
+                                />
+                                :
+                                <MatchBetsPanel
+                                    exoticsApi={this.props.exoticsApi}
+                                    handleBetRemoved={this.handleBetRemoved}
+                                    bets={bets}
+                                    match={match}
+                                    clearBets={this.clearBets}
+                                    openStakePanel={this.openStakePanel}
+                                    returnToBetsPanel={this.returnToBetsPanel}
+                                />
+                            :
+                            <div>
+                                <MyFormComponent
+                                    label="Choose your Match Exotics"
+                                    component={<MySelect
+                                        className="form-control btn-primary input-lg"
+                                        options={matches.map(function (product) {
+                                            return {
+                                                label: product.fixture,
+                                                value: product.match_id
+                                            }
+                                        })
+                                        }
+                                        name="match"
+                                        changeHandler={this.handleMatchChanged}
+                                        match={match}
+                                    />
                                     }
-                                })
-                                }
-                                name="match"
-                                changeHandler={this.props.handleMatchChanged}
-                                match={match}
-                            />
-                            }
-                        />
-                        <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
-                            {data.matchComponents.map((item, index) => {
-                                return (
-                                    <AccordionItem
-                                        title={renderAngle(index, item)} key={item}
-                                    >
-                                        {index === 0 ?
-                                            <MatchResult
-                                                match={match}
-                                                legs={legs}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            /> : null}
-                                        {index === 1 ?
-                                            <BTTSPanel
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            /> : null}
-                                        {index === 2 ?
-                                            <GoalScorersPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delTeamBetfromBetsList}
-                                            /> : null}
-                                        {index === 3 ?
-                                            <CornersPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            />
-                                            : null}
-                                        {index === 4 ?
-                                            <TeamCardsPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delBetfromBetsList}
-                                            />
-                                            : null}
-                                        {index === 5 ?
-                                            <PlayerCardsPanel
-                                                matches={matches}
-                                                match={match}
-                                                betResultMatch={this.betResultMatch}
-                                                bets={this.state.bets}
-                                                delBetfromBetsList={this.delTeamBetfromBetsList}
-                                            />
-                                            : null}
-                                    </AccordionItem>
-                                );
-                            })}
-                        </Accordion>
-                    </div>
-
+                                />
+                                <Accordion onChange={this.changeBlock} activeItems={sanfonaActiveItems}>
+                                    {data.matchComponents.map((item, index) => {
+                                        return (
+                                            <AccordionItem
+                                                title={renderAngle(index, item)} key={item}
+                                            >
+                                                {index === 0 ?
+                                                    <MatchResult
+                                                        match={match}
+                                                        legs={legs}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delBetfromBetsList}
+                                                    /> : null}
+                                                {index === 1 ?
+                                                    <BTTSPanel
+                                                        match={match}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delBetfromBetsList}
+                                                    /> : null}
+                                                {index === 2 ?
+                                                    <GoalScorersPanel
+                                                        matches={matches}
+                                                        match={match}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delTeamBetfromBetsList}
+                                                    /> : null}
+                                                {index === 3 ?
+                                                    <CornersPanel
+                                                        matches={matches}
+                                                        match={match}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delBetfromBetsList}
+                                                    />
+                                                    : null}
+                                                {index === 4 ?
+                                                    <TeamCardsPanel
+                                                        matches={matches}
+                                                        match={match}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delBetfromBetsList}
+                                                    />
+                                                    : null}
+                                                {index === 5 ?
+                                                    <PlayerCardsPanel
+                                                        matches={matches}
+                                                        match={match}
+                                                        betResultMatch={this.betResultMatch}
+                                                        bets={this.state.bets}
+                                                        delBetfromBetsList={this.delTeamBetfromBetsList}
+                                                    />
+                                                    : null}
+                                            </AccordionItem>
+                                        );
+                                    })}
+                                </Accordion>
+                            </div>
+                        : null
                 }
-
             </div>
         )
     }
