@@ -4,8 +4,7 @@
 }
 .b-angle{
     position: relative;
-    bottom: 4px;
-    
+    bottom: -3px;
 }
 
 .b-angle >  svg{
@@ -21,7 +20,7 @@
 }
 .title-img img{
     position: relative;
-    bottom: 3px;
+    bottom: 6px;
     width: 24px;
     height: auto;
 }

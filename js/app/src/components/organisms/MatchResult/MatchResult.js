@@ -2,9 +2,12 @@ import React from 'react';
 import {bindAll, isEmpty, isEqual} from 'lodash';
 import MatchResultTable from '../MatchResultTable';
 import * as constant from '../../constant';
+
 const productsName = constant.MATCH_RESULT;
 import Slider from 'rc-slider';
+
 const Range = Slider.Range;
+import {formatPrice} from '../../utils';
 import classNames from 'classnames';
 import * as s from './index.css'
 
@@ -60,10 +63,44 @@ export default class MatchResult extends React.PureComponent {
     }
 
     onChange(value) {
-        const {selectedItem, showSlider, selection, price} = this.state;
+        const {selectedItem, showSlider, selection} = this.state;
+        const {match} = this.props
+        let price, lower, upper
+        lower = value[0]
+        upper = value[1]
+        if (upper === 5) upper = 'unbounded'
         if (isEmpty(selectedItem)) {
             this.setState({value});
             return;
+        }
+        switch (selectedItem[0]) {
+            case constant.SELCTED_FIRST:
+                if (selectedItem[1] === constant.SELCTED_FIRST) {
+                    price = match.ones_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                    price = match.twos_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                    price = this.state.price
+                }
+                break
+            case constant.SELCTED_TWO:
+                if (selectedItem[1] === constant.SELCTED_FIRST) {
+                    price = match.bhones_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                    price = match.bhtwos_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                    price = this.state.price
+                }
+                break
+            case constant.SELCTED_THREE:
+                if (selectedItem[1] === constant.SELCTED_FIRST) {
+                    price = match.ehones_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                    price = match.ehtwos_with_gs['lower'][lower]['upper'][upper]
+                } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                    price = this.state.price
+                }
+                break
         }
         const textValue = this.formatDynamicText(selectedItem, value);
         this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price)
@@ -83,18 +120,49 @@ export default class MatchResult extends React.PureComponent {
     }
 
     clickHandler(id, key, selection, selectedPrice) {
-        let showSlider = true;
-        const {value} = this.state;
-        if (key === constant.SELCTED_TWO) showSlider = false;
-        let {selectedItem} = this.state;
+        const {value} = this.state
+        const {match} = this.props
+        let showSlider = true
+        let {selectedItem} = this.state
+        if (key === constant.SELCTED_TWO) showSlider = false
         if (isEqual(selectedItem, Array(id, key))) {
             this.handleCancel()
         } else {
             selectedItem = [id, key]
-            const textValue = this.formatDynamicText(selectedItem, value);
-            this.setToParrenState(selectedItem, value, textValue, showSlider, selection, selectedPrice);
+            let price, lower = value[0], upper = value[1]
+            if (upper === 5) upper = 'unbounded'
+            switch (selectedItem[0]) {
+                case constant.SELCTED_FIRST:
+                    if (selectedItem[1] === constant.SELCTED_FIRST) {
+                        price = match.ones_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                        price = match.twos_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                        price = selectedPrice
+                    }
+                    break
+                case constant.SELCTED_TWO:
+                    if (selectedItem[1] === constant.SELCTED_FIRST) {
+                        price = match.bhones_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                        price = match.bhtwos_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                        price = selectedPrice
+                    }
+                    break
+                case constant.SELCTED_THREE:
+                    if (selectedItem[1] === constant.SELCTED_FIRST) {
+                        price = match.ehones_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_THREE) {
+                        price = match.ehtwos_with_gs['lower'][lower]['upper'][upper]
+                    } else if (selectedItem[1] === constant.SELCTED_TWO) {
+                        price = selectedPrice
+                    }
+                    break
+            }
+            const textValue = this.formatDynamicText(selectedItem, value)
+            this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price);
         }
-
     }
 
     formatDynamicText(selectedItem, value) {
@@ -171,7 +239,7 @@ export default class MatchResult extends React.PureComponent {
                 tableSelectedItem: selectedItem,
                 selectedMatchResult: true,
                 selection: selection,
-                price: parseFloat(selectedPrice)
+                price: parseFloat(formatPrice(selectedPrice))
             }
         }
         this.props.betResultMatch(bet);

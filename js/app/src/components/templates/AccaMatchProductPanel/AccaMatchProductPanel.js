@@ -21,7 +21,6 @@ import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
 import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
 import s from './index.css';
 import * as str from '../../struct';
-
 const PLAYER_CARDS = constant.PLAYER_CARDS_;
 const GOAL_SCORERS = constant.GOAL_SCORERS;
 const BTTS = constant.GOALS;
@@ -230,7 +229,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                             <div className={s["wrap-item-title"]}>
                                 <div className={s['sanfona-title']}>{title}</div>
                                 <div className={s['b-angle']}>
-                                    <FaAngleDoubleUp/>
+                                    <span className="glyphicon glyphicon-triangle-top glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +246,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                             <div className={s["wrap-item-title"]}>
                                 <div className={s['sanfona-title']}>{title}</div>
                                 <div className={s['b-angle']}>
-                                    <FaAngleDoubleDown/>
+                                    <span className="glyphicon glyphicon-triangle-bottom glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

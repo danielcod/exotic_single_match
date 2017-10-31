@@ -82,16 +82,14 @@ tr > td span.future {
 }
 
 .react-sanfona {
-    border: 1px solid #ccc;
-    border-radius: 3px;
     margin-bottom: 70px;
     position: relative;
     top: 0;
     left: 0;
 }
 
-.react-sanfona-item:first-child .react-sanfona-item-wrap {
-    border-top: none;
+.react-sanfona-item:last-child .react-sanfona-item-wrap {
+    border-bottom: 1px solid #575763;
 }
 
 .react-sanfona-item-expanded .react-sanfona-item-title .title-done-btn {
@@ -126,10 +124,10 @@ tr > td span.future {
 }
 
 .react-sanfona-item-wrap {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #575763;
     display: table;
     width: 100%;
-    padding: 16px 16px 6px 16px;
+    padding: 10px 20px 0px 20px;
     cursor: pointer;
     line-height: 44px;
 }
@@ -255,7 +253,7 @@ tr > td span.future {
 #exotic-acca-list-table span.label {
     background: #37a000;
     margin-top: 5px;
-    clear:both;
+    clear: both;
     min-width: 80px;
 }
 
