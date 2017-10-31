@@ -1,43 +1,55 @@
-.cornersTable{
+.cornersTable {
     font-size: 14px;
     position: relative;
     transform: translateX(-50%);
     left: 61%;
     bottom: -8px;
 }
-.cornersTable .item{    
+
+.cornersTable .item {
     text-align: center;
     cursor: pointer;
-    padding: 10px;    
+    padding: 10px;
     margin: 4px;
     width: 42%;
     border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
 }
-.wrap-mybettab{
+
+.wrap-mybettab {
     margin: 20px auto 14px auto;
     max-width: 200px;
 }
-.price-symbol{
+
+.price-symbol {
     padding: 0 4px;
-    font-size: 16px!important;
-    color: #ffffff!important;
+    font-size: 16px !important;
+    color: #ffffff !important;
 }
-.btn-group{
+
+.btn-group {
     margin: 16px 0 16px 0;
 }
-.not-selected-bet-tab{
+
+.not-selected-bet-tab {
     background-color: #575763;
 }
-.selected-bet-tab{
+
+.selected-bet-tab {
     background-color: #ec644b;
 }
+
 .not-selected-bet-tab:focus,
 .not-selected-bet-tab:hover,
 .selected-bet-tab:focus,
-.selected-bet-tab:hover{
-     color: #fff;
+.selected-bet-tab:hover {
+    color: #fff;
 }
-.show-text{
+
+.show-text {
     text-align: center;
     font-size: 16px;
     min-height: 24px;
@@ -45,11 +57,14 @@
     color: #fff;
     margin-top: 24px;
 }
-.row-change-btn{
-     position: relative;
+
+.row-change-btn {
+    position: relative;
     transform: translateX(-50%);
     left: 50%;
+    display: flex;
 }
-   .output-block{
-        line-height: 28px;;
-   }
+
+.output-block {
+    line-height: 28px;;
+}

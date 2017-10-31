@@ -338,6 +338,14 @@ export default class PlayerCardsPanel extends React.Component {
                     }
                 })
             }
+             let sortFn = function (i0, i1) {
+                if (i0.any_time.price < i1.any_time.price) {
+                    return -1;
+                } else if (i0.any_time.price > i1.any_time.price) {
+                    return 1;
+                }
+            }
+            matches.sort(sortFn)
         }
         return (
             <div>

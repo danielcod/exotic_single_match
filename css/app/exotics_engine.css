@@ -463,13 +463,13 @@ tr > td span.future {
 }
 
 #my-bet-tabs .nav-tabs > li.active:first-child > a {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 
 #my-bet-tabs .nav-tabs > li.active:last-child > a {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .faq-btn {
