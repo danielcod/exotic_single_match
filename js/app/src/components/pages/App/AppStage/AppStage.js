@@ -19,29 +19,29 @@ export default class AppStage extends React.PureComponent {
     ];
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             selectedTab: "browse",
             match: {},
             bets: []
-        };
-        bindAll(this, ['handleTabClicked', 'getTabContent']);
+        }
+        bindAll(this, ['handleTabClicked', 'handleToBrowse', 'setMatch', 'setBets', 'getTabContent'])
     }
 
     handleTabClicked(tab) {
-        this.setState({selectedTab: tab.name});
+        this.setState({selectedTab: tab.name})
     }
 
-    handleToBrowse = (selectedTab) => {
-        this.setState({selectedTab, currentStage: "edit"});
+    handleToBrowse(selectedTab) {
+        this.setState({selectedTab})
     }
 
-    setMatch = (match) => {
-        this.setState({match});
+    setMatch(match) {
+        this.setState({match})
     }
 
-    setBets = (bets = []) => {
-        this.setState({bets});
+    setBets(bets = []) {
+        this.setState({bets})
     }
 
     getTabContent() {
@@ -63,7 +63,6 @@ export default class AppStage extends React.PureComponent {
                         setMatch={this.setMatch}
                         setBets={this.setBets}
                         handleToBrowse={this.handleToBrowse}
-                        handleMatchChanged={this.handleMatchChanged}
                     />
                 )
             case "bets":
@@ -77,7 +76,7 @@ export default class AppStage extends React.PureComponent {
     }
 
     render() {
-        const tabContent = this.getTabContent();
+        const tabContent = this.getTabContent()
         return (
             <div>
                 <AppTab

@@ -21,26 +21,45 @@ import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
 import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
 import s from './index.css';
 import * as str from '../../struct';
+
 const PLAYER_CARDS = constant.PLAYER_CARDS_;
 const GOAL_SCORERS = constant.GOAL_SCORERS;
 const BTTS = constant.GOALS;
 
 export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
-        this.state = {
-            selectedTab: "build",
-            match: {},
-            matches: [],
-            legs: [],
-            bets: [],
-            sanfonaActiveItems: [],
-            openedStakePanel: false,
-            showBets: [],
-            stake: null,
-            price: 10,
-            textBetsInStake: null
+        super(props)
+        const previousState = JSON.parse(localStorage.getItem("AccaMatchProduct"));
+        if (previousState) {
+            this.state = {
+                selectedTab: previousState.selectedTab,
+                match: previousState.match,
+                matches: previousState.matches,
+                legs: previousState.legs,
+                bets: previousState.bets,
+                sanfonaActiveItems: previousState.sanfonaActiveItems,
+                openedStakePanel: previousState.openedStakePanel,
+                showBets: previousState.showBets,
+                stake: previousState.stake,
+                price: previousState.price,
+                textBetsInStake: previousState.textBetsInStake
+            }
+            localStorage.removeItem("AccaMatchProduct");
+        } else {
+            this.state = {
+                selectedTab: "build",
+                match: {},
+                matches: [],
+                legs: [],
+                bets: [],
+                sanfonaActiveItems: [],
+                openedStakePanel: false,
+                showBets: [],
+                stake: null,
+                price: 10,
+                textBetsInStake: null
 
+            }
         }
         bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',
             'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
@@ -48,29 +67,35 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.exoticsApi.fetchMatches(function (struct) {
-            let {matches, leagues} = this.state;
-            const cutoff = new Date();
-            matches = Object.values(struct).filter(function (match) {
-                /*var bits = match.kickoff.split(/\D/);
-                var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
-                if (date > cutoff) {
-                    return match;
-                }*/
-                return match
-            }).sort(matchSorter)
-            this.setState({
-                matches: matches,
-                match: matches[0]
-            })
-            this.props.setMatch(matches[0])
-        }.bind(this))
+        if (isEmpty(this.state.match) || isEmpty(this.state.matches)) {
+            this.props.exoticsApi.fetchMatches(function (struct) {
+                let {matches, leagues} = this.state
+                const cutoff = new Date()
+                matches = Object.values(struct).filter(function (match) {
+                    /*var bits = match.kickoff.split(/\D/);
+                    var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
+                    if (date > cutoff) {
+                        return match;
+                    }*/
+                    return match
+                }).sort(matchSorter)
+                this.setState({
+                    matches: matches,
+                    match: matches[0]
+                })
+                this.props.setMatch(matches[0])
+            }.bind(this))
+        }
     }
 
     componentWillReceiveProps(props) {
-        if (props.selectedTab === 'bet') {
-            this.setState({sanfonaActiveItems: []});
-        }
+        //if (props.selectedTab === 'bet') {
+        //    this.setState({sanfonaActiveItems: []});
+        //}
+    }
+
+    componentWillUnmount() {
+        localStorage.setItem('AccaMatchProduct', JSON.stringify(this.state))
     }
 
     handleMatchChanged(name, value) {
@@ -81,6 +106,17 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         this.setState({match, bets})
         this.props.setMatch(match)
         this.props.setBets(bets)
+    }
+
+    handleBetRemoved(bet) {
+        if (BTTS === bet.name) {
+            this.delFromBTTS(bet);
+        } else if (PLAYER_CARDS === bet.name || GOAL_SCORERS === bet.name) {
+            this.delPlayerFromBetList(bet);
+        } else {
+            this.delBetfromBetsList(bet);
+        }
+
     }
 
     betResultMatch(nBet) {
@@ -95,6 +131,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         });
         if (changed === false) bets.push(nBet);
         this.setState({bets});
+        this.setState({openedStakePanel: false})
         this.props.setBets(bets);
         //setTimeout(() => console.log(this.state.bets), 0)
     }
@@ -117,17 +154,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         });
         this.setState({bets});
         this.props.setBets(bets);
-    }
-
-    handleBetRemoved(bet) {
-        if (BTTS === bet.name) {
-            this.delFromBTTS(bet);
-        } else if (PLAYER_CARDS === bet.name || GOAL_SCORERS === bet.name) {
-            this.delPlayerFromBetList(bet);
-        } else {
-            this.delBetfromBetsList(bet);
-        }
-
     }
 
     delPlayerFromBetList(oldBet) {
@@ -170,7 +196,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     bet.options.selectedItem = [];
                     bet.options.textBTTS = '';
                 }
-                //
                 return bet;
             }
             return bet;
@@ -185,22 +210,22 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     clearBets() {
-        //const buildMyOwn = !this.state.buildMyOwn;
         this.setState({
             bets: [],
-            buildMyOwn: false,
             selectedTab: "build",
             sanfonaActiveItems: [],
             openedStakePanel: false
-        });
-        this.props.handleToBrowse('browse');
-        this.props.setBets();
+        })
+        this.props.setBets()
+        setTimeout(function () {
+            this.props.handleToBrowse('browse')
+        }.bind(this), 200)
     }
 
     openStakePanel = (showBets, stake, price, textBetsInStake) => {
-        const {buildMyOwn} = this.state;
-        this.setState({openedStakePanel: true, buildMyOwn: false, showBets, stake, /* price, */ textBetsInStake});
+        this.setState({openedStakePanel: true, showBets, stake, /* price, */ textBetsInStake});
     }
+
     returnToBetsPanel = () => {
         this.setState({openedStakePanel: false, buildMyOwn: true});
         this.props.handleToBrowse('build');
@@ -208,7 +233,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     render() {
         const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
-        const {openedStakePanel, showBets, stake, price, textBetsInStake, buildMyOwn} = this.state;
+        const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state;
         const {selectedTab} = this.props;
         const renderAngle = (index, title) => {
             let opened = false;
