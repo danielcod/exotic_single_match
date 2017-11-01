@@ -1,21 +1,17 @@
-import $ from 'jquery';
-import * as s from './struct';
-import request from 'superagent';
-
-const struct = s.struct;
-const structPost = s.postStruct;
+import $ from 'jquery'
+import * as s from './struct'
+import request from 'superagent'
 
 export class ExoticsAPI {
     constructor(errHandler, debug) {
-        this.debug = debug || false;
-        this.cache = {};
-        this.errHandler = errHandler;
-        document.cookie = "ioSport=Hufton123";
+        this.debug = debug || false
+        this.cache = {}
+        this.errHandler = errHandler
+        document.cookie = "ioSport=Hufton123"
     }
 
     httpGet = function (url, handler) {
-        var key = url;
-        //this.cache[key]=struct;
+        let key = url
         if (this.cache[key] == undefined) {
             if (this.debug) {
                 console.log("Fetching " + key);
@@ -26,74 +22,43 @@ export class ExoticsAPI {
                 dataType: "json",
                 xhrFields: {withCredentials: true},
                 success: function (struct) {
-                    this.cache[key] = struct;
-                    handler(struct);
+                    this.cache[key] = struct
+                    handler(struct)
                 }.bind(this),
                 error: this.errHandler
-            });
+            })
         } else {
             if (this.debug) {
                 console.log("Serving " + key + " from cache");
             }
             handler(this.cache[key]);
         }
-    };
-
-    httpGetForList = function (url, handler) {
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "json",
-            xhrFields: {withCredentials: true},
-            success: function (struct) {
-                handler(struct);
-            }.bind(this),
-            error: this.errHandler
-        })
-    };
+    }
 
     httpPost = function (url, payload, handler) {
-        var key = url + " " + JSON.stringify(payload)
+        let key = url + " " + JSON.stringify(payload)
         if (this.cache[key] == undefined) {
             if (this.debug) {
                 console.log("Fetching " + key);
             }
-            var that = this;
+            let that = this;
             request
                 .post(url)
                 .send(JSON.stringify(payload))
                 .set('Accept', 'application/json')
                 .withCredentials()
                 .end(function (err, res) {
-                    that.cache[key] = struct;
-                    handler(res.body);
+                    that.cache[key] = res.body
+                    handler(res.body)
                 });
         } else {
             if (this.debug) {
                 console.log("Serving " + key + " from cache");
             }
-            handler(this.cache[key]);
+            console.log(this.cache[key])
+            handler(this.cache[key])
         }
-    };
-
-    httpPostForCreate = function (url, payload, handler) {
-        var key = url + " " + JSON.stringify(payload)
-        if (this.debug) {
-            console.log("Fetching " + key);
-        }
-        request
-            .post(url)
-            .send(JSON.stringify(payload))
-            .set('Accept', 'application/json')
-            .withCredentials()
-            .end(function (err, res) {
-                if (res.body !== null && res.body.status === 'ok') {
-                    handler(res.body);
-                } else {
-                    alert(res.text)
-                }
-            });
-    };
+    }
 
     fetchMatches = function (handler) {
         var url = "/api/single_match/legs";
@@ -103,28 +68,12 @@ export class ExoticsAPI {
         this.httpGet(url, handler);
     };
 
-    fetchBets = function (status, handler) {
-        var url = "/api/multi_match/bets/list?status=" + status;
-        if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/multi_match/bets/list?status=" + status;
-        }
-        this.httpGetForList(url, handler);
-    };
-
     fetchPrice = function (body, handler) {
         var url = "/api/single_match/bets/price";
         if (process.env.NODE_ENV == 'development') {
             url = "http://localhost:8080/api/single_match/bets/price";
         }
         this.httpPost(url, body, handler);
-    };
-
-    placeBet = function (body, handler) {
-        var url = "/api/multi_match/bets/create";
-        if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/multi_match/bets/create";
-        }
-        this.httpPostForCreate(url, body, handler);
-    };
+    }
 }
 

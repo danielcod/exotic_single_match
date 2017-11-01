@@ -139,7 +139,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     delBetfromBetsList(oldBet) {
         let {bets} = this.state;
         bets = bets.filter(bet => {
-            return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.name, oldBet.match.name));
+            return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.fixture, oldBet.match.fixture));
         });
         this.setState({bets});
         this.props.setBets(bets);
@@ -181,7 +181,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     delFromBTTS(oldBet) {
         let {bets} = this.state;
         bets = bets.filter((bet) => {
-            if (bet.name === oldBet.name && bet.match.name === oldBet.match.name) {
+            if (bet.name === oldBet.name && bet.match.fixture === oldBet.match.fixture) {
                 if (oldBet.options.changedTab) {
                     bet.options.changedTab = !oldBet.options.changedTab;
                     bet.options.textTotalGoals = '';

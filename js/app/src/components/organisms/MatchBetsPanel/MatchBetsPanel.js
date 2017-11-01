@@ -18,7 +18,7 @@ export default class MatchBetsPanel extends React.PureComponent {
             currentPage: 0,
             openedStakePanel: false,
             stake: "10.00",
-            price: 0,
+            price: undefined,
             countBetsInStake: 1,
             textBetsInStake: '',
             showBets: []
@@ -26,28 +26,28 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     componentWillMount() {
-        this.changeState(this.props);
+        this.changeState(this.props)
     }
 
     componentWillReceiveProps(nextProps) {
-        this.changeState(nextProps);
+        this.changeState(nextProps)
     }
 
-    componentDidMount() {
-        this.updatePrice();
-    }
-
-    changeState = (props) => {
-        const {match, bets} = props;
-        let showBets = [];
-        let {textBetsInStake, countBetsInStake} = this.state;
+    changeState(props) {
+        const {match, bets} = props
+        let showBets = []
+        let {textBetsInStake, countBetsInStake} = this.state
         bets.map(bet => {
-            if (bet.match.fixture != match.fixture) return;
-            showBets.push(bet);
-        });
-        showBets = formatObjectYourBet(showBets, match);
-        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
-        this.setState({showBets, textBetsInStake});
+            if (bet.match.fixture !== match.fixture) return
+            showBets.push(bet)
+        })
+        showBets = formatObjectYourBet(showBets, match)
+        if (countBetsInStake > showBets.length) {
+            countBetsInStake = showBets.length
+        }
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
+        this.setState({showBets, textBetsInStake, countBetsInStake})
+        this.updatePrice(props, showBets)
     }
 
     applyPaginatorWindow(items) {
@@ -85,10 +85,10 @@ export default class MatchBetsPanel extends React.PureComponent {
         this.setState({stake: e.target.value});
     }
 
-    updatePrice() {
-        console.log('updatePrice')
-        const {match, bets} = this.props
-        if (bets.length > 0) {
+    updatePrice(props, showBets) {
+        const {match, bets} = props
+        if (showBets.length > 0) {
+            this.setState({price: undefined})
             let matchid = match.match_id.toString()
             setTimeout(function () {
                     let struct = {
@@ -153,21 +153,21 @@ export default class MatchBetsPanel extends React.PureComponent {
                             case constant.GOALS:
                                 selection = bet.options.selection
                                 sliderValue = bet.options.sliderValue
-                                if (bet.options.selectedItem[1] === constant.SELCTED_FIRST){
+                                if (bet.options.selectedItem[1] === constant.SELCTED_FIRST) {
                                     struct['selection'][selection] = 1
                                 } else if (bet.options.selectedItem[1] === constant.SELCTED_TWO) {
                                     struct['selection'][selection] = -1
                                 }
-                                if (bet.options.selectedTab['name'] === "over"){
+                                if (bet.options.selectedTab['name'] === "over") {
                                     struct['selection']['total_goals_criteria'] = parseFloat(constant.marks[sliderValue])
-                                } else if(bet.options.selectedTab['name'] === "under") {
+                                } else if (bet.options.selectedTab['name'] === "under") {
                                     struct['selection']['total_goals_criteria'] = -Math.abs(parseFloat(constant.marks[sliderValue]))
                                 }
                                 break
                             case constant.GOAL_SCORERS:
                                 bet.options.selectedItem.forEach(function (item) {
                                     selection = item.selection
-                                    if (struct['selection'][selection] === null){
+                                    if (struct['selection'][selection] === null) {
                                         struct['selection'][selection] = []
                                     }
                                     struct['selection'][selection].push(item.selectedId)
@@ -178,7 +178,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 selection = bet.options.selection
                                 selectedTab = bet.options.selectedTab
                                 toogleValue = bet.options.toogleValue
-                                 if (selectedTab === "over") {
+                                if (selectedTab === "over") {
                                     struct['selection'][selection] = parseFloat(toogleValue)
                                 } else if (selectedTab === "under") {
                                     struct['selection'][selection] = -Math.abs(parseFloat(toogleValue))
@@ -187,7 +187,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                             case constant.PLAYER_CARDS_:
                                 bet.options.selectedItem.forEach(function (item) {
                                     selection = item.selection
-                                    if (struct['selection'][selection] === null){
+                                    if (struct['selection'][selection] === null) {
                                         struct['selection'][selection] = []
                                     }
                                     struct['selection'][selection].push(item.selectedId)
@@ -200,7 +200,8 @@ export default class MatchBetsPanel extends React.PureComponent {
                     this.props.exoticsApi.fetchPrice(struct, function (response) {
                         console.log(JSON.parse(response))
                         let res = JSON.parse(response)
-                        const price = res.price
+                        const {countBetsInStake} = this.state
+                        const price = res[countBetsInStake].price
                         this.setState({price})
                     }.bind(this));
                 }.bind(this), 500
@@ -209,21 +210,21 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     decrementValue() {
-        let {countBetsInStake, showBets, textBetsInStake} = this.state;
-        if (parseInt(countBetsInStake) <= 1) return;
-        countBetsInStake -= 1;
-        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
-        this.setState({countBetsInStake, textBetsInStake});
-        this.updatePrice();
+        let {countBetsInStake, showBets, textBetsInStake} = this.state
+        if (parseInt(countBetsInStake) <= 1) return
+        countBetsInStake -= 1
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
+        this.setState({countBetsInStake, textBetsInStake})
+        this.updatePrice(this.props, showBets)
     }
 
     incrementValue() {
-        let {countBetsInStake, showBets, textBetsInStake} = this.state;
-        if (parseInt(countBetsInStake) >= showBets.length) return;
-        countBetsInStake += 1;
-        textBetsInStake = this.formatToogleText(countBetsInStake, showBets);
-        this.setState({countBetsInStake, textBetsInStake});
-        this.updatePrice();
+        let {countBetsInStake, showBets, textBetsInStake} = this.state
+        if (parseInt(countBetsInStake) >= showBets.length) return
+        countBetsInStake += 1
+        textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
+        this.setState({countBetsInStake, textBetsInStake})
+        this.updatePrice(this.props, showBets)
     }
 
     formatToogleText(countBetsInStake, showBets) {
@@ -280,7 +281,7 @@ export default class MatchBetsPanel extends React.PureComponent {
             <div>
                 <div>
                     <div className="form-group">
-                        <h3 className="current-price text-center">Current price:
+                        <h3 className="current-price text-center">Current price:&nbsp;
                             <span id="price">{formatCurrentPrice(price)}</span>
                         </h3>
                     </div>
