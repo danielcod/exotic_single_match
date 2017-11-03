@@ -42,6 +42,9 @@ export default class MatchBetsPanel extends React.PureComponent {
             showBets.push(bet)
         })
         showBets = formatObjectYourBet(showBets, match)
+        if (showBets.length > 1) {
+            countBetsInStake = Math.ceil((showBets.length / 2) + 1)
+        }
         if (countBetsInStake > showBets.length) {
             countBetsInStake = showBets.length
         }
