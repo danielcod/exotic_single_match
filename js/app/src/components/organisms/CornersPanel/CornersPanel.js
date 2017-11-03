@@ -5,6 +5,7 @@ import CornersToogle from '../../molecules/CornersToggle';
 import * as constant from '../../constant';
 import * as products from '../../products';
 import {formatPrice} from '../../utils';
+
 const productsName = constant.CORNERS;
 import * as struct from '../../struct';
 import s from './index.css';
@@ -39,7 +40,17 @@ export default class CornersPanel extends React.PureComponent {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initMatchResult();
         const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price} = bet.options;
-        this.setState({selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price});
+        this.setState({
+            selectedTab,
+            sliderOptions,
+            toogleValue,
+            selectedBetTab,
+            textValue,
+            changes,
+            selectedItem,
+            selection,
+            price
+        });
 
     }
 
@@ -96,10 +107,13 @@ export default class CornersPanel extends React.PureComponent {
     }
 
     changeStateByTab(selected, selectedItem) {
-        const {toogleValue, selectedTab, selectedBetTab} = this.state;
+        let {toogleValue, selectedTab, selectedBetTab} = this.state;
         if (selectedBetTab === selected) {
             this.handleCancel();
             return;
+        }
+        if (toogleValue > selectedItem.sliderOptions.max) {
+            toogleValue = selectedItem.sliderOptions.max
         }
         const textValue = this.formatText(selected, toogleValue, selectedTab);
         this.setToParrenState(selected, toogleValue, selectedTab, textValue, selectedItem.sliderOptions, selectedItem)
