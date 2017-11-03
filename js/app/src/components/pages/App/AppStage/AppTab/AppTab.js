@@ -7,7 +7,8 @@ export default class AppTab extends React.PureComponent {
     render() {
         const { bets, match } = this.props;        
         const betInBets = formatCountBets(bets, match);        
-        return (                              
+        return (
+            <div className="main-menu">
                 <ul className="nav nav-tabs">
                     {
                         this.props.tabs.map((tab, key) => {
@@ -30,7 +31,8 @@ export default class AppTab extends React.PureComponent {
                             )
                         })
                     }
-                </ul>                
+                </ul>
+            </div>
         )
     }
 }

@@ -11,7 +11,7 @@ import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
 import StakePanel from '../../organisms/StakePanel';
 import BTTSPanel from '../../organisms/BTTSPanel';
 import MatchBetsPanel from '../../organisms/MatchBetsPanel';
-import {matchSorter} from '../../utils';
+import {matchSorterByLeague} from '../../utils';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import * as data from '../../products';
 import * as constant from '../../constant';
@@ -78,7 +78,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                         return match;
                     }*/
                     return match
-                }).sort(matchSorter)
+                }).sort(matchSorterByLeague)
                 this.setState({
                     matches: matches,
                     match: matches[0]
@@ -308,12 +308,12 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                             :
                             <div>
                                 <MyFormComponent
-                                    label="Choose your Match Exotics"
+                                    label="Choose your Match"
                                     component={<MySelect
                                         className="form-control btn-primary input-lg"
                                         options={matches.map(function (product) {
                                             return {
-                                                label: product.fixture,
+                                                label: product.league + " - " + product.fixture,
                                                 value: product.match_id
                                             }
                                         })

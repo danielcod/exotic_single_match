@@ -1,30 +1,34 @@
 .sanfona {
-    
+
     color: #945450;
 }
-.b-angle{
+
+.b-angle {
     position: relative;
     bottom: -3px;
 }
 
-.b-angle >  svg{
+.b-angle > svg {
     width: 20px;
     height: 20px;
 }
-.title-img{
+
+.title-img {
     width: 24px;
     height: auto;
     margin-right: 24px;
     display: table-cell;
     vertical-align: middle;
 }
-.title-img img{
+
+.title-img img {
     position: relative;
     bottom: 6px;
     width: 24px;
     height: auto;
 }
-.wrap-item-title{
+
+.wrap-item-title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

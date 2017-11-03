@@ -78,7 +78,7 @@ export default class AppStage extends React.PureComponent {
     render() {
         const tabContent = this.getTabContent()
         return (
-            <div>
+            <div className="content">
                 <AppTab
                     tabs={this.appTab}
                     selected={this.state.selectedTab}

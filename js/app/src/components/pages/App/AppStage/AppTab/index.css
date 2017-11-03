@@ -1,7 +1,7 @@
 .badge_{
-    position: relative;
-    left: 4px;
+    margin-left: 4px;
+    font-size: 12px;
+    background-color: #59a0df;
 }
 .badgeBet a{
-    padding-left: 10px!important;
 }

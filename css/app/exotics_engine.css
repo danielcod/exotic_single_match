@@ -1,5 +1,7 @@
 #app {
     margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 #app .header {
@@ -12,17 +14,15 @@
     max-width: 130px;
 }
 
+#app .content {
+    /*height: calc(100vh - 128px);
+    overflow: auto*/
+    padding: 0 15px 0 15px;
+}
+
 #app .nav-tabs {
-    padding: 10px 6px 0;
+    padding-top: 10px;
     margin-bottom: 20px;
-}
-
-.nav-tabs > li > a {
-    line-height: 1.5;
-}
-
-ul li a .badge {
-    background-color: #59a0df;
 }
 
 .leg-row .leg-row-descr {
@@ -472,10 +472,88 @@ tr > td span.future {
     border-bottom-right-radius: 30px;
 }
 
+#my-bet-list {
+    /*overflow: auto;
+    height: 560px;*/
+    margin: 15px 0 30px 0;
+}
+
+#my-bet-list .panel-group .panel {
+    background: none;
+    border-color: #575763;
+    border-width: 1px 0 0 0;
+    margin-top: 0;
+}
+
+#my-bet-list .panel-group .panel:last-child {
+    border-width: 1px 0 1px 0;
+}
+
+#my-bet-list .panel-group .panel .panel-heading {
+    background: none;
+    color: hsla(0, 0%, 100%, .7);
+    padding: 0;
+}
+
+#my-bet-list .panel-group .panel .panel-heading {
+    display: inline-block;
+    width: 100%;
+}
+
+#my-bet-list .panel-group .panel .panel-heading a {
+    font-size: 14px;
+    padding: 15px 15px;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+
+#my-bet-list.faqs-list .panel-group .panel .panel-heading a {
+    padding: 10px 15px;
+}
+
+#my-bet-list .panel-group .panel .panel-heading a:hover {
+    text-decoration: none;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .label {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .glyph-background {
+    top: 3px;
+    margin-right: 10px;
+}
+
+#my-bet-list .panel-group .panel .panel-collapse {
+    background: #575763;
+}
+
+#my-bet-list .panel-group .panel .panel-collapse .panel-body {
+    border: none;
+}
+
 .faq-btn {
     float: right;
     margin-top: -36px;
     margin-right: 20px;
     background: #575763;
     color: hsla(0, 0%, 100%, .7);
+}
+
+.faq-btn:hover,
+.faq-btn:active,
+.faq-btn:focus,
+.faq-btn:active:focus {
+    background-color: #575763;
+}
+
+.faq-btn.faq-btn-active {
+    background-color: #EC644B;
+    color: #fff;
+}
+
+.faq-container {
+    color: #fff;
 }
