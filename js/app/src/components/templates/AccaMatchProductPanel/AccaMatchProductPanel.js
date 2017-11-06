@@ -235,7 +235,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
         const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state;
         const {selectedTab} = this.props;
-        const renderAngle = (index, title) => {
+        const   renderAngle = (index, title) => {
             let opened = false;
             for (let i = 0; i < sanfonaActiveItems.length; i++) {
                 if (sanfonaActiveItems[i] === index) {

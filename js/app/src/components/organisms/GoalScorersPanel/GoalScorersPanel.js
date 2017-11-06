@@ -42,8 +42,8 @@ export default class GoalScorersPanel extends React.PureComponent {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initState();
         let firstComand, secondComand;
-        if (this.props.match) {
-            [firstComand, secondComand] = this.props.match.fixture.split(' vs ');
+        if (props.match) {
+            [firstComand, secondComand] = props.match.fixture.split(' vs ');
         }
         const myBetTab = [
             {name: constant.HOME, label: firstComand},
@@ -59,6 +59,7 @@ export default class GoalScorersPanel extends React.PureComponent {
             match: this.props.match,
             options: {
                 selectedTeam: constant.HOME,
+                //selectedTeam: constant.AWAY,
                 currentPage: 0,
                 selectedItem: [],
                 textValue: [],

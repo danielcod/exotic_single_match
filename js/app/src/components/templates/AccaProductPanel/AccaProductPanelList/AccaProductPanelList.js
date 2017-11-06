@@ -1,6 +1,5 @@
 import React from 'react';
 import {bindAll} from 'lodash';
-import MySelect from '../../../atoms/MySelect';
 import AccaProductLegTable from '../AccaProductLegTable';
 import MyPaginator from '../../../molecules/MyPaginator';
 /*

@@ -42,8 +42,8 @@ export default class PlayerCardsPanel extends React.Component {
         let bet = this.getCurrentBet(props);
         if (isEmpty(bet)) bet = this.initState();
         let firstTeam, secondTeam;
-        if (this.props.match) {
-            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
+        if (props.match) {
+            [firstTeam, secondTeam] = props.match.fixture.split(' vs ');
         }
         const myBetTab = [
             {name: constant.HOME, label: firstTeam},
