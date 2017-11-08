@@ -14,35 +14,134 @@
     max-width: 130px;
 }
 
-#app .content {
-    /*height: calc(100vh - 128px);
-    overflow: auto*/
+#app .main-menu {
     padding: 0 15px 0 15px;
 }
 
-#app .nav-tabs {
+#app .main-menu .nav-tabs {
     padding-top: 10px;
     margin-bottom: 20px;
 }
+
+#app .content {
+    height: calc(100vh - 198px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 15px 0 15px;
+}
+
+/*
+ * Custom Scrollbar Style
+ */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+/*
+ * Common Style
+ */
+span.bold {
+    font-weight: bold;
+}
+
+/*
+ * "Browser" Tab Page
+ */
 
 .leg-row .leg-row-descr {
     font-size: 14px;
 }
 
-span.bold {
-    font-weight: bold;
-}
-
-.main-menu-container {
-    margin: 0 -15px 20px;
-    padding: 15px 0 15px 0;
+#exotic-acca-list-header {
+    margin-bottom: 15px;
     text-align: center;
 }
 
-.main-menu-btn {
-    padding: 7px 40px;
+#exotic-acca-list-header span {
+    font-size: 12px;
 }
 
+#exotic-acca-list-header select {
+    font-size: 13px;
+    width: 125px;
+    /*display: inline-block;*/
+    display: none;
+    margin-right: 5px;
+    padding: 7px 0 7px 7px;
+    height: 35px;
+    background: #59a0df;
+    border-color: #5598d4;
+    color: #fff;
+    text-align-last: center;
+}
+
+#exotic-acca-list-header select.acca-product-type {
+    margin-right: 40px;
+}
+
+#exotic-acca-list-header button {
+    height: 35px;
+    padding: 7px 10px;
+    color: #fff;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+#exotic-acca-list-table {
+    height: 450px;
+}
+
+#exotic-acca-list-table span {
+    color: #fff;
+}
+
+#exotic-acca-list-table span.label {
+    background: #37a000;
+    margin-top: 5px;
+    clear: both;
+    min-width: 80px;
+}
+
+#exotic-acca-list-table tr:last-child {
+    border-bottom: 1px solid #575763;
+}
+
+#exotic-acca-list-table td.leg-row-descr {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#exotic-acca-list-table td.leg-row-descr span {
+    display: inline-block;
+    float: left;
+    font-size: 11px;
+}
+
+#exotic-acca-list-table td.leg-row-descr div span {
+    font-size: 13px;
+}
+
+#exotic-acca-list-table td.leg-row-price {
+    font-size: 17px;
+}
+
+#exotic-acca-list-content .paginator {
+    margin-top: 30px;
+}
+
+/*
+ *  "Build" Page
+ */
 .round-cell {
     border-radius: 8px;
 }
@@ -205,86 +304,6 @@ tr > td span.future {
 }
 
 /*
- * "Browser" Tab Page
- */
-#exotic-acca-list-header {
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-#exotic-acca-list-header span {
-    font-size: 12px;
-}
-
-#exotic-acca-list-header select {
-    font-size: 13px;
-    width: 125px;
-    /*display: inline-block;*/
-    display: none;
-    margin-right: 5px;
-    padding: 7px 0 7px 7px;
-    height: 35px;
-    background: #59a0df;
-    border-color: #5598d4;
-    color: #fff;
-    text-align-last: center;
-}
-
-#exotic-acca-list-header select.acca-product-type {
-    margin-right: 40px;
-}
-
-#exotic-acca-list-header button {
-    height: 35px;
-    padding: 7px 10px;
-    color: #fff;
-    font-size: 13px;
-    text-transform: uppercase;
-}
-
-#exotic-acca-list-table {
-    height: 450px;
-}
-
-#exotic-acca-list-table span {
-    color: #fff;
-}
-
-#exotic-acca-list-table span.label {
-    background: #37a000;
-    margin-top: 5px;
-    clear: both;
-    min-width: 80px;
-}
-
-#exotic-acca-list-table tr:last-child {
-    border-bottom: 1px solid #575763;
-}
-
-#exotic-acca-list-table td.leg-row-descr {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#exotic-acca-list-table td.leg-row-descr span {
-    display: inline-block;
-    float: left;
-    font-size: 11px;
-}
-
-#exotic-acca-list-table td.leg-row-descr div span {
-    font-size: 13px;
-}
-
-#exotic-acca-list-table td.leg-row-price {
-    font-size: 17px;
-}
-
-#exotic-acca-list-content .paginator {
-    margin-top: 30px;
-}
-
-/*
  *  "Betslip" Page
  */
 .leg-row .leg-row-date span {
@@ -442,7 +461,15 @@ tr > td span.future {
     color: #fff;
 }
 
-/* "Bets" Tab */
+.main-menu-container {
+    margin: 0 -15px 20px;
+    padding: 15px 0 15px 0;
+    text-align: center;
+}
+
+/*
+ * "Bets" Tab
+ */
 #my-bet-tabs .nav-tabs {
     margin: 0 20px 0 20px;
     padding: 0;

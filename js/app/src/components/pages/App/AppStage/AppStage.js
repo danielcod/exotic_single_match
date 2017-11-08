@@ -78,7 +78,7 @@ export default class AppStage extends React.PureComponent {
     render() {
         const tabContent = this.getTabContent()
         return (
-            <div className="content">
+            <div>
                 <AppTab
                     tabs={this.appTab}
                     selected={this.state.selectedTab}
@@ -86,7 +86,9 @@ export default class AppStage extends React.PureComponent {
                     bets={this.state.bets}
                     match={this.state.match}
                 />
-                {tabContent}
+                <div className="content">
+                    {tabContent}
+                </div>
             </div>
         )
     }

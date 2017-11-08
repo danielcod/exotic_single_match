@@ -249,8 +249,9 @@ export default class GoalScorersPanel extends React.PureComponent {
     }
 
     handleTabClicked(tab) {
-        this.setState({selectedTeam: tab.name, changes: true});
-        //setTimeout(()=>this.formatText(), 0); 
+        const {selectedItem, currentPage, textValue, price} = this.state
+        let selectedTeam = tab.name
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, price)
     }
 
     getCurrentListPlayer() {

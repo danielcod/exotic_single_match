@@ -56,7 +56,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 openedStakePanel: false,
                 showBets: [],
                 stake: null,
-                price: 10,
+                price: null,
                 textBetsInStake: null
 
             }
@@ -219,11 +219,11 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         this.props.setBets()
         setTimeout(function () {
             this.props.handleToBrowse('browse')
-        }.bind(this), 200)
+        }.bind(this), 100)
     }
 
     openStakePanel = (showBets, stake, price, textBetsInStake) => {
-        this.setState({openedStakePanel: true, showBets, stake, /* price, */ textBetsInStake});
+        this.setState({openedStakePanel: true, showBets, stake, price, textBetsInStake});
     }
 
     returnToBetsPanel = () => {

@@ -265,7 +265,9 @@ export default class PlayerCardsPanel extends React.Component {
     }
 
     handleTabClicked(tab) {
-        this.setState({selectedTeam: tab.name, changes: true});
+        const {selectedItem, currentPage, textValue, price} = this.state
+        let selectedTeam = tab.name
+        this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, price)
     }
 
     getCurrentListPlayer() {

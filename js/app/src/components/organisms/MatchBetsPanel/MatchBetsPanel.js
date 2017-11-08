@@ -90,8 +90,8 @@ export default class MatchBetsPanel extends React.PureComponent {
 
     updatePrice(props, showBets) {
         const {match, bets} = props
-        if (showBets.length > 0) {
-            this.setState({price: undefined})
+        this.setState({price: undefined})
+        if (showBets.length > 1) {
             let matchid = match.match_id.toString()
             setTimeout(function () {
                     let struct = {
@@ -207,7 +207,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                         const price = res[countBetsInStake].price
                         this.setState({price})
                     }.bind(this));
-                }.bind(this), 500
+                }.bind(this), 300
             )
         }
     }
@@ -285,7 +285,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                 <div>
                     <div className="form-group">
                         <h3 className="current-price text-center">Current price:&nbsp;
-                            <span id="price">{formatCurrentPrice(price)}</span>
+                            <span id="price">{showBets.length > 1 ? formatCurrentPrice(price) : "Add another leg"}</span>
                         </h3>
                     </div>
                     <MatchBetsTable
@@ -326,6 +326,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                                    className={classNames(s["bet-submit-btns-child"], "stake-value")}
                                    defaultValue={this.state.stake}
                                    onChange={this.handleStakeChanged}
+                                   disabled={showBets.length > 1 ? "" : "disabled"}
                             />
                         </div>
                         <div>
