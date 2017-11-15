@@ -61,19 +61,27 @@ export class ExoticsAPI {
     }
 
     fetchMatches = function (handler) {
-        var url = "/api/single_match/legs";
-        if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/single_match/legs";
+        let url = "/api/single_match/legs"
+        if (process.env.NODE_ENV === 'development') {
+            url = "http://localhost:8080/api/single_match/legs"
         }
-        this.httpGet(url, handler);
+        this.httpGet(url, handler)
+    };
+
+    fetchCurates = function (handler) {
+        let url = "/api/single_match/curates"
+        if (process.env.NODE_ENV === 'development') {
+            url = "http://localhost:8080/api/single_match/curates"
+        }
+        this.httpGet(url, handler)
     };
 
     fetchPrice = function (body, handler) {
-        var url = "/api/single_match/bets/price";
-        if (process.env.NODE_ENV == 'development') {
-            url = "http://localhost:8080/api/single_match/bets/price";
+        let url = "/api/single_match/bets/price"
+        if (process.env.NODE_ENV === 'development') {
+            url = "http://localhost:8080/api/single_match/bets/price"
         }
-        this.httpPost(url, body, handler);
+        this.httpPost(url, body, handler)
     }
 }
 

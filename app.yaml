@@ -41,6 +41,8 @@ handlers:
   script: controllers.api.single_match.bets.app
 - url: /api/single_match/legs.*
   script: controllers.api.single_match.legs.app
+- url: /api/single_match/curate.*
+  script: controllers.api.single_match.curates.app
 - url: /app.*
   script: controllers.api.app
 # TASKS

@@ -17,7 +17,7 @@ export default class MySelect extends React.PureComponent {
                 style={this.props.name === 'league' ? {paddingLeft: '26%', backgroundColor: '#d99c41'} : {}}
                 className={this.props.className || "form-control"}
                 onChange={this.changeSelect}
-                defaultValue={match ? match.match_id : null}>
+                value={match ? match.match_id : null}>
                 {
                     this.props.options.map((option, key) => {
                         return <option

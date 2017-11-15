@@ -173,48 +173,48 @@ export default class CornersPanel extends React.PureComponent {
         }
         const matches = [
             {
-                over: match.home_corners_criteria.over,
-                under: match.home_corners_criteria.under,
+                over: match.home_corners_ft.over,
+                under: match.home_corners_ft.under,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
                     step: 1,
                     value: 4.5
                 },
-                selection: 'home_corners_criteria'
+                selection: 'home_corners_ft'
             },
             {
-                over: match.away_corners_criteria.over,
-                under: match.away_corners_criteria.under,
+                over: match.away_corners_ft.over,
+                under: match.away_corners_ft.under,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
                     step: 1,
                     value: 3.5
                 },
-                selection: 'away_corners_criteria'
+                selection: 'away_corners_ft'
             },
             {
-                over: match.both_teams_corners_criteria.over,
-                under: match.both_teams_corners_criteria.under,
+                over: match.both_corners_ft.over,
+                under: match.both_corners_ft.under,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
                     step: 1,
                     value: 4.5
                 },
-                selection: 'both_teams_corners_criteria'
+                selection: 'both_corners_ft'
             },
             {
-                over: match.match_total_corners_criteria.over,
-                under: match.match_total_corners_criteria.under,
+                over: match.total_corners_ft.over,
+                under: match.total_corners_ft.under,
                 sliderOptions: {
                     min: 0.5,
                     max: 21.5,
                     step: 1,
                     value: 8.5
                 },
-                selection: 'match_total_corners_criteria'
+                selection: 'total_corners_ft'
             }
         ]
         const toogleValue = this.state.toogleValue;

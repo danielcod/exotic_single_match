@@ -1,44 +1,30 @@
-import React from 'react';
+import React from 'react'
+import {formatPrice} from '../../../utils'
 
 export default class AccaProductLegRow extends React.PureComponent {
-
-    formatPrice(value) {
-        if (value < 2) {
-            // return value.toFixed(3);
-            return value.toFixed(2);
-        } else if (value < 10) {
-            return value.toFixed(2);
-        } else if (value < 100) {
-            return value.toFixed(1);
-        } else {
-            return Math.floor(value);
-        }
-    }
-
-    getHeader(bet) {
-        return "Any " + bet.betCondition.nLegs + "+ of " + bet.betCondition.legs;
-    }
-
     render() {
+        const {curate, clickHandler} = this.props
         return (
             <tr className="leg-row">
                 <td className="leg-row-descr">
                     <div>
-                        <span className="bold">{this.props.leg.betLeague + " (" + this.props.leg.betTime + ")"}</span>
+                        <span className="bold">
+                            {curate.fixture}
+                        </span>
                     </div>
                     <span className="desc" style={{marginTop: "5px"}}>
-                        {this.props.leg.betLegs}
+                        {curate.as_string}
                     </span>
                     <span className="goal label">
-                        {this.getHeader(this.props.leg)}
+                        {"Any " + curate.price_to_show + "+ of " + curate.legs}
                     </span>
                 </td>
                 <td className="leg-row-price">
                     <span>
-                        {this.formatPrice(this.props.leg.betPrice)}
+                        {formatPrice(curate[curate.price_to_show].price)}
                     </span>
                 </td>
-                <td onClick={this.props.clickHandler.bind(null, this.props.leg)}>
+                <td onClick={clickHandler.bind(null, curate)}>
                     <a className="btn btn-secondary">
                         <i className="glyphicon glyphicon-pencil"></i>
                     </a>

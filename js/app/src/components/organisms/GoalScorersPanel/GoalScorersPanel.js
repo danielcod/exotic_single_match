@@ -278,48 +278,48 @@ export default class GoalScorersPanel extends React.PureComponent {
         const selectedInCurrentPage = this.getCurrentListPlayer();
         if (match) {
             if (selectedTeam === 'home') {
-                matches = Object.keys(match.home_goal_scorer_criteria).map(function (team) {
+                matches = Object.keys(match.home_ags_p_ft).map(function (team) {
                     return {
                         id: team,
-                        name: match.home_goal_scorer_criteria[team]['name'],
+                        name: match.home_ags_p_ft[team]['name'],
                         any_time: {
-                            price: match.home_goal_scorer_criteria[team]['price'],
-                            selection: "home_goal_scorer_criteria"
+                            price: match.home_ags_p_ft[team]['price'],
+                            selection: "home_ags_p_ft"
                         },
                         game_1st: {
-                            price: match.first_goal_scorer_in_match_home_selections_criteria[team]['price'],
-                            selection: "first_goal_scorer_in_match_home_selections_criteria"
+                            price: match.match_home_p_fgs_ft[team]['price'],
+                            selection: "match_home_p_fgs_ft"
                         },
                         team_1st: {
-                            price: match.first_home_goal_scorer_criteria[team]['price'],
-                            selection: "first_home_goal_scorer_criteria"
+                            price: match.home_fgs_p_ft[team]['price'],
+                            selection: "home_fgs_p_ft"
                         },
                         goals: {
-                            price: match.home_hattrick_criteria[team]['price'],
-                            selection: "home_hattrick_criteria"
+                            price: match.home_threegs_p_ft[team]['price'],
+                            selection: "home_threegs_p_ft"
                         }
                     }
                 })
             } else {
-                matches = Object.keys(match.away_goal_scorer_criteria).map(function (team) {
+                matches = Object.keys(match.away_ags_p_ft).map(function (team) {
                     return {
                         id: team,
-                        name: match.away_goal_scorer_criteria[team]['name'],
+                        name: match.away_ags_p_ft[team]['name'],
                         any_time: {
-                            price: match.away_goal_scorer_criteria[team]['price'],
-                            selection: "away_goal_scorer_criteria"
+                            price: match.away_ags_p_ft[team]['price'],
+                            selection: "away_ags_p_ft"
                         },
                         game_1st: {
-                            price: match.first_goal_scorer_in_match_away_selections_criteria[team]['price'],
-                            selection: "first_goal_scorer_in_match_away_selections_criteria"
+                            price: match.match_away_fgs_p_ft[team]['price'],
+                            selection: "match_away_fgs_p_ft"
                         },
                         team_1st: {
-                            price: match.first_away_goal_scorer_criteria[team]['price'],
-                            selection: "first_away_goal_scorer_criteria"
+                            price: match.away_fgs_p_ft[team]['price'],
+                            selection: "away_fgs_p_ft"
                         },
                         goals: {
-                            price: match.away_hattrick_criteria[team]['price'],
-                            selection: "away_hattrick_criteria"
+                            price: match.away_threegs_p_ft[team]['price'],
+                            selection: "away_threegs_p_ft"
                         }
                     }
                 })

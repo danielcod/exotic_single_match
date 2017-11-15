@@ -35,6 +35,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 selectedTab: previousState.selectedTab,
                 match: previousState.match,
                 matches: previousState.matches,
+                curate: previousState.curate,
                 legs: previousState.legs,
                 bets: previousState.bets,
                 sanfonaActiveItems: previousState.sanfonaActiveItems,
@@ -44,12 +45,13 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 price: previousState.price,
                 textBetsInStake: previousState.textBetsInStake
             }
-            localStorage.removeItem("AccaMatchProduct");
+            localStorage.removeItem("AccaMatchProduct")
         } else {
             this.state = {
                 selectedTab: "build",
                 match: {},
                 matches: [],
+                curate: {},
                 legs: [],
                 bets: [],
                 sanfonaActiveItems: [],
@@ -67,31 +69,30 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (isEmpty(this.state.match) || isEmpty(this.state.matches)) {
+        if (isEmpty(this.state.match) || isEmpty(this.state.matches) || !isEmpty(this.props.curate)) {
             this.props.exoticsApi.fetchMatches(function (struct) {
-                let {matches, leagues} = this.state
+                let {matches, match} = this.state
+                let {curate} = this.props
                 const cutoff = new Date()
-                matches = Object.values(struct).filter(function (match) {
+                matches = Object.values(struct).filter(function (item) {
                     /*var bits = match.kickoff.split(/\D/);
                     var date = new Date(bits[0], --bits[1], bits[2], bits[3], bits[4]);
                     if (date > cutoff) {
                         return match;
                     }*/
-                    return match
+                    return item
                 }).sort(matchSorterByLeague)
-                this.setState({
-                    matches: matches,
-                    match: matches[0]
-                })
-                this.props.setMatch(matches[0])
+                if (!isEmpty(curate)) {
+                    match = matches.filter(function(item){
+                        return parseInt(curate.iD) === item.match_id
+                    })[0]
+                } else {
+                    match = matches[0]
+                }
+                this.setState({matches, match, curate})
+                this.props.setMatch(match)
             }.bind(this))
         }
-    }
-
-    componentWillReceiveProps(props) {
-        //if (props.selectedTab === 'bet') {
-        //    this.setState({sanfonaActiveItems: []});
-        //}
     }
 
     componentWillUnmount() {
@@ -218,7 +219,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         })
         this.props.setBets()
         setTimeout(function () {
-            this.props.handleToBrowse('browse')
+            this.props.handleToBrowse({name: "browse"})
         }.bind(this), 100)
     }
 
@@ -232,9 +233,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     render() {
-        const {matches, match, legs, sanfonaActiveItems, bets} = this.state;
-        const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state;
-        const {selectedTab} = this.props;
+        const {matches, match, legs, sanfonaActiveItems, bets, curate} = this.state
+        const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state
+        const {selectedTab} = this.props
         const   renderAngle = (index, title) => {
             let opened = false;
             for (let i = 0; i < sanfonaActiveItems.length; i++) {
@@ -336,6 +337,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         legs={legs}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delBetfromBetsList}
                                                     /> : null}
                                                 {index === 1 ?
@@ -343,6 +345,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         match={match}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delBetfromBetsList}
                                                     /> : null}
                                                 {index === 2 ?
@@ -351,6 +354,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         match={match}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delTeamBetfromBetsList}
                                                     /> : null}
                                                 {index === 3 ?
@@ -359,6 +363,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         match={match}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delBetfromBetsList}
                                                     />
                                                     : null}
@@ -368,6 +373,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         match={match}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delBetfromBetsList}
                                                     />
                                                     : null}
@@ -377,6 +383,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                         match={match}
                                                         betResultMatch={this.betResultMatch}
                                                         bets={this.state.bets}
+                                                        curate={curate}
                                                         delBetfromBetsList={this.delTeamBetfromBetsList}
                                                     />
                                                     : null}

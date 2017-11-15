@@ -62,34 +62,16 @@ span.bold {
     font-size: 14px;
 }
 
-#exotic-acca-list-header {
+#build-your-own-exotic {
     margin-bottom: 15px;
     text-align: center;
 }
 
-#exotic-acca-list-header span {
+#build-your-own-exotic span {
     font-size: 12px;
 }
 
-#exotic-acca-list-header select {
-    font-size: 13px;
-    width: 125px;
-    /*display: inline-block;*/
-    display: none;
-    margin-right: 5px;
-    padding: 7px 0 7px 7px;
-    height: 35px;
-    background: #59a0df;
-    border-color: #5598d4;
-    color: #fff;
-    text-align-last: center;
-}
-
-#exotic-acca-list-header select.acca-product-type {
-    margin-right: 40px;
-}
-
-#exotic-acca-list-header button {
+#build-your-own-exotic button {
     height: 35px;
     padding: 7px 10px;
     color: #fff;
@@ -97,45 +79,45 @@ span.bold {
     text-transform: uppercase;
 }
 
-#exotic-acca-list-table {
+#exotic-acca-table {
     height: 450px;
 }
 
-#exotic-acca-list-table span {
+#exotic-acca-table span {
     color: #fff;
 }
 
-#exotic-acca-list-table span.label {
+#exotic-acca-table span.label {
     background: #37a000;
     margin-top: 5px;
     clear: both;
     min-width: 80px;
 }
 
-#exotic-acca-list-table tr:last-child {
+#exotic-acca-table tr:last-child {
     border-bottom: 1px solid #575763;
 }
 
-#exotic-acca-list-table td.leg-row-descr {
+#exotic-acca-table td.leg-row-descr {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-#exotic-acca-list-table td.leg-row-descr span {
+#exotic-acca-table td.leg-row-descr span {
     display: inline-block;
     float: left;
     font-size: 11px;
 }
 
-#exotic-acca-list-table td.leg-row-descr div span {
+#exotic-acca-table td.leg-row-descr div span {
     font-size: 13px;
 }
 
-#exotic-acca-list-table td.leg-row-price {
+#exotic-acca-table td.leg-row-price {
     font-size: 17px;
 }
 
-#exotic-acca-list-content .paginator {
+#exotic-acca-list .paginator {
     margin-top: 30px;
 }
 

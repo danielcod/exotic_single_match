@@ -138,7 +138,7 @@ export default class BTTSPanel extends React.PureComponent {
         } else {
             selectedTab = {name: tab.name, number: tab.number, label: tab.label};
             changedTab = true;
-            priceTotalGoals = parseFloat(formatPrice(match.total_goals_criteria[selectedTab.name][constant.marks[sliderValue]]))
+            priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
         }
         const textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label);
         this.setState({selectedTab, textTotalGoals, changedTab, priceTotalGoals});
@@ -152,7 +152,7 @@ export default class BTTSPanel extends React.PureComponent {
         let priceTotalGoals = 0
         if (changedTab) {
             textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label);
-            priceTotalGoals = parseFloat(formatPrice(match.total_goals_criteria[selectedTab.name][constant.marks[sliderValue]]))
+            priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
             this.setState({sliderValue, textTotalGoals, priceTotalGoals});
             setTimeout(() => this.setToParrenState(), 0);
         } else {
@@ -169,21 +169,21 @@ export default class BTTSPanel extends React.PureComponent {
         const matches = [
             {
                 name: 'Full Match',
-                YES: match.btts_criteria['Yes'],
-                NO: match.btts_criteria['No'],
-                selection: 'btts_criteria'
+                YES: match.btts_ft['Yes'],
+                NO: match.btts_ft['No'],
+                selection: 'btts_ft'
             },
             {
                 name: 'Both Halves',
-                YES: match.btts_both_halves_criteria['Yes'],
-                NO: match.btts_both_halves_criteria['No'],
-                selection: 'btts_both_halves_criteria'
+                YES: match.btts_bh['Yes'],
+                NO: match.btts_bh['No'],
+                selection: 'btts_bh'
             },
             {
                 name: 'Either Half',
-                YES: match.btts_either_half_criteria['Yes'],
-                NO: match.btts_either_half_criteria['No'],
-                selection: 'btts_either_half_criteria'
+                YES: match.btts_eh['Yes'],
+                NO: match.btts_eh['No'],
+                selection: 'btts_eh'
             }
         ]
         const toogleValue = this.state.toogleValue;

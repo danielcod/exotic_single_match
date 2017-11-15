@@ -1,55 +1,52 @@
-import React from 'react';
-import {bindAll} from 'lodash';
-import AccaProductPanelList from './AccaProductPanelList';
+import React from 'react'
+import {bindAll, isEmpty, isEqual} from 'lodash'
+import AccaProductPanelList from './AccaProductPanelList'
 
 export default class AccaProductPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             accaProductPanelState: "list",
-        };
-        bindAll(this, ['handleAccaProductPanelStateChanged', 'getAccaProductPanelContent']);
-    }
-
-    handleAccaProductPanelStateChanged(accaProductPanelState) {
-        switch (accaProductPanelState) {
-            case "list": {
-                this.setState({accaProductPanelState: "list"});
-                break;
-            }
-            case "edit": {
-                this.setState({accaProductPanelState: "edit"});
-                break;
-            }
-            case "custom": {
-                this.props.clickHandler({name: "build"});
-                break;
-            }
+            curates: []
         }
+        bindAll(this, [])
     }
 
-    getAccaProductPanelContent() {
-        switch (this.state.accaProductPanelState) {
-            case "list":
-                return (
-                    <AccaProductPanelList
-                        items={this.props.list}
-                        legsPaginator={this.props.legsPaginator}
-                        clickHandler={this.handleAccaProductPanelStateChanged}
-                    />
-                );
-            case "edit":
-                return (
-                    <div></div>
-                )
+    componentDidMount() {
+        if (isEmpty(this.state.curates)) {
+            this.props.exoticsApi.fetchCurates(function (struct) {
+                let {curates} = this.state
+                curates = Object.values(struct).filter(function (curate) {
+                    return curate
+                })
+                this.setState({
+                    curates: curates
+                })
+            }.bind(this))
         }
     }
 
     render() {
-        const AccaProductPanelContent = this.getAccaProductPanelContent();
+        const {buildYourOwnExotic, legsPaginator, setCurate} = this.props
+        const {curates} = this.state
         return (
-            <div id="exotic-acca-content">
-                {AccaProductPanelContent}
+            <div id="exotic-acca">
+                <div id="build-your-own-exotic">
+                    <div className="form-group">
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => buildYourOwnExotic({name: "build"})}>Build Your Own EXOTIC
+                        </button>
+                    </div>
+                    <div className="form-group">
+                        <span>....or edit one of the popular bets other people have chosen:</span>
+                    </div>
+                </div>
+                <AccaProductPanelList
+                    curates={curates}
+                    legsPaginator={legsPaginator}
+                    clickHandler={setCurate}
+                />
             </div>
         )
     }

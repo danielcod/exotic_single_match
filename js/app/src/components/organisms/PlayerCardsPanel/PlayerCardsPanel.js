@@ -294,48 +294,48 @@ export default class PlayerCardsPanel extends React.Component {
         const selectedInCurrentPage = this.getCurrentListPlayer();
         if (match) {
             if (selectedTeam === 'home') {
-                matches = Object.keys(match.home_player_card_criteria).map(function (team) {
+                matches = Object.keys(match.home_acard_p_ft).map(function (team) {
                     return {
                         id: team,
-                        name: match.home_player_card_criteria[team]['name'],
+                        name: match.home_acard_p_ft[team]['name'],
                         any_time: {
-                            price: match.home_player_card_criteria[team]['price'],
-                            selection: "home_player_card_criteria"
+                            price: match.home_acard_p_ft[team]['price'],
+                            selection: "home_acard_p_ft"
                         },
                         game_1st: {
-                            price: match.first_player_in_match_booked_home_selections_criteria[team]['price'],
-                            selection: "first_player_in_match_booked_home_selections_criteria"
+                            price: match.match_home_p_fcard_ft[team]['price'],
+                            selection: "match_home_p_fcard_ft"
                         },
                         team_1st: {
-                            price: match.first_home_player_booked_criteria[team]['price'],
-                            selection: "first_home_player_booked_criteria"
+                            price: match.home_fcard_p_ft[team]['price'],
+                            selection: "home_fcard_p_ft"
                         },
                         goals: {
-                            price: match.home_player_reds_criteria[team]['price'],
-                            selection: "home_player_reds_criteria"
+                            price: match.home_ared_p_ft[team]['price'],
+                            selection: "home_ared_p_ft"
                         }
                     }
                 })
             } else {
-                matches = Object.keys(match.away_player_card_criteria).map(function (team) {
+                matches = Object.keys(match.away_acard_p_ft).map(function (team) {
                     return {
                         id: team,
-                        name: match.away_player_card_criteria[team]['name'],
+                        name: match.away_acard_p_ft[team]['name'],
                         any_time: {
-                            price: match.away_player_card_criteria[team]['price'],
-                            selection: "away_player_card_criteria"
+                            price: match.away_acard_p_ft[team]['price'],
+                            selection: "away_acard_p_ft"
                         },
                         game_1st: {
-                            price: match.first_player_in_match_booked_away_selections_criteria[team]['price'],
-                            selection: "first_player_in_match_booked_away_selections_criteria"
+                            price: match.match_away_p_fcard_ft[team]['price'],
+                            selection: "match_away_p_fcard_ft"
                         },
                         team_1st: {
-                            price: match.first_away_player_booked_criteria[team]['price'],
-                            selection: "first_away_player_booked_criteria"
+                            price: match.away_fcard_p_ft[team]['price'],
+                            selection: "away_fcard_p_ft"
                         },
                         goals: {
-                            price: match.away_player_reds_criteria[team]['price'],
-                            selection: "away_player_reds_criteria"
+                            price: match.away_ared_p_ft[team]['price'],
+                            selection: "away_ared_p_ft"
                         }
                     }
                 })

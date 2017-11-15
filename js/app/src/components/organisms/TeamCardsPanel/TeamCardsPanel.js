@@ -162,48 +162,48 @@ export default class TeamCardsPanel extends React.PureComponent {
         }
         const matches = [
             {
-                over: match.home_booking_points_criteria.over,
-                under: match.home_booking_points_criteria.under,
+                over: match.home_bp_ft.over,
+                under: match.home_bp_ft.under,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
                     step: 5,
                     value: 7.5
                 },
-                selection: 'home_booking_points_criteria'
+                selection: 'home_bp_ft'
             },
             {
-                over: match.away_booking_points_criteria.over,
-                under: match.away_booking_points_criteria.under,
+                over: match.away_bp_ft.over,
+                under: match.away_bp_ft.under,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
                     step: 5,
                     value: 7.5
                 },
-                selection: 'away_booking_points_criteria'
+                selection: 'away_bp_ft'
             },
             {
-                over: match.both_teams_booking_points_criteria.over,
-                under: match.both_teams_booking_points_criteria.under,
+                over: match.both_bp_ft.over,
+                under: match.both_bp_ft.under,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
                     step: 5,
                     value: 7.5
                 },
-                selection: 'both_teams_booking_points_criteria'
+                selection: 'both_bp_ft'
             },
             {
-                over: match.total_booking_points_criteria.over,
-                under: match.total_booking_points_criteria.under,
+                over: match.total_bp_ft.over,
+                under: match.total_bp_ft.under,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
                     step: 5,
                     value: 7.5
                 },
-                selection: 'total_booking_points_criteria'
+                selection: 'total_bp_ft'
             },
 
         ]

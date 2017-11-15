@@ -1,14 +1,12 @@
-import React from 'react';
-import {bindAll} from 'lodash';
-import AppTab from './AppTab';
-import AccaProductPanel from '../../../templates/AccaProductPanel';
-import AccaMatchProductPanel from '../../../templates/AccaMatchProductPanel';
-import MyBetPanel from '../../../templates/MyBetPanel';
-import {matchSorter} from '../../../utils';
-import * as data from '../../../products';
-import * as list from '../../../list';
-import * as faq from '../../../faq';
-import classnames from 'classnames';
+import React from 'react'
+import {bindAll} from 'lodash'
+import AppTab from './AppTab'
+import AccaProductPanel from '../../../templates/AccaProductPanel'
+import AccaMatchProductPanel from '../../../templates/AccaMatchProductPanel'
+import MyBetPanel from '../../../templates/MyBetPanel'
+import {matchSorter} from '../../../utils'
+import * as faq from '../../../faq'
+import classnames from 'classnames'
 
 export default class AppStage extends React.PureComponent {
     appTab = [
@@ -16,24 +14,25 @@ export default class AppStage extends React.PureComponent {
         {name: "build", label: "Build"},
         {name: "bet", label: "Betslip"},
         {name: "bets", label: "Bets"}
-    ];
+    ]
 
     constructor(props) {
         super(props)
         this.state = {
             selectedTab: "browse",
             match: {},
-            bets: []
+            bets: [],
+            curate: {},
         }
-        bindAll(this, ['handleTabClicked', 'handleToBrowse', 'setMatch', 'setBets', 'getTabContent'])
+        bindAll(this, ['handleTabClicked', 'buildYourOwnExotic', 'setMatch', 'setBets', 'setCurate', 'getTabContent'])
     }
 
     handleTabClicked(tab) {
         this.setState({selectedTab: tab.name})
     }
 
-    handleToBrowse(selectedTab) {
-        this.setState({selectedTab})
+    buildYourOwnExotic() {
+        this.setState({selectedTab: "build", curate: {}})
     }
 
     setMatch(match) {
@@ -44,14 +43,20 @@ export default class AppStage extends React.PureComponent {
         this.setState({bets})
     }
 
+    setCurate(curate) {
+        const selectedTab = "build"
+        this.setState({curate, selectedTab})
+    }
+
     getTabContent() {
         switch (this.state.selectedTab) {
             case "browse":
                 return (
                     <AccaProductPanel
-                        list={list.items}
+                        exoticsApi={this.props.exoticsApi}
+                        setCurate={this.setCurate}
                         legsPaginator={{rows: 4}}
-                        clickHandler={this.handleTabClicked}
+                        buildYourOwnExotic={this.buildYourOwnExotic}
                     />
                 )
             case "build":
@@ -62,7 +67,8 @@ export default class AppStage extends React.PureComponent {
                         selectedTab={this.state.selectedTab}
                         setMatch={this.setMatch}
                         setBets={this.setBets}
-                        handleToBrowse={this.handleToBrowse}
+                        curate = {this.state.curate}
+                        handleToBrowse={this.handleTabClicked}
                     />
                 )
             case "bets":

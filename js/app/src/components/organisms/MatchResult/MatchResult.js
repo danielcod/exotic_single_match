@@ -30,21 +30,55 @@ export default class MatchResult extends React.PureComponent {
             'handleCancel', 'getCurrentBet', 'setToParrenState']);
     }
 
-    getCurrentBet(props) {
-        const {bets, match} = props;
-        let currentBet = {};
-        bets.map(bet => {
-            if (bet.name === productsName && bet.match.fixture === match.fixture) {
-                currentBet = bet;
-            }
-        });
-        return currentBet;
+    componentWillReceiveProps(props) {
+        let bet = this.getCurrentBet(props);
+        if (isEmpty(bet)) bet = this.initMatchResult();
+        const value = bet.options.range,
+            textValue = bet.options.textValue,
+            selectedItem = bet.options.tableSelectedItem,
+            showSlider = bet.options.showSlider,
+            changes = bet.options.selectedMatchResult,
+            price = bet.options.price,
+            selection = bet.options.selection
+        this.setState({value, textValue, selectedItem, showSlider, changes, price, selection});
     }
 
-    handleCancel() {
-        const props = this.props;
-        const bet = this.getCurrentBet(props);
-        this.props.delBetfromBetsList(bet);
+    componentDidMount(){
+        const {curate} = this.props
+        if (!isEmpty(curate)) {
+            this.setBetResultMatch(curate.selection)
+        }
+    }
+
+    setBetResultMatch(selection) {
+        console.log(selection)
+        const matches = [
+            {
+                name: "Full Match",
+                '1x2_prices': [
+                    {home_ft: match.home_ft},
+                    {draw_ft: match.draw_ft},
+                    {away_ft: match.away_ft}
+                ],
+            },
+            {
+                name: "Both Halves",
+                '1x2_prices': [
+                    {home_bh: match.home_bh},
+                    {draw_bh: match.draw_bh},
+                    {away_bh: match.away_bh}
+                ],
+            },
+            {
+                name: "Either Half",
+                '1x2_prices': [
+                    {home_eh: match.home_eh},
+                    {draw_eh: match.draw_eh},
+                    {away_eh: match.away_eh}
+                ],
+            }
+        ]
+
     }
 
     initMatchResult() {
@@ -62,6 +96,23 @@ export default class MatchResult extends React.PureComponent {
         }
     }
 
+    getCurrentBet(props) {
+        const {bets, match} = props;
+        let currentBet = {};
+        bets.map(bet => {
+            if (bet.name === productsName && bet.match.fixture === match.fixture) {
+                currentBet = bet;
+            }
+        });
+        return currentBet;
+    }
+
+    handleCancel() {
+        const props = this.props;
+        const bet = this.getCurrentBet(props);
+        this.props.delBetfromBetsList(bet);
+    }
+
     onChange(value) {
         const {selectedItem, showSlider, selection} = this.state;
         const {match} = this.props
@@ -76,27 +127,27 @@ export default class MatchResult extends React.PureComponent {
         switch (selectedItem[0]) {
             case constant.SELCTED_FIRST:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.ones_with_gs['lower'][lower]['upper'][upper]
+                    price = match.home_ft_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.twos_with_gs['lower'][lower]['upper'][upper]
+                    price = match.away_ft_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
                 break
             case constant.SELCTED_TWO:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.bhones_with_gs['lower'][lower]['upper'][upper]
+                    price = match.home_bh_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.bhtwos_with_gs['lower'][lower]['upper'][upper]
+                    price = match.away_bh_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
                 break
             case constant.SELCTED_THREE:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.ehones_with_gs['lower'][lower]['upper'][upper]
+                    price = match.home_eh_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.ehtwos_with_gs['lower'][lower]['upper'][upper]
+                    price = match.away_eh_margin['lower'][lower]['upper'][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
@@ -104,19 +155,6 @@ export default class MatchResult extends React.PureComponent {
         }
         const textValue = this.formatDynamicText(selectedItem, value);
         this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price)
-    }
-
-    componentWillReceiveProps(props) {
-        let bet = this.getCurrentBet(props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
-        const value = bet.options.range,
-            textValue = bet.options.textValue,
-            selectedItem = bet.options.tableSelectedItem,
-            showSlider = bet.options.showSlider,
-            changes = bet.options.selectedMatchResult,
-            price = bet.options.price,
-            selection = bet.options.selection
-        this.setState({value, textValue, selectedItem, showSlider, changes, price, selection});
     }
 
     clickHandler(id, key, selection, selectedPrice) {
@@ -134,27 +172,27 @@ export default class MatchResult extends React.PureComponent {
             switch (selectedItem[0]) {
                 case constant.SELCTED_FIRST:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.ones_with_gs['lower'][lower]['upper'][upper]
+                        price = match.home_ft_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.twos_with_gs['lower'][lower]['upper'][upper]
+                        price = match.away_ft_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
                     break
                 case constant.SELCTED_TWO:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.bhones_with_gs['lower'][lower]['upper'][upper]
+                        price = match.home_bh_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.bhtwos_with_gs['lower'][lower]['upper'][upper]
+                        price = match.away_bh_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
                     break
                 case constant.SELCTED_THREE:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.ehones_with_gs['lower'][lower]['upper'][upper]
+                        price = match.home_eh_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.ehtwos_with_gs['lower'][lower]['upper'][upper]
+                        price = match.away_eh_margin['lower'][lower]['upper'][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
@@ -252,25 +290,25 @@ export default class MatchResult extends React.PureComponent {
             {
                 name: "Full Match",
                 '1x2_prices': [
-                    {ones_criteria: match.ones_criteria},
-                    {xs_criteria: match.xs_criteria},
-                    {twos_criteria: match.twos_criteria}
+                    {home_ft: match.home_ft},
+                    {draw_ft: match.draw_ft},
+                    {away_ft: match.away_ft}
                 ],
             },
             {
                 name: "Both Halves",
                 '1x2_prices': [
-                    {bhones_criteria: match.bhones_criteria},
-                    {bhxs_criteria: match.bhxs_criteria},
-                    {bhtwos_criteria: match.bhtwos_criteria}
+                    {home_bh: match.home_bh},
+                    {draw_bh: match.draw_bh},
+                    {away_bh: match.away_bh}
                 ],
             },
             {
                 name: "Either Half",
                 '1x2_prices': [
-                    {ehones_criteria: match.ehones_criteria},
-                    {ehxs_criteria: match.ehxs_criteria},
-                    {ehtwos_criteria: match.ehtwos_criteria}
+                    {home_eh: match.home_eh},
+                    {draw_eh: match.draw_eh},
+                    {away_eh: match.away_eh}
                 ],
             }
         ]

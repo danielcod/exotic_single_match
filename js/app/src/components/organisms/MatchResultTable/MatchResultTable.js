@@ -47,7 +47,7 @@ export default class MatchResultTable extends React.PureComponent {
                         return (
                             <tr key={id} className="text-center match">
                                 <td>
-                                    <span className={classnames(s['first-collumn'])}>
+                                    <span className={classnames(s['first-column'])}>
                                         {match.name}
                                     </span>
                                 </td>

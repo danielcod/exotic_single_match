@@ -98,45 +98,45 @@ export default class MatchBetsPanel extends React.PureComponent {
                         "selection":
                             {
                                 "winners_criteria": 1,
-                                "xs_criteria": null,
-                                "bhxs_criteria": null,
-                                "ehxs_criteria": null,
-                                "ones_criteria": null,
-                                "bhones_criteria": null,
-                                "ehones_criteria": null,
-                                "twos_criteria": null,
-                                "bhtwos_criteria": null,
-                                "ehtwos_criteria": null,
-                                "btts_criteria": null,
-                                "btts_both_halves_criteria": null,
-                                "btts_either_half_criteria": null,
-                                "total_goals_criteria": null,
-                                "home_goal_scorer_criteria": null,
-                                "first_goal_scorer_in_match_home_selections_criteria": null,
-                                "first_home_goal_scorer_criteria": null,
-                                "home_hattrick_criteria": null,
-                                "away_goal_scorer_criteria": null,
-                                "first_goal_scorer_in_match_away_selections_criteria": null,
-                                "first_away_goal_scorer_criteria": null,
-                                "away_hattrick_criteria": null,
-                                "home_corners_criteria": null,
-                                "away_corners_criteria": null,
-                                "match_total_corners_criteria": null,
-                                "both_teams_corners_criteria": null,
-                                "lower_number_of_goals_criteria": null,
-                                "upper_number_of_goals_criteria": null,
-                                "home_booking_points_criteria": null,
-                                "away_booking_points_criteria": null,
-                                "total_booking_points_criteria": null,
-                                "both_teams_booking_points_criteria": null,
-                                "home_player_card_criteria": null,
-                                "first_player_in_match_booked_home_selections_criteria": null,
-                                "first_home_player_booked_criteria": null,
-                                "home_player_reds_criteria": null,
-                                "away_player_card_criteria": null,
-                                "first_player_in_match_booked_away_selections_criteria": null,
-                                "first_away_player_booked_criteria": null,
-                                "away_player_reds_criteria": null
+                                "draw_ft": null,
+                                "draw_bh": null,
+                                "draw_eh": null,
+                                "home_ft": null,
+                                "home_bh": null,
+                                "home_eh": null,
+                                "away_ft": null,
+                                "away_bh": null,
+                                "away_eh": null,
+                                "btts_ft": null,
+                                "btts_bh": null,
+                                "btts_eh": null,
+                                "total_goals_bound": null,
+                                "home_ags_p_ft": null,
+                                "match_home_p_fgs_ft": null,
+                                "home_fgs_p_ft": null,
+                                "home_threegs_p_ft": null,
+                                "away_ags_p_ft": null,
+                                "match_away_fgs_p_ft": null,
+                                "away_fgs_p_ft": null,
+                                "away_threegs_p_ft": null,
+                                "home_corners_ft": null,
+                                "away_corners_ft": null,
+                                "total_corners_ft": null,
+                                "both_corners_ft": null,
+                                "lower_goals_bound": null,
+                                "upper_goals_bound": null,
+                                "home_bp_ft": null,
+                                "away_bp_ft": null,
+                                "total_bp_ft": null,
+                                "both_bp_ft": null,
+                                "home_acard_p_ft": null,
+                                "match_home_p_fcard_ft": null,
+                                "home_fcard_p_ft": null,
+                                "home_ared_p_ft": null,
+                                "away_acard_p_ft": null,
+                                "match_away_p_fcard_ft": null,
+                                "away_fcard_p_ft": null,
+                                "away_ared_p_ft": null
                             },
                         "iD": matchid
                     }
@@ -149,8 +149,8 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 tableSelectedItem = bet.options.tableSelectedItem
                                 struct['selection'][selection] = 1
                                 if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
-                                    struct['selection']['lower_number_of_goals_criteria'] = range[0]
-                                    struct['selection']['upper_number_of_goals_criteria'] = range[1]
+                                    struct['selection']['lower_goals_bound'] = range[0]
+                                    struct['selection']['upper_goals_bound'] = range[1]
                                 }
                                 break
                             case constant.GOALS:
@@ -162,9 +162,9 @@ export default class MatchBetsPanel extends React.PureComponent {
                                     struct['selection'][selection] = -1
                                 }
                                 if (bet.options.selectedTab['name'] === "over") {
-                                    struct['selection']['total_goals_criteria'] = parseFloat(constant.marks[sliderValue])
+                                    struct['selection']['total_goals_bound'] = parseFloat(constant.marks[sliderValue])
                                 } else if (bet.options.selectedTab['name'] === "under") {
-                                    struct['selection']['total_goals_criteria'] = -Math.abs(parseFloat(constant.marks[sliderValue]))
+                                    struct['selection']['total_goals_bound'] = -Math.abs(parseFloat(constant.marks[sliderValue]))
                                 }
                                 break
                             case constant.GOAL_SCORERS:
