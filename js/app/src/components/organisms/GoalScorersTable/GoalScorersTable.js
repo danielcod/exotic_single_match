@@ -17,7 +17,6 @@ export default class GoalScorersTable extends React.PureComponent {
     }
 
     choicePrice(id, key, selectedPrice, selectedTeam, selection, selectedId) {
-        console.log(id + "-" + key + "-" + selectedPrice + "-" + selectedTeam + "-" + selection)
         this.props.clickHandler(id, key, selectedPrice, selectedTeam, selection, selectedId);
     }
 

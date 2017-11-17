@@ -1,21 +1,21 @@
-import React from 'react';
-import {bindAll, isEmpty, isEqual} from 'lodash';
-import MatchResultTable from '../MatchResultTable';
-import * as constant from '../../constant';
+import React from 'react'
+import {bindAll, isEmpty, isEqual} from 'lodash'
+import MatchResultTable from '../MatchResultTable'
+import * as constant from '../../constant'
 
-const productsName = constant.MATCH_RESULT;
-import Slider from 'rc-slider';
+const productsName = constant.MATCH_RESULT
+import Slider from 'rc-slider'
 
-const Range = Slider.Range;
-import {formatPrice} from '../../utils';
-import classNames from 'classnames';
+const Range = Slider.Range
+import {formatPrice} from '../../utils'
+import classNames from 'classnames'
 import * as s from './index.css'
 
 export default class MatchResult extends React.PureComponent {
     constructor(props) {
-        super(props);
-        let bet = this.getCurrentBet(this.props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
+        super(props)
+        let bet = this.getCurrentBet(this.props)
+        if (isEmpty(bet)) bet = this.initMatchResult()
         this.state = {
             value: bet.options.range,
             textValue: bet.options.textValue,
@@ -24,15 +24,14 @@ export default class MatchResult extends React.PureComponent {
             changes: bet.options.selectedMatchResult,
             price: bet.options.price,
             selection: bet.options.selection
-
         }
-        bindAll(this, ['onChange', 'clickHandler', 'formatDynamicText',
+        bindAll(this, ['setBetResultMatch', 'onChange', 'clickHandler', 'formatDynamicText',
             'handleCancel', 'getCurrentBet', 'setToParrenState']);
     }
 
     componentWillReceiveProps(props) {
         let bet = this.getCurrentBet(props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
+        if (isEmpty(bet)) bet = this.initMatchResult()
         const value = bet.options.range,
             textValue = bet.options.textValue,
             selectedItem = bet.options.tableSelectedItem,
@@ -43,7 +42,7 @@ export default class MatchResult extends React.PureComponent {
         this.setState({value, textValue, selectedItem, showSlider, changes, price, selection});
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const {curate} = this.props
         if (!isEmpty(curate)) {
             this.setBetResultMatch(curate.selection)
@@ -51,34 +50,31 @@ export default class MatchResult extends React.PureComponent {
     }
 
     setBetResultMatch(selection) {
-        console.log(selection)
+        const {match} = this.props
         const matches = [
-            {
-                name: "Full Match",
-                '1x2_prices': [
-                    {home_ft: match.home_ft},
-                    {draw_ft: match.draw_ft},
-                    {away_ft: match.away_ft}
-                ],
-            },
-            {
-                name: "Both Halves",
-                '1x2_prices': [
-                    {home_bh: match.home_bh},
-                    {draw_bh: match.draw_bh},
-                    {away_bh: match.away_bh}
-                ],
-            },
-            {
-                name: "Either Half",
-                '1x2_prices': [
-                    {home_eh: match.home_eh},
-                    {draw_eh: match.draw_eh},
-                    {away_eh: match.away_eh}
-                ],
-            }
+            {selection: "home_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_FIRST, price: match.home_ft},
+            {selection: "draw_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_TWO, price: match.draw_ft},
+            {selection: "away_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_THREE, price: match.away_ft},
+            {selection: "home_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_FIRST, price: match.home_bh},
+            {selection: "draw_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_TWO, price: match.draw_bh},
+            {selection: "away_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_THREE, price: match.away_bh},
+            {selection: "home_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_FIRST, price: match.home_eh},
+            {selection: "draw_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_TWO, price: match.draw_eh},
+            {selection: "away_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_THREE, price: match.away_eh},
         ]
-
+        const curateSelection = matches.filter(function (item) {
+            return selection.hasOwnProperty(item.selection) && selection[item.selection] === 1
+        })[0]
+        console.log("****************** Curate Selection ***********************")
+        console.log(selection)
+        console.log("******** MATCH RESULT *********")
+        console.log(curateSelection)
+        if (!isEmpty(curateSelection)) {
+            this.clickHandler(curateSelection.id, curateSelection.key, curateSelection.selection, curateSelection.price)
+            if (selection.hasOwnProperty("lower_goals_bound") && selection.hasOwnProperty("upper_goals_bound")) {
+                setTimeout(() => this.onChange(Array(parseInt(selection["lower_goals_bound"]), parseInt(selection["upper_goals_bound"]))), 200)
+            }
+        }
     }
 
     initMatchResult() {
@@ -97,31 +93,31 @@ export default class MatchResult extends React.PureComponent {
     }
 
     getCurrentBet(props) {
-        const {bets, match} = props;
-        let currentBet = {};
+        const {bets, match} = props
+        let currentBet = {}
         bets.map(bet => {
             if (bet.name === productsName && bet.match.fixture === match.fixture) {
-                currentBet = bet;
+                currentBet = bet
             }
         });
-        return currentBet;
+        return currentBet
     }
 
     handleCancel() {
-        const props = this.props;
-        const bet = this.getCurrentBet(props);
-        this.props.delBetfromBetsList(bet);
+        const props = this.props
+        const bet = this.getCurrentBet(props)
+        this.props.delBetfromBetsList(bet)
     }
 
     onChange(value) {
-        const {selectedItem, showSlider, selection} = this.state;
+        const {selectedItem, showSlider, selection} = this.state
         const {match} = this.props
         let price, lower, upper
         lower = value[0]
         upper = value[1]
         if (upper === 5) upper = 'unbounded'
         if (isEmpty(selectedItem)) {
-            this.setState({value});
+            this.setState({value})
             return;
         }
         switch (selectedItem[0]) {
@@ -153,7 +149,7 @@ export default class MatchResult extends React.PureComponent {
                 }
                 break
         }
-        const textValue = this.formatDynamicText(selectedItem, value);
+        const textValue = this.formatDynamicText(selectedItem, value)
         this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price)
     }
 
@@ -199,71 +195,71 @@ export default class MatchResult extends React.PureComponent {
                     break
             }
             const textValue = this.formatDynamicText(selectedItem, value)
-            this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price);
+            this.setToParrenState(selectedItem, value, textValue, showSlider, selection, price)
         }
     }
 
     formatDynamicText(selectedItem, value) {
-        if (!this.props.match || isEmpty(selectedItem)) return;
-        const comands = this.props.match.fixture.split(' vs ');
+        if (!this.props.match || isEmpty(selectedItem)) return
+        const comands = this.props.match.fixture.split(' vs ')
         let firstTeam, secondTeam;
         if (this.props.match) {
-            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
+            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ')
         }
-        const [resultTimeId, winnComandId] = selectedItem;
-        let textValue = '', comand = '', selectedTime = '', scores = '';
-        const [minCountGoals, maxCountGoals] = value;
+        const [resultTimeId, winnComandId] = selectedItem
+        let textValue = '', comand = '', selectedTime = '', scores = ''
+        const [minCountGoals, maxCountGoals] = value
         switch (winnComandId) {
             case constant.SELCTED_FIRST:
-                comand = firstTeam + ' ' + constant.TO_WINN;
+                comand = firstTeam + ' ' + constant.TO_WINN
                 break;
             case constant.SELCTED_THREE:
-                comand = secondTeam + ' ' + constant.TO_WINN;
+                comand = secondTeam + ' ' + constant.TO_WINN
                 break;
             case constant.SELCTED_TWO:
-                comand = constant.MATCH_IS_DRAW;
+                comand = constant.MATCH_IS_DRAW
                 break;
         }
         switch (resultTimeId) {
             case constant.SELCTED_FIRST:
-                selectedTime = ''; //' (' + constant.FULL_MATCH + ')';
+                selectedTime = '' //' (' + constant.FULL_MATCH + ')'
                 break;
             case constant.SELCTED_TWO:
-                selectedTime = ' (' + constant.BOTH_HALVES + ')';
+                selectedTime = ' (' + constant.BOTH_HALVES + ')'
                 break;
             case constant.SELCTED_THREE:
-                selectedTime = ' (' + constant.EITHER_HALF + ')';
+                selectedTime = ' (' + constant.EITHER_HALF + ')'
                 break;
         }
-        const goalText = this.formatGoalText(winnComandId, value);
+        const goalText = this.formatGoalText(winnComandId, value)
         if (minCountGoals === maxCountGoals) {
             if (maxCountGoals !== 5) {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : '';
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : ''
             } else {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : '';
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : ''
             }
         }
         else {
-            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ ';
-            scores = winnComandId != constant.SELCTED_TWO ? 'by ' + countGoals + goalText : '';
+            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ '
+            scores = winnComandId != constant.SELCTED_TWO ? 'by ' + countGoals + goalText : ''
         }
-        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SIX) scores = '';
-        textValue = comand + ' ' + ' ' + scores + selectedTime;
+        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SIX) scores = ''
+        textValue = comand + ' ' + ' ' + scores + selectedTime
 
         return textValue;
     }
 
     formatGoalText(winnComandId, value) {
-        const [minCountGoals, maxCountGoals] = value;
+        const [minCountGoals, maxCountGoals] = value
         if (minCountGoals !== maxCountGoals) {
-            return ' goals';
+            return ' goals'
         }
         if (minCountGoals === 1) {
             return ' goal'
         } else if (minCountGoals === 5) {
-            return '+ goals';
+            return '+ goals'
         }
-        return '';
+        return ''
     }
 
     setToParrenState(selectedItem, value, textValue, showSlider, selection, selectedPrice) {
@@ -280,7 +276,7 @@ export default class MatchResult extends React.PureComponent {
                 price: parseFloat(formatPrice(selectedPrice))
             }
         }
-        this.props.betResultMatch(bet);
+        this.props.betResultMatch(bet)
     }
 
     render() {
@@ -361,6 +357,6 @@ export default class MatchResult extends React.PureComponent {
                     </button>
                 </div>
             </div>
-        );
+        )
     }
 }

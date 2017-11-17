@@ -1,24 +1,24 @@
-import React from 'react';
-import {bindAll, isEmpty} from 'lodash';
-import MyBetTab from '../../templates/MyBetPanel/MyBetTab';
-import CornersToogle from '../../molecules/CornersToggle';
-import * as constant from '../../constant';
-import * as products from '../../products';
-import {formatPrice} from '../../utils';
+import React from 'react'
+import {bindAll, isEmpty} from 'lodash'
+import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
+import CornersToogle from '../../molecules/CornersToggle'
+import * as constant from '../../constant'
+import * as products from '../../products'
+import {formatPrice} from '../../utils'
 
-const productsName = constant.CORNERS;
-import * as struct from '../../struct';
-import s from './index.css';
-import classNames from 'classnames';
+const productsName = constant.CORNERS
+import * as struct from '../../struct'
+import s from './index.css'
+import classNames from 'classnames'
 
 export default class CornersPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         bindAll(this, ['handleTabClicked', 'decrementValue',
             'incrementValue', 'handleCancel', 'formatText',
-            'changeStateByTab', 'setToParrenState', 'handleCancel']);
-        let bet = this.getCurrentBet(this.props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
+            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch']);
+        let bet = this.getCurrentBet(this.props)
+        if (isEmpty(bet)) bet = this.initMatchResult()
         this.state = {
             selectedTab: bet.options.selectedTab,
             sliderOptions: bet.options.sliderOptions,
@@ -37,9 +37,9 @@ export default class CornersPanel extends React.PureComponent {
     }
 
     componentWillReceiveProps(props) {
-        let bet = this.getCurrentBet(props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
-        const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price} = bet.options;
+        let bet = this.getCurrentBet(props)
+        if (isEmpty(bet)) bet = this.initMatchResult()
+        const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price} = bet.options
         this.setState({
             selectedTab,
             sliderOptions,
@@ -50,8 +50,84 @@ export default class CornersPanel extends React.PureComponent {
             selectedItem,
             selection,
             price
-        });
+        })
+    }
 
+    componentDidMount() {
+        const {curate} = this.props
+        if (!isEmpty(curate)) {
+            setTimeout(() => this.setBetResultMatch(curate.selection), 400)
+        }
+    }
+
+    setBetResultMatch(selection) {
+        const {match} = this.props
+        let {toogleValue, selectedTab} = this.state
+        const matches = [
+            {
+                id: constant.SELCTED_FIRST,
+                over: match.home_corners_ft.over,
+                under: match.home_corners_ft.under,
+                sliderOptions: {
+                    min: 0.5,
+                    max: 10.5,
+                    step: 1,
+                    value: 4.5
+                },
+                selection: 'home_corners_ft'
+            },
+            {
+                id: constant.SELCTED_TWO,
+                over: match.away_corners_ft.over,
+                under: match.away_corners_ft.under,
+                sliderOptions: {
+                    min: 0.5,
+                    max: 10.5,
+                    step: 1,
+                    value: 3.5
+                },
+                selection: 'away_corners_ft'
+            },
+            {
+                id: constant.SELCTED_THREE,
+                over: match.both_corners_ft.over,
+                under: match.both_corners_ft.under,
+                sliderOptions: {
+                    min: 0.5,
+                    max: 10.5,
+                    step: 1,
+                    value: 4.5
+                },
+                selection: 'both_corners_ft'
+            },
+            {
+                id: constant.SELCTED_FOUR,
+                over: match.total_corners_ft.over,
+                under: match.total_corners_ft.under,
+                sliderOptions: {
+                    min: 0.5,
+                    max: 21.5,
+                    step: 1,
+                    value: 8.5
+                },
+                selection: 'total_corners_ft'
+            }
+        ]
+        const curateSelection = matches.filter(function (item) {
+            return selection.hasOwnProperty(item.selection) && isEmpty(selection[item.selection])
+        })[0]
+        console.log("******** CORNERS *********")
+        console.log(curateSelection)
+        if (!isEmpty(curateSelection)) {
+            this.changeStateByTab(curateSelection.id, curateSelection)
+            toogleValue = Math.abs(selection[curateSelection.selection])
+            setTimeout(() => this.setState({toogleValue}), 200)
+            if (curateSelection.selection > 0) {
+                setTimeout(() => this.handleTabClicked({name: "over", label: "OVER"}), 200)
+            } else {
+                setTimeout(() => this.handleTabClicked({name: "under", label: "UNDER"}), 200)
+            }
+        }
     }
 
     initMatchResult() {
@@ -86,31 +162,31 @@ export default class CornersPanel extends React.PureComponent {
                 selection: selectedItem.selection
             }
         }
-        this.props.betResultMatch(bet);
+        this.props.betResultMatch(bet)
     }
 
     getCurrentBet(props) {
-        const {bets, match} = props;
-        let currentBet = {};
+        const {bets, match} = props
+        let currentBet = {}
         bets.map(bet => {
             if (bet.name === productsName && bet.match.name === match.name) {
                 currentBet = bet;
             }
         });
-        return currentBet;
+        return currentBet
     }
 
     handleCancel() {
-        const props = this.props;
-        const bet = this.getCurrentBet(props);
-        this.props.delBetfromBetsList(bet);
+        const props = this.props
+        const bet = this.getCurrentBet(props)
+        this.props.delBetfromBetsList(bet)
     }
 
     changeStateByTab(selected, selectedItem) {
-        let {toogleValue, selectedTab, selectedBetTab} = this.state;
+        let {toogleValue, selectedTab, selectedBetTab} = this.state
         if (selectedBetTab === selected) {
-            this.handleCancel();
-            return;
+            this.handleCancel()
+            return
         }
         if (toogleValue > selectedItem.sliderOptions.max) {
             toogleValue = selectedItem.sliderOptions.max
@@ -120,56 +196,56 @@ export default class CornersPanel extends React.PureComponent {
     }
 
     handleTabClicked(tab) {
-        const {toogleValue, selectedBetTab, sliderOptions, selectedItem} = this.state;
-        const selectedTab = tab.name;
+        const {toogleValue, selectedBetTab, sliderOptions, selectedItem} = this.state
+        const selectedTab = tab.name
         if (selectedBetTab === null) {
-            this.setState({selectedTab});
-            return;
+            this.setState({selectedTab})
+            return
         }
-        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab);
-        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem);
+        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab)
+        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem)
     }
 
     decrementValue() {
-        const {sliderOptions, selectedBetTab, selectedTab, selectedItem} = this.state;
-        let toogleValue = this.state.toogleValue - sliderOptions.step;
-        if (toogleValue < sliderOptions.min) toogleValue = this.state.toogleValue;
+        const {sliderOptions, selectedBetTab, selectedTab, selectedItem} = this.state
+        let toogleValue = this.state.toogleValue - sliderOptions.step
+        if (toogleValue < sliderOptions.min) toogleValue = this.state.toogleValue
         if (selectedBetTab === null) {
-            this.setState({toogleValue});
+            this.setState({toogleValue})
             return;
         }
-        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab);
+        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab)
         this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem);
     }
 
     incrementValue() {
-        const {sliderOptions, selectedBetTab, selectedTab, selectedItem} = this.state;
-        let toogleValue = this.state.toogleValue + sliderOptions.step;
-        if (toogleValue > sliderOptions.max) toogleValue = this.state.toogleValue;
+        const {sliderOptions, selectedBetTab, selectedTab, selectedItem} = this.state
+        let toogleValue = this.state.toogleValue + sliderOptions.step
+        if (toogleValue > sliderOptions.max) toogleValue = this.state.toogleValue
         if (selectedBetTab === null) {
-            this.setState({toogleValue});
-            return;
+            this.setState({toogleValue})
+            return
         }
-        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab);
-        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem);
+        const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab)
+        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem)
     }
 
     formatText(selectedBetTab, toogleValue, selectedTab) {
-        let textValue = '';
+        let textValue = ''
         if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO) {
-            const comands = this.props.match.fixture.split(' vs ');
-            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
+            const comands = this.props.match.fixture.split(' vs ')
+            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners'
         } else {
-            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners';
+            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners'
         }
-        return textValue;
+        return textValue
     }
 
     render() {
-        const {match} = this.props;
-        let firstTeam, secondTeam;
+        const {match} = this.props
+        let firstTeam, secondTeam
         if (match) {
-            [firstTeam, secondTeam] = match.fixture.split(' vs ');
+            [firstTeam, secondTeam] = match.fixture.split(' vs ')
         }
         const matches = [
             {
@@ -217,7 +293,7 @@ export default class CornersPanel extends React.PureComponent {
                 selection: 'total_corners_ft'
             }
         ]
-        const toogleValue = this.state.toogleValue;
+        const toogleValue = this.state.toogleValue
         return (
             <div>
                 <div className={s['cornersTable']}>

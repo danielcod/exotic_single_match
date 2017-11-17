@@ -24,7 +24,7 @@ export default class AppStage extends React.PureComponent {
             bets: [],
             curate: {},
         }
-        bindAll(this, ['handleTabClicked', 'buildYourOwnExotic', 'setMatch', 'setBets', 'setCurate', 'getTabContent'])
+        bindAll(this, ['handleTabClicked', 'buildYourOwnExotic', 'setMatch', 'setBets', 'setCurate', 'setEmptyCurate', 'getTabContent'])
     }
 
     handleTabClicked(tab) {
@@ -48,6 +48,11 @@ export default class AppStage extends React.PureComponent {
         this.setState({curate, selectedTab})
     }
 
+    setEmptyCurate() {
+        const curate = {}
+        this.setState({curate})
+    }
+
     getTabContent() {
         switch (this.state.selectedTab) {
             case "browse":
@@ -55,7 +60,7 @@ export default class AppStage extends React.PureComponent {
                     <AccaProductPanel
                         exoticsApi={this.props.exoticsApi}
                         setCurate={this.setCurate}
-                        legsPaginator={{rows: 4}}
+                        legsPaginator={{rows: 3}}
                         buildYourOwnExotic={this.buildYourOwnExotic}
                     />
                 )
@@ -67,7 +72,8 @@ export default class AppStage extends React.PureComponent {
                         selectedTab={this.state.selectedTab}
                         setMatch={this.setMatch}
                         setBets={this.setBets}
-                        curate = {this.state.curate}
+                        setEmptyCurate={this.setEmptyCurate}
+                        curate={this.state.curate}
                         handleToBrowse={this.handleTabClicked}
                     />
                 )

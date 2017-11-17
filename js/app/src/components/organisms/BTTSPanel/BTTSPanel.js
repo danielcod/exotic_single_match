@@ -1,24 +1,23 @@
-import React from 'react';
-import {bindAll, isEmpty, isEqual} from 'lodash';
-import MyBetTabThreeState from '../../molecules/MyBetTabThreeState';
-import Slider from 'rc-slider';
-import BTTSTable from '../BTTSTable';
-import * as constant from '../../constant';
-import * as products from '../../products';
-const productsName = constant.GOALS;
+import React from 'react'
+import {bindAll, isEmpty, isEqual} from 'lodash'
+import MyBetTabThreeState from '../../molecules/MyBetTabThreeState'
+import Slider from 'rc-slider'
+import BTTSTable from '../BTTSTable'
+import * as constant from '../../constant'
+import {formatPrice} from '../../utils'
+const productsName = constant.GOALS
 import * as struct from '../../struct';
-import {formatBTTSText, formatTotalGoalsText} from '../../utils';
-import {formatPrice} from '../../utils';
-import s from './index.css';
-import classNames from 'classnames';
+import {formatBTTSText, formatTotalGoalsText} from '../../utils'
+import s from './index.css'
+import classNames from 'classnames'
 
 export default class BTTSPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         bindAll(this, ['handleTabClicked', 'onChangeSlider',
-            'changeStateByTab', 'setToParrenState', 'handleCancel']);
-        let bet = this.getCurrentBet(this.props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
+            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch'])
+        let bet = this.getCurrentBet(this.props)
+        if (isEmpty(bet)) bet = this.initMatchResult()
         this.state = {
             selectedTab: bet.options.selectedTab,
             selectedItem: bet.options.selectedItem,
@@ -39,8 +38,8 @@ export default class BTTSPanel extends React.PureComponent {
 
     componentWillReceiveProps(props) {
         let bet = this.getCurrentBet(props);
-        if (isEmpty(bet)) bet = this.initMatchResult();
-        const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = bet.options;
+        if (isEmpty(bet)) bet = this.initMatchResult()
+        const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = bet.options
         this.setState({
             sliderValue,
             selectedTab,
@@ -52,7 +51,82 @@ export default class BTTSPanel extends React.PureComponent {
             priceBTTS,
             priceTotalGoals,
             selection
-        });
+        })
+    }
+
+    componentDidMount() {
+        const {curate} = this.props
+        if (!isEmpty(curate)) {
+            setTimeout(() => this.setBetResultMatch(curate.selection), 200)
+        }
+    }
+
+    setBetResultMatch(selection) {
+        const {match} = this.props
+        const matches = [
+            {
+                selection: "btts_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_FIRST,
+                price: formatPrice(match.btts_ft['Yes']),
+                value: 1
+            },
+            {
+                selection: "btts_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_TWO,
+                price: formatPrice(match.btts_ft['No']),
+                value: -1
+            },
+            {
+                selection: "btts_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_FIRST,
+                price: formatPrice(match.btts_bh['Yes']),
+                value: 1
+            },
+            {
+                selection: "btts_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_TWO,
+                price: formatPrice(match.btts_bh['No']),
+                value: -1
+            },
+            {
+                selection: "btts_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_FIRST,
+                price: formatPrice(match.btts_eh['Yes']),
+                value: 1
+            },
+            {
+                selection: "btts_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_TWO,
+                price: formatPrice(match.btts_eh['No']),
+                value: -1
+            },
+
+        ]
+        const curateSelection = matches.filter(function (item) {
+            return selection.hasOwnProperty(item.selection) && selection[item.selection] === item.value
+        })[0]
+        console.log("******** GOALS *********")
+        console.log(curateSelection)
+        if (!isEmpty(curateSelection)) {
+            this.changeStateByTab(curateSelection.id, curateSelection.key, curateSelection.price, curateSelection.selection)
+            if (selection.hasOwnProperty("total_goals_bound")) {
+                if (selection['total_goals_bound'] > 0) {
+                    setTimeout(() => this.handleTabClicked({name: "over", label: "OVER"}), 200)
+                    setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 200)
+
+                } else {
+                    setTimeout(() => this.handleTabClicked({name: "under", label: "UNDER"}), 200)
+                    setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 200)
+                }
+
+            }
+        }
     }
 
     initMatchResult() {
@@ -76,7 +150,7 @@ export default class BTTSPanel extends React.PureComponent {
     }
 
     setToParrenState() {
-        const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = this.state;
+        const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = this.state
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -93,7 +167,7 @@ export default class BTTSPanel extends React.PureComponent {
                 selection
             }
         }
-        this.props.betResultMatch(bet);
+        this.props.betResultMatch(bet)
     }
 
     getCurrentBet(props) {
@@ -109,39 +183,39 @@ export default class BTTSPanel extends React.PureComponent {
 
     handleCancel() {
         const props = this.props;
-        const bet = this.getCurrentBet(props);
-        this.props.delBetfromBetsList(bet);
+        const bet = this.getCurrentBet(props)
+        this.props.delBetfromBetsList(bet)
     }
 
     changeStateByTab(row, column, priceBTTS, selection) {
-        const {selectedItem} = this.state;
-        const newItem = Array(row, column);
+        const {selectedItem} = this.state
+        const newItem = Array(row, column)
         if (isEqual(selectedItem, newItem)) {
-            this.setState({selectedItem: [], changedTable: null, textBTTS: '', priceBTTS: null});
+            this.setState({selectedItem: [], changedTable: null, textBTTS: '', priceBTTS: null})
         } else {
             const textBTTS = formatBTTSText(row, column);
-            this.setState({selectedItem: newItem, changedTable: true, textBTTS, priceBTTS, selection});
+            this.setState({selectedItem: newItem, changedTable: true, textBTTS, priceBTTS, selection})
         }
-        setTimeout(() => this.setToParrenState(), 0);
+        setTimeout(() => this.setToParrenState(), 0)
     }
 
     handleTabClicked(tab) {
         const {match} = this.props
-        let {selectedTab, sliderValue, priceTotalGoals} = this.state;
+        let {selectedTab, sliderValue, priceTotalGoals} = this.state
         let changedTab
         if (selectedTab.number === tab.number) {
             selectedTab = {
                 name: "",
                 number: null,
             };
-            changedTab = false;
+            changedTab = false
         } else {
-            selectedTab = {name: tab.name, number: tab.number, label: tab.label};
+            selectedTab = {name: tab.name, number: tab.number, label: tab.label}
             changedTab = true;
             priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
         }
-        const textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label);
-        this.setState({selectedTab, textTotalGoals, changedTab, priceTotalGoals});
+        const textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label)
+        this.setState({selectedTab, textTotalGoals, changedTab, priceTotalGoals})
         setTimeout(() => this.setToParrenState(), 0);
     }
 
@@ -151,20 +225,20 @@ export default class BTTSPanel extends React.PureComponent {
         let textTotalGoals = ''
         let priceTotalGoals = 0
         if (changedTab) {
-            textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label);
+            textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label)
             priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
-            this.setState({sliderValue, textTotalGoals, priceTotalGoals});
-            setTimeout(() => this.setToParrenState(), 0);
+            this.setState({sliderValue, textTotalGoals, priceTotalGoals})
+            setTimeout(() => this.setToParrenState(), 0)
         } else {
-            this.setState({sliderValue});
+            this.setState({sliderValue})
         }
     }
 
     render() {
-        const {match} = this.props;
-        let firstTeam, secondTeam;
+        const {match} = this.props
+        let firstTeam, secondTeam
         if (match) {
-            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ');
+            [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ')
         }
         const matches = [
             {
@@ -186,8 +260,8 @@ export default class BTTSPanel extends React.PureComponent {
                 selection: 'btts_eh'
             }
         ]
-        const toogleValue = this.state.toogleValue;
-        const {sliderValue} = this.state;
+        const toogleValue = this.state.toogleValue
+        const {sliderValue} = this.state
 
         return (
             <div>
