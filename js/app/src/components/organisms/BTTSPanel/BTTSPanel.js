@@ -5,6 +5,7 @@ import Slider from 'rc-slider'
 import BTTSTable from '../BTTSTable'
 import * as constant from '../../constant'
 import {formatPrice} from '../../utils'
+
 const productsName = constant.GOALS
 import * as struct from '../../struct';
 import {formatBTTSText, formatTotalGoalsText} from '../../utils'
@@ -115,16 +116,15 @@ export default class BTTSPanel extends React.PureComponent {
         console.log(curateSelection)
         if (!isEmpty(curateSelection)) {
             this.changeStateByTab(curateSelection.id, curateSelection.key, curateSelection.price, curateSelection.selection)
-            if (selection.hasOwnProperty("total_goals_bound")) {
-                if (selection['total_goals_bound'] > 0) {
-                    setTimeout(() => this.handleTabClicked({name: "over", label: "OVER"}), 200)
-                    setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 200)
-
-                } else {
-                    setTimeout(() => this.handleTabClicked({name: "under", label: "UNDER"}), 200)
-                    setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 200)
-                }
-
+        }
+        if (selection.hasOwnProperty("total_goals_bound")) {
+            console.log("total_goals_bound")
+            if (selection['total_goals_bound'] > 0) {
+                this.handleTabClicked({name: "over", label: "OVER"})
+                setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 100)
+            } else {
+                this.handleTabClicked({name: "under", label: "UNDER"})
+                setTimeout(() => this.onChangeSlider(Math.ceil(Math.abs(selection['total_goals_bound']))), 100)
             }
         }
     }

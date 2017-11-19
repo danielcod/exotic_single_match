@@ -119,13 +119,13 @@ export default class CornersPanel extends React.PureComponent {
         console.log("******** CORNERS *********")
         console.log(curateSelection)
         if (!isEmpty(curateSelection)) {
-            this.changeStateByTab(curateSelection.id, curateSelection)
             toogleValue = Math.abs(selection[curateSelection.selection])
-            setTimeout(() => this.setState({toogleValue}), 200)
-            if (curateSelection.selection > 0) {
-                setTimeout(() => this.handleTabClicked({name: "over", label: "OVER"}), 200)
+            this.setState({toogleValue})
+            this.changeStateByTab(curateSelection.id, curateSelection)
+            if (selection[curateSelection.selection] > 0) {
+                setTimeout(() => this.handleTabClicked({name: "over", label: "OVER"}), 100)
             } else {
-                setTimeout(() => this.handleTabClicked({name: "under", label: "UNDER"}), 200)
+                setTimeout(() => this.handleTabClicked({name: "under", label: "UNDER"}), 100)
             }
         }
     }

@@ -1,28 +1,28 @@
 ﻿import React from 'react';
-import {bindAll, isEmpty, isEqual} from 'lodash';
-import MySelect from '../../atoms/MySelect';
-import MyFormComponent from '../../atoms/MyFormComponent';
-import MatchResult from '../../organisms/MatchResult';
-import CornersPanel from '../../organisms/CornersPanel';
-import TeamCardsPanel from '../../organisms/TeamCardsPanel';
-import GoalScorersPanel from '../../organisms/GoalScorersPanel';
-import PlayerCardsPanel from '../../organisms/PlayerCardsPanel';
-import StakePanel from '../../organisms/StakePanel';
-import BTTSPanel from '../../organisms/BTTSPanel';
-import MatchBetsPanel from '../../organisms/MatchBetsPanel';
-import {matchSorterByLeague} from '../../utils';
-import {Accordion, AccordionItem} from 'react-sanfona';
-import * as data from '../../products';
-import * as constant from '../../constant';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import classnames from 'classnames';
-import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down';
-import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up';
-import s from './index.css';
+import {bindAll, isEmpty, isEqual} from 'lodash'
+import MySelect from '../../atoms/MySelect'
+import MyFormComponent from '../../atoms/MyFormComponent'
+import MatchResult from '../../organisms/MatchResult'
+import CornersPanel from '../../organisms/CornersPanel'
+import TeamCardsPanel from '../../organisms/TeamCardsPanel'
+import GoalScorersPanel from '../../organisms/GoalScorersPanel'
+import PlayerCardsPanel from '../../organisms/PlayerCardsPanel'
+import StakePanel from '../../organisms/StakePanel'
+import BTTSPanel from '../../organisms/BTTSPanel'
+import MatchBetsPanel from '../../organisms/MatchBetsPanel'
+import {matchSorterByLeague} from '../../utils'
+import {Accordion, AccordionItem} from 'react-sanfona'
+import * as data from '../../products'
+import * as constant from '../../constant'
+import withStyles from 'isomorphic-style-loader/lib/withStyles'
+import classnames from 'classnames'
+import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down'
+import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up'
+import s from './index.css'
 
-const PLAYER_CARDS = constant.PLAYER_CARDS_;
-const GOAL_SCORERS = constant.GOAL_SCORERS;
-const BTTS = constant.GOALS;
+const PLAYER_CARDS = constant.PLAYER_CARDS_
+const GOAL_SCORERS = constant.GOAL_SCORERS
+const BTTS = constant.GOALS
 
 export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {
@@ -51,7 +51,8 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 showBets: previousState.showBets,
                 stake: previousState.stake,
                 price: previousState.price,
-                textBetsInStake: previousState.textBetsInStake
+                textBetsInStake: previousState.textBetsInStake,
+                countBetsInStake: previousState.countBetsInStake
             }
             localStorage.removeItem("AccaMatchProduct")
         } else {
@@ -67,7 +68,8 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 showBets: [],
                 stake: null,
                 price: null,
-                textBetsInStake: null
+                textBetsInStake: null,
+                countBetsInStake: 0
 
             }
         }
@@ -79,7 +81,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     componentDidMount() {
         if (isEmpty(this.state.match) || isEmpty(this.state.matches) || !isEmpty(this.props.curate)) {
             this.props.exoticsApi.fetchMatches(function (struct) {
-                let {matches, match} = this.state
+                let {matches, match, countBetsInStake} = this.state
                 let {curate} = this.props
                 const cutoff = new Date()
                 matches = Object.values(struct).filter(function (item) {
@@ -94,12 +96,15 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     match = matches.filter(function (item) {
                         return parseInt(curate.iD) === item.match_id
                     })[0]
+                    countBetsInStake = parseInt(curate.price_to_show)
                 } else {
                     match = matches[0]
                 }
-                this.setState({matches, match, curate})
+                this.setState({matches, match, curate, countBetsInStake})
                 this.props.setMatch(match)
-                setTimeout(() => this.setEmptyCurate(), 500)
+                if (!isEmpty(curate)) {
+                    setTimeout(() => this.setEmptyCurate(), 700)
+                }
             }.bind(this))
         }
     }
@@ -154,7 +159,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     delBetfromBetsList(oldBet) {
         let {bets} = this.state;
         bets = bets.filter(bet => {
-            return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.fixture, oldBet.match.fixture));
+            return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.fixture, oldBet.match.fixture))
         });
         this.setState({bets});
         this.props.setBets(bets);
@@ -189,27 +194,27 @@ export default class AccaMatchProductPanel extends React.PureComponent {
             }
             return bet;
         });
-        this.setState({bets});
-        this.props.setBets(bets);
+        this.setState({bets})
+        this.props.setBets(bets)
     }
 
     delFromBTTS(oldBet) {
-        let {bets} = this.state;
+        let {bets} = this.state
         bets = bets.filter((bet) => {
             if (bet.name === oldBet.name && bet.match.fixture === oldBet.match.fixture) {
                 if (oldBet.options.changedTab) {
                     bet.options.changedTab = !oldBet.options.changedTab;
-                    bet.options.textTotalGoals = '';
-                    bet.options.sliderValue = 3;
+                    bet.options.textTotalGoals = ''
+                    bet.options.sliderValue = 3
                     bet.options.selectedTab = {
                         name: "",
                         number: null
                     }
                 }
                 if (oldBet.options.changedTable) {
-                    bet.options.changedTable = !oldBet.options.changedTable;
-                    bet.options.selectedItem = [];
-                    bet.options.textBTTS = '';
+                    bet.options.changedTable = !oldBet.options.changedTable
+                    bet.options.selectedItem = []
+                    bet.options.textBTTS = ''
                 }
                 return bet;
             }
@@ -225,7 +230,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     clearBets() {
-        console.log("clearBets")
         this.setState({
             bets: [],
             selectedTab: "build",
@@ -243,12 +247,12 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     returnToBetsPanel = () => {
-        this.setState({openedStakePanel: false, buildMyOwn: true});
-        this.props.handleToBrowse('build');
+        this.setState({openedStakePanel: false, buildMyOwn: true})
+        this.props.handleToBrowse({name: "build", label: "Build"})
     }
 
     render() {
-        const {matches, match, legs, sanfonaActiveItems, bets, curate} = this.state
+        const {matches, match, legs, sanfonaActiveItems, bets, curate, countBetsInStake} = this.state
         const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state
         const {selectedTab} = this.props
         const renderAngle = (index, title) => {
@@ -320,6 +324,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                     clearBets={this.clearBets}
                                     openStakePanel={this.openStakePanel}
                                     returnToBetsPanel={this.returnToBetsPanel}
+                                    countBetsInStake={countBetsInStake}
                                 />
                             :
                             <div>

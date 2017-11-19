@@ -1,19 +1,18 @@
-import React from 'react';
-import MatchBetsTable from '../../organisms/MatchBetsTable';
-import {bindAll} from 'lodash';
-import {formatCurrentPrice, formatObjectYourBet} from '../../utils';
-import CornersToogle from '../../molecules/CornersToggle';
-import MyPaginator from '../../molecules/MyPaginator';
-import * as constant from '../../constant';
-import * as products from '../../products';
-import classNames from 'classnames';
-import s from './index.css';
+import React from 'react'
+import MatchBetsTable from '../../organisms/MatchBetsTable'
+import {bindAll, isEmpty} from 'lodash'
+import {formatCurrentPrice, formatObjectYourBet} from '../../utils'
+import CornersToogle from '../../molecules/CornersToggle'
+import MyPaginator from '../../molecules/MyPaginator'
+import * as constant from '../../constant'
+import classNames from 'classnames'
+import s from './index.css'
 
 export default class MatchBetsPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         bindAll(this, ['handlePaginatorClicked', 'handleStakeChanged',
-            'decrementValue', 'incrementValue', 'updatePrice']);
+            'decrementValue', 'incrementValue', 'updatePrice'])
         this.state = {
             currentPage: 0,
             openedStakePanel: false,
@@ -48,44 +47,47 @@ export default class MatchBetsPanel extends React.PureComponent {
         if (countBetsInStake > showBets.length) {
             countBetsInStake = showBets.length
         }
+        if (props.countBetsInStake > 0){
+            countBetsInStake = props.countBetsInStake
+        }
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
         this.setState({showBets, textBetsInStake, countBetsInStake})
         this.updatePrice(props, showBets)
     }
 
     applyPaginatorWindow(items) {
-        var rows = constant.COUNT_PLAYER_ROWS;
-        var i = this.state.currentPage * rows;
-        var j = (this.state.currentPage + 1) * rows;
-        return items.slice(i, j);
+        var rows = constant.COUNT_PLAYER_ROWS
+        var i = this.state.currentPage * rows
+        var j = (this.state.currentPage + 1) * rows
+        return items.slice(i, j)
     }
 
     sortLegs(legs) {
         var sortFn = function (i0, i1) {
             if (i0.match.kickoff < i1.match.kickoff) {
-                return -1;
+                return -1
             } else if (i0.match.kickoff > i1.match.kickoff) {
-                return 1;
+                return 1
             } else {
                 if (i0.description < i1.description) {
                     return -1
                 } else if (i0.description > i1.description) {
                     return 1
                 } else {
-                    return 0;
+                    return 0
                 }
             }
-        };
-        return legs.sort(sortFn);
+        }
+        return legs.sort(sortFn)
     }
 
     handlePaginatorClicked(item) {
-        const currentPage = item.value;
-        this.setState({currentPage});
+        const currentPage = item.value
+        this.setState({currentPage})
     }
 
     handleStakeChanged(e) {
-        this.setState({stake: e.target.value});
+        this.setState({stake: e.target.value})
     }
 
     updatePrice(props, showBets) {
@@ -206,7 +208,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                         const {countBetsInStake} = this.state
                         const price = res[countBetsInStake].price
                         this.setState({price})
-                    }.bind(this));
+                    }.bind(this))
                 }.bind(this), 300
             )
         }
@@ -231,20 +233,20 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     formatToogleText(countBetsInStake, showBets) {
-        let textBetsInStake = '';
-        if (countBetsInStake === showBets.length) textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')';
-        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')';
-        return textBetsInStake;
+        let textBetsInStake = ''
+        if (countBetsInStake === showBets.length) textBetsInStake = countBetsInStake + ' (of ' + showBets.length + ')'
+        else textBetsInStake = countBetsInStake + '+ (of ' + showBets.length + ')'
+        return textBetsInStake
     }
 
     placeBet = () => {
-        const {showBets, stake, price, textBetsInStake} = this.state;
-        this.props.openStakePanel(showBets, stake, price, textBetsInStake);
+        const {showBets, stake, price, textBetsInStake} = this.state
+        this.props.openStakePanel(showBets, stake, price, textBetsInStake)
     }
 
     render() {
         const {handleBetRemoved, match, bets} = this.props
-        const {price, openStakePanel, showBets, textBetsInStake} = this.state;
+        const {price, openStakePanel, showBets, textBetsInStake} = this.state
         if (showBets.length === 0) {
             return (
                 <div>
@@ -340,7 +342,6 @@ export default class MatchBetsPanel extends React.PureComponent {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
-
 }

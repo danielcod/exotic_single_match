@@ -50,7 +50,8 @@ export default class AppStage extends React.PureComponent {
 
     setEmptyCurate() {
         const curate = {}
-        this.setState({curate})
+        const selectedTab = "bet"
+        this.setState({curate, selectedTab})
     }
 
     getTabContent() {
