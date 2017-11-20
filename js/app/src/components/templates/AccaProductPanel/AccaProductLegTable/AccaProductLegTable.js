@@ -5,20 +5,18 @@ export default class AccaProductLegTable extends React.PureComponent {
     render() {
         const {curates, clickHandler} = this.props
         return (
-            <table className="table table-condensed table-striped"
-                   style={{marginTop: '0px', marginBottom: "0px"}}>
-                <tbody>
+            <div id="exotic-acca-items">
                 {
                     curates.map(function (curate, key) {
                         return (
                             <AccaProductLegRow
-                            key={key}
-                            clickHandler={clickHandler}
-                            curate={curate}/>)
+                                key={key}
+                                clickHandler={clickHandler}
+                                curate={curate}/>
+                        )
                     })
                 }
-                </tbody>
-            </table>
+            </div>
         )
     }
 }

@@ -57,11 +57,6 @@ span.bold {
 /*
  * "Browser" Tab Page
  */
-
-.leg-row .leg-row-descr {
-    font-size: 14px;
-}
-
 #build-your-own-exotic {
     margin-bottom: 15px;
     text-align: center;
@@ -79,81 +74,91 @@ span.bold {
     text-transform: uppercase;
 }
 
+#exotic-acca-list .paginator {
+    margin-top: 30px;
+}
+
 #exotic-acca-table {
     height: 450px;
 }
 
-#exotic-acca-table span {
+#exotic-acca-item {
+    border-bottom: 1px solid #575763;
+    padding: 15px 0 15px 0;
+}
+
+#exotic-acca-item span {
     color: #fff;
 }
 
-#exotic-acca-table span.label {
-    margin-top: 5px;
-    clear: both;
-    min-width: 80px;
+#exotic-acca-item .leg-name {
+    padding: 0 0 0 5px;
 }
 
-#exotic-acca-table span.leg {
-    background: #d99c41;
+#exotic-acca-item .table tbody > tr > td {
+    border: 0 !important;
 }
 
-#exotic-acca-table span.leg.leg-1 {
-    background: #3D9970;
+#exotic-acca-item .table .leg-row-descr {
+    font-size: 14px;
+    min-width: 225px;
 }
 
-#exotic-acca-table span.leg.leg-2 {
-    background: #ff851b;
-}
-
-#exotic-acca-table span.leg.leg-3 {
-    background: #EC644B;
-}
-
-#exotic-acca-table span.leg.leg-4 {
-    background: #df3d82;
-}
-
-#exotic-acca-table span.leg.leg-5 {
-    background: #1F8DC4;
-}
-
-#exotic-acca-table span.leg.leg-6 {
-    background: #37a000;
-}
-
-#exotic-acca-table .playtime {
-    margin: 5px 0 0 10px;
-}
-
-#exotic-acca-table .league {
-    margin: 5px 0 0 5px;
-}
-
-#exotic-acca-table tr:last-child {
-    border-bottom: 1px solid #575763;
-}
-
-#exotic-acca-table td.leg-row-descr {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#exotic-acca-table td.leg-row-descr span {
+#exotic-acca-item .table .leg-row-descr span {
     display: inline-block;
     float: left;
     font-size: 11px;
 }
 
-#exotic-acca-table td.leg-row-descr div span {
+#exotic-acca-item .table .leg-row-descr div span {
     font-size: 13px;
 }
 
-#exotic-acca-table td.leg-row-price {
+#exotic-acca-item .table .playtime {
+    margin: 5px 0 0 10px;
+}
+
+#exotic-acca-item .table .league {
+    margin: 5px 0 0 5px;
+    font-size: 12px !important;
+}
+
+#exotic-acca-item .table .leg-row-price {
     font-size: 17px;
 }
 
-#exotic-acca-list .paginator {
-    margin-top: 30px;
+#exotic-acca-item span.label {
+    margin-top: 5px;
+    clear: both;
+    min-width: 80px;
+}
+
+#exotic-acca-item span.leg {
+    background: #d99c41;
+}
+
+#exotic-acca-item span.leg.leg-1 {
+    background: #3D9970;
+}
+
+#exotic-acca-item span.leg.leg-2 {
+    background: #ff851b;
+}
+
+#exotic-acca-item span.leg.leg-3 {
+    background: #EC644B;
+}
+
+#exotic-acca-item span.leg.leg-4 {
+    background: #df3d82;
+}
+
+#exotic-acca-item span.leg.leg-5 {
+    background: #1F8DC4;
+}
+
+#exotic-acca-item span.leg.leg-6 {
+    background: #37a000;
 }
 
 /*
