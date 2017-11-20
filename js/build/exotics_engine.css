@@ -104,12 +104,15 @@ span.bold {
     padding: 0 0 0 5px;
 }
 
+#exotic-acca-item .leg-name span {
+    font-size: 13px;
+}
+
 #exotic-acca-item .table tbody > tr > td {
     border: 0 !important;
 }
 
 #exotic-acca-item .table .leg-row-descr {
-    font-size: 14px;
     min-width: 225px;
 }
 
@@ -119,8 +122,8 @@ span.bold {
     font-size: 11px;
 }
 
-#exotic-acca-item .table .leg-row-descr div span {
-    font-size: 13px;
+#exotic-acca-item .table .desc {
+    color: hsla(0, 0%, 100%, .7);
 }
 
 #exotic-acca-item .table .playtime {
