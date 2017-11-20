@@ -20,13 +20,13 @@ export default class AccaProductLegRow extends React.PureComponent {
                                 <span className="desc" style={{marginTop: "5px"}}>
                                     {curate.as_string}
                                 </span>
-                                <span className={"leg leg-" + curate.legs + " label"}>
+                                <span className={"leg leg-" + curate.legs + " label bold"}>
                                     {"Any " + curate.price_to_show + "+ of " + curate.legs}
                                 </span>
-                                <span className="playtime">
+                                <span className="playtime bold">
                                     {DU.DateUtils.formatHour(new Date(curate.kickoff))}
                                 </span>
-                                <span className="league">
+                                <span className="league bold">
                                     {curate.league}
                                 </span>
                             </td>

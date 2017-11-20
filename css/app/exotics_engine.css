@@ -331,15 +331,6 @@ tr > td span.future {
     font-size: 10px;
 }
 
-.leg-row .leg-row-descr span {
-    font-size: 12px;
-}
-
-.leg-row .leg-row-descr > span {
-    font-weight: bold;
-    color: #fff;
-}
-
 .leg-row .leg-row-descr > span > span {
     font-weight: normal;
     color: hsla(0, 0%, 100%, .7);
