@@ -7,7 +7,7 @@ export default class MyPaginator extends React.PureComponent {
 
     initPaginatorItems(tableData, nTableRows) {
         let n = Math.floor(tableData.length / nTableRows)
-        if (0 != tableData.length % nTableRows) {
+        if (0 !== tableData.length % nTableRows) {
             n += 1
         }
         if (n > 6) n = 6
@@ -29,7 +29,7 @@ export default class MyPaginator extends React.PureComponent {
                     {
                         this.initPaginatorItems(this.props.data, this.props.product.rows).map(function (item, key) {
                             return (
-                                <li key={key} className={item.value == this.props.currentPage ? "active" : ""}
+                                <li key={key} className={item.value === this.props.currentPage ? "active" : ""}
                                     onClick={this.props.clickHandler.bind(null, item)}
                                 >
                                     <a>

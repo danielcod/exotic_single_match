@@ -4,7 +4,6 @@ import AppTab from './AppTab'
 import AccaProductPanel from '../../../templates/AccaProductPanel'
 import AccaMatchProductPanel from '../../../templates/AccaMatchProductPanel'
 import MyBetPanel from '../../../templates/MyBetPanel'
-import {matchSorter} from '../../../utils'
 import * as faq from '../../../faq'
 import classnames from 'classnames'
 

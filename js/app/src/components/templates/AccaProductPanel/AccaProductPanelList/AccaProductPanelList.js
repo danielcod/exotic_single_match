@@ -17,9 +17,9 @@ export default class AccaProductPanelList extends React.PureComponent {
     }
 
     applyPaginatorWindow(items) {
-        var rows = this.props.legsPaginator.rows
-        var i = this.state.currentPage * rows
-        var j = (this.state.currentPage + 1) * rows
+        let rows = this.props.legsPaginator.rows
+        let i = this.state.currentPage * rows
+        let j = (this.state.currentPage + 1) * rows
         return items.slice(i, j)
     }
 
