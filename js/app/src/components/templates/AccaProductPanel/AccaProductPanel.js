@@ -19,11 +19,29 @@ export default class AccaProductPanel extends React.PureComponent {
                 curates = Object.values(struct).filter(function (curate) {
                     return curate
                 })
+                if (!isEmpty(curates)) {
+                    curates = this.getMixedCurates(curates)
+                }
                 this.setState({
                     curates: curates
                 })
             }.bind(this))
         }
+    }
+
+    getMixedCurates(curates) {
+        const randomLimit = curates.length
+        curates.sort(function () {
+            // Get a random number
+            let temp = parseInt(Math.random() * randomLimit);
+            // Get 1 or 0, whether temp is odd or even
+            let isOddOrEven = temp % 2
+            // Get +1 or -1, whether temp greater or smaller than 5
+            let isPosOrNeg = temp > 5 ? 1 : -1
+            // Return -1, 0, or +1
+            return ( isOddOrEven * isPosOrNeg )
+        })
+        return curates
     }
 
     render() {
