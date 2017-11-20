@@ -10,7 +10,8 @@ export default class AccaProductLegTable extends React.PureComponent {
                 <tbody>
                 {
                     curates.map(function (curate, key) {
-                        return (<AccaProductLegRow
+                        return (
+                            <AccaProductLegRow
                             key={key}
                             clickHandler={clickHandler}
                             curate={curate}/>)

@@ -88,10 +88,37 @@ span.bold {
 }
 
 #exotic-acca-table span.label {
-    background: #37a000;
     margin-top: 5px;
     clear: both;
     min-width: 80px;
+}
+
+#exotic-acca-table span.leg {
+    background: #d99c41;
+}
+
+#exotic-acca-table span.leg.leg-1 {
+    background: #3D9970;
+}
+
+#exotic-acca-table span.leg.leg-2 {
+    background: #ff851b;
+}
+
+#exotic-acca-table span.leg.leg-3 {
+    background: #EC644B;
+}
+
+#exotic-acca-table span.leg.leg-4 {
+    background: #df3d82;
+}
+
+#exotic-acca-table span.leg.leg-5 {
+    background: #1F8DC4;
+}
+
+#exotic-acca-table span.leg.leg-6 {
+    background: #37a000;
 }
 
 #exotic-acca-table tr:last-child {

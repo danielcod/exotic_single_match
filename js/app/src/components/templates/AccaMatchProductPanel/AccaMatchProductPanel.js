@@ -70,7 +70,6 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 price: null,
                 textBetsInStake: null,
                 countBetsInStake: 0
-
             }
         }
         bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',

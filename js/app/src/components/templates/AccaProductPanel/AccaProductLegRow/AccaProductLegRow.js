@@ -10,12 +10,12 @@ export default class AccaProductLegRow extends React.PureComponent {
                     <div>
                         <span className="bold">
                             {curate.fixture}
-                        </span>
+                    </span>
                     </div>
                     <span className="desc" style={{marginTop: "5px"}}>
                         {curate.as_string}
                     </span>
-                    <span className="goal label">
+                    <span className={"leg leg-" + curate.price_to_show + " label"}>
                         {"Any " + curate.price_to_show + "+ of " + curate.legs}
                     </span>
                 </td>
