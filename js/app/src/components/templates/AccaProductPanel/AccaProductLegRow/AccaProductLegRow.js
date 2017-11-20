@@ -1,5 +1,6 @@
 import React from 'react'
 import {formatPrice} from '../../../utils'
+import * as DU from '../../../date_utils'
 
 export default class AccaProductLegRow extends React.PureComponent {
     render() {
@@ -17,6 +18,12 @@ export default class AccaProductLegRow extends React.PureComponent {
                     </span>
                     <span className={"leg leg-" + curate.price_to_show + " label"}>
                         {"Any " + curate.price_to_show + "+ of " + curate.legs}
+                    </span>
+                    <span className="playtime">
+                        {DU.DateUtils.formatHour(new Date(curate.kickoff))}
+                    </span>
+                    <span className="league">
+                        {curate.league}
                     </span>
                 </td>
                 <td className="leg-row-price">

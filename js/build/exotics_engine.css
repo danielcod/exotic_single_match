@@ -121,6 +121,14 @@ span.bold {
     background: #37a000;
 }
 
+#exotic-acca-table .playtime {
+    margin: 5px 0 0 10px;
+}
+
+#exotic-acca-table .league {
+    margin: 5px 0 0 5px;
+}
+
 #exotic-acca-table tr:last-child {
     border-bottom: 1px solid #575763;
 }

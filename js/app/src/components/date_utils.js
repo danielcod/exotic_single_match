@@ -28,6 +28,12 @@ export const DateUtils = {
     formatTime: function (date) {
         return date.getHours() + ":" + this.formatMinutes(date);
     },
+    formatHour: function (date) {
+        let hours = date.getHours()
+        let suffix = hours >= 12 ? 'pm' : 'am'
+        hours = hours > 12 ? hours - 12 : hours
+        return hours + suffix
+    },
     formatRemainedDays: function (currentDate, futureDate) {
         var diff = futureDate.getTime() - currentDate.getTime();
         if (diff > 0) {
