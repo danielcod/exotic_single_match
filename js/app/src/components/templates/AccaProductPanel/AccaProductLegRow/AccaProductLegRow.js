@@ -20,7 +20,7 @@ export default class AccaProductLegRow extends React.PureComponent {
                                 <span className="desc" style={{marginTop: "5px"}}>
                                     {curate.as_string}
                                 </span>
-                                <span className={"leg leg-" + curate.price_to_show + " label"}>
+                                <span className={"leg leg-" + curate.legs + " label"}>
                                     {"Any " + curate.price_to_show + "+ of " + curate.legs}
                                 </span>
                                 <span className="playtime">
