@@ -57,6 +57,11 @@ span.bold {
 /*
  * "Browser" Tab Page
  */
+#exotic-acca {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
 #build-your-own-exotic {
     margin-bottom: 15px;
     text-align: center;
@@ -74,12 +79,16 @@ span.bold {
     text-transform: uppercase;
 }
 
-#exotic-acca-list .paginator {
-    margin-top: 30px;
+#exotic-acca-table {
+    height: calc(100vh - 198px - 90px - 80px);
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-#exotic-acca-table {
-    height: 450px;
+#exotic-acca-list .paginator {
+    margin-top: 20px;
 }
 
 #exotic-acca-item {
