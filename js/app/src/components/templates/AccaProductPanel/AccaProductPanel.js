@@ -5,9 +5,16 @@ import AccaProductPanelList from './AccaProductPanelList'
 export default class AccaProductPanel extends React.PureComponent {
     constructor(props) {
         super(props)
-        this.state = {
-            accaProductPanelState: "list",
-            curates: []
+        const previousCurates = JSON.parse(localStorage.getItem("AccaMatchCurates"))
+        if (previousCurates) {
+            this.state = {
+                curates: previousCurates
+            }
+            localStorage.removeItem("AccaMatchCurates")
+        } else {
+            this.state = {
+                curates: []
+            }
         }
         bindAll(this, [])
     }
@@ -27,6 +34,10 @@ export default class AccaProductPanel extends React.PureComponent {
                 })
             }.bind(this))
         }
+    }
+
+    componentWillUnmount() {
+        localStorage.setItem('AccaMatchCurates', JSON.stringify(this.state.curates))
     }
 
     getMixedCurates(curates) {

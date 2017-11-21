@@ -94,6 +94,7 @@ span.bold {
 #exotic-acca-item {
     border-bottom: 1px solid #575763;
     padding: 15px 0 15px 0;
+    min-height: 132px;
 }
 
 #exotic-acca-item span {

@@ -18,11 +18,11 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import classnames from 'classnames'
 import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down'
 import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up'
-import s from './index.css'
+import s from './index.css';
 
-const PLAYER_CARDS = constant.PLAYER_CARDS_
-const GOAL_SCORERS = constant.GOAL_SCORERS
-const BTTS = constant.GOALS
+const PLAYER_CARDS = constant.PLAYER_CARDS_;
+const GOAL_SCORERS = constant.GOAL_SCORERS;
+const BTTS = constant.GOALS;
 
 export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {

@@ -60,7 +60,7 @@ export default class AppStage extends React.PureComponent {
                     <AccaProductPanel
                         exoticsApi={this.props.exoticsApi}
                         setCurate={this.setCurate}
-                        legsPaginator={{rows: 4}}
+                        legsPaginator={{rows: 6}}
                         buildYourOwnExotic={this.buildYourOwnExotic}
                     />
                 )
