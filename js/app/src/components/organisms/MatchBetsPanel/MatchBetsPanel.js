@@ -326,7 +326,10 @@ export default class MatchBetsPanel extends React.PureComponent {
                     this.props.openStakePanel(showBets, stake, price, textBetsInStake)
                 } else if (res.placement_status === "offer") {
                     price = res.price
-                    this.setState({price})
+                    let errMsg = "This price is no longer offered. The correct price for these legs is : " + price + " and current price will be reset with it."
+                    if (window.confirm(errMsg)) {
+                        this.setState({price})
+                    }
                 }
             }.bind(this))
         }
