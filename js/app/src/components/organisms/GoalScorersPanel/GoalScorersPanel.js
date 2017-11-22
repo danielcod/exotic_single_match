@@ -4,11 +4,8 @@ import GoalScorersTable from '../GoalScorersTable'
 import MyPaginator from '../../molecules/MyPaginator'
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
 import * as constant from '../../constant'
-import * as products from '../../products'
 import {formatPrice} from '../../utils'
-
 const productsName = constant.GOAL_SCORERS
-import * as struct from '../../struct'
 import s from './index.css'
 import classNames from 'classnames'
 
@@ -119,9 +116,9 @@ export default class GoalScorersPanel extends React.PureComponent {
         matches = Object.keys(match.away_ags_p_ft)
         let sortFnAway = function (i0, i1) {
             if (match.away_ags_p_ft[i0]['price'] < match.away_ags_p_ft[i1]['price']) {
-                return -1;
+                return -1
             } else if (match.away_ags_p_ft[i0]['price'] > match.away_ags_p_ft[i1]['price']) {
-                return 1;
+                return 1
             }
         }
         matches.sort(sortFnAway)
@@ -228,9 +225,9 @@ export default class GoalScorersPanel extends React.PureComponent {
         let currentBet = {}
         bets.map(bet => {
             if (bet.name === productsName && bet.match.name === match.name) {
-                currentBet = bet;
+                currentBet = bet
             }
-        });
+        })
         return currentBet
     }
 
@@ -281,8 +278,8 @@ export default class GoalScorersPanel extends React.PureComponent {
                         } else {
                             return value
                         }
-                    });
-                    break;
+                    })
+                    break
                 case constant.SELCTED_THREE:       //1stGame
                     selectedItem = selectedItem.filter((value, idx) => {
                         if (value.item[0] === id && value.matchName === match.fixture
@@ -298,8 +295,8 @@ export default class GoalScorersPanel extends React.PureComponent {
                                 return value
                             }
                         }
-                    });
-                    break;
+                    })
+                    break
                 case constant.SELCTED_FOUR:  //1stTeam
                     selectedItem = selectedItem.filter((value, idx) => {
                         if (value.item[0] === id && value.matchName === match.fixture
@@ -317,14 +314,14 @@ export default class GoalScorersPanel extends React.PureComponent {
                                 return value
                             }
                         }
-                    });
+                    })
                 case constant.SELCTED_FIVE: //3+
                     selectedItem = selectedItem.filter((value, idx) => {
                         if (value.item[0] === id && value.item[1] !== constant.SELCTED_TWO || value.item[0] !== id) {
                             return value
                         }
-                    });
-                    break;
+                    })
+                    break
             }
             selectedItem.push(selected)
         }
@@ -350,28 +347,28 @@ export default class GoalScorersPanel extends React.PureComponent {
     isPlayerClicked(id, selectedInCurrentPage) {
         const selectedView = findIndex(selectedInCurrentPage, (value) => {
             return value[0] === id
-        });
+        })
         return selectedView > -1 ? true : false
     }
 
     formatText(selectedItem, currentPage, selectedTeam, selectedPlayer) {
         let first = '', two = '', three = '', four = '', textValue = ''
-        const {matches, match} = this.props;
+        const {matches, match} = this.props
         selectedItem.map((value, key) => {
             const selectedCountGoals = value.item[1]
             switch (selectedCountGoals) {
                 case constant.SELCTED_TWO:
                     first = first + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_THREE:
                     two = two + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_FOUR:
                     three = three + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_FIVE:
                     four = four + ' ' + selectedPlayer
-                    break;
+                    break
             }
         });
         textValue = [
@@ -519,7 +516,7 @@ export default class GoalScorersPanel extends React.PureComponent {
                     </button>
                 </div>
             </div>
-        );
+        )
     }
 }
 

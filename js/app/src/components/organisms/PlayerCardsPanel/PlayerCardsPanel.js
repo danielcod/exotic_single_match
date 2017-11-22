@@ -4,10 +4,8 @@ import PlayerCardsTable from '../PlayerCardsTable'
 import MyPaginator from '../../molecules/MyPaginator'
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
 import * as constant from '../../constant'
-import * as products from '../../products'
 import {formatPrice} from '../../utils'
 const productsName = constant.PLAYER_CARDS_
-import * as struct from '../../struct'
 import s from './index.css'
 import classNames from 'classnames'
 
@@ -118,9 +116,9 @@ export default class PlayerCardsPanel extends React.Component {
         matches = Object.keys(match.away_acard_p_ft)
         let sortFnAway = function (i0, i1) {
             if (match.away_acard_p_ft[i0]['price'] < match.away_acard_p_ft[i1]['price']) {
-                return -1;
+                return -1
             } else if (match.away_acard_p_ft[i0]['price'] > match.away_acard_p_ft[i1]['price']) {
-                return 1;
+                return 1
             }
         }
         matches.sort(sortFnAway)
@@ -228,7 +226,7 @@ export default class PlayerCardsPanel extends React.Component {
             if (bet.name === productsName && bet.match.name === match.name) {
                 currentBet = bet
             }
-        });
+        })
         return currentBet
     }
 
@@ -296,8 +294,8 @@ export default class PlayerCardsPanel extends React.Component {
                                 return value
                             }
                         }
-                    });
-                    break;
+                    })
+                    break
                 case constant.SELCTED_FOUR:  //1stTeam
                     selectedItem = selectedItem.filter((value, idx) => {
                         if (value.item[0] === id && value.matchName === match.name
@@ -315,14 +313,14 @@ export default class PlayerCardsPanel extends React.Component {
                                 return value
                             }
                         }
-                    });
+                    })
                 case constant.SELCTED_FIVE: //3+
                     selectedItem = selectedItem.filter((value, idx) => {
                         if (value.item[0] === id && value.item[1] !== constant.SELCTED_TWO || value.item[0] !== id) {
                             return value
                         }
-                    });
-                    break;
+                    })
+                    break
             }
             selectedItem.push(selected)
         }
@@ -331,7 +329,7 @@ export default class PlayerCardsPanel extends React.Component {
     }
 
     isCurrentItemClicked(id, key, selectedInCurrentPage) {
-        const {selectedItem, selectedTeam, currentPage} = this.state;
+        const {selectedItem, selectedTeam, currentPage} = this.state
         const {match} = this.props
         let selectedView = -1
         selectedItem.map((value, idx) => {
@@ -347,29 +345,29 @@ export default class PlayerCardsPanel extends React.Component {
     isPlayerClicked(id, selectedInCurrentPage) {
         const selectedView = findIndex(selectedInCurrentPage, (value) => {
             return value[0] === id
-        });
+        })
         return selectedView > -1 ? true : false
     }
 
     formatText(selectedItem, currentPage, selectedTeam, selectedPlayer) {
         let first = '', two = '', three = '', four = '', textValue = ''
         // const {selectedItem, currentPage, selectedTeam} = this.state;
-        const {matches, match} = this.props;
+        const {matches, match} = this.props
         selectedItem.map((value, key) => {
             const selectedCountGoals = value.item[1]
             switch (selectedCountGoals) {
                 case constant.SELCTED_TWO:
                     first = first + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_THREE:
                     two = two + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_FOUR:
                     three = three + ' ' + selectedPlayer
-                    break;
+                    break
                 case constant.SELCTED_FIVE:
                     four = four + ' ' + selectedPlayer
-                    break;
+                    break
             }
         });
         textValue = [
@@ -378,8 +376,8 @@ export default class PlayerCardsPanel extends React.Component {
             '\'1st Team\'' + ' - ' + three,
             '\'Sent Off\'' + ' - ' + four,
 
-        ];
-        return textValue;
+        ]
+        return textValue
     }
 
     getPlayer(matches, selected) {
@@ -435,7 +433,7 @@ export default class PlayerCardsPanel extends React.Component {
     }
 
     handleCancel() {
-        const props = this.props;
+        const props = this.props
         const bet = this.getCurrentBet(props)
         this.props.delBetfromBetsList(productsName, props.match.fixture)
     }
@@ -534,6 +532,6 @@ export default class PlayerCardsPanel extends React.Component {
                     </button>
                 </div>
             </div>
-        );
+        )
     }
 }

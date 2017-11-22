@@ -14,15 +14,11 @@ import {matchSorterByLeague} from '../../utils'
 import {Accordion, AccordionItem} from 'react-sanfona'
 import * as data from '../../products'
 import * as constant from '../../constant'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import classnames from 'classnames'
-import FaAngleDoubleDown from 'react-icons/lib/fa/angle-double-down'
-import FaAngleDoubleUp from 'react-icons/lib/fa/angle-double-up'
-import s from './index.css';
+import s from './index.css'
 
-const PLAYER_CARDS = constant.PLAYER_CARDS_;
-const GOAL_SCORERS = constant.GOAL_SCORERS;
-const BTTS = constant.GOALS;
+const PLAYER_CARDS = constant.PLAYER_CARDS_
+const GOAL_SCORERS = constant.GOAL_SCORERS
+const BTTS = constant.GOALS
 
 export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {
@@ -74,7 +70,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         }
         bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',
             'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
-            'clearBets', 'delFromBTTS', 'setEmptyCurate']);
+            'clearBets', 'delFromBTTS', 'setEmptyCurate'])
     }
 
     componentDidMount() {
@@ -130,53 +126,53 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     handleBetRemoved(bet) {
         if (BTTS === bet.name) {
-            this.delFromBTTS(bet);
+            this.delFromBTTS(bet)
         } else if (PLAYER_CARDS === bet.name || GOAL_SCORERS === bet.name) {
-            this.delPlayerFromBetList(bet);
+            this.delPlayerFromBetList(bet)
         } else {
-            this.delBetfromBetsList(bet);
+            this.delBetfromBetsList(bet)
         }
     }
 
     betResultMatch(nBet) {
-        let {bets} = this.state;
-        let changed = false;
+        let {bets} = this.state
+        let changed = false
         bets = bets.map(bet => {
             if (bet.name === nBet.name && bet.match.fixture === nBet.match.fixture) {
-                bet.options = nBet.options;
-                changed = true;
+                bet.options = nBet.options
+                changed = true
             }
-            return bet;
-        });
-        if (changed === false) bets.push(nBet);
-        this.setState({bets});
+            return bet
+        })
+        if (changed === false) bets.push(nBet)
+        this.setState({bets})
         this.setState({openedStakePanel: false})
-        this.props.setBets(bets);
+        this.props.setBets(bets)
         //setTimeout(() => console.log(this.state.bets), 0)
     }
 
     delBetfromBetsList(oldBet) {
-        let {bets} = this.state;
+        let {bets} = this.state
         bets = bets.filter(bet => {
             return (!Object.is(bet.name, oldBet.name) || !Object.is(bet.match.fixture, oldBet.match.fixture))
-        });
-        this.setState({bets});
-        this.props.setBets(bets);
+        })
+        this.setState({bets})
+        this.props.setBets(bets)
     }
 
     delTeamBetfromBetsList(productsName, matchName) {
-        let {bets} = this.state;
+        let {bets} = this.state
         bets = bets.filter((bet) => {
             if (bet.name === productsName && bet.match.fixture !== matchName ||
                 bet.name !== productsName)
-                return bet;
-        });
-        this.setState({bets});
-        this.props.setBets(bets);
+                return bet
+        })
+        this.setState({bets})
+        this.props.setBets(bets)
     }
 
     delPlayerFromBetList(oldBet) {
-        let {bets} = this.state;
+        let {bets} = this.state
         bets = bets.map((bet) => {
             if (bet.name === oldBet.name && bet.match.name === oldBet.match.name) {
                 const selectedItem = bet.options.selectedItem.filter(value => {
@@ -186,12 +182,12 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                         oldBet.selectedItem.selectedTeam === value.selectedTeam &&
                         oldBet.selectedItem.page === value.page &&
                         !isEqual(oldBet.selectedItem.item, value.item))
-                        return value;
-                });
-                bet.options.selectedItem = selectedItem;
-                return bet;
+                        return value
+                })
+                bet.options.selectedItem = selectedItem
+                return bet
             }
-            return bet;
+            return bet
         });
         this.setState({bets})
         this.props.setBets(bets)
@@ -215,17 +211,17 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     bet.options.selectedItem = []
                     bet.options.textBTTS = ''
                 }
-                return bet;
+                return bet
             }
-            return bet;
+            return bet
         });
-        this.setState({bets});
-        this.props.setBets(bets);
+        this.setState({bets})
+        this.props.setBets(bets)
     }
 
     changeBlock(value) {
-        const sanfonaActiveItems = value.activeItems;
-        this.setState({sanfonaActiveItems});
+        const sanfonaActiveItems = value.activeItems
+        this.setState({sanfonaActiveItems})
     }
 
     clearBets() {
@@ -242,7 +238,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
     }
 
     openStakePanel = (showBets, stake, price, textBetsInStake) => {
-        this.setState({openedStakePanel: true, showBets, stake, price, textBetsInStake});
+        this.setState({openedStakePanel: true, showBets, stake, price, textBetsInStake})
     }
 
     returnToBetsPanel = () => {
@@ -255,10 +251,10 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         const {openedStakePanel, showBets, stake, price, textBetsInStake} = this.state
         const {selectedTab} = this.props
         const renderAngle = (index, title) => {
-            let opened = false;
+            let opened = false
             for (let i = 0; i < sanfonaActiveItems.length; i++) {
                 if (sanfonaActiveItems[i] === index) {
-                    opened = true;
+                    opened = true
                 }
             }
             const darkOrLight = opened ? '-dark.png' : '-light.png'
@@ -297,7 +293,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-            );
+            )
         }
         return (
             <div>
@@ -407,7 +403,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                                     />
                                                     : null}
                                             </AccordionItem>
-                                        );
+                                        )
                                     })}
                                 </Accordion>
                             </div>

@@ -5,7 +5,6 @@ import CornersToogle from '../../molecules/CornersToggle'
 import * as constant from '../../constant'
 import * as products from '../../products'
 import {formatPrice} from '../../utils'
-
 const productsName = constant.CORNERS
 import * as struct from '../../struct'
 import s from './index.css'
@@ -16,7 +15,7 @@ export default class CornersPanel extends React.PureComponent {
         super(props)
         bindAll(this, ['handleTabClicked', 'decrementValue',
             'incrementValue', 'handleCancel', 'formatText',
-            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch']);
+            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch'])
         let bet = this.getCurrentBet(this.props)
         if (isEmpty(bet)) bet = this.initMatchResult()
         this.state = {
@@ -170,7 +169,7 @@ export default class CornersPanel extends React.PureComponent {
         let currentBet = {}
         bets.map(bet => {
             if (bet.name === productsName && bet.match.name === match.name) {
-                currentBet = bet;
+                currentBet = bet
             }
         });
         return currentBet
@@ -191,7 +190,7 @@ export default class CornersPanel extends React.PureComponent {
         if (toogleValue > selectedItem.sliderOptions.max) {
             toogleValue = selectedItem.sliderOptions.max
         }
-        const textValue = this.formatText(selected, toogleValue, selectedTab);
+        const textValue = this.formatText(selected, toogleValue, selectedTab)
         this.setToParrenState(selected, toogleValue, selectedTab, textValue, selectedItem.sliderOptions, selectedItem)
     }
 
@@ -215,7 +214,7 @@ export default class CornersPanel extends React.PureComponent {
             return;
         }
         const textValue = this.formatText(selectedBetTab, toogleValue, selectedTab)
-        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem);
+        this.setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem)
     }
 
     incrementValue() {
@@ -333,7 +332,6 @@ export default class CornersPanel extends React.PureComponent {
                         clickHandler={this.handleTabClicked}
                     />
                 </div>
-
                 <div className={s["corners-slider-container"]}>
                     <CornersToogle
                         value={toogleValue}
@@ -342,7 +340,6 @@ export default class CornersPanel extends React.PureComponent {
                             decrement: this.decrementValue
                         }}/>
                 </div>
-
                 <div className={classNames(s["form-group"], s['output-block'])}>
                     {
                         (!this.state.changes) ?
@@ -370,5 +367,4 @@ export default class CornersPanel extends React.PureComponent {
             </div>
         )
     }
-
 }

@@ -20,7 +20,8 @@ export default class MatchBetsPanel extends React.PureComponent {
             price: undefined,
             countBetsInStake: 1,
             textBetsInStake: '',
-            showBets: []
+            showBets: [],
+            btnDisabled: false
         }
     }
 
@@ -44,11 +45,11 @@ export default class MatchBetsPanel extends React.PureComponent {
         if (showBets.length > 1) {
             countBetsInStake = Math.ceil((showBets.length / 2) + 1)
         }
+        if (props.countBetsInStake > 0) {
+            countBetsInStake = props.countBetsInStake
+        }
         if (countBetsInStake > showBets.length) {
             countBetsInStake = showBets.length
-        }
-        if (props.countBetsInStake > 0){
-            countBetsInStake = props.countBetsInStake
         }
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
         this.setState({showBets, textBetsInStake, countBetsInStake})
@@ -240,13 +241,100 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     placeBet = () => {
-        const {showBets, stake, price, textBetsInStake} = this.state
-        this.props.openStakePanel(showBets, stake, price, textBetsInStake)
+        const {showBets, stake, price, countBetsInStake, textBetsInStake} = this.state
+        const {match, bets} = this.props
+        if (showBets.length > 1) {
+            let btnDisabled = true
+            this.setState({btnDisabled})
+            let struct = {
+                "selection": {},
+                "number_of_winners": countBetsInStake,
+                "stake": parseFloat(stake),
+                "price": price,
+                "uid": sessionStorage.getItem('UID'),
+                "id": match.match_id.toString(),
+                "currency": "EUR"
+            }
+            let selection, range, sliderValue, tableSelectedItem, selectedTab, toogleValue
+            bets.forEach(function (bet) {
+                switch (bet.name) {
+                    case constant.MATCH_RESULT:
+                        selection = bet.options.selection
+                        range = bet.options.range
+                        tableSelectedItem = bet.options.tableSelectedItem
+                        struct['selection'][selection] = 1
+                        if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
+                            struct['selection']['lower_goals_bound'] = range[0]
+                            struct['selection']['upper_goals_bound'] = range[1]
+                        }
+                        break
+                    case constant.GOALS:
+                        selection = bet.options.selection
+                        sliderValue = bet.options.sliderValue
+                        if (bet.options.selectedItem[1] === constant.SELCTED_FIRST) {
+                            struct['selection'][selection] = 1
+                        } else if (bet.options.selectedItem[1] === constant.SELCTED_TWO) {
+                            struct['selection'][selection] = -1
+                        }
+                        if (bet.options.selectedTab['name'] === "over") {
+                            struct['selection']['total_goals_bound'] = parseFloat(constant.marks[sliderValue])
+                        } else if (bet.options.selectedTab['name'] === "under") {
+                            struct['selection']['total_goals_bound'] = -Math.abs(parseFloat(constant.marks[sliderValue]))
+                        }
+                        break
+                    case constant.GOAL_SCORERS:
+                        bet.options.selectedItem.forEach(function (item) {
+                            selection = item.selection
+                            if (!struct['selection'].hasOwnProperty(selection)) {
+                                struct['selection'][selection] = []
+                            }
+                            struct['selection'][selection].push(item.selectedId)
+                        })
+                        break
+                    case constant.CORNERS:
+                    case constant.TEAM_CARDS:
+                        selection = bet.options.selection
+                        selectedTab = bet.options.selectedTab
+                        toogleValue = bet.options.toogleValue
+                        if (selectedTab === "over") {
+                            struct['selection'][selection] = parseFloat(toogleValue)
+                        } else if (selectedTab === "under") {
+                            struct['selection'][selection] = -Math.abs(parseFloat(toogleValue))
+                        }
+                        break
+                    case constant.PLAYER_CARDS_:
+                        bet.options.selectedItem.forEach(function (item) {
+                            selection = item.selection
+                            if (!struct['selection'].hasOwnProperty(selection)) {
+                                struct['selection'][selection] = []
+                            }
+                            struct['selection'][selection].push(item.selectedId)
+                        })
+                        break
+                }
+            })
+            console.log("************************************** Place Selection *****************************************")
+            console.log(struct)
+            this.props.exoticsApi.placeBet(struct, function (response) {
+                let res = JSON.parse(response)
+                console.log("*************************** Place Response ********************************")
+                console.log(res)
+                let {price} = this.state
+                btnDisabled = false
+                this.setState({btnDisabled})
+                if (res.placement_status === "accepted") {
+                    this.props.openStakePanel(showBets, stake, price, textBetsInStake)
+                } else if (res.placement_status === "offer") {
+                    price = res.price
+                    this.setState({price})
+                }
+            }.bind(this))
+        }
     }
 
     render() {
-        const {handleBetRemoved, match, bets} = this.props
-        const {price, openStakePanel, showBets, textBetsInStake} = this.state
+        const {handleBetRemoved, match} = this.props
+        const {price, showBets, textBetsInStake} = this.state
         if (showBets.length === 0) {
             return (
                 <div>
@@ -280,14 +368,15 @@ export default class MatchBetsPanel extends React.PureComponent {
                         </button>
                     </div>
                 </div>
-            );
+            )
         }
         return (
             <div>
                 <div>
                     <div className="form-group">
                         <h3 className="current-price text-center">Current price:&nbsp;
-                            <span id="price">{showBets.length > 1 ? formatCurrentPrice(price) : "Add another leg"}</span>
+                            <span
+                                id="price">{showBets.length > 1 ? formatCurrentPrice(price) : "Add another leg"}</span>
                         </h3>
                     </div>
                     <MatchBetsTable
@@ -315,7 +404,6 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 decrement: this.decrementValue
                             }}/>
                     </div>
-
                     <div className="bet-submit-btns">
                         {/*<button
                             className="btn btn-primary bet-cancel-btn"
@@ -333,12 +421,12 @@ export default class MatchBetsPanel extends React.PureComponent {
                         </div>
                         <div>
                             <button
+                                disabled={this.state.btnDisabled}
                                 style={{marginTop: '8px'}}
                                 className={classNames(s["bet-submit-btns-child"], "btn btn-primary")}
                                 onClick={this.placeBet}>Place Bet
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>

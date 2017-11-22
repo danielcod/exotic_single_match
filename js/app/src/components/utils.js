@@ -60,7 +60,7 @@ export function getCurrentBet(props, matchComponents) {
         if (bet.name === matchComponents && bet.match.name === match.name) {
             currentBet = bet
         }
-    });
+    })
     return currentBet
 }
 
@@ -141,14 +141,14 @@ export function formatObjectYourBet(bets, match) {
                     price: parseFloat(value.player.price),
                     player: value.player,
                     selectedItem: value
-                });
-            });
+                })
+            })
         } else {
             bet.description = bet.options.textValue
             bet.price = bet.options.price
             showBets.push(bet)
         }
-    });
+    })
     return showBets
 }
 
@@ -196,14 +196,13 @@ export function formatCountBets(bets, match) {
             betInBets = betInBets + 1
         }
     })
-
     return betInBets
 }
 
 export function getLegsFromBet(bet) {
-    var legs = new Array()
-    for (var index in bet.betLegs) {
-        var leg = {
+    let legs = new Array()
+    for (let index in bet.betLegs) {
+        let leg = {
             description: bet.betLegs[index].name,
             match: {
                 kickoff: bet.betLegs[index].kickoff,

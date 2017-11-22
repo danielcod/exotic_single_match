@@ -17,6 +17,7 @@ export default class AppStage extends React.PureComponent {
 
     constructor(props) {
         super(props)
+        sessionStorage.setItem('UID', Math.round(Math.random() * 1e10))
         this.state = {
             selectedTab: "browse",
             match: {},

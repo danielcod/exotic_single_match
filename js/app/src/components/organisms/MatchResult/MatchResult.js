@@ -2,10 +2,8 @@ import React from 'react'
 import {bindAll, isEmpty, isEqual} from 'lodash'
 import MatchResultTable from '../MatchResultTable'
 import * as constant from '../../constant'
-
 const productsName = constant.MATCH_RESULT
 import Slider from 'rc-slider'
-
 const Range = Slider.Range
 import {formatPrice} from '../../utils'
 import classNames from 'classnames'
@@ -26,7 +24,7 @@ export default class MatchResult extends React.PureComponent {
             selection: bet.options.selection
         }
         bindAll(this, ['setBetResultMatch', 'onChange', 'clickHandler', 'formatDynamicText',
-            'handleCancel', 'getCurrentBet', 'setToParrenState']);
+            'handleCancel', 'getCurrentBet', 'setToParrenState'])
     }
 
     componentWillReceiveProps(props) {
@@ -99,7 +97,7 @@ export default class MatchResult extends React.PureComponent {
             if (bet.name === productsName && bet.match.fixture === match.fixture) {
                 currentBet = bet
             }
-        });
+        })
         return currentBet
     }
 

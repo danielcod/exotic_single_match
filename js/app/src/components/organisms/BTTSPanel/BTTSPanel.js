@@ -5,9 +5,7 @@ import Slider from 'rc-slider'
 import BTTSTable from '../BTTSTable'
 import * as constant from '../../constant'
 import {formatPrice} from '../../utils'
-
 const productsName = constant.GOALS
-import * as struct from '../../struct';
 import {formatBTTSText, formatTotalGoalsText} from '../../utils'
 import s from './index.css'
 import classNames from 'classnames'
@@ -38,7 +36,7 @@ export default class BTTSPanel extends React.PureComponent {
     }
 
     componentWillReceiveProps(props) {
-        let bet = this.getCurrentBet(props);
+        let bet = this.getCurrentBet(props)
         if (isEmpty(bet)) bet = this.initMatchResult()
         const {sliderValue, selectedTab, textBTTS, textTotalGoals, changedTable, changedTab, selectedItem, priceBTTS, priceTotalGoals, selection} = bet.options
         this.setState({
@@ -171,18 +169,18 @@ export default class BTTSPanel extends React.PureComponent {
     }
 
     getCurrentBet(props) {
-        const {bets, match} = props;
-        let currentBet = {};
+        const {bets, match} = props
+        let currentBet = {}
         bets.map(bet => {
             if (bet.name === productsName && bet.match.fixture === match.fixture) {
-                currentBet = bet;
+                currentBet = bet
             }
-        });
-        return currentBet;
+        })
+        return currentBet
     }
 
     handleCancel() {
-        const props = this.props;
+        const props = this.props
         const bet = this.getCurrentBet(props)
         this.props.delBetfromBetsList(bet)
     }
@@ -193,7 +191,7 @@ export default class BTTSPanel extends React.PureComponent {
         if (isEqual(selectedItem, newItem)) {
             this.setState({selectedItem: [], changedTable: null, textBTTS: '', priceBTTS: null})
         } else {
-            const textBTTS = formatBTTSText(row, column);
+            const textBTTS = formatBTTSText(row, column)
             this.setState({selectedItem: newItem, changedTable: true, textBTTS, priceBTTS, selection})
         }
         setTimeout(() => this.setToParrenState(), 0)
@@ -207,7 +205,7 @@ export default class BTTSPanel extends React.PureComponent {
             selectedTab = {
                 name: "",
                 number: null,
-            };
+            }
             changedTab = false
         } else {
             selectedTab = {name: tab.name, number: tab.number, label: tab.label}
@@ -216,7 +214,7 @@ export default class BTTSPanel extends React.PureComponent {
         }
         const textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label)
         this.setState({selectedTab, textTotalGoals, changedTab, priceTotalGoals})
-        setTimeout(() => this.setToParrenState(), 0);
+        setTimeout(() => this.setToParrenState(), 0)
     }
 
     onChangeSlider(sliderValue) {
