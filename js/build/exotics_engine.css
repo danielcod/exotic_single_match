@@ -352,18 +352,13 @@ tr > td span.future {
 .bet-submit-btns {
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .bet-submit-btns .stake {
     display: inline-block;
     background-color: #fff;
-    margin: 0 10px 10px 10px;
-}
-
-.bet-submit-btns .stake .stake-label {
-    display: block;
-    background: #454551;
-    padding-bottom: 2px;
+    margin: 10px;
 }
 
 .bet-submit-btns .stake .stake-symbol {
@@ -377,16 +372,42 @@ tr > td span.future {
     border: none;
     color: #000;
     -moz-appearance: textfield;
+    background: #d3d3d3;
+    padding-left: 4px;
 }
 
 .bet-submit-btns .stake .stake-value:focus {
     outline: none;
 }
 
+.bet-submit-btns .btn-place:hover {
+    color: #000;
+}
+
 .bet-submit-btns .stake .stake-value::-webkit-outer-spin-button,
 .bet-submit-btns .stake .stake-value::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.bet-submit-btns .stake .stake-value.validate {
+    box-shadow: 0 0 0 1px red inset;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+:-moz-placeholder {
+    font-style: italic;
+}
+
+::-moz-placeholder {
+    font-style: italic;
+}
+
+:-ms-input-placeholder {
+    font-style: italic;
 }
 
 /*

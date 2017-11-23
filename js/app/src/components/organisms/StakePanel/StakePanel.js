@@ -119,7 +119,6 @@ export default class StakePanel extends React.PureComponent {
                                 </div>
                                 : null
                         }
-
                     </div>
                 </div>
                 <div className="form-group">

@@ -16,7 +16,8 @@ export default class MatchBetsPanel extends React.PureComponent {
         this.state = {
             currentPage: 0,
             openedStakePanel: false,
-            stake: "10.00",
+            stake: 0,
+            stakeValidation: true,
             price: undefined,
             countBetsInStake: 1,
             textBetsInStake: '',
@@ -88,7 +89,15 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     handleStakeChanged(e) {
-        this.setState({stake: e.target.value})
+        if (!this.state.stakeValidation) {
+            this.setState({stakeValidation: true})
+        }
+        if (e.target.value === "") {
+            this.setState({stake: 0})
+        } else {
+            let value = parseFloat(e.target.value).toFixed(2)
+            this.setState({stake: parseFloat(value)})
+        }
     }
 
     updatePrice(props, showBets) {
@@ -244,6 +253,10 @@ export default class MatchBetsPanel extends React.PureComponent {
         const {showBets, stake, price, countBetsInStake, textBetsInStake} = this.state
         const {match, bets} = this.props
         if (showBets.length > 1) {
+            if (this.state.stake === 0) {
+                this.setState({stakeValidation: false});
+                return
+            }
             let btnDisabled = true
             this.setState({btnDisabled})
             let struct = {
@@ -412,22 +425,32 @@ export default class MatchBetsPanel extends React.PureComponent {
                             className="btn btn-primary bet-cancel-btn"
                             onClick={ this.props.clearBets}>Cancel
                         </button>*/}
-                        <div className={classNames(s["bet-submit-btns-child"], "stake-label")}>STAKE</div>
+                        {/*<div className={classNames(s["bet-submit-btns-child"], "stake-label")}>STAKE</div>*/}
                         <div className="stake">
                             <span className="stake-symbol">€</span>
-                            <input type="number" name="stake-value"
-                                   className={classNames(s["bet-submit-btns-child"], "stake-value")}
-                                   defaultValue={this.state.stake}
-                                   onChange={this.handleStakeChanged}
-                                   disabled={showBets.length > 1 ? "" : "disabled"}
+                            <input name="stake-value"
+                                   type="number"
+                                   placeholder="Stake"
+                                   className={this.state.stakeValidation ? "stake-value" : "stake-value validate"}
+                                   defaultValue={this.state.stake > 0 ? this.state.stake : ""}
+                                   onChange={(e) => {
+                                       this.handleStakeChanged(e)
+                                   }}
+                                   onKeyPress={(e) => {
+                                       if ((e.which !== 46 || e.target.value.indexOf('.') !== -1) && (e.which < 48 || e.which > 57)) {
+                                           e.preventDefault();
+                                       }
+                                   }}
                             />
                         </div>
                         <div>
                             <button
                                 disabled={this.state.btnDisabled}
                                 style={{marginTop: '8px'}}
-                                className={classNames(s["bet-submit-btns-child"], "btn btn-primary")}
-                                onClick={this.placeBet}>Place Bet
+                                className={classNames(s["bet-submit-btns-child"], "btn btn-primary btn-place")}
+                                onClick={this.placeBet}>
+                                <span className="bold" style={{marginRight: "5px"}}>EUR {formatCurrentPrice(this.state.stake)}</span>
+                                Place Bet
                             </button>
                         </div>
                     </div>

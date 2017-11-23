@@ -31,7 +31,6 @@ export function matchSorterByLeague(m0, m1) {
 }
 
 export function formatPrice(value) {
-    if (!value) return null
     if (typeof value === "string") value = parseFloat(value)
     if (value < 2) {
         // return value.toFixed(3);
