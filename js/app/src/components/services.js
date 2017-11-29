@@ -65,6 +65,23 @@ export class ExoticsAPI {
             .set('Accept', 'application/json')
             .withCredentials()
             .end(function (err, res) {
+                 console.log(err)
+                if (res.body !== null && res.status === 200) {
+                    handler(res.body)
+                } else {
+                    console.log(res.text)
+                }
+            })
+    }
+
+    httpPostForPlace = function (url, payload, handler) {
+        request
+            .post(url)
+            .send(JSON.stringify(payload))
+            .set('Accept', 'application/json')
+            .withCredentials()
+            .end(function (err, res) {
+                 console.log(err)
                 if (res.body !== null && res.status === 200) {
                     handler(res.body)
                 } else {
@@ -102,7 +119,7 @@ export class ExoticsAPI {
         if (process.env.NODE_ENV === 'development') {
             url = "http://localhost:8080/api/single_match/place"
         }
-        this.httpPostNoCache(url, body, handler)
+        this.httpPostForPlace(url, body, handler)
     }
 
     fetchBets = function (body, handler) {

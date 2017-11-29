@@ -25,14 +25,17 @@ export default class StakeTable extends React.PureComponent {
                                     {bet.description}
                                 </td>
                                 {
-                                    bet.win ?
-                                        <td className={classnames(s['tb-rd'])}>
-                                            <span className="glyphicon glyphicon-ok"></span>
-                                        </td>
+                                    bet.win !== undefined ?
+                                        bet.win ?
+                                            <td className={classnames(s['tb-rd'])}>
+                                                <span className="glyphicon glyphicon-ok"></span>
+                                            </td>
+                                            :
+                                            <td className={classnames(s['tb-rd'])}>
+                                                <span className="glyphicon glyphicon-remove"></span>
+                                            </td>
                                         :
-                                        <td className={classnames(s['tb-rd'])}>
-                                            <span className="glyphicon glyphicon-remove"></span>
-                                        </td>
+                                        null
                                 }
                                 <td className={classnames(s['tb-rd'])}>
                                     <span>{status !== null && status === true ? bet.price : "?"}</span>
