@@ -3,6 +3,7 @@ import {bindAll} from 'lodash'
 import MyBetTab from './MyBetTab'
 import MyBetList from './MyBetList'
 import MyPaginator from '../../molecules/MyPaginator'
+import {matchSorter} from '../../utils'
 import * as s from './index.css'
 
 export default class MyBetPanel extends React.PureComponent {
@@ -33,6 +34,7 @@ export default class MyBetPanel extends React.PureComponent {
                 //allBets.push(JSON.parse(item))
                 allBets.push(item)
             })
+            allBets.sort(matchSorter)
             bets = allBets.filter(function (bet) {
                 return !bet.bet_settled
             })
@@ -73,16 +75,21 @@ export default class MyBetPanel extends React.PureComponent {
 
     render() {
         const {betsPaginator, faqs} = this.props
-        const {bets, selectedTab, clickedFaq, currentPage} = this.state
+        const {allBets, bets, selectedTab, clickedFaq, currentPage} = this.state
         return (
             <div id="my-bets">
-                <div className={s['wrap-mybettab']}>
-                    <MyBetTab
-                        tabs={this.myBetTab}
-                        selected={selectedTab}
-                        clickHandler={this.handleTabClicked}
-                    />
-                </div>
+                {
+                    allBets.length > 0 ?
+                        <div className={s['wrap-mybettab']}>
+                            <MyBetTab
+                                tabs={this.myBetTab}
+                                selected={selectedTab}
+                                clickHandler={this.handleTabClicked}
+                            />
+                        </div>
+                        :
+                        null
+                }
                 <button
                     className={clickedFaq ? "btn btn-primary faq-btn faq-btn-active" : "btn btn-primary faq-btn"}
                     onClick={() => this.handleFaqClicked()}>

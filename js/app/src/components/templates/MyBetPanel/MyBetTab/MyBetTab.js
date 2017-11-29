@@ -18,7 +18,7 @@ export default class MyBetTab extends React.PureComponent {
                                         <span className={s['label-text']}>
                                             {tab.label}
                                         </span>
-                                        </a>
+                                    </a>
                                 </li>
                             )
                         })

@@ -45,9 +45,12 @@ export default class MyBetList extends React.PureComponent {
                 <span className="fixture">
                     {bet.fixture}
                 </span>
-                <span className={"leg leg-" + bet.total_legs + " label bold pull-right"}>
+                <div className="pull-right">
+                    <span className={bet.bet_won ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove"}></span>
+                    <span className={"leg leg-" + bet.total_legs + " label bold"}>
                     {"Any " + bet.winners_required + "+ of " + bet.total_legs}
-                </span>
+                    </span>
+                </div>
             </div>
         )
     }
@@ -212,8 +215,10 @@ export default class MyBetList extends React.PureComponent {
 
     getBetDetail(bet) {
         const betSelection = bet.bet_selections
+        const winningLegs = bet.winning_legs
+        const losingLegs = bet.losing_legs
         let showBets = []
-        console.log("************************************ Selection ************************************")
+        //console.log("************************************ Selection ************************************")
         /******************************************
          *             MATCH RESULT               *
          ******************************************/
@@ -232,7 +237,7 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === 1
         })[0]
         if (!isEmpty(matchResult)) {
-            console.log("********** MATCH RESULT **********")
+            //console.log("********** MATCH RESULT **********")
             matchResult.price = bet.leg_prices[matchResult.selection]
             let value
             if (betSelection.hasOwnProperty("lower_goals_bound") && betSelection.hasOwnProperty("upper_goals_bound")) {
@@ -241,10 +246,17 @@ export default class MyBetList extends React.PureComponent {
                 value = [0, 0]
             }
             let selectedItem = [matchResult.id, matchResult.key]
+            let win
+            if (winningLegs.indexOf(matchResult.selection) !== -1) {
+                win = true
+            } else if (losingLegs.indexOf(matchResult.selection) !== -1) {
+                win = false
+            }
             showBets.push({
                 name: constant.MATCH_RESULT,
                 description: this.formatDynamicTextForMatchResult(selectedItem, value, bet.fixture),
-                price: formatPrice(matchResult.price)
+                price: formatPrice(matchResult.price),
+                win: win
             })
             //console.log(matchResult)
         }
@@ -299,22 +311,29 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === item.value
         })[0]
         if (!isEmpty(bttsResult)) {
-            console.log("********** GOALS **********")
+            //console.log("********** GOALS **********")
             if (bttsResult.value === 1) {
                 bttsResult.price = bet.leg_prices[bttsResult.selection]['Yes']
             } else if (bttsResult.value === -1) {
                 bttsResult.price = bet.leg_prices[bttsResult.selection]['No']
             }
+            let win
+            if (winningLegs.indexOf(bttsResult.selection) !== -1) {
+                win = true
+            } else if (losingLegs.indexOf(bttsResult.selection) !== -1) {
+                win = false
+            }
             showBets.push({
                 name: constant.GOALS,
                 description: formatBTTSText(bttsResult.id, bttsResult.key),
-                price: formatPrice(bttsResult.price)
+                price: formatPrice(bttsResult.price),
+                win: win
             })
             //console.log(bttsResult)
         }
         if (betSelection.hasOwnProperty("total_goals_bound")) {
             let sliderValue, selectedTab, totalPrice
-            console.log("*** GOALS - total_goals_bound ***")
+            //console.log("*** GOALS - total_goals_bound ***")
             if (betSelection['total_goals_bound'] > 0) {
                 selectedTab = "OVER"
                 sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
@@ -324,10 +343,17 @@ export default class MyBetList extends React.PureComponent {
                 sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
                 totalPrice = bet.leg_prices['total_goals_bound']['under'][Math.abs(betSelection['total_goals_bound'])]
             }
+            let win
+            if (winningLegs.indexOf("total_goals_bound") !== -1) {
+                win = true
+            } else if (losingLegs.indexOf("total_goals_bound") !== -1) {
+                win = false
+            }
             showBets.push({
                 name: constant.GOALS,
                 description: formatTotalGoalsText(sliderValue, selectedTab),
-                price: formatPrice(totalPrice)
+                price: formatPrice(totalPrice),
+                win: win
             })
         }
         /******************************************
@@ -343,7 +369,7 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection)
         })
         if (!isEmpty(goalAwayResult)) {
-            console.log("********** GOALSCORERS - Away **********")
+            //console.log("********** GOALSCORERS - Away **********")
             let correctGoalAwayResult = []
             goalAwayResult.forEach(function (item) {
                 betSelection[item.selection].forEach(function (player) {
@@ -361,10 +387,17 @@ export default class MyBetList extends React.PureComponent {
                 })
             })
             correctGoalAwayResult.forEach(function (item) {
+                let win
+                if (winningLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = true
+                } else if (losingLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = false
+                }
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price)
+                    price: formatPrice(item.price),
+                    win: win
                 })
             }.bind(this))
             //console.log(correctGoalAwayResult)
@@ -379,7 +412,7 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection)
         })
         if (!isEmpty(goalHomeResult)) {
-            console.log("********** GOALSCORERS - Home **********")
+            //console.log("********** GOALSCORERS - Home **********")
             let correctGoalHomeResult = []
             goalHomeResult.forEach(function (item) {
                 betSelection[item.selection].forEach(function (player) {
@@ -397,10 +430,17 @@ export default class MyBetList extends React.PureComponent {
                 })
             })
             correctGoalHomeResult.forEach(function (item) {
+                let win
+                if (winningLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = true
+                } else if (losingLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = false
+                }
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price)
+                    price: formatPrice(item.price),
+                    win: win
                 })
             }.bind(this))
             //console.log(correctGoalHomeResult)
@@ -418,7 +458,7 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection)
         })
         if (!isEmpty(playAwayResult)) {
-            console.log("********** PLAYCARD - Away **********")
+            //console.log("********** PLAYCARD - Away **********")
             let correctPlayAwayResult = []
             playAwayResult.forEach(function (item) {
                 betSelection[item.selection].forEach(function (player) {
@@ -436,10 +476,17 @@ export default class MyBetList extends React.PureComponent {
                 })
             })
             correctPlayAwayResult.forEach(function (item) {
+                let win
+                if (winningLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = true
+                } else if (losingLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = false
+                }
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price)
+                    price: formatPrice(item.price),
+                    win: win
                 })
             }.bind(this))
             //console.log(correctPlayAwayResult)
@@ -454,7 +501,7 @@ export default class MyBetList extends React.PureComponent {
             return betSelection.hasOwnProperty(item.selection)
         })
         if (!isEmpty(playHomeResult)) {
-            console.log("********** PLAYCARD - Home **********")
+            //console.log("********** PLAYCARD - Home **********")
             let correctPlayHomeResult = []
             playHomeResult.forEach(function (item) {
                 betSelection[item.selection].forEach(function (player) {
@@ -472,10 +519,17 @@ export default class MyBetList extends React.PureComponent {
                 })
             })
             correctPlayHomeResult.forEach(function (item) {
+                let win
+                if (winningLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = true
+                } else if (losingLegs.indexOf(item.selection + ": " + item.playerId) !== -1) {
+                    win = false
+                }
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price)
+                    price: formatPrice(item.price),
+                    win: win
                 })
             }.bind(this))
             //console.log(correctPlayHomeResult)
@@ -514,7 +568,7 @@ export default class MyBetList extends React.PureComponent {
         })[0]
         if (!isEmpty(cornersResult)) {
             let toogleVaule, selectedTab
-            console.log("******** CORNERS *********")
+            //console.log("******** CORNERS *********")
             toogleVaule = betSelection[cornersResult.selection]
             if (toogleVaule > 0) {
                 selectedTab = "over"
@@ -523,10 +577,17 @@ export default class MyBetList extends React.PureComponent {
             }
             cornersResult.toogleValue = Math.abs(toogleVaule)
             cornersResult.price = bet.leg_prices[cornersResult.selection][selectedTab][cornersResult.toogleValue]
+            let win
+            if (winningLegs.indexOf(cornersResult.selection) !== -1) {
+                win = true
+            } else if (losingLegs.indexOf(cornersResult.selection) !== -1) {
+                win = false
+            }
             showBets.push({
                 name: constant.CORNERS,
                 description: this.formatTextForCorners(cornersResult.id, cornersResult.toogleValue, selectedTab, bet.fixture),
-                price: formatPrice(cornersResult.price)
+                price: formatPrice(cornersResult.price),
+                win: win
             })
             //console.log(cornersResult)
         }
@@ -564,7 +625,7 @@ export default class MyBetList extends React.PureComponent {
         })[0]
         if (!isEmpty(teamcardResult)) {
             let toogleVaule, selectedTab
-            console.log("********  TEAMS CARDS *********")
+            //console.log("********  TEAMS CARDS *********")
             toogleVaule = betSelection[teamcardResult.selection]
             if (toogleVaule > 0) {
                 selectedTab = "over"
@@ -573,15 +634,22 @@ export default class MyBetList extends React.PureComponent {
             }
             teamcardResult.toogleValue = Math.abs(toogleVaule)
             teamcardResult.price = bet.leg_prices[teamcardResult.selection][selectedTab][teamcardResult.toogleValue]
+            let win
+            if (winningLegs.indexOf(teamcardResult.selection) !== -1) {
+                win = true
+            } else if (losingLegs.indexOf(teamcardResult.selection) !== -1) {
+                win = false
+            }
             showBets.push({
                 name: constant.TEAM_CARDS,
                 description: this.formatTextForTeamcard(teamcardResult.id, teamcardResult.toogleValue, selectedTab, bet.fixture),
-                price: formatPrice(teamcardResult.price)
+                price: formatPrice(teamcardResult.price),
+                win: win
             })
             //console.log(teamcardResult)
         }
-        console.log("----------------------------------- SHOWBETS ------------------------------------")
-        console.log(showBets)
+        //console.log("------- SHOWBETS ---------")
+        //console.log(showBets)
 
         return (
             <div className="bet-confirm-container">
@@ -628,16 +696,16 @@ export default class MyBetList extends React.PureComponent {
     }
 
     _setSelectedItem(activeKey) {
-        const {selectedTab, clickedFaq} = this.props;
+        const {selectedTab, clickedFaq} = this.props
         if (clickedFaq) {
-            this.setState({activeFaqKey: activeKey});
+            this.setState({activeFaqKey: activeKey})
         } else {
             switch (selectedTab) {
                 case "open":
-                    this.setState({activeOpenKey: activeKey});
+                    this.setState({activeOpenKey: activeKey})
                     break;
                 case "settled":
-                    this.setState({activeSettledKey: activeKey});
+                    this.setState({activeSettledKey: activeKey})
                     break;
             }
         }
@@ -672,7 +740,7 @@ export default class MyBetList extends React.PureComponent {
                                             onSelect={this._setSelectedItem}
                                             onEntering={this._setExpandedState}
                                             onExit={this._setCollapsedState}>
-                                            {/*this.getBetDetail(bet)*/}
+                                            {this.getBetDetail(bet)}
                                         </Panel>
                                     )
                                 })

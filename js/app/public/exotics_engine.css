@@ -552,6 +552,10 @@ tr > td span.future {
     background-color: #ec644b;
 }
 
+#my-bets #my-bet-tabs .nav-tabs > li.active > a {
+    background-color: #d99c41;
+}
+
 #my-bet-tabs .nav-tabs > li.active:first-child > a {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
@@ -609,9 +613,29 @@ tr > td span.future {
     margin-right: 10px;
 }
 
+#my-bet-list .panel-group .panel .panel-heading .glyphicon-ok {
+    color: #119802;
+    margin-right: 5px;
+    top: 5px;
+}
+
+#my-bet-list .panel-group .panel .panel-heading .glyphicon-remove {
+    color: #cc0505;
+    margin-right: 5px;
+    top: 5px;
+}
+
+#my-bet-list .leg-row .glyphicon-ok {
+    color: #119802;
+}
+
+#my-bet-list .leg-row .glyphicon-remove {
+    color: #cc0505;
+}
+
 #my-bet-list .panel-group .panel .panel-heading .fixture {
     white-space: nowrap;
-    width: 200px;
+    width: 185px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
