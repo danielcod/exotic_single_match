@@ -13,7 +13,7 @@ export class ExoticsAPI {
         let key = url
         if (this.cache[key] === undefined) {
             if (this.debug) {
-                console.log("Fetching " + key);
+                console.log("Fetching " + key)
             }
             $.ajax({
                 url: url,
@@ -28,9 +28,9 @@ export class ExoticsAPI {
             })
         } else {
             if (this.debug) {
-                console.log("Serving " + key + " from cache");
+                console.log("Serving " + key + " from cache")
             }
-            handler(this.cache[key]);
+            handler(this.cache[key])
         }
     }
 
@@ -52,13 +52,13 @@ export class ExoticsAPI {
                 })
         } else {
             if (this.debug) {
-                console.log("Serving " + key + " from cache");
+                console.log("Serving " + key + " from cache")
             }
             handler(this.cache[key])
         }
     }
 
-    httpPostForCreate = function (url, payload, handler) {
+    httpPostNoCache = function (url, payload, handler) {
         request
             .post(url)
             .send(JSON.stringify(payload))
@@ -102,7 +102,15 @@ export class ExoticsAPI {
         if (process.env.NODE_ENV === 'development') {
             url = "http://localhost:8080/api/single_match/place"
         }
-        this.httpPostForCreate(url, body, handler)
+        this.httpPostNoCache(url, body, handler)
+    }
+
+    fetchBets = function (body, handler) {
+        let url = "/api/single_match/settle"
+        if (process.env.NODE_ENV === 'development') {
+            url = "http://localhost:8080/api/single_match/settle"
+        }
+        this.httpPostNoCache(url, body, handler)
     }
 }
 

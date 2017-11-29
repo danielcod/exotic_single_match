@@ -17,7 +17,8 @@ export default class AppStage extends React.PureComponent {
 
     constructor(props) {
         super(props)
-        sessionStorage.setItem('UID', Math.round(Math.random() * 1e10))
+        /*sessionStorage.setItem('UID', Math.round(Math.random() * 1e10))*/
+        sessionStorage.setItem('UID', 111)
         this.state = {
             selectedTab: "browse",
             match: {},
@@ -82,6 +83,7 @@ export default class AppStage extends React.PureComponent {
                 return (
                     <MyBetPanel
                         exoticsApi={this.props.exoticsApi}
+                        betsPaginator={{rows: 11}}
                         faqs={faq.faqs}
                     />
                 )

@@ -42,5 +42,4 @@ export const DateUtils = {
             return Math.round((futureDate.getTime() - currentDate.getTime()) / (24 * 60 * 60 * 1000)) + "d"
         }
     }
-		
-};
+}

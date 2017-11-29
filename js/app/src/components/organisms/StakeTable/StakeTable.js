@@ -6,13 +6,13 @@ import * as s from './index.css';
 
 export default class StakeTable extends React.PureComponent {
     render() {
-        const {bets, match} = this.props;            
+        const {bets, match, status} = this.props;
         return (
             <table className="table table-condensed table-striped  text-center"
                    style={{marginTop: '0px', marginBottom: "0px"}}>
                 <tbody>
                 {
-                    bets.map(function (bet, key) {    
+                    bets.map(function (bet, key) {
                             const imgSrc = 'img/' + bet.name + '-light.png';                                                                    
                             return (
                                  <tr key={key} className="leg-row">
@@ -25,7 +25,7 @@ export default class StakeTable extends React.PureComponent {
                                         {bet.description}
                                     </td>
                                     <td className={classnames(s['tb-rd'])}>
-                                        <span>?</span>
+                                        <span>{status !== null && status === true ? bet.price : "?"}</span>
                                     </td>
                                 </tr>
                             )                            

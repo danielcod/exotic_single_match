@@ -326,6 +326,10 @@ export default class GoalScorersPanel extends React.PureComponent {
             selectedItem.push(selected)
         }
         //this.setState({selectedItem, triggerState, changes: true});
+        console.log(selectedItem)
+         console.log(currentPage)
+         console.log(selectedTeam)
+         console.log(selectedPlayer)
         const textValue = this.formatText(selectedItem, currentPage, selectedTeam, selectedPlayer)
         this.setToParrenState(selectedItem, currentPage, selectedTeam, textValue, selectedPrice)
     }
@@ -355,6 +359,8 @@ export default class GoalScorersPanel extends React.PureComponent {
         let first = '', two = '', three = '', four = '', textValue = ''
         const {matches, match} = this.props
         selectedItem.map((value, key) => {
+            console.log("aaaaaaaaa")
+            console.log(value)
             const selectedCountGoals = value.item[1]
             switch (selectedCountGoals) {
                 case constant.SELCTED_TWO:
@@ -377,6 +383,7 @@ export default class GoalScorersPanel extends React.PureComponent {
             '\'1st Team\' - ' + three,
             '\'3+\' - ' + four
         ]
+        console.log(textValue)
         return textValue
     }
 

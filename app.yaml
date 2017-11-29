@@ -47,7 +47,6 @@ handlers:
   script: controllers.api.single_match.place.app
 - url: /api/single_match/settle.*
   script: controllers.api.single_match.settle.app
-
 - url: /app.*
   script: controllers.api.app
 # TASKS

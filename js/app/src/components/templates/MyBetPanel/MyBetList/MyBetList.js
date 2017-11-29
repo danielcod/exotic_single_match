@@ -1,25 +1,32 @@
-import React from 'react';
-import {bindAll} from 'lodash';
-import Accordion from 'react-bootstrap/lib/Accordion';
-import Panel from 'react-bootstrap/lib/Panel';
-import AccaLegTable from '../../../organisms/AccaLegTable';
-import {getLegsFromBet} from '../../../utils';
-import * as DU from '../../../date_utils';
+import React from 'react'
+import {bindAll, isEmpty, isEqual} from 'lodash'
+import Accordion from 'react-bootstrap/lib/Accordion'
+import Panel from 'react-bootstrap/lib/Panel'
+import StakeTable from '../../../organisms/StakeTable'
+import MyPaginator from '../../../molecules/MyPaginator'
+import AccaLegTable from '../../../organisms/AccaLegTable'
+import {getLegsFromBet} from '../../../utils'
+import {formatBTTSText, formatTotalGoalsText, formatPrice} from '../../../utils'
+import * as products from '../../../products'
+import * as UTILS from '../../../utils'
+import * as DU from '../../../date_utils'
+import * as constant from '../../../constant'
+import classnames from 'classnames'
 
 
 export default class MyBetList extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             panelExpanded: false,
             activeFaqKey: "",
             activeOpenKey: "",
-            activeSettledKey: ""
-        };
-
-        bindAll(this, ['getHeader', 'getBetDetail',  'placedBetGoalFormatter', 'formatCurrentPrice',
-            '_setSelectedItem', '_setExpandedState', '_setCollapsedState']);
-
+            activeSettledKey: "",
+            currentPage: 0
+        }
+        bindAll(this, ['getHeader', 'getBetDetail', 'formatDynamicTextForMatchResult', 'formatGoalTextForMatchResult',
+            'formatTextForGoalscorners', 'formatTextForPlaycards', 'formatTextForCorners', 'formatTextForTeamcard',
+            '_setSelectedItem', '_setExpandedState', '_setCollapsedState'])
     }
 
     getHeader(bet, expanded) {
@@ -35,73 +42,16 @@ export default class MyBetList extends React.PureComponent {
                             <span className="inner"></span>
                         </span>
                 }
-                {
-                    (() => {
-                        switch (bet.type) {
-                            case 'winners': {
-                                return (
-                                    [
-                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
-                                        <span className="label winners pull-right">To Win</span>
-                                    ]
-                                )
-                            }
-                            case 'losers': {
-                                return (
-                                    [
-                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
-                                        <span className="label losers pull-right">To Lose</span>
-                                    ]
-                                )
-                            }
-                            case 'draws': {
-                                return (
-                                    [
-                                        <span>{this.placedBetHeaderTextFormatter(bet)}</span>,
-                                        <span className="label draws pull-right">To Draw</span>
-                                    ]
-                                )
-                            }
-                        }
-                    })()
-                }
+                <span className="fixture">
+                    {bet.fixture}
+                </span>
+                <span className={"leg leg-" + bet.total_legs + " label bold pull-right"}>
+                    {"Any " + bet.winners_required + "+ of " + bet.total_legs}
+                </span>
             </div>
         )
     }
 
-  placedBetGoalFormatter(bet) {
-        switch (bet.betType) {
-            case "Winners":
-                return bet.betCondition.nGoals > 1 ? "To win by " + bet.betCondition.nGoals + "+ goals" : "To just win";
-            case "Pick Losers":
-                return bet.betCondition.nGoals > 1 ? "To lose by " + bet.betCondition.nGoals + "+ goals" : "To just lose";
-            case "Draws":
-                return bet.betCondition.nGoals > 1 ? "To draw by " + bet.betCondition.nGoals + "+ goals" : "To just draw";
-        }
-    }   
-
-    formatPrice(value) {
-        let result = 0;
-        if (value < 2) {
-            // return value.toFixed(3);
-            result = value.toFixed(2);
-        } else if (value < 10) {
-            result = value.toFixed(2);
-        } else if (value < 100) {
-            result = value.toFixed(1);
-        } else {
-            result = Math.floor(value);
-        }
-        return result;
-    }
-    getHomeaway(bet, index) {
-        var teamNames = bet.legs[index].match.split(" vs ");
-        if (teamNames[0] === bet.legs[index].selection) {
-            return "home";
-        } else {
-            return "away";
-        }
-    }
     getFaqHeader(faq, expanded) {
         return (
             <div>
@@ -130,103 +80,538 @@ export default class MyBetList extends React.PureComponent {
         )
     }
 
-    getBetName(bet) {
-        switch (bet.type) {
-            case "winners": {
-                return "EXOTIC WINNERS ACCA";
-            }
-            case "losers": {
-                return "EXOTIC LOSERS ACCA";
-            }
-            case "draws": {
-                return "EXOTIC DRAWS ACCA";
-            }
-        }
-    }
-
-    getHomeaway(bet, index) {
-        var teamNames = bet.legs[index].match.split(" vs ");
-        if (teamNames[0] === bet.legs[index].selection) {
-            return "home";
-        } else {
-            return "away";
-        }
-    }
-
     getCurrentTimeFormatter(betDate) {
-        var dt = new Date(betDate);
-        var monthNames = [
+        let dt = new Date(betDate)
+        let monthNames = [
             "January", "February", "March",
             "April", "May", "June", "July",
             "August", "September", "October",
             "November", "December"
-        ];
-        var month = monthNames[dt.getMonth()];
-        var day = dt.getDate().toString();
-        var hour = dt.getHours().toString();
-        var minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString();
-        var mid = dt.getHours() >= 12 ? "pm" : "am";
+        ]
+        let month = monthNames[dt.getMonth()]
+        let day = dt.getDate().toString()
+        let hour = dt.getHours().toString()
+        let minutes = dt.getMinutes() > 10 ? dt.getMinutes().toString() : "0" + dt.getMinutes().toString()
+        let mid = dt.getHours() >= 12 ? "pm" : "am"
         return <span
             className="bet-saved-date">{hour + ":" + minutes + " " + mid + " " + day}<sup>{DU.DateUtils.formatDaySuffix(dt)}</sup>{" " + month}</span>
     }
 
-    getLegsFromBet(bet) {
-        var legs = [];
-        for (var index in bet.legs) {
-            var leg = {
-                description: bet.legs[index].match,
-                match: {
-                    kickoff: "",
-                    league: bet.legs[index].league,
-                    name: bet.legs[index].match
-                },
-                selection: {
-                    homeAway: this.getHomeaway(bet, index)
-                }
-            };
-            legs.push(leg);
+    formatDynamicTextForMatchResult(selectedItem, value, fixture) {
+        const comands = fixture.split(' vs ')
+        let firstTeam, secondTeam
+        [firstTeam, secondTeam] = fixture.split(' vs ')
+        const [resultTimeId, winnComandId] = selectedItem
+        let textValue = '', comand = '', selectedTime = '', scores = ''
+        const [minCountGoals, maxCountGoals] = value
+        switch (winnComandId) {
+            case constant.SELCTED_FIRST:
+                comand = firstTeam + ' ' + constant.TO_WINN
+                break
+            case constant.SELCTED_THREE:
+                comand = secondTeam + ' ' + constant.TO_WINN
+                break
+            case constant.SELCTED_TWO:
+                comand = constant.MATCH_IS_DRAW
+                break
         }
-        return legs;
+        switch (resultTimeId) {
+            case constant.SELCTED_FIRST:
+                selectedTime = '' //' (' + constant.FULL_MATCH + ')'
+                break
+            case constant.SELCTED_TWO:
+                selectedTime = ' (' + constant.BOTH_HALVES + ')'
+                break
+            case constant.SELCTED_THREE:
+                selectedTime = ' (' + constant.EITHER_HALF + ')'
+                break
+        }
+        const goalText = this.formatGoalTextForMatchResult(winnComandId, value)
+        if (minCountGoals === maxCountGoals) {
+            if (maxCountGoals !== 5) {
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : ''
+            } else {
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : ''
+            }
+        }
+        else {
+            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ '
+            scores = winnComandId != constant.SELCTED_TWO ? 'by ' + countGoals + goalText : ''
+        }
+        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SIX) scores = ''
+        textValue = comand + ' ' + ' ' + scores + selectedTime
+        return textValue
+    }
+
+    formatGoalTextForMatchResult(winnComandId, value) {
+        const [minCountGoals, maxCountGoals] = value
+        if (minCountGoals !== maxCountGoals) {
+            return ' goals'
+        }
+        if (minCountGoals === 1) {
+            return ' goal'
+        } else if (minCountGoals === 5) {
+            return '+ goals'
+        }
+        return ''
+    }
+
+    formatTextForGoalscorners(selectedItem, matchName, selectedTeam) {
+        const [homeTeam, awayTeam] = matchName.split(' vs ')
+        const comandName = selectedTeam === constant.HOME ? homeTeam : awayTeam
+        switch (selectedItem) {
+            case constant.SELCTED_TWO:
+                return constant.ANYTIME_GOAL
+            case constant.SELCTED_THREE:
+                return constant.FIRST_MATCH + ' ' + constant.GOAL
+            case constant.SELCTED_FOUR:
+                return constant.FIRST + ' ' + comandName + ' ' + constant.GOAL
+            case constant.SELCTED_FIVE:
+                return constant.THREE_PLUS_GOALS
+        }
+    }
+
+    formatTextForPlaycards(selectedItem, matchName, selectedTeam) {
+        const [homeTeam, awayTeam] = matchName.split(' vs ')
+        const comandName = selectedTeam === constant.HOME ? homeTeam : awayTeam
+        switch (selectedItem) {
+            case constant.SELCTED_TWO:
+                return constant.ANY_CARD
+            case constant.SELCTED_THREE:
+                return constant.FIRST_MATCH + ' ' + constant.CARD
+            case constant.SELCTED_FOUR:
+                return constant.FIRST + ' ' + comandName + ' ' + constant.CARD
+            case constant.SELCTED_FIVE:
+                return constant.SENT_OFF
+        }
+    }
+
+    formatTextForCorners(selectedBetTab, toogleValue, selectedTab, fixture) {
+        let textValue = ''
+        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO) {
+            const comands = fixture.split(' vs ')
+            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners'
+        } else {
+            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' corners'
+        }
+        return textValue
+    }
+
+    formatTextForTeamcard(selectedBetTab, toogleValue, selectedTab, fixture) {
+        let textValue = ''
+        if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO) {
+            const comands = fixture.split(' vs ')
+            textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' booking points'
+        } else if (selectedBetTab === constant.SELCTED_FOUR) {
+            textValue = constant.MATCH_TOTAL + ' ' + selectedTab + ' ' + toogleValue + ' booking points'
+        } else {
+            textValue = products.cornersComponents[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' booking points'
+        }
+        return textValue
     }
 
     getBetDetail(bet) {
+        const betSelection = bet.bet_selections
+        let showBets = []
+        console.log("************************************ Selection ************************************")
+        /******************************************
+         *             MATCH RESULT               *
+         ******************************************/
+        const matchSelection = [
+            {selection: "home_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_FIRST, price: 0},
+            {selection: "draw_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_TWO, price: 0},
+            {selection: "away_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_THREE, price: 0},
+            {selection: "home_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_FIRST, price: 0},
+            {selection: "draw_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_TWO, price: 0},
+            {selection: "away_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_THREE, price: 0},
+            {selection: "home_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_FIRST, price: 0},
+            {selection: "draw_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_TWO, price: 0},
+            {selection: "away_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_THREE, price: 0},
+        ]
+        let matchResult = matchSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === 1
+        })[0]
+        if (!isEmpty(matchResult)) {
+            console.log("********** MATCH RESULT **********")
+            matchResult.price = bet.leg_prices[matchResult.selection]
+            let value
+            if (betSelection.hasOwnProperty("lower_goals_bound") && betSelection.hasOwnProperty("upper_goals_bound")) {
+                value = [parseInt(betSelection["lower_goals_bound"]), parseInt(betSelection["upper_goals_bound"])]
+            } else {
+                value = [0, 0]
+            }
+            let selectedItem = [matchResult.id, matchResult.key]
+            showBets.push({
+                name: constant.MATCH_RESULT,
+                description: this.formatDynamicTextForMatchResult(selectedItem, value, bet.fixture),
+                price: formatPrice(matchResult.price)
+            })
+            //console.log(matchResult)
+        }
+        /******************************************
+         *                GOALS                   *
+         ******************************************/
+        const bttsSelection = [
+            {
+                selection: "btts_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_FIRST,
+                price: 0,
+                value: 1
+            },
+            {
+                selection: "btts_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_TWO,
+                price: 0,
+                value: -1
+            },
+            {
+                selection: "btts_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_FIRST,
+                price: 0,
+                value: 1
+            },
+            {
+                selection: "btts_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_TWO,
+                price: 0,
+                value: -1
+            },
+            {
+                selection: "btts_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_FIRST,
+                price: 0,
+                value: 1
+            },
+            {
+                selection: "btts_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_TWO,
+                price: 0,
+                value: -1
+            },
+        ]
+        const bttsResult = bttsSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === item.value
+        })[0]
+        if (!isEmpty(bttsResult)) {
+            console.log("********** GOALS **********")
+            if (bttsResult.value === 1) {
+                bttsResult.price = bet.leg_prices[bttsResult.selection]['Yes']
+            } else if (bttsResult.value === -1) {
+                bttsResult.price = bet.leg_prices[bttsResult.selection]['No']
+            }
+            showBets.push({
+                name: constant.GOALS,
+                description: formatBTTSText(bttsResult.id, bttsResult.key),
+                price: formatPrice(bttsResult.price)
+            })
+            //console.log(bttsResult)
+        }
+        if (betSelection.hasOwnProperty("total_goals_bound")) {
+            let sliderValue, selectedTab, totalPrice
+            console.log("*** GOALS - total_goals_bound ***")
+            if (betSelection['total_goals_bound'] > 0) {
+                selectedTab = "OVER"
+                sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
+                totalPrice = bet.leg_prices['total_goals_bound']['over'][Math.abs(betSelection['total_goals_bound'])]
+            } else {
+                selectedTab = "UNDER"
+                sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
+                totalPrice = bet.leg_prices['total_goals_bound']['under'][Math.abs(betSelection['total_goals_bound'])]
+            }
+            showBets.push({
+                name: constant.GOALS,
+                description: formatTotalGoalsText(sliderValue, selectedTab),
+                price: formatPrice(totalPrice)
+            })
+        }
+        /******************************************
+         *             GOALSCORERS                *
+         ******************************************/
+        const goalAwaySelection = [
+            {key: constant.SELCTED_TWO, selection: "away_ags_p_ft"},
+            {key: constant.SELCTED_THREE, selection: "match_away_fgs_p_ft"},
+            {key: constant.SELCTED_FOUR, selection: "away_fgs_p_ft"},
+            {key: constant.SELCTED_FIVE, selection: "away_threegs_p_ft"}
+        ]
+        let goalAwayResult = goalAwaySelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })
+        if (!isEmpty(goalAwayResult)) {
+            console.log("********** GOALSCORERS - Away **********")
+            let correctGoalAwayResult = []
+            goalAwayResult.forEach(function (item) {
+                betSelection[item.selection].forEach(function (player) {
+                    correctGoalAwayResult.push(
+                        {
+                            playerId: player,
+                            name: bet.leg_prices[item.selection][player]['name'],
+                            team: bet.leg_prices[item.selection][player]['team'],
+                            selectedTeam: "away",
+                            key: item.key,
+                            price: bet.leg_prices[item.selection][player]['price'],
+                            selection: item.selection
+                        }
+                    )
+                })
+            })
+            correctGoalAwayResult.forEach(function (item) {
+                showBets.push({
+                    name: constant.GOAL_SCORERS,
+                    description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
+                    price: formatPrice(item.price)
+                })
+            }.bind(this))
+            //console.log(correctGoalAwayResult)
+        }
+        const goalHomeSelection = [
+            {key: constant.SELCTED_TWO, selection: "home_ags_p_ft"},
+            {key: constant.SELCTED_THREE, selection: "match_home_p_fgs_ft"},
+            {key: constant.SELCTED_FOUR, selection: "home_fgs_p_ft"},
+            {key: constant.SELCTED_FIVE, selection: "home_threegs_p_ft"}
+        ]
+        let goalHomeResult = goalHomeSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })
+        if (!isEmpty(goalHomeResult)) {
+            console.log("********** GOALSCORERS - Home **********")
+            let correctGoalHomeResult = []
+            goalHomeResult.forEach(function (item) {
+                betSelection[item.selection].forEach(function (player) {
+                    correctGoalHomeResult.push(
+                        {
+                            playerId: player,
+                            name: bet.leg_prices[item.selection][player]['name'],
+                            team: bet.leg_prices[item.selection][player]['team'],
+                            selectedTeam: "home",
+                            key: item.key,
+                            price: bet.leg_prices[item.selection][player]['price'],
+                            selection: item.selection
+                        }
+                    )
+                })
+            })
+            correctGoalHomeResult.forEach(function (item) {
+                showBets.push({
+                    name: constant.GOAL_SCORERS,
+                    description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
+                    price: formatPrice(item.price)
+                })
+            }.bind(this))
+            //console.log(correctGoalHomeResult)
+        }
+        /******************************************
+         *               PLAYCARD                 *
+         ******************************************/
+        const playAwaySelection = [
+            {key: constant.SELCTED_TWO, selection: "away_acard_p_ft"},
+            {key: constant.SELCTED_THREE, selection: "match_away_p_fcard_ft"},
+            {key: constant.SELCTED_FOUR, selection: "away_fcard_p_ft"},
+            {key: constant.SELCTED_FIVE, selection: "away_ared_p_ft"}
+        ]
+        let playAwayResult = playAwaySelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })
+        if (!isEmpty(playAwayResult)) {
+            console.log("********** PLAYCARD - Away **********")
+            let correctPlayAwayResult = []
+            playAwayResult.forEach(function (item) {
+                betSelection[item.selection].forEach(function (player) {
+                    correctPlayAwayResult.push(
+                        {
+                            playerId: player,
+                            name: bet.leg_prices[item.selection][player]['name'],
+                            team: bet.leg_prices[item.selection][player]['team'],
+                            selectedTeam: "away",
+                            key: item.key,
+                            price: bet.leg_prices[item.selection][player]['price'],
+                            selection: item.selection
+                        }
+                    )
+                })
+            })
+            correctPlayAwayResult.forEach(function (item) {
+                showBets.push({
+                    name: constant.GOAL_SCORERS,
+                    description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
+                    price: formatPrice(item.price)
+                })
+            }.bind(this))
+            //console.log(correctPlayAwayResult)
+        }
+        const playHomeSelection = [
+            {key: constant.SELCTED_TWO, selection: "home_acard_p_ft"},
+            {key: constant.SELCTED_THREE, selection: "match_home_p_fcard_ft"},
+            {key: constant.SELCTED_FOUR, selection: "home_fcard_p_ft"},
+            {key: constant.SELCTED_FIVE, selection: "home_ared_p_ft"}
+        ]
+        let playHomeResult = playHomeSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })
+        if (!isEmpty(playHomeResult)) {
+            console.log("********** PLAYCARD - Home **********")
+            let correctPlayHomeResult = []
+            playHomeResult.forEach(function (item) {
+                betSelection[item.selection].forEach(function (player) {
+                    correctPlayHomeResult.push(
+                        {
+                            playerId: player,
+                            name: bet.leg_prices[item.selection][player]['name'],
+                            team: bet.leg_prices[item.selection][player]['team'],
+                            selectedTeam: "home",
+                            key: item.key,
+                            price: bet.leg_prices[item.selection][player]['price'],
+                            selection: item.selection
+                        }
+                    )
+                })
+            })
+            correctPlayHomeResult.forEach(function (item) {
+                showBets.push({
+                    name: constant.GOAL_SCORERS,
+                    description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
+                    price: formatPrice(item.price)
+                })
+            }.bind(this))
+            //console.log(correctPlayHomeResult)
+        }
+        /******************************************
+         *                CORNERS                 *
+         ******************************************/
+        const cornersSelection = [
+            {
+                id: constant.SELCTED_FIRST,
+                toogleValue: 0,
+                price: 0,
+                selection: 'home_corners_ft'
+            },
+            {
+                id: constant.SELCTED_TWO,
+                toogleValue: 0,
+                price: 0,
+                selection: 'away_corners_ft'
+            },
+            {
+                id: constant.SELCTED_THREE,
+                toogleValue: 0,
+                price: 0,
+                selection: 'both_corners_ft'
+            },
+            {
+                id: constant.SELCTED_FOUR,
+                toogleValue: 0,
+                price: 0,
+                selection: 'total_corners_ft'
+            }
+        ]
+        const cornersResult = cornersSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })[0]
+        if (!isEmpty(cornersResult)) {
+            let toogleVaule, selectedTab
+            console.log("******** CORNERS *********")
+            toogleVaule = betSelection[cornersResult.selection]
+            if (toogleVaule > 0) {
+                selectedTab = "over"
+            } else {
+                selectedTab = "under"
+            }
+            cornersResult.toogleValue = Math.abs(toogleVaule)
+            cornersResult.price = bet.leg_prices[cornersResult.selection][selectedTab][cornersResult.toogleValue]
+            showBets.push({
+                name: constant.CORNERS,
+                description: this.formatTextForCorners(cornersResult.id, cornersResult.toogleValue, selectedTab, bet.fixture),
+                price: formatPrice(cornersResult.price)
+            })
+            //console.log(cornersResult)
+        }
+        /******************************************
+         *            TEAMS CARDS                 *
+         ******************************************/
+        const teamcardSelection = [
+            {
+                id: constant.SELCTED_FIRST,
+                toogleValue: 0,
+                price: 0,
+                selection: 'home_bp_ft'
+            },
+            {
+                id: constant.SELCTED_TWO,
+                toogleValue: 0,
+                price: 0,
+                selection: 'away_bp_ft'
+            },
+            {
+                id: constant.SELCTED_THREE,
+                toogleValue: 0,
+                price: 0,
+                selection: 'both_bp_ft'
+            },
+            {
+                id: constant.SELCTED_FOUR,
+                toogleValue: 0,
+                price: 0,
+                selection: 'total_bp_ft'
+            }
+        ]
+        const teamcardResult = teamcardSelection.filter(function (item) {
+            return betSelection.hasOwnProperty(item.selection)
+        })[0]
+        if (!isEmpty(teamcardResult)) {
+            let toogleVaule, selectedTab
+            console.log("********  TEAMS CARDS *********")
+            toogleVaule = betSelection[teamcardResult.selection]
+            if (toogleVaule > 0) {
+                selectedTab = "over"
+            } else {
+                selectedTab = "under"
+            }
+            teamcardResult.toogleValue = Math.abs(toogleVaule)
+            teamcardResult.price = bet.leg_prices[teamcardResult.selection][selectedTab][teamcardResult.toogleValue]
+            showBets.push({
+                name: constant.TEAM_CARDS,
+                description: this.formatTextForTeamcard(teamcardResult.id, teamcardResult.toogleValue, selectedTab, bet.fixture),
+                price: formatPrice(teamcardResult.price)
+            })
+            //console.log(teamcardResult)
+        }
+        console.log("----------------------------------- SHOWBETS ------------------------------------")
+        console.log(showBets)
+
         return (
             <div className="bet-confirm-container">
                 <div className="form-group">
                     <h3 className="bet-placed-product">
-                        {this.getBetName(bet)}
+                        EXOTIC ACCUMULATOR
                     </h3>
                 </div>
                 <div className="form-group">
-                    <div className="bet-goal">
-                        <span>{this.placedBetTextFormatter(bet)}</span>
-                        <span>{this.placedBetGoalFormatter(bet)}</span>
-                    </div>
-                </div>
-                <div className="form-group">
                     <div className="bet-legs">
-                        <AccaLegTable
-                            clickHandler={null}
-                            legs={getLegsFromBet(bet)}
-                            accaProductPanelState={"result"}
-                            price={false}
+                        <StakeTable
+                            bets={showBets}
+                            status={bet.bet_settled}
                         />
                     </div>
                 </div>
                 <div className="form-group">
                     <h3 className="bet-placed-price">
-                        €{bet.size} @ <span>{bet.price}</span>
+                        €{bet.stake} @ <span>{formatPrice(bet.price)}</span>
                     </h3>
                 </div>
                 <div className="form-group">
                     <div className="bet-placed-result">
-                        <span>To Return € {this.formatCurrentPrice(bet.size * bet.price)}</span>
-                        <span>Result = {bet.betResult}</span>
+                        <span>To Return € {formatPrice(bet.stake * bet.price)}</span>
+                        <span>Result = {bet.bet_won ? "Bet won" : "Bet lost"}</span>
                     </div>
                 </div>
                 <div className="form-group">
                     <a className="site-url" href="http://www.DummyURL.com">www.DummyURL.com</a>
-                    {this.getCurrentTimeFormatter(bet.timestamp)}
+                    {this.getCurrentTimeFormatter(bet.kickoff)}
                 </div>
             </div>
         )
@@ -240,88 +625,6 @@ export default class MyBetList extends React.PureComponent {
                 </div>
             </div>
         )
-    }
-
-    placedBetHeaderTextFormatter(bet) {
-        var formatString;
-        if (bet.n_legs === bet.legs.length) {
-            formatString = "All " + bet.n_legs + " to " + (bet.n_goals <= 1 ? "just " : "");
-        } else {
-            formatString = bet.n_legs + "+ of " + bet.legs.length + " to " + (bet.n_goals <= 1 ? "just " : "");
-        }
-        switch (bet.type) {
-            case "winners": {
-                formatString = formatString + "win" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
-                break;
-            }
-            case "losers": {
-                formatString = formatString + "lose" + (bet.n_goals > 1 ? " by " + bet.n_goals + "+ goals" : "");
-                break;
-            }
-            case "draws": {
-                formatString = formatString + "draw" + (bet.n_goals > 0 ? " with " + bet.n_goals + "+ goals" : "");
-                break;
-            }
-        }
-        return formatString;
-    }
-
-    placedBetTextFormatter(bet) {
-        var formatString;
-        if (bet.n_legs === bet.legs.length) {
-            formatString = "All " + bet.n_legs + " teams to " + (bet.n_goals <= 1 ? "just " : "");
-        } else {
-            formatString = "Any " + bet.n_legs + "+ of " + bet.legs.length + " teams to " + (bet.n_goals <= 1 ? "just " : "");
-        }
-        switch (bet.type) {
-            case "winners": {
-                formatString += "win";
-                break;
-            }
-            case "losers": {
-                formatString += "lose";
-                break;
-            }
-            case "draws": {
-                formatString += "draw";
-                break;
-            }
-        }
-        return formatString;
-    }
-
-    placedBetGoalFormatter(bet) {
-        switch (bet.type) {
-            case "winners":
-                return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
-            case "losers":
-                return bet.n_goals > 1 ? "By " + bet.n_goals + "+ goals" : "";
-            case "draws":
-                return bet.n_goals > 0 ? "With " + bet.n_goals + "+ goals per team" : "";
-        }
-    }
-
-    formatPrice(value) {
-        let result = 0;
-        if (value < 2) {
-            // return value.toFixed(3);
-            result = value.toFixed(2);
-        } else if (value < 10) {
-            result = value.toFixed(2);
-        } else if (value < 100) {
-            result = value.toFixed(1);
-        } else {
-            result = Math.floor(value);
-        }
-        return result;
-    }
-
-    formatCurrentPrice(price) {
-        if (price == undefined) {
-            return "[...]";
-        } else {
-            return this.formatPrice(price);
-        }
     }
 
     _setSelectedItem(activeKey) {
@@ -353,65 +656,67 @@ export default class MyBetList extends React.PureComponent {
     }
 
     render() {
-        const {bets, selectedTab, faqs, clickedFaq} = this.props;
+        const {bets, selectedTab, faqs, clickedFaq} = this.props
         return (
             <div id="my-bet-list">
-                <div style={(selectedTab === 'open' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
-                    <Accordion>
-                        {
-                            bets.map((bet, key) => {
-                                return (
-                                    <Panel
-                                        key={key + '_' + selectedTab}
-                                        eventKey={key + '_' + selectedTab}
-                                        header={(key + '_' + selectedTab) === this.state.activeOpenKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
-                                        onSelect={this._setSelectedItem}
-                                        onEntering={this._setExpandedState}
-                                        onExit={this._setCollapsedState}>
-                                        {this.getBetDetail(bet)}
-                                    </Panel>
-                                )
-                            })
-                        }
-                    </Accordion>
-                </div>
-                <div style={(selectedTab == 'settled' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
-                    <Accordion>
-                        {
-                            bets.map((bet, key) => {
-                                return (
-                                    <Panel
-                                        key={key + '_' + selectedTab}
-                                        eventKey={key + '_' + selectedTab}
-                                        header={(key + '_' + selectedTab) === this.state.activeSettledKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
-                                        onSelect={this._setSelectedItem}
-                                        onEntering={this._setExpandedState}
-                                        onExit={this._setCollapsedState}>
-                                        {this.getBetDetail(bet)}
-                                    </Panel>
-                                )
-                            })
-                        }
-                    </Accordion>
-                </div>
-                <div style={clickedFaq ? {display: "block"} : {display: "none"}}>
-                    <Accordion>
-                        {
-                            faqs.map((faq, key) => {
-                                return (
-                                    <Panel
-                                        key={key + '_faq'}
-                                        eventKey={key + '_faq'}
-                                        header={(key + '_faq') === this.state.activeFaqKey && this.state.panelExpanded === true ? this.getFaqHeader(faq, true) : this.getFaqHeader(faq, false)}
-                                        onSelect={this._setSelectedItem}
-                                        onEntering={this._setExpandedState}
-                                        onExit={this._setCollapsedState}>
-                                        {this.getFaqDetail(faq)}
-                                    </Panel>
-                                )
-                            })
-                        }
-                    </Accordion>
+                <div id="my-bet-table">
+                    <div style={(selectedTab === 'open' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
+                        <Accordion>
+                            {
+                                bets.map((bet, key) => {
+                                    return (
+                                        <Panel
+                                            key={key + '_' + selectedTab}
+                                            eventKey={key + '_' + selectedTab}
+                                            header={(key + '_' + selectedTab) === this.state.activeOpenKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
+                                            onSelect={this._setSelectedItem}
+                                            onEntering={this._setExpandedState}
+                                            onExit={this._setCollapsedState}>
+                                            {/*this.getBetDetail(bet)*/}
+                                        </Panel>
+                                    )
+                                })
+                            }
+                        </Accordion>
+                    </div>
+                    <div style={(selectedTab === 'settled' && !clickedFaq) ? {display: "block"} : {display: "none"}}>
+                        <Accordion>
+                            {
+                                bets.map((bet, key) => {
+                                    return (
+                                        <Panel
+                                            key={key + '_' + selectedTab}
+                                            eventKey={key + '_' + selectedTab}
+                                            header={(key + '_' + selectedTab) === this.state.activeSettledKey && this.state.panelExpanded === true ? this.getHeader(bet, true) : this.getHeader(bet, false)}
+                                            onSelect={this._setSelectedItem}
+                                            onEntering={this._setExpandedState}
+                                            onExit={this._setCollapsedState}>
+                                            {this.getBetDetail(bet)}
+                                        </Panel>
+                                    )
+                                })
+                            }
+                        </Accordion>
+                    </div>
+                    <div style={clickedFaq ? {display: "block"} : {display: "none"}}>
+                        <Accordion>
+                            {
+                                faqs.map((faq, key) => {
+                                    return (
+                                        <Panel
+                                            key={key + '_faq'}
+                                            eventKey={key + '_faq'}
+                                            header={(key + '_faq') === this.state.activeFaqKey && this.state.panelExpanded === true ? this.getFaqHeader(faq, true) : this.getFaqHeader(faq, false)}
+                                            onSelect={this._setSelectedItem}
+                                            onEntering={this._setExpandedState}
+                                            onExit={this._setCollapsedState}>
+                                            {this.getFaqDetail(faq)}
+                                        </Panel>
+                                    )
+                                })
+                            }
+                        </Accordion>
+                    </div>
                 </div>
             </div>
         )

@@ -113,7 +113,7 @@ export default class CornersPanel extends React.PureComponent {
             }
         ]
         const curateSelection = matches.filter(function (item) {
-            return selection.hasOwnProperty(item.selection) && isEmpty(selection[item.selection])
+            return selection.hasOwnProperty(item.selection)
         })[0]
         console.log("******** CORNERS *********")
         console.log(curateSelection)

@@ -114,7 +114,7 @@ export default class TeamCardsPanel extends React.PureComponent {
             }
         ]
         const curateSelection = matches.filter(function (item) {
-            return selection.hasOwnProperty(item.selection) && isEmpty(selection[item.selection])
+            return selection.hasOwnProperty(item.selection)
         })[0]
         console.log("******** TEAMS CARDS *********")
         console.log(curateSelection)
@@ -231,7 +231,7 @@ export default class TeamCardsPanel extends React.PureComponent {
     formatText(selectedBetTab, toogleValue, selectedTab) {
         let textValue = ''
         if (selectedBetTab === constant.SELCTED_FIRST || selectedBetTab === constant.SELCTED_TWO) {
-            const comands = this.props.match.fixture.split(' vs ');
+            const comands = this.props.match.fixture.split(' vs ')
             textValue = comands[selectedBetTab] + ' ' + selectedTab + ' ' + toogleValue + ' booking points'
         } else if (selectedBetTab === constant.SELCTED_FOUR) {
             textValue = constant.MATCH_TOTAL + ' ' + selectedTab + ' ' + toogleValue + ' booking points'
