@@ -32,25 +32,36 @@ export default class MyBetList extends React.PureComponent {
     getHeader(bet, expanded) {
         return (
             <div>
-                {
-                    expanded === true ?
-                        <span className="glyphicon glyphicon-triangle-top glyph-background">
-                            <span className="inner"></span>
-                        </span>
-                        :
-                        <span className="glyphicon glyphicon-triangle-bottom glyph-background">
-                            <span className="inner"></span>
-                        </span>
-                }
-                <span className="fixture">
-                    {bet.fixture}
-                </span>
-                <div className="pull-right">
-                    <span className={bet.bet_won ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove"}></span>
-                    <span className={"leg leg-" + bet.total_legs + " label bold"}>
-                    {"Any " + bet.winners_required + "+ of " + bet.total_legs}
-                    </span>
-                </div>
+                <table className="table table-condensed table-striped"
+                       style={{marginTop: '0px', marginBottom: "0px"}}>
+                    <tbody>
+                    <tr>
+                        <td>
+                            {
+                                expanded === true ?
+                                    <span className="glyphicon glyphicon-triangle-top glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
+                                    :
+                                    <span className="glyphicon glyphicon-triangle-bottom glyph-background">
+                                        <span className="inner"></span>
+                                    </span>
+                            }
+                        </td>
+                        <td className="bet-fixture">
+                             <span>{bet.fixture}</span>
+                        </td>
+                        <td className="bet-status">
+                             <span className={bet.bet_won ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove"}></span>
+                        </td>
+                        <td className="bet-legs">
+                            <span className={"leg leg-" + bet.total_legs + " label bold"}>
+                                    {"Any " + bet.winners_required + "+ of " + bet.total_legs}
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         )
     }
@@ -58,7 +69,7 @@ export default class MyBetList extends React.PureComponent {
     getFaqHeader(faq, expanded) {
         return (
             <div>
-                <table>
+                <table className="table table-condensed table-striped">
                     <tbody>
                     <tr>
                         <td>
