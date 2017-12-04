@@ -2,12 +2,12 @@ import React from 'react'
 import {bindAll, isEmpty, isEqual} from 'lodash'
 import MatchResultTable from '../MatchResultTable'
 import * as constant from '../../constant'
-const productsName = constant.MATCH_RESULT
 import Slider from 'rc-slider'
-const Range = Slider.Range
 import {formatPrice} from '../../utils'
 import classNames from 'classnames'
 import * as s from './index.css'
+const productsName = constant.MATCH_RESULT
+const Range = Slider.Range
 
 export default class MatchResult extends React.PureComponent {
     constructor(props) {

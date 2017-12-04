@@ -439,7 +439,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                                    }}
                                    onKeyPress={(e) => {
                                        if ((e.which !== 46 || e.target.value.indexOf('.') !== -1) && (e.which < 48 || e.which > 57)) {
-                                           e.preventDefault();
+                                           e.preventDefault()
                                        }
                                    }}
                             />

@@ -102,7 +102,7 @@ export default class MyBetPanel extends React.PureComponent {
                     clickedFaq={clickedFaq}
                 />
                 {
-                    bets.length > betsPaginator.rows ?
+                    !clickedFaq && bets.length > betsPaginator.rows ?
                         <MyPaginator
                             clickHandler={this.handlePaginatorClicked}
                             currentPage={currentPage}

@@ -4,11 +4,10 @@ import MyBetTabThreeState from '../../molecules/MyBetTabThreeState'
 import Slider from 'rc-slider'
 import BTTSTable from '../BTTSTable'
 import * as constant from '../../constant'
-import {formatPrice} from '../../utils'
-const productsName = constant.GOALS
-import {formatBTTSText, formatTotalGoalsText} from '../../utils'
+import {formatBTTSText, formatTotalGoalsText, formatPrice} from '../../utils'
 import s from './index.css'
 import classNames from 'classnames'
+const productsName = constant.GOALS
 
 export default class BTTSPanel extends React.PureComponent {
     constructor(props) {
@@ -283,8 +282,6 @@ export default class BTTSPanel extends React.PureComponent {
                     <Slider dots step={1} value={sliderValue} defaultValue={sliderValue} marks={constant.marks} min={1}
                             max={6} onChange={this.onChangeSlider}/>
                 </div>
-
-
                 <div className={classNames(s["form-group"], s['output-block'])}>
                     {
                         (!this.state.changedTable && !this.state.changedTab) ?
@@ -327,5 +324,4 @@ export default class BTTSPanel extends React.PureComponent {
             </div>
         )
     }
-
 }

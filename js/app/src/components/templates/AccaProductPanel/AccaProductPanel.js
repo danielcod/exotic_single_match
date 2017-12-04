@@ -44,7 +44,7 @@ export default class AccaProductPanel extends React.PureComponent {
         const randomLimit = curates.length
         curates.sort(function () {
             // Get a random number
-            let temp = parseInt(Math.random() * randomLimit);
+            let temp = parseInt(Math.random() * randomLimit)
             // Get 1 or 0, whether temp is odd or even
             let isOddOrEven = temp % 2
             // Get +1 or -1, whether temp greater or smaller than 5

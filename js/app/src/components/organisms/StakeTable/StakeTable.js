@@ -1,6 +1,6 @@
 import React from 'react'
-import DateTimeCell from '../../atoms/DateTimeCell';
-import * as constant from '../../constant';
+import DateTimeCell from '../../atoms/DateTimeCell'
+import * as constant from '../../constant'
 import classnames from 'classnames'
 import * as s from './index.css'
 
@@ -13,7 +13,8 @@ export default class StakeTable extends React.PureComponent {
                 <tbody>
                 {
                     bets.map(function (bet, key) {
-                        const imgSrc = 'img/' + bet.name + '-light.png';
+                        console.log(bet.win)
+                        const imgSrc = 'img/' + bet.name + '-light.png'
                         return (
                             <tr key={key} className="leg-row">
                                 <td className={classnames(s['tb-rd'], "leg-row-date")}>
@@ -38,8 +39,16 @@ export default class StakeTable extends React.PureComponent {
                                         null
                                 }
                                 <td className={classnames(s['tb-rd'])}>
-                                    <span>{status !== null && status === true ? bet.price : "?"}</span>
+                                    <span>{bet.price}</span>
                                 </td>
+                                {
+                                     status === false ?
+                                        <td className={classnames(s['tb-rd'])}>
+                                            <span>{"?"}</span>
+                                        </td>
+                                        :
+                                        null
+                                }
                             </tr>
                         )
                     })

@@ -65,7 +65,6 @@ export class ExoticsAPI {
             .set('Accept', 'application/json')
             .withCredentials()
             .end(function (err, res) {
-                 console.log(err)
                 if (res.body !== null && res.status === 200) {
                     handler(res.body)
                 } else {

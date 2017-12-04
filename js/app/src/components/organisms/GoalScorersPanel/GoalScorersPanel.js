@@ -1,13 +1,13 @@
 import React from 'react'
-import {bindAll, isEmpty, findIndex, isEqual, remove} from 'lodash'
+import {bindAll, isEmpty, findIndex, isEqual} from 'lodash'
 import GoalScorersTable from '../GoalScorersTable'
 import MyPaginator from '../../molecules/MyPaginator'
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
 import * as constant from '../../constant'
 import {formatPrice} from '../../utils'
-const productsName = constant.GOAL_SCORERS
 import s from './index.css'
 import classNames from 'classnames'
+const productsName = constant.GOAL_SCORERS
 
 export default class GoalScorersPanel extends React.PureComponent {
     constructor(props) {

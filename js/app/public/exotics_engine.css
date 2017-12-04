@@ -628,6 +628,10 @@ tr > td span.future {
     width: 197px;
 }
 
+#my-bet-table .table td.bet-fixture-open {
+    width: 222px;
+}
+
 #my-bet-table .table td.bet-fixture span {
     /*
     white-space: nowrap;
@@ -659,11 +663,11 @@ tr > td span.future {
     top: -2px;
 }
 
-#my-bet-list .panel-group .panel .panel-collapse {
+#my-bet-table .panel-group .panel .panel-collapse {
     background: #575763;
 }
 
-#my-bet-list .panel-group .panel .panel-collapse .panel-body {
+#my-bet-table .panel-group .panel .panel-collapse .panel-body {
     border: none;
 }
 

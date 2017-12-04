@@ -116,7 +116,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     handleMatchChanged(name, value) {
         const match = this.state.matches.filter(function (product) {
-            return product.match_id == value;
+            return product.match_id == value
         })[0]
         const bets = []
         this.setState({match, bets})
@@ -198,7 +198,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         bets = bets.filter((bet) => {
             if (bet.name === oldBet.name && bet.match.fixture === oldBet.match.fixture) {
                 if (oldBet.options.changedTab) {
-                    bet.options.changedTab = !oldBet.options.changedTab;
+                    bet.options.changedTab = !oldBet.options.changedTab
                     bet.options.textTotalGoals = ''
                     bet.options.sliderValue = 3
                     bet.options.selectedTab = {
