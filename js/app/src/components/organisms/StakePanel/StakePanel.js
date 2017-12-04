@@ -2,7 +2,7 @@ import React from 'react'
 import {bindAll} from 'lodash'
 import StakeTable from '../../organisms/StakeTable'
 import MyPaginator from '../../molecules/MyPaginator'
-import {formatCurrentPrice, getCurrentTimeFormatter, getLegsFromBet} from '../../utils'
+import {formatCurrentPrice, formatCurrentPrice2, getCurrentTimeFormatter, getLegsFromBet} from '../../utils'
 import * as constant from '../../constant'
 import classnames from 'classnames'
 import * as s from './index.css'
@@ -123,12 +123,12 @@ export default class StakePanel extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <h3 className="bet-placed-price">
-                        €{parseFloat(stake).toFixed(2)} @ <span>{formatCurrentPrice(price)}</span>
+                        €{formatCurrentPrice2(stake)} @ <span>{formatCurrentPrice(price)}</span>
                     </h3>
                 </div>
                 <div className="form-group">
                     <div className={classnames(s['in-legs'], "bet-placed-result")}>
-                        <span>To win € {formatCurrentPrice(stake * price)}</span>
+                        <span>To win € {formatCurrentPrice2(stake * price)}</span>
                         <span>Result = ?</span>
                     </div>
                 </div>

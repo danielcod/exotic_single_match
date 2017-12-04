@@ -26,7 +26,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         const previousState = JSON.parse(localStorage.getItem("AccaMatchProduct"))
         if (previousState) {
             let bets = previousState.bets
-            let match =  previousState.match
+            let match = previousState.match
             let curate = previousState.curate
             if (!isEmpty(curate) || !isEmpty(this.props.curate)) {
                 bets = []
@@ -48,7 +48,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 stake: previousState.stake,
                 price: previousState.price,
                 textBetsInStake: previousState.textBetsInStake,
-                countBetsInStake: previousState.countBetsInStake
+                //countBetsInStake: previousState.countBetsInStake
             }
             localStorage.removeItem("AccaMatchProduct")
         } else {
@@ -108,7 +108,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         localStorage.setItem('AccaMatchProduct', JSON.stringify(this.state))
     }
 
-    setEmptyCurate(){
+    setEmptyCurate() {
         const curate = {}
         this.setState({curate})
         this.props.setEmptyCurate()

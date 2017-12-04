@@ -3,6 +3,7 @@ import DateTimeCell from '../../atoms/DateTimeCell'
 import * as constant from '../../constant'
 import classnames from 'classnames'
 import * as s from './index.css'
+import {formatCurrentPrice} from '../../utils'
 
 export default class StakeTable extends React.PureComponent {
     render() {
@@ -13,7 +14,6 @@ export default class StakeTable extends React.PureComponent {
                 <tbody>
                 {
                     bets.map(function (bet, key) {
-                        console.log(bet.win)
                         const imgSrc = 'img/' + bet.name + '-light.png'
                         return (
                             <tr key={key} className="leg-row">
@@ -39,7 +39,7 @@ export default class StakeTable extends React.PureComponent {
                                         null
                                 }
                                 <td className={classnames(s['tb-rd'])}>
-                                    <span>{bet.price}</span>
+                                    <span>{formatCurrentPrice(bet.price)}</span>
                                 </td>
                                 {
                                      status === false ?

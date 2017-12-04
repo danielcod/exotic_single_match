@@ -52,6 +52,28 @@ export function formatCurrentPrice(price) {
     }
 }
 
+export function formatPrice2(value) {
+    if (typeof value === "string") value = parseFloat(value)
+    if (value < 2) {
+        // return value.toFixed(3);
+        return value.toFixed(2)
+    } else if (value < 10) {
+        return value.toFixed(2)
+    } else if (value < 1000) {
+        return value.toFixed(2)
+    } else {
+        return value.toFixed(2)
+    }
+}
+
+export function formatCurrentPrice2(price) {
+    if (price == undefined) {
+        return "[...]"
+    } else {
+        return formatPrice2(price)
+    }
+}
+
 export function getCurrentBet(props, matchComponents) {
     const {bets, match} = props
     let currentBet = {}

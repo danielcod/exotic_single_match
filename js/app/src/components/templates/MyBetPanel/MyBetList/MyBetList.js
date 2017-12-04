@@ -3,7 +3,7 @@ import {bindAll, isEmpty, isEqual, isNull} from 'lodash'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import StakeTable from '../../../organisms/StakeTable'
-import {formatBTTSText, formatTotalGoalsText, formatPrice} from '../../../utils'
+import {formatBTTSText, formatTotalGoalsText, formatPrice, formatPrice2} from '../../../utils'
 import * as products from '../../../products'
 import * as DU from '../../../date_utils'
 import * as constant from '../../../constant'
@@ -275,7 +275,7 @@ export default class MyBetList extends React.PureComponent {
             showBets.push({
                 name: constant.MATCH_RESULT,
                 description: this.formatDynamicTextForMatchResult(selectedItem, value, bet.fixture),
-                price: formatPrice(matchResult.price),
+                price: matchResult.price,
                 win: win
             })
             //console.log(matchResult)
@@ -348,7 +348,7 @@ export default class MyBetList extends React.PureComponent {
             showBets.push({
                 name: constant.GOALS,
                 description: formatBTTSText(bttsResult.id, bttsResult.key),
-                price: formatPrice(bttsResult.price),
+                price: bttsResult.price,
                 win: win
             })
             //console.log(bttsResult)
@@ -376,7 +376,7 @@ export default class MyBetList extends React.PureComponent {
             showBets.push({
                 name: constant.GOALS,
                 description: formatTotalGoalsText(sliderValue, selectedTab),
-                price: formatPrice(totalPrice),
+                price: totalPrice,
                 win: win
             })
         }
@@ -422,7 +422,7 @@ export default class MyBetList extends React.PureComponent {
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price),
+                    price: item.price,
                     win: win
                 })
             }.bind(this))
@@ -467,7 +467,7 @@ export default class MyBetList extends React.PureComponent {
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForGoalscorners(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price),
+                    price: item.price,
                     win: win
                 })
             }.bind(this))
@@ -515,7 +515,7 @@ export default class MyBetList extends React.PureComponent {
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price),
+                    price: item.price,
                     win: win
                 })
             }.bind(this))
@@ -560,7 +560,7 @@ export default class MyBetList extends React.PureComponent {
                 showBets.push({
                     name: constant.GOAL_SCORERS,
                     description: item.name + ' - ' + this.formatTextForPlaycards(item.key, bet.fixture, item.selectedTeam),
-                    price: formatPrice(item.price),
+                    price: item.price,
                     win: win
                 })
             }.bind(this))
@@ -620,7 +620,7 @@ export default class MyBetList extends React.PureComponent {
             showBets.push({
                 name: constant.CORNERS,
                 description: this.formatTextForCorners(cornersResult.id, cornersResult.toogleValue, selectedTab, bet.fixture),
-                price: formatPrice(cornersResult.price),
+                price: cornersResult.price,
                 win: win
             })
             //console.log(cornersResult)
@@ -679,7 +679,7 @@ export default class MyBetList extends React.PureComponent {
             showBets.push({
                 name: constant.TEAM_CARDS,
                 description: this.formatTextForTeamcard(teamcardResult.id, teamcardResult.toogleValue, selectedTab, bet.fixture),
-                price: formatPrice(teamcardResult.price),
+                price: teamcardResult.price,
                 win: win
             })
             //console.log(teamcardResult)
@@ -704,12 +704,12 @@ export default class MyBetList extends React.PureComponent {
                 </div>
                 <div className="form-group">
                     <h3 className="bet-placed-price">
-                        €{bet.stake} @ <span>{formatPrice(bet.price)}</span>
+                        €{formatPrice2(bet.stake)} @ <span>{formatPrice(bet.price)}</span>
                     </h3>
                 </div>
                 <div className="form-group">
                     <div className="bet-placed-result">
-                        <span>To Return € {formatPrice(bet.stake * bet.price)}</span>
+                        <span>To Return € {formatPrice2(bet.stake * bet.price)}</span>
                         {
                             bet.bet_settled === true ?
                                 <span>Result = {bet.bet_won ? "Bet won" : "Bet lost"}</span>

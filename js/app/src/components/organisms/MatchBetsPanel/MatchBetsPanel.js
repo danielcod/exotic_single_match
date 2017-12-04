@@ -1,7 +1,7 @@
 import React from 'react'
 import MatchBetsTable from '../../organisms/MatchBetsTable'
 import {bindAll, isEmpty} from 'lodash'
-import {formatCurrentPrice, formatObjectYourBet} from '../../utils'
+import {formatCurrentPrice, formatCurrentPrice2, formatObjectYourBet} from '../../utils'
 import CornersToogle from '../../molecules/CornersToggle'
 import MyPaginator from '../../molecules/MyPaginator'
 import * as constant from '../../constant'
@@ -43,6 +43,8 @@ export default class MatchBetsPanel extends React.PureComponent {
             showBets.push(bet)
         })
         showBets = formatObjectYourBet(showBets, match)
+        console.log("********************")
+        console.log(showBets)
         if (showBets.length > 1) {
             countBetsInStake = Math.ceil((showBets.length / 2) + 1)
         }
@@ -58,9 +60,9 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     applyPaginatorWindow(items) {
-        var rows = constant.COUNT_PLAYER_ROWS
-        var i = this.state.currentPage * rows
-        var j = (this.state.currentPage + 1) * rows
+        let rows = constant.COUNT_PLAYER_ROWS
+        let i = this.state.currentPage * rows
+        let j = (this.state.currentPage + 1) * rows
         return items.slice(i, j)
     }
 
@@ -450,7 +452,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 style={{marginTop: '8px'}}
                                 className={classNames(s["bet-submit-btns-child"], "btn btn-primary btn-place")}
                                 onClick={this.placeBet}>
-                                <span className="bold" style={{marginRight: "5px"}}>EUR {formatCurrentPrice(this.state.stake)}</span>
+                                <span className="bold" style={{marginRight: "5px"}}>EUR {formatCurrentPrice2(this.state.stake)}</span>
                                 Place Bet
                             </button>
                         </div>
