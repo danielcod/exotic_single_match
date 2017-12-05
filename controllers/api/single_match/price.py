@@ -7,6 +7,7 @@ username = "yeosport"
 password = "yeosport22"
 base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
 #Example json to post: {"selection": {"home_ft": [1,4],  "btts_ft":-1}, "iD": "2522816"}
+#curl -vX POST http://127.0.0.1:8080/api/single_match/pricev2 -d "{\"selection\": {\"winners_criteria\": 1 , \"home_ft\": [1,4],  \"btts_ft\":-1}, \"iD\": \"2522816\"}" --header "Content-Type: application/json"
 class PricerHandler(webapp2.RequestHandler):
     
     @parse_json_body
