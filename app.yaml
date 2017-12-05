@@ -41,12 +41,14 @@ handlers:
   script: controllers.api.single_match.bets.app
 - url: /api/single_match/legs.*
   script: controllers.api.single_match.legs.app
-- url: /api/single_match/legv2.*
+- url: /api/single_match/legsv2.*
   script: controllers.api.single_match.legs.app
 - url: /api/single_match/curate.*
   script: controllers.api.single_match.curates.app
 - url: /api/single_match/place.*
   script: controllers.api.single_match.place.app
+- url: /api/single_match/pricev2.*
+  script: controllers.api.single_match.price.app
 - url: /api/single_match/settle.*
   script: controllers.api.single_match.settle.app
 - url: /app.*
