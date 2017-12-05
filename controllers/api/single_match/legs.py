@@ -31,8 +31,6 @@ class LegsHandler(webapp2.RequestHandler):
 		return json.loads(resp.read())
 
 
-
-
 Routing=[('/api/single_match/legs', IndexHandler),('/api/single_match/legsv2', LegsHandler)]
 
 app=webapp2.WSGIApplication(Routing)
