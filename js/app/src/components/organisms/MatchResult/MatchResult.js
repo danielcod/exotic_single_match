@@ -6,6 +6,7 @@ import Slider from 'rc-slider'
 import {formatPrice} from '../../utils'
 import classNames from 'classnames'
 import * as s from './index.css'
+
 const productsName = constant.MATCH_RESULT
 const Range = Slider.Range
 
@@ -79,7 +80,7 @@ export default class MatchResult extends React.PureComponent {
         return {
             name: productsName,
             options: {
-                range: [1, 6],
+                range: [1, 5],
                 textValue: '',
                 showSlider: true,
                 tableSelectedItem: [],
@@ -107,11 +108,17 @@ export default class MatchResult extends React.PureComponent {
         this.props.delBetfromBetsList(bet)
     }
 
-    onChange(value) {
+    onChange(values) {
         const {selectedItem, showSlider, selection} = this.state
         const {match} = this.props
-        let price, lower = constant.marks[value[0]], upper = constant.marks[value[1]]
-        if (upper === '5.5') upper = '1000'
+        let value
+        if (values[0] === values[1]) {
+            value = this.state.value
+        } else {
+            value = values
+        }
+        let price, lower = value[0] - 0.5, upper = value[1] + 0.5
+        if (upper === 5.5) upper = 1000
         if (isEmpty(selectedItem)) {
             this.setState({value})
             return
@@ -159,8 +166,8 @@ export default class MatchResult extends React.PureComponent {
             this.handleCancel()
         } else {
             selectedItem = [id, key]
-            let price, lower = constant.marks[value[0]], upper = constant.marks[value[1]]
-            if (upper === '5.5') upper = '1000'
+            let price, lower = value[0] - 0.5, upper = value[1] + 0.5
+            if (upper === 5.5) upper = 1000
             switch (selectedItem[0]) {
                 case constant.SELCTED_FIRST:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
@@ -229,17 +236,17 @@ export default class MatchResult extends React.PureComponent {
         }
         const goalText = this.formatGoalText(winnComandId, value)
         if (minCountGoals === maxCountGoals) {
-            if (maxCountGoals !== 6) {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + constant.marks[maxCountGoals] + goalText : ''
+            if (maxCountGoals !== 5) {
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : ''
             } else {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + constant.marks[maxCountGoals] + goalText : ''
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : ''
             }
         }
         else {
-            const countGoals = maxCountGoals != constant.SELCTED_SEVEN ? constant.marks[minCountGoals] + ' - ' + constant.marks[maxCountGoals] : constant.marks[minCountGoals] + '+ '
+            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ '
             scores = winnComandId != constant.SELCTED_TWO ? 'by ' + countGoals + goalText : ''
         }
-        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SEVEN) scores = ''
+        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SIX) scores = ''
         textValue = comand + ' ' + ' ' + scores + selectedTime
 
         return textValue
@@ -252,7 +259,7 @@ export default class MatchResult extends React.PureComponent {
         }
         if (minCountGoals === 1) {
             return ' goal'
-        } else if (minCountGoals === 6) {
+        } else if (minCountGoals === 5) {
             return '+ goals'
         }
         return ''
@@ -322,7 +329,7 @@ export default class MatchResult extends React.PureComponent {
                 {this.state.showSlider ?
                     <div className={s['wrap-slider']}>
                         <div className={s['text-goals']}>By how many goals?</div>
-                        <Range dots step={1} value={value} defaultValue={value} marks={constant.marks} min={1} max={6}
+                        <Range dots step={1} value={value} defaultValue={value} marks={marks} min={1} max={5}
                                onChange={this.onChange}/>
                     </div>
                     :
