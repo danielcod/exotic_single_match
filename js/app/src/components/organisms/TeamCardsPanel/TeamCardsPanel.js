@@ -147,6 +147,12 @@ export default class TeamCardsPanel extends React.PureComponent {
     }
 
     setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem) {
+        let price
+        if (selectedTab === 'over') {
+            price = parseFloat(formatPrice(selectedItem['value'][toogleValue]))
+        } else if (selectedTab === 'under') {
+            price = parseFloat(formatPrice(selectedItem['value']['-' + toogleValue]))
+        }
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -157,7 +163,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                 selectedBetTab,
                 textValue,
                 changes: true,
-                price: parseFloat(formatPrice(selectedItem[selectedTab][toogleValue])),
+                price: price,
                 selectedItem,
                 selection: selectedItem.selection
             }
@@ -186,7 +192,7 @@ export default class TeamCardsPanel extends React.PureComponent {
         const {toogleValue, selectedTab, selectedBetTab} = this.state;
         if (selectedBetTab === selected) {
             this.handleCancel()
-            return;
+            return
         }
         const textValue = this.formatText(selected, toogleValue, selectedTab)
         this.setToParrenState(selected, toogleValue, selectedTab, textValue, selectedItem.sliderOptions, selectedItem)
@@ -249,8 +255,7 @@ export default class TeamCardsPanel extends React.PureComponent {
         }
         const matches = [
             {
-                over: match.home_bp_ft.over,
-                under: match.home_bp_ft.under,
+                value: match.home_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -260,8 +265,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                 selection: 'home_bp_ft'
             },
             {
-                over: match.away_bp_ft.over,
-                under: match.away_bp_ft.under,
+                value: match.away_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -271,8 +275,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                 selection: 'away_bp_ft'
             },
             {
-                over: match.both_bp_ft.over,
-                under: match.both_bp_ft.under,
+                value: match.both_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -282,8 +285,7 @@ export default class TeamCardsPanel extends React.PureComponent {
                 selection: 'both_bp_ft'
             },
             {
-                over: match.total_bp_ft.over,
-                under: match.total_bp_ft.under,
+                value: match.total_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,

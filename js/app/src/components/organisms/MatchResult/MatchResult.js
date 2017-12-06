@@ -79,7 +79,7 @@ export default class MatchResult extends React.PureComponent {
         return {
             name: productsName,
             options: {
-                range: [1, 5],
+                range: [1, 6],
                 textValue: '',
                 showSlider: true,
                 tableSelectedItem: [],
@@ -110,38 +110,36 @@ export default class MatchResult extends React.PureComponent {
     onChange(value) {
         const {selectedItem, showSlider, selection} = this.state
         const {match} = this.props
-        let price, lower, upper
-        lower = value[0]
-        upper = value[1]
-        if (upper === 5) upper = 'unbounded'
+        let price, lower = constant.marks[value[0]], upper = constant.marks[value[1]]
+        if (upper === '5.5') upper = '1000'
         if (isEmpty(selectedItem)) {
             this.setState({value})
-            return;
+            return
         }
         switch (selectedItem[0]) {
             case constant.SELCTED_FIRST:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.home_ft_margin['lower'][lower]['upper'][upper]
+                    price = match.home_ft[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.away_ft_margin['lower'][lower]['upper'][upper]
+                    price = match.away_ft[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
                 break
             case constant.SELCTED_TWO:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.home_bh_margin['lower'][lower]['upper'][upper]
+                    price = match.home_bh[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.away_bh_margin['lower'][lower]['upper'][upper]
+                    price = match.away_bh[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
                 break
             case constant.SELCTED_THREE:
                 if (selectedItem[1] === constant.SELCTED_FIRST) {
-                    price = match.home_eh_margin['lower'][lower]['upper'][upper]
+                    price = match.home_eh[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                    price = match.away_eh_margin['lower'][lower]['upper'][upper]
+                    price = match.away_eh[lower][upper]
                 } else if (selectedItem[1] === constant.SELCTED_TWO) {
                     price = this.state.price
                 }
@@ -161,32 +159,32 @@ export default class MatchResult extends React.PureComponent {
             this.handleCancel()
         } else {
             selectedItem = [id, key]
-            let price, lower = value[0], upper = value[1]
-            if (upper === 5) upper = 'unbounded'
+            let price, lower = constant.marks[value[0]], upper = constant.marks[value[1]]
+            if (upper === '5.5') upper = '1000'
             switch (selectedItem[0]) {
                 case constant.SELCTED_FIRST:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.home_ft_margin['lower'][lower]['upper'][upper]
+                        price = match.home_ft[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.away_ft_margin['lower'][lower]['upper'][upper]
+                        price = match.away_ft[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
                     break
                 case constant.SELCTED_TWO:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.home_bh_margin['lower'][lower]['upper'][upper]
+                        price = match.home_bh[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.away_bh_margin['lower'][lower]['upper'][upper]
+                        price = match.away_bh[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
                     break
                 case constant.SELCTED_THREE:
                     if (selectedItem[1] === constant.SELCTED_FIRST) {
-                        price = match.home_eh_margin['lower'][lower]['upper'][upper]
+                        price = match.home_eh[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_THREE) {
-                        price = match.away_eh_margin['lower'][lower]['upper'][upper]
+                        price = match.away_eh[lower][upper]
                     } else if (selectedItem[1] === constant.SELCTED_TWO) {
                         price = selectedPrice
                     }
@@ -231,20 +229,20 @@ export default class MatchResult extends React.PureComponent {
         }
         const goalText = this.formatGoalText(winnComandId, value)
         if (minCountGoals === maxCountGoals) {
-            if (maxCountGoals !== 5) {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : ''
+            if (maxCountGoals !== 6) {
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + constant.marks[maxCountGoals] + goalText : ''
             } else {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : ''
+                scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + constant.marks[maxCountGoals] + goalText : ''
             }
         }
         else {
-            const countGoals = maxCountGoals != constant.SELCTED_SIX ? minCountGoals + ' - ' + maxCountGoals : minCountGoals + '+ '
+            const countGoals = maxCountGoals != constant.SELCTED_SEVEN ? constant.marks[minCountGoals] + ' - ' + constant.marks[maxCountGoals] : constant.marks[minCountGoals] + '+ '
             scores = winnComandId != constant.SELCTED_TWO ? 'by ' + countGoals + goalText : ''
         }
-        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SIX) scores = ''
+        if (minCountGoals === constant.SELCTED_TWO && maxCountGoals === constant.SELCTED_SEVEN) scores = ''
         textValue = comand + ' ' + ' ' + scores + selectedTime
 
-        return textValue;
+        return textValue
     }
 
     formatGoalText(winnComandId, value) {
@@ -254,7 +252,7 @@ export default class MatchResult extends React.PureComponent {
         }
         if (minCountGoals === 1) {
             return ' goal'
-        } else if (minCountGoals === 5) {
+        } else if (minCountGoals === 6) {
             return '+ goals'
         }
         return ''
@@ -284,25 +282,25 @@ export default class MatchResult extends React.PureComponent {
             {
                 name: "Full Match",
                 '1x2_prices': [
-                    {home_ft: match.home_ft},
-                    {draw_ft: match.draw_ft},
-                    {away_ft: match.away_ft}
+                    {home_ft: match.home_ft['None']['None']},
+                    {draw_ft: match.draw_ft['None']['None']},
+                    {away_ft: match.away_ft['None']['None']}
                 ],
             },
             {
                 name: "Both Halves",
                 '1x2_prices': [
-                    {home_bh: match.home_bh},
+                    {home_bh: match.home_bh['None']['None']},
                     {draw_bh: match.draw_bh},
-                    {away_bh: match.away_bh}
+                    {away_bh: match.away_bh['None']['None']}
                 ],
             },
             {
                 name: "Either Half",
                 '1x2_prices': [
-                    {home_eh: match.home_eh},
+                    {home_eh: match.home_eh['None']['None']},
                     {draw_eh: match.draw_eh},
-                    {away_eh: match.away_eh}
+                    {away_eh: match.away_eh['None']['None']}
                 ],
             }
         ]
@@ -324,7 +322,7 @@ export default class MatchResult extends React.PureComponent {
                 {this.state.showSlider ?
                     <div className={s['wrap-slider']}>
                         <div className={s['text-goals']}>By how many goals?</div>
-                        <Range dots step={1} value={value} defaultValue={value} marks={marks} min={1} max={5}
+                        <Range dots step={1} value={value} defaultValue={value} marks={constant.marks} min={1} max={6}
                                onChange={this.onChange}/>
                     </div>
                     :

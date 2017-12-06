@@ -5,6 +5,7 @@ import CornersToogle from '../../molecules/CornersToggle'
 import * as constant from '../../constant'
 import * as products from '../../products'
 import {formatPrice} from '../../utils'
+
 const productsName = constant.CORNERS
 import * as struct from '../../struct'
 import s from './index.css'
@@ -146,6 +147,12 @@ export default class CornersPanel extends React.PureComponent {
     }
 
     setToParrenState(selectedBetTab, toogleValue, selectedTab, textValue, sliderOptions, selectedItem) {
+        let price
+        if (selectedTab === 'over') {
+            price = parseFloat(formatPrice(selectedItem['value'][toogleValue]))
+        } else if (selectedTab === 'under') {
+            price = parseFloat(formatPrice(selectedItem['value']['-' + toogleValue]))
+        }
         const bet = {
             name: productsName,
             match: this.props.match,
@@ -156,7 +163,7 @@ export default class CornersPanel extends React.PureComponent {
                 selectedBetTab,
                 textValue,
                 changes: true,
-                price: parseFloat(formatPrice(selectedItem[selectedTab][toogleValue])),
+                price: price,
                 selectedItem,
                 selection: selectedItem.selection
             }
@@ -248,8 +255,7 @@ export default class CornersPanel extends React.PureComponent {
         }
         const matches = [
             {
-                over: match.home_corners_ft.over,
-                under: match.home_corners_ft.under,
+                value: match.home_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -259,8 +265,7 @@ export default class CornersPanel extends React.PureComponent {
                 selection: 'home_corners_ft'
             },
             {
-                over: match.away_corners_ft.over,
-                under: match.away_corners_ft.under,
+                value: match.away_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -270,8 +275,7 @@ export default class CornersPanel extends React.PureComponent {
                 selection: 'away_corners_ft'
             },
             {
-                over: match.both_corners_ft.over,
-                under: match.both_corners_ft.under,
+                value: match.both_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -281,8 +285,7 @@ export default class CornersPanel extends React.PureComponent {
                 selection: 'both_corners_ft'
             },
             {
-                over: match.total_corners_ft.over,
-                under: match.total_corners_ft.under,
+                value: match.total_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 21.5,

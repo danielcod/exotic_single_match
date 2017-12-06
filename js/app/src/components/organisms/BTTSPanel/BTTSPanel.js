@@ -7,6 +7,7 @@ import * as constant from '../../constant'
 import {formatBTTSText, formatTotalGoalsText, formatPrice} from '../../utils'
 import s from './index.css'
 import classNames from 'classnames'
+
 const productsName = constant.GOALS
 
 export default class BTTSPanel extends React.PureComponent {
@@ -208,8 +209,12 @@ export default class BTTSPanel extends React.PureComponent {
             changedTab = false
         } else {
             selectedTab = {name: tab.name, number: tab.number, label: tab.label}
-            changedTab = true;
-            priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
+            changedTab = true
+            if (selectedTab.name === 'over') {
+                priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[constant.marks[sliderValue]]))
+            } else if (selectedTab.name === 'under') {
+                priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound['-' + constant.marks[sliderValue]]))
+            }
         }
         const textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label)
         this.setState({selectedTab, textTotalGoals, changedTab, priceTotalGoals})
@@ -223,7 +228,11 @@ export default class BTTSPanel extends React.PureComponent {
         let priceTotalGoals = 0
         if (changedTab) {
             textTotalGoals = formatTotalGoalsText(sliderValue, selectedTab.label)
-            priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[selectedTab.name][constant.marks[sliderValue]]))
+            if (selectedTab.name === 'over') {
+                priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound[constant.marks[sliderValue]]))
+            } else if (selectedTab.name === 'under') {
+                priceTotalGoals = parseFloat(formatPrice(match.total_goals_bound['-' + constant.marks[sliderValue]]))
+            }
             this.setState({sliderValue, textTotalGoals, priceTotalGoals})
             setTimeout(() => this.setToParrenState(), 0)
         } else {
@@ -240,20 +249,20 @@ export default class BTTSPanel extends React.PureComponent {
         const matches = [
             {
                 name: 'Full Match',
-                YES: match.btts_ft['Yes'],
-                NO: match.btts_ft['No'],
+                YES: match.btts_ft['1'],
+                NO: match.btts_ft['-1'],
                 selection: 'btts_ft'
             },
             {
                 name: 'Both Halves',
-                YES: match.btts_bh['Yes'],
-                NO: match.btts_bh['No'],
+                YES: match.btts_bh['1'],
+                NO: match.btts_bh['-1'],
                 selection: 'btts_bh'
             },
             {
                 name: 'Either Half',
-                YES: match.btts_eh['Yes'],
-                NO: match.btts_eh['No'],
+                YES: match.btts_eh['1'],
+                NO: match.btts_eh['-1'],
                 selection: 'btts_eh'
             }
         ]
