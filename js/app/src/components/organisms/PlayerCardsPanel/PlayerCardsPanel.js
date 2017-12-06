@@ -402,9 +402,9 @@ export default class PlayerCardsPanel extends React.Component {
     }
 
     applyPaginatorWindow(items) {
-        var rows = constant.COUNT_PLAYER_ROWS
-        var i = this.state.currentPage * rows
-        var j = (this.state.currentPage + 1) * rows
+        let rows = constant.COUNT_PLAYER_ROWS
+        let i = this.state.currentPage * rows
+        let j = (this.state.currentPage + 1) * rows
         return items.slice(i, j)
     }
 
