@@ -111,46 +111,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                     let struct = {
                         "selection":
                             {
-                                "winners_criteria": 1,
-                                "draw_ft": null,
-                                "draw_bh": null,
-                                "draw_eh": null,
-                                "home_ft": null,
-                                "home_bh": null,
-                                "home_eh": null,
-                                "away_ft": null,
-                                "away_bh": null,
-                                "away_eh": null,
-                                "btts_ft": null,
-                                "btts_bh": null,
-                                "btts_eh": null,
-                                "total_goals_bound": null,
-                                "home_ags_p_ft": null,
-                                "match_home_p_fgs_ft": null,
-                                "home_fgs_p_ft": null,
-                                "home_threegs_p_ft": null,
-                                "away_ags_p_ft": null,
-                                "match_away_fgs_p_ft": null,
-                                "away_fgs_p_ft": null,
-                                "away_threegs_p_ft": null,
-                                "home_corners_ft": null,
-                                "away_corners_ft": null,
-                                "total_corners_ft": null,
-                                "both_corners_ft": null,
-                                "lower_goals_bound": null,
-                                "upper_goals_bound": null,
-                                "home_bp_ft": null,
-                                "away_bp_ft": null,
-                                "total_bp_ft": null,
-                                "both_bp_ft": null,
-                                "home_acard_p_ft": null,
-                                "match_home_p_fcard_ft": null,
-                                "home_fcard_p_ft": null,
-                                "home_ared_p_ft": null,
-                                "away_acard_p_ft": null,
-                                "match_away_p_fcard_ft": null,
-                                "away_fcard_p_ft": null,
-                                "away_ared_p_ft": null
+                                //"winners_criteria": 1
                             },
                         "iD": matchid
                     }
@@ -163,8 +124,9 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 tableSelectedItem = bet.options.tableSelectedItem
                                 struct['selection'][selection] = 1
                                 if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
-                                    struct['selection']['lower_goals_bound'] = range[0]
-                                    struct['selection']['upper_goals_bound'] = range[1]
+                                    struct['selection'][selection] = [range[0] - 0.5, range[1] + 0.5]
+                                } else {
+                                    struct['selection'][selection] = [null, null]
                                 }
                                 break
                             case constant.GOALS:
@@ -184,7 +146,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                             case constant.GOAL_SCORERS:
                                 bet.options.selectedItem.forEach(function (item) {
                                     selection = item.selection
-                                    if (struct['selection'][selection] === null) {
+                                    if (!struct['selection'].hasOwnProperty(selection)) {
                                         struct['selection'][selection] = []
                                     }
                                     struct['selection'][selection].push(item.selectedId)
@@ -204,7 +166,7 @@ export default class MatchBetsPanel extends React.PureComponent {
                             case constant.PLAYER_CARDS_:
                                 bet.options.selectedItem.forEach(function (item) {
                                     selection = item.selection
-                                    if (struct['selection'][selection] === null) {
+                                    if (!struct['selection'].hasOwnProperty(selection)) {
                                         struct['selection'][selection] = []
                                     }
                                     struct['selection'][selection].push(item.selectedId)
@@ -216,9 +178,9 @@ export default class MatchBetsPanel extends React.PureComponent {
                     console.log(struct)
                     this.props.exoticsApi.fetchPrice(struct, function (response) {
                         console.log(JSON.parse(response))
-                        let res = JSON.parse(response)
+                        let res = JSON.parse(response).exotic_prices
                         const {countBetsInStake} = this.state
-                        const price = res[countBetsInStake].price
+                        const price = res[countBetsInStake - 1]
                         this.setState({price})
                     }.bind(this))
                 }.bind(this), 300
@@ -452,7 +414,8 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 style={{marginTop: '8px'}}
                                 className={classNames(s["bet-submit-btns-child"], "btn btn-primary btn-place")}
                                 onClick={this.placeBet}>
-                                <span className="bold" style={{marginRight: "5px"}}>EUR {formatCurrentPrice2(this.state.stake)}</span>
+                                <span className="bold"
+                                      style={{marginRight: "5px"}}>EUR {formatCurrentPrice2(this.state.stake)}</span>
                                 Place Bet
                             </button>
                         </div>
