@@ -189,7 +189,7 @@ export default class TeamCardsPanel extends React.PureComponent {
     }
 
     changeStateByTab(selected, selectedItem) {
-        const {toogleValue, selectedTab, selectedBetTab} = this.state;
+        const {toogleValue, selectedTab, selectedBetTab} = this.state
         if (selectedBetTab === selected) {
             this.handleCancel()
             return
