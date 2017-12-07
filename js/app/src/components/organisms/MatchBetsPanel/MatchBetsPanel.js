@@ -122,7 +122,6 @@ export default class MatchBetsPanel extends React.PureComponent {
                                 selection = bet.options.selection
                                 range = bet.options.range
                                 tableSelectedItem = bet.options.tableSelectedItem
-                                struct['selection'][selection] = 1
                                 if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
                                     struct['selection'][selection] = [range[0] - 0.5, range[1] + 0.5]
                                 } else {
@@ -239,11 +238,10 @@ export default class MatchBetsPanel extends React.PureComponent {
                         selection = bet.options.selection
                         range = bet.options.range
                         tableSelectedItem = bet.options.tableSelectedItem
-                        struct['selection'][selection] = 1
                         if (tableSelectedItem[1] !== constant.SELCTED_TWO) {
-                            struct['selection']['lower_goals_bound'] = range[0]
-                            struct['selection']['upper_goals_bound'] = range[1] < 5 ? range[1] : "unbounded"
-
+                            struct['selection'][selection] = [range[0] - 0.5, range[1] + 0.5]
+                        } else {
+                            struct['selection'][selection] = [null, null]
                         }
                         break
                     case constant.GOALS:

@@ -36,6 +36,6 @@ class PlacerHandlerV2(webapp2.RequestHandler):
         resp = urllib2.urlopen(req, json.dumps(bet)) 
         return resp.read()
         
-Routing=[('/api/single_match/place', PlacerHandler),('/api/single_match/placev2', PlacerHandlerV2)]
+Routing=[('/api/single_match/place', PlacerHandler), ('/api/single_match/placev2', PlacerHandlerV2)]
 
 app=webapp2.WSGIApplication(Routing)
