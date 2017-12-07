@@ -20,6 +20,22 @@ class PlacerHandler(webapp2.RequestHandler):
         req.add_header('Content-Type', 'application/json')
         resp = urllib2.urlopen(req, json.dumps(bet)) 
         return resp.read()
-Routing=[('/api/single_match/place', PlacerHandler)]
+
+
+class PlacerHandlerV2(webapp2.RequestHandler):
+    
+    @parse_json_body
+    @add_cors_headers
+    @emit_json
+    def post(self, bet):
+        print json_dumps(bet)
+        url = 'https://placer-dot-exotic-parameter-predictions.appspot.com/place_betv2'
+        req = urllib2.Request(url)
+        req.add_header("Authorization", "Basic %s" % base64string)   
+        req.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(req, json.dumps(bet)) 
+        return resp.read()
+        
+Routing=[('/api/single_match/place', PlacerHandler),('/api/single_match/placev2', PlacerHandlerV2)]
 
 app=webapp2.WSGIApplication(Routing)
