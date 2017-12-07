@@ -47,6 +47,8 @@ handlers:
   script: controllers.api.single_match.curates.app
 - url: /api/single_match/place.*
   script: controllers.api.single_match.place.app
+- url: /api/single_match/placev2.*
+  script: controllers.api.single_match.place.app
 - url: /api/single_match/pricev2.*
   script: controllers.api.single_match.price.app
 - url: /api/single_match/settle.*
