@@ -20,6 +20,24 @@ class SettlerHandler(webapp2.RequestHandler):
         req.add_header('Content-Type', 'application/json')
         resp = urllib2.urlopen(req, json.dumps(uid)) 
         return json.loads(resp.read())
-Routing=[('/api/single_match/settle', SettlerHandler)]
+
+class SettlerHandlerV2(webapp2.RequestHandler):
+    
+    @parse_json_body
+    @add_cors_headers
+    @emit_json
+    def post(self, uid):
+        #print json_dumps(uid)
+        url = 'https://settler-dot-exotic-parameter-predictions.appspot.com/get_users_betsv2'
+        req = urllib2.Request(url)
+        req.add_header("Authorization", "Basic %s" % base64string)   
+        req.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(req, json.dumps(uid)) 
+        return json.loads(resp.read())
+
+
+
+
+Routing=[('/api/single_match/settle', SettlerHandler),('/api/single_match/settlev2', SettlerHandlerV2)]
 
 app=webapp2.WSGIApplication(Routing)

@@ -53,6 +53,8 @@ handlers:
   script: controllers.api.single_match.price.app
 - url: /api/single_match/settle.*
   script: controllers.api.single_match.settle.app
+- url: /api/single_match/settlev2.*
+  script: controllers.api.single_match.settle.app
 - url: /app.*
   script: controllers.api.app
 # TASKS
