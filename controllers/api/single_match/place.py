@@ -21,6 +21,7 @@ class PlacerHandler(webapp2.RequestHandler):
         resp = urllib2.urlopen(req, json.dumps(bet)) 
         return resp.read()
 
+#{"selection":{"away_ft":[1,3],"btts_ft":-1,"total_goals_bound":-4.5, "home_fcard_p_ft": ["286119"]}, "number_of_winners":2, "stake": 12, "price":1.4, "uid": 111, "id": "2522816","currency": "EUR"}
 
 class PlacerHandlerV2(webapp2.RequestHandler):
     
@@ -35,7 +36,7 @@ class PlacerHandlerV2(webapp2.RequestHandler):
         req.add_header('Content-Type', 'application/json')
         resp = urllib2.urlopen(req, json.dumps(bet)) 
         return resp.read()
-        
+
 Routing=[('/api/single_match/place', PlacerHandler),('/api/single_match/placev2', PlacerHandlerV2)]
 
 app=webapp2.WSGIApplication(Routing)
