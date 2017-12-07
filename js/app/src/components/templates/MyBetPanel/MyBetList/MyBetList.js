@@ -252,14 +252,14 @@ export default class MyBetList extends React.PureComponent {
             {selection: "away_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_THREE, price: 0},
         ]
         let matchResult = matchSelection.filter(function (item) {
-            return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === 1
+            return betSelection.hasOwnProperty(item.selection)
         })[0]
         if (!isEmpty(matchResult)) {
             //console.log("********** MATCH RESULT **********")
-            matchResult.price = bet.leg_prices[matchResult.selection]
+            matchResult.price = betSelection[matchResult.selection]['price']
             let value
-            if (betSelection.hasOwnProperty("lower_goals_bound") && betSelection.hasOwnProperty("upper_goals_bound")) {
-                value = [parseInt(betSelection["lower_goals_bound"]), parseInt(betSelection["upper_goals_bound"])]
+            if (betSelection[matchResult.selection]['choice'][0] !== null && betSelection[matchResult.selection]['choice'][1] !== null) {
+                value = [parseFloat(betSelection[matchResult.selection]['choice'][0]) + 0.5, parseFloat(betSelection[matchResult.selection]['choice'][1]) - 0.5]
             } else {
                 value = [0, 0]
             }
@@ -280,6 +280,7 @@ export default class MyBetList extends React.PureComponent {
             })
             //console.log(matchResult)
         }
+
         /******************************************
          *                GOALS                   *
          ******************************************/
@@ -328,15 +329,11 @@ export default class MyBetList extends React.PureComponent {
             },
         ]
         const bttsResult = bttsSelection.filter(function (item) {
-            return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection] === item.value
+            return betSelection.hasOwnProperty(item.selection) && betSelection[item.selection]['choice'] === item.value
         })[0]
         if (!isEmpty(bttsResult)) {
             //console.log("********** GOALS **********")
-            if (bttsResult.value === 1) {
-                bttsResult.price = bet.leg_prices[bttsResult.selection]['Yes']
-            } else if (bttsResult.value === -1) {
-                bttsResult.price = bet.leg_prices[bttsResult.selection]['No']
-            }
+            bttsResult.price = betSelection[bttsResult.selection]['price']
             let win
             if (bet.bet_settled) {
                 if (winningLegs.indexOf(bttsResult.selection) !== -1) {
@@ -356,15 +353,13 @@ export default class MyBetList extends React.PureComponent {
         if (betSelection.hasOwnProperty("total_goals_bound")) {
             let sliderValue, selectedTab, totalPrice
             //console.log("*** GOALS - total_goals_bound ***")
-            if (betSelection['total_goals_bound'] > 0) {
+            if (betSelection['total_goals_bound']['choice'] > 0) {
                 selectedTab = "OVER"
-                sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
-                totalPrice = bet.leg_prices['total_goals_bound']['over'][Math.abs(betSelection['total_goals_bound'])]
             } else {
                 selectedTab = "UNDER"
-                sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']))
-                totalPrice = bet.leg_prices['total_goals_bound']['under'][Math.abs(betSelection['total_goals_bound'])]
             }
+            sliderValue = Math.ceil(Math.abs(betSelection['total_goals_bound']['choice']))
+            totalPrice = betSelection['total_goals_bound']['price']
             let win
             if (bet.bet_settled) {
                 if (winningLegs.indexOf("total_goals_bound") !== -1) {
@@ -399,16 +394,17 @@ export default class MyBetList extends React.PureComponent {
                 betSelection[item.selection].forEach(function (player) {
                     correctGoalAwayResult.push(
                         {
-                            playerId: player,
-                            name: bet.leg_prices[item.selection][player]['name'],
-                            team: bet.leg_prices[item.selection][player]['team'],
+                            playerId: player.choice,
+                            name: player.name,
+                            team: player.team,
                             selectedTeam: "away",
                             key: item.key,
-                            price: bet.leg_prices[item.selection][player]['price'],
+                            price: player.price,
                             selection: item.selection
                         }
                     )
                 })
+
             })
             correctGoalAwayResult.forEach(function (item) {
                 let win
@@ -444,12 +440,12 @@ export default class MyBetList extends React.PureComponent {
                 betSelection[item.selection].forEach(function (player) {
                     correctGoalHomeResult.push(
                         {
-                            playerId: player,
-                            name: bet.leg_prices[item.selection][player]['name'],
-                            team: bet.leg_prices[item.selection][player]['team'],
+                            playerId: player.choice,
+                            name: player.name,
+                            team: player.team,
                             selectedTeam: "home",
                             key: item.key,
-                            price: bet.leg_prices[item.selection][player]['price'],
+                            price: player.price,
                             selection: item.selection
                         }
                     )
@@ -492,12 +488,12 @@ export default class MyBetList extends React.PureComponent {
                 betSelection[item.selection].forEach(function (player) {
                     correctPlayAwayResult.push(
                         {
-                            playerId: player,
-                            name: bet.leg_prices[item.selection][player]['name'],
-                            team: bet.leg_prices[item.selection][player]['team'],
+                            playerId: player.choice,
+                            name: player.name,
+                            team: player.team,
                             selectedTeam: "away",
                             key: item.key,
-                            price: bet.leg_prices[item.selection][player]['price'],
+                            price: player.price,
                             selection: item.selection
                         }
                     )
@@ -537,12 +533,12 @@ export default class MyBetList extends React.PureComponent {
                 betSelection[item.selection].forEach(function (player) {
                     correctPlayHomeResult.push(
                         {
-                            playerId: player,
-                            name: bet.leg_prices[item.selection][player]['name'],
-                            team: bet.leg_prices[item.selection][player]['team'],
+                            playerId: player.choice,
+                            name: player.name,
+                            team: player.team,
                             selectedTeam: "home",
                             key: item.key,
-                            price: bet.leg_prices[item.selection][player]['price'],
+                            price: player.price,
                             selection: item.selection
                         }
                     )
@@ -601,14 +597,14 @@ export default class MyBetList extends React.PureComponent {
         if (!isEmpty(cornersResult)) {
             let toogleVaule, selectedTab
             //console.log("******** CORNERS *********")
-            toogleVaule = betSelection[cornersResult.selection]
+            toogleVaule = betSelection[cornersResult.selection]['choice']
             if (toogleVaule > 0) {
                 selectedTab = "over"
             } else {
                 selectedTab = "under"
             }
             cornersResult.toogleValue = Math.abs(toogleVaule)
-            cornersResult.price = bet.leg_prices[cornersResult.selection][selectedTab][cornersResult.toogleValue]
+            cornersResult.price = betSelection[cornersResult.selection]['price']
             let win
             if (bet.bet_settled) {
                 if (winningLegs.indexOf(cornersResult.selection) !== -1) {
@@ -660,14 +656,14 @@ export default class MyBetList extends React.PureComponent {
         if (!isEmpty(teamcardResult)) {
             let toogleVaule, selectedTab
             //console.log("********  TEAMS CARDS *********")
-            toogleVaule = betSelection[teamcardResult.selection]
+            toogleVaule = betSelection[teamcardResult.selection]['choice']
             if (toogleVaule > 0) {
                 selectedTab = "over"
             } else {
                 selectedTab = "under"
             }
             teamcardResult.toogleValue = Math.abs(toogleVaule)
-            teamcardResult.price = bet.leg_prices[teamcardResult.selection][selectedTab][teamcardResult.toogleValue]
+            teamcardResult.price = betSelection[teamcardResult.selection]['price']
             let win
             if (bet.bet_settled) {
                 if (winningLegs.indexOf(teamcardResult.selection) !== -1) {

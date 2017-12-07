@@ -122,9 +122,9 @@ export class ExoticsAPI {
     }
 
     fetchBets = function (body, handler) {
-        let url = "/api/single_match/settle"
+        let url = "/api/single_match/settlev2"
         if (process.env.NODE_ENV === 'development') {
-            url = "http://localhost:8080/api/single_match/settle"
+            url = "http://localhost:8080/api/single_match/settlev2"
         }
         this.httpPostNoCache(url, body, handler)
     }
