@@ -54,6 +54,10 @@ span.bold {
     font-weight: bold;
 }
 
+.pagination a:hover {
+    cursor: pointer;
+}
+
 /*
  * "Browser" Tab Page
  */
