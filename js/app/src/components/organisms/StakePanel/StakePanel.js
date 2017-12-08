@@ -33,7 +33,7 @@ export default class StakePanel extends React.PureComponent {
     }
 
     dateformater(date) {
-        let dt = new Date(date);
+        let dt = new Date(date)
         let monthNames = [
             "January", "February", "March",
             "April", "May", "June", "July",
