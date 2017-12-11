@@ -248,7 +248,7 @@ export default class MatchResult extends React.PureComponent {
     formatDynamicText(selectedItem, value) {
         if (!this.props.match || isEmpty(selectedItem)) return
         const comands = this.props.match.fixture.split(' vs ')
-        let firstTeam, secondTeam;
+        let firstTeam, secondTeam
         if (this.props.match) {
             [firstTeam, secondTeam] = this.props.match.fixture.split(' vs ')
         }
