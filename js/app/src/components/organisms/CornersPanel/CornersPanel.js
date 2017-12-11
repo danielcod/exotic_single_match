@@ -66,8 +66,7 @@ export default class CornersPanel extends React.PureComponent {
         const matches = [
             {
                 id: constant.SELCTED_FIRST,
-                over: match.home_corners_ft.over,
-                under: match.home_corners_ft.under,
+                value: match.home_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -78,8 +77,7 @@ export default class CornersPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_TWO,
-                over: match.away_corners_ft.over,
-                under: match.away_corners_ft.under,
+                value: match.away_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -90,8 +88,7 @@ export default class CornersPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_THREE,
-                over: match.both_corners_ft.over,
-                under: match.both_corners_ft.under,
+                value: match.both_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 10.5,
@@ -102,8 +99,7 @@ export default class CornersPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_FOUR,
-                over: match.total_corners_ft.over,
-                under: match.total_corners_ft.under,
+                value: match.total_corners_ft,
                 sliderOptions: {
                     min: 0.5,
                     max: 21.5,

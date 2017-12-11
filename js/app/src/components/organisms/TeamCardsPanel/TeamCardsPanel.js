@@ -66,8 +66,7 @@ export default class TeamCardsPanel extends React.PureComponent {
         const matches = [
             {
                 id: constant.SELCTED_FIRST,
-                over: match.home_bp_ft.over,
-                under: match.home_bp_ft.under,
+                value: match.home_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -78,8 +77,7 @@ export default class TeamCardsPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_TWO,
-                over: match.away_bp_ft.over,
-                under: match.away_bp_ft.under,
+                value: match.away_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -90,8 +88,7 @@ export default class TeamCardsPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_THREE,
-                over: match.both_bp_ft.over,
-                under: match.both_bp_ft.under,
+                value: match.both_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,
@@ -102,8 +99,7 @@ export default class TeamCardsPanel extends React.PureComponent {
             },
             {
                 id: constant.SELCTED_FOUR,
-                over: match.total_bp_ft.over,
-                under: match.total_bp_ft.under,
+                value: match.total_bp_ft,
                 sliderOptions: {
                     min: 2.5,
                     max: 152.5,

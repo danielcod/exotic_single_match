@@ -51,18 +51,61 @@ export default class MatchResult extends React.PureComponent {
     setBetResultMatch(selection) {
         const {match} = this.props
         const matches = [
-            {selection: "home_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_FIRST, price: match.home_ft},
-            {selection: "draw_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_TWO, price: match.draw_ft},
-            {selection: "away_ft", id: constant.SELCTED_FIRST, key: constant.SELCTED_THREE, price: match.away_ft},
-            {selection: "home_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_FIRST, price: match.home_bh},
-            {selection: "draw_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_TWO, price: match.draw_bh},
-            {selection: "away_bh", id: constant.SELCTED_TWO, key: constant.SELCTED_THREE, price: match.away_bh},
-            {selection: "home_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_FIRST, price: match.home_eh},
-            {selection: "draw_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_TWO, price: match.draw_eh},
-            {selection: "away_eh", id: constant.SELCTED_THREE, key: constant.SELCTED_THREE, price: match.away_eh},
+            {
+                selection: "home_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_FIRST,
+                price: match.home_ft['None']['None']
+            },
+            {
+                selection: "draw_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_TWO,
+                price: match.draw_ft['None']['None']
+            },
+            {
+                selection: "away_ft",
+                id: constant.SELCTED_FIRST,
+                key: constant.SELCTED_THREE,
+                price: match.away_ft['None']['None']
+            },
+            {
+                selection: "home_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_FIRST,
+                price: match.home_bh['None']['None']
+            },
+            {
+                selection: "draw_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_TWO,
+                price: match.draw_bh},
+            {
+                selection: "away_bh",
+                id: constant.SELCTED_TWO,
+                key: constant.SELCTED_THREE,
+                price: match.away_bh['None']['None']
+            },
+            {
+                selection: "home_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_FIRST,
+                price: match.home_eh['None']['None']
+            },
+            {
+                selection: "draw_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_TWO,
+                price: match.draw_eh},
+            {
+                selection: "away_eh",
+                id: constant.SELCTED_THREE,
+                key: constant.SELCTED_THREE,
+                price: match.away_eh['None']['None']
+            },
         ]
         const curateSelection = matches.filter(function (item) {
-            return selection.hasOwnProperty(item.selection) && selection[item.selection] === 1
+            return selection.hasOwnProperty(item.selection)
         })[0]
         console.log("****************** Curate Selection ***********************")
         console.log(selection)
@@ -70,8 +113,8 @@ export default class MatchResult extends React.PureComponent {
         console.log(curateSelection)
         if (!isEmpty(curateSelection)) {
             this.clickHandler(curateSelection.id, curateSelection.key, curateSelection.selection, curateSelection.price)
-            if (selection.hasOwnProperty("lower_goals_bound") && selection.hasOwnProperty("upper_goals_bound")) {
-                setTimeout(() => this.onChange(Array(parseInt(selection["lower_goals_bound"]), parseInt(selection["upper_goals_bound"]))), 200)
+            if (selection[curateSelection.selection][0] !== null && selection[curateSelection.selection][1]) {
+                setTimeout(() => this.onChange(Array(parseInt(selection[curateSelection.selection][0]), parseInt(selection[curateSelection.selection][1]))), 200)
             }
         }
     }

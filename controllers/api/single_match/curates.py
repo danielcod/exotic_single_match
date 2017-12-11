@@ -25,14 +25,12 @@ class CurateHandler(webapp2.RequestHandler):
     @emit_json
     def get(self):
         #import urllib
-		req = urllib2.Request('https://curator-dot-exotic-parameter-predictions.appspot.com/curated_feed')
-		req.add_header("Authorization", "Basic %s" % base64string)   
-		resp = urllib2.urlopen(req)
-		return json.loads(resp.read())
+        req = urllib2.Request('https://curator-dot-exotic-parameter-predictions.appspot.com/curated_feed')
+        req.add_header("Authorization", "Basic %s" % base64string)
+        resp = urllib2.urlopen(req)
+        return json.loads(resp.read())
 
-
-
-Routing=[('/api/single_match/curates', IndexHandler),('/api/single_match/curatesv2', CurateHandler)]
+Routing=[('/api/single_match/curates', IndexHandler), ('/api/single_match/curatesv2', CurateHandler)]
 
 app=webapp2.WSGIApplication(Routing)
 

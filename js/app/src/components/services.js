@@ -98,9 +98,9 @@ export class ExoticsAPI {
     }
 
     fetchCurates = function (handler) {
-        let url = "/api/single_match/curates"
+        let url = "/api/single_match/curatesv2"
         if (process.env.NODE_ENV === 'development') {
-            url = "http://localhost:8080/api/single_match/curates"
+            url = "http://localhost:8080/api/single_match/curatesv2"
         }
         this.httpGet(url, handler)
     }

@@ -67,42 +67,42 @@ export default class BTTSPanel extends React.PureComponent {
                 selection: "btts_ft",
                 id: constant.SELCTED_FIRST,
                 key: constant.SELCTED_FIRST,
-                price: formatPrice(match.btts_ft['Yes']),
+                price: formatPrice(match.btts_ft['1']),
                 value: 1
             },
             {
                 selection: "btts_ft",
                 id: constant.SELCTED_FIRST,
                 key: constant.SELCTED_TWO,
-                price: formatPrice(match.btts_ft['No']),
+                price: formatPrice(match.btts_ft['-1']),
                 value: -1
             },
             {
                 selection: "btts_bh",
                 id: constant.SELCTED_TWO,
                 key: constant.SELCTED_FIRST,
-                price: formatPrice(match.btts_bh['Yes']),
+                price: formatPrice(match.btts_bh['1']),
                 value: 1
             },
             {
                 selection: "btts_bh",
                 id: constant.SELCTED_TWO,
                 key: constant.SELCTED_TWO,
-                price: formatPrice(match.btts_bh['No']),
+                price: formatPrice(match.btts_bh['-1']),
                 value: -1
             },
             {
                 selection: "btts_eh",
                 id: constant.SELCTED_THREE,
                 key: constant.SELCTED_FIRST,
-                price: formatPrice(match.btts_eh['Yes']),
+                price: formatPrice(match.btts_eh['1']),
                 value: 1
             },
             {
                 selection: "btts_eh",
                 id: constant.SELCTED_THREE,
                 key: constant.SELCTED_TWO,
-                price: formatPrice(match.btts_eh['No']),
+                price: formatPrice(match.btts_eh['-1']),
                 value: -1
             },
 

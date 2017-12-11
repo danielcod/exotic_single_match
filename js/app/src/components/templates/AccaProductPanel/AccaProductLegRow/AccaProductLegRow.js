@@ -32,7 +32,7 @@ export default class AccaProductLegRow extends React.PureComponent {
                             </td>
                             <td className="leg-row-price">
                                 <span>
-                                    {formatPrice(curate[curate.price_to_show].price)}
+                                    {formatPrice(curate['exotic_prices'][curate.price_to_show])}
                                 </span>
                             </td>
                             <td onClick={clickHandler.bind(null, curate)}>
