@@ -19,7 +19,7 @@ export default class MatchBetsPanel extends React.PureComponent {
             stake: 0,
             stakeValidation: true,
             price: undefined,
-            countBetsInStake: 1,
+            countBetsInStake: 0,
             textBetsInStake: '',
             showBets: [],
             btnDisabled: false
@@ -45,11 +45,12 @@ export default class MatchBetsPanel extends React.PureComponent {
         showBets = formatObjectYourBet(showBets, match)
         console.log("********************")
         console.log(showBets)
-        if (showBets.length > 1) {
-            countBetsInStake = Math.ceil((showBets.length / 2) + 1)
-        }
         if (props.countBetsInStake > 0) {
             countBetsInStake = props.countBetsInStake
+        } else {
+            if (showBets.length > 1) {
+                countBetsInStake = Math.ceil((showBets.length / 2) + 1)
+            }
         }
         if (countBetsInStake > showBets.length) {
             countBetsInStake = showBets.length
@@ -57,6 +58,8 @@ export default class MatchBetsPanel extends React.PureComponent {
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
         this.setState({showBets, textBetsInStake, countBetsInStake})
         this.updatePrice(props, showBets)
+        this.props.setCountBetsInStake(countBetsInStake)
+
     }
 
     applyPaginatorWindow(items) {
@@ -192,8 +195,8 @@ export default class MatchBetsPanel extends React.PureComponent {
         if (parseInt(countBetsInStake) <= 1) return
         countBetsInStake -= 1
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
-        this.setState({countBetsInStake, textBetsInStake})
-        this.updatePrice(this.props, showBets)
+        this.setState({textBetsInStake})
+        this.props.setCountBetsInStake(countBetsInStake)
     }
 
     incrementValue() {
@@ -201,8 +204,8 @@ export default class MatchBetsPanel extends React.PureComponent {
         if (parseInt(countBetsInStake) >= showBets.length) return
         countBetsInStake += 1
         textBetsInStake = this.formatToogleText(countBetsInStake, showBets)
-        this.setState({countBetsInStake, textBetsInStake})
-        this.updatePrice(this.props, showBets)
+        this.setState({textBetsInStake})
+        this.props.setCountBetsInStake(countBetsInStake)
     }
 
     formatToogleText(countBetsInStake, showBets) {

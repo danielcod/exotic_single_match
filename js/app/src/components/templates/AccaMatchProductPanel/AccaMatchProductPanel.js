@@ -48,7 +48,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 stake: previousState.stake,
                 price: previousState.price,
                 textBetsInStake: previousState.textBetsInStake,
-                //countBetsInStake: previousState.countBetsInStake
+                countBetsInStake: previousState.countBetsInStake
             }
             localStorage.removeItem("AccaMatchProduct")
         } else {
@@ -70,7 +70,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         }
         bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',
             'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
-            'clearBets', 'delFromBTTS', 'setEmptyCurate'])
+            'clearBets', 'delFromBTTS', 'setEmptyCurate', 'setCountBetsInStake'])
     }
 
     componentDidMount() {
@@ -116,6 +116,10 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         const curate = {}
         this.setState({curate})
         this.props.setEmptyCurate()
+    }
+
+    setCountBetsInStake(countBets){
+        this.setState({countBetsInStake: countBets})
     }
 
     handleMatchChanged(name, value) {
@@ -324,6 +328,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                                     openStakePanel={this.openStakePanel}
                                     returnToBetsPanel={this.returnToBetsPanel}
                                     countBetsInStake={countBetsInStake}
+                                    setCountBetsInStake={this.setCountBetsInStake}
                                 />
                             :
                             <div>
