@@ -50,6 +50,8 @@ export default class MatchResult extends React.PureComponent {
 
     setBetResultMatch(selection) {
         const {match} = this.props
+         console.log(match)
+        console.log(this.props.curate)
         const matches = [
             {
                 selection: "home_ft",

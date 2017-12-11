@@ -5,9 +5,10 @@ import MyPaginator from '../../molecules/MyPaginator'
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
 import * as constant from '../../constant'
 import {formatPrice} from '../../utils'
-const productsName = constant.PLAYER_CARDS_
 import s from './index.css'
 import classNames from 'classnames'
+
+const productsName = constant.PLAYER_CARDS_
 
 export default class PlayerCardsPanel extends React.Component {
     constructor(props) {

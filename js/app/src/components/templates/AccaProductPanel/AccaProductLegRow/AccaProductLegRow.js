@@ -21,7 +21,7 @@ export default class AccaProductLegRow extends React.PureComponent {
                                     {curate.as_string}
                                 </span>
                                 <span className={"leg leg-" + curate.legs + " label bold"}>
-                                    {"Any " + curate.price_to_show + "+ of " + curate.legs}
+                                    {"Any " + (curate.price_to_show + 1) + (curate.price_to_show + 1 < curate.legs ? "+ of " : " of ") + curate.legs}
                                 </span>
                                 <span className="playtime bold">
                                     {DU.DateUtils.formatHour(new Date(curate.kickoff))}

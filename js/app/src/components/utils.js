@@ -206,7 +206,7 @@ function getGoalScorersBl(item, matchName, selectedTeam) {
 export function formatCountBets(bets, match) {
     let betInBets = 0
     bets.map(bet => {
-        if (bet.match.name != match.name) return
+        if (bet.match.fixture !== match.fixture) return
         if (PLAYER_CARDS === bet.name ||
             GOAL_SCORERS === bet.name) {
             betInBets = betInBets + bet.options.selectedItem.length
@@ -221,7 +221,7 @@ export function formatCountBets(bets, match) {
 }
 
 export function getLegsFromBet(bet) {
-    let legs = new Array()
+    let legs = []
     for (let index in bet.betLegs) {
         let leg = {
             description: bet.betLegs[index].name,

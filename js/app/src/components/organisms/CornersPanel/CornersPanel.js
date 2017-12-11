@@ -5,11 +5,11 @@ import CornersToogle from '../../molecules/CornersToggle'
 import * as constant from '../../constant'
 import * as products from '../../products'
 import {formatPrice} from '../../utils'
-
-const productsName = constant.CORNERS
 import * as struct from '../../struct'
 import s from './index.css'
 import classNames from 'classnames'
+
+const productsName = constant.CORNERS
 
 export default class CornersPanel extends React.PureComponent {
     constructor(props) {

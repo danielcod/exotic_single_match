@@ -4,9 +4,9 @@ import GoalScorersTable from '../GoalScorersTable'
 import MyPaginator from '../../molecules/MyPaginator'
 import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
 import * as constant from '../../constant'
-import {formatPrice} from '../../utils'
 import s from './index.css'
 import classNames from 'classnames'
+
 const productsName = constant.GOAL_SCORERS
 
 export default class GoalScorersPanel extends React.PureComponent {

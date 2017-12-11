@@ -9,7 +9,6 @@ import * as DU from '../../../date_utils'
 import * as constant from '../../../constant'
 import classnames from 'classnames'
 
-
 export default class MyBetList extends React.PureComponent {
     constructor(props) {
         super(props)

@@ -91,7 +91,11 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                     match = matches.filter(function (item) {
                         return parseInt(curate.iD) === item.match_id
                     })[0]
-                    countBetsInStake = parseInt(curate.price_to_show)
+                    countBetsInStake = parseInt(curate.price_to_show + 1)
+                    console.log("-------------------------------------------------------------------log for empty match issue")
+                    console.log(curate)
+                    console.log(match)
+                    console.log("-------------------------------------------------------------------end")
                 } else {
                     match = matches[0]
                 }
@@ -188,7 +192,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 return bet
             }
             return bet
-        });
+        })
         this.setState({bets})
         this.props.setBets(bets)
     }
