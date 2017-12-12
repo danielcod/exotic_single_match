@@ -1,3 +1,3 @@
-import AccaMatchProductPanel from './AccaMatchProductPanel';
+import AccaMatchProductPanel from './AccaMatchProductPanel'
 
-export default AccaMatchProductPanel;
+export default AccaMatchProductPanel

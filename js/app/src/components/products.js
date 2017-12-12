@@ -7,15 +7,15 @@
         betGoalsSlider: {
             label: "To Win By At Least",
             tickLabeller: function (minval, maxval) {
-                var labels = [];
-                for (var i = minval; i <= maxval; i++) {
-                    if (i == minval) {
-                        labels.push("(Just Win)");
+                let labels = []
+                for (let i = minval; i <= maxval; i++) {
+                    if (i === minval) {
+                        labels.push("(Just Win)")
                     } else {
-                        labels.push(i + "+ Goals");
+                        labels.push(i + "+ Goals")
                     }
                 }
-                return labels;
+                return labels
             },
             minVal: 1,
             maxVal: 4,
@@ -23,7 +23,7 @@
         betLegsToggle: {
             label: "How many legs need to win ?",
             textFormatter: function (val, maxval) {
-                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")";
+                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")"
             },
             minVal: 1
         }
@@ -36,15 +36,15 @@
         betGoalsSlider: {
             label: "How many legs need to lose ?",
             tickLabeller: function (minval, maxval) {
-                var labels = [];
-                for (var i = minval; i <= maxval; i++) {
-                    if (i == minval) {
-                        labels.push("(Just Lose)");
+                let labels = []
+                for (let i = minval; i <= maxval; i++) {
+                    if (i === minval) {
+                        labels.push("(Just Lose)")
                     } else {
-                        labels.push(i + "+ Goals");
+                        labels.push(i + "+ Goals")
                     }
                 }
-                return labels;
+                return labels
             },
             minVal: 1,
             maxVal: 4,
@@ -52,7 +52,7 @@
         betLegsToggle: {
             label: "To Lose By At Least",
             textFormatter: function (val, maxval) {
-                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")";
+                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")"
             },
             minVal: 1
         }
@@ -65,15 +65,15 @@
         betGoalsSlider: {
             label: "To Draw With At Least",
             tickLabeller: function (minval, maxval) {
-                var labels = [];
-                for (var i = minval; i <= maxval; i++) {
-                    if (i == minval) {
-                        labels.push("(Just Draw)");
+                let labels = []
+                for (let i = minval; i <= maxval; i++) {
+                    if (i === minval) {
+                        labels.push("(Just Draw)")
                     } else {
-                        labels.push(i + "+ Goals");
+                        labels.push(i + "+ Goals")
                     }
                 }
-                return labels;
+                return labels
             },
             minVal: 0,
             maxVal: 3,
@@ -81,25 +81,13 @@
         betLegsToggle: {
             label: "How many legs need to draw ?",
             textFormatter: function (val, maxval) {
-                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")";
+                return Math.ceil((maxval / 2) + 1) + ((val < maxval) ? "+" : "") + " (of " + maxval + ")"
             },
             minVal: 1
         }
     }
 ]
-export const matchProducts = [
-    {
-        label: "Exotic Match 1",
-        name: "exotic_match_1"
-    },
-    {
-        label: "Exotic Match 2",
-        name: "exotic_match_2"
-    },
-    {
-        label: "Exotic Match 3",
-        name: "exotic_match_3"
-    },
-]
-export const matchComponents = ['Match Result', 'Goals', 'Goalscorers', 'Corners', 'Team Cards', 'Player Cards'];
-export const cornersComponents = ['Home Team', 'Away Team', 'Both Teams', 'Match Total'];
+
+export const matchComponents = ['Match Result', 'Goals', 'Goalscorers', 'Corners', 'Team Cards', 'Player Cards']
+
+export const cornersComponents = ['Home Team', 'Away Team', 'Both Teams', 'Match Total']

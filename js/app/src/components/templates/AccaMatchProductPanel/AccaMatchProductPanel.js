@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React from 'react'
 import {bindAll, isEmpty, isEqual} from 'lodash'
 import MySelect from '../../atoms/MySelect'
 import MyFormComponent from '../../atoms/MyFormComponent'
@@ -124,7 +124,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     handleMatchChanged(name, value) {
         const match = this.state.matches.filter(function (product) {
-            return product.match_id == value
+            return product.match_id === value
         })[0]
         const bets = []
         this.setState({match, bets})
@@ -184,9 +184,9 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         bets = bets.map((bet) => {
             if (bet.name === oldBet.name && bet.match.name === oldBet.match.name) {
                 const selectedItem = bet.options.selectedItem.filter(value => {
-                    if (oldBet.selectedItem.selectedTeam != value.selectedTeam ||
+                    if (oldBet.selectedItem.selectedTeam !== value.selectedTeam ||
                         oldBet.selectedItem.selectedTeam === value.selectedTeam &&
-                        oldBet.selectedItem.page != value.page ||
+                        oldBet.selectedItem.page !== value.page ||
                         oldBet.selectedItem.selectedTeam === value.selectedTeam &&
                         oldBet.selectedItem.page === value.page &&
                         !isEqual(oldBet.selectedItem.item, value.item))
@@ -222,7 +222,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 return bet
             }
             return bet
-        });
+        })
         this.setState({bets})
         this.props.setBets(bets)
     }

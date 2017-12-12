@@ -1,5 +1,5 @@
-import React from 'react';
-import AppStage from './AppStage';
+import React from 'react'
+import AccaMatchMainPanel from '../../templates/AccaMatchMainPanel'
 
 export default class App extends React.PureComponent {
 
@@ -9,7 +9,7 @@ export default class App extends React.PureComponent {
                 <div className="header clearfix">
                     <img className="img-responsive" src="img/logo.png" alt="logo"/>
                 </div>
-                <AppStage
+                <AccaMatchMainPanel
                     exoticsApi={this.props.exoticsApi}
                 />
                 <footer className="footer">

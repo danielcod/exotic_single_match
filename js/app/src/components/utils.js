@@ -109,7 +109,7 @@ export function formatTotalGoalsText(sliderValue, selectedTab) {
 export function formatObjectYourBet(bets, match) {
     let showBets = []
     bets.map(bet => {
-        if (bet.match.fixture != match.fixture) return
+        if (bet.match.fixture !== match.fixture) return
         if (BTTS === bet.name) {
             if (bet.options.changedTable) {
                 showBets.push({

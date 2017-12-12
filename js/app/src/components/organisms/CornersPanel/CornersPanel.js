@@ -1,6 +1,6 @@
 import React from 'react'
 import {bindAll, isEmpty} from 'lodash'
-import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
+import MyBetTab from '../../templates/AccaMatchBetPanel/AccaBetTab'
 import CornersToogle from '../../molecules/CornersToggle'
 import * as constant from '../../constant'
 import * as products from '../../products'

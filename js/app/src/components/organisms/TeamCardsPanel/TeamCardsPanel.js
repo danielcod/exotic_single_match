@@ -1,15 +1,16 @@
 import React from 'react'
 import {bindAll, isEmpty} from 'lodash'
-import MyBetTab from '../../templates/MyBetPanel/MyBetTab'
+import MyBetTab from '../../templates/AccaMatchBetPanel/AccaBetTab'
 import CornersToogle from '../../molecules/CornersToggle'
 import * as constant from '../../constant'
 import * as products from '../../products'
 import {formatPrice} from '../../utils'
-
-const productsName = constant.TEAM_CARDS
 import * as struct from '../../struct'
 import s from './index.css'
 import classNames from 'classnames'
+
+const productsName = constant.TEAM_CARDS
+
 
 export default class TeamCardsPanel extends React.PureComponent {
     constructor(props) {
