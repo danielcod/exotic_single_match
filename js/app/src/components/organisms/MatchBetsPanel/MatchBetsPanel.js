@@ -70,7 +70,7 @@ export default class MatchBetsPanel extends React.PureComponent {
     }
 
     sortLegs(legs) {
-        var sortFn = function (i0, i1) {
+        let sortFn = function (i0, i1) {
             if (i0.match.kickoff < i1.match.kickoff) {
                 return -1
             } else if (i0.match.kickoff > i1.match.kickoff) {
