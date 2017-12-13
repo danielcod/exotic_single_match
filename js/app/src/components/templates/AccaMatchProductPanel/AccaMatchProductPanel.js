@@ -19,6 +19,7 @@ import s from './index.css'
 const PLAYER_CARDS = constant.PLAYER_CARDS_
 const GOAL_SCORERS = constant.GOAL_SCORERS
 const BTTS = constant.GOALS
+const LEAGUES = constant.LEAGUES
 
 export default class AccaMatchProductPanel extends React.PureComponent {
     constructor(props) {
@@ -68,14 +69,14 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                 countBetsInStake: 0
             }
         }
-        bindAll(this, ['handleMatchChanged', 'delBetfromBetsList', 'changeBlock', 'betResultMatch',
-            'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
+        bindAll(this, ['handleLeagueChanged', 'handleMatchChanged', 'delBetfromBetsList', 'changeBlock',
+            'betResultMatch', 'delTeamBetfromBetsList', 'handleBetRemoved', 'delPlayerFromBetList',
             'clearBets', 'delFromBTTS', 'setEmptyCurate', 'setCountBetsInStake'])
     }
 
     componentDidMount() {
         if (isEmpty(this.state.match) || isEmpty(this.state.matches) || !isEmpty(this.props.curate)) {
-            this.props.exoticsApi.fetchMatches(function (struct) {
+            this.props.exoticsApi.fetchMatches("ENG.1", function (struct) {
                 let {matches, match, countBetsInStake} = this.state
                 let {curate} = this.props
                 const cutoff = new Date()
@@ -118,8 +119,15 @@ export default class AccaMatchProductPanel extends React.PureComponent {
         this.props.setEmptyCurate()
     }
 
-    setCountBetsInStake(countBets){
+    setCountBetsInStake(countBets) {
         this.setState({countBetsInStake: countBets})
+    }
+
+    handleLeagueChanged(name, value) {
+        this.props.exoticsApi.fetchMatches(value, function (struct) {
+            console.log(struct)
+
+        }.bind(this))
     }
 
     handleMatchChanged(name, value) {
@@ -334,6 +342,22 @@ export default class AccaMatchProductPanel extends React.PureComponent {
                             <div>
                                 <MyFormComponent
                                     label="Choose your Match"
+                                    component={<MySelect
+                                        className="form-control btn-primary input-lg"
+                                        options={LEAGUES.map(function (league) {
+                                            return {
+                                                value: league
+                                            }
+                                        })
+                                        }
+                                        name="league"
+                                        changeHandler={this.handleLeagueChanged}
+                                        match={match}
+                                    />
+                                    }
+                                />
+                                <MyFormComponent
+                                    label=""
                                     component={<MySelect
                                         className="form-control btn-primary input-lg"
                                         options={matches.map(function (product) {

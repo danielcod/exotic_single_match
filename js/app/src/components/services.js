@@ -31,6 +31,7 @@ export class ExoticsAPI {
                 console.log("Serving " + key + " from cache")
             }
             handler(this.cache[key])
+            console.log(this.cache[key])
         }
     }
 
@@ -89,10 +90,10 @@ export class ExoticsAPI {
             })
     }
 
-    fetchMatches = function (handler) {
-        let url = "/api/single_match/legsv2"
+    fetchMatches = function (league, handler) {
+        let url = "/api/single_match/legsv2?league=" + league
         if (process.env.NODE_ENV === 'development') {
-            url = "http://localhost:8080/api/single_match/legsv2"
+            url = "http://localhost:8080/api/single_match/legsv2?league=" + league
         }
         this.httpGet(url, handler)
     }
