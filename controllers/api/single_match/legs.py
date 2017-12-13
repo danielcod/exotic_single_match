@@ -22,8 +22,9 @@ class LegsHandler(webapp2.RequestHandler):
 
     @add_cors_headers
     @emit_json
-    def get(self):
-        url = "https://interface-dot-exotic-parameter-predictions.appspot.com/legs"
+    def get(self,league="ENG.1"):
+        url = "https://interface-dot-exotic-parameter-predictions.appspot.com/legs?leagues=[\"%s\"]" % league
+        print url  
         req = urllib2.Request(url)
         req.add_header("Authorization", "Basic %s" % base64string)
         resp = urllib2.urlopen(req)
