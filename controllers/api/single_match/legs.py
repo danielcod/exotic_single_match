@@ -21,10 +21,13 @@ class IndexHandler(webapp2.RequestHandler):
 class LegsHandler(webapp2.RequestHandler):
 
     @add_cors_headers
+    @parse_json_body
     @emit_json
-    def get(self, league="ENG.1"):
-        url = "https://interface-dot-exotic-parameter-predictions.appspot.com/legs?leagues=[\"%s\"]" % league
-        print url  
+    def post(self, leagues):
+        leagues = json.dumps(leagues)
+        print leagues
+        url = "https://interface-dot-exotic-parameter-predictions.appspot.com/legs?leagues=%s" % leagues
+        print url
         req = urllib2.Request(url)
         req.add_header("Authorization", "Basic %s" % base64string)
         resp = urllib2.urlopen(req)

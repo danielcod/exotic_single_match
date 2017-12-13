@@ -20,10 +20,10 @@ export function matchSorter(m0, m1) {
     }
 }
 
-export function matchSorterByLeague(m0, m1) {
-    if (m0.league < m1.league) {
+export function matchSorterByName(m0, m1) {
+    if (m0.fixture < m1.fixture) {
         return -1
-    } else if (m0.league > m1.league) {
+    } else if (m0.fixture > m1.fixture) {
         return 1
     } else {
         return 0

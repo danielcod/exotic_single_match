@@ -11,13 +11,13 @@ export default class MySelect extends React.PureComponent {
     }
 
     render() {
-        const {match, name} = this.props
+        const {match, name, league} = this.props
         return (
             <select
-                style={name === 'league' ? {paddingLeft: '26%', backgroundColor: '#d99c41'} : {}}
+                style={name === 'league' ? {paddingLeft: '30%'} : {}}
                 className={this.props.className || "form-control"}
                 onChange={this.changeSelect}
-                value={name === 'match' ? match.match_id : match.league}>
+                value={name === 'match' ? match.match_id : league}>
                 {
                     this.props.options.map((option, key) => {
                         return <option

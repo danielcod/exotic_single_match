@@ -90,12 +90,12 @@ export class ExoticsAPI {
             })
     }
 
-    fetchMatches = function (league, handler) {
-        let url = "/api/single_match/legsv2?league=" + league
+    fetchMatches = function (body, handler) {
+        let url = "/api/single_match/legsv2"
         if (process.env.NODE_ENV === 'development') {
-            url = "http://localhost:8080/api/single_match/legsv2?league=" + league
+            url = "http://localhost:8080/api/single_match/legsv2"
         }
-        this.httpGet(url, handler)
+        this.httpPost(url, body, handler)
     }
 
     fetchCurates = function (handler) {
