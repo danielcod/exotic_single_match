@@ -61,7 +61,7 @@ export default class AccaBetList extends React.PureComponent {
                         }
                         <td className="bet-legs">
                             <span className={"leg leg-" + bet.total_legs + " label bold"}>
-                                    {"Any " + bet.winners_required + (bet.winners_required < bet.total_legs ? "+ of" : " of ") + bet.total_legs}
+                                    {"Any " + bet.winners_required + (bet.winners_required < bet.total_legs ? "+ of " : " of ") + bet.total_legs}
                             </span>
                         </td>
                     </tr>

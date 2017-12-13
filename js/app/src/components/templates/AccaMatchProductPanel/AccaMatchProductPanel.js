@@ -124,7 +124,7 @@ export default class AccaMatchProductPanel extends React.PureComponent {
 
     handleMatchChanged(name, value) {
         const match = this.state.matches.filter(function (product) {
-            return product.match_id === value
+            return product.match_id.toString() === value
         })[0]
         const bets = []
         this.setState({match, bets})

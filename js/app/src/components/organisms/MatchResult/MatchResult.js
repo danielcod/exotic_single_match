@@ -153,15 +153,9 @@ export default class MatchResult extends React.PureComponent {
         this.props.delBetfromBetsList(bet)
     }
 
-    onChange(values) {
+    onChange(value) {
         const {selectedItem, showSlider, selection} = this.state
         const {match} = this.props
-        let value
-        if (values[0] === values[1]) {
-            value = this.state.value
-        } else {
-            value = values
-        }
         let price, lower = value[0] - 0.5, upper = value[1] + 0.5
         if (upper === 5.5) upper = 1000
         if (isEmpty(selectedItem)) {
@@ -260,29 +254,29 @@ export default class MatchResult extends React.PureComponent {
         switch (winnComandId) {
             case constant.SELCTED_FIRST:
                 comand = firstTeam + ' ' + constant.TO_WINN
-                break;
+                break
             case constant.SELCTED_THREE:
                 comand = secondTeam + ' ' + constant.TO_WINN
-                break;
+                break
             case constant.SELCTED_TWO:
                 comand = constant.MATCH_IS_DRAW
-                break;
+                break
         }
         switch (resultTimeId) {
             case constant.SELCTED_FIRST:
                 selectedTime = '' //' (' + constant.FULL_MATCH + ')'
-                break;
+                break
             case constant.SELCTED_TWO:
                 selectedTime = ' (' + constant.BOTH_HALVES + ')'
-                break;
+                break
             case constant.SELCTED_THREE:
                 selectedTime = ' (' + constant.EITHER_HALF + ')'
-                break;
+                break
         }
         const goalText = this.formatGoalText(winnComandId, value)
         if (minCountGoals === maxCountGoals) {
             if (maxCountGoals !== 5) {
-                scores = winnComandId != constant.SELCTED_TWO ? '​ by​ exactly ' + maxCountGoals + goalText : ''
+                scores = winnComandId != constant.SELCTED_TWO ? '​by​ exactly ' + maxCountGoals + goalText : ''
             } else {
                 scores = winnComandId != constant.SELCTED_TWO ? '​ by ' + maxCountGoals + goalText : ''
             }
