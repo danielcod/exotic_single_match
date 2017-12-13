@@ -23,7 +23,7 @@ class LegsHandler(webapp2.RequestHandler):
     @add_cors_headers
     @parse_json_body
     @emit_json
-    def get(self,leagues):
+    def post(self,leagues):
         leagues = json.dumps(leagues)
         print leagues
         url = "https://interface-dot-exotic-parameter-predictions.appspot.com/legs?leagues=%s" % leagues
