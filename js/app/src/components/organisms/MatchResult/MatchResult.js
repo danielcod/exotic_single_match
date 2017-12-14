@@ -116,7 +116,7 @@ export default class MatchResult extends React.PureComponent {
         if (!isEmpty(curateSelection)) {
             this.clickHandler(curateSelection.id, curateSelection.key, curateSelection.selection, curateSelection.price)
             if (selection[curateSelection.selection][0] !== null && selection[curateSelection.selection][1]) {
-                setTimeout(() => this.onChange(Array(parseInt(selection[curateSelection.selection][0]), parseInt(selection[curateSelection.selection][1]))), 200)
+                setTimeout(() => this.onChange(Array(parseFloat(selection[curateSelection.selection][0]) + 0.5, parseFloat(selection[curateSelection.selection][1]) - 0.5)), 200)
             }
         }
     }
