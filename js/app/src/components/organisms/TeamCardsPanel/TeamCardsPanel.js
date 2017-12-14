@@ -17,7 +17,7 @@ export default class TeamCardsPanel extends React.PureComponent {
         super(props)
         bindAll(this, ['handleTabClicked', 'decrementValue',
             'incrementValue', 'handleCancel', 'formatText',
-            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch']);
+            'changeStateByTab', 'setToParrenState', 'handleCancel', 'setBetResultMatch'])
         let bet = this.getCurrentBet(this.props)
         if (isEmpty(bet)) bet = this.initMatchResult()
         this.state = {
@@ -40,7 +40,7 @@ export default class TeamCardsPanel extends React.PureComponent {
     componentWillReceiveProps(props) {
         let bet = this.getCurrentBet(props)
         if (isEmpty(bet)) bet = this.initMatchResult()
-        const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price} = bet.options;
+        const {selectedTab, sliderOptions, toogleValue, selectedBetTab, textValue, changes, selectedItem, selection, price} = bet.options
         this.setState({
             selectedTab,
             sliderOptions,
